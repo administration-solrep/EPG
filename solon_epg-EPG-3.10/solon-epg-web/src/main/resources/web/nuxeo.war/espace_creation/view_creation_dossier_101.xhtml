@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util" xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+    <h:outputText value="Création d'un #{dossierCreationActions.typeActeLabel}" />
+  </ui:define>
+
+  <ui:define name="body">
+    <div>
+      <h3>
+        <h:outputText value="Création d'un #{dossierCreationActions.typeActeLabel}" />
+      </h3>
+      <ui:include src="/incl/message_banner.xhtml" />
+      <h:form id="creation_dossier_101">
+        
+        <nxl:layout value="#{dossierCreationActions}" mode="create" name="creation_dossier_layout_101" />
+		
+        <ui:include src="/espace_creation/navigation_boutons.xhtml" />
+        
+        <script>
+		var j = jQuery.noConflict();
+
+		var transpositionDirectiveId = '#creation_dossier_101\\:nxl_creation_dossier_layout_101\\:nxw_transposition_directive_field\\:nxw_transposition_directive_field_checkbox';
+		var applicationLoiId = '#creation_dossier_101\\:nxl_creation_dossier_layout_101\\:nxw_application_loi_field\\:nxw_application_loi_field_checkbox';
+		var transpositionOrdonnanceId = '#creation_dossier_101\\:nxl_creation_dossier_layout_101\\:nxw_transposition_ordonnance_field\\:nxw_transposition_ordonnance_field_checkbox';
+		var buttonSuivantId = '#creation_dossier_101\\:buttonSuivant';
+		var buttonTerminerId = '#creation_dossier_101\\:buttonTerminer';
+		
+		j(document).ready(function() {
+			refreshForm();
+
+			j(transpositionDirectiveId + ' input[type=radio]').change(function() {
+				refreshForm();
+			});
+
+			j(applicationLoiId + ' input[type=radio]').change(function() {
+				refreshForm();
+			});
+
+			j(transpositionOrdonnanceId + ' input[type=radio]').change(function() {
+				refreshForm();
+			});
+		});
+
+		function refreshForm() {
+					var question1 = j(transpositionDirectiveId + ' input[type=radio]:checked').val() == "true";
+					var question2 = j(applicationLoiId + ' input[type=radio]:checked').val() == "true";
+					var question3 = j(transpositionOrdonnanceId + ' input[type=radio]:checked').val() == "true";
+					
+					if(!question1 &amp;&amp; !question2 &amp;&amp; !question3) {
+					    disabledButtonSuivant();
+					    enabledButtonTerminer();
+					} else {
+					    enabledButtonSuivant();
+					    disabledButtonTerminer();
+					}
+		}
+		
+		function showQuestionsRadio() {
+			j(transpositionDirectiveId).parent().parent().parent().show();
+			j(applicationLoiId).parent().parent().parent().show();
+			j(transpositionOrdonnanceId).parent().parent().parent().show();
+		}
+		
+		function disabledButtonSuivant() {
+	    j(buttonSuivantId).attr('disabled', 'disabled');
+			//style bouton grisé
+			j(buttonSuivantId).css('color', '#CECFD1');
+		}
+		
+		function enabledButtonSuivant() {
+		  j(buttonSuivantId).removeAttr('disabled');
+			//style bouton actif
+			j(buttonSuivantId).css('color', '#000000');
+		}
+
+		function disabledButtonTerminer() {
+	    j(buttonTerminerId).attr('disabled', 'disabled');
+			//style bouton grisé
+			j(buttonTerminerId).css('color', '#CECFD1');
+		}
+		
+		function enabledButtonTerminer() {
+		  j(buttonTerminerId).removeAttr('disabled');
+			//style bouton actif
+			j(buttonTerminerId).css('color', '#000000');
+		}
+			
+		</script>
+      </h:form>
+    </div>
+  </ui:define>
+
+</nxthemes:composition>

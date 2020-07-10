@@ -1,0 +1,29 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/02_param_mail_echec_demande_publi.nxshell
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p Administrator http://localhost:8180/solon-epg/site/automation
+
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre objet-mel-echec-demande-publi
+cd objet-mel-echec-demande-publi
+setp -xpath parametre:value -value "[SOLON EPG] Echec de la demande de publication au webservice"
+setp -xpath parametre:unit -value Objet
+setp -xpath dc:description -value "« Objet » (par défaut) de l'échec de demande de publication"
+setp -xpath dc:title -value "Objet mél échec de demande de publication"
+
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre texte-mel-echec-demande-publi
+cd texte-mel-echec-demande-publi
+setp -xpath parametre:value -value "Erreur lors de l'envoi du webservice de demande de publication et d'épreuvage pour le dossier ${nor_dossier}."
+setp -xpath parametre:unit -value texte
+setp -xpath dc:description -value "« Texte » (par défaut) de l'échec de demande de publication"
+setp -xpath dc:title -value "Texte mél échec de demande de publication"

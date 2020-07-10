@@ -1,0 +1,333 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:panelGroup>
+		<style>
+.dataoutputindex {
+	margin-bottom: 0px !important;
+}
+
+.dataRowEven {
+	height: 25px !important;
+}
+
+.dataRowOdd {
+	height: 25px !important;
+}
+
+.dr-mpnl-pnl-b {
+	padding: 0px;
+}
+
+.rich-tree-node-selected {
+	border-color: #FFFFFF;
+}
+
+.rich-tree-node-highlighted {
+	text-decoration: none;
+	color: #000000;
+}
+
+.add_icon {
+	padding-left: 3px;
+}
+
+.rich-tree-node-text {
+	white-space: nowrap !important;
+}
+</style>
+
+	<a4j:outputPanel id="motsClefsRegion">
+		<table class="dataInput">
+			<tbody>
+					<tr>
+						<th align="center" colspan="2">
+							<h4>
+								<u><h:outputText value="#{messages['indexation.motcle']}" /></u>
+							</h4>
+						</th>
+					</tr>
+					<tr>
+						<td height="10px"></td>
+					</tr>
+					<tr>
+						<td><a4j:region id="addMCLRegion">
+								<h:form id="add_mcl">
+									<h:inputText id="input_motcle" immediate="true"
+										valueChangeListener="#{gestionIndexationActions.indexationMotCleListValueListener}" >
+										<a4j:support event="onkeyup" bypassUpdates="true"
+											eventsQueue="ajax_events_queue" />
+									</h:inputText>
+									<nxu:set var="idMinistere"
+										value="#{gestionIndexationActions.getIdMinistere()}">
+										<c:choose>
+											<c:when test="#{idMinistere != null}">
+												<a4j:commandLink id="_findButton"
+													action="#{gestionIndexationActions.addMotCleList(idMinistere)}">
+													<h:graphicImage id="addMCL" value="/icons/action_add.gif"
+														styleClass="add_icon" />
+												</a4j:commandLink>
+											</c:when>
+											<c:otherwise>
+												<a4j:commandLink id="_findButton"
+													onclick="Richfaces.showModalPanel('selectMin'); return false;">
+													<h:graphicImage id="addMCL" value="/icons/action_add.gif"
+														styleClass="add_icon" />
+												</a4j:commandLink>
+											</c:otherwise>
+										</c:choose>
+									</nxu:set>
+								</h:form>
+							</a4j:region></td>
+						<td>
+						<a4j:region id="addMCRegion">
+								<h:panelGroup
+									rendered="#{gestionIndexationActions.isInMinistere(gestionIndexationActions.currentIndexationMotCle)}">
+									<h:form id="add_mc">
+										<h:inputText id="input_motcleC" immediate="true"
+											valueChangeListener="#{gestionIndexationActions.indexationMotCleValueListener}">
+											<a4j:support event="onkeyup" bypassUpdates="true"
+												eventsQueue="ajax_events_queue" />
+										</h:inputText>
+										<a4j:commandLink id="addMCCommandLink">
+											<a4j:support event="onclick"
+												action="#{gestionIndexationActions.addMotCle()}"
+												eventsQueue="ajax_events_queue" />
+											<h:graphicImage id="addMC" value="/icons/action_add.gif"
+												styleClass="add_icon" />
+										</a4j:commandLink>
+									</h:form>
+								</h:panelGroup>
+							</a4j:region></td>
+					</tr>
+					<tr>
+						<td style="vertical-align: top; padding: 0px;">
+							<div style="height: 300px; overflow-y: auto; overflow-x: hidden;">
+								<h:dataTable id="tableMotsCles" var="indexationModel"
+									value="#{gestionIndexationActions.listIndexationMotCle}"
+									class="dataOutput dataoutputindex"
+									rowClasses="dataRowEven,dataRowOdd" styleClass="height : 100%">
+									<h:column>
+										<a4j:region id="setcurrentIndexationRegion">
+											<h:form id="#{indexationModel.getId()}_mc">
+												<a4j:commandLink id="setcommandLink">
+													<a4j:support event="onclick"
+														action="#{gestionIndexationActions.setCurrentIndexationMotCle(indexationModel)}"
+														eventsQueue="ajax_events_queue" />
+													<h:outputText
+														value="#{indexationModel.getAdapter(IndexationMotCle).getIntitule()}"
+														style="#{gestionIndexationActions.getIndexationMotCleStyle(indexationModel)}" />
+												</a4j:commandLink>
+											</h:form>
+										</a4j:region>
+									</h:column>
+									<h:column>
+										<a4j:region id="changeIndexationRegion"
+											rendered="#{gestionIndexationActions.isInMinistereForChange(indexationModel)}">
+											<h:form id="#{indexationModel.getId()}_mcc">
+												<a4j:commandLink id="changeCommandLink"
+													onclick="Richfaces.showModalPanel('selectMinChange'); return false;">
+													<h:graphicImage id="change_img"
+														value="/img/icons/change_unite_structurelle.png" />
+												</a4j:commandLink>
+											</h:form>
+										</a4j:region>
+									</h:column>
+									<h:column>
+										<a4j:region id="deleteIndexationRegion"
+											rendered="#{gestionIndexationActions.isInMinistere(indexationModel)}">
+											<h:form id="#{indexationModel.getId()}_mcd">
+												<a4j:commandLink id="deleteCommandLink">
+													<a4j:support event="onclick"
+														action="#{gestionIndexationActions.deleteIndexation(indexationModel)}"
+														eventsQueue="ajax_events_queue" />
+													<h:graphicImage id="delete_img"
+														value="/icons/action_delete.gif" />
+												</a4j:commandLink>
+											</h:form>
+										</a4j:region>
+									</h:column>
+									<h:column>
+										<h:outputText value=" " />
+									</h:column>
+									<h:column>
+										<h:outputText value=" " />
+									</h:column>
+									<h:column>
+										<h:outputText value=" " />
+									</h:column>
+								</h:dataTable>
+							</div>
+						</td>
+						<td style="vertical-align: top; padding: 0px;">
+							<div style="height: 300px; overflow-y: auto; overflow-x: hidden;">
+								<h:dataTable var="motCle"
+									value="#{gestionIndexationActions.listMotCle}"
+									class="dataOutput dataoutputindex"
+									rowClasses="dataRowOdd, dataRowEven">
+									<h:column>
+										<h:outputText value="#{motCle}" />
+									</h:column>
+									<h:column>
+										<a4j:region id="delMCRegion">
+											<h:form id="#{motCle}_mc">
+												<a4j:commandLink id="deleteMCCommandLink"
+													rendered="#{gestionIndexationActions.isInMinistere(gestionIndexationActions.currentIndexationMotCle)}">
+													<a4j:support event="onclick"
+														action="#{gestionIndexationActions.removeMotCle(motCle)}"
+														eventsQueue="ajax_events_queue" />
+													<h:graphicImage id="delete_img"
+														value="/icons/action_delete.gif" />
+												</a4j:commandLink>
+											</h:form>
+										</a4j:region>
+									</h:column>
+									<h:column>
+										<h:outputText value=" " />
+									</h:column>
+									<h:column>
+										<h:outputText value=" " />
+									</h:column>
+									<h:column>
+										<h:outputText value=" " />
+									</h:column>
+								</h:dataTable>
+							</div>
+						</td>
+					</tr>
+			</tbody>
+		</table>
+	</a4j:outputPanel>
+	</h:panelGroup>	
+	
+	
+	<rich:modalPanel id="selectMin" autosized="true"
+		onmaskclick="Richfaces.hideModalPanel('selectMin')">
+		<f:facet name="header">
+			<h:outputText value="#{messages['indexation.select.ministere']}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/icons/action_delete_mini.gif"
+					id="hideRouteElementsTypePanel" />
+				<rich:componentControl for="selectMin"
+					attachTo="hideRouteElementsTypePanel" operation="hide"
+					event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:panelGroup layout="block"
+			style="width: 600px; height:600px; overflow: scroll;">
+			<rich:tree id="tree" style="width:350px" switchType="client"
+				ajaxSingle="true" eventsQueue="ajax_events_queue"
+				iconExpanded="/icons/toggle_minus.png"
+				iconCollapsed="/icons/toggle_plus.png">
+
+				<rich:recursiveTreeNodesAdaptor id="node" var="item"
+					roots="#{gestionIndexationActions.getOrganigramme()}"
+					nodes="#{item.children}">
+
+
+					<rich:treeNode rendered="#{item.typeValue == 'GVT'}" id="gvt"
+						iconLeaf="/img/icons/base_organigramme.png"
+						icon="/img/icons/base_organigramme.png">
+
+						<h:form id="Tous">
+							<h:outputText value="Tous les ministères" />
+							<a4j:commandLink id="addBtnMin" ajaxSingle="true">
+								<a4j:support event="onclick"
+									action="#{gestionIndexationActions.addMotCleList('Tous')}" oncomplete="Richfaces.hideModalPanel('selectMin')"
+									reRender="motsClefsRegion" eventsQueue="ajax_events_queue" />
+								<h:graphicImage id="addGVT" value="/icons/action_add.gif"
+									styleClass="add_icon" />
+							</a4j:commandLink>
+						</h:form>
+					</rich:treeNode>
+
+					<rich:treeNode rendered="#{item.typeValue == 'MIN'}" id="min"
+						iconLeaf="/img/icons/unite_structurelle.png"
+						icon="/img/icons/unite_structurelle.png">
+
+						<h:form id="#{item.id}_min">
+							<h:outputText value="#{item.node.norMinistere} - #{item.label}"
+								style="font-weight: bold;" />
+							<a4j:commandLink id="addBtnMinN" ajaxSingle="true">
+								<a4j:support event="onclick"
+									action="#{gestionIndexationActions.addMotCleList(item.id)}" oncomplete="Richfaces.hideModalPanel('selectMin')" reRender="motsClefsRegion" 
+									eventsQueue="ajax_events_queue" />
+								<h:graphicImage id="#{widget.id}_addMinN"
+									value="/icons/action_add.gif" styleClass="add_icon" />
+							</a4j:commandLink>
+						</h:form>
+
+					</rich:treeNode>
+
+				</rich:recursiveTreeNodesAdaptor>
+
+			</rich:tree>
+		</h:panelGroup>
+	</rich:modalPanel>
+
+	<rich:modalPanel id="selectMinChange" autosized="true"
+		onmaskclick="Richfaces.hideModalPanel('selectMinChange')">
+		<f:facet name="header">
+			<h:outputText value="#{messages['indexation.select.ministere']}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/icons/action_delete_mini.gif"
+					id="hideRouteElementsTypePanelChange" />
+				<rich:componentControl for="selectMinChange"
+					attachTo="hideRouteElementsTypePanelChange" operation="hide"
+					event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:panelGroup layout="block"
+			style="width: 600px; height:600px; overflow: scroll;">
+			<rich:tree id="treeChange" style="width:350px" switchType="client"
+				ajaxSingle="true" eventsQueue="ajax_events_queue"
+				iconExpanded="/icons/toggle_minus.png"
+				iconCollapsed="/icons/toggle_plus.png">
+
+				<rich:recursiveTreeNodesAdaptor id="node" var="item"
+					roots="#{gestionIndexationActions.getOrganigramme()}"
+					nodes="#{item.children}">
+
+					<rich:treeNode rendered="#{item.typeValue == 'GVT'}" id="gvt"
+						iconLeaf="/img/icons/base_organigramme.png"
+						icon="/img/icons/base_organigramme.png">
+
+						<h:outputText value="Tous les ministères" />
+						<a4j:commandLink id="addBtnMin" ajaxSingle="true">
+							<a4j:support event="onclick"
+								action="#{gestionIndexationActions.changeMotCleList('Tous')}"  oncomplete="Richfaces.hideModalPanel('selectMinChange')"
+									reRender="motsClefsRegion" eventsQueue="ajax_events_queue" />
+							<h:graphicImage id="addGVT" value="/icons/action_add.gif"
+								styleClass="add_icon" />
+						</a4j:commandLink>
+					</rich:treeNode>
+
+					<rich:treeNode rendered="#{item.typeValue == 'MIN'}" id="min"
+						iconLeaf="/img/icons/unite_structurelle.png"
+						icon="/img/icons/unite_structurelle.png">
+
+						<h:form id="#{item.id}_minC">
+							<h:outputText value="#{item.node.norMinistere} - #{item.label}"
+								style="font-weight: bold;" />
+							<a4j:commandLink id="addBtnMinN" ajaxSingle="true">
+								<a4j:support event="onclick"
+									action="#{gestionIndexationActions.changeMotCleList(item.id)}"   oncomplete="Richfaces.hideModalPanel('selectMinChange')"
+									reRender="motsClefsRegion"	eventsQueue="ajax_events_queue" />
+								<h:graphicImage id="#{widget.id}_addMinN"
+									value="/icons/action_add.gif" styleClass="add_icon" />
+							</a4j:commandLink>
+						</h:form>
+					</rich:treeNode>
+				</rich:recursiveTreeNodesAdaptor>
+			</rich:tree>
+		</h:panelGroup>
+	</rich:modalPanel>
+</div>

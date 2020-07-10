@@ -1,0 +1,58 @@
+###############
+# Suppression
+###############
+
+dn: cn=DossierAbandonReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: delete
+
+
+#############
+# Création
+#############
+
+dn: cn=AdminFonctionnelDossierAbandon,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: AdminFonctionnelDossierAbandon
+uniqueMember: cn=emptyRef
+description: Liste des dossiers à abandonner : modification
+ 
+dn: cn=AdminMinisterielDossierAbandon,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: AdminMinisterielDossierAbandon
+uniqueMember: cn=emptyRef
+description: Liste des dossiers à abandonner : modification
+ 
+dn: cn=DecretArriveReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: DecretArriveReader
+uniqueMember: cn=emptyRef
+description: Droit de voir si l'original d'un décret est arrivé
+
+##########
+# Ajout
+##########
+
+dn: cn=Administrateur fonctionnel,ou=groups,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+add: uniqueMember
+uniqueMember: cn=AdminFonctionnelDossierAbandon,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+
+dn: cn=Administrateur ministériel,ou=groups,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+add: uniqueMember
+uniqueMember: cn=AdminMinisterielDossierAbandon,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+
+dn: cn=Contributeur du SGG,ou=groups,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+add: uniqueMember
+uniqueMember: cn=DecretArriveReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+
+
+
+
+
+
+

@@ -1,0 +1,147 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	 xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	 xmlns:rich="http://richfaces.org/rich"
+	>
+	<style>
+	#gestionDesListes .dataOutput, #gestionDesListes .dataList {
+		width:300px;
+	}
+	#gestionDesListes #edit_liste_info_sgg .dataOutput, #gestionDesListes #edit_liste_info_sgg .dataList{
+		width:500px;	
+	}
+	</style>
+	<a4j:outputPanel id="listeSignatureListings">
+		<table align="left">
+			<tr>
+				<td align="left" valign="top" width="50px">
+				<h:outputText value="#{messages['espace.suivi.gestion.des.listes.date']}" /></td>
+				<td >
+					<div>
+						<h:form id="calenderForm">
+							<a4j:outputPanel id="calendarPanel" layout="block">
+								<rich:calendar id="calendar"
+									value="#{espaceSuiviInfocentreSggActionsBean.dateDeCreationDeListe}"
+									locale="fr" popup="true" datePattern="dd/MM/yyyy"
+									showApplyButton="false" cellWidth="24px" cellHeight="22px"
+									style="width:200px"
+									onchanged="document.forms['calenderForm'].submit();">
+								</rich:calendar>
+							</a4j:outputPanel>
+						</h:form>
+					</div></td>
+			</tr>
+			<c:if
+				test='#{contentViewActions.getContentView("espace_suivi_infocentre_sgg_liste_signature_content").getPageProvider().getCurrentPage() != null and contentViewActions.getContentView("espace_suivi_infocentre_sgg_liste_signature_content").getPageProvider().getCurrentPage().size()!=0}'>
+				<tr>
+					<td align="left" valign="top" colspan="2">
+						<h:outputText value="#{messages['espace.suivi.gestion.des.listes.en.signature.label']}" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<nxu:set var="contentViewId"
+								value="LISTE_DE_SIGNATURE">
+								<nxu:set var="contentViewName"
+									value="espace_suivi_infocentre_sgg_liste_signature_content">
+									<ui:decorate template="/incl/content_view_traitement_papier.xhtml">
+										<ui:define name="content_view_header_after_selector">
+										</ui:define>
+										<ui:define name="content_view_header_before_selector">
+										</ui:define>
+									</ui:decorate>
+								</nxu:set>
+							</nxu:set>
+					</td>
+				</tr>
+			</c:if>
+			<c:if
+				test='#{contentViewActions.getContentView("espace_suivi_infocentre_sgg_liste_dem_publication_et_dem_epreuve_content").getPageProvider().getCurrentPage() != null and contentViewActions.getContentView("espace_suivi_infocentre_sgg_liste_dem_publication_et_dem_epreuve_content").getPageProvider().getCurrentPage().size()!=0}'>
+				<tr>
+					<td align="left" valign="top" colspan="2">
+					<h:outputText value="#{messages['espace.suivi.gestion.des.listes.autre.liste.label']}" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><nxu:set var="contentViewId"
+							value="AUTRE_TYPE_LISTE">
+							<nxu:set var="contentViewName"
+								value="espace_suivi_infocentre_sgg_liste_dem_publication_et_dem_epreuve_content">
+								<ui:decorate
+									template="/incl/content_view_traitement_papier.xhtml">
+									<ui:define name="content_view_header_after_selector">
+									</ui:define>
+									<ui:define name="content_view_header_before_selector">
+									</ui:define>
+								</ui:decorate>
+							</nxu:set>
+						</nxu:set></td>
+				</tr>
+			</c:if>
+			<c:if test="#{navigationContext.getCurrentDocument() != null}">
+				<c:if
+					test='#{contentViewActions.getContentView("dossier_for_liste_traitement").getPageProvider().getCurrentPage() != null and contentViewActions.getContentView("dossier_for_liste_traitement").getPageProvider().getCurrentPage().size()!=0}'>
+					<tr>
+						<td align="left" valign="top" colspan="2">
+							<h:outputText value="#{messages['espace.suivi.gestion.des.listes.intitule.liste.label']}" />
+							<h:outputText value=" " />
+                            <c:if test="#{empty currentDocument.lis.typeSignature}">
+                              <h:outputText value="#{espaceSuiviInfocentreSggActionsBean.getListeLabelPrefix(currentDocument.lis.typeListe)}" />
+                            </c:if>
+							<h:outputText value="#{currentDocument.lis.typeSignature}" />
+							<h:outputText value="#{currentDocument.lis.numeroListe}" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+						<div id="edit_liste_info_sgg">
+							<nxu:set var="contentViewId" value="DOSSIER_LISTE">
+								<nxu:set var="contentViewName" value="dossier_for_liste_traitement">
+										<ui:decorate template="/incl/content_view_espace_suivi_traitement_dossier_en_serie.xhtml">
+											<ui:define name="content_view_header_after_selector">
+											</ui:define>
+											<ui:define name="content_view_header_before_selector">
+											</ui:define>
+										</ui:decorate>
+									</nxu:set>
+								</nxu:set>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<!-- action imprimer -->
+							<h:form id="mainForm">
+							  <h:commandLink 
+									action='#{espaceSuiviInfocentreSggActionsBean.imprimer(currentDocument)}'
+									immediate="true" 
+									id="imprimer" 
+									style="display:none" />	
+				
+							</h:form>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<ui:include	src="/incl/traiter_en_serie_modal_panel.xhtml" />
+						</td>
+					</tr>
+				</c:if>
+			</c:if>
+			
+		</table>
+	</a4j:outputPanel>
+	<script>
+	   	  var j = jQuery.noConflict();
+		  function openLinkInNewWindow(linkID)
+		  {
+			  j(linkID).click();
+		  }
+  </script>
+</div>

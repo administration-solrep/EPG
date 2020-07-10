@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>fr.dila.solonepg</groupId>
+    <artifactId>solon-epg-parent</artifactId>
+    <version>EPG-3.10.2</version>
+  </parent>
+
+  <groupId>fr.dila.solonmgpp</groupId>
+  <artifactId>solon-mgpp-webengine</artifactId>
+  <name>SOLON MGPP WebEngine</name>
+
+  <dependencies>
+    <!-- Dépendances au socle transverse -->
+    <dependency>
+      <groupId>fr.dila.st</groupId>
+      <artifactId>socle-transverse-interoperability</artifactId>
+    </dependency>
+    
+    <!-- Dépendances au socle SOLON -->
+    <dependency>
+      <groupId>fr.dila.ss</groupId>
+      <artifactId>socle-solrep-core</artifactId>
+    </dependency>
+    
+    <!-- Dépendances à SOLON EPG -->
+    <dependency>
+      <groupId>fr.dila.solonepg</groupId>
+      <artifactId>solon-epg-api</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>fr.dila.solonepg</groupId>
+      <artifactId>solon-epg-core</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>fr.dila.solonepg</groupId>
+      <artifactId>solon-epg-webengine</artifactId>
+    </dependency>
+    
+    <!-- Dépendances à SOLON EPG -->
+    <dependency>
+      <groupId>fr.dila.solonmgpp</groupId>
+      <artifactId>solon-mgpp-api</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>fr.dila.solonmgpp</groupId>
+      <artifactId>solon-mgpp-core</artifactId>
+    </dependency>
+
+    <!-- Dépendances à Nuxeo -->
+    
+    <dependency>
+      <groupId>org.nuxeo.ecm.webengine</groupId>
+      <artifactId>nuxeo-webengine-base</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.nuxeo.ecm.platform</groupId>
+      <artifactId>nuxeo-platform-io-client</artifactId>
+      <exclusions>
+      	<exclusion>
+      		<artifactId>commons-lang</artifactId>
+      		<groupId>commons-lang</groupId>
+      	</exclusion>
+      </exclusions>
+    </dependency>
+      	<dependency>
+  		<groupId>commons-lang</groupId>
+  		<artifactId>commons-lang</artifactId>
+		<version>2.4</version>
+  	</dependency>
+    <!-- Dépendances externes -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi-core</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jboss.seam</groupId>
+      <artifactId>jboss-seam</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>jboss</groupId>
+      <artifactId>jboss-annotations-ejb3</artifactId>
+    </dependency>
+    
+    <!-- Dépendances de test -->
+    <dependency>
+      <groupId>fr.dila.cm</groupId>
+      <artifactId>solrep-case-management-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.restlet</groupId>
+      <artifactId>org.restlet</artifactId>
+      <version>1.0.7</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.noelios.restlet</groupId>
+      <artifactId>com.noelios.restlet.ext.httpclient</artifactId>
+      <version>1.0.7</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.noelios.restlet</groupId>
+      <artifactId>com.noelios.restlet</artifactId>
+      <version>1.0.7</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+      <!-- APT plugin for annotation preprocessing -->
+      <plugin>
+        <groupId>org.apache.myfaces.tobago</groupId>
+        <artifactId>maven-apt-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-bindings</id>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- end APT plugin -->
+    </plugins>
+  </build>
+
+
+</project>

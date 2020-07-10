@@ -1,0 +1,704 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les layouts + widgets nécessaires à l'espace de recherche.
+-->
+<component name="fr.dila.solonepg.web.layout.espacerecherche">
+
+  <require>com.nuxeo.document.routing.table.widget</require>
+  <require>com.nuxeo.cm.table.layout</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+    <!-- Layout de la liste des favoris de recherche -->
+    <layout name="espace_recherche_listing_favoris">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" alwaysSelected="true">
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>
+        
+        <!-- Intitule -->
+        <column name="intitule" alwaysSelected="true">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.dc:title</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>espace_recherche_favoris_titre</widget>
+        </column>
+        
+        <!-- Type -->
+        <column name="type" alwaysSelected="true">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.favrec:type</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>espace_recherche_favoris_type</widget>
+        </column>
+        
+        <!-- creator -->
+        <column name="colonneDernierContributeur" alwaysSelected="true">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.dc:creator</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>espace_recherche_favoris_creator</widget>
+        </column>
+      </columns>
+    </layout>
+    
+    <!-- Layout des critères de recherche des modèles de feuilles de route (partie feuille de route) -->
+    <layout name="recherche_modele_feuille_route_feuille_route">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>feuille_route_title</widget>
+        </row>
+        <row>
+          <widget>feuille_route_numero</widget>
+        </row>
+        <row>
+          <widget>feuille_route_type_acte</widget>
+        </row>
+        <row>
+          <widget>feuille_route_ministere</widget>
+        </row>
+        <row>
+          <widget>feuille_route_direction</widget>
+        </row>
+        <row>
+          <widget>feuille_route_creation_utilisateur</widget>
+        </row>
+        <row>
+          <widget>feuille_route_creation_date_min</widget>
+          <widget>feuille_route_creation_date_max</widget>
+        </row>
+        <row>
+          <widget>feuille_route_validee</widget>
+        </row>
+      </rows>
+      
+      <widget name="feuille_route_title" type="text">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteIntitule</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteTitle</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>
+        </widgetModes>
+        <properties widgetMode="edit">
+          <property name="styleClass">dataInputText</property>
+        </properties>
+      </widget>
+
+      <widget name="feuille_route_numero" type="text">
+        <labels>
+          <label mode="any">epg.recherche.feuilleRoute.feuilleRoute.feuilleRouteNumero</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteNumero</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>
+        </widgetModes>
+        <properties widgetMode="edit">
+          <property name="styleClass">dataInputText</property>
+        </properties>
+      </widget>
+
+      <widget name="feuille_route_type_acte" type="selectOneDirectory">
+        <labels>
+          <label mode="any">epg.recherche.feuilleRoute.feuilleRoute.feuilleRouteTypeActe</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteTypeActe</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="notDisplayDefaultOption">false</property>
+          <property name="localize">true</property>
+          <property name="directoryName">type_acte</property>
+        </properties>
+      </widget>
+
+      <widget name="feuille_route_ministere" type="template">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteMinistere</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteMinistere</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>       
+        </widgetModes>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+      </widget>
+      
+      <widget name="feuille_route_direction" type="template">
+        <labels>
+          <label mode="any">epg.recherche.feuilleRoute.feuilleRoute.feuilleRouteDirection</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteDirection</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>       
+        </widgetModes>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">DIR_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+      </widget>
+
+      <widget name="feuille_route_creation_utilisateur" type="template">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteCreationUtilisateur</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteCreationUtilisateur</field>
+        </fields>
+        <properties mode="any">
+          <property name="template">/widgets/single_user_suggestion_widget_template.xhtml</property>
+          <property name="userSuggestionSearchType">USER_TYPE</property>
+        </properties>
+      </widget>
+
+      <widget name="feuille_route_creation_date_min" type="datetime">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteCreationDateMin</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteCreationDateMin</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>      
+        </widgetModes>
+        <properties widgetMode="edit">
+        </properties>
+      </widget>
+      
+      <widget name="feuille_route_creation_date_max" type="datetime">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteCreationDateMax</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteCreationDateMax</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>      
+        </widgetModes>
+        <properties widgetMode="edit">
+          <property name="smallWidget">true</property>
+        </properties>
+      </widget>
+
+      <widget name="feuille_route_validee" type="selectOneDirectory">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteValidee</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:feuilleRouteValidee</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="notDisplayDefaultOption">false</property>
+          <property name="localize">true</property>
+          <property name="directoryName">boolean_voc</property>
+          <property name="displayEmptyValue">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <!-- Layout des critères de recherche des modèles de feuilles de route (partie étapes) -->
+    <layout name="recherche_modele_feuille_route_route_step">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>route_step_routing_task_type</widget>
+        </row>
+        <row>
+          <widget>route_step_distribution_mailbox_id</widget>
+        </row>
+        <row>
+          <widget>route_step_echeance_indicative</widget>
+        </row>
+        <row>
+          <widget>route_step_automatic_validation</widget>
+        </row>
+        <row>
+          <widget>route_step_obligatoire_sgg</widget>
+        </row>
+        <row>
+          <widget>route_step_obligatoire_ministere</widget>
+        </row>
+      </rows>
+
+      <widget name="route_step_routing_task_type" type="selectOneDirectory">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.routeStep.routeStepRoutingTaskType</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:routeStepRoutingTaskType</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="notDisplayDefaultOption">false</property>
+          <property name="localize">true</property>
+          <property name="directoryName">cm_routing_task_type</property>
+        </properties>
+      </widget>
+
+      <widget name="route_step_distribution_mailbox_id" type="template">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.routeStep.routeStepDistributionMailboxId</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:routeStepDistributionMailboxId</field>
+        </fields>
+        <properties mode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MAILBOX_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+      </widget>
+      
+      <widget name="route_step_echeance_indicative" type="input_number_spinner">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.routeStep.routeStepEcheanceIndicative</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:routeStepEcheanceIndicative</field>
+        </fields>
+      </widget>
+      
+      <widget name="route_step_automatic_validation" type="selectOneDirectory">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.routeStep.routeStepAutomaticValidation</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:routeStepAutomaticValidation</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="notDisplayDefaultOption">false</property>
+          <property name="localize">true</property>
+          <property name="directoryName">boolean_voc</property>
+          <property name="displayEmptyValue">true</property>
+        </properties>
+      </widget>
+
+      <widget name="route_step_obligatoire_sgg" type="selectOneDirectory">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.routeStep.routeStepObligatoireSgg</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:routeStepObligatoireSgg</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="notDisplayDefaultOption">false</property>
+          <property name="localize">true</property>
+          <property name="directoryName">boolean_voc</property>
+          <property name="displayEmptyValue">true</property>
+        </properties>
+      </widget>
+
+      <widget name="route_step_obligatoire_ministere" type="selectOneDirectory">
+        <labels>
+          <label mode="any">ss.recherche.feuilleRoute.routeStep.routeStepObligatoireMinistere</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>favrec:routeStepObligatoireMinistere</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="notDisplayDefaultOption">false</property>
+          <property name="localize">true</property>
+          <property name="directoryName">boolean_voc</property>
+          <property name="displayEmptyValue">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <!-- Layout des critères de recherche des utilisateurs -->
+    <layout name="recherche_utilisateur">
+      <templates>
+        <template mode="any">/layouts/layout_recherche_user_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>username</widget>
+        </row>
+        <row>
+          <widget>firstname</widget>
+        </row>
+        <row>
+          <widget>lastname</widget>
+        </row>
+        <row>
+          <widget>ministere</widget>
+        </row>
+        <row>
+          <widget>direction</widget>
+        </row>
+        <row>
+          <widget>poste</widget>
+        </row>
+        <row>
+          <widget>function</widget>
+        </row>
+        <row>
+          <widget>profils</widget>
+        </row>
+        <row>
+          <widget>dateDebutMin</widget>
+          <widget>dateDebutMax</widget>
+        </row>
+         <row>
+          <widget>dateFinMin</widget>
+          <widget>dateFinMax</widget>
+        </row>
+      </rows>
+      
+      <widget name="username" type="text">
+        <labels>
+          <label mode="any">username</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>username</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>
+        </widgetModes>
+        <properties widgetMode="edit">
+          <property name="styleClass">dataInputText</property>
+        </properties>
+      </widget>
+      
+      <widget name="firstname" type="text">
+        <labels>
+          <label mode="any">firstName</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>firstName</field>
+        </fields>
+        <widgetModes>
+           <mode value="any">edit</mode>
+        </widgetModes>
+        <properties widgetMode="edit">
+          <property name="styleClass">dataInputText</property>
+        </properties>
+      </widget>
+      
+      <widget name="lastname" type="text">
+        <labels>
+          <label mode="any">lastName</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>lastName</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>
+        </widgetModes>
+        <properties widgetMode="edit">
+          <property name="styleClass">dataInputText</property>
+        </properties>
+      </widget>
+      
+      <widget name="ministere" type="template">
+        <labels>
+          <label mode="any">user.ministere</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>ministere</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>       
+        </widgetModes>
+        <properties widgetMode="any">
+          <property name="template">
+            /widgets/organigramme_select_node_widget.xhtml
+          </property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+      </widget>
+      
+      <widget name="direction" type="template">
+        <labels>
+          <label mode="any">user.direction</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>direction</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>       
+        </widgetModes>
+        <properties widgetMode="any">
+          <property name="template">
+            /widgets/organigramme_select_node_widget.xhtml
+          </property>
+          <property name="organigrammeSelectionType">DIR_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+      </widget>
+      
+      <widget name="poste" type="template">
+        <labels>
+          <label mode="any">user.poste</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>poste</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>       
+        </widgetModes>
+        <properties widgetMode="any">
+          <property name="template">
+            /widgets/organigramme_select_node_widget.xhtml
+          </property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+      </widget>
+      
+      <widget name="profils" type="template">
+        <labels>
+          <label mode="any">user.profils</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>profils</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>      
+        </widgetModes>
+        <properties widgetMode="any">
+          <property name="template">/widgets/recherche/recherche_profils_widget_template.xhtml</property>
+        </properties>
+      </widget>
+      
+      <widget name="function" type="text">
+        <labels>
+          <label mode="any">user.function</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>fonction</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>
+        </widgetModes>
+      </widget>
+      
+      <widget name="dateDebutMin" type="datetime">
+        <labels>
+          <label mode="any">user.dateDebut</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>dateDebutMin</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>      
+        </widgetModes>
+        <properties widgetMode="edit">
+        </properties>
+      </widget>
+      
+      <widget name="dateDebutMax" type="datetime">
+        <labels>
+          <label mode="any">user.dateDebut.et</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>dateDebutMax</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>      
+        </widgetModes>
+        <properties widgetMode="edit">
+            <property name="smallWidget">true</property>
+        </properties>
+      </widget>
+      
+      <widget name="dateFinMin" type="datetime">
+        <labels>
+          <label mode="any">user.dateFin</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>dateFinMin</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>      
+        </widgetModes>
+        <properties widgetMode="edit">
+        </properties>
+      </widget>
+      
+      <widget name="dateFinMax" type="datetime">
+        <labels>
+          <label mode="any">user.dateFin.et</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>dateFinMax</field>
+        </fields>
+        <widgetModes>
+          <mode value="any">edit</mode>      
+        </widgetModes>
+        <properties widgetMode="edit">
+          <property name="smallWidget">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+  </extension>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+    <widget name="espace_recherche_favoris_titre" type="template">
+      <labels>
+        <label mode="any">Intitulé</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/favoris_recherche/favoris_recherche_listing_title_link_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="espace_recherche_favoris_type" type="template">
+      <labels>
+        <label mode="any">Type</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/favoris_recherche/favoris_recherche_type_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+     <widget name="espace_recherche_favoris_creator" type="template">
+      <labels>
+        <label mode="any">Créateur</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/favoris_recherche/favoris_recherche_creator_widget_template.xhtml</property>
+      </properties>
+    </widget>
+  </extension>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+  <!-- Layout et Widgets pour la création de tableaux dynamiques accessibles via la recherche -->
+        <layout name="mes_tableaux_dynamiques_layout">
+          <templates>
+          <template mode="any">/layouts/layout_default_template.xhtml</template>
+          </templates>
+          <rows>
+            <row>
+              <widget>mes_tableaux_dynamiques_widget</widget>
+            </row>
+          </rows>
+          
+      <widget name="mes_tableaux_dynamiques_widget" type="template">
+        <labels>
+        	<label mode="any"></label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>tableauDynamique</field>
+        </fields>
+        <properties mode="any">
+          <property name="template">/widgets/selectOneMenu_widget_template.xhtml
+          </property>
+          <property name="type">tableauDynamique</property>
+          <property name="rerender">boutonsReplaceTableauDynamique</property>
+        </properties>
+      </widget>
+      
+        </layout>
+      </extension>
+</component>

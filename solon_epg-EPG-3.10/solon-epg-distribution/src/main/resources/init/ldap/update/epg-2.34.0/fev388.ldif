@@ -1,0 +1,36 @@
+##########
+# Création droit
+##########
+
+dn: cn=EspaceActiviteNormativeParamLegisUpdater,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: add
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: EspaceActiviteNormativeParamLegisUpdater
+uniqueMember: cn=emptyRef
+description: Activité Normative : Accès au paramétrage du pilotage de l'activité normative
+
+dn: cn=EspaceActiviteNormativePublicationExecutor,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: add
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: EspaceActiviteNormativePublicationExecutor
+uniqueMember: cn=emptyRef
+description: Activité Normative : Accès à la publication de la législature de l'activité normative
+
+
+##########
+# Ajout au profil
+##########
+
+dn: cn=Administrateur fonctionnel,ou=groups,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+add: uniqueMember
+uniqueMember: cn=EspaceActiviteNormativeParamLegisUpdater,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+uniqueMember: cn=EspaceActiviteNormativePublicationExecutor,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+
+dn: cn=Contributeur Activité Normative du SGG,ou=groups,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+add: uniqueMember
+uniqueMember: cn=EspaceActiviteNormativeParamLegisUpdater,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+uniqueMember: cn=EspaceActiviteNormativePublicationExecutor,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr

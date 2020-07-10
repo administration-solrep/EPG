@@ -1,0 +1,145 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout">
+
+<c:choose>
+  <c:when test="#{widget.mode == 'edit'}">
+    MODE EDIT
+    <a4j:region renderRegionOnly="true" id="#{widget.id}_ajax_region">
+      
+      <nxu:set var="reference" value="#{widget.properties['reference']}">
+
+        <!-- AJOUT DES DESTINATAIRES -->
+        <c:choose>
+          <c:when test="#{empty reference}">
+            NO REFERENCES -- #{papierActions.currentDestinataire}--
+            <h:inputText id="autre_value" value="#{papierActions.currentDestinataire}"/>
+            <a4j:commandLink action="#{papierActions.addCurrentDestinataire(field_0)}"
+                             reRender="#{widget.id}_destPanel" >
+              <h:graphicImage id="selectionButton" value="/icons/action_add.gif" alt="Ajout"/>
+            </a4j:commandLink>
+          </c:when>
+     
+          <c:otherwise>
+            REFERENCES
+     	
+            <select id="#{widget.id}_destinataire"  size="5" value="#{papierActions.currentDestinataire}" >
+              <nxu:set var="destIterators" value="#{papierActions.getReferences(reference)}" cache="true">
+                <c:forEach var="destIterator" items="#{destIterators}" >
+                  <option value="#{destIterator.id}">#{destIterator.value}</option>
+                </c:forEach>
+              </nxu:set>
+            </select>
+      	    <a4j:commandLink action="#{papierActions.addCurrentDestinataire(field_0)}"
+                             reRender="#{widget.id}_destPanel" >
+              <h:graphicImage id="selectionButton" value="/icons/action_add.gif" alt="Ajout"/>
+            </a4j:commandLink>
+          </c:otherwise>
+        </c:choose>
+        
+        <!-- Liste des destinataires -->
+        <a4j:outputPanel id="#{widget.id}_destPanel" ajaxRendered="false"> 
+      
+          <nxl:layout value="#{currentDocument}" mode="edit" name="papier_communication_pm_subpart" />
+      
+          <h:dataTable id="#{widget.id}_table" var="listItem" value="#{field_0}">
+            <h:column>
+              <f:facet name="header">
+                Sel.
+              </f:facet>
+              
+            </h:column>
+            <h:column>
+              <f:facet name="header">
+                #{messages['label.epg.papier.communication.data.destinataire']}
+              </f:facet>
+              <h:outputText value="{listItem.nomDestinataireCommunication}"/>
+            </h:column>
+            <h:column>
+              <f:facet name="header">
+                #{messages['label.epg.papier.communication.data.date_envoi']}
+              </f:facet>
+              <h:outputText value="{listItem.dateEnvoiCommunication}"/>
+            </h:column>
+             <h:column>
+              <f:facet name="header">
+                #{messages['label.epg.papier.communication.data.date_retour']}
+              </f:facet>
+              <h:outputText value="{listItem.dateRetourCommunication}"/>
+            </h:column>
+             <h:column>
+              <f:facet name="header">
+                #{messages['label.epg.papier.communication.data.date_relance']}
+              </f:facet>
+              <h:outputText value="{listItem.dateRelanceCommunication}"/>
+            </h:column>
+             <h:column>
+              <f:facet name="header">
+                #{messages['label.epg.papier.communication.data.sens_avis']}
+              </f:facet>
+              <h:outputText value="{listItem.sensAvisCommunication}"/>
+            </h:column>
+             <h:column>
+              <f:facet name="header">
+                #{messages['label.epg.papier.communication.data.objet']}
+              </f:facet>
+              <h:outputText value="{listItem.objetCommunication}"/>
+            </h:column>
+            
+          </h:dataTable>      
+        </a4j:outputPanel>
+    
+      </nxu:set>
+        
+	  </a4j:region>
+    </c:when>
+  <c:otherwise> 
+    TODO WIDGET SIGNATAIRE MODE VIEW
+    
+    
+    <h:dataTable id="#{widget.id}" var="listItem" value="#{field_0}">
+      <h:column>
+        <f:facet name="header">
+        #{messages['label.epg.papier.communication.data.date_envoi']}
+        </f:facet>
+        <h:outputText value="{listItem.nomDestinataireCommunication}"/>
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+        #{messages['label.epg.papier.communication.data.date_retour']}
+        </f:facet>
+        <h:outputText value="{listItem.nomDestinataireCommunication}"/>
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+        #{messages['label.epg.papier.communication.data.date_relance']}
+        </f:facet>
+        <h:outputText value="{listItem.nomDestinataireCommunication}"/>
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+        #{messages['label.epg.papier.communication.data.sens_avis']}
+        </f:facet>
+        <h:outputText value="{listItem.nomDestinataireCommunication}"/>
+      </h:column>
+      <h:column>
+        <f:facet name="header">
+        #{messages['label.epg.papier.communication.data.objet']}
+        </f:facet>
+        <h:outputText value="{listItem.nomDestinataireCommunication}"/>
+      </h:column>
+    </h:dataTable>
+    
+    END
+  </c:otherwise>
+</c:choose>
+
+
+
+</f:subview>

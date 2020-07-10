@@ -1,0 +1,39 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout">
+  <c:if test="#{widget.mode == 'edit'}">
+    <a4j:region renderRegionOnly="true" id="#{widget.id}_ajax_region">
+      <a4j:outputPanel id="#{widget.id}_dateEffetPanel" ajaxRendered="false">
+        <nxu:inputDateTime value="#{bordereauActions.currentDateEffetEntreprise}" id="#{widget.id}_inputDateEffet" showsTime="false" format="dd/MM/yyyy" required="false"/>
+  	    <a4j:commandLink id="#{widget.id}_addButton" action="#{bordereauActions.addCurrentDateEffetEntreprise()}" reRender="#{widget.id}_dateEffetPanel,facesStatusMessagePanel">
+          <h:graphicImage value="/icons/action_add.gif" id="#{widget.id}_addDateEffetImage" />
+        </a4j:commandLink>       
+		<a4j:commandLink id="#{widget.id}_removeAllDatesEffetEntreprise" action="#{bordereauActions.removeAllDatesEffetEntreprise()}"
+			style="visibility: hidden;" reRender="#{widget.id}_dateEffetPanel"/>
+  	    <br />
+  	    
+        <nxu:set var="datesEffet" value="#{bordereauActions.getDatesEffetEntreprise()}" cache="true">
+    	    <c:forEach var="dateEffet" items="#{datesEffet}" varStatus="status">
+	    	    <h:outputText value="#{dateEffet}" converter="DateConverter" />
+	    	    <a4j:commandLink id="#{widget.id}_indexLabel_#{status.index}" action="#{bordereauActions.removeDateEffetEntreprise(value, dateEffet)}" reRender="#{widget.id}_dateEffetPanel">
+	            	<h:graphicImage value="/icons/action_delete_mini.gif" />
+	            </a4j:commandLink>
+	            <br />
+    	    </c:forEach>
+        </nxu:set>
+  	    
+  	    <h:outputText value="#{bordereauActions.dateEffetEntrepriseError}" class="error"/>
+  	    
+  	  </a4j:outputPanel>
+  	</a4j:region>
+  </c:if>
+  <c:if test="#{widget.mode == 'view'}">
+   <c:forEach var="dateEffet" items="#{bordereauActions.getDatesEffetEntreprise()}" varStatus="status">
+    	     <h:outputText value="#{dateEffet}" converter="DateConverter" />
+            <br />
+   </c:forEach>         
+  </c:if>
+</div>

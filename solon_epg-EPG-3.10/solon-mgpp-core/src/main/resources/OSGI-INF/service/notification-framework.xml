@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue le service du notiifcation MGPP.
+-->
+<component name="fr.dila.solonmgpp.core.service.NotificationService">
+  <implementation class="fr.dila.solonmgpp.core.service.NotificationServiceImpl" />
+  
+  <service>
+    <provide interface="fr.dila.solonmgpp.api.service.NotificationService"/>
+  </service>
+  
+  <require>org.nuxeo.ecm.core.persistence.PersistenceComponent</require>  
+  
+  <extension target="org.nuxeo.ecm.core.persistence.PersistenceComponent" point="hibernate">
+    <hibernateConfiguration name="SWCORBEILLEINFOS">
+      <datasource>swcorbeilleinfos</datasource>
+      <properties>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+      </properties>
+    </hibernateConfiguration>
+  </extension>
+</component>

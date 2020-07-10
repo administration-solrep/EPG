@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Log4j Configuration - For more configuration information and examples 
+	see the Jakarta Log4j - website: http://jakarta.apache.org/log4j -->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false" threshold="null">
+
+	<appender name="SYSLOG" class="org.apache.log4j.net.SyslogAppender">
+		<param name="Facility" value="LOCAL1" />
+		<param name="Header" value="true" />
+		<param name="FacilityPrinting" value="true" />
+		<param name="SyslogHost" value="localhost" />
+		<param name="Threshold" value="WARN" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="EPG INST %-5p %m%n" />
+		</layout>
+	</appender>
+
+
+
+	<!-- ================================= -->
+	<!-- Preserve messages in a local file -->
+	<!-- ================================= -->
+
+	<!-- A time/date based rolling appender -->
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/server.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<!-- clé de conversion : userName pathDoc, uidDoc, codeLog, typeDoc, titleDoc, 
+			parentDoc, infoCompl -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ISO8601} %-5p (%t) %X{codeLog}%X{uidDoc}[%c]%X{userName}%X{titleDoc}%X{typeDoc}%X{infoCompl} %m%n" />
+		</layout>
+	</appender>
+	<!-- Clone of FILE, but no stacktrace -->
+	<appender name="MESSAGES" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/messages.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<!-- clé de conversion : userName pathDoc, uidDoc, codeLog, typeDoc, titleDoc, 
+			parentDoc, infoCompl -->
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ISO8601} %-5p (%t) %X{codeLog}%X{uidDoc}[%c]%X{userName}%X{titleDoc}%X{typeDoc}%X{infoCompl} %m%n%throwable{0}" />
+		</layout>
+	</appender>
+
+
+	<!-- ============================= -->
+	<!-- Gather errors in a local file -->
+	<!-- ============================= -->
+
+	<appender name="ERROR-FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/nuxeo-error.log" />
+		<param name="Append" value="false" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<!-- ============================= -->
+	<!-- Gather stderr in a local file -->
+	<!-- ============================= -->
+
+	<appender name="STDERR-FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/stderr.log" />
+		<param name="Append" value="false" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+		</layout>
+	</appender>
+
+	<!-- ============================== -->
+	<!-- Append messages to the console -->
+	<!-- ============================== -->
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="INFO" />
+		</filter>
+	</appender>
+
+
+	<!-- ================ -->
+	<!-- Custom Loggers -->
+	<!-- ================ -->
+
+	<logger name="fr.dila">
+		<level value="INFO" />
+	</logger>
+
+	<!-- ============================= -->
+	<!-- reprise log file -->
+	<!-- ============================= -->
+
+	<appender name="REPRISE-FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/reprise.log" />
+		<param name="Append" value="false" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<!-- ============================= -->
+	<!-- Gather notification in a local file for notification logger -->
+	<!-- ============================= -->
+
+	<appender name="NOTIFICATION-FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/nuxeo-notification.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<!-- ================================= -->
+	<!-- file appender : ws-client.log -->
+	<!-- ================================= -->
+
+	<appender name="FILE-WS-CLIENT" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/ws-client.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE-WS-D2S-CLIENT" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/ws-d2s-client.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE-WS-DVS-CLIENT" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/ws-dvs-client.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE-WS-SERVER-WSNOTIFICATION" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/ws-notification.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE-WS-SERVER-WSEPG" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/ws-epg.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE-WS-SERVER-WSSPE" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/ws-spe.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="ARCHIVAGE-LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/archivage.log" />
+		<param name="Append" value="true" />
+		Rollover at midnight every day
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			The default pattern: Date Priority [Category] Message\n
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/>
+		</layout>
+	</appender>
+
+	<appender name="INDEXATION-LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/indexation.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<appender name="INDEXATION-PARSE-LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/indexation-parse.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<appender name="INDEXATION-LARGE-LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/indexation-large.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<appender name="INDEXATION-MISSING-LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/indexation-missing.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<appender name="INDEXATION-EMPTY-LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/indexation-empty.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<appender name="JSF-URL-LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="File" value="${nuxeo.log.dir}/jsf-url.log" />
+		<param name="Append" value="true" />
+		<!-- Rollover at midnight every day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] [%X{X-Solon-URL}] %m%n" />
+			<!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n 
+				<param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/> -->
+		</layout>
+	</appender>
+
+	<!-- ================ -->
+	<!-- Web services client -->
+	<!-- ================ -->
+
+	<logger name="fr.dila.st.rest.client.AbstractWsProxy"
+		additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="FILE-WS-CLIENT" />
+	</logger>
+	
+	<logger name="LOGGER-INJECTION-BDJ"
+		additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="FILE-WS-CLIENT" />
+	</logger>
+
+	<logger name="fr.dila.dictao.d2s.proxy.D2SServiceCaller"
+		additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="FILE-WS-D2S-CLIENT" />
+	</logger>
+
+	<logger name="fr.dila.dictao.dvs.proxy.DVSServiceCaller"
+		additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="FILE-WS-DVS-CLIENT" />
+	</logger>
+
+
+	<!-- ================ -->
+	<!-- Web services -->
+	<!-- ================ -->
+
+	<logger name="fr.dila.st.rest.api.WSNotification" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="FILE-WS-SERVER-WSNOTIFICATION" />
+	</logger>
+
+	<logger name="fr.dila.solonepg.rest.api.WSEpg" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="FILE-WS-SERVER-WSEPG" />
+	</logger>
+
+	<logger name="fr.dila.solonepg.rest.api.WSSpe" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="FILE-WS-SERVER-WSSPE" />
+	</logger>
+
+	<!-- ================ -->
+	<!-- Limit categories -->
+	<!-- ================ -->
+
+	<category name="org.jboss.seam">
+		<priority value="INFO" />
+	</category>
+	<category name="org.jboss.ejb3">
+		<priority value="INFO" />
+	</category>
+	<category
+		name="org.jboss.ejb3.cache.simple.StatefulSessionFilePersistenceManager">
+		<priority value="WARN" />
+	</category>
+	<category name="org.jboss.seam.contexts.Contexts">
+		<priority value="WARN" />
+	</category>
+	<category name="org.jboss.seam.contexts.Lifecycle">
+		<priority value="WARN" />
+	</category>
+	<category name="org.jboss.mx.loading">
+		<priority value="INFO" />
+	</category>
+	<category name="org.jboss.system.server.Server">
+		<priority value="INFO" />
+	</category>
+	<!-- Limit the JSR77 categories -->
+	<category name="org.jboss.management" additivity="true">
+		<priority value="INFO" />
+	</category>
+	<!-- Limit the jboss-serialization to INFO as its DEBUG is verbose -->
+	<category name="org.jboss.serial" additivity="true">
+		<priority value="INFO" />
+	</category>
+
+	<category name="org.nuxeo.runtime.tomcat.NuxeoDeployer">
+		<priority value="INFO" />
+	</category>
+
+	<!-- remove "Could not retrieve base url correctly" en attente réponse nuxeo 
+		SUPNXP-6893 -->
+	<logger name="org.nuxeo.ecm.platform.web.common.vh.VirtualHostHelper">
+		<level value="OFF" />
+	</logger>
+
+	<!-- <category name="org.nuxeo.ecm.core.storage.sql.jdbc.JDBCLogger"> <priority 
+		value="TRACE"/> </category> -->
+
+	<!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
+	<category name="org.apache" additivity="true">
+		<priority value="INFO" />
+	</category>
+	<category name="org.apache.myfaces.renderkit.html.util.DefaultAddResource">
+		<priority value="ERROR" />
+	</category>
+
+	<category name="org.ajax4jsf">
+		<priority value="INFO" />
+	</category>
+	<category name="org.ajax4jsf.cache.LRUMapCacheFactory">
+		<priority value="ERROR" />
+	</category>
+
+	<category name="org.hibernate">
+		<priority value="WARN" />
+	</category>
+	<category
+		name="org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog">
+		<priority value="ERROR" />
+	</category>
+	<category name="org.hibernate.impl.SessionFactoryObjectFactory">
+		<priority value="ERROR" />
+	</category>
+	<category name="org.hibernate.cache.EhCacheProvider">
+		<priority value="ERROR" />
+	</category>
+	<category name="org.hibernate.hql.ast.tree.FromElementType">
+		<priority value="ERROR" />
+	</category>
+
+	<category name="org.jbpm">
+		<priority value="INFO" />
+	</category>
+	<category name="org.jbpm.jpdl.xml.JpdlXmlReader">
+		<priority value="ERROR" />
+	</category>
+
+	<category name="org.compass.core.transaction">
+		<priority value="INFO" />
+	</category>
+	<category
+		name="org.compass.core.lucene.engine.optimizer.ScheduledLuceneSearchEngineOptimizer">
+		<priority value="INFO" />
+	</category>
+
+	<category
+		name="org.nuxeo.ecm.platform.ui.web.compat.tomahawk.DeprecatedTomahawkComponentHandler">
+		<priority value="ERROR" />
+	</category>
+
+	<category name="org.nuxeo">
+		<priority value="INFO" />
+	</category>
+	<category name="org.nuxeo.runtime.deployment.preprocessor">
+		<priority value="INFO" />
+	</category>
+	<category name="org.nuxeo.ecm.platform.ui.web.auth">
+		<priority value="INFO" />
+	</category>
+	<category name="org.nuxeo.runtime.osgi.OSGiRuntimeService">
+		<priority value="INFO" />
+	</category>
+	<category name="org.nuxeo.osgi.application.loader.FrameworkLoader">
+		<priority value="INFO" />
+	</category>
+	<category name="org.nuxeo.osgi.application.StandaloneApplication">
+		<priority value="INFO" />
+	</category>
+	<category name="org.nuxeo.osgi.application.FrameworkBootstrap">
+		<priority value="INFO" />
+	</category>
+	<category name="org.nuxeo.runtime.jboss.deployment.NuxeoDeployer">
+		<priority value="INFO" />
+	</category>
+
+	<category name="javax.enterprise.resource.webcontainer.jsf.renderkit">
+		<priority value="INFO" />
+	</category>
+	<category name="javax.enterprise.resource.webcontainer.jsf.application">
+		<priority value="INFO" />
+	</category>
+	<category name="javax.enterprise.resource.webcontainer.jsf.lifecycle">
+		<priority value="INFO" />
+	</category>
+
+	<!-- Limit the jacorb category to WARN as its INFO is verbose -->
+	<category name="jacorb" additivity="true">
+		<priority value="WARN" />
+	</category>
+
+	<!-- Limit the org.jgroups category to WARN as its INFO is verbose -->
+	<category name="org.jgroups" additivity="true">
+		<priority value="WARN" />
+	</category>
+
+	<!-- Limit the org.quartz category to INFO as its DEBUG is verbose -->
+	<category name="org.quartz" additivity="true">
+		<priority value="ERROR" />
+	</category>
+
+	<!-- Limit JBoss categories <category name="org.jboss"> <priority value="INFO" 
+		/> </category> -->
+
+	<!-- Show the evolution of the DataSource pool in the logs [inUse/Available/Max] 
+		<category name="org.jboss.resource.connectionmanager.JBossManagedConnectionPool"> 
+		<priority value="TRACE" /> </category> -->
+
+	<!-- Decrease the priority threshold for the org.jboss.varia category <category 
+		name="org.jboss.varia"> <priority value="DEBUG" /> </category> -->
+
+	<!-- Enable JBossWS message tracing <category name="org.jboss.ws.core.MessageTrace"> 
+		<priority value="TRACE" /> </category> -->
+
+	<!-- Logs these events to SNMP: - server starts/stops - cluster evolution 
+		(node death/startup) - When an EJB archive is deployed (and associated verified 
+		messages) - When an EAR archive is deployed <category name="org.jboss.system.server.Server"> 
+		<priority value="INFO" /> <appender-ref ref="TRAP_LOG" /> </category> <category 
+		name="org.jboss.ha.framework.interfaces.HAPartition.lifecycle"> <priority 
+		value="INFO" /> <appender-ref ref="TRAP_LOG" /> </category> <category name="org.jboss.deployment.MainDeployer"> 
+		<priority value="ERROR" /> <appender-ref ref="TRAP_LOG" /> </category> <category 
+		name="org.jboss.ejb.EJBDeployer"> <priority value="INFO" /> <appender-ref 
+		ref="TRAP_LOG" /> </category> <category name="org.jboss.deployment.EARDeployer"> 
+		<priority value="INFO" /> <appender-ref ref="TRAP_LOG" /> </category> -->
+
+	<!-- Clustering logging -->
+	<!-- Uncomment the following to redirect the org.jgroups and org.jboss.ha 
+		categories to a cluster.log file. <appender name="CLUSTER" class="org.apache.log4j.RollingFileAppender"> 
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" /> <param 
+		name="File" value="${nuxeo.log.dir}/cluster.log" /> <param name="Append" 
+		value="false" /> <param name="MaxFileSize" value="500KB" /> <param name="MaxBackupIndex" 
+		value="1" /> <layout class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern" 
+		value="%d %-5p [%c] %m%n" /> </layout> </appender> <category name="org.jgroups"> 
+		<priority value="DEBUG" /> <appender-ref ref="CLUSTER" /> </category> <category 
+		name="org.jboss.ha"> <priority value="DEBUG" /> <appender-ref ref="CLUSTER" 
+		/> </category> -->
+	<!-- <category name="fr.dila.st.core.query"><priority value="DEBUG"/></category> -->
+
+	<!-- Logger for notification -->
+	<category name="fr.dila.solonepg.server.logger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="NOTIFICATION-FILE" />
+	</category>
+
+	<category name="com.sword.reponses.listener">
+		<!-- <level value="INFO" /> -->
+		<priority value="INFO" />
+		<appender-ref ref="STDERR-FILE" />
+	</category>
+
+	<category name="com.sword.reponses.anotherlistener">
+		<!-- <level value="INFO" /> -->
+		<priority value="INFO" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="MESSAGES" />
+	</category>
+
+	<category name="nuxeo-error-log">
+		<priority value="TRACE" />
+		<appender-ref ref="ERROR-FILE" />
+	</category>
+
+	<!-- System.err redirected by Tomcat to a logger STDERR with level ERROR -->
+	<category name="STDERR" additivity="false">
+		<priority value="ERROR" />
+		<appender-ref ref="STDERR-FILE" />
+	</category>
+
+	<category name="reprise-log">
+		<priority value="TRACE" />
+		<appender-ref ref="REPRISE-FILE" />
+	</category>
+	
+	<logger name="fr.dila.solonepg.adamant.batch" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="ARCHIVAGE-LOG" />
+	</logger>
+	
+	
+	<logger name="ARCHIVAGE-LOG" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="ARCHIVAGE-LOG" />
+	</logger>
+
+	<logger name="INDEXATION-PARSE" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="INDEXATION-PARSE-LOG" />
+	</logger>
+	<logger name="org.nuxeo.ecm.core.convert" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="INDEXATION-PARSE-LOG" />
+	</logger>
+	<logger name="org.apache.pdfbox" additivity="true">
+		<level value="ERROR" />
+		<appender-ref ref="INDEXATION-PARSE-LOG" />
+	</logger>
+
+	<logger name="INDEXATION-LARGE" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="INDEXATION-LARGE-LOG" />
+	</logger>
+
+	<logger name="INDEXATION-MISSING" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="INDEXATION-MISSING-LOG" />
+	</logger>
+
+	<logger name="INDEXATION-EMPTY" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="INDEXATION-EMPTY-LOG" />
+	</logger>
+
+	<logger name="INDEXATION-BATCH" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="INDEXATION-LOG" />
+	</logger>
+
+	<logger name="fr.dila.solonepg.elastic" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="INDEXATION-LOG" />
+	</logger>
+
+	<!-- Log extraction textuelle -->
+	<!-- On réserve ces logs à indexation.log ; inutile pour server.log -->
+	<logger name="org.nuxeo.ecm.core.convert.plugins.text.extractors" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="INDEXATION-LOG" />
+	</logger>
+
+	<logger name="org.apache.pdfbox" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="INDEXATION-LOG" />
+	</logger>
+	<!-- /Log extraction textuelle -->
+
+	<!-- Birt generation -->
+	<category name="org.eclipse.birt.report.data.oda.jdbc.Connection">
+		<priority value="ERROR" />
+	</category>
+		
+	<logger name="org.hibernate.dialect.resolver.StandardDialectResolver">
+		<level value="OFF" />
+	</logger>
+
+	<!-- Listener des modifications, qui crée les ordres d'indexation ;
+	     passer en DEBUG pour avoir un retour pour chaque invocation du listener.
+	     En INFO, on a des messages seulement quand des modifications de dossiers sont détectées.
+	 -->
+	<logger name="fr.dila.solonepg.elastic.bundle.IndexationDossierListenerService">
+		<level value="INFO" />
+	</logger>
+
+	<!-- ======================= -->
+	<!-- Setup the Root category -->
+	<!-- ======================= -->
+
+	<root>
+		<level value="WARN" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="MESSAGES" />
+		<appender-ref ref="SYSLOG" />
+		<appender-ref ref="JSF-URL-LOG" />
+	</root>
+
+</log4j:configuration>

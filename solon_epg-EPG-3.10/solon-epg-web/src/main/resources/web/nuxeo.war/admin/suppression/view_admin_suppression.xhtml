@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxd="http://nuxeo.org/nxweb/document">
+
+
+  <ui:define name="page title">
+    <c:choose>
+	  		<c:when test="#{suppressionActions.isAccessFonctionnelAuthorized()}">
+	    		<h:outputText value="#{messages['message.suppression.fonctionelle.title']}" />
+	    	</c:when>
+	    	<c:otherwise>
+	    		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+	    	</c:otherwise>
+	    </c:choose>
+  </ui:define>
+  <ui:define name="content_view_actions">
+    <c:if
+      test="#{contentViewActions.getContentView('suppression_dossier').getPageProvider().getCurrentPage() != null and contentViewActions.getContentView('suppression_dossier').getPageProvider().getCurrentPage().size()!=0}">
+      <ui:include src="/incl/dossier_listing_action.xhtml">
+        <ui:param name="resultLayout" value="cm_dossier_csv_dto" />
+      </ui:include>
+    </c:if>
+  </ui:define>
+  <ui:define name="body">
+  <c:if test="#{suppressionActions.isAccessFonctionnelAuthorized()}">
+    <ui:include src="/incl/message_banner.xhtml" />
+    <h3><h:outputText styleClass="label"
+      value="#{messages['message.suppression.fonctionelle.title']}" />
+    </h3>
+
+    <div id="upperContentView">
+    <div id="content">
+
+    <table width="100%">
+      <tr>
+        <td>
+          <div class="floatLeftTabs">
+            <div id="menu" class="tabsBar">
+              <h:form id="menuForm">
+                <ul>
+                  <li class="selected">
+                    <h:commandLink
+                      action="#{administrationActions.navigateToSuppression()}"
+                      immediate="true" >
+                      <h:outputText
+                        value="#{messages['message.suppression.fonctionelle.link.label']}" />
+                    </h:commandLink>
+                  </li>
+                  <li>
+                    <h:commandLink
+                      action="#{administrationActions.navigateToSuppressionSuivi()}"
+                      immediate="true">
+                      <h:outputText
+                        value="#{messages['message.suppression.suivi.link.label']}" />
+                    </h:commandLink>
+                  </li>
+                </ul>
+              </h:form>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+        <div id="suppressionContent"><nxu:set
+          var="contentViewName" value="suppression_dossier">
+          <nxu:set var="filtrable" value="true">
+          <ui:include src="/incl/supprimer_modal_panel.xhtml" />
+          <ui:decorate template="/incl/content_view_suppression.xhtml">
+            <ui:define name="content_view_header_after_selector">
+            </ui:define>
+            <ui:define name="content_view_header_before_selector">
+            </ui:define>
+          </ui:decorate>
+           </nxu:set>
+        </nxu:set></div>
+
+        </td>
+      </tr>
+    </table>
+    </div>
+    </div>
+    <ui:include src="/incl/upper_panel_toggle.xhtml" />
+   </c:if>
+  </ui:define>
+
+  <ui:define name="subbody">
+  <c:if test="#{suppressionActions.isAccessFonctionnelAuthorized()}">
+    <ui:include
+      src="/espace_recherche/resultats_subbody_dossier_view.xhtml">
+      <ui:param name="view" value="view_admin_suppression" />
+    </ui:include>
+   </c:if>
+  </ui:define>
+</nxthemes:composition>

@@ -1,0 +1,25 @@
+<f:subview xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxh="http://nuxeo.org/nxweb/html" id="#{layout.id}">
+
+	<nxl:layoutColumn>
+		<c:if test="#{!empty layoutColumn.properties.filterPropertyName}">
+			#{provider.addFiltrableProperty(layoutColumn.properties.filterPropertyName)}
+			<tr>
+				<td class="labelColumn"><h:outputText
+						value="#{layoutColumn.widgets[0].label}"
+						rendered="#{!layoutColumn.widgets[0].translated}" /> <h:outputText
+						value="#{messages[layoutColumn.widgets[0].label]}"
+						rendered="#{layoutColumn.widgets[0].translated}" /></td>
+				<td class="fieldColumn"><nxl:layoutColumnWidget>
+						<nxl:widget widget="#{widget}" value="#{value}" mode="edit" />
+					</nxl:layoutColumnWidget></td>
+			</tr>
+		</c:if>
+	</nxl:layoutColumn>
+</f:subview>

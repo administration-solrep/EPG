@@ -1,0 +1,413 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  id="quicksearch">
+  
+  <style>
+  .input125{
+    width: 125px !important;
+  }
+  .menu .labelColumn{
+    width: auto !important;
+  }
+  .userMailboxesContent .errorMessage{
+    width: auto !important;
+  }
+  
+  </style>
+  
+  <nxu:set var="isUpdater" value="#{filterActions.isUpdater()}" cache="true">
+    <h:panelGroup rendered="#{isUpdater}">
+      <nxu:set var="typeAffichage" value="#{rechercheActions.getAffichageType()}" cache="true">
+        <div class="menu">
+          <h:form>
+          <ui:decorate template="/incl/menu_arrondi.xhtml">
+          <ui:define name="reponsesClipboard_panel">
+          <div class="userMailboxes" style="overflow: auto;">
+            <div class="userMailboxesContent">
+              <h4>
+                <h:outputText value="#{messages['label.quickSearchTitle']}" />
+              </h4>
+              <table>
+                <tbody>
+                  <tr>
+                    <td align="right">
+                      <h:commandLink action="#{rechercheActions.navigateToRechercheAvancee()}" >
+                        <h:outputText value="#{messages['label.recherche.avancee']}" />
+                      </h:commandLink>
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>
+                    <div  id="uMContent" style="overflow-x: auto; overflow-y: hidden;" class="userLeftMenuContent">
+                      <nxl:layout value="#{rechercheActions.critereRecherche}" mode="edit" name="critere_recherche" />
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td align="center" width="200px">
+                              <h:outputText value=" " />
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchMessage()}" rendered="#{typeAffichage eq 'Message'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchDossier()}" rendered="#{typeAffichage eq 'Dossier'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchOEP()}" rendered="#{typeAffichage eq 'OEP'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchAVI()}" rendered="#{typeAffichage eq 'AVI'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchDOC()}" rendered="#{typeAffichage eq 'DOC'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchDPG()}" rendered="#{typeAffichage eq 'DPG'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchSD()}" rendered="#{typeAffichage eq 'SD'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchJSS()}" rendered="#{typeAffichage eq 'JSS'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchAUD()}" rendered="#{typeAffichage eq 'AUD'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchDR()}" rendered="#{typeAffichage eq 'DR'}"/>
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.search']}" action="#{rechercheActions.doSearchDecret()}" rendered="#{typeAffichage eq 'Decret'}"/>
+                              
+                              <h:outputText value=" " />
+                              <h:commandButton class="button" value="#{messages['label.action.recherche.effacer']}" action="#{rechercheActions.resetCritereRecherche()}" immediate="true"/>
+                            </td>
+                          </tr>
+                            <c:choose>
+                              <c:when test="#{typeAffichage eq 'Message'}">
+                                <nxu:set var="messages" value="#{rechercheActions.getListMessage()}" cache="true">
+                                <c:choose>
+                                  <c:when test="#{not empty messages}">
+                                        <tr>
+                                          <td>
+                                             <b><u>#{nxu:concat(messages.size() , nxu:test(messages.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                          </td>
+                                        </tr>
+                                        <c:forEach var="messageDTO" items="#{messages}" varStatus="status">
+                                          <tr>
+                                            <td>
+                                              <h:commandLink id="msgSearchCmd_#{status.index}" action="#{corbeilleTree.navigateToMessageAnResetItem(messageDTO)}" >
+                                                <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(nxu:concat(messageDTO.idDossier, ' '), messageDTO.objet)}" />
+                                              </h:commandLink>
+                                            </td>
+                                          </tr>
+                                        </c:forEach>
+                                   </c:when>
+                                   <c:otherwise>
+                                    <tr>
+                                      <td>
+                                         <b><u>Aucun résultat</u></b>
+                                      </td>
+                                    </tr>
+                                   </c:otherwise>
+                                 </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              <c:when test="#{typeAffichage eq 'Dossier'}">
+                                <nxu:set var="dossierDocs" value="#{rechercheActions.getListDossier()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty dossierDocs}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(dossierDocs.size() , nxu:test(dossierDocs.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="dossierDoc" items="#{dossierDocs}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{rechercheActions.navigateToDossier(dossierDoc)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(nxu:concat(dossierDoc.dos.numeroNor, ' '), dossierDoc.dos.titreActe)}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              <c:when test="#{typeAffichage eq 'OEP'}">
+                                <nxu:set var="oepDocs" value="#{rechercheActions.getListOEP()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty oepDocs}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(oepDocs.size() , nxu:test(oepDocs.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="oepDoc" items="#{oepDocs}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationOEPActions.navigateToDetailsOep(oepDoc)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(nxu:concat(oepDoc.fpoep.idDossier, ' '), oepDoc.fpoep.nomOrganisme)}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              <!--S'occupe d'afficher les résultats de la recherche rapide.-->
+                              <c:when test="#{typeAffichage eq 'DR'}">
+                                <nxu:set var="drDocs" value="#{rechercheActions.getListDR()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty drDocs}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(drDocs.size() , nxu:test(drDocs.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="drDoc" items="#{drDocs}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationDRActions.navigateToDetailsDR(drDoc)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(nxu:concat(oepDoc.fpdr.idDossier, ' '), drDoc.fpdr.idDossier)}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              <c:when test="#{typeAffichage eq 'Decret'}">
+                                <nxu:set var="Decrets" value="#{rechercheActions.getListDecret()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty Decrets}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(Decrets.size() , nxu:test(Decrets.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="decretDoc" items="#{Decrets}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationDecretActions.navigateToDetailsDecret(decretDoc)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{decretDoc.fpdec.nor}" /> 
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              <c:when test="#{typeAffichage eq 'AVI'}">
+                                <nxu:set var="aviDocs" value="#{rechercheActions.getListAVI()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty aviDocs}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(aviDocs.size() , nxu:test(aviDocs.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="aviDoc" items="#{aviDocs}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationAVIActions.navigateToDetailsAVI(aviDoc)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(nxu:concat(aviDoc.fpavi.idDossier, ' '), aviDoc.fpavi.nomOrganisme)}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              <c:when test="#{typeAffichage eq 'DOC'}">
+                                <nxu:set var="autresDocs" value="#{rechercheActions.getListDOC()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty autresDocs}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(autresDocs.size() , nxu:test(autresDocs.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="autreDoc" items="#{autresDocs}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationDOCActions.navigateToDetailsDOC(autreDoc)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(autreDoc.fpdoc.idDossier, ' ')}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                               <c:when test="#{typeAffichage eq 'DPG'}">
+                                <nxu:set var="listDPG" value="#{rechercheActions.getListDPG()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty listDPG}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(listDPG.size() , nxu:test(listDPG.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="msgDPG" items="#{listDPG}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationDPGActions.navigateToDetailsDPG(msgDPG)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(msgDPG.fpdpg.idDossier, ' ')}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              
+                             <c:when test="#{typeAffichage eq 'SD'}">
+                                <nxu:set var="listSD" value="#{rechercheActions.getListSD()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty listSD}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(listSD.size() , nxu:test(listSD.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="msgSD" items="#{listSD}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationSDActions.navigateToDetailsSD(msgSD)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(msgSD.fpsd.idDossier, ' ')}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              
+                               <c:when test="#{typeAffichage eq 'JSS'}">
+                                <nxu:set var="listJSS" value="#{rechercheActions.getListJSS()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty listJSS}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(listJSS.size() , nxu:test(listJSS.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="msgJSS" items="#{listJSS}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationJSSActions.navigateToDetailsJSS(msgJSS)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(msgJSS.fpjss.idDossier, ' ')}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+                              
+
+                              <c:when test="#{typeAffichage eq 'AUD'}">
+                                <nxu:set var="audDocs" value="#{rechercheActions.getListAUD()}" cache="true">
+                                  <c:choose>
+                                    <c:when test="#{not empty audDocs}">
+                                          <tr>
+                                            <td>
+                                               <b><u>#{nxu:concat(audDocs.size() , nxu:test(audDocs.size() gt 1, ' résultats :', ' résultat :'))}</u></b>
+                                            </td>
+                                          </tr>
+                                          <c:forEach var="audDoc" items="#{audDocs}" varStatus="status">
+                                            <tr>
+                                              <td>
+                                                <h:commandLink id="msgSearchCmd_#{status.index}" action="#{fichePresentationAUDActions.navigateToDetailsAUD(audDoc)}" >
+                                                  <h:outputText id="msgSearchName_#{status.index}" value="#{nxu:concat(nxu:concat(audDoc.fpaud.idDossier, ' '), audDoc.fpaud.nomOrganisme)}" />
+                                                </h:commandLink>
+                                              </td>
+                                            </tr>
+                                          </c:forEach>
+                                     </c:when>
+                                     <c:otherwise>
+                                      <tr>
+                                        <td>
+                                           <b><u>Aucun résultat</u></b>
+                                        </td>
+                                      </tr>
+                                     </c:otherwise>
+                                   </c:choose>
+                                </nxu:set>
+                              </c:when>
+
+                              
+                            </c:choose>
+                          </tbody>
+                       </table>
+                     </div>
+                    </td>
+                  </tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+          </ui:define>
+          </ui:decorate>
+          </h:form>
+        </div>
+      </nxu:set>
+     </h:panelGroup>
+   </nxu:set>
+</div>

@@ -1,0 +1,80 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory">
+
+    <div class="tabsContent">
+      <h1>
+        <h:outputText styleClass="label"
+          value="#{userManagerActions.selectedUser.id}" />
+      </h1>
+
+        <script type="text/javascript">
+        function confirmDeleteUser(event) {
+          return displayConfirm(event, "#{messages['label.userManager.confirmDeleteUser']}");
+        }
+        </script>
+
+      <div class="tabsBar subtabsBar">
+          <ul>
+
+            <li class="#{nxu:test(currentUserSubTab == 'view', 'selected', '')}">
+              <h:commandLink action="#{userManagerActions.setCurrentUserSubTab('view')}"
+                immediate="true">
+                <h:outputText value="#{messages['label.userManager.viewUser']}" />
+              </h:commandLink>
+            </li>
+
+            <f:subview rendered="#{userManagerActions.allowEditUser and notReadOnly}">
+              <li class="#{nxu:test(currentUserSubTab == 'edit', 'selected', '')}">
+                <h:commandLink
+                  action="#{userManagerActions.setCurrentUserSubTab('edit')}" immediate="true">
+                  <h:outputText value="#{messages['label.userManager.editUser']}" />
+                </h:commandLink>
+              </li>
+            </f:subview>
+
+            <f:subview rendered="#{userManagerActions.allowChangePassword and notReadOnly}">
+              <li class="#{nxu:test(currentUserSubTab == 'editPassword', 'selected', '')}">
+                <h:commandLink action="#{userManagerActions.setCurrentUserSubTab('editPassword')}" immediate="true">
+                  <h:outputText value="#{messages['command.change.password']}" />
+                </h:commandLink>
+              </li>
+            </f:subview>
+            
+             <f:subview rendered="#{userManagerActions.allowDeleteUser and notReadOnly}">
+              <li >
+               <h:commandLink
+	               action="#{userManagerActions.deleteUserEpg}"
+	               onclick="return confirmDeleteUser(event);" immediate="true">
+	               <h:outputText value="#{messages['command.delete']}" />
+             </h:commandLink>
+              </li>
+            </f:subview>
+          </ul>
+      </div>
+      <div style="clear: both" />
+
+      <div class="tabsContent">
+
+        <ui:insert name="mainContent" />
+        
+        <div class="action_bar">
+             <h:commandLink action="#{userManagerActions.updateUserEpg}" rendered="#{currentUserSubTab == 'edit'}">
+               <h:outputText value="#{messages['command.save']}" />
+             </h:commandLink>
+             
+             <h:commandLink action="#{userManagerActions.changePasswordEpg}" rendered="#{currentUserSubTab == 'editPassword'}">
+               <h:outputText value="#{messages['command.save']}" />
+             </h:commandLink>
+       	</div>
+
+      </div>
+
+    </div>
+</div>

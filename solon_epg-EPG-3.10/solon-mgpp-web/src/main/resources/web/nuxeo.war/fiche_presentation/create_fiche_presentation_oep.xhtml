@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory">
+
+  <ui:define name="page title">
+    <h:outputText value="Création fiche organisme extraparlementaire" />
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:include src="/incl/message_banner.xhtml" />
+    <style>
+        .errorMessage{
+          width:150px !important;
+        }
+    </style>
+    <div> 
+      <h:form id="create_fpoep" enctype="multipart/form-data">
+      
+          <nxu:set var="layoutMode" value="edit" cache="true">
+          <nxu:set var="unrestrictedViewMgpp" value="#{fichePresentationOEPActions.isUserMgppOnly()}" cache="true">
+          <nxu:set var="fichePresentationDoc" value="#{fichePresentationOEPActions.ficheOEPCreation}" cache="true">
+              <h3>Fiche organisme extraparlementaire</h3>
+              <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_OEP_general" />
+              <c:if test="#{unrestrictedViewMgpp}">
+                <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_OEP_view_mgpp_restricted" />
+              </c:if>
+              
+              <h3>Coordonnées</h3>
+              <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_OEP_coordonnees" />
+              
+              <h3>Durée des mandats</h3>
+              <table class="dataOutput">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th style="text-align: center;"><h:outputText value="#{messages['label.mgpp.fichedossier.dureeMandat']}"/></th>
+                    <c:if test="#{unrestrictedViewMgpp}">
+                        <th style="text-align: center;"><h:outputText value="#{messages['label.mgpp.fichedossier.mandatRenouvelable']}"/></th>
+                        <th style="text-align: center;"><h:outputText value="#{messages['label.mgpp.ficheDossier.nbRenouvellements']}"/></th>
+                    </c:if>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="text-align: center;">
+                    <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_OEP_mandatAN" />
+                    <c:if test="#{unrestrictedViewMgpp}">
+                      <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_OEP_mandatAN_mgpp_restricted" />
+                    </c:if>
+                  </tr>
+                  <tr style="text-align: center;">
+                    <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_OEP_mandatSE" />
+                    <c:if test="#{unrestrictedViewMgpp}">
+                      <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_OEP_mandatSE_mgpp_restricted" />
+                    </c:if>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <h3>Représentants Assemblée nationale</h3>
+              <a4j:outputPanel id="representantANA4J" >
+                <nxu:set var="representants" value="#{fichePresentationOEPActions.fetchRepresentant('AN')}" cache="true">
+                  <table class="dataOutput">
+                    <thead>
+                      <tr>
+                        <th><h:outputText value="#{messages['label.mgpp.representant.representant']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.representant.fonction']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.representant.dateDebut']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.representant.dateFin']}"/></th>
+                        <c:if test="#{unrestrictedViewMgpp}">
+                          <th><h:outputText value="#{messages['label.mgpp.representant.numeroMandat']}"/></th>
+                          <th><h:outputText value="#{messages['label.mgpp.representant.autoriteDesignation']}"/></th>
+                          <th><h:outputText value="#{messages['label.mgpp.representant.commissionSaisie']}"/></th>
+                        </c:if>
+                        <th><h:outputText value=" "/></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <c:forEach var="representant" items="#{representants}" varStatus="status">
+                        <c:choose>
+                          <c:when test="#{unrestrictedViewMgpp}">
+                            <nxl:layout value="#{representant}" mode="#{layoutMode}" name="representant_AN_oep_mgpp_restricted" />
+                          </c:when>
+                          <c:otherwise>
+                            <nxl:layout value="#{representant}" mode="#{layoutMode}" name="representant_oep_AN" />
+                          </c:otherwise>
+                        </c:choose>
+                      </c:forEach>
+                    </tbody>
+                   </table>
+                   <table>
+                     <tbody>
+                      <tr>
+                        <td>
+                          <h:outputText value="#{representants.size} #{messages['label.mgpp.representant.representant']}" 
+                            style="color:#757575;font-size: 13px; font-weight: bold;vertical-align=top;" rendered="#{representants.size lt 2}"/>
+                          <h:outputText value="#{representants.size} #{messages['label.mgpp.representant.representant']}s" 
+                            style="color:#757575;font-size: 13px; font-weight: bold;vertical-align=top;" rendered="#{representants.size gt 1}"/>
+                        </td>
+                       <td>
+                        <a4j:commandButton reRender="representantANA4J" eventsQueue="ajax_events_queue" styleClass="button" value="#{messages['label.fiche.dossier.addRepresentant']}" 
+                          action="#{fichePresentationOEPActions.addNewRepresentant('AN')}" immediate="true"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </nxu:set>
+              </a4j:outputPanel>
+              
+              <h3>Représentants Sénat</h3>
+              <a4j:outputPanel id="representantSEA4J" >
+                <nxu:set var="representants" value="#{fichePresentationOEPActions.fetchRepresentant('SE')}" cache="true">
+                  <table class="dataOutput">
+                    <thead>
+                      <tr>
+                        <th><h:outputText value="#{messages['label.mgpp.representant.representant']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.representant.fonction']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.representant.dateDebut']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.representant.dateFin']}"/></th>
+                        <c:if test="#{unrestrictedViewMgpp}">
+                          <th><h:outputText value="#{messages['label.mgpp.representant.numeroMandat']}"/></th>
+                          <th><h:outputText value="#{messages['label.mgpp.representant.autoriteDesignation']}"/></th>
+                          <th><h:outputText value="#{messages['label.mgpp.representant.commissionSaisie']}"/></th>
+                        </c:if>
+                        <th><h:outputText value=" "/></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <c:forEach var="representant" items="#{representants}" varStatus="status">
+                        <c:choose>
+                          <c:when test="#{unrestrictedViewMgpp}">
+                            <nxl:layout value="#{representant}" mode="#{layoutMode}" name="representant_SE_oep_mgpp_restricted" />
+                          </c:when>
+                          <c:otherwise>
+                            <nxl:layout value="#{representant}" mode="#{layoutMode}" name="representant_oep_SE" />
+                          </c:otherwise>
+                        </c:choose>
+                      </c:forEach>
+                    </tbody>
+                   </table>
+                   <table>
+                     <tbody>
+                      <tr>
+                        <td>
+                          <h:outputText value="#{representants.size} #{messages['label.mgpp.representant.representant']}" 
+                            style="color:#757575;font-size: 13px; font-weight: bold;vertical-align=top;" rendered="#{representants.size lt 2}"/>
+                          <h:outputText value="#{representants.size} #{messages['label.mgpp.representant.representant']}s" 
+                            style="color:#757575;font-size: 13px; font-weight: bold;vertical-align=top;" rendered="#{representants.size gt 1}"/>
+                        </td>
+                       <td>
+                        <a4j:commandButton reRender="representantANA4J" eventsQueue="ajax_events_queue" styleClass="button" value="#{messages['label.fiche.dossier.addRepresentant']}" 
+                          action="#{fichePresentationOEPActions.addNewRepresentant('SE')}" immediate="true"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </nxu:set>
+              </a4j:outputPanel>
+              <h:commandButton class="button" value="#{messages['label.fiche.dossier.save']}"  action="#{fichePresentationOEPActions.saveCreationOEP()}" />
+              <h:outputText value=" " />
+              <h:commandButton class="button" value="#{messages['label.fiche.dossier.cancel']}"  action="#{fichePresentationOEPActions.cancelCreationOEP()}" immediate="true" onclick="return confirmCancel(event);"/>
+              <h:outputText value=" " />
+         </nxu:set>
+         </nxu:set>
+         </nxu:set>
+      </h:form>
+    </div>
+ </ui:define>
+</nxthemes:composition>

@@ -1,0 +1,25 @@
+<span xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util">
+  
+  <nxu:set var="listMinistere" value="#{organigrammeManagerActions.getMinisteres()}" cache="true">
+  
+  <c:if test="#{widget.mode == 'edit'}">
+    <h:selectOneMenu id="#{widget.id}_select_one_menu" value="#{field_0}" required="#{widget.required}">
+      <f:selectItem itemLabel="Sélectionnez une valeur." itemValue=""  />
+      <c:forEach var="item" items="#{listMinistere}">
+        <f:selectItem itemLabel="#{item.getNorMinistere()}" itemValue="#{item.getId()}"  />    
+      </c:forEach>
+    </h:selectOneMenu>
+  </c:if>
+  <c:if test="#{widget.mode == 'view'}">
+  	<c:forEach var="item" items="#{listMinistere}">
+	  	<c:if test="#{item.getId() == field_0}">
+  			<h:outputText value="#{item.getNorMinistere()} " /> 	  	
+	  	</c:if>
+  	</c:forEach>
+  </c:if>
+  </nxu:set>
+</span>

@@ -1,0 +1,36 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+  
+  <rich:modalPanel id="valider_retour_modification_panel" autosized="true" showWhenRendered="true">
+    <div>
+      <f:facet name="header">
+        <h:outputText value="#{messages['epg.dossier.distribution.validerRetourModificationPanel.title']}" />
+      </f:facet>
+    </div>
+    
+    <div class="valider_retour_modification_panel_body">
+      <i><h:outputText value="#{messages['epg.dossier.distribution.validerRetourModificationPanel.message']}" /></i>
+
+      <h:panelGrid columns="2" style="width: 250px;">
+        <h:commandLink styleClass="poursuivreImg" action="#{dossierDistributionActions.validerEtapeRetourModification(true)}">
+          <h:graphicImage height="24" width="24" url="/img/icons/check.png" alt="#{messages['epg.dossier.distribution.validerRetourModificationPanel.poursuivre']}" title="#{messages['epg.dossier.distribution.validerRetourModificationPanel.poursuivre']}"/>
+        </h:commandLink>
+        <h:commandLink styleClass="poursuivreLink" action="#{dossierDistributionActions.validerEtapeRetourModification(true)}">
+          <h:outputText value="#{messages['epg.dossier.distribution.validerRetourModificationPanel.poursuivre']}" />
+        </h:commandLink>
+
+        <h:commandLink styleClass="annulerImg" action="#" onclick="Richfaces.hideModalPanel('valider_retour_modification_panel'); return false;">
+          <h:graphicImage height="24" width="24" url="/img/icons/delete.png" alt="#{messages['epg.dossier.distribution.validerRetourModificationPanel.annuler']}" title="#{messages['epg.dossier.distribution.validerRetourModificationPanel.annuler']}"/>
+        </h:commandLink>
+        <h:commandLink styleClass="annulerLink" action="#" onclick="Richfaces.hideModalPanel('valider_retour_modification_panel'); return false;">
+          <h:outputText value="#{messages['epg.dossier.distribution.validerRetourModificationPanel.annuler']}" />
+        </h:commandLink>
+      </h:panelGrid>
+    </div>
+   
+  </rich:modalPanel>
+</div>

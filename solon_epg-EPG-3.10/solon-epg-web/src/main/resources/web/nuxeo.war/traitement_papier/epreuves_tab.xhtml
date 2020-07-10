@@ -1,0 +1,82 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"> <h:form
+	id="papierForm" enctype="multipart/form-data">
+	<h:commandButton id="idSavePapierButton" value="Enregistrer"
+		style="visibility: hidden;"
+		action="#{papierActions.saveTraitementPapier(currentDocument)}" />
+
+	<style>
+ td .dataInput span{
+	white-space: nowrap !important;
+}
+ td .dataInput input[type="text"]{
+	width: 200px ;
+}
+ 
+ td .dataInput textarea{
+	width: 200px !important;
+}
+</style>
+	<nxu:set var="layoutMode"
+		value="#{lockActions.getCanUnlockDoc(currentDocument)  and papierActions.canCurrentUserWrite()  ?'edit':'view'}">
+		<table width="50%" style="border-collapse: collapse;" > <tr>
+		<td width="45%"> <nxl:layout value="#{currentDocument}"
+			mode="#{layoutMode}" name="papier_epreuve_part" /> </td> <td width="5%"
+			style="border-right: 1px solid black; padding-right: 10px;"> <br/><br/>
+		<ui:include src="/widgets/dossier_destinataire.xhtml" /> </td> <td
+			width="45%"> <nxl:layout value="#{currentDocument}"
+			mode="#{layoutMode}" name="papier_nouvelle_demande_epreuve_part" />
+		</td> <td width="5%"> <br/><br/>
+		<ui:include src="/widgets/dossier_destinataire_nouvelle_epreuve.xhtml" />
+		</td> </tr> <tr> <td width="45%" colspan="2"> 
+		
+		 <h:commandButton  
+		 		action="#{papierActions.imprimerDemandeEpreuve(currentDocument)}"
+                immediate="true"
+                class="button"
+                value="#{messages['label.epg.papier.editer.bordereau.envoi.relecture']}"  />
+              
+		</td> 
+		<td width="45%" colspan="2"> 
+		
+		 <h:commandButton 
+		 		action="#{papierActions.imprimerNouvelleEpreuve(currentDocument)}"
+                immediate="true"
+                class="button"
+                value="#{messages['label.epg.papier.editer.bordereau.envoi.relecture']}" />
+              
+		</td> 
+		
+		</tr> <tr> <td width="50%"> <nxl:layout
+			value="#{currentDocument}" mode="#{layoutMode}"
+			name="retour_du_bon_a_titrer_le_part" /> </td> </tr> </table>
+	</nxu:set>
+</h:form> 
+
+
+	<!-- mise a jour de la variable globlae si modification d'un champ pour eviter la perte de données -->
+	<script>
+	   	  var j = jQuery.noConflict();
+		  j(document).ready(function() {
+	
+		    j('.tabsContent input').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent textarea').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent select').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		  });
+  </script>
+  
+  </div>

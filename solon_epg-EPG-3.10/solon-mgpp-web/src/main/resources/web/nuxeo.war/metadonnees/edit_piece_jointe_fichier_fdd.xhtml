@@ -1,0 +1,173 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+  <a4j:outputPanel id="FDDeditFileRegion" ajaxRendered="false">
+          <rich:modalPanel id="FDDeditFilePanel" autosized="true"  >
+            <div>
+              <f:facet name="header">
+                <h:outputText value="Ajouter  document" />
+              </f:facet>
+            </div>
+            <h:form id="FDDeditFileForm" >
+              <a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+                ignoreDupResponses="true" size="10" id="FDDeditFileQueue" name="inputFDDeditFileQueue" timeout="5000" /> 
+              <div>
+              <a4j:outputPanel rendered="#{not empty currentDocument}">
+                <div style="width: 800px;height: 400px;  overflow-x: hidden; overflow-y: auto;" >
+                    <table style="border-collapse:collapse;table-layout: fixed;">
+                      <thead style="margin:0px;border-collapse:collapse;" >
+                        <tr  >
+                          <th style="background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;text-align:center;" >
+                            <h:outputText value="Fichiers" />
+                          </th>
+                          <th style="width: 100px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;padding:3px 1px 3px 1px;text-align:center;">
+                            <h:outputText value="Auteur" />
+                          </th>
+                          <th style="width: 100px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;padding:3px 1px 3px 1px;text-align:center;">
+                            <h:outputText value="Entité" />
+                          </th>              
+                          <th style="width: 75px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;padding:3px 1px 3px 1px;text-align:center;">
+                           <h:outputText value="Date" />
+                          </th>
+                          <th style="width: 75px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;padding:3px 1px 3px 1px;text-align:center;">
+                           <h:outputText value="Version" />
+                          </th>
+                          <th style="width: 20px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;text-align:center;">
+                           <h:outputText value="" />
+                          </th>
+                        </tr>
+                      </thead>
+                      <!-- note : attributs id and class are used by the style css -->
+                      <!-- TODO change tbody id -->
+                      <tbody id="fondDeDossierTreeTable" class="treeStyle" style="margin:0px;border-collapse:collapse;">
+                        <tr >
+                          <td colspan="6" class="treeTableMainTd" >
+                            <!-- Parapheur Tree -->
+                            <rich:tree id="fondDeDossierTree" 
+                              reRender="selectedNode" ajaxSubmitSelection="true"
+                              switchType="client" value="#{fondDeDossierTree.fondDeDossier}"
+                              var="item" nodeFace="#{item.type}"
+                              adviseNodeOpened="#{fondDeDossierTree.adviseNodeOpened}" ajaxKeys="#{null}"                  
+                              >
+                              <!-- répertoire non supprimable de la racine : pas de retrait à afficher-->
+                              <!-- noeud affiché si le répertoire affiché ne contient pas de fichier -->
+                              
+                               <!-- répertoire root-->
+                            <rich:treeNode id="fondDeDossierRootFolder" iconLeaf="/img/icons/trait_transparent.png"
+                              icon="/img/icons/trait_transparent.png" nodeClass="fddTreeNodeSelectedClass"
+                              highlightedClass="fddTreeNodeHighlightedClass" type="FondDeDossierFolder" rendered="#{item.type== 'FondDeDossierFolder'}">
+                              <table style="width: 100%;table-layout: fixed;" >
+                                  <tr >
+                                    <td >
+                                        <h:graphicImage height="16" width="16" url="/img/icons/folder.png" rendered="#{!item.isEmpty()}"/>
+                                        <h:graphicImage height="16" width="16" url="/img/icons/folder_gris.png" rendered="#{item.isEmpty()}"/>
+                                        <h:outputText value="#{item.name}" />
+                                    </td>
+                                  </tr>
+                              </table>
+                            </rich:treeNode>
+                              
+                              
+                              <!-- fichier -->
+                              <rich:treeNode id="fondDeDossierFichier" type="FileSolonEpg"
+                                highlightedClass="fddTreeNodeHighlightedClass"
+                                icon="/img/icons/trait_transparent.png"
+                                iconLeaf="/img/icons/trait_transparent.png">
+                                <!-- add document model in node -->
+                                  <nxu:set var="blob" value="#{blobHolderGenerator.getBlobHolder(item.document).blob}">
+                                    <table style="width: 100%;table-layout: fixed;" >
+                                      <tr  >
+                                        <td  >
+                                        <div class="treeLinkSizeLimit">
+                                            <div id="#{item.id}_checkbox">
+                                            <h:selectBooleanCheckbox >
+                                              <a4j:support id="#{item.id}_ajax_onclick" event="onclick" eventsQueue="FDDeditFileQueue"
+                                                action="#{pieceJointeTreeManagerActions.setFromBlob(blob, item.id)}" />
+                                            </h:selectBooleanCheckbox>
+                                            <a4j:outputPanel id="zoneFichierParapheur">
+                                              <nxh:graphicImage value="#{nxd:fileIconPath(blob)}" />
+                                              <h:outputText value="#{item.filename}" />
+                                            </a4j:outputPanel>
+                                          </div>
+                                        </div>
+                                        </td>
+                                        <td style="width:100px;text-align:center;white-space:normal;word-wrap:break-word;" >
+                                          <h:outputText value="p n##{item.lastContributor}" converter="OrganigrammeUserIdToLabelConverter" />
+                                        </td>
+                                        <td style="width:100px;text-align:center;white-space:normal;word-wrap:break-word;">
+                                          <h:outputText value="#{item.entite}" />
+                                        </td>
+                                        
+                                        <td style="width:75px;text-align:center;">
+                                          <h:outputText value="#{item.modifiedDate.getTime()}" converter="DateConverter" />
+                                        </td>
+                                        <td style="width:75px;text-align:center;" >
+                                          <h:outputText value="#{item.majorVersion}" />
+                                        </td>
+                                        <td style="width: 20px;" >
+                                        </td>
+                                      </tr>
+                                    </table>  
+                                  </nxu:set>
+                              </rich:treeNode>
+                            </rich:tree>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </a4j:outputPanel>
+			  <a4j:outputPanel rendered="#{empty currentDocument}">
+               Aucun dossier ne correspond avec le NOR saisi
+              </a4j:outputPanel>
+                <!-- button ajout document -->
+                <div class="popupDiv">
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.ajoutDocument()}" eventsQueue="FDDeditFileQueue"
+                    id="FDDeditFileButtonImage"
+                    reRender="pieceJointePanel, FDDeditFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="FDDeditFilePanel" operation="hide" event="onclick"/>
+                    <h:graphicImage height="24" width="24" url="/img/icons/check.png"
+                      alt="Valider" />
+                  </a4j:commandLink>
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.ajoutDocument()}" eventsQueue="FDDeditFileQueue"
+                    reRender="pieceJointePanel, FDDeditFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="FDDeditFilePanel" operation="hide" event="onclick"/>
+                    <h:outputText value="Valider" />
+                  </a4j:commandLink>
+                </div>
+        
+                <!-- button close -->
+                <div class="popupDiv">
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.resetProperties()}"
+                    id="FDDannulerParapheurFileCreationImage" eventsQueue="FDDeditFileQueue"
+                    reRender="pieceJointePanel, FDDeditFilePanel" ajaxSingle="true" >
+                    <rich:componentControl for="FDDeditFilePanel" operation="hide" event="onclick"/>
+                    <h:graphicImage height="24" width="24" url="/img/icons/delete.png"
+                      alt="Annuler" />
+                  </a4j:commandLink>
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.resetProperties()}"
+                    id="FDDannulerParapheurFileCreationText" eventsQueue="FDDeditFileQueue"
+                    reRender="pieceJointePanel, FDDeditFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="FDDeditFilePanel" operation="hide" event="onclick"/>
+                    <h:outputText value="Annuler" />
+                  </a4j:commandLink>
+                </div>
+                <div class="popupDiv">
+                  <h:outputText class="msgError" id="FDDerrorName" value="#{pieceJointeTreeManagerActions.errorName}" />
+                </div>
+              </div>
+            </h:form>
+          </rich:modalPanel>
+  </a4j:outputPanel>
+</div>

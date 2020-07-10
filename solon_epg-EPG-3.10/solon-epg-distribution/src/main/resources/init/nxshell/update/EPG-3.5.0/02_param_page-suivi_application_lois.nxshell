@@ -1,0 +1,18 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/01_param_page-suivi_application_lois.nxshell
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p 4ju7Ix662Eo1d77u http://localhost:8180/solon-epg/site/automation
+
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre page-suivi-application-lois
+cd page-suivi-application-lois
+setp -xpath parametre:value -value "https://extraqual.pm.ader.gouv.fr/suivi.html"
+setp -xpath parametre:unit -value page
+setp -xpath dc:description -value "Page affichée par le lien « SUIVI DE L'APPLICATION DES LOIS SUR LE PORTAIL DE LA QUALITE ET DE LA SIMPLIFICATION DU DROIT  » de la page outil de suivi de l'application des lois, disponible depuis la page d'accueil."
+setp -xpath dc:title -value "Page de suivi de l'application des lois"

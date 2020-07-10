@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Ce composant contribue : - Les actions de l'application SOLON MGPP - 
+  Les filtres utilisés dans les actions. -->
+<component name="fr.dila.solonmgpp.web.action">
+  <require>org.nuxeo.ecm.platform.actions</require>
+  <require>fr.dila.ecm.platform.routing.actions</require>
+  <require>org.nuxeo.ecm.platform.userworkspace.actions</require>
+  <require>org.nuxeo.connect.client.actions</require>
+  <require>fr.dila.cm.actions</require>
+  <require>fr.dila.solonepg.web.action</require>
+
+  <extension target="org.nuxeo.ecm.platform.actions.ActionService"
+    point="actions">
+
+    <!-- *********************************************************************** 
+      Espace parlementaire *********************************************************************** -->
+    <action id="espace_parlementaire" link="#{espaceParlementaireActions.navigateTo}"
+      label="command.espaceParlementaire" icon="/img/icons/espace_parlementaire.png"
+      order="100">
+      <category>USER_SERVICES</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <action id="mgpp_procedureLegislative"
+      link="#{espaceParlementaireActions.navigateToProcedureLegislative}"
+      label="command.procedureLegislative" icon="/img/icons/espace_parlementaire.png"
+      order="10">
+      <category>USER_SERVICES_MGPP</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="mgpp_publication"
+      link="#{espaceParlementaireActions.navigateToPublication}" label="command.publication"
+      icon="/img/icons/espace_parlementaire.png" order="20">
+      <category>USER_SERVICES_MGPP</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+    
+    <action id="mgpp_raport_category_id" link="#{espaceParlementaireActions.navigateToReport}"
+      label="command.rapport" icon="/img/icons/espace_parlementaire.png"
+      order="30">
+      <category>USER_SERVICES_MGPP</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+    
+    <action id="mgpp_nomination_category_id" link="#{espaceParlementaireActions.navigateToNomination}"
+      label="command.nomination" icon="/img/icons/espace_parlementaire.png"
+      order="40">
+      <category>USER_SERVICES_MGPP</category>     
+    </action>
+    
+    <action id="mgpp_organisation_category_id" link="#{espaceParlementaireActions.navigateToOrganisation}"
+      label="command.organisation" icon="/img/icons/espace_parlementaire.png"
+      order="50">
+      <category>USER_SERVICES_MGPP</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+    
+    <action id="mgpp_declaration_category_id" link="#{espaceParlementaireActions.navigateToDeclaration}"
+      label="command.declaration" icon="/img/icons/espace_parlementaire.png"
+      order="60">
+      <category>USER_SERVICES_MGPP</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+    
+
+    <action id="mgpp_resolutionArticle341"
+      link="#{espaceParlementaireActions.navigateToResolutionArticle341}"
+      label="command.resolutionArticle341" icon="/img/icons/espace_parlementaire.png"
+      order="70">
+      <category>USER_SERVICES_MGPP</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+    
+    <action id="mgpp_suivi" link="#{espaceParlementaireActions.navigateToSuivi}"
+      label="command.suivi" icon="/img/icons/espace_parlementaire.png"
+      order="80">
+      <category>USER_SERVICES_MGPP</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    
+    <action id="mgpp_recherche" link="#{espaceParlementaireActions.navigateToRecherche}" 
+      label="command.recherche" icon="/img/icons/espace_parlementaire.png" 
+      order="90">
+      <category>USER_SERVICES_MGPP</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+    
+
+    <action id="mgpp_depotDeRapport"
+      link="#{espaceParlementaireActions.navigateToDepotDeRapport}"
+      label="command.depotDeRapport" icon="/img/icons/espace_parlementaire.png"
+      order="30">
+      <category>MGPP_RAPORT_CATEGORY</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+
+    <action id="mgpp_avisNomination"
+      link="#{espaceParlementaireActions.navigateToAvisNomination}"
+      label="command.avisNomination" icon="/img/icons/espace_parlementaire.png"
+      order="40">
+      <category>MGPP_NOMINATION_CATEGORY</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="mgpp_designationOEP"
+      link="#{espaceParlementaireActions.navigateToDesignationOEP}"
+      label="command.designationOEP" icon="/img/icons/espace_parlementaire.png"
+      order="50">
+      <category>MGPP_NOMINATION_CATEGORY</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <action id="mgpp_decret" link="#{espaceParlementaireActions.navigateToDecret}"
+      label="command.decret" icon="/img/icons/espace_parlementaire.png"
+      order="60">
+      <category>MGPP_ORGANISATION_CATEGORY</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="mgpp_interventionExterieure"
+      link="#{espaceParlementaireActions.navigateToInterventionExterieure}"
+      label="command.interventionExterieure" icon="/img/icons/espace_parlementaire.png"
+      order="70">
+      <category>MGPP_DECLARATION_CATEGORY</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+
+
+    <action id="mgpp_declarationDePolitiqueGenerale" link="#{espaceParlementaireActions.navigateToDeclarationPolitique}"
+      label="command.declarationPolitiqueGenerale" icon="/img/icons/espace_parlementaire.png"
+      order="90">
+      <category>MGPP_DECLARATION_CATEGORY</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="mgpp_declarationSurUnSujetDetermine" link="#{espaceParlementaireActions.navigateToDeclarationSurUnSujetDetermine}"
+      label="command.declarationSurUnSujetDetermine50-1c" icon="/img/icons/espace_parlementaire.png"
+      order="100">
+      <category>MGPP_DECLARATION_CATEGORY</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="mgpp_demandeMiseEnOeuvreArticle283C" link="#{espaceParlementaireActions.navigateToArticle283C}"
+      label="command.demandeDeMiseEnOeuvreArticle28-3c" icon="/img/icons/espace_parlementaire.png"
+      order="100">
+      <category>MGPP_ORGANISATION_CATEGORY</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="mgpp_autresDocumentsTransmisAuxAssemblees" link="#{espaceParlementaireActions.navigateToAutresDocumentsTransmis}"
+      label="command.autresDocuments" icon="/img/icons/espace_parlementaire.png"
+      order="100">
+      <category>MGPP_RAPORT_CATEGORY</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="mgpp_demandeAudition" link="#{espaceParlementaireActions.navigateToDemandeAudition}"
+      label="command.demandeAudition" icon="/img/icons/espace_parlementaire.png"
+      order="100">
+      <category>MGPP_NOMINATION_CATEGORY</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+
+
+
+
+
+    <!-- *********************************************************************** 
+          Actions du menu de gauche 
+         *********************************************************************** -->
+    <!-- Panneau de gauche de l'espace de traitement -->
+    <action id="LEFT_MENU_ESPACE_CORBEILLE" link="/corbeille/corbeille_menu.xhtml" />
+
+    <!-- *********************************************************************** 
+          Message SOLON MGPP : Liste des onglets 
+         *********************************************************************** -->
+         
+    <!-- Message : onglet fiche loi -->
+    <action id="TAB_MESSAGE_FICHE_LOI" link="/fiche_presentation/fiche_loi.xhtml"
+      order="5" label="Fiche Loi">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFicheLoiVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Message : onglet fiche presentation DPG -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_DPG"
+      link="/fiche_presentation/fiche_presentation_dpg.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFichePresentationDPGVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Message : onglet fiche presentation SD -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_SD"
+      link="/fiche_presentation/fiche_presentation_sd.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFichePresentationSDVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Message : onglet fiche presentation JSS -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_JSS"
+      link="/fiche_presentation/fiche_presentation_jss.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFichePresentationJSSVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+
+    <!-- Message : onglet fiche presentation AUD -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_AUD"
+      link="/fiche_presentation/fiche_presentation_aud.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFichePresentationAUDVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+
+    <!-- Message : onglet fiche presentation DOC -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_doc"
+      link="/fiche_presentation/fiche_presentation_doc.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFichePresentationDOCVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+
+    <!-- Message : onglet fiche presentation depot rapport -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_DR"
+      link="/fiche_presentation/fiche_presentation_depot_rapport.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFichePresentationDepotRapportVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Message : onglet fiche presentation intervention exterieure -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_IE"
+      link="/fiche_presentation/fiche_presentation_intervention_exterieure.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFichePresentationIntervExtVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Message : onglet fiche presentation 34-1 -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_341" link="/fiche_presentation/fiche_presentation_341.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isIn341</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Message : onglet Historique EPP -->
+    <action id="TAB_MESSAGE_HISTORIQUE_EPP" link="/historique_epp/historique_epp.xhtml"
+      order="70" label="Historique EPP">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isHistoVisible</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Message : onglet fiche presentation oep -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_OEP"
+      link="/fiche_presentation/view_fiche_presentation_oep.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isInOEP</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Dossier : onglet fond de dossier oep -->
+    <action id="TAB_DOSSIER_FDD_OEP"
+      link="/fiche_presentation/fond_de_dossier/view_fond_de_dossier_fp.xhtml"
+      order="20" label="Fond de dossier">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isFondDossierVisible</filter-id>
+    </action>
+
+    <!-- Message : onglet fiche presentation avi -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_AVI"
+      link="/fiche_presentation/view_fiche_presentation_avi.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isInAVI</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- Message : onglet fiche presentation decret -->
+    <action id="TAB_MESSAGE_FICHE_PRESENTATION_DECRET"
+      link="/fiche_presentation/view_fiche_presentation_decret.xhtml"
+      order="5" label="Fiche présentation">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isInDecret</filter-id>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- menu pour configurer la liaison EPP -->
+    <action id="admin_param_param_mgpp" link="#{administrationActions.navigateToParametreMGPP}"
+      label="command.admin.param.mgpp" order="146">
+      <category>ADMIN_MENU</category>
+      <filter id="admin_param_param_technique_grid">
+        <rule grant="true">
+          <group>AdministrationParamReader</group>
+          <group>administrators</group>
+        </rule>
+      </filter>
+    </action>
+
+    <action id="admin_param_reference_epp" link="#{administrationActions.navigateToTableRefEPP}" 
+    	label="command.admin.param.tableRefEPP" order="147">
+      <category>ADMIN_MENU</category>
+    </action>
+    <!-- *********************************************************************** 
+          Actions sur les communications : VERSION_ACTIONS 
+         *********************************************************************** -->
+    <action id="MODIFIER" link="#{evenementCreationActions.modifierEvenement()}"
+      enabled="true" order="10" label="Modifier">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="PUBLIER" link="#{dossierCreationActions.publierEvenement()}"
+      confirm="return confirmPublication(event);" enabled="true" order="20"
+      label="Publier">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="SUPPRIMER" link="#{evenementCreationActions.supprimerEvenement()}"
+      confirm="return confirmSupprimer(event);" enabled="true" order="30"
+      label="Supprimer">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="TRANSMETTRE_MEL"
+      link="#{evenementCreationActions.initTransmettreParMail()}"
+      enabled="true" order="40" label="Transmettre par mél">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="CREER_ALERTE" link="#{evenementCreationActions.creerAlerte()}"
+      enabled="true" order="50" label="Créer alerte">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="LEVER_ALERTE" link="#{evenementCreationActions.creerAlerte()}"
+      enabled="true" order="60" label="Lever alerte">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="RECTIFIER" link="#{evenementCreationActions.rectifierEvenement()}"
+      enabled="true" order="70" label="Rectifier">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="COMPLETER" link="#{evenementCreationActions.completerEvenement()}"
+      enabled="true" order="80" label="Compléter">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="ANNULER" link="#{evenementCreationActions.annulerEvenement()}"
+      confirm="return confirmAnnuler(event);" enabled="true" order="100"
+      label="Annuler la communication">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="ABANDONNER" link="#{evenementCreationActions.abandonnerVersion()}"
+      confirm="return confirmAbandon(event);" enabled="true" order="120"
+      label="Abandonner">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="ACCEPTER" link="#{evenementCreationActions.accepterVersion()}"
+      enabled="true" order="130" label="Accepter">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="REJETER" link="#{evenementCreationActions.rejeterVersion()}"
+      enabled="true" order="140" label="Rejeter">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+
+    <action id="ACCUSER_RECEPTION"
+      link="#{evenementCreationActions.accuserReceptionVersion()}"
+      enabled="true" order="150" label="Accuser reception">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+    </action>
+    
+     <action id="PASSAGE_MESSAGE_EN_COURS_DE_TRAITEMENT"
+      link="#{dossierCreationActions.suivreTransitionEnCoursDeTraitement()}" confirm="return confirmTraiter(event);"
+      enabled="true" order="160" label="En cours de traitement">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+      <filter-id>isNonTraite</filter-id>
+    </action>
+    
+
+    <action id="MARQUAGE_MESSAGE_TRAITE"
+      link="#{dossierCreationActions.suivreTransitionTraite()}" confirm="return confirmTraiter(event);"
+      enabled="true" order="170" label="Traiter">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+      <filter-id>isTraiterVisible</filter-id>
+    </action>
+
+    <action id="RELANCER_MESSAGE"
+      link="#{evenementCreationActions.relancerMessage()}"
+      enabled="true" order="180" label="Relancer le message">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+      <filter-id>isEnAttente</filter-id>
+    </action>
+
+    <action id="METTRE_EN_ATTENTE"
+      link="#{evenementCreationActions.mettreEnAttente()}"
+      enabled="true" order="190" label="Mettre en attente le message">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+      <filter-id>mettre_en_attente</filter-id>
+    </action>
+    
+    <action id="LIER_UN_OEP"
+      link="#{evenementCreationActions.afficherPopupLiaisonOEP()}"
+      enabled="true" order="200" label="Lier à un organisme existant">
+      <category>VERSION_ACTIONS</category>
+      <filter-id>mgpp_corbeille_updater_grid</filter-id>
+      <filter-id>liaison_oep</filter-id>
+    </action>
+
+    <!-- *********************************************************************** 
+          Actions de creation des dossiers MGPP : CREATE_DOSSIER_MGPP 
+         *********************************************************************** -->
+
+    <action id="CREATE_INTERV_EXT"
+      link="#{fichePresentationIEActions.navigateToCreationIE()}"
+      enabled="true" order="1" label="Ajouter une demande">
+      <category>CREATE_DOSSIER_MGPP</category>
+      <filter-id>isInInterventionExterieure</filter-id>
+    </action>
+
+    <action id="CREATE_OEP"
+      link="#{fichePresentationOEPActions.navigateToCreationOEP()}"
+      enabled="true" order="1" label="Ajouter un oep">
+      <category>CREATE_DOSSIER_MGPP</category>
+      <filter-id>isInOEP</filter-id>
+    </action>
+
+    <action id="CREATE_AVI"
+      link="#{fichePresentationAVIActions.navigateToCreationAVI()}"
+      enabled="true" order="1" label="Ajouter un organisme">
+      <category>CREATE_DOSSIER_MGPP</category>
+      <filter-id>isInAVI</filter-id>
+    </action>
+
+    <action id="CREATE_AUDITION"
+      link="#{fichePresentationAUDActions.navigateToCreationAUD()}"
+      enabled="true" order="1" label="Ajouter Audition">
+      <category>CREATE_DOSSIER_MGPP</category>
+      <filter-id>isInAUD</filter-id>
+    </action>
+
+    <action id="CREATE_DOCUMENT"
+      link="#{fichePresentationDOCActions.navigateToCreationDOC()}"
+      enabled="true" order="1" label="Ajouter un dossier">
+      <category>CREATE_DOSSIER_MGPP</category>
+      <filter-id>isInDOC</filter-id>
+    </action>
+
+
+
+  </extension>
+
+
+  <!-- *********************************************************************** 
+        Filters 
+       *********************************************************************** -->
+
+  <extension target="org.nuxeo.ecm.platform.actions.ActionService"
+    point="filters">
+    <filter id="espace_parlementaire_reader_grid">
+      <rule grant="true">
+        <group>EspaceParlementaireReader</group>
+        <group>administrators</group>
+      </rule>
+    </filter>
+
+    <filter id="mgpp_corbeille_updater_grid">
+      <rule grant="true">
+        <group>CorbeilleMGPPUpdater</group>
+        <group>administrators</group>
+      </rule>
+    </filter>
+
+    <filter id="isNonTraite">
+      <rule grant="true">
+        <condition>#{filterActions.isNonTraite()}</condition>
+      </rule>
+    </filter>
+    
+    <filter id="isEnCoursDeTraitement">
+      <rule grant="true">
+        <condition>#{filterActions.isEnCoursDeTraitement()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isEnAttente">
+      <rule grant="true">
+        <condition>#{filterActions.isEnAttente()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="mettre_en_attente">
+      <rule grant="true">
+        <condition>#{filterActions.peutMettreEnAttente()}</condition>
+      </rule>
+    </filter>
+    
+        <filter id="liaison_oep">
+      <rule grant="true">
+        <condition>#{filterActions.peutLierUnOEP()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isMessage">
+      <rule grant="true">
+        <condition>#{navigationContext.currentMessage != null}
+        </condition>
+      </rule>
+    </filter>
+
+    <filter id="isMessageOrDossier">
+      <rule grant="true">
+        <condition>#{navigationContext.currentMessage != null}
+        </condition>
+      </rule>
+      <rule grant="true">
+        <condition>#{navigationContext.currentDocument != null}
+        </condition>
+      </rule>
+    </filter>
+
+    <filter id="isNotMessage">
+      <rule grant="false">
+        <condition>#{navigationContext.currentMessage != null}
+        </condition>
+      </rule>
+    </filter>
+
+    <filter id="isFicheLoiVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isFicheLoiVisible()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheLoi()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isFichePresentationDepotRapportVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isFichePresentationDepotRapportVisible()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheDR()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isFichePresentationIntervExtVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isFichePresentationIntervExtVisible()}
+        </condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheIE()}</condition>
+      </rule>
+    </filter>
+
+
+    <filter id="isFichePresentationDPGVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isFichePresentationDPGVisible()}
+        </condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheDPG()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isFichePresentationSDVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isInSD()}
+        </condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheSD()}</condition>
+      </rule>
+    </filter>
+    
+    <filter id="isFichePresentationJSSVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isInJSS()}
+        </condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheJSS()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isFichePresentationAUDVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isFichePresentationAUDVisible()}
+        </condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheAUD()}</condition>
+      </rule>
+    </filter>
+
+
+    
+    <filter id="isFichePresentationDOCVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isFichePresentationDOCVisible()}
+        </condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheDOC()}</condition>
+      </rule>
+    </filter>
+
+    
+
+    <filter id="isInInterventionExterieure">
+      <rule grant="true">
+        <condition>#{filterActions.isInInterventionExterieure()}
+        </condition>
+      </rule>
+    </filter>
+
+    <filter id="isInOEP">
+      <rule grant="true">
+        <condition>#{filterActions.isInOEP()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheOEP()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isInAVI">
+      <rule grant="true">
+        <condition>#{filterActions.isInAVI()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheAVI()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isInAUD">
+      <rule grant="true">
+        <condition>#{filterActions.isInAUD()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheAUD()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isInDOC">
+      <rule grant="true">
+        <condition>#{filterActions.isInDOC()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheDOC()}</condition>
+      </rule>
+    </filter>
+
+
+    <filter id="isIn341">
+      <rule grant="true">
+        <condition>#{filterActions.isIn341()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRecherche341()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isFondDossierVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isFondDossierVisible()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheOEP()}</condition>
+      </rule>
+    </filter>
+
+    <filter id="isInDecret">
+      <rule grant="true">
+        <condition>#{filterActions.isInDecret()}</condition>
+      </rule>
+      <rule grant="true">
+       <condition>#{filterActions.isInRechercheDecret()}</condition>
+      </rule>
+    </filter>
+    
+    <filter id="isHistoVisible">
+      <rule grant="true">
+        <condition>#{filterActions.isHistoVisible()}</condition>
+      </rule>
+    </filter>
+    
+
+  </extension>
+
+</component>

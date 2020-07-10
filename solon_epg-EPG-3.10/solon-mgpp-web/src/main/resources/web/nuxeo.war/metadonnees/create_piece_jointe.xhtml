@@ -1,0 +1,101 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+  
+  <a4j:outputPanel id="#{pieceJointeType}_pieceJointePanel" ajaxRendered="false">
+
+       <a4j:commandLink reRender="#{pieceJointeType}_pieceJointePanel" value="Ajout d'une pièce jointe" id="#{pieceJointeType}_addPj" 
+              immediate="true"  action="#{evenementCreationActions.addPieceJointe(pieceJointeType)}">
+          <h:graphicImage value="/icons/action_add.gif" title="Ajouter une pièce jointe"/>
+       </a4j:commandLink>
+                 
+  <nxu:set var="listPJ" value="#{currentEvenement.getListPieceJointe(pieceJointeType)}" cache="true"> 
+    <c:if test="#{(empty listPJ or listPJ.isEmpty()) and evenementCreationActions.publier and descriptor.isObligatoire()}">
+        <h:outputText value="Cette valeur est requise" styleClass="errorMessage"  />
+    </c:if>
+          
+    <br/><br/>
+    <c:forEach var="pj" items="#{listPJ}" varStatus="pjStatus">
+      <table style="border-left: 1px solid #F2F2DD; border-collapse: collapse; border-bottom: 1px solid #F2F2DD;" >
+        <tr>
+          <td>
+            <h:outputText value="Titre :" />
+          </td>
+          <td>
+            <h:inputText value="#{pj.libelle}" immediate="true" id="#{pieceJointeType}#{pjStatus.index}"/>
+          </td>
+          <td>
+            <a4j:outputPanel>
+                <a4j:commandLink reRender="#{pieceJointeType}_pieceJointePanel" immediate="true"  action="#{evenementCreationActions.removePieceJointe(pj)}">
+                   <h:graphicImage  value="/icons/action_delete.gif" styleClass="add_icon" title="Supprimer la pièce jointe"/>
+                </a4j:commandLink>
+                 </a4j:outputPanel>
+          </td>
+          <td>
+                <a4j:outputPanel>
+                   <a4j:commandLink immediate="true"  action="#{pieceJointeTreeManagerActions.setCurrentPieceJointe(pj)}" 
+                            oncomplete="Richfaces.showModalPanel('editFilePanel'); return false;">
+                      <h:graphicImage value="/img/icons/document_down_blue.png" title="Ajouter fichier(s)"/>
+                   </a4j:commandLink>
+                </a4j:outputPanel>
+                
+                <a4j:outputPanel>
+                   <a4j:commandLink immediate="true"  action="#{pieceJointeTreeManagerActions.setCurrentPieceJointeFDD(pj, currentEvenement)}" reRender="FDDeditFileRegion"
+                            oncomplete="Richfaces.showModalPanel('FDDeditFilePanel'); return false;">
+                      <h:graphicImage value="/img/icons/action_add_file_fdd.png" title="Ajouter fichier(s) depuis le fond de dossier EPG"/>
+                   </a4j:commandLink>
+                </a4j:outputPanel>
+               
+               <a4j:outputPanel>
+                  <a4j:commandLink immediate="true"  action="#{pieceJointeTreeManagerActions.setCurrentPieceJointeParapheur(pj, currentEvenement)}" reRender="PAReditFileRegion"
+                           oncomplete="Richfaces.showModalPanel('PAReditFilePanel'); return false;">
+                     <h:graphicImage value="/img/icons/action_add_file_parapheur.png" title="Ajouter fichier(s) depuis le parapheur EPG"/>
+                  </a4j:commandLink>
+               </a4j:outputPanel>
+                <br/>
+          </td>
+        </tr><tr>
+          <td>
+            <h:outputText value="url :" />
+          </td>
+          <td>
+            <h:inputText value="#{pj.url}" immediate="true"/>
+          </td>
+        </tr><tr>
+          <td >
+            <h:outputText value="Fichiers :" />
+          </td>
+          <td >
+            <table>
+              <tr>
+                <c:forEach var="fichier" items="#{pj.fichier}" varStatus="status">
+                  <td >
+                    <a4j:outputPanel>
+                      <nxh:graphicImage value="#{pieceJointeActions.fileIconPath(fichier.mimeType)}" title="#{fichier.nomFichier}"/>
+                      <rich:componentControl event="onclick" for="menuPieceJointe" operation="show" >
+		                 <f:param value="#{status.index}" name="indexFichier" />
+		                 <f:param value="#{pjStatus.index}" name="indexPJ" />
+		                 <f:param value="#{pieceJointeType}" name="typePJ" />
+		              </rich:componentControl>
+                    </a4j:outputPanel>
+                    <a4j:commandLink reRender="#{pieceJointeType}_pieceJointePanel" immediate="true"  action="#{evenementCreationActions.removePieceJointeFichier(pj, fichier)}">
+                       <h:graphicImage value="/icons/action_delete.gif" styleClass="add_icon" title="Supprimer fichier"/>
+                    </a4j:commandLink>
+                  </td>
+                </c:forEach>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </c:forEach>
+
+  </nxu:set>
+  </a4j:outputPanel>
+  
+</div>

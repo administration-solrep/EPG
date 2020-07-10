@@ -1,0 +1,29 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/06_param_mail_archivage.nxshell
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p Administrator http://localhost:8180/solon-epg/site/automation
+
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre objet-mail-dossiers-export-archivage-definitive
+cd objet-mail-dossiers-export-archivage-definitive
+setp -xpath parametre:value -value "[S.O.L.O.N. II] Dossiers exportés pour archivage definitif"
+setp -xpath parametre:unit -value Objet
+setp -xpath dc:description -value "« Objet » (par défaut) de la notification par mél adressée à l'administrateur fonctionel lorsqu'au moins un dossier est exporté pour archivage définitif."
+setp -xpath dc:title -value "Objet mél qui liste les dossiers exportés pour archivage définitif"
+
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre text-mail-dossiers-export-archivage-definitive
+cd text-mail-dossiers-export-archivage-definitive
+setp -xpath parametre:value -value "Le tableau suivant liste les dossiers exportés pour archivage definitif."
+setp -xpath parametre:unit -value texte
+setp -xpath dc:description -value "« Texte du message » (par défaut) de la notification par mél adressée à l'administrateur fonctionel suite a l'export des dossiers pour archivage définitif."
+setp -xpath dc:title -value "Texte mél qui liste les dossiers exportés pour archivage définitif"

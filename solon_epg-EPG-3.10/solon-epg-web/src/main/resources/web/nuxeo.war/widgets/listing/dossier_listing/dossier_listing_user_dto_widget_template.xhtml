@@ -1,0 +1,49 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+  
+	<c:choose>
+	    <c:when test="#{widget.mode != 'edit'}">  
+	    	<h:outputText value="C p n##{field_0}" converter="OrganigrammeUserIdToLabelConverter" />
+		</c:when>
+		<c:otherwise>
+			<nxu:set var="userSchema" value="#{userManager.userSchemaName}" cache="true">
+			<h:panelGroup id="userAction">
+	  			<!-- filtre sur l'utilisateur-->
+				<h:inputText id="user_suggest" onkeydown="if (event.keyCode == 13) {return false;}"/>
+				<rich:suggestionbox id="user_suggestionBox" 
+					for="user_suggest" tokens=""
+					suggestionAction="#{userSuggestionActions.getSuggestions}" 
+					var="result" fetchValue="#{nxu:userDisplayName(result.id, result.entry[userSchema].firstName, result.entry[userSchema].lastName)}"
+					nothingLabel="#{messages['label.suggestion.noSearchResults']}"
+					minChars="3" frequency="0" 
+					requestDelay="100">
+					<f:param name="userSuggestionSearchType" value="USER_TYPE" />
+					<f:param name="userSuggestionMaxSearchResults" value="20" />
+					<a4j:support event="onselect" eventsQueue="ajax_events_queue"
+					  focus="user_suggest" bypassUpdates="true"
+					  reRender="userAction"
+					  id="user_listRegion_select">
+					  <f:setPropertyActionListener value="#{result.id}" target="#{field_0}" />
+					</a4j:support>		          
+	           		<h:column>
+						<f:subview>
+			                <h:graphicImage value="/icons/user.gif" alt="user.gif" />
+			                <h:outputText value="#{nxu:userDisplayName(result.id, result.entry[userSchema].firstName, result.entry[userSchema].lastName)}" />
+						</f:subview>
+					</h:column>
+				</rich:suggestionbox>
+				<a4j:commandLink id="user_selection_reset" ajaxSingle="true" reRender="userAction, userSearchaction" rendered="#{!empty field_0}" immediate="true">
+	                <f:setPropertyActionListener value="" target="#{field_0}" />
+	                <h:graphicImage id="#{widget.id}_delete" value="/icons/action_delete.gif" />
+	             </a4j:commandLink>
+	             <h:outputText value="#{field_0}" converter="OrganigrammeUserIdToLabelConverter"/>
+			</h:panelGroup>
+			</nxu:set>
+		</c:otherwise>
+	</c:choose>
+</f:subview>

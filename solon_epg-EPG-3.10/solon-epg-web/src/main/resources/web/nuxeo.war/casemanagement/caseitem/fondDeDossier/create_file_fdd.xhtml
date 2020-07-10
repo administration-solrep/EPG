@@ -1,0 +1,102 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+  <a4j:region id="createFileFddRegion">
+    <a4j:outputPanel id="createFileFddOutPutPanel" >
+      <rich:modalPanel id="createFileFddPanel" autosized="true">
+        <div>
+          <f:facet name="header">
+            <h:outputText value="Ajouter un document" />
+          </f:facet>
+        </div>
+        <h:form id="createFileFddForm">
+          <a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+					ignoreDupResponses="true" size="10" id="createFileFddQueue" name="inputcreateFileFddQueue" timeout="5000" /> 
+            <div>
+				<!-- file input -->
+              <h:outputLabel value="Fichier à ajouter : " style="white-space: nowrap;" />
+              
+              <rich:fileUpload listHeight="120"
+            	fileUploadListener="#{fondDeDossierManagerActions.fileUploadListener}"
+            	maxFilesQuantity="#{fondDeDossierManagerActions.uploadsAvailable}"
+            	id="uploadFondDeDossierFiles" doneLabel="Téléchargement effectué"
+            	clearAllControlLabel="Supprimer" immediateUpload="true"
+            	addControlLabel="Ajouter Fichier" clearControlLabel="Supprimer"
+            	acceptedTypes="#{fondDeDossierManagerActions.acceptedTypes}" allowFlash="false">
+                              
+                <a4j:support event="onuploadcomplete" eventsQueue="createFileFddQueue" reRender="errorName" />
+                <a4j:support event="onclear" eventsQueue="createFileFddQueue" reRender="errorName">
+					
+					<a4j:actionparam name="fname" noEscape="true" value="(event.memo.entry)?event.memo.entry.fileName:'' "
+					assignTo="#{fondDeDossierManagerActions.removeFileName}"
+					actionListener="#{fondDeDossierManagerActions.clearUploadData}" />
+					
+				</a4j:support>                
+              </rich:fileUpload>
+              <f:subview id="messageAcceptedTypes" rendered="#{ (fondDeDossierManagerActions.acceptedTypes != null) and (!fondDeDossierManagerActions.acceptedTypes.isEmpty()) }">
+                <div class="popupDiv">
+                  <h:outputLabel value="Les types de documents autorisés sont les suivants : #{fondDeDossierManagerActions.acceptedTypes}" />
+                  <br />
+                  <h:outputLabel value="Le nom du document ne doit pas comporter de caractères spéciaux (', %, (, etc.)." />
+                </div>
+              </f:subview>
+              <!-- button ajout document -->
+              <div class="popupDiv">
+                <a4j:commandLink
+            		action="#{fondDeDossierManagerActions.createFile()}" eventsQueue="createFileFddQueue"
+            		id="createFileFddButtonImage"
+            		oncomplete="if (!#{fondDeDossierManagerActions.isErrorOccurred}) {Richfaces.hideModalPanel('createFileFddPanel');}"
+            		reRender="fddDocumentViewPanel,errorName,facesStatusMessagePanel" ajaxSingle="true">
+                  <h:graphicImage height="24" width="24" url="/img/icons/check.png" alt="Créer" />
+                  <h:outputText value="Valider" />
+                </a4j:commandLink>
+              </div>
+
+              <!-- button close -->
+              <div class="popupDiv">
+                <a4j:commandLink
+                	action="#{fondDeDossierManagerActions.resetAllTmpProperties()}"
+                	id="annulerFddFileCreationImage" eventsQueue="createFileFddQueue"
+                	oncomplete="Richfaces.hideModalPanel('createFileFddPanel')"
+                	reRender="fddDocumentViewPanel" ajaxSingle="true">
+	               <h:graphicImage height="24" width="24" url="/img/icons/delete.png" alt="Annuler" />
+	                <h:outputText value="Annuler" />
+                </a4j:commandLink>
+              </div>
+              
+              <div>
+				  <a4j:status for="createFileFddRegion">
+						<f:facet name="start">
+							<h:graphicImage value="/img/standart_waiter.gif" style="position: absolute;" />
+						</f:facet>
+				  </a4j:status>
+			  </div>
+
+              <!-- error message -->
+              <div class="popupDiv">
+    			<h:outputText class="msgError" id="errorName" value="#{fondDeDossierManagerActions.errorName}" />
+              </div>           
+          </div>
+        </h:form>
+      </rich:modalPanel>
+    </a4j:outputPanel>
+    <rich:modalPanel id="errorFddType" width="300" height="150">
+       <f:facet name="header"><h:outputText value="Type de document incompatible" style="FONT-SIZE: large;" /></f:facet>
+       <h:panelGrid>
+          <h:panelGrid columns="2">
+             <h:graphicImage value="/img/icons/delete.png" />
+             <h:outputText value="Le type de document sélectionné n'est pas autorisé. Veuillez choisir un autre document." style="FONT-SIZE: medium;COLOR: red" />
+          </h:panelGrid>          
+          <h:panelGroup>
+             <center><input type="button" value="Fermer" onclick="#{rich:component('errorFddType')}.hide()" /></center>                  
+          </h:panelGroup>          
+       </h:panelGrid>
+    </rich:modalPanel>
+  </a4j:region>
+</div>

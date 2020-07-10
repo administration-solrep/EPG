@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes">
+	
+	<ui:define name="page title">
+		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceActiviteNormative']}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<ui:include src="/select_document_type.xhtml" />
+		<ui:include src="/incl/message_banner.xhtml" />
+		<div id="content">
+			<div id="upperContentView">
+				<ui:include src="/espace_activite_normative/espace_activite_normative_case_tabs.xhtml" />
+			</div>
+		</div>
+		<ui:include src="/espace_activite_normative/espace_activite_normative_upper_panel_toggle.xhtml" />
+	</ui:define>
+	
+	<ui:define name="subbody">
+	<style>
+	.dataOutput td{
+		border-left:1px solid #E7DECE;
+		border-right:1px solid #E7DECE;
+	}
+	.dataOutput th{
+		border-left:1px solid #E7DECE;
+		border-right:1px solid #E7DECE;
+	}
+
+    .deactivateButton {
+      opacity: 0.5;
+      filter:alpha(opacity=100);
+    }
+	</style>
+	    <c:if test="#{currentDocument.getType() == 'ActiviteNormative' or texteMaitreActions.isMinistereLoaded()}">
+	    	<ui:include src="/espace_activite_normative/espace_activite_normative_toolbar.xhtml" />
+	      <div class="subbodyContainer">
+			 <ui:decorate template="/casemanagement/caseitem/view_cm_case_template.xhtml">
+		      <ui:define name="case_body">
+		        <h:panelGroup id="case_content">
+		          <ui:insert name="case_content">
+		            <div style="clear: both">
+		            	<ui:include src="/espace_activite_normative/espace_activite_normative_case_actions_tabs.xhtml" />
+		            </div>
+		          </ui:insert>
+		        </h:panelGroup>
+		      </ui:define>
+		    </ui:decorate>
+		    
+	      </div>
+	    </c:if>
+	    <c:if test="#{currentDocument.getType() == 'Dossier'}">
+		    <ui:include src="/incl/subbody_dossier.xhtml" >
+		    	 <ui:param name="dossier_view" value="view_espace_activite_normative" />
+		    </ui:include>
+	    </c:if>
+	    
+    </ui:define>
+</nxthemes:composition>

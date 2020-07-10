@@ -1,0 +1,14 @@
+--Ajouter des colonnes a la fiche loi pour les echeanciers de promulgation
+ALTER TABLE FICHE_LOI
+ADD
+(
+	ECHEANCIERPROMULGATION NUMBER(1,0),
+    DEPARTELYSEE TIMESTAMP (6),
+    RETOURELYSEE TIMESTAMP (6)
+);
+COMMIT;
+
+--Sauvegarder les echeancier de promulgation dans la fiche loi.
+UPDATE FICHE_LOI L SET L.ECHEANCIERPROMULGATION = 1
+WHERE L.IDDOSSIER IN (SELECT E.IDDOSSIER FROM ECHEANCIER_PROMULGATION E);
+COMMIT;

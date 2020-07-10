@@ -1,0 +1,798 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.widget.dossierlistingdto">
+  <require>fr.dila.solonepg.web.layout.widgetType</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+
+    <!-- ***********************************************************************
+     Widgets de la liste des Dossier
+     *********************************************************************** -->
+    <widget name="dossier_listing_titre_dto" type="template">
+      <labels>
+        <label mode="any">NOR</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.numeroNor</field>
+        <field>data.dossierId</field>
+        <field>data.caseLinkIdsLabels</field>
+        <field>data.caseLinkId</field>
+        <field>data.isRead</field>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_title_link_dto_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="listing_ajax_checkbox_dto" type="listing_ajax_checkbox_dto">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <fields>
+        <field>selected</field>
+        <field>data.docIdForSelection</field>
+      </fields>
+    </widget>
+    
+    <widget name="dossier_listing_texte_dto" type="text">
+      <labels>
+        <label mode="any">Titre de l'acte</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.titreActe</field>
+      </fields>
+    </widget>
+    
+    <widget name="dossier_listing_date_creation_dto" type="datetime">
+      <labels>
+        <label mode="any">Date de création</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.created</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+    
+     <!-- date widget colonne arrivée -->
+    <widget name="dossier_link_date_dto" type="datetime">
+      <labels>
+        <label mode="any">Date d'arrivée</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.created</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+    
+ 	 <!-- widget colonne ministereAttache -->
+	 <widget name="dossier_listing_dernier_contributeur_dto" type="user_widget">
+	    <labels>
+	      <label mode="any">Dernier contributeur</label>
+	    </labels>
+	    <translated>false</translated>
+	    <fields>
+	      <field>data.lastContributor</field>
+	    </fields>
+	 </widget>
+    
+ 	 <!-- widget colonne ministereAttache -->
+	 <widget name="dossier_listing_creePar_dto" type="user_widget">
+	    <labels>
+	      <label mode="any">label.content.header.creePar</label>
+	    </labels>
+	    <translated>true</translated>
+	    <fields>
+	      <field>data.creator</field>
+	    </fields>
+	 </widget>
+  
+    <!-- widget colonne statut -->
+    <widget name="dossier_listing_statut_dto" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.content.header.statut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.statut</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">statut_dossier</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne typeActe -->
+    <widget name="dossier_listing_typeActe_dto" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.content.header.typeActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.typeActe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">type_acte</property>
+      </properties>
+    </widget>
+  
+ 	 <!-- widget colonne ministereResp -->
+	 <widget name="dossier_listing_ministereResp_dto" type="template">
+	    <labels>
+	      <label mode="any">label.content.header.ministereResp</label>
+	    </labels>
+	    <translated>true</translated>
+	    <fields>
+	      <field>data.ministereResp</field>
+	    </fields>
+	    <properties widgetMode="any">
+	      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+	      <property name="organigrammeSelectionType">MIN_TYPE</property>
+	      <property name="organigrammeSelectionMode">SINGLE</property>
+	    </properties>
+	    <properties widgetMode="csv">
+	      <property name="template">/widgets/organigramme_select_node_widget_csv.xhtml</property>
+	      <property name="organigrammeSelectionType">MIN_TYPE</property>
+	      <property name="organigrammeSelectionMode">SINGLE</property>
+	    </properties>
+	 </widget>
+  
+ 	 <!-- widget colonne directionResp -->
+	 <widget name="dossier_listing_directionResp_dto" type="template">
+	    <labels>
+	      <label mode="any">label.content.header.directionResp</label>
+	    </labels>
+	    <translated>true</translated>
+	    <fields>
+	      <field>data.directionResp</field>
+	    </fields>
+	    <properties widgetMode="any">
+	      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+	      <property name="organigrammeSelectionType">DIR_TYPE</property>
+	      <property name="organigrammeSelectionMode">SINGLE</property>
+	    </properties>
+	    <properties widgetMode="csv">
+	      <property name="template">/widgets/organigramme_select_node_widget_csv.xhtml</property>
+	      <property name="organigrammeSelectionType">DIR_TYPE</property>
+	      <property name="organigrammeSelectionMode">SINGLE</property>
+	    </properties>
+	 </widget>
+  
+ 	 <!-- widget colonne ministereAttache -->
+	 <widget name="dossier_listing_ministereAttache_dto" type="template">
+	    <labels>
+	      <label mode="any">label.content.header.ministereAttache</label>
+	    </labels>
+	    <translated>true</translated>
+	    <fields>
+	      <field>data.ministereAttache</field>
+	    </fields>
+	    <properties widgetMode="any">
+	      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+	      <property name="organigrammeSelectionType">MIN_TYPE</property>
+	      <property name="organigrammeSelectionMode">SINGLE</property>
+	    </properties>
+	    <properties widgetMode="csv">
+	      <property name="template">/widgets/organigramme_select_node_widget_csv.xhtml</property>
+	      <property name="organigrammeSelectionType">MIN_TYPE</property>
+	      <property name="organigrammeSelectionMode">SINGLE</property>
+	    </properties>
+	 </widget>
+  
+ 	 <!-- widget colonne directionAttache -->
+	 <widget name="dossier_listing_directionAttache_dto" type="template">
+	    <labels>
+	      <label mode="any">label.content.header.directionAttache</label>
+	    </labels>
+	    <translated>true</translated>
+	    <fields>
+	      <field>data.directionAttache</field>
+	    </fields>
+	    <properties widgetMode="any">
+	      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+	      <property name="organigrammeSelectionType">DIR_TYPE</property>
+	      <property name="organigrammeSelectionMode">SINGLE</property>
+	    </properties>
+	    <properties widgetMode="csv">
+	      <property name="template">/widgets/organigramme_select_node_widget_csv.xhtml</property>
+	      <property name="organigrammeSelectionType">DIR_TYPE</property>
+	      <property name="organigrammeSelectionMode">SINGLE</property>
+	    </properties>
+	 </widget>
+		  
+    <!-- widget colonne nomRespDossier -->
+    <widget name="dossier_listing_nomRespDossier_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.nomRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.nomRespDossier</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne prenomRespDossier -->
+    <widget name="dossier_listing_prenomRespDossier_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.prenomRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.prenomRespDossier</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne qualiteRespDossier -->
+    <widget name="dossier_listing_qualiteRespDossier_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.qualiteRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.qualiteRespDossier</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne telRespDossier -->
+    <widget name="dossier_listing_telRespDossier_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.telRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.telRespDossier</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne mailRespDossier -->
+    <widget name="dossier_listing_mailRespDossier_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.mailRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.mailRespDossier</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne categorieActe -->
+    <widget name="dossier_listing_categorieActe_dto" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.content.header.categorieActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.categorieActe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">category_acte_convention_collective</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne baseLegaleActe -->
+    <widget name="dossier_listing_baseLegaleActe_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.baseLegaleActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.baseLegaleActe</field>
+      </fields>
+    </widget>
+  
+    <!-- date widget colonne datePublication -->
+    <widget name="dossier_listing_datePublication_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.datePublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.datePublication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne publicationRapportPresentation -->
+    <widget name="dossier_listing_publicationRapportPresentation_dto" type="boolean_info">
+      <labels>
+        <label mode="any">label.content.header.publicationRapportPresentation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.publicationRapportPresentation</field>
+      </fields>
+    </widget>
+
+    <!-- widget colonne priorite -->
+    <widget name="dossier_listing_priorite_dto" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.content.header.priorite</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.priorite</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">priorite_ce</property>
+      </properties>
+    </widget>
+      
+    <!-- widget colonne sectionCe -->
+    <widget name="dossier_listing_sectionCe_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.sectionCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.sectionCe</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne rapporteurCe -->
+    <widget name="dossier_listing_rapporteurCe_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.rapporteurCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.rapporteurCe</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne dateTransmissionSectionCe -->
+    <widget name="dossier_listing_dateTransmissionSectionCe_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.dateTransmissionSectionCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dateTransmissionSectionCe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne dateSectionCe -->
+    <widget name="dossier_listing_dateSectionCe_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.dateSectionCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dateSectionCe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne dateAgCe -->
+    <widget name="dossier_listing_dateAgCe_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.dateAgCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dateAgCe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne numeroISA -->
+    <widget name="dossier_listing_numeroISA_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.numeroISA</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.numeroISA</field>
+      </fields>
+    </widget>
+  
+    <!-- TODO listUser widget colonne nomCompletChargesMissions -->
+    <widget name="dossier_listing_nomCompletChargesMissions_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.nomCompletChargesMissions</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.nomCompletChargesMissions</field>
+      </fields>
+    </widget>
+  
+    <!-- TODO listUser widget colonne nomCompletConseillersPms -->
+    <widget name="dossier_listing_nomCompletConseillersPms_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.nomCompletConseillersPms</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.nomCompletConseillersPms</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne dateSignature -->
+    <widget name="dossier_listing_dateSignature_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.dateSignature</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dateSignature</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne pourFournitureEpreuve -->
+    <widget name="dossier_listing_pourFournitureEpreuve_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.pourFournitureEpreuve</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.pourFournitureEpreuve</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne vecteurPublication -->
+    <widget name="dossier_listing_vecteurPublication_dto" type="template">
+      <labels>
+        <label mode="any">label.content.header.vecteurPublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.vecteurPublication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/selectOneMenu_widget_template.xhtml</property>
+        <property name="type">vecteurPublication</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne publicationConjointe -->
+    <widget name="dossier_listing_publicationConjointe_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.publicationsConjointes</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.publicationsConjointes</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne publicationIntegraleOuExtrait -->
+    <widget name="dossier_listing_publicationIntegraleOuExtrait_dto" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.content.header.publicationIntegraleOuExtrait</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.publicationIntegraleOuExtrait</field>
+      </fields>
+      <properties widgetMode="any">
+      	<property name="directoryName">type_publication</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne decretNumerote -->
+    <widget name="dossier_listing_decretNumerote_dto" type="boolean_info">
+      <labels>
+        <label mode="any">label.content.header.decretNumerote</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.decretNumerote</field>
+      </fields>
+    </widget>
+    
+        <!-- widget colonne texte entreprise -->
+    <widget name="dossier_listing_entreprise_dto" type="boolean_info">
+      <labels>
+        <label mode="any">label.content.header.texteEntreprise</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.texteEntreprise</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne modeParution -->
+    <widget name="dossier_listing_modeParution_dto" type="template">
+      <labels>
+        <label mode="any">label.content.header.modeParution</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.modeParution</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/selectOneMenu_widget_template.xhtml</property>
+        <property name="type">modeParution</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne delaiPublication -->
+    <widget name="dossier_listing_delaiPublication_dto" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.content.header.delaiPublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.delaiPublication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">delai_publication</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne datePreciseePublication -->
+    <widget name="dossier_listing_datePreciseePublication_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.datePreciseePublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.datePreciseePublication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne dateParutionJorf -->
+    <widget name="dossier_listing_dateParutionJorf_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.dateParutionJorf</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dateParutionJorf</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne numeroTexteParutionJorf -->
+    <widget name="dossier_listing_numeroTexteParutionJorf_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.numeroTexteParutionJorf</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.numeroTexteParutionJorf</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne pageParutionJorf -->
+    <widget name="dossier_listing_pageParutionJorf_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.pageParutionJorf</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.pageParutionJorf</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne parutionBo -->
+    <widget name="dossier_listing_parutionBo_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.parutionBo</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.parutionBo</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne zoneComSggDila -->
+    <widget name="dossier_listing_zoneComSggDila_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.zoneComSggDila</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.zoneComSggDila</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne rubrique -->
+    <widget name="dossier_listing_rubrique_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.rubriques</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.rubriques</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne motsCles -->
+    <widget name="dossier_listing_motsCles_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.motscles</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.motscles</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne champLibre -->
+    <widget name="dossier_listing_champLibre_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.libre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.libre</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne loisAppliquees réferences-->
+    <widget name="dossier_listing_loisAppliquees_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.applicationLoi</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.applicationLoiRef</field>
+      </fields>
+    </widget>
+  
+    <!--  widget colonne ordonnances réferences-->
+    <widget name="dossier_listing_ordonnances_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.transpositionOrdonnance</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.transpositionOrdonnanceRef</field>
+      </fields>
+    </widget>
+  
+    <!--  =widget colonne directivesEuropeennes réferences -->
+    <widget name="dossier_listing_directivesEuropeennes_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.transpositionDirective</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.transpositionDirectiveRef</field>
+      </fields>
+    </widget>
+  
+    <!-- widget colonne habilitations réf -->
+    <widget name="dossier_listing_habilitations_ref_dto" type="list_widget">
+      <labels>
+        <label mode="any">label.content.header.habilitationRefLoi</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.habilitationRefLoi</field>
+      </fields>
+    </widget>   
+
+    <!-- widget colonne habilitations numéro -->
+    <widget name="dossier_listing_habilitations_numero_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.habilitationNumeroArticles</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.habilitationNumeroArticles</field>
+      </fields>
+    </widget>
+    
+    <!-- widget colonne habilitations commentaire -->
+    <widget name="dossier_listing_habilitations_commentaire_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.habilitationCommentaire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.habilitationCommentaire</field>
+      </fields>
+    </widget>      
+
+    <!-- widget colonne habilitations Numero Ordre -->
+    <widget name="dossier_listing_habilitations_numero_ordre_dto" type="text">
+      <labels>
+        <label mode="any">label.content.header.habilitationNumeroOrdre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.habilitationNumeroOrdre</field>
+      </fields>
+    </widget>
+        
+    <!-- note : fin des autres widget de colonnes correspondant aux métadonnées du bordereau -->
+    <widget name="dossier_listing_complet_dto" type="boolean_info">
+      <labels>
+        <label mode="any">Complet</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.isComplet</field>
+      </fields>
+    </widget>
+    
+    <widget name="dossier_listing_lock_dto" type="template">
+      <labels>
+        <label mode="any"> </label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.isLocked</field>
+        <field>data.isUrgent</field>
+        <field>data.isRetourPourModification</field>
+        <field>data.lockOwner</field>
+        <field>data.isDecretArrive</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_info_dto_widget_template.xhtml</property>
+      </properties>
+    </widget>
+
+  </extension>
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgettypes">
+
+		<widgetType name="boolean_info">
+			<documentation>Ce widget affiche un boolean
+			</documentation>
+			<handler-class>
+				org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+			</handler-class>
+			<property name="template">/widgets/listing/dossier_listing/dossier_listing_boolean_dto_widget_template.xhtml</property>
+		</widgetType>
+
+		<widgetType name="list_widget">
+			<documentation>Ce widget affiche une liste
+			</documentation>
+			<handler-class>
+				org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+			</handler-class>
+			<property name="template">/widgets/listing/join_list_widget_template.xhtml</property>
+		</widgetType>
+
+		<widgetType name="user_widget">
+			<documentation>Ce widget affiche une liste d'autocompletion de user
+			</documentation>
+			<handler-class>
+				org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+			</handler-class>
+			<property name="template">/widgets/listing/dossier_listing/dossier_listing_user_dto_widget_template.xhtml</property>
+		</widgetType>
+		
+		
+	
+	</extension>
+</component>

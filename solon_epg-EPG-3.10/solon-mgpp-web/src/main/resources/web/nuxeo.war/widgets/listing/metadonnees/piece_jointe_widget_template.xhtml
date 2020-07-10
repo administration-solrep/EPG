@@ -1,0 +1,47 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+  
+  
+
+  <nxu:set var="listPJDTO" value="#{currentEvenement.getListPieceJointe(pieceJointeType)}" cache="true"> 
+  
+    <c:forEach var="pjDTO" items="#{listPJDTO}"  varStatus="statusPJ">
+    
+      <table style="border-left: 1px solid #F2F2DD; border-collapse: collapse;" >
+        <tr >
+          <c:if test="#{!empty pjDTO.url}">
+            <td style="border-bottom: 1px solid #F2F2DD;">
+                    <h:outputLink value="#{pjDTO.url}" target="_blank">
+                      <h:graphicImage url="/icons/webpage.png" alt="lien" title="#{pjDTO.url}" />
+                    </h:outputLink>
+            </td>
+          </c:if>
+            
+          <c:forEach var="fichier" items="#{pjDTO.fichier}"  varStatus="statusFichier">
+            <td style="border-bottom: 1px solid #F2F2DD;">
+              <a4j:outputPanel>
+                <nxh:graphicImage value="#{pieceJointeActions.fileIconPath(fichier.mimeType)}" title="#{fichier.nomFichier}"/>
+                <h:outputText value=" " />
+                
+                <rich:componentControl event="onclick" for="menuPieceJointe" operation="show" >
+                  <f:param value="#{statusFichier.index}" name="indexFichier" />
+                  <f:param value="#{statusPJ.index}" name="indexPJ" />
+                  <f:param value="#{pieceJointeType}" name="typePJ" />
+                </rich:componentControl>
+             </a4j:outputPanel>
+            </td>
+          </c:forEach>
+          <td>
+            <h:outputText value="#{pjDTO.libelle}" />
+          </td>
+        </tr>
+      </table>
+    </c:forEach>
+
+  </nxu:set>
+</div>

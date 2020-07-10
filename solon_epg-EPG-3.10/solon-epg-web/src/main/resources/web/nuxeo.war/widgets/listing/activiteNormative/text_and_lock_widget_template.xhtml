@@ -1,0 +1,27 @@
+
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:h="http://java.sun.com/jsf/html" id="#{widget.id}"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+	<c:choose>
+	    <c:when test="#{widget.mode == 'pdf'}">
+	     	<nxp:html><h:outputText value="#{field_0}" style="font-size:8px;"/></nxp:html>
+	    </c:when>
+	    <c:when test="#{widget.mode == 'view'}">
+	     	<h:outputText value="#{field_0}"  />
+	     	<h:graphicImage value="/img/icons/lock_16.png" rendered="#{field_1}"/>
+	    </c:when>
+	    <c:otherwise>
+			<div style="vertical-align: middle;">
+					<h:inputText value="#{field_0}" id="#{widget.id}_text" converter="#{converter}" required="#{widget.required}"/>
+					<h:outputText value=" "  />
+					<h:selectBooleanCheckbox id="#{widget.id}_check" value="#{field_1}" />
+					<h:message id="#{widget.id}_tex" for="#{widget.id}_text" styleClass="errorMessage errorMessage310" />
+			</div>
+	    </c:otherwise>
+    </c:choose>
+
+</f:subview>
+

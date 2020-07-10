@@ -1,0 +1,70 @@
+<f:subview
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+  id="#{layout.id}">
+
+<c:if test="false">
+  Layout template applying to an item instance of PageSelections&lt;DocumentModel&gt; named "documents"
+
+  Other needed parameters are:
+  - provider: instance of a PageProvider&lt;DocumentModel&gt; to handle sort
+  - layoutListingStatus: iteration status, used to print table header
+    matching widget label.
+</c:if>
+
+<nxu:set var="hasSeveralSorts"
+  value="#{provider.getSortInfos().size() > 1}"
+  cache="true">
+<nxu:set var="sortable"
+  value="#{requeteurActions.isSortable()}"
+  cache="true">
+
+<c:if test="#{showListingHeader and layout.properties.showListingHeader}">
+  <thead>
+    <tr>
+      <nxl:layoutColumn>
+      	<c:choose>
+        	<!-- masquage de l'intitulé de la colonne -->
+          <c:when test="#{layoutColumn.properties.isHidden or profilUtilisateurActions.hideColumn(layout.name,layoutColumn.properties.isHidden)}">
+          </c:when>
+          <c:otherwise>
+            <c:if test="#{!layoutColumn.widgets[0].translated}">
+              <nxp:cell horizontalAlignment="center" verticalAlignment="middle">#{layoutColumn.widgets[0].label}</nxp:cell>
+            </c:if>
+            <c:if test="#{layoutColumn.widgets[0].translated}">
+              <nxp:cell horizontalAlignment="center" verticalAlignment="middle">#{messages[layoutColumn.widgets[0].label]}</nxp:cell>
+            </c:if>
+	        </c:otherwise>
+        </c:choose>
+      </nxl:layoutColumn>
+    </tr>
+  </thead>
+</c:if>
+ <nxl:layoutColumn>
+  	<c:choose>
+    	<!-- masquage du contenu de la colonne -->
+     	<c:when test="#{layoutColumn.properties.isHidden or profilUtilisateurActions.hideColumn(layout.name,layoutColumn.properties.isHidden)}">
+      </c:when>
+      <c:otherwise>
+	    <nxp:cell horizontalAlignment="left" verticalAlignment="middle">
+	      <nxl:layoutColumnWidget>
+	        <nxl:widget widget="#{widget}" value="#{value}" />
+	        <c:if test="#{layoutColumn.size > 1 and layoutColumn.size > widgetIndex + 1 and widgetIndex > 0}">
+	          <br />
+	        </c:if>
+	      </nxl:layoutColumnWidget>
+	    </nxp:cell>
+    </c:otherwise>
+  </c:choose>
+ </nxl:layoutColumn>
+
+</nxu:set>
+</nxu:set>
+
+</f:subview>

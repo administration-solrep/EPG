@@ -1,0 +1,455 @@
+<?xml version="1.0"?>
+
+<!-- La contribution qui est utilisée pour générer les widgets qui seront 
+	utilisés dans le requêteur. On utilise le point d'extension selecteddocuments 
+	pour trouver les champs (et les exclure) sur lesquels seront générés les 
+	widgets. Le point d'extension addinfofields sert à ajouter des informations 
+	supplémentaires à un champ. On peut l'utiliser pour affiner le type d'un 
+	widget, ou pour ajouter des informations relatives au voculaire lié au champs. 
+	Le point d'extension widgetdescriptions contient ensuite tous les widgets 
+	utilisés par le requêteur pour générer la contribution du layout et des widgets 
+	du requêteur. -->
+<component name="fr.dila.solonepg.core.tests.requeteurtemplate">
+
+	<extension target="fr.dila.st.core.service.STRequeteurWidgetGenerator"
+		point="contributionbuilders">
+		<contributionbuilder
+			class="fr.dila.st.core.requeteur.RequeteurContributionBuilderImpl"
+			name="generated_contrib" componentName="fr.dila.solonepg.web.widget.generatedrequeteexperte"
+			layoutName="incremental_smart_query_selection" templateName="incremental_smart_query_selection_layout_template"
+			showCategories="true" />
+	</extension>
+
+	<extension target="fr.dila.st.core.service.STRequeteurWidgetGenerator"
+		point="selecteddocuments">
+		<selectedDocument name="Dossier" key="d.">
+			<schemas>
+				<schema name="dossier_solon_epg" defaultCategory="dossier" />
+				<schema name="retour_dila" defaultCategory="dossier" />
+				<schema name="conseil_etat" defaultCategory="conseil_etat" />
+				<schema name="traitement_papier" defaultCategory="traitement_papier" />
+			</schemas>
+
+			<!-- Champs inutiles -->
+			<excludedField name="a.norm:lignesProgrammations" />
+			<excludedField name="a.norm:tableauSuivi" />
+			<excludedField name="d.dos:nomCompletRespDossier" />
+			<excludedField name="d.dos:isParapheurComplet" />
+			<excludedField name="d.dos:idDocumentParapheur" />
+			<excludedField name="d.dos:lastDocumentRoute" />
+			<excludedField name="d.dos:idDocumentFDD" />
+			<excludedField name="d.dos.:numeroVersionActeOuExtrait" />
+			<excludedField name="d.dos:numerosListeSignatureField" />
+			<excludedField name="d.dos:ampliationHistorique" />
+			<excludedField name="d.dos:nouvelleDemandeEpreuves" />
+			<excludedField name="d.dos:indexationSggPub" />
+			<excludedField name="d.dos:isParapheurFichierInfoNonRecupere" />
+			<excludedField name="d.consetat:dateSaisineCE" />
+			<excludedField name="d.consetat:dateSortieCE" />
+			<excludedField name="a.texm:applicationDirecteLocked" />
+			<excludedField name="a.norm:lockUserFulName" />
+			<excludedField name="a.norm:tableauSuiviPublicationDate" />
+			<excludedField name="a.norm:tableauSuiviPublicationUser" />
+			<excludedField name="d.dos:indexationMin" />
+			<excludedField name="d.dos:numeroVersionActeOuExtrait" />
+			<excludedField name="d.dos:dateDeMaintienEnProduction" />
+			<excludedField name="d.dos:statutArchivage" />
+			<excludedField name="d.dos:isActeReferenceForNumeroVersion" />
+			<excludedField name="d.dos:dateVersementArchivageIntermediaire" />
+			<excludedField name="d.dos:isMGPP" />
+			<excludedField name="d.dos:posteCreator" />
+			<excludedField name="d.dos:isParapheurTypeActeUpdated" />
+			<excludedField name="d.dos:indexationDirPub" />
+			<excludedField name="d.dos:indexationDir" />
+			<excludedField name="d.dos:indexationSgg" />
+			<excludedField name="d.dos:indexationMinPub" />
+			<excludedField name="d.dos:nbDossierRectifie" />
+			<excludedField name="d.dos:dateCandidature" />
+			<excludedField name="d.dos:mesureNominative" />
+			<excludedField name="d.dos:candidat" />
+			<excludedField name="d.dos:isDossierIssuInjection" />
+			<excludedField name="d.dos:habilitationDateTerme" />
+			<excludedField name="d.dos:habilitationTerme" />
+
+			<!-- Types complexes pas encore supportés -->
+			<excludedField name="d.dos:transpositionOrdonnance" />
+			<excludedField name="d.dos:signaturePr" />
+			<excludedField name="d.dos:signaturePm" />
+			<excludedField name="d.retdila:parutionBo" />
+			<excludedField name="d.dos:applicationLoi" />
+			<excludedField name="d.dos:autresDestinatairesCommunication" />
+			<excludedField name="d.dos:transpositionDirective" />
+			<excludedField name="d.dos:chargeMissionCommunication" />
+			<excludedField name="d.dos:epreuve" />
+			<excludedField name="d.dos:signatureSgg" />
+			<excludedField name="d.dos:cabinetPmCommunication" />
+			<excludedField name="d.dos:transpositionDirectiveNumero" />
+			<excludedField name="d.retdila:datePromulgation" />
+			<excludedField name="d.retdila:isPublicationEpreuvageDemandeSuivante" />
+			<excludedField name="d.retdila:legislaturePublication" />
+
+		</selectedDocument>
+
+		<selectedDocument name="RouteStep" key="e.">
+			<schemas>
+				<schema name="routing_task" defaultCategory="etape" />
+			</schemas>
+			<excludedField name="e.rtsk:actionnable" />
+			<excludedField name="e.rtsk:documentRouteId" />
+			<excludedField name="e.rtsk:deadline" />
+			<excludedField name="e.rtsk:alreadyDuplicated" />
+			<excludedField name="e.rtsk:validationUserLabel" />
+			<excludedField name="e.rtsk:posteLabel" />
+			<excludedField name="e.rtsk:ministereLabel" />
+			<excludedField name="e.rtsk:numeroVersion" />
+			<excludedField name="e.rtsk:isMailSend" />
+		</selectedDocument>
+
+	</extension>
+
+	<extension target="fr.dila.st.core.service.STRequeteurWidgetGenerator"
+		point="addinfofields">
+		<addInfoFields>
+
+			<!-- Modification des types de Nuxeo pour une meilleure prise en compte 
+				par le requêteur -->
+
+			<!-- Vocabulaire -->
+			<addInfoField name="d.dos:statut" newType="manyDirectory">
+				<property name="DIRECTORY">statut_dossier</property>
+			</addInfoField>
+			<addInfoField name="d.dos:typeActe" newType="manyDirectory">
+				<property name="DIRECTORY">type_acte</property>
+			</addInfoField>
+			<addInfoField name="d.dos:categorieActe" newType="manyDirectory">
+				<property name="DIRECTORY">category_acte_convention_collective</property>
+			</addInfoField>
+			<addInfoField name="d.dos:delaiPublication" newType="manyDirectory">
+				<property name="DIRECTORY">delai_publication</property>
+			</addInfoField>
+			<addInfoField name="d.tp:publicationNomPublication"
+				newType="manyDirectory">
+				<property name="DIRECTORY">vecteur_publication_traitement_papier</property>
+			</addInfoField>
+			<addInfoField name="d.tp:publicationModePublication"
+				newType="manyDirectory">
+				<property name="DIRECTORY">mode_parution</property>
+			</addInfoField>
+			<addInfoField name="d.tp:signataire" newType="manyDirectory">
+				<property name="DIRECTORY">type_signataire_traitement_papier</property>
+			</addInfoField>
+			<addInfoField name="d.tp:priorite" newType="manyDirectory">
+				<property name="DIRECTORY">niveau_priorite_traitement_papier</property>
+			</addInfoField>
+			<addInfoField name="e.rtsk:type" newType="etapeDossier">
+				<property name="DIRECTORY">cm_routing_task_type</property>
+				<property name="HAS_TO_CONVERT_LABEL">true</property>
+			</addInfoField>
+			<addInfoField name="e.rtsk:validationStatus" newType="etapeDossier">
+				<property name="DIRECTORY">statut_validation</property>
+				<property name="HAS_TO_CONVERT_LABEL">true</property>
+			</addInfoField>
+			<addInfoField name="e.ecm:currentLifeCycleState"
+				newType="etapeDossier">
+				<property name="DIRECTORY">etat_etape_recherche</property>
+				<property name="HAS_TO_CONVERT_LABEL">true</property>
+			</addInfoField>
+			<addInfoField name="f.filepg:filetypeId" newType="manyDirectory">
+				<property name="DIRECTORY">file_type</property>
+			</addInfoField>
+
+			<!-- Organigramme -->
+			<addInfoField name="d.dos:directionResp" newType="orga">
+				<property name="ORGA_TYPE">DIR_TYPE</property>
+			</addInfoField>
+			<addInfoField name="d.dos:ministereResp" newType="orga">
+				<property name="ORGA_TYPE">MIN_TYPE</property>
+			</addInfoField>
+			<addInfoField name="d.dos:directionAttache" newType="orga">
+				<property name="ORGA_TYPE">DIR_TYPE</property>
+			</addInfoField>
+			<addInfoField name="d.dos:ministereAttache" newType="orga">
+				<property name="ORGA_TYPE">MIN_TYPE</property>
+			</addInfoField>
+			<addInfoField name="e.rtsk:distributionMailboxId"
+				newType="posteorga">
+				<property name="ORGA_TYPE">POSTE_TYPE</property>
+			</addInfoField>
+
+			<!-- Mode de parution -->
+			<addInfoField name="d.retdila:modeParution" newType="manyListbox">
+				<property name="TYPE">modeParution</property>
+				<property name="CONVERTER">TRUE</property>
+				<property name="CONVERTER_CLASS">fr.dila.solonepg.web.converter.ModeParutionConverter</property>
+			</addInfoField>
+
+			<!-- Utilisateur -->
+			<addInfoField name="d.dos:idCreateurDossier" newType="user" />
+			<addInfoField name="d.dos:nomRespDossier" newType="user" />
+			<addInfoField name="e.rtsk:validationUserId" newType="user" />
+
+			<!-- texte_signale -->
+			<addInfoField name="d.dos:dateDemandePublicationTS"
+				newCategory="texte_signale" />
+			<addInfoField name="d.dos:dateEnvoiJoTS" newCategory="texte_signale" />
+			<addInfoField name="d.dos:dateVersementTS" newCategory="texte_signale" />
+			<addInfoField name="d.dos:vecteurPublicationTS"
+				newCategory="texte_signale" />
+			<addInfoField name="d.dos:observationTS" newCategory="texte_signale" />
+			<addInfoField name="d.dos:arriveeSolonTS" newCategory="texte_signale" />
+
+			<!-- traitement_papier -->
+			<addInfoField name="d.tp:nomsSignatairesCommunication"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:dateRetour" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:publicationDateDemande"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:cheminCroix" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:ampliationDestinataireMails"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:publicationDelai" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:retourDuBonaTitrerLe"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:publicationEpreuveEnRetour"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:publicationDate" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:publicationModePublication"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:priorite" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:publicationNomPublication"
+				newCategory="traitement_papier" newType="manyListbox">
+				<property name="TYPE">vecteurPublication</property>
+				<property name="CONVERTER">TRUE</property>
+				<property name="CONVERTER_CLASS">fr.dila.solonepg.web.converter.VecteurPublicationConverter</property>
+			</addInfoField>
+			<addInfoField name="d.tp:signataire" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:texteAPublier" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:commentaireReference"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:dateArrivePapier" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:retourA" newCategory="traitement_papier" />
+			<addInfoField name="d.tp:publicationNumeroListe"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:nomsSignatairesRetour"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:publicationDateEnvoiJo"
+				newCategory="traitement_papier" />
+			<addInfoField name="d.tp:motifRetour" newCategory="traitement_papier" />
+
+
+			<addInfoField name="d.dos:vecteurPublication" newType="manyListbox">
+				<property name="TYPE">vecteurPublication</property>
+				<property name="CONVERTER">TRUE</property>
+				<property name="CONVERTER_CLASS">fr.dila.solonepg.web.converter.VecteurPublicationConverter</property>
+			</addInfoField>
+
+			<!--Conseil état-->
+			<addInfoField name="d.consetat:priorite" newType="manyDirectory">
+				<property name="DIRECTORY">priorite_ce</property>
+			</addInfoField>
+
+		</addInfoFields>
+	</extension>
+
+
+	<!-- Les données du point d'extension widgetdescriptions sont générées par 
+		l'application au démarrage du serveur -->
+	<extension target="fr.dila.st.core.service.STRequeteurWidgetGenerator"
+		point="widgetdescriptions">
+		<widgetDescription category="conseil_etat" name="d.consetat:dateAgCe"
+			type="date" />
+		<widgetDescription category="conseil_etat"
+			name="d.consetat:dateSectionCe" type="date" />
+		<widgetDescription category="conseil_etat"
+			name="d.consetat:dateTransmissionSectionCe" type="date" />
+		<widgetDescription category="conseil_etat" name="d.consetat:numeroISA"
+			type="string" />
+		<widgetDescription category="conseil_etat"
+			name="d.consetat:priorite" type="string" />
+		<widgetDescription category="conseil_etat"
+			name="d.consetat:rapporteurCe" type="string" />
+		<widgetDescription category="conseil_etat"
+			name="d.consetat:receptionAvisCE" type="date" />
+		<widgetDescription category="conseil_etat" name="d.consetat:sectionCe"
+			type="string" />
+		<widgetDescription category="traitement_papier"
+			name="d.tp:ampliationDestinataireMails" type="stringList" />
+
+		<widgetDescription category="dossier" name="d.dos:arriveeSolonTS"
+			type="boolean" />
+		<widgetDescription category="dossier" name="d.dos:baseLegaleActe"
+			type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:baseLegaleNumeroTexte" type="string" />
+		<widgetDescription category="dossier" name="d.dos:categorieActe"
+			type="string" />
+		<widgetDescription category="dossier" name="d.tp:cheminCroix"
+			type="boolean" />
+		<widgetDescription category="dossier"
+			name="d.tp:commentaireReference" type="string" />
+		<widgetDescription category="dossier" name="d.tp:dateArrivePapier"
+			type="date" />
+		<widgetDescription category="dossier" name="d.dos:dateEnvoiJoTS"
+			type="date" />
+		<widgetDescription category="dossier"
+			name="d.dos:datePreciseePublication" type="date" />
+		<widgetDescription category="dossier" name="d.dos:datePublication"
+			type="date" />
+		<widgetDescription category="dossier" name="d.tp:dateRetour"
+			type="date" />
+		<widgetDescription category="dossier" name="d.dos:dateSignature"
+			type="date" />
+		<widgetDescription category="dossier" name="d.dos:dateVersementTS"
+			type="date" />
+		<widgetDescription category="dossier" name="d.dos:decretNumerote"
+			type="boolean" />
+		<widgetDescription category="dossier" name="d.dos:delaiPublication"
+			type="string" />
+		<widgetDescription category="dossier" name="d.dos:directionAttache"
+			type="string" />
+		<widgetDescription category="dossier" name="d.dos:directionResp"
+			type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:habilitationCommentaire" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:habilitationNumeroArticles" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:habilitationNumeroOrdre" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:habilitationRefLoi" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:idCreateurDossier" type="string" />
+		<widgetDescription category="dossier" name="d.dos:isUrgent"
+			type="boolean" />
+		<widgetDescription category="dossier" name="d.dos:libre"
+			type="stringList" />
+		<widgetDescription category="dossier" name="d.dos:mailRespDossier"
+			type="string" />
+		<widgetDescription category="dossier" name="d.dos:ministereAttache"
+			type="string" />
+		<widgetDescription category="dossier" name="d.dos:ministereResp"
+			type="string" />
+		<widgetDescription category="dossier" name="d.tp:motifRetour"
+			type="string" />
+		<widgetDescription category="dossier" name="d.dos:motscles"
+			type="stringList" />
+		<widgetDescription category="dossier"
+			name="d.dos:nomCompletChargesMissions" type="stringList" />
+		<widgetDescription category="dossier"
+			name="d.dos:nomCompletConseillersPms" type="stringList" />
+		<widgetDescription category="dossier" name="d.dos:nomRespDossier"
+			type="string" />
+		<widgetDescription category="dossier"
+			name="d.tp:nomsSignatairesCommunication" type="string" />
+		<widgetDescription category="dossier"
+			name="d.tp:nomsSignatairesRetour" type="string" />
+		<widgetDescription category="dossier" name="d.dos:numeroNor"
+			type="fulltext" />
+		<widgetDescription category="dossier"
+			name="d.dos:pourFournitureEpreuve" type="date" />
+		<widgetDescription category="dossier"
+			name="d.dos:prenomRespDossier" type="string" />
+		<widgetDescription category="dossier" name="d.tp:priorite"
+			type="string" />
+		<widgetDescription category="dossier" name="d.tp:publicationDate"
+			type="date" />
+		<widgetDescription category="dossier"
+			name="d.tp:publicationDateDemande" type="date" />
+		<widgetDescription category="dossier"
+			name="d.tp:publicationDateEnvoiJo" type="date" />
+		<widgetDescription category="dossier" name="d.tp:publicationDelai"
+			type="string" />
+		<widgetDescription category="dossier"
+			name="d.tp:publicationEpreuveEnRetour" type="boolean" />
+		<widgetDescription category="dossier"
+			name="d.dos:publicationIntegraleOuExtrait" type="string" />
+		<widgetDescription category="dossier"
+			name="d.tp:publicationModePublication" type="string" />
+		<widgetDescription category="dossier"
+			name="d.tp:publicationNomPublication" type="string" />
+		<widgetDescription category="dossier"
+			name="d.tp:publicationNumeroListe" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:publicationRapportPresentation" type="boolean" />
+		<widgetDescription category="dossier"
+			name="d.dos:publicationsConjointes" type="stringList" />
+		<widgetDescription category="dossier"
+			name="d.dos:qualiteRespDossier" type="string" />
+		<widgetDescription category="dossier" name="d.tp:retourA"
+			type="string" />
+		<widgetDescription category="dossier"
+			name="d.tp:retourDuBonaTitrerLe" type="date" />
+		<widgetDescription category="dossier" name="d.dos:rubriques"
+			type="stringList" />
+		<widgetDescription category="dossier" name="d.tp:signataire"
+			type="string" />
+		<widgetDescription category="dossier" name="d.dos:statut"
+			type="string" />
+		<widgetDescription category="dossier" name="d.dos:telRespDossier"
+			type="string" />
+		<widgetDescription category="dossier" name="d.tp:texteAPublier"
+			type="boolean" />
+		<widgetDescription category="dossier" name="d.dos:titreActe"
+			type="string" />
+		<widgetDescription category="dossier" name="d.dos:typeActe"
+			type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:vecteurPublication" type="stringList" />
+		<widgetDescription category="dossier" name="d.dos:zoneComSggDila"
+			type="string" />
+		<widgetDescription category="dossier"
+			name="d.retdila:dateParutionJorf" type="date" />
+		<widgetDescription category="dossier" name="d.retdila:modeParution"
+			type="manyListbox" />
+		<widgetDescription category="dossier"
+			name="d.retdila:numeroTexteParutionJorf" type="string" />
+		<widgetDescription category="dossier"
+			name="d.retdila:pageParutionJorf" type="long" />
+		<widgetDescription category="dossier"
+			name="d.retdila:titreOfficiel" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:applicationLoiRefs" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:transpositionOrdoRefs" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:transpositionDirectiveNumero" type="string" />
+		<widgetDescription category="dossier"
+			name="d.dos:texteEntreprise" type="boolean" />	
+		<widgetDescription category="dossier"
+			name="d.dos:dateEffet" type="date_dynamique" />	
+
+		<!-- etape_fdr -->
+		<widgetDescription category="etape"
+			name="e.rtsk:automaticValidated" type="boolean" />
+		<widgetDescription category="etape"
+			name="e.rtsk:automaticValidation" type="boolean" />
+		<widgetDescription category="etape" name="e.rtsk:dateDebutEtape"
+			type="date" />
+		<widgetDescription category="etape" name="e.rtsk:dateFinEtape"
+			type="date" />
+		<widgetDescription category="etape"
+			name="e.rtsk:distributionMailboxId" type="string" />
+		<widgetDescription category="etape" name="e.rtsk:dueDate"
+			type="date" />
+		<widgetDescription category="etape"
+			name="e.rtsk:obligatoireMinistere" type="boolean" />
+		<widgetDescription category="etape" name="e.rtsk:obligatoireSGG"
+			type="boolean" />
+		<widgetDescription category="etape" name="e.rtsk:type"
+			type="string" />
+		<widgetDescription category="etape"
+			name="e.ecm:currentLifeCycleState" type="string" />
+		<widgetDescription category="etape"
+			name="e.rtsk:validationStatus" type="string" />
+		<widgetDescription category="etape"
+			name="e.rtsk:validationUserId" type="string" />
+
+		<widgetDescription category="hidden" name="f.filepg:filetypeId" type="string" />
+		<widgetDescription category="hidden" name="f.ecm:fulltext" type="string" />
+		<widgetDescription category="hidden" name="d.ecm:fulltext_titreActe" type="string" />
+		<widgetDescription category="hidden" name="c.comment:text" type="string" />
+		<widgetDescription category="hidden" name="d.dos:archive" type="boolean" />
+	</extension>
+
+
+</component>

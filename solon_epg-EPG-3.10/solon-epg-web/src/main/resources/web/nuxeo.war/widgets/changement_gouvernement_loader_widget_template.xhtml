@@ -1,0 +1,50 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+  
+<nxu:set var="loggerInfos" value="#{migrationManagerActions.getMigrationLoggerInfos(widget.name,field_1)}" cache="true">   
+  <c:choose>
+    <c:when test="#{widget.mode == 'view'}">
+    <c:if test="#{loggerInfos.editStatus()}">
+      <c:choose>
+        <c:when test="#{loggerInfos.info0 eq 0}">
+          <h:graphicImage url="/img/standart_waiter.gif"  alt="En cours" title="En cours" />
+          <h:outputText value=" "/>
+          <c:if test="#{loggerInfos.info2 ne 0}">
+            <h:outputText value="#{nxu:concat(loggerInfos.info1, nxu:concat('/', loggerInfos.info2))}"/>
+          </c:if>
+        </c:when>
+        <c:when test="#{loggerInfos.info0 eq 1}">
+          <h:graphicImage  url="/icons/task.png" alt="Terminé" title="Terminé"/>
+          <h:outputText value=" "/>
+          <h:outputText value="#{nxu:concat(loggerInfos.info1, nxu:concat('/', loggerInfos.info2))}"/>
+        </c:when>
+      </c:choose>
+      </c:if>
+    </c:when>
+    <c:otherwise>
+          <c:if test="#{nxu:test(!empty widget.properties.isBoolean, true, false)}" >
+            <h:selectBooleanCheckbox id="#{field_0}deleteNodeCheckBox" immediate="true"
+              value="#{migrationManagerActions.getDeleteOldElementOrganigramme(field)}"
+              valueChangeListener="#{migrationManagerActions.deleteOldElementOrgChangeListener}"              
+              disabled="#{!(migrationManagerActions.getMigrationWithDossierClos(field))}"
+              >              
+              <a4j:support event="onclick" bypassUpdates="true" eventsQueue="ajax_events_queue" />
+            </h:selectBooleanCheckbox>
+          </c:if>
+          <c:if test="#{nxu:test(!empty widget.properties.isMigrationWithDossierClos, true, false)}" >
+            <h:selectBooleanCheckbox id="#{field_0}migrationWithDossierClosCheckBox" immediate="true" value="#{migrationManagerActions.getMigrationWithDossierClos(field)}" valueChangeListener="#{migrationManagerActions.selectMigrationWithDossierClosChangeListener}" onclick="this.form.submit()">              
+              <a4j:support event="onclick" bypassUpdates="true" eventsQueue="ajax_events_queue" />
+            </h:selectBooleanCheckbox>
+          </c:if>
+          <c:if test="#{nxu:test(!empty widget.properties.isMigrationModeleFdr, true, false)}" >
+            <h:selectBooleanCheckbox id="#{field_0}migrationModelFdr" immediate="true" value="#{migrationManagerActions.getMigrationModeleFdr(field)}" valueChangeListener="#{migrationManagerActions.selectMigrationModeleFdrChangeListener}" onclick="this.form.submit()">              
+              <a4j:support event="onclick" bypassUpdates="true" eventsQueue="ajax_events_queue" />
+            </h:selectBooleanCheckbox>
+          </c:if>
+    </c:otherwise>
+  </c:choose>
+</nxu:set>  
+</div>

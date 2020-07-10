@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les types ECM nécessaires au dossier SOLON EPG.
+-->
+<component name="fr.dila.solonepg.web.ecmtype.dossier">
+  <require>com.nuxeo.case-management.types</require>
+  
+  <extension target="org.nuxeo.ecm.platform.types.TypeService"
+    point="types">
+
+    <!-- define Dossier (type Case) -->
+    <type id="Dossier" coretype="Dossier">
+      <label>Dossier</label>
+      <icon>/icons/case.png</icon>
+      <bigIcon>/icons/case_100.png</bigIcon>
+      <default-view>view_cm_case</default-view>
+      <create-view>view_creation_dossier_100</create-view>
+      <category>Documents disponibles :</category>
+      <views>
+        <view id="edit_case" value="edit_case" />
+      </views>
+      <layouts mode="create">
+        <layout>creation_dossier_layout</layout>
+      </layouts>
+      <layouts mode="any">
+        <layout>dublincore</layout>
+        <layout>question_saisie_layout</layout>
+      </layouts>
+      <layouts mode="summary">
+        <layout>summary_current_case_layout</layout>
+      </layouts>
+    </type>
+
+    <!-- define Parapheur (type CaseItem) -->
+    <type id="Parapheur" coretype="Parapheur">
+      <label>Parapheur</label>
+      <icon>/icons/case_item.png</icon>
+      <bigIcon>/icons/case_item_100.png</bigIcon>
+      <category>Reponse</category>
+      <default-view>create_empty_case</default-view>
+      <create-view>create_empty_case</create-view>
+      <views>
+        <view id="edit_case" value="edit_case" />
+      </views>
+      <layouts mode="view">
+        <layout>parapheur</layout>
+      </layouts>
+      <layouts mode="header">
+        <layout>parapheur</layout>
+      </layouts>
+      <layouts mode="create">
+        <layout>parapheur</layout>
+      </layouts>
+      <layouts mode="any">
+        <layout>parapheur</layout>
+      </layouts>
+    </type>
+
+    <type id="Reponse" coretype="Reponse">
+      <label>Reponse</label>
+      <icon>/icons/case_item.png</icon>
+      <bigIcon>/icons/case_item_100.png</bigIcon>
+      <category>Reponse</category>
+      <default-view>view_documents</default-view>
+      <views> 
+        <view id="edit_case" value="edit_case" />   
+      </views>
+      <layouts mode="any">
+        <layout>reponse</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>reponse</layout>
+      </layouts>
+      <layouts mode="edit_saisie_reponse">
+        <layout>saisie_reponse</layout>
+      </layouts>
+    </type>
+
+    <!-- Fond de dossier -->
+    <type id="FondDeDossier" coretype="FondDeDossier">
+      <label>FondDeDossier</label>
+      <icon>/icons/case_item.png</icon>
+      <bigIcon>/icons/case_item_100.png</bigIcon>
+      <category>Reponse</category>
+      <default-view>view_documents</default-view>
+      <!-- <create-view>create_workspace</create-view> -->
+      <subtypes>
+        <type>FondDeDossierRepertoire</type>
+      </subtypes>
+      <views>
+        <view id="edit_case" value="edit_case" />
+      </views>
+      <layouts mode="any">
+        <layout>heading</layout>
+        <layout>fondDeDossier</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>fondDeDossier</layout>
+      </layouts>
+    </type>
+
+    <!-- Fond de dossier -->
+    <type id="FondDeDossierFichier" coretype="FileSolonEpg">
+      <label>FondDeDossierFichier</label>
+      <icon>/icons/case_item.png</icon>
+      <bigIcon>/icons/case_item_100.png</bigIcon>
+      <category>FondDeDossierFichier</category>
+      <default-view>view_documents</default-view>
+      <views>
+        <view id="edit_case" value="edit_case" />
+      </views>
+      <layouts mode="any">
+        <layout>fondDeDossier</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>fondDeDossier</layout>
+      </layouts>
+    </type>
+  </extension>
+</component>

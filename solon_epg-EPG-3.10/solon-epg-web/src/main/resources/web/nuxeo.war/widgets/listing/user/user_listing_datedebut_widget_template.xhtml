@@ -1,0 +1,28 @@
+<f:subview id="#{widget.id}" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<nxu:set var="userSchema" value="#{userManager.userSchemaName}">
+		<nxu:set var="userModel" value="#{field_0}" cache="true">
+			<c:choose>
+				<c:when test="#{widget.mode == 'pdf'}">
+					<nxp:text value="#{userModel[userSchema].dateDebut}">
+						<f:convertDateTime pattern="dd MMM yyyy" />
+					</nxp:text>
+				</c:when>
+				<c:when test="#{widget.mode == 'csv'}">
+					<h:outputText value="#{field_0[userSchema].dateDebut}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+					</h:outputText>
+				</c:when>
+				<c:otherwise>
+					<h:outputText value="#{userModel[userSchema].dateDebut}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+					</h:outputText>
+				</c:otherwise>
+			</c:choose>
+		</nxu:set>
+	</nxu:set>
+</f:subview>

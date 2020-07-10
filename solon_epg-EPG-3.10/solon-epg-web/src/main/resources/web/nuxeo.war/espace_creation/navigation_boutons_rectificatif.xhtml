@@ -1,0 +1,19 @@
+<div class="action_bar nofloat" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	<h:commandButton id="buttonPrecedentRectificatif" value="#{messages['label.epg.dossier.precedent']}" immediate='true'
+    action="#{dossierCreationActions.goPrecedent()}" styleClass="button" />
+    
+    <h:commandButton id="buttonSuivantRectificatif" value="#{messages['label.epg.dossier.suivant']}" disabled='true'
+    action="#{dossierCreationActions.goSuivant()}" styleClass="button" />
+    
+    <h:commandButton id="buttonTerminerRectificatif" value="Terminer" disabled="#{ !( currentDocument.getType() == 'Dossier' and ! empty dossierCreationActions.numeroNor and empty dossierCreationActions.erreurNumeroNor)}"
+    action="#{dossierCreationActions.goTerminer()}" styleClass="button" />
+ 
+ 	<h:commandButton id="buttonAnnulerRectificatif" value="Annuler" immediate='true'
+    action="#{dossierCreationActions.goAnnuler()}" styleClass="button" />
+</div>

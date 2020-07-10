@@ -1,0 +1,46 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+   <h:form id="rechercheANForm">
+	   <div class="subbodyContainer">
+	     <h3>
+	     	#{messages[EPGANrequeteurExpertActions.title]}
+	     </h3>
+	   </div>
+	    <h:outputText value="#{messages['label.smart.query.build.help']}" class="infoMessage" />
+	    <nxl:layout name="nxql_incremental_smart_query_recherche_an" mode="edit" value="#{epgANSmartNXQLQueryActions.queryPart}" />
+	    <div>
+	       <table >
+	            <tr>
+	              <td>
+	                <nxh:commandButton
+	                  value="#{messages['requeteur.command.generer_alerte']}"
+	                  id="generer_alerte"
+	                  action="#{EPGANrequeteurExpertActions.generateAlert()}"
+	                  styleClass="button" />
+	              </td>
+	              <td>
+	                 <nxh:commandButton
+	                  value="#{messages['requeteur.command.ajouter_favoris']}"
+	                  id="addToFav"
+	                  action="#{EPGANrequeteurExpertActions.navigateToAddFavoris}"
+	                  styleClass="button" />
+	              </td>
+	              <td>
+	                <nxh:commandButton
+	                  value="#{messages['requeteur.command.rechercher']}"
+	                  id="recherche_requeteur"
+	                  action="#{EPGANrequeteurExpertActions.goToResults()}"
+	                  styleClass="button" />
+	              </td>
+	            </tr>
+	        </table>
+	   	</div>
+  	 </h:form>
+</div>

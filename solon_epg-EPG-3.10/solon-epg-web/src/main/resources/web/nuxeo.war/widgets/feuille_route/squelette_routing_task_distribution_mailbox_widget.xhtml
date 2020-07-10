@@ -1,0 +1,83 @@
+<span xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:p="http://jboss.com/products/seam/pdf"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"> <c:if
+		test="#{widget.mode != 'create' and widget.mode != 'edit'}">
+		<h:panelGroup>
+			<c:choose>
+				<c:when
+					test="#{field_1 == 'ORGANIGRAMME'}">
+					<h:outputText
+						value="#{messages['label.epg.feuilleRoute.squelette.mailbox.organigramme']}" /> : <ui:include
+						src="/widgets/organigramme_select_node_widget.xhtml" />
+				</c:when>
+				<c:when
+					test="#{field_1 == 'BUREAU_DU_CABINET'}">
+					<h:outputText
+						value="#{messages['label.epg.feuilleRoute.squelette.mailbox.bdc']}" />
+				</c:when>
+				<c:when
+					test="#{field_1 == 'CHARGE_DE_MISSION'}">
+					<h:outputText
+						value="#{messages['label.epg.feuilleRoute.squelette.mailbox.cdm']}" />
+				</c:when>
+				<c:when
+					test="#{field_1 == 'SECRETARIAT_CHARGE_DE_MISSION'}">
+					<h:outputText
+						value="#{messages['label.epg.feuilleRoute.squelette.mailbox.scdm']}" />
+				</c:when>
+				<c:when
+					test="#{field_1 == 'CONSEILLER_PM'}">
+					<h:outputText
+						value="#{messages['label.epg.feuilleRoute.squelette.mailbox.cpm']}" />
+				</c:when>
+			</c:choose>
+		</h:panelGroup>
+	</c:if> <c:if test="#{widget.mode == 'create' or widget.mode == 'edit'}">
+		<h:panelGrid columns="1">
+			<h:panelGroup>
+				<div id="organigramme">
+					<ui:include src="/widgets/organigramme_select_node_widget.xhtml" />
+				</div>
+				<h:selectOneRadio group="typeDestinataire" id="typeDestinataire"
+					value="#{field_1}" layout="pageDirection"
+					onclick="showOrganigramme(this.value)">
+					<f:selectItem id="ORGANIGRAMME"
+						itemLabel="#{messages['label.epg.feuilleRoute.squelette.mailbox.organigramme']}"
+						itemValue="ORGANIGRAMME" />
+
+					<f:selectItem id="BUREAU_DU_CABINET"
+						itemLabel="#{messages['label.epg.feuilleRoute.squelette.mailbox.bdc']}"
+						itemValue="BUREAU_DU_CABINET" />
+					<f:selectItem id="CHARGE_DE_MISSION"
+						itemLabel="#{messages['label.epg.feuilleRoute.squelette.mailbox.cdm']}"
+						itemValue="CHARGE_DE_MISSION" />
+					<f:selectItem id="SECRETARIAT_CHARGE_DE_MISSION"
+						itemLabel="#{messages['label.epg.feuilleRoute.squelette.mailbox.scdm']}"
+						itemValue="SECRETARIAT_CHARGE_DE_MISSION" />
+					<f:selectItem id="CONSEILLER_PM"
+						itemLabel="#{messages['label.epg.feuilleRoute.squelette.mailbox.cpm']}"
+						itemValue="CONSEILLER_PM" />
+
+				</h:selectOneRadio>
+			</h:panelGroup>
+
+		</h:panelGrid>
+	</c:if> <script>
+	var j = jQuery.noConflict();
+
+	function showOrganigramme(value) {
+		if(value === 'ORGANIGRAMME') {
+			j('organigramme').show();
+		} else {
+			j('organigramme').hide();
+		}
+	}	
+</script>
+</span>

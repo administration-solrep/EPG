@@ -1,0 +1,23 @@
+<f:subview id="#{widget.id}"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core">
+
+  <c:choose>
+    <c:when test="#{widget.mode == 'view'}">
+    	<h:outputLink value="#{field_1}" target="_blank" disabled="#{empty field_1}">
+          <h:outputText value="#{field_0}" />
+        </h:outputLink>
+    </c:when>
+    <c:when test="#{widget.mode == 'edit'}">
+     	<h:inputText value="#{field_0}" /> 
+     	<h:outputText value=" "/>
+     	<h:outputLink value="#{field_1}" target="_blank" disabled="#{empty field_1}">
+          <h:outputText value="#{field_0}" />
+        </h:outputLink>
+    </c:when>
+    <c:otherwise>
+		<h:outputText value="#{field_0}" />
+	</c:otherwise>
+  </c:choose>
+</f:subview>

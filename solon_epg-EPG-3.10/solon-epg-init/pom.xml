@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.dila.solonepg</groupId>
+		<artifactId>solon-epg-parent</artifactId>
+		<version>EPG-3.10.2</version>
+	</parent>
+
+	<artifactId>solon-epg-init</artifactId>
+	<name>SOLON EPG (initialisation)</name>
+	<packaging>jar</packaging>
+
+	<properties>
+		<liquibase.contexts>dev,solonepg</liquibase.contexts>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.dila.st</groupId>
+			<artifactId>socle-transverse-init</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive combine.self="override">
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>3.5.5</version>
+				<executions>
+					<execution>
+						<id>default-cli</id>
+						<goals>
+							<goal>update</goal>
+						</goals>
+						<configuration>
+							<!-- TODO: use artifactId in place of solonepg-server -->
+							<url>jdbc:h2:${project.build.directory}/stage/solonepg-server-${project.version}/nxserver/data/h2/nuxeo;CREATE=true;MVCC=true</url>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+							<changeLogFile>liquibase/epg/liquibase-epg.xml</changeLogFile>
+							<logging>info</logging><!-- one of debug, info, warning, severe, off -->
+							<contexts>${liquibase.contexts}</contexts>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<includeArtifact>false</includeArtifact>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>fr.dila.solonepg</groupId>
+						<artifactId>solon-epg-init</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>1.1.114-nx</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>liquibase.integration.commandline.Main</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

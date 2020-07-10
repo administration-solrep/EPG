@@ -1,0 +1,251 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	j(document).ready(function() {
+		var sectionid;
+		j("html, body").scrollTop(j(#{texteMaitreActions.scrollTo}).offset().top);
+	});
+</script>
+
+<style>
+	.dataFiche{
+		width : auto !important;
+	}
+	
+	.dataFiche td{
+		border : 0px !important;
+	}
+	
+	.dataFicheTable{
+		width : auto !important;
+	}
+	
+	.dataFicheTable .labelColumn{
+		width : auto !important;
+	}
+	
+</style>
+<h:form id="fiche_signaletique">
+	<nxu:set var="ficheSignaletique" value="#{activiteNormativeActions.getCurrentFicheSignaletiqueLoi()}" cache="true">
+		<div class="foldableBox" > <!-- Info loi -->
+				<h3 class="folded">
+					<a href="#nologo" onclick="return toggleBox(this)">Loi</a>
+				</h3>
+			<div class="boxBody">
+			<table class="dataOutput dataFiche">
+				<tbody>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.intitule']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.intitule}"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.numeroNor']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.numeroNor}"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.natureTexte']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.natureTexte}"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.precedureVote']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.procedureVote}"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.applicationDirecte']}</span>
+						</td>
+						<td class="fieldColumn">
+							<c:choose>
+								<c:when test="#{ficheSignaletique.applicationDirecte}">
+									<h:outputText value="Application directe"/>
+								</c:when>
+								<c:otherwise>
+									<h:outputText value=" "/>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.datePromulgation']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.datePromulgation}" converter="DateConverter"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.datePublication']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.datePublication}" converter="DateConverter"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.dateLimite']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.dateLimite}" converter="DateConverter"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.dateEntreeVigueur']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.dateEntreeVigueur}" converter="DateConverter"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.tauxApplication']}</span>
+						</td>
+						<td class="fieldColumn">
+							<h:outputText value="#{ficheSignaletique.tauxApplication}"/>
+							<h:outputText value=" %"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="labelColumn">	
+							<span>#{messages['activite.normative.fiche.signaletique.hasHabilitation']}</span>
+						</td>
+						<td class="fieldColumn">
+							<c:choose>
+								<c:when test="#{ficheSignaletique.hasHabilitation}">
+									<h:outputText value="Oui"/>
+								</c:when>
+								<c:otherwise>
+									<h:outputText value="Non"/>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+                    <tr>
+                      <td class="labelColumn">  
+                        <span>#{messages['activite.normative.decret.dateReunionProgrammation']}</span>
+                      </td>
+                      <td class="fieldColumn">
+                        <h:outputText value="#{ficheSignaletique.dateReunionProgrammation}" converter="DateConverter"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="labelColumn">  
+                        <span>#{messages['activite.normative.decret.dateCirculationCompteRendu']}</span>
+                      </td>
+                      <td class="fieldColumn">
+                        <h:outputText value="#{ficheSignaletique.dateCirculationCompteRendu}" converter="DateConverter"/>
+                      </td>
+                    </tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+		<div class="foldableBox" > <!-- Mesures -->
+				<h3 class="folded">
+					<a href="#nologo" onclick="return toggleBox(this)">Mesures d'application</a>
+				</h3>
+			<div class="boxBody">
+				<table class="dataOutput dataFiche">
+					<tbody>
+						<c:forEach var="key" items="#{ficheSignaletique.mapMesures.keySet}">
+							<tr>
+								<td class="labelColumn">	
+									<span>#{messages[key]}</span>
+								</td>
+								<td class="fieldColumn">
+									<h:outputText value="#{ficheSignaletique.mapMesures.get(key)}" />
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="foldableBox" > <!-- Observations -->
+				<h3 class="folded">
+					<a href="#nologo" onclick="return toggleBox(this)">Observation</a>
+				</h3>
+			<div class="boxBody">
+				<table class="dataOutput dataFiche">
+					<tbody>
+						<tr>
+							<td class="labelColumn">	
+								<span>#{messages['activite.normative.fiche.signaletique.observation']}</span>
+							</td>
+							<td class="fieldColumn">
+								<h:outputText value="#{ficheSignaletique.observation}" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="foldableBox" ><!-- Repartion ministeres -->
+				<h3 class="folded">
+					<a href="#nologo" onclick="return toggleBox(this)">Répartition par ministère</a>
+				</h3>
+			<div class="boxBody">
+				<table class="dataOutput dataFicheTable">
+					<tbody>
+						<c:forEach var="key" items="#{ficheSignaletique.repartititionMinisteres.keySet}" varStatus="status">
+							<tr class="#{nxu:test(status.index % 2 == 1, 'dataRowOdd', 'dataRowEven')}">
+								<td class="labelColumn">	
+									<span>#{key}</span>
+								</td>
+								<td>
+									<h:outputText value="#{ficheSignaletique.repartititionMinisteres.get(key)}" />
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="foldableBox" ><!-- Délai publication -->
+				<h3 class="folded">
+					<a href="#nologo" onclick="return toggleBox(this)">Délai d'application de la loi</a>
+				</h3>
+			<div class="boxBody">
+				<table class="dataOutput dataFicheTable">
+					<tbody>
+						<c:forEach var="key" items="#{ficheSignaletique.delaiPublication.keySet}" varStatus="status">
+							<tr class="#{nxu:test(status.index % 2 == 1, 'dataRowOdd', 'dataRowEven')}">
+								<td class="labelColumn">	
+									<span>#{key}</span>
+								</td>
+								<td>
+									<h:outputText value="#{ficheSignaletique.delaiPublication.get(key)}" />
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</nxu:set>
+</h:form>
+</div>

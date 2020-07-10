@@ -1,0 +1,62 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/01_FEV549_create-parapheur-fdd-infos-parl.nxshell
+
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p 4ju7Ix662Eo1d77u http://localhost:8180/solon-epg/site/automation
+
+# creation ModeleParapheur ModeleParapheur Informations Parlementaires
+mkdir ModeleParapheur "/case-management/workspaces/admin/parapheur/ModeleParapheur Informations Parlementaires" -title "ModeleParapheur ModeleParapheur Informations Parlementaires"
+
+# maj type ModeleParapheur Informations Parlementaires
+setp -value "49" -xpath mp:typeActe "/case-management/workspaces/admin/parapheur/ModeleParapheur Informations Parlementaires"
+
+# creation ParapheurFolder Informations Parlementaires/Acte intégral
+mkdir ParapheurFolder "/case-management/workspaces/admin/parapheur/ModeleParapheur Informations Parlementaires/Acte intégral" -title "Acte intégral"
+
+# maj propriété non vide
+setp -value true -xpath pf:estNonVide "/case-management/workspaces/admin/parapheur/ModeleParapheur Informations Parlementaires/Acte intégral"
+
+# update pf:formatAutorise
+use automation
+ST.Update.List -path "/case-management/workspaces/admin/parapheur/ModeleParapheur Informations Parlementaires/Acte intégral" -property "pf:formatAutorise" -mode "add" -data "doc" -dataType "String"
+ST.Update.List -path "/case-management/workspaces/admin/parapheur/ModeleParapheur Informations Parlementaires/Acte intégral" -property "pf:formatAutorise" -mode "add" -data "docx" -dataType "String"
+ST.Update.List -path "/case-management/workspaces/admin/parapheur/ModeleParapheur Informations Parlementaires/Acte intégral" -property "pf:formatAutorise" -mode "add" -data "odt" -dataType "String"
+use remote
+
+# maj propriété nbDoc max
+setp -value 1 -xpath pf:nbDocAccepteMax "/case-management/workspaces/admin/parapheur/ModeleParapheur Informations Parlementaires/Acte intégral"
+
+
+# creation ModeleFondDeDossier Informations Parlementaires
+mkdir ModeleFondDeDossier "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires" -title "ModeleFondDeDossier Informations Parlementaires"
+
+# maj ModeleFondDeDossier Informations Parlementaires
+setp -value "49" -xpath mfdd:typeActe "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires"
+
+# creation ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au ministère porteur
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au ministère porteur" -title "Répertoire réservé au ministère porteur"
+
+# maj ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au ministère porteur
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au ministère porteur"
+
+# creation ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au SGG
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au SGG" -title "Répertoire réservé au SGG"
+
+# maj ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au SGG
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au SGG"
+
+# creation ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au ministère porteur et au SGG
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au ministère porteur et au SGG" -title "Répertoire réservé au ministère porteur et au SGG"
+
+# maj ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au ministère porteur et au SGG
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires/Répertoire réservé au ministère porteur et au SGG"
+
+# creation ModeleFondDeDossier Informations Parlementaires/Répertoire accessible à tous les utilisateurs
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires/Répertoire accessible à tous les utilisateurs" -title "Répertoire accessible à tous les utilisateurs"
+
+# maj ModeleFondDeDossier Informations Parlementaires/Répertoire accessible à tous les utilisateurs
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Informations Parlementaires/Répertoire accessible à tous les utilisateurs"
+

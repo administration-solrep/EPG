@@ -1,0 +1,173 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/decret_pr_ce.nxshell
+# 4 - La console doit afficher les lignes suivantes :
+# ModeleParapheur ModeleParapheur Décret PR CE
+# |  +- Acte intégral
+# |  +- Extrait
+# |  +- Pièces complémentaires à publier
+# ModeleFondDeDossier  Décret PR CE
+# |  +- Répertoire réservé au ministère porteur
+# |  +- Répertoire réservé au SGG
+# |  +- Répertoire réservé au ministère porteur et au SGG
+# |  +- Répertoire accessible à tous les utilisateurs
+
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p Administrator http://localhost:8180/solon-epg/site/automation
+
+# creation ModeleParapheur ModeleParapheur Décret PR CE
+mkdir ModeleParapheur "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE" -title "ModeleParapheur ModeleParapheur Décret PR CE"
+
+# maj type ModeleParapheur Décret PR CE
+setp -value "47" -xpath mp:typeActe "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE"
+
+# creation ParapheurFolder Décret PR CE/Acte intégral
+mkdir ParapheurFolder "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE/Acte intégral" -title "Acte intégral"
+
+#
+setp -value true -xpath pf:estNonVide "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE/Acte intégral"
+
+# update pf:formatAutorise
+update  pf:formatAutorise=doc "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE/Acte intégral" 
+
+#
+setp -value 1 -xpath pf:nbDocAccepteMax "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE/Acte intégral"
+
+# creation ParapheurFolder Décret PR CE/Extrait
+mkdir ParapheurFolder "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE/Extrait" -title "Extrait"
+
+# update pf:formatAutorise
+update  pf:formatAutorise=doc "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE/Extrait" 
+
+#
+setp -value 1 -xpath pf:nbDocAccepteMax "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE/Extrait"
+
+
+# creation ParapheurFolder Décret PR CE/Pièces complémentaires à publier
+mkdir ParapheurFolder "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE/Pièces complémentaires à publier" -title "Pièces complémentaires à publier"
+
+
+# verification
+tree "/case-management/workspaces/admin/parapheur/ModeleParapheur Décret PR CE"
+
+# creation ModeleFondDeDossier Décret PR CE
+mkdir ModeleFondDeDossier "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE" -title "ModeleFondDeDossier Décret PR CE"
+
+# maj ModeleFondDeDossier Décret PR CE
+setp -value "47" -xpath mfdd:typeActe "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire réservé au ministère porteur
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire réservé au ministère porteur" -title "Répertoire réservé au ministère porteur"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire réservé au ministère porteur
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire réservé au ministère porteur"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire réservé au SGG
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire réservé au SGG" -title "Répertoire réservé au SGG"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire réservé au SGG
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire réservé au SGG"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire réservé au ministère porteur et au SGG
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire réservé au ministère porteur et au SGG" -title "Répertoire réservé au ministère porteur et au SGG"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire réservé au ministère porteur et au SGG
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire réservé au ministère porteur et au SGG"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs" -title "Répertoire accessible à tous les utilisateurs"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Epreuves
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Epreuves" -title "Epreuves"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Epreuves
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Epreuves"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe" -title "Documentation jointe"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Annexes non publiées
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Annexes non publiées" -title "Annexes non publiées"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Annexes non publiées
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Annexes non publiées"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Note pour le ministère
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Note pour le ministère" -title "Note pour le ministère"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Note pour le ministère
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Note pour le ministère"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Rapport de présentation
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Rapport de présentation" -title "Rapport de présentation"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Rapport de présentation
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Rapport de présentation"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettres d'accord
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettres d'accord" -title "Lettres d'accord"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettres d'accord
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettres d'accord"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettre de saisine du Conseil d'Etat
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettre de saisine du Conseil d'Etat" -title "Lettre de saisine du Conseil d'Etat"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettre de saisine du Conseil d'Etat
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettre de saisine du Conseil d'Etat"
+
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Liste des commissaires du gouvernement
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Liste des commissaires du gouvernement" -title "Liste des commissaires du gouvernement"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Liste des commissaires du gouvernement
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Liste des commissaires du gouvernement"
+
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis divers
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis divers" -title "Avis divers"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis divers
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis divers"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes de références
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes de références" -title "Textes de références"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes de références
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes de références"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Etude d'impact
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Etude d'impact" -title "Etude d'impact"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Etude d'impact
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Etude d'impact"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Divers
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Divers" -title "Divers"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Divers
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Divers"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis du Conseil d'Etat
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis du Conseil d'Etat" -title "Avis du Conseil d'Etat"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis du Conseil d'Etat
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis du Conseil d'Etat"
+
+# creation ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes consolidés
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes consolidés" -title "Textes consolidés"
+
+# maj ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes consolidés
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes consolidés"
+
+
+# verification
+tree "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Décret PR CE"

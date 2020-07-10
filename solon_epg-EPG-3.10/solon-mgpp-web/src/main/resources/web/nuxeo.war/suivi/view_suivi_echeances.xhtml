@@ -1,0 +1,38 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+<nxu:set var="contentViewId" value="0">
+  <nxu:set var="contentViewName" value="suivi_echeances_content">
+     <nxu:set var="fixedTableName" value="FichePresentationDR">
+     	<nxu:set var="fixedColumnNumber" value="1">
+		     <ui:decorate template="/incl/content_view.xhtml">
+		       <ui:define name="content_view_header_before_selector" />
+		     </ui:decorate>
+     	</nxu:set>
+     </nxu:set>
+   </nxu:set>
+</nxu:set>
+
+<script>
+	var j = jQuery.noConflict();
+	j(document).ready(function() {
+		j('div.fht-tbody').each(function(i){j(this).css("margin-top", "0")});
+		var nH = (parseInt(j('div.fht-tbody').height()) - 15) +"px";
+		if(j.browser.msie) {
+			j('div.fht-tbody').each(function(i){j(this).css("height", nH)});
+			j('div.fht-fixed-column div.fht-thead tr').each(function(i){j(this).css("height", ((parseInt(j(this).height())+1)+"px"))});
+			j('div.fht-fixed-column div.fht-tbody tr').each(function(i){j(this).css("height", (parseInt(j(this).height())+(i%2))+"px")});
+		}
+	});
+</script>
+
+</div>

@@ -1,0 +1,151 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<script type="text/javascript">
+		function confirmDeleteAN(event) {
+	 		return displayConfirm(event, "#{messages['activite.normative.remove.confirmation']}");
+	   	}
+		function confirmDeleteMesure(event) {
+	 		return displayConfirm(event, "#{messages['activite.normative.remove.confirmation.mesure']}");
+	   	}
+		function confirmDeleteDecret(event) {
+	 		return displayConfirm(event, "#{messages['activite.normative.remove.confirmation.decret']}");
+	   	}
+		function confirmDeleteLoiDeRatification(event) {
+	 		return displayConfirm(event, "#{messages['activite.normative.remove.confirmation.loiRatification']}");
+	   	}
+		function confirmDeleteTexteTransposition(event) {
+	 		return displayConfirm(event, "#{messages['activite.normative.remove.confirmation.ttr']}");
+	   	}
+		function confirmDeleteHabilitation(event) {
+	 		return displayConfirm(event, "#{messages['activite.normative.remove.confirmation.hab']}");
+	   	}
+		function confirmDeleteOrdoHabilitation(event) {
+	 		return displayConfirm(event, "#{messages['activite.normative.remove.confirmation.ordo.hab']}");
+	   	}
+	   	
+        function toggleBoxDiv(toggleButton, id) {
+     	   var title = toggleButton.parentNode;
+     	   if (Element.hasClassName(title, 'folded')) {
+     	     title.className = 'unfolded';
+     	   } else {
+     	     title.className = 'folded';
+     	   }
+     	   Effect.toggle(document.getElementById(id), 'blind', {duration:0.2});
+     	   resize();
+     	   return false;
+     	 }
+	</script> 
+		  
+	<nxu:set var="contentViewAN" value="#{activiteNormativeActions.contentViewName}">
+	 	<div class="tabsBarContent barContent">
+			<nxu:set var="contentViewId" value="#{contentViewAN}">
+			  <nxu:set var="contentViewName" value="#{contentViewAN}">
+				<nxu:set var="filtrable" value="true">
+					<nxu:set var="listingDecorator" value="#{dossierListingDecorator}" cache="true">
+					  <ui:decorate template="/incl/content_view.xhtml">
+					    <ui:define name="content_view_header_before_selector" />
+					  </ui:decorate>
+					</nxu:set>
+				</nxu:set>
+			  </nxu:set>
+			</nxu:set>
+		</div>
+		<!-- Ajout possible que si updater et ailleurs que dans "Ratifications des ordonnances" car mise dans le tableau automatique a la publication -->
+		<h:panelGroup rendered="#{activiteNormativeActions.isActiviteNormativeUpdater() and not activiteNormativeActions.isInTraiteAccord()}">
+			<h:form id="loi_form">
+				<table class="dataInput">
+					<tr>
+						<td >
+							<c:choose>
+								<c:when test="#{activiteNormativeActions.isInTransposition()}">
+									<h:outputText value="#{messages['activite.normative.label.numero']} : " styleClass="labelColumn" />								
+								</c:when>
+								<c:otherwise>
+									<h:outputText value="#{messages['activite.normative.label.nor']} : " styleClass="labelColumn" />
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<td >
+							<h:inputText id="loi_input" value="#{activiteNormativeActions.activiteNormativeNor}"/>
+						</td>
+						<td >
+				            <h:commandLink id="loiAddBtn" action="#{activiteNormativeActions.addToActiviteNormative}">
+			                  <h:graphicImage id="addActiviteNormativeNor" alt="Ajouter" title="Ajouter" value="/icons/action_add.gif" styleClass="add_icon"/>
+				            </h:commandLink>
+				        </td>
+		            </tr>
+		        </table>
+			</h:form>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{activiteNormativeActions.isInOrdonnances()}">
+			<h:form id="masque_form">
+				<h:commandLink action="#{texteMaitreOrdonnanceActions.invertMasquerRatifie()}" immediate="true">
+	            	<h:outputText value="#{messages['activite.normative.tableau.masquerRatifie']}" rendered="#{!texteMaitreOrdonnanceActions.isMasquerRatifie()}"/>
+	            	<h:outputText value="#{messages['activite.normative.tableau.afficherRatifie']}" rendered="#{texteMaitreOrdonnanceActions.isMasquerRatifie()}"/>
+	            </h:commandLink> 
+			</h:form>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{activiteNormativeActions.isActiviteNormativeUpdater() and activiteNormativeActions.isInTraiteAccord()}">
+			<div class="foldableBox" >
+				<h:form>
+					<h3 class="folded">
+						<a4j:commandLink value="#{messages['activite.normative.creation']}" eventsQueue="ajax_events_queue"  oncomplete="return toggleBoxDiv(this, 'creation_div');" action="#{texteMaitreTraitesActions.setToggleBox('creation')}" />
+					</h3>
+				</h:form>
+				<div class="boxBody" id="creation_div">
+					<h:form id="creation_form" enctype="multipart/form-data">
+						<table class="dataInput">
+							<tr>
+								<td >
+									<h:outputText value="#{messages['activite.normative.label.titre']} : " styleClass="labelColumn required" />
+								</td>
+								<td >
+									<h:inputText id="traite_titre_input" value="#{activiteNormativeTraitesActions.titre}" required="true"/>
+									<h:message id="traite_titre_input_message" for="traite_titre_input" styleClass="errorMessage" />
+								</td>
+				            </tr>
+							<tr>
+								<td >
+									<h:outputText value="#{messages['activite.normative.publication']} : " styleClass="labelColumn required" />
+								</td>
+								<td >
+									<h:selectOneRadio value="#{activiteNormativeTraitesActions.publication}" id="traite_checkbox"  required="true">
+								      <f:selectItem itemValue="#{true}" itemLabel="#{messages['label.yes']}" />
+								      <f:selectItem itemValue="#{false}" itemLabel="#{messages['label.no']}" />
+								    </h:selectOneRadio>
+								    <h:message styleClass="errorMessage" for="traite_checkbox" id="traite_checkbox_message" />
+								</td>
+				            </tr>
+							<tr>
+								<td >
+									<h:outputText value="#{messages['activite.normative.label.dateSignature']} : " styleClass="labelColumn required" />
+								</td>
+								<td >
+									<div style="vertical-align: middle;">
+										<nxu:inputDateTime value="#{activiteNormativeTraitesActions.dateSignature}" id="traite_date_input" showsTime="false" format="dd/MM/yyyy" required="true"/>
+									</div>
+									<h:message id="traite_date_input_message" for="traite_date_input" styleClass="errorMessage" />
+								</td>
+								<td >
+						            <h:commandLink id="traiteAddBtn" action="#{activiteNormativeTraitesActions.addToActiviteNormative}">
+					                  <h:graphicImage id="addTraite" alt="Ajouter" title="Ajouter" value="/icons/action_add.gif" styleClass="add_icon"/>
+						            </h:commandLink>
+						        </td>
+				            </tr>
+				          </table>
+					</h:form>
+				</div>
+			</div>
+			<script type="text/javascript">
+	           if  ("#{texteMaitreTraitesActions.getToggleBox('creation')}" == "false"){
+	    	     Effect.toggle(document.getElementById('creation_div'), 'blind', {duration:0});
+	           }
+	        </script>
+		</h:panelGroup>
+	</nxu:set>
+</div>

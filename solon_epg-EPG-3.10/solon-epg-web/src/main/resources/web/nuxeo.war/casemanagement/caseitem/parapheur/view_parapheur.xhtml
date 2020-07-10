@@ -1,0 +1,269 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:t="http://myfaces.apache.org/tomahawk" class="dropzone"><h:form
+  id="document_properties_parapheur" enctype="multipart/form-data">
+  <!-- ajout d'un style  pour cacher l'icone par defaut du noeud du fichier. Ce style n'est pas mis dans la contribution theme-reponses car la propriété visibility n'est pas reconnu par nuxeo -->
+  <style>
+.treeStyle div div div .dr-tree-h-ic-line-clp img {
+    visibility: hidden;
+}
+</style>
+  <a4j:region id="parapheurDocumentViewRegion">
+    <a4j:outputPanel id="parapheurDocumentViewPanel">
+      <nxu:set var="isParaUpdatable"
+        value="#{!dossierCreationActions.isInViewRectificatif() and !espaceTraitementActions.isInCorbeilleIndexation() and isParapheurUpdatable ?'true':'false'}"
+        cache="true">
+        <div class="treeFile">
+        <div style="clear: both;"></div>
+        <table>
+          <tr>
+            <td>
+              <c:choose>
+                <c:when test="#{typeActeFilter.isRapportAuParlement()}">
+                  <h3>Rapport</h3>
+                </c:when>
+                <c:otherwise>
+                  <h3>Parapheur</h3>
+                </c:otherwise>
+              </c:choose>
+            </td>
+            <td><nxh:commandLink
+              action="#{parapheurTree.reloadParapheurTree()}"
+              immediate="true">
+              <h:graphicImage value="/img/refresh.png" alt="Recharger"
+                title="Recharger" id="rechargerParapheur" />
+            </nxh:commandLink></td>
+          </tr>
+        </table>
+        <br />
+        <h:panelGroup>
+          <table
+            style="border-collapse: collapse; width: 100%; table-layout: fixed;"
+            class="fakeTable">
+            <thead style="margin: 0px; border-collapse: collapse;">
+              <tr>
+                <th><h:outputText value="Fichiers" /></th>
+                <th style="width: 100px; padding: 3px 1px 3px 1px;">
+                <h:outputText value="Auteur" /></th>
+                <th style="width: 100px; padding: 3px 1px 3px 1px;">
+                <h:outputText value="Entité" /></th>
+                <th style="width: 75px; padding: 3px 1px 3px 1px;">
+                <h:outputText value="Date" /></th>
+                <th style="width: 75px; padding: 3px 1px 3px 1px;">
+                <h:outputText value="Version" /></th>
+                <th style="width: 20px;"><h:outputText value="" />
+                </th>
+              </tr>
+            </thead>
+            <!-- note : attributs id and class are used by the style css -->
+            <tbody id="parapheurTreeTable" class="treeStyle"
+              style="margin: 0px; border-collapse: collapse;">
+              <tr>
+                <td colspan="6" class="treeTableMainTd"><!-- Parapheur Tree -->
+                <rich:tree id="parapheurTree" reRender="selectedNode" switchType="client"
+                  value="#{parapheurTree.parapheur}" var="item" nodeFace="#{item.type}" adviseNodeOpened="#{parapheurTree.adviseNodeOpened}">
+
+                  <!-- répertoire -->
+                  <rich:treeNode id="parapheurFolder" type="ParapheurFolder" iconLeaf="#{parapheurTree.getImgIcon(item)}"
+                    icon="#{parapheurTree.getImgIcon(item)}" nodeClass="fddTreeNodeSelectedClass" highlightedClass="fddTreeNodeHighlightedClass">
+                  <div id="docRefTarget:#{item.id}"  class="#{nxu:test(isParaUpdatable, 'nxDropTarget','')}"> 
+                    <table width="100%">
+                      <tr>
+                        <td>
+                            <h:outputText value="#{item.title}" />
+                            <rich:componentControl for="menuParapheurDossier" operation="show" event="onclick" rendered="#{isParaUpdatable and !parapheurTree.isFolderFull(item) and parapheurTree.isEpreuveAndUnauthorized(item)}">
+                              <f:param value="#{item.id}" name="id" />
+                              <f:param value="#{item.type}" name="type" />
+                              <f:param value="#{item.name}" name="name" />
+                              <f:param value="#{item.title}" name="title" />
+                            </rich:componentControl>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>  
+                  </rich:treeNode>
+
+                  <!-- fichier -->
+                  <rich:treeNode id="parapheurFichier"
+                    type="FileSolonEpg"
+                    iconLeaf="/img/icons/vide_16.png"
+                    icon="/img/icons/vide_16.png"
+                    highlightedClass="fddTreeNodeHighlightedClass">
+                    <!-- add document model in node -->
+                    <table width="100%">
+                      <tr>
+                        <td>
+                            <div class="treeLinkSizeLimit">
+                                <a4j:outputPanel id="zoneFichierParapheur">
+                                <div id="docRefTarget:#{item.id}"> 
+                                  <c:if test="#{isParaUpdatable!=null and isParaUpdatable}">
+                                  <div id="docRef:#{item.id}" class ="cell popupTarget nxDraggable" docRef="#{item.id}">
+                                  <nxh:graphicImage
+                                    value="#{nxd:fileIconPath(blobHolderGenerator.getBlobHolder(item.document).blob)}" styleClass="icon smallIcon" />
+                                 </div> 
+                                 </c:if>
+                                 <c:if test="#{not isParaUpdatable}">
+                                  <nxh:graphicImage
+                                    value="#{nxd:fileIconPath(blobHolderGenerator.getBlobHolder(item.document).blob)}" styleClass="icon smallIcon" />
+                                 </c:if>                                 
+                                 </div>  
+                                  <h:outputText value=" #{item.title}" />
+
+                                  <!--  menu contextuel -->
+                                  <rich:componentControl event="onclick" for="menuParapheurFichier" operation="show">
+                                    <f:param value="#{item.id}" name="id" />
+                                    <f:param value="#{item.name}" name="name" />
+                                    <f:param value="#{item.type}" name="type" />
+                                    <f:param value="#{item.title}" name="title" />
+                                    <f:param value="#{item.majorVersion}" name="numeroVersion" />
+                                    <f:param value="#{nxd:fileUrl('downloadFile', item.document, 'file:content', item.title)}" name="downloadFileLink" />
+                                  </rich:componentControl>
+
+                                </a4j:outputPanel> 
+                                <nxu:methodResult name="isLiveEditable" value="#{liveEditHelper.isLiveEditable(blobHolderGenerator.getBlobHolder(item.document).blob)}">
+                                  <h:panelGroup rendered="#{isLiveEditable and isParaUpdatable}">
+                                    <h:outputText value=" | " />
+                                    <h:outputLink onclick="alertLiveEdit()" value="#{nxd:liveEditUrl(item.document, 'file', 'content', 'filename')}">
+                                      <h:outputText value="#{messages['label.document.directEdit']}" />
+                                    </h:outputLink>
+                                  </h:panelGroup>
+                                </nxu:methodResult>
+                            </div>
+                        </td>
+                        <td style="width: 100px; text-align: center;word-wrap: break-word;">
+                            <h:outputText value="p n##{item.lastContributor}" converter="OrganigrammeUserIdToLabelConverter" />
+                        </td>
+                        <td style="width: 100px; text-align: center;">
+                            <h:outputText value="#{item.entite}" />
+                        </td>
+
+                        <td style="width: 75px; text-align: center;">
+                            <h:outputText value="#{item.modifiedDate.getTime()}">
+                              <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="#{parapheurTree.getTimeZone()}"/>
+                            </h:outputText>
+                        </td>
+                        <td style="width: 75px; text-align: center;">
+                            <h:outputText value="#{item.majorVersion}" /></td>
+                        <td style="width: 20px;"></td>
+                      </tr>
+                    </table>
+                  </rich:treeNode>
+                </rich:tree></td>
+              </tr>
+            </tbody>
+          </table>
+        </h:panelGroup>
+
+        <div class="menuContextuelStyle"><!-- repertoire menu -->
+            <rich:contextMenu attached="false" id="menuParapheurDossier" submitMode="ajax">
+              
+              <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('createFileParapheurPanel')"
+                reRender="parapheurDocumentViewPanel,createFileParapheurOutPutPanel" onmouseover="selected(this);">
+                
+                <h:graphicImage value="/icons/add.png" />
+                <h:outputText value="Ajouter document" />
+                <a4j:actionparam assignTo="#{parapheurManagerActions.selectedNodeId}" 
+                    name="SelectedNodeId" value="{id}" />
+                <a4j:actionparam assignTo="#{parapheurManagerActions.selectedNodeName}"
+                    name="SelectedNodeName" value="{name}" />
+              </rich:menuItem>
+            </rich:contextMenu> <!-- menu contextuel pour un fichier modifiable et supprimable -->
+            
+            <rich:contextMenu attached="false" id="menuParapheurFichier" submitMode="ajax">
+              
+              <!-- action  télécharger fichier -->
+              <rich:menuItem ajaxSingle="true" reRender="parapheurDocumentViewPanel,createFileParapheurOutPutPanel" onmouseover="selected(this);">
+                <a href="{downloadFileLink}">
+                    <h:graphicImage value="/img/icons/document_down_blue.png" />Téléchargement fichier
+                </a>
+                <a4j:actionparam
+                  assignTo="#{parapheurManagerActions.selectedNodeId}"
+                  name="SelectedNodeId" value="{id}" />
+                <a4j:actionparam
+                  assignTo="#{parapheurManagerActions.selectedNodeType}"
+                  name="SelectedNodeType" value="{type}" />
+              </rich:menuItem>
+              
+              <!-- action Renommer  : lance une popup -->
+              <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('renameFileParapheurPanel')"
+                     onmouseover="selected(this);" reRender="renameFileParapheurPanel">
+                   <h:graphicImage value="/icons/modify.png"/>
+                   <h:outputText value="Renommer" />
+                   <a4j:actionparam assignTo="#{parapheurManagerActions.selectedNodeId}"
+                       name="SelectedNodeId" value="{id}" />
+                   <a4j:actionparam assignTo="#{parapheurManagerActions.selectedNodeTitle}"
+                       name="SelectedNodeTitle" value="{title}" />
+              </rich:menuItem>
+              
+              <!-- action éditer fichier -->
+              <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('editFileParapheurPanel')"
+                reRender="parapheurDocumentViewPanel,editFileParapheurOutPutPanel" onmouseover="selected(this);" rendered="#{isParaUpdatable}">
+                <h:graphicImage value="/icons/add.png" />
+                <h:outputText value="Nouvelle version" />
+                <a4j:actionparam assignTo="#{parapheurManagerActions.selectedNodeId}" 
+                    name="SelectedNodeId" value="{id}" />
+                <a4j:actionparam assignTo="#{parapheurManagerActions.selectedNodeName}"
+                    name="SelectedNodeName" value="{name}" />
+              </rich:menuItem>
+              
+              <!-- action consulter les versions du fichier -->
+              <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('parapheurFileVersionListPanel')"
+                reRender="parapheurDocumentViewPanel,parapheurFileVersionListOutPutPanel" onmouseover="selected(this);">
+                <h:graphicImage value="/icons/add.png" />
+                <h:outputText value="Gestionnaire de version" />
+                <a4j:actionparam
+                  assignTo="#{parapheurManagerActions.selectedNodeId}"
+                  name="SelectedNodeId" value="{id}" />
+                <a4j:actionparam
+                  assignTo="#{parapheurManagerActions.selectedNodeType}"
+                  name="SelectedNodeType" value="{type}" />
+              </rich:menuItem>
+              
+              <!-- action Supprimer : lance une popup -->
+              <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('deleteParapheurFilePanel')"
+                onmouseover="selected(this);" reRender="deleteParapheurFilePanel" rendered="#{isParaUpdatable}">
+                <h:graphicImage value="/icons/delete.png" />
+                <h:outputText value="Supprimer" />
+                <a4j:actionparam
+                  assignTo="#{parapheurManagerActions.selectedNodeId}"
+                  name="SelectedNodeId" value="{id}" />
+                <a4j:actionparam
+                  assignTo="#{parapheurManagerActions.numeroVersion}"
+                  name="NumeroVersion" value="{numeroVersion}" />
+                <a4j:actionparam
+                  assignTo="#{parapheurManagerActions.selectedNodeTitle}"
+                  name="SelectedNodeTitle" value="{title}" />
+              </rich:menuItem>
+            </rich:contextMenu>            
+          </div>
+        </div>
+      </nxu:set>
+    </a4j:outputPanel>
+  </a4j:region>
+</h:form> <script language="javascript">
+  //on utilise cette fonctions pour faire l'effet de selection d'action (on ne passe pas par l'attribut css :hover car non compatible IE6)
+  function selected(element) {
+      element.style.backgroundColor = "#774743";
+      element.style.cursor = "pointer";
+  }
+  function alertLiveEdit() {
+	  var menu = '#{navigationWebActions.currentMainMenuAction}'; 
+	  if(menu == 'espace_recherche' || menu == 'espace_suivi') {
+	  	alert("Merci d'enregistrer le document régulièrement sans quoi les modifications seront perdues.");
+	  }
+  }
+  </script>  
+  <ui:include src="/casemanagement/caseitem/parapheur/fileParapheur_version_list.xhtml" /> 
+  <ui:include src="/casemanagement/caseitem/parapheur/create_file_parapheur.xhtml" />
+  <ui:include src="/casemanagement/caseitem/parapheur/rename_file.xhtml" />
+  <ui:include src="/casemanagement/caseitem/parapheur/update_file_parapheur.xhtml" />
+  <ui:include src="/casemanagement/caseitem/parapheur/delete_file_parapheur.xhtml" />
+</div>

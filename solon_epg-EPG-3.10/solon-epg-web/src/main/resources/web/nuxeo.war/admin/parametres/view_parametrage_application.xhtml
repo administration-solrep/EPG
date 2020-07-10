@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  >
+  <ui:define name="page title">
+    <c:choose>
+  		<c:when test="#{parametrageApplicationAdministrationActions.isAccessAuthorized()}">
+    		<h:outputText value="#{nuxeoApplicationName} - Paramétrage de l'application"/>
+    	</c:when>
+    	<c:otherwise>
+    		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+    	</c:otherwise>
+    </c:choose>
+  </ui:define>
+
+  <ui:define name="body">
+  <c:if test="#{parametrageApplicationAdministrationActions.isAccessAuthorized()}">
+    <div class="parametrageApplication">
+ 				<h:form id="parametrage_application_properties" enctype="multipart/form-data">
+					<a4j:region id="parametrageApplicationViewRegion"  >
+						<a4j:outputPanel id="parametrageApplicationViewPanel" >
+							<h:panelGroup >
+				        <h3 class="summaryTitle">
+				          <h:outputText value="Paramétrage de l'application"/>
+				        </h3>
+				      </h:panelGroup>
+							<div style="clear:both"></div>
+					<h4 class="summarySubTitle">
+			          <h:outputText value="Messages"/>
+			        </h4>
+			        <nxl:layout value="#{parametrageApplicationAdministrationActions.parametrageApplication}" mode="edit" name="parametrage_application_messages" />
+							
+			        <h4 class="summarySubTitle">
+			          <h:outputText value="Corbeilles"/>
+			        </h4>
+			        <nxl:layout value="#{parametrageApplicationAdministrationActions.parametrageApplication}" mode="edit" name="parametrage_application_corbeille" />
+            	<div style="padding:0 0 0 32px;">	
+	          		<rich:listShuttle id="metadonneesDisponible" sourceValue="#{parametrageApplicationAdministrationActions.sourceValue}"
+			            targetValue="#{parametrageApplicationAdministrationActions.targetValue}" var="items" listsHeight="200"
+			            sourceListWidth="250" targetListWidth="325" sourceCaptionLabel="Métadonnées existantes"
+			            targetCaptionLabel="Métadonnées actuellement disponibles pour les utilisateurs"
+			            fastMoveControlsVisible="true"
+			            fastOrderControlsVisible="false"
+			            orderControlsVisible="false"
+			            copyControlLabel="Ajouter"
+			            copyAllControlLabel="Ajouter tout"
+			            removeControlLabel="Enlever"
+			            removeAllControlLabel="Enlever tout"
+			           	converter="#{parametrageApplicationAdministrationActions.getConverter()}"> 
+			            <rich:column>
+			                <h:outputText value="#{items.vocabulary.label}"/>
+			            </rich:column>
+			        </rich:listShuttle>
+				      </div>
+				      <div style="clear:both"></div>
+
+			        <h4 class="summarySubTitle">
+			          <h:outputText value="Recherche"/>
+			        </h4>
+			        <nxl:layout value="#{parametrageApplicationAdministrationActions.parametrageApplication}" mode="edit" name="parametrage_application_recherche" />
+				    <div style="clear:both"></div>
+				      
+				    <h4 class="summarySubTitle">
+			          <h:outputText value="Suivi"/>
+			        </h4>
+			        <nxl:layout value="#{parametrageApplicationAdministrationActions.parametrageApplication}" mode="edit" name="parametrage_application_suivi" />
+				    
+				    <div style="clear:both"></div>
+				      
+				    <h4 class="summarySubTitle">
+			          <h:outputText value="Gestion des envois de courriers électroniques"/>
+			        </h4>
+			        <nxl:layout value="#{parametrageApplicationAdministrationActions.parametrageApplication}" mode="edit" name="parametrage_application_mails" />
+				    <div style="clear:both"></div>
+
+					<h4 class="summarySubTitle">
+						<h:outputText value="Connexion à SOLON-EPP pour les informations parlementaires"/>
+					</h4>
+					<nxl:layout value="#{parametrageApplicationAdministrationActions.parametrageApplication}" mode="edit" name="parametrage_application_infosparl" />
+					<div style="clear:both"></div>
+				      
+				      <div class="formFolderModelButtons">
+								<div>
+								<!-- bouton d'action permettant  d'enregistrer les modifications apportées dans le paramètrage de l'application -->
+								<a4j:commandButton value="Valider"
+									action="#{parametrageApplicationAdministrationActions.valider()}"
+									id="validerParametrageApplication" reRender="parametrageApplicationViewPanel" styleClass="firstButton" >
+								</a4j:commandButton>
+								<!-- bouton d'action permettant d’annuler les modifications apportées dans le paramètrage de l'application -->
+								<a4j:commandButton value="Annuler"
+									action="#{parametrageApplicationAdministrationActions.annuler()}"
+									id="annulerParametrageApplication" ajaxSingle="true" reRender="parametrageApplicationViewPanel" styleClass="button" > 
+								</a4j:commandButton>
+							</div>
+							
+							<div class="formFolderModelButtons">
+								<h:outputText value="#{parametrageApplicationAdministrationActions.errorName}" rendered="#{! empty parametrageApplicationAdministrationActions.errorName}" styleClass="msgError" />
+							</div>
+							</div>
+		      	</a4j:outputPanel>
+				</a4j:region>
+		 </h:form>
+    </div>
+    </c:if>
+  </ui:define>
+</nxthemes:composition>

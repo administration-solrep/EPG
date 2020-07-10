@@ -1,0 +1,36 @@
+<nxthemes:composition  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich">
+  
+  <div style="clear: both">
+    <div class="tabsBar">
+
+      <div class="floatLeftTabs">
+
+         <h:form>
+      <nxu:methodResult name="actions"
+        value="#{webActions.getActionsList('DOSSIER_SUPPRESSION_TAB')}">
+            <nxu:dataList layout="unorderedList" var="action" value="#{actions}">
+            <nxh:commandLink action="#{action.getLink()}">
+              
+                <h:outputText value="action.label" />
+            </nxh:commandLink>
+            </nxu:dataList>
+          </nxu:methodResult>
+        </h:form>
+
+      </div>
+    </div>
+    <div class="tabsContent">
+      <ui:include src="#{webActions.currentSubTabAction.link}" />
+    </div>
+  </div>
+</nxthemes:composition>

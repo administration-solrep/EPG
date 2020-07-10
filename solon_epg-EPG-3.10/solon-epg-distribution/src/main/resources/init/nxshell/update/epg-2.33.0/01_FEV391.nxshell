@@ -1,0 +1,57 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/01_FEV391.nxshell
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p 4ju7Ix662Eo1d77u http://localhost:8180/solon-epg/site/automation
+
+cd /case-management
+mkdir VecteurPublicationRoot "/case-management/vecteur-publication-root"
+perms -grant Everyone:Everything "/case-management/vecteur-publication-root/"
+
+#Vecteur de parution nettoyage et initialisation
+cd /case-management/vecteur-publication-root/
+#Création du journal officiel
+mkdir VecteurPublication JournalOfficiel
+cd JournalOfficiel
+setp -xpath vp:vpIntitule -value "Journal Officiel"
+setp -xpath vp:vpPos -value "1"
+cd ..
+
+#Création de BODMR
+mkdir VecteurPublication Bodmr
+cd Bodmr
+setp -xpath vp:vpIntitule -value "BODMR"
+setp -xpath vp:vpPos -value "2"
+cd ..
+
+#Création de documents administratifs
+mkdir VecteurPublication docAdministratif
+cd docAdministratif
+setp -xpath vp:vpIntitule -value "Documents administratifs"
+setp -xpath vp:vpPos -value "3"
+cd ..
+
+#Création de JO + documents administratifs
+mkdir VecteurPublication joAdministratif
+cd joAdministratif
+setp -xpath vp:vpIntitule -value "JO + Documents administratifs"
+setp -xpath vp:vpPos -value "4"
+
+#Mode de parution initialisation
+cd /case-management/table-reference-root
+mkdir ModeParution Electronique
+cd Electronique
+setp -xpath mod:mode -value "Electronique"
+cd ..
+mkdir ModeParution Mixte
+cd Mixte
+setp -xpath mod:mode -value "Mixte"
+cd ..
+mkdir ModeParution Papier
+cd Papier
+setp -xpath mod:mode -value "Papier"
+
+script reprise/updateVecteurPublication.groovy
+script reprise/updateModeParution.groovy

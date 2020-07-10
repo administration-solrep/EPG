@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+
+<fragment version="1">
+  <require>fr.dila.st.web</require>
+  <require>fr.dila.ss.web</require>
+  <require>fr.dila.solonepg.core</require>
+  <require>fr.dila.solonepg.web</require>
+
+  <require>org.nuxeo.ecm.webapp.ui</require>
+  <require>org.nuxeo.runtime</require>
+  <require>org.nuxeo.ecm.platform.lang</require>
+  <require>org.nuxeo.theme.jsf</require>
+  <require>org.nuxeo.ecm.actions</require>
+  <require>fr.dila.ecm.platform.routing.web</require>
+  <require>org.nuxeo.ecm.webapp.base</require>
+  <require>org.nuxeo.ecm.platform.smart.query.jsf</require>
+  
+  <extension target="components#SEAM_CORE_MANAGER" mode="replace">
+    <!-- 30 min / NXP-9022 fix seam conversation timeout to 30m  -->
+    <property name="conversationTimeout">1800000</property>
+    <!-- 60s, default value is 1s -->
+    <property name="concurrentRequestTimeout">60000</property>
+  </extension>
+  
+  <extension target="application#MODULE">
+    <module>
+      <ejb>${bundle.fileName}</ejb>
+    </module>
+  </extension>
+
+  <extension target="faces-config#NAVIGATION">
+  
+    <!-- Navigation dans les corbeilles (messages) -->
+    <navigation-case>
+      <from-outcome>view_corbeille_message</from-outcome>
+      <to-view-id>/corbeille/view_corbeille.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation dans les corbeilles (DossierLink) -->
+    <navigation-case>
+      <from-outcome>view_corbeille_dossier</from-outcome>
+      <to-view-id>/corbeille/view_espace_traitement.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- vue de completion d'un evenement -->
+    <navigation-case>
+      <from-outcome>completer_metadonnee_evenement</from-outcome>
+      <to-view-id>/metadonnees/completer_metadonnee_evenement.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- vue de creation d'un evenement -->
+    <navigation-case>
+      <from-outcome>create_metadonnee_evenement</from-outcome>
+      <to-view-id>/metadonnees/create_metadonnee_evenement.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- vue de modification d'un evenement -->
+    <navigation-case>
+      <from-outcome>modifier_metadonnee_evenement</from-outcome>
+      <to-view-id>/metadonnees/modifier_metadonnee_evenement.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- vue de rectification d'un evenement -->
+    <navigation-case>
+      <from-outcome>rectifier_metadonnee_evenement</from-outcome>
+      <to-view-id>/metadonnees/rectifier_metadonnee_evenement.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers la vue de creation d'une intervention exterieure -->
+    <navigation-case>
+      <from-outcome>view_create_oep</from-outcome>
+      <to-view-id>/fiche_presentation/create_fiche_presentation_oep.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <!-- Navigation vers la vue de creation d'une avis nomination -->
+    <navigation-case>
+      <from-outcome>view_create_avi</from-outcome>
+      <to-view-id>/fiche_presentation/create_fiche_presentation_avi.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <!-- Navigation vers la vue de creation d'une audition -->
+    <navigation-case>
+      <from-outcome>view_create_aud</from-outcome>
+      <to-view-id>/fiche_presentation/create_fiche_presentation_aud.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <!-- Navigation vers la vue de creation d'un document -->
+    <navigation-case>
+      <from-outcome>view_create_doc</from-outcome>
+      <to-view-id>/fiche_presentation/create_fiche_presentation_doc.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+        
+    <!-- Navigation vers la vue de creation d'une intervention exterieure -->
+    <navigation-case>
+      <from-outcome>view_create_ie</from-outcome>
+      <to-view-id>/fiche_presentation/create_fiche_presentation_intervention_exterieure.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers la vue de creation de résolution aticle 34-1 -->
+    <navigation-case>
+      <from-outcome>view_create_341</from-outcome>
+      <to-view-id>/fiche_presentation/create_fiche_presentation_341.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers la vue d'afiichage de la liste de OEP -->
+    <navigation-case>
+      <from-outcome>view_liste_oep</from-outcome>
+      <to-view-id>/corbeille/view_liste_oep.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers la vue d'afiichage de la liste des avis de nominations -->
+    <navigation-case>
+      <from-outcome>view_liste_fiche_loi</from-outcome>
+      <to-view-id>/corbeille/view_liste_fiche_loi.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers la vue d'afiichage de la liste des avis de nominations -->
+    <navigation-case>
+      <from-outcome>view_liste_avi</from-outcome>
+      <to-view-id>/corbeille/view_liste_avi.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>view_liste_dr</from-outcome>
+      <to-view-id>/corbeille/view_liste_dr.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>view_liste_dr_67</from-outcome>
+      <to-view-id>/corbeille/view_liste_dr_67.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>view_liste_decret</from-outcome>
+      <to-view-id>/corbeille/view_liste_decret.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>view_liste_ie</from-outcome>
+      <to-view-id>/corbeille/view_liste_ie.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>view_liste_341</from-outcome>
+      <to-view-id>/corbeille/view_liste_341.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>view_liste_dpg</from-outcome>
+      <to-view-id>/corbeille/view_liste_dpg.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>view_liste_sd</from-outcome>
+      <to-view-id>/corbeille/view_liste_sd.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>view_liste_jss</from-outcome>
+      <to-view-id>/corbeille/view_liste_jss.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>view_liste_doc</from-outcome>
+      <to-view-id>/corbeille/view_liste_document.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>view_liste_aud</from-outcome>
+      <to-view-id>/corbeille/view_liste_aud.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le details d'un OEP -->
+    <navigation-case>
+      <from-outcome>view_details_oep</from-outcome>
+      <to-view-id>/corbeille/view_details_oep.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le details d'un document -->
+    <navigation-case>
+      <from-outcome>view_details_doc</from-outcome>
+      <to-view-id>/corbeille/view_details_doc.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le details d'une demande d'audition -->
+    <navigation-case>
+      <from-outcome>view_details_aud</from-outcome>
+      <to-view-id>/corbeille/view_details_aud.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le details d'une demande jours supplémentaire de séance -->
+    <navigation-case>
+      <from-outcome>view_details_jss</from-outcome>
+      <to-view-id>/corbeille/view_details_jss.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le details d'une déclaration de politique générale -->
+    <navigation-case>
+      <from-outcome>view_details_dpg</from-outcome>
+      <to-view-id>/corbeille/view_details_dpg.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le details d'une déclaration sur un sujet déterminé -->
+    <navigation-case>
+      <from-outcome>view_details_sd</from-outcome>
+      <to-view-id>/corbeille/view_details_sd.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le details d'un avis de nomination -->
+    <navigation-case>
+      <from-outcome>view_details_avi</from-outcome>
+      <to-view-id>/corbeille/view_details_avi.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le détail d'un rapport -->
+    <navigation-case>
+      <from-outcome>view_details_dr</from-outcome>
+      <to-view-id>/corbeille/view_details_dr.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Navigation vers le détail d'un decret -->
+    <navigation-case>
+      <from-outcome>view_details_decret</from-outcome>
+      <to-view-id>/corbeille/view_details_decret.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    
+    <!-- vue de la tab suivi -->
+    <navigation-case>
+      <from-outcome>view_suivi</from-outcome>
+      <to-view-id>/suivi/view_suivi.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Fiche de loi -->
+    <navigation-case>
+      <from-outcome>view_suivi_fiche_loi</from-outcome>
+      <to-view-id>/suivi/view_suivi_fiche_loi.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Parametrage MGPP -->
+    <navigation-case>
+      <from-outcome>view_parametrage_mgpp</from-outcome>
+      <to-view-id>/admin/view_parametrage_mgpp.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Table de reference EPP -->
+    <navigation-case>
+      <from-outcome>view_table_reference_epp</from-outcome>
+      <to-view-id>/admin/table_reference_epp/view_table_reference_epp.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>table_reference_gouvernement_epp</from-outcome>
+      <to-view-id>/admin/table_reference_epp/table_reference_gouvernement_epp.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>table_reference_ministere_epp</from-outcome>
+      <to-view-id>/admin/table_reference_epp/table_reference_ministere_epp.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>table_reference_mandat_epp</from-outcome>
+      <to-view-id>/admin/table_reference_epp/table_reference_mandat_epp.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- injection de gouvernement SOLON EPP -->
+    <navigation-case>
+      <from-outcome>view_injection_epp</from-outcome>
+      <to-view-id>/admin/organigramme/view_injection_epp.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- ***********************************************************************
+     Espace de Recherche
+     *********************************************************************** -->
+
+    <!-- Saisie des critère de recherche des fiches -->
+    <navigation-case>
+      <from-outcome>view_espace_mgpp_recherche</from-outcome>
+      <to-view-id>/requeteur/requeteur_dossier_mgpp.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <!-- Recherche experte resultats -->
+    <navigation-case>
+      <from-outcome>view_recherche_mgpp_resultats_fiche_loi</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_loi.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>view_recherche_mgpp_resultats_fiche_oep</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_oep.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>view_recherche_mgpp_resultats_fiche_avi</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_avi.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>view_recherche_mgpp_resultats_fiche_dr</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_dr.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>view_recherche_mgpp_resultats_fiche_decret</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_decret.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>view_recherche_mgpp_resultats_fiche_341</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_341.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>view_recherche_mgpp_resultats_fiche_ie</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_ie.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>view_recherche_mgpp_resultats_fiche_dpg</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_dpg.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>    
+
+    <navigation-case>
+     <from-outcome>view_recherche_mgpp_resultats_fiche_doc</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_doc.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>    
+
+    <navigation-case>
+     <from-outcome>view_recherche_mgpp_resultats_fiche_aud</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_aud.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>    
+
+    <navigation-case>
+     <from-outcome>view_recherche_mgpp_resultats_fiche_jss</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_jss.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>    
+
+
+    <navigation-case>
+     <from-outcome>view_recherche_mgpp_resultats_fiche_sd</from-outcome>
+      <to-view-id>/requeteur/requeteur_resultats_fiche_sd.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>    
+
+    
+    <!-- Recherche avancée -->
+    <navigation-case>
+      <from-outcome>view_recherche_avancee</from-outcome>
+      <to-view-id>/recherche/view_recherche_avancee.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>  
+    
+    <!-- Recherche avancée resultats -->
+    <navigation-case>
+      <from-outcome>view_recherche_avancee_resultat</from-outcome>
+      <to-view-id>/recherche/view_recherche_avancee_resultat.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>  
+    
+  </extension>
+
+  <install>
+    <unzip from="${bundle.fileName}" to="/" prefix="web">
+      <include>web/nuxeo.war/**</include>
+    </unzip>
+
+    <!-- Traductions -->
+    <delete path="${bundle.fileName}.tmp" />
+    <mkdir path="${bundle.fileName}.tmp" />
+    <unzip from="${bundle.fileName}" to="${bundle.fileName}.tmp" />
+
+    <!-- Surcharge la locale FR car on force la locale à FR dans l'application -->
+    <append from="${bundle.fileName}.tmp/l10n/messages.properties"
+      to="nuxeo.war/WEB-INF/classes/messages_fr.properties" addNewLine="true" />
+        <!-- Surcharge la locale par défaut, au cas où 
+    <append from="${bundle.fileName}.tmp/l10n/messages.properties"
+      to="nuxeo.war/WEB-INF/classes/messages.properties" addNewLine="true" /> -->
+
+    <delete path="${bundle.fileName}.tmp" />
+
+  </install>
+</fragment>
+
+

@@ -1,0 +1,34 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich">
+		<!-- Panneau d'affichage des données de parution bo -->
+		<c:forEach var="widgetItems" items="#{field_0}" rendered="#{not empty field_0}">
+			<table cellspacing="5" style="border: 1px solid #ccc; margin: 5px; margin-left: 30px;">
+					<!--  date parution bo -->
+					<tr>
+						<nxu:set var="fieldWidgetLabel" value="label.content.parutionBo.#{widgetField}">
+							<td style="width: 200px; text-align: right;"><strong><h:outputText value="#{messages['label.epg.dossier.dateParutionBo']}" /></strong></td>
+							<td><h:outputText value="#{widgetItems.get('dateParutionBo').getValue().getTime()}" converter="DateConverter"/></td>
+						</nxu:set>
+					</tr>
+					<!--  numero texte bo -->
+					<tr>
+						<nxu:set var="fieldWidgetLabel" value="label.content.parutionBo.#{widgetField}">
+							<td style="width: 200px; text-align: right;"><strong><h:outputText value="#{messages['label.epg.dossier.numeroTexteParutionBo']}" /></strong></td>
+							<td><h:outputText value="#{widgetItems.get('numeroTexteParutionBo').getValue()}"  /></td>
+						</nxu:set>
+					</tr>
+					<!--  page bo -->
+					<tr>
+						<nxu:set var="fieldWidgetLabel" value="label.content.parutionBo.#{widgetField}">
+							<td style="width: 200px; text-align: right;"><strong><h:outputText value="#{messages['label.epg.dossier.pageParutionBo']}" /></strong></td>
+							<td><h:outputText value="#{widgetItems.get('pageParutionBo').getValue()}" /></td>
+						</nxu:set>
+					</tr>
+			</table>
+		</c:forEach>
+</div>

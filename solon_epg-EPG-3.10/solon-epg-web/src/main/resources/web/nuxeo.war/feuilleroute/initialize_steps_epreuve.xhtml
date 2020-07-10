@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+	<ui:define name="page title">
+		<h:outputText value="Paramétrage d'ajout d'étapes pour épreuvage" />
+	</ui:define>
+
+	<ui:define name="body">
+		<div>
+			<h3>
+				<c:choose>
+					<c:when test="#{routingActions.isSqueletteFeuilleRoute()}">
+						<h:outputText
+							value="Sélection des postes de publication et DAN pour fournitures d'épreuve" />
+					</c:when>
+					<c:otherwise>
+						<h:outputText
+							value="Sélection des postes de publication, DAN et BDC pour fournitures d'épreuve" />
+					</c:otherwise>
+				</c:choose>
+			</h3>
+			<ui:include src="/incl/message_banner.xhtml" />
+
+			<nxu:set var="postes" value="#{routingActions.getPostesEpreuvage()}"
+				cache="true">
+
+				<h:form>
+					<c:choose>
+						<c:when test="#{routingActions.isSqueletteFeuilleRoute()}">
+							<nxl:layout value="#{postes}" mode="edit"
+								name="squelette_epreuve_initialize_postes_elements" />
+						</c:when>
+						<c:otherwise>
+							<nxl:layout value="#{postes}" mode="edit"
+								name="epreuve_initialize_postes_elements" />
+						</c:otherwise>
+					</c:choose>
+					<h:commandButton value="#{messages['command.global.validate']}"
+						action="#{routingActions.createStepsPourEpreuveApresInit()}"
+						id="validerPostesEpreuvage" styleClass="button" />
+					<h:commandButton value="#{messages['command.global.cancel']}"
+						action="#{routingActions.annulerPostesEpreuvage()}"
+						id="annulerPostesEpreuvage" styleClass="button" />
+
+				</h:form>
+			</nxu:set>
+		</div>
+
+	</ui:define>
+
+</nxthemes:composition>

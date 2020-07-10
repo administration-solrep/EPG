@@ -1,0 +1,175 @@
+<span xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:p="http://jboss.com/products/seam/pdf"
+  id="#{widget.id}">
+  
+  <style>
+    .dr-mpnl-pnl-b {
+      padding: 0px;
+    }
+    .rich-tree-node-selected {
+      border-color: #FFFFFF;
+    }
+    .rich-tree-node-highlighted {
+      text-decoration: none;
+      color: #000000;
+    }
+    .add_icon {
+      padding-left: 3px;
+    }
+  </style>
+  
+  <c:set var="selectionMode" value="#{nxu:test(!empty widget.properties.organigrammeSelectionMode, widget.properties.organigrammeSelectionMode, 'LIST')}" />
+  <c:set var="withImage" value="#{nxu:test(!empty widget.properties.withImage, widget.properties.withImage, true)}" />
+  <c:set var="filterAssemblee" value="#{nxu:test(!empty widget.properties.filterAssemblee, widget.properties.filterAssemblee, false)}" />
+  
+  <h:panelGroup id="#{widget.id}_global_region">
+    <c:choose>
+      <c:when test="#{widget.mode == 'view'}">
+        <c:if test="#{selectionMode == 'LIST'}">
+          <h:dataTable value="#{field_0}" var="item" rendered="#{not empty field_0}">
+            <h:column>
+              <f:subview>
+                  <c:if test="#{withImage}">
+                    <h:graphicImage value="/img/icons/base_organigramme.png" alt="base" />
+                  </c:if>
+                  <h:outputText value="#{messages[item]}" />
+              </f:subview>
+            </h:column>
+          </h:dataTable>
+        </c:if>
+        
+        <c:if test="#{selectionMode == 'SINGLE'}">
+          <c:if test="#{withImage}">
+            <h:graphicImage value="/img/icons/base_organigramme.png" alt="base" rendered="#{not empty field_0}"/>
+          </c:if>
+          <h:outputText value="#{messages[field_0]}" />
+        </c:if>
+      </c:when>
+       
+      <c:when test="#{widget.mode == 'edit'}">
+    
+        <h:panelGrid id="#{widget.id}_panel" columns="3">
+            
+            <c:if test="#{selectionMode == 'LIST'}">
+            
+              <a4j:commandLink immediate="true" actionListener="#{institutionTree.setVisible(true)}" 
+                  id="#{widget.id}_findButton" reRender="#{widget.id}_ajax_region"
+                  bypassUpdates="true" oncomplete="Richfaces.showModalPanel('#{widget.id}_selectNodeOrganigrammePanel'); return false;" >
+                  <h:graphicImage value="/img/icons/element_find.png" alt="Ouvrir l'organigramme" title="Ouvrir l'organigramme">
+                  </h:graphicImage>
+           	  </a4j:commandLink>
+      
+              <h:panelGroup>           
+                <a4j:outputPanel ajaxRendered="false" id="#{widget.id}_listRegion">
+                  <nxu:inputList id="#{widget.id}_list" value="#{field_0}" model="model" required="#{widget.required}">
+                    <h:panelGroup id="#{widget.id}_listItem">
+                      <h:panelGrid columns="1">
+                        <h:panelGroup>
+                          <a4j:commandLink immediate="true" action="#{ficheLoiActions.removeInstitution(widget.properties.ficheLoiField)}"  
+                            reRender="#{widget.id}_listRegion,fiche_loi_assembleeDepot, #{widget.id}"
+                            bypassUpdates="true" ajaxSingle="true" >
+                            <h:graphicImage id="#{widget.id}_delete_img" value="/icons/action_delete.gif" alt="Supprimer" title="Supprimer"/>
+                          </a4j:commandLink>
+                          <c:set var="modelRowData" value="#{model.rowData}" cache="true"/> 
+                          <h:graphicImage value="/img/icons/base_organigramme.png" alt="base" />
+                          <h:outputText id="#{widget.id}_node" value="#{messages[modelRowData]}" />
+                        </h:panelGroup>
+                      </h:panelGrid>
+                    </h:panelGroup>
+                  </nxu:inputList>
+                  <h:message styleClass="errorMessage" for="#{widget.id}_list"
+                    id="#{widget.id}_message" />
+                </a4j:outputPanel>
+              </h:panelGroup>
+              
+            </c:if>
+            
+            <c:if test="#{selectionMode == 'SINGLE'}">
+            
+              <h:panelGroup>
+                <a4j:commandLink immediate="true" actionListener="#{institutionTree.setVisible(true)}" 
+                  id="#{widget.id}_findButton" reRender="#{widget.id}_ajax_region"
+                  bypassUpdates="true" oncomplete="Richfaces.showModalPanel('#{widget.id}_selectNodeOrganigrammePanel'); return false;" >
+                  <h:graphicImage value="/img/icons/element_find.png" >
+                  </h:graphicImage>
+                </a4j:commandLink>
+                <a4j:outputPanel id="#{widget.id}_single_region">
+		
+		           <a4j:commandLink id="#{widget.id}_selection_reset" ajaxSingle="true" immediate="true" bypassUpdates="true" 
+		               reRender="#{widget.id}_single_region, #{widget.id}"
+		               rendered="#{!empty field_0}" action="#{ficheLoiActions.removeInstitution(widget.properties.ficheLoiField)}">
+		               <h:graphicImage id="#{widget.id}_delete" value="/icons/action_delete.gif" alt="Supprimer" title="Supprimer"/>
+		           </a4j:commandLink>
+                  
+                   <h:inputHidden id="#{widget.id}_nodeId" value="#{field_0}" required="#{widget.required}" />
+                   <h:graphicImage value="/img/icons/base_organigramme.png" alt="base" rendered="#{not empty field_0}"/>
+                   <h:outputText id="#{widget.id}_node" value="#{messages[field_0]}" />
+                   <h:message for="#{widget.id}_nodeId" styleClass="errorMessage" />
+                 </a4j:outputPanel>
+              </h:panelGroup>
+              
+            </c:if>
+            
+          </h:panelGrid>
+          
+          <a4j:outputPanel ajaxRendered="false" id="#{widget.id}_ajax_region">
+        
+        <c:if test="#{institutionTree.isVisible()}">
+          <rich:modalPanel id="#{widget.id}_selectNodeOrganigrammePanel"  autosized="true" > 
+        
+            <f:facet name="header">
+              <h:outputText value="#{messages['organigramme.name']}" />
+            </f:facet>
+            <f:facet name="controls">
+              <h:panelGroup>
+                  <a4j:commandLink immediate="true" actionListener="#{institutionTree.setVisible(false)}" 
+                            id="#{widget.id}_hideRouteElementsTypePanel" reRender="#{widget.id}_ajax_region"
+                            bypassUpdates="true" >
+                            <h:graphicImage value="/icons/action_delete_mini.gif">
+                            </h:graphicImage>
+            </a4j:commandLink>
+              </h:panelGroup>
+            </f:facet>
+        
+            <h:panelGroup layout="block" style="width: 600px; height:600px; overflow: scroll;">
+              <div style="padding: 10px;">
+                <rich:tree id="#{widget.id}_tree"  
+                  style="width:300px" switchType="ajax" ajaxSingle="true"
+                  eventsQueue="ajax_events_queue"
+                  iconExpanded="/icons/toggle_minus.png"
+                  iconCollapsed="/icons/toggle_plus.png">
+                  
+                    <rich:treeNodesAdaptor id="node" var="item" nodes="#{institutionTree.getRootNodes(filterAssemblee)}"  >
+                      <rich:treeNode
+                          id="ins"
+                          iconLeaf="/img/icons/base_organigramme.png"
+                          icon="/img/icons/base_organigramme.png">
+                          <h:outputText value="#{messages[item.id]}" style="font-weight: bold;"/>
+                          
+                          <a4j:commandLink id="addBtnIns" ajaxSingle="true" action="#{ficheLoiActions.addInstitution(widget.properties.ficheLoiField, item.id)}"
+                            reRender="#{widget.id}_global_region,fiche_loi_assembleeDepot,#{widget.id}">
+                            <rich:componentControl for="#{widget.id}_selectNodeOrganigrammePanel" operation="hide" event="onclick"/>
+                            <h:graphicImage id="#{widget.id}_addIns" value="/icons/action_add.gif" styleClass="add_icon" alt="Ajouter" title="Ajouter"/>
+                          </a4j:commandLink>
+                        </rich:treeNode>
+                      </rich:treeNodesAdaptor>
+                      
+                </rich:tree>
+              </div>
+            </h:panelGroup>
+          </rich:modalPanel>
+        </c:if>
+      </a4j:outputPanel>
+      
+      </c:when>
+    </c:choose>
+  </h:panelGroup>
+</span>
+  

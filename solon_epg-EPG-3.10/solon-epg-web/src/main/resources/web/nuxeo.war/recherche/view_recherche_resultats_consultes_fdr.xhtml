@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+  
+  <ui:define name="page title">
+    <h:outputText value="#{espaceRechercheTree.title}" />
+  </ui:define>
+
+  <ui:define name="body">
+    <div id="upperContentView">
+    <a4j:outputPanel id="espaceRechercheDossierContentListPanel">
+      <nxu:set var="contentViewName" value="recherche_resultats_consultes_modele_feuille_route">
+        <ui:include src="/incl/message_banner.xhtml"/>
+        <ui:decorate template="/incl/content_view.xhtml">
+          <ui:define name="content_view_header_before_selector" />
+        </ui:decorate>
+      </nxu:set>
+      </a4j:outputPanel>
+    </div>
+    <ui:include src="/recherche/fdr_upper_panel_toggle.xhtml" />
+  </ui:define>
+  
+  <ui:define name="subbody">
+    <c:if test="#{currentDocument != null and currentDocument.getType() == 'FeuilleRoute'}">
+      <div class="subbodyContainer">
+        <h:panelGroup>
+          <h1>
+            <h:outputText value="#{nxd:titleOrId(currentDocument)}"/>
+          </h1>
+        </h:panelGroup>
+        
+        <div style="clear:both"></div>
+        
+        <ui:include src="/feuilleroute/view_modele_feuille_route_body.xhtml" />
+      </div>
+    </c:if>
+  </ui:define>
+</nxthemes:composition>
+

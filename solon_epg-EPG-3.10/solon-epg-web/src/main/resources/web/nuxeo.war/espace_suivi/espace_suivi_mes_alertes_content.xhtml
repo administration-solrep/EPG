@@ -1,0 +1,42 @@
+<div xmlns="http://www.w3.org/1999/xhtml" 
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+
+	<nxu:set var="contentViewName" value="espace_suivi_mes_alertes_content">
+	  <ui:decorate template="/incl/content_view.xhtml">
+	    <ui:define name="content_view_header_before_selector" />
+        <ui:define name="buttons">
+          <ui:include src="/incl/clipboard.xhtml" />
+        </ui:define>
+	  </ui:decorate>
+	</nxu:set>
+  
+    <h:form>
+      <div class="menuContextuelStyle aa">
+        <rich:contextMenu id="alertMenu" attached="false" submitMode="server">
+            <rich:menuItem value="#{messages['alert.command.editer']}" ajaxSingle="true" action="#{alertActions.navigateToEdit()}" onmouseover="selected(this);"  id="exec">
+              <a4j:actionparam assignTo="#{alertActions.alertUuid}"  name="currentalert" value="{alertparam}"/>
+            </rich:menuItem>
+            <rich:menuItem value="#{messages['alert.command.suspendre']}" ajaxSingle="true" action="#{alertActions.suspend()}" onmouseover="selected(this);"  id="suspendre">
+              <a4j:actionparam assignTo="#{alertActions.alertUuid}"  name="currentalert" value="{alertparam}"/>
+            </rich:menuItem>
+            <rich:menuItem value="#{messages['alert.command.activer']}" ajaxSingle="true" action="#{alertActions.activate()}" onmouseover="selected(this);"  id="activer">
+              <a4j:actionparam assignTo="#{alertActions.alertUuid}"  name="currentalert" value="{alertparam}"/>
+            </rich:menuItem>
+            <rich:menuItem value="#{messages['command.delete']}" ajaxSingle="true" onselect="javascript:if(!displayConfirm(event,'Voulez-vous supprimer cette alerte ?')) throw 'TODO: Ignore this exception: Workaround for JBoss RF-7203: no server side action'; " 
+              action="#{alertActions.delete()}" onmouseover="selected(this);"  id="delete">
+              <a4j:actionparam assignTo="#{alertActions.alertUuid}"  name="currentalert" value="{alertparam}"/>
+            </rich:menuItem>
+        </rich:contextMenu>
+       </div>
+     </h:form>
+    
+</div>

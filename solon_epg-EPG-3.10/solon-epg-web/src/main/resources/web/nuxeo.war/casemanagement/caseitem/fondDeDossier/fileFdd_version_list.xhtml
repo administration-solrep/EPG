@@ -1,0 +1,76 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+  <a4j:region id="fddFileVersionListRegion">
+    <a4j:outputPanel id="fddFileVersionListOutPutPanel">
+      <rich:modalPanel id="fddFileVersionListPanel" autosized="true">
+        <div>
+          <f:facet name="header">
+            <h:outputText value="Gestion des versions" />
+          </f:facet>
+         </div>
+        <h:form id="fddFileVersionListForm">
+          <a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+            ignoreDupResponses="true" size="10" id="fddFileVersionListQueue"
+            name="fddFileVersionListQueue" timeout="10000" />
+          <!-- affichage de la liste des versions -->
+          <nxu:set var="fddFileVersionList" value="#{fondDeDossierManagerActions.getFileVersionList()}" cache="true"> 
+            <c:set var="height" value="#{100 + fondDeDossierManagerActions.getFileVersionList().size() * 10}" />
+            <c:set var="height" value="#{(height > 250 ? 250 : height)}" />
+            <div class="largePopupTd" style="overflow:auto; width: 500px; height: #{nxu:concat(height, 'px')}; ">
+              <table class="dataOutput">
+                <thead>
+                  <tr>
+                    <th>Numéro version</th>
+                    <th>Fichier</th>
+                    <th>Date</th>
+                    <th>Auteur</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <c:forEach var="fddFileVersion" items="#{fddFileVersionList}" varStatus="status">
+                  <tr class="#{nxu:test(status.index % 2 == 1, 'dataRowOdd', 'dataRowEven')}" >
+                    <td>
+                      <h:outputText value="#{fddFileVersion.uid.major_version}" />
+                    </td>
+                    <td>
+                      <!-- fichier versionné -->
+                      <nxh:outputLink class="treeLinkBoldLabel" value="#{nxd:fileUrl('downloadFile', fddFileVersion, 'file:content', fddFileVersion.file.filename)}">
+                        <nxh:graphicImage value="#{nxd:fileIconPath(blobHolderGenerator.getBlobHolder(fddFileVersion).blob)}" />
+                        <h:outputText value="#{fddFileVersion.title}" />
+                      </nxh:outputLink>
+                    </td>
+                    <td>
+                      <!--  date de dernière modification de la version -->
+                      <h:outputText value="#{fddFileVersion.dublincore.modified.getTime()}" converter="DateTimeConverter" />
+                    </td>
+                    <td>
+                      <!--  auteur -->
+                      <h:outputText value="p n##{fddFileVersion.dublincore.lastContributor}" converter="OrganigrammeUserIdToLabelConverter" />
+                    </td>
+                  </tr>
+                  </c:forEach>
+                </tbody>
+              </table>
+            </div>
+          </nxu:set>
+  
+          <!-- bouton permettant de quiter la popup -->
+          <div class="popupMediumDiv" align="center" >
+            <a4j:commandButton styleClass="button" value="Fermer" oncomplete="Richfaces.hideModalPanel('fddFileVersionListPanel')" 
+              id="quitterfddFileVersionListText" eventsQueue="fddFileVersionListQueue" reRender="fddDocumentViewPanel" ajaxSingle="true">
+            </a4j:commandButton>
+          </div>
+        </h:form>
+      </rich:modalPanel>
+    </a4j:outputPanel>
+  </a4j:region>
+</div>
+

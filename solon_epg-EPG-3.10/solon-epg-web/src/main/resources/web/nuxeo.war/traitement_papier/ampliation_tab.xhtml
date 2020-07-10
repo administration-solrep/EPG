@@ -1,0 +1,210 @@
+
+
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core" xmlns:nxu="http://nuxeo.org/nxweb/util" xmlns:nxl="http://nuxeo.org/nxforms/layout" xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:rich="http://richfaces.org/rich">
+  <nxu:set var="layoutMode" value="#{lockActions.getCanUnlockDoc(currentDocument)  and papierActions.canCurrentUserWrite()  ?'edit':'view'}">
+    <script type="text/javascript">
+    function confirmBeforeAnnulerAmpliation() {
+      return confirm("#{messages['label.epg.papier.ampliation.confirm.annuler']}");
+    }
+    </script>
+    <nxu:set var="disable" value="#{lockActions.getCanUnlockDoc(currentDocument)  and papierActions.canCurrentUserWrite()  ?'false':'true'}">
+      <a4j:region id="ajax_upload_region">
+        <rich:modalPanel id="fileUploadModalPanel" autosized="true">
+  
+          <f:facet name="header">
+            <h:outputText value="#{messages['message.upload.popup.title']}" />
+          </f:facet>
+          <f:facet name="controls">
+            <h:panelGroup>
+              <h:graphicImage value="/icons/action_delete_mini.gif" onclick="Richfaces.hideModalPanel('fileUploadModalPanel')" />
+            </h:panelGroup>
+          </f:facet>
+          <h:panelGroup layout="block">
+  
+            <div style="padding: 10px;">
+            <table>
+              <tr>
+                <td>
+                <a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+                ignoreDupResponses="true" size="10" id="editAttachmentQueue" name="inputeditAttachmentQueue" timeout="5000" /> 
+                
+                <div align="center">
+                
+                <rich:fileUpload id="uploadFichierAmpliation"
+                  fileUploadListener="#{papierActions.fileUploadListener}" maxFilesQuantity="1" listHeight="50" listWidth="350" immediateUpload="true"
+                  eventsQueue="editAttachmentQueue" clearAllControlLabel="#{messages['label.ampliation.supprimer.attachment']}">
+                  <a4j:support event="onclear" reRender="errorName" eventsQueue="editAttachmentQueue" actionListener="#{papierActions.clearUploadData}">
+           
+                  </a4j:support>
+                  <a4j:support event="onuploadcomplete" reRender="errorName" eventsQueue="editAttachmentQueue" />
+                </rich:fileUpload></div>
+                </td>
+              </tr>
+              <tr>
+                <td><h:form id="fileUploadModalForm">
+                  <a4j:commandButton id="envoyerFichierAmpliationAction" name="envoyerFichierAmpliationAction" type="submit" value="#{messages['command.upload.ampliation']}"
+                    action='#{papierActions.saveUploadedFile(currentDocument)}' />
+                </h:form></td>
+              </tr>
+            </table>
+            </div>
+  
+                  <div class="popupDiv">
+                  <!-- h:outputText class="msgError" id="errorName" value="#{papierActions.errorName}" /-->
+                </div>
+          </h:panelGroup>
+  
+        </rich:modalPanel>
+      </a4j:region>
+
+          
+          <rich:modalPanel id="mailModalPanel" autosized="true" showWhenRendered="#{papierActions.setDefaultMailTextAndObject()}" >
+
+<a4j:form id="modelPanelForm" enctype="multipart/form-data">
+            <f:facet name="header">
+              <h:outputText value="#{messages['message.mail.popup.title']}" />
+            </f:facet>
+            <f:facet name="controls">
+              <h:panelGroup>
+                <h:graphicImage value="/icons/action_delete_mini.gif" onclick="Richfaces.hideModalPanel('mailModalPanel')" />
+              </h:panelGroup>
+            </f:facet>
+  
+  
+            <table style="width: 550px;">
+              <tr>
+                <td style="width: 150px; text-align: right;">Objet :</td>
+                <td><h:inputText name="mailObject" value="#{papierActions.mailObject}" style="width:400px"/></td>
+              </tr>
+              <tr>
+                <td style="width: 150px; text-align: right;">Texte :</td>
+                <td><h:inputTextarea name="mailText" value="#{papierActions.mailText}" style="width: 400px; height: 200px;" /></td>
+              </tr>
+              <tr>
+                <td align="center" colspan="2">
+                  <a4j:commandButton name="validerAmpliationAction" 
+                    type="submit" id="clipboardActionsButton_ValiderAmpliationAction"
+                    value="#{messages['label.epg.papier.ampliation.envoyer.mail']}"
+                    action='#{papierActions.validerAmpliation(currentDocument)}' />
+                </td>
+       
+                
+              </tr>
+            </table>
+</a4j:form>
+          </rich:modalPanel>
+  
+
+
+
+
+
+      <h:form id="papierForm" enctype="multipart/form-data">
+  
+
+
+  
+        <h:commandButton id="idSavePapierButton" value="Enregistrer" style="visibility: hidden;" action="#{papierActions.saveTraitementPapier(currentDocument)}" />
+  
+        <table float="left" border="0">
+          <tr>
+            <td align="left">
+              <nxu:set var="layoutMode" value="#{lockActions.getCanUnlockDoc(currentDocument) and papierActions.canCurrentUserWrite()  ?'edit':'view'}">
+                <nxl:layout name="ampliation_detail" mode="#{layoutMode}" value="#{currentDocument}" />
+              </nxu:set>
+            </td>
+          </tr>
+  
+          <tr>
+            <td align="center">
+              <c:if test="#{papierActions.getNomAmpliationFichier(currentDocument) != null}">
+                <table>
+                  <tr>
+                    <td><h:outputText value="#{papierActions.getNomAmpliationFichier(currentDocument)}" /></td>
+                    <td><a4j:region id="removeAmpliationRegion">
+                      <a4j:commandButton id="removeAmpliationButton" name="removeAmpliationButton" type="submit" image="/icons/action_delete_mini.gif"
+                        action='#{papierActions.removeAmpliationFichier(currentDocument)}' disabled="#{disable}" />
+                    </a4j:region></td>
+                  </tr>
+                </table>
+              </c:if>
+              <c:if test="#{papierActions.getNomAmpliationFichier(currentDocument) == null}">
+                <a4j:commandButton styleClass="button" oncomplete="Richfaces.showModalPanel('fileUploadModalPanel');"
+                  id="clipboardActionsButton_fileUploadModalPanel"
+                  value="#{messages['label.epg.papier.ampliation.fichier']}"
+                  reRender="fileUploadModalPanel" disabled="#{disable}" />
+              </c:if>
+            </td>
+          </tr>
+          <tr>
+            <c:if test="#{papierActions.getInfoAmpilation(currentDocument).size()!=0}">
+              <td align="center">
+              <table>
+                <tr>
+                  <td><b> <h:outputText value="#{messages['label.epg.papier.ampliation.historique']}" /> </b></td>
+                  <td>
+                  <table style="border: 1" align="center">
+                    <tr>
+                      <td bgcolor="#F7EEDF"><h:outputText value="#{messages['label.epg.papier.ampliation.dateEnvoi']}" /></td>
+                      <td bgcolor="#F7EEDF"><h:outputText value="#{messages['label.epg.papier.ampliation.liste.destinataire']}" /></td>
+                    </tr>
+                    <nxu:set var="historiques" value="#{papierActions.getInfoAmpilation(currentDocument)}" cache="true">
+                      <c:forEach var="historique" items="#{historiques}" varStatus="rowCounter">
+                        <tr>
+                          <td><h:outputText value="#{historique.getDateEnvoiAmpliation().getTime()}">
+                            <f:convertDateTime type="date" pattern="dd-MM-yyyy" />
+                          </h:outputText></td>
+                          <td><h:outputText value="#{papierActions.mailListToString(historique.getAmpliationDestinataireMails())}" /></td>
+                        </tr>
+                      </c:forEach>
+                    </nxu:set>
+                  </table>
+                  </td>
+                </tr>
+              </table>
+              </td>
+            </c:if>
+          </tr>
+          <tr>
+            <td align="center">
+            <table align="center">
+              <tr>
+                <td align="right">
+                  <a4j:commandButton styleClass="button" oncomplete="Richfaces.showModalPanel('mailModalPanel');" id="clipboardActionsButton_ValiderAmpliation"
+                    value="#{messages['label.epg.papier.ampliation.valider']}" reRender="mailModalPanel" disabled="#{disable}" 
+        
+                    />
+                </td>
+                <td align="left">
+                  <h:commandButton type="submit" styleClass="button" id="clipboardActionsButton_AnnulerAmpliation"
+                    value="#{messages['label.epg.papier.ampliation.annuler']}" disabled="#{disable}" onclick="return confirmBeforeAnnulerAmpliation()"
+                    action="#{papierActions.annulerAmpliationForm(currentDocument)}" />
+                </td>
+              </tr>
+            </table>
+            </td>
+          </tr>
+        </table>
+      </h:form>
+    </nxu:set>
+  </nxu:set>
+  <!-- mise a jour de la variable globlae si modification d'un champ pour eviter la perte de données -->
+  <script>
+  var j = jQuery.noConflict();
+  j(document).ready(function() {
+    j('.tabsContent input').change(function() {
+    	isDossierModified = true;
+    });
+    
+    j('.tabsContent textarea').change(function() {
+    	isDossierModified = true;
+    });
+    
+    j('.tabsContent select').change(function() {
+    	isDossierModified = true;
+    });
+  });
+  </script>
+</div>

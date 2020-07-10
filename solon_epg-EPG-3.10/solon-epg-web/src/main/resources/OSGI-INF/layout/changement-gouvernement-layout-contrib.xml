@@ -1,0 +1,669 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les layouts + widgets nécessaires à la gestion du changement de gouvernement
+-->
+
+<component name="fr.dila.solonepg.web.layout.changement.gouvernement">
+  <require>org.nuxeo.ecm.platform.forms.layouts.webapp.base</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+    
+    <!-- Layout pour sélectionner le type d'élément de l'organigramme -->
+    
+    <layout name="changement_gouvernement_type_element">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>typeMigration</widget>
+        </row>
+      </rows>
+      <widget name="typeMigration" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.typeMigration</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>typeMigration</field>
+          <field>id</field>
+        </fields>
+        <properties widgetMode="any">          
+          <property name="template">/widgets/changement_gouvernement_type_directory_radio_widget_template.xhtml</property>
+          <property name="directoryName">organigramme_type_node</property>
+          <property name="rerenderValues">changementGouvernementViewPanel, changementGouvernementLoaderPanel</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <!-- layout pour le changement de ministere  -->
+    
+    <layout name="changement_gouvernement_ministere_old_element">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>old_ministere_field</widget>
+        </row>
+      </rows>
+      <widget name="old_ministere_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.ministere.oldElement</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>oldElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <layout name="changement_gouvernement_ministere_new_element">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>new_ministere_field</widget>
+        </row>
+      </rows>
+      <widget name="new_ministere_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.ministere.newElement</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>newElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+    </layout>
+
+    <!-- layout pour le changement de direction  -->
+    
+    <layout name="changement_gouvernement_direction_old_elements">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>old_ministere_field</widget>
+        </row>
+        <row>
+          <widget>old_direction_field</widget>
+        </row>
+      </rows>
+      <widget name="old_ministere_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.direction.oldElement.ministere</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>oldMinistereElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="rerenderOrganigrammeId">old_direction_field</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+      <widget name="old_direction_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.direction.oldElement.direction</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>oldElementOrganigramme</field>
+          <field>oldMinistereElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">DIR_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="organigrammeFilterMode">true</property>
+          <property name="organigrammeWithNorMode">true</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <layout name="changement_gouvernement_direction_new_elements">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>new_ministere_field</widget>
+        </row>
+        <row>
+          <widget>new_direction_field</widget>
+        </row>
+      </rows>
+      <widget name="new_ministere_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.direction.newElement.ministere</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>newMinistereElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="rerenderOrganigrammeId">new_direction_field</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+      <widget name="new_direction_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.direction.newElement.direction</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>newElementOrganigramme</field>
+          <field>newMinistereElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">DIR_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="organigrammeFilterMode">true</property>
+          <property name="organigrammeWithNorMode">true</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+    </layout>
+     
+    <!-- layout pour le changement d'unité structurelle  -->
+    
+    <layout name="changement_gouvernement_unite_structurelle_old_element">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>old_unite_structurelle_field</widget>
+        </row>
+      </rows>
+      <widget name="old_unite_structurelle_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.uniteStructurelle.oldElement</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>oldElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">UST_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <layout name="changement_gouvernement_unite_structurelle_new_element">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>new_unite_structurelle_field</widget>
+        </row>
+      </rows>
+      <widget name="new_unite_structurelle_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.uniteStructurelle.newElement</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>newElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">UST_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <!-- layout pour le changement de poste  -->
+    
+    <layout name="changement_gouvernement_poste_old_element">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>old_poste_field</widget>
+        </row>
+      </rows>
+      <widget name="old_poste_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.poste.oldElement</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>oldElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <layout name="changement_gouvernement_poste_new_element">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>new_poste_field</widget>
+        </row>
+      </rows>
+      <widget name="new_poste_field" type="template">
+        <labels>
+          <label mode="any">changement.gouvernement.poste.newElement</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>newElementOrganigramme</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <!-- layout loader -->
+    
+    <layout name="changement_gouvernement_poste_loader">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>deplacer_element_fils</widget>
+        </row>
+        <row>
+          <widget>migrer_fdr_etape</widget>
+        </row>
+        <row>
+          <widget>update_creator_poste</widget>
+        </row>
+        <row>
+          <widget>update_mailboxes</widget>
+        </row>
+      </rows>
+    </layout>
+
+    <layout name="changement_gouvernement_poste_delete_loader">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>delete_node_poste</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="changement_gouvernement_ministere_loader">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>deplacer_element_fils</widget>
+        </row>
+        <row>
+          <widget>migre_fdr_modele</widget>
+        </row>
+        <row>
+          <widget>reattribution_nor_ministere</widget>
+        </row>
+        <row>
+          <widget>rattachement_ministere</widget>
+        </row>
+        <row>
+          <widget>migrer_bulletin_officiel</widget>
+        </row>
+        <row>
+          <widget>migrer_mots_cles</widget>
+        </row>
+      </rows>
+    </layout>
+
+    <layout name="changement_gouvernement_ministere_delete_loader">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>delete_node_ministere</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="changement_gouvernement_direction_loader">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>deplacer_element_fils</widget>
+        </row>
+        <row>
+          <widget>migre_fdr_modele</widget>
+        </row>
+        <row>
+          <widget>reattribution_nor_direction</widget>
+        </row>
+        <row>
+          <widget>rattachement_direction</widget>
+        </row>
+      </rows>
+    </layout>
+
+    <layout name="changement_gouvernement_direction_delete_loader">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>delete_node_direction</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="changement_gouvernement_unite_structurelle_loader">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>deplacer_element_fils</widget>
+        </row>
+      </rows>
+    </layout>
+
+    <layout name="changement_gouvernement_unite_structurelle_delete_loader">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>delete_node_unite_structurelle</widget>
+        </row>
+      </rows>
+    </layout>
+                      
+    </extension>
+  <!-- *********************************************************************** -->
+  <!-- widgets changement gouvernement loader -->
+  <!-- *********************************************************************** -->
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+    point="widgets">
+     
+    <widget name="deplacer_element_fils" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.deplacer.elements.fils</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>id</field>    
+        <field>loggerId</field>                    
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>
+
+     <widget name="migrer_fdr_etape" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.migrer.fdr.etape</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="update_creator_poste" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.update.creator.poste</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+     <widget name="update_mailboxes" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.update.mailbox.poste</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="migre_fdr_modele" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.migrer.fdr.modele</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="isMigrationModeleFdr">true</property>
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+     <widget name="reattribution_nor_ministere" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.reattribuer.nor.ministere</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>    
+
+    <widget name="rattachement_ministere" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.update.rattachement.ministere</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="isMigrationWithDossierClos">true</property>
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+     <widget name="migrer_bulletin_officiel" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.migrer.bulletin.officiel</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>    
+
+     <widget name="migrer_mots_cles" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.migrer.indexation.mots.clefs</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>
+
+     <widget name="reattribution_nor_direction" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.reattribuer.nor.direction</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>    
+
+     <widget name="rattachement_direction" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.etape.update.rattachement.direction</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="isMigrationWithDossierClos">true</property>
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+      </properties>
+    </widget>
+
+     <widget name="delete_node_direction" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.delete.element.direction</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+       <property name="isBoolean">true</property>
+      </properties>
+    </widget>
+
+     <widget name="delete_node_unite_structurelle" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.delete.element.unite.structurelle</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+       <property name="isBoolean">true</property>
+      </properties>
+    </widget>
+
+     <widget name="delete_node_ministere" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.delete.element.ministere</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+       <property name="isBoolean">true</property>
+      </properties>
+    </widget>
+
+     <widget name="delete_node_poste" type="template">
+      <labels>
+        <label mode="any">changement.gouvernement.delete.element.poste</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      	<field>id</field>
+      	<field>loggerId</field>
+      </fields>
+      <properties widgetMode="any">
+       <property name="template">/widgets/changement_gouvernement_loader_widget_template.xhtml</property>
+       <property name="isBoolean">true</property>
+      </properties>
+    </widget>
+        
+  </extension>
+  
+</component>

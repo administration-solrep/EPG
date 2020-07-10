@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Ce composant contribue : - Les actions de l'application SOLON EPG pan application des ordonnances
+ -->
+<component name="fr.dila.solonepg.web.activite.normative.action.application.ordonannces">
+	<require>fr.dila.solonepg.web.action</require>
+	<require>fr.dila.solonepg.web.filters</require>
+	<require>fr.dila.solonepg.web.activite.normative.action</require>
+
+	<extension target="org.nuxeo.ecm.platform.actions.ActionService" point="actions">
+	
+		<!-- Activité normative : onglet Indicateurs -->
+		<action id="TAB_AN_INDICATEUR_ORDONNANCES"
+			link="/espace_activite_normative/view/espace_activite_normative_statistiques.xhtml"
+			order="30" label="activite.normative.applicationDesOrdonnances.indicateurs">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<!-- Activité normative : onglet Bilan Semestriel application des ordonnances-->
+		<action id="TAB_AN_BILAN_SEMESTRIEL_APP_ORDONNANCES"
+			link="/espace_activite_normative/view/espace_activite_normative_bilan_semestriel.xhtml"
+			order="40" label="activite.normative.bilan.semestriel">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<!-- Activité normative : onglet Taux d'application application des ordonnances -->
+		<action id="TAB_AN_TAUX_APPLICATION_APP_ORDONNANCES"
+			link="/espace_activite_normative/view/espace_activite_normative_taux_application.xhtml"
+			order="50" label="activite.normative.taux.application">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<!-- Activité normative : onglet Délais moyen application des ordonnances -->
+		<action id="TAB_AN_DELAIS_MOYEN_APP_ORDONNANCES"
+			link="/espace_activite_normative/view/espace_activite_normative_delai_moyen.xhtml"
+			order="60" label="activite.normative.delai.moyen">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<!-- Statistiques de publication application des ordonnances -->
+		<action id="TAB_AN_COURBE_APP_ORDONNANCES"
+			link="/espace_activite_normative/view/espace_activite_normative_courbes.xhtml"
+			order="70" label="activite.normative.courbes">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Tableau des ordonnances -->
+		<action id="TAB_AN_TABLEAU_ORDONNANCES"
+			link="/espace_activite_normative/view/espace_activite_normative_tableau_ordonnances.xhtml"
+			order="80" label="activite.normative.tableau.ordonnances">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<!-- Activité normative : onglet mise à jour ministérielles -->
+		<action id="TAB_AN_HISTORIQUE_MAJ_MINISTERIELLES_APP_ORDONNANCES"
+			link="/espace_activite_normative/view/espace_activite_normative_historique_maj_ministerielles.xhtml"
+			order="90" label="activite.normative.historiqueMajMin">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isHistoriqueMajMinisterielReader</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		
+		<!-- *********************************************************************** 
+						Tableau maitre 
+		*********************************************************************** -->
+		<!-- Activité normative : onglet texte maitre (application des ordonnances) -->
+		<action id="TAB_AN_TEXTE_MAITRE_APP_ORDONNANCES"
+			link="/espace_activite_normative/subview/espace_activite_normative_texte_maitre_app_ordonnances.xhtml"
+			order="10" label="activite.normative.texte.maitre">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+		
+		<!-- Activité normative : onglet fiche signaletique -->
+		<action id="TAB_AN_FICHE_SIGNALETIQUE_APP_ORDONNANCES"
+			link="/espace_activite_normative/subview/espace_activite_normative_fiche_signaletique_app_ordonnances.xhtml"
+			order="20" label="activite.normative.fiche.signaletique">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<!-- Activité normative : onglet tableau de programmation -->
+		<action id="TAB_AN_TABLEAU_PROGRAMMATION_APP_ORDONNANCES"
+			link="/espace_activite_normative/subview/pan_tableau_programmation_app_ordonnances.xhtml"
+			order="30" label="activite.normative.tableau.programmation">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>			
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<!-- Activité normative : onglet tableau de suivi -->
+		<action id="TAB_AN_TABLEAU_SUIVI_APP_ORDONNANCES"
+			link="/espace_activite_normative/subview/pan_tableau_suivi_app_ordonnances.xhtml"
+			order="50" label="activite.normative.tableau.suivi">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<!-- Activité normative : onglet mesure Application -->
+		<action id="TAB_AN_MESURES_APP_ORDONNANCES"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="60" label="activite.normative.mesures.application">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Bilan semestriel -->
+		<action id="TAB_AN_BILAN_SEMESTRIEL_SUB_APP_ORDONNANCES"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="62" label="activite.normative.bilan.semestriel.loi">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Taux d'application au fil de l'eau -->
+		<action id="TAB_AN_TAUX_APPLICATION_SUB_APP_ORDONNANCES"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="64" label="activite.normative.mesures.taux.application.ordonnance">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+				
+		<!-- *********************************************************************** 
+						Tableau de bord 
+		*********************************************************************** -->
+		<!-- Activité normative: Application des ordonnances: Tableau de bord: Mesures 
+			d’application actives (par defaut) -->
+		<action id="TAB_AN_TB_APP_ORDO_ACTIVE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.tableau.bord.ordonnances.application.actives">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des ordonnances: Tableau de bord: Mesures 
+			d’application pour lesquelles la date prévisionnelle de publication est dépassée -->
+		<action id="TAB_AN_TB_APP_ORDO_DEPASSE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1"
+			label="activite.normative.tableau.bord.ordonnances.application.date.depassee">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des lois: Tableau de bord: Mesures 
+			d’application différée -->
+		<action id="TAB_AN_TB_APP_ORDO_DIFFEREE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="2" label="activite.normative.tableau.bord.ordonnances.application.differee">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+		
+		<!--***************************************
+		  				Indicateurs 
+		  **************************************-->
+		<!-- Activité normative: Application des ordonnances: Statistiques: Taux 
+			d’exécution des ordonnances promulguées depuis le début de la législature -->
+		<action id="TAB_AN_INDIC_APP_ORDO_DEBUT_LEGISLATURE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0"
+			label="activite.normative.statistiques.application.ordonnances.debut.legislature">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+		
+		<!-- Activité normative: Application des ordonnances: Statistiques: délai de mise en application -->
+		<action id="TAB_AN_INDIC_APP_ORDO_MISE_APPLI"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="10"
+			label="activite.normative.statistiques.application.ordonnances.mise.application">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des ordonnances: Statistiques: Taux 
+			d’exécution des ordonnances promulguées depuis le début de la législature -->
+		<action id="TAB_AN_INDIC_APP_ORDO_DERNIERE_SESSION"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="20"
+			label="activite.normative.statistiques.application.ordonnances.publication.derniere.session.parlementaire">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- ARL*********************************************************************** 
+			Espace de pilotage de l'activité normative: Bilan semestriels 
+			*********************************************************************** -->
+		<!-- Activité normative: Bilan semestriels: Par ordonnance -->
+		<action id="TAB_AN_BILAN_SEM_ORDONNANCE_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.bilan.semestriels.par.ordonnance">
+			<category>SUBTAB_AN_BILAN_SEMESTRIELS</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+				<!-- Activité normative: Bilan semestriels: Par ministère -->
+		<action id="TAB_AN_BILAN_SEM_MIN_TOUS_ORDONNANCE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.bilan.semestriels.par.ministere">
+			<category>SUBTAB_AN_BILAN_SEMESTRIELS</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+		
+		
+		
+		<!--***************************************
+		  				Taux d'application au fil de l'eau
+		  **************************************-->		
+				<!-- Activité normative: Taux d'application au fil de l'eau: Taux global 
+			à une date donnée -->
+		<action id="TAB_AN_FIL_EAU_GLOBAL_APP_ORDONNANCE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.taux.dapplication.fil.eau.taux.global">
+			<category>SUBTAB_AN_FIL_EAU</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux par ordonnance
+			à une date donnée -->
+		<action id="TAB_AN_FIL_EAU_ORDO_TOUS_APP_ORDONNANCE_ALL"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1" label="activite.normative.taux.dapplication.fil.eau.taux.ordonnance">
+			<category>SUBTAB_AN_FIL_EAU</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux par ministère 
+			à une date donnée -->
+		<action id="TAB_AN_FIL_EAU_MIN_TOUS_APP_ORDONNANCE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="2" label="activite.normative.taux.dapplication.fil.eau.taux.ministere">
+			<category>SUBTAB_AN_FIL_EAU</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		
+		<!--***************************************
+		  				Délais moyens
+		  **************************************-->	
+
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux par ordonnance
+			à une date donnée -->
+		<action id="TAB_AN_DELAI_ORDO_TOUS_APP_ORDO"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1" label="activite.normative.delai.par.ordonnance">
+			<category>SUBTAB_AN_BILAN_DELAI</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux par ministère 
+			à une date donnée -->
+		<action id="TAB_AN_DELAI_MIN_TOUS_APP_ORDO"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1" label="activite.normative.delai.par.ministere">
+			<category>SUBTAB_AN_BILAN_DELAI</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+
+		<!-- ARL*********************************************************************** 
+			Espace de pilotage de l'activité normative: Statistiques sur les mois et 
+			années de publication 
+			*********************************************************************** -->
+		<!-- Activité normative: Bilan sur les délais de publication: Délai moyen 
+			par loi -->
+		<action id="TAB_AN_COURBE_TOUS_APP_ORDO"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.courbes">
+			<category>SUBTAB_AN_PUBLICATION_COURBE</category>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+		
+		
+		<!-- ARL*********************************************************************** 
+			Onglet tableau-maître (ministères) - sous-onglets
+			*********************************************************************** -->		
+		<!-- Activité normative : onglet Mesure d'application (Ministere) -->
+		<action id="TAB_AN_MESURE_APPLICATION_MIN_APP_ORDO"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="10" label="activite.normative.mesure.application.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- ARL Activité normative : onglet Taux d'exécution des ordonnances publiées 
+			(Ministere) -->
+		<action id="TAB_AN_DEBUT_LEGISLATURE_MIN_APP_ORDO"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="15" label="activite.normative.taux.execution.ordo">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Bilan Semestriel (Ministere) -->
+		<action id="TAB_AN_BILAN_SEMESTRIEL_MIN_APP_ORDO"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="20" label="activite.normative.bilan.semestriel.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>		
+
+		<!-- Activité normative : onglet Taux d'application au fil de l'eau (Ministere) -->
+		<action id="TAB_AN_TAUX_APPLICATION_MIN_APP_ORDO"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="30" label="activite.normative.taux.application.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesOrdonnances</filter-id>
+		</action>
+	</extension>
+	
+</component>

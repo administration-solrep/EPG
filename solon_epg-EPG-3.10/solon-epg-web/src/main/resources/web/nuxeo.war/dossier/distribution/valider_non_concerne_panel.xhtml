@@ -1,0 +1,41 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+  
+  <rich:modalPanel id="valider_non_concerne_panel" autosized="true">
+    <div>
+      <f:facet name="header">
+        <h:outputText value="#{messages['epg.dossier.distribution.validerNonConcernePanel.title']}" />
+      </f:facet>
+    </div>
+    
+    <div class="valider_non_concerne_panel_body">
+      <h:panelGrid id="valider_non_concerne_panel_grid" columns="2" style="width: 250px;">
+        <h:commandLink id="insererEtapeImg" action="#{dossierDistributionActions.validerEtapeNonConcerne(false)}">
+          <h:graphicImage height="24" width="24" url="/img/icons/user1_into.png" alt="#{messages['epg.dossier.distribution.validerNonConcernePanel.insererEtape']}" title="#{messages['epg.dossier.distribution.validerNonConcernePanel.insererEtape']}"/>
+        </h:commandLink>
+        <h:commandLink id="insereEtapeLink" action="#{dossierDistributionActions.validerEtapeNonConcerne(false)}">
+          <h:outputText value="#{messages['epg.dossier.distribution.validerNonConcernePanel.insererEtape']}" />
+        </h:commandLink>
+        
+        <h:commandLink id="poursuivreImg" action="#{dossierDistributionActions.validerEtapeNonConcerne(true)}">
+          <h:graphicImage height="24" width="24" url="/img/icons/check.png" alt="#{messages['epg.dossier.distribution.validerNonConcernePanel.poursuivre']}" title="#{messages['epg.dossier.distribution.validerNonConcernePanel.poursuivre']}"/>
+        </h:commandLink>
+        <h:commandLink id="poursuivreLink" action="#{dossierDistributionActions.validerEtapeNonConcerne(true)}">
+          <h:outputText value="#{messages['epg.dossier.distribution.validerNonConcernePanel.poursuivre']}" />
+        </h:commandLink>
+
+        <h:commandLink id="annulerImg" action="#" onclick="Richfaces.hideModalPanel('valider_non_concerne_panel'); return false;">
+          <h:graphicImage height="24" width="24" url="/img/icons/delete.png" alt="#{messages['epg.dossier.distribution.validerNonConcernePanel.annuler']}" title="#{messages['epg.dossier.distribution.validerNonConcernePanel.annuler']}"/>
+        </h:commandLink>
+        <h:commandLink id="annulerLink" action="#" onclick="Richfaces.hideModalPanel('valider_non_concerne_panel'); return false;">
+          <h:outputText value="#{messages['epg.dossier.distribution.validerNonConcernePanel.annuler']}" />
+        </h:commandLink>
+      </h:panelGrid>
+    </div>
+   
+  </rich:modalPanel>
+</div>

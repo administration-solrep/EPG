@@ -1,0 +1,119 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:t="http://myfaces.apache.org/tomahawk"
+  id="#{widget.id}">
+  
+  <c:if test="#{widget.mode != 'create' and widget.mode != 'edit'}">
+    <div>
+      <span class="tinyLabel">
+        <h:outputText value="" /> 
+      </span> 
+      <h:outputText value="#{field_0}"/>
+      <f:convertDateTime type="date" pattern="#{nxu:basicDateFormater()}" />
+    </div>
+  </c:if>
+
+  <c:if test="#{widget.mode == 'create' or widget.mode == 'edit'}">
+     <a4j:region>
+       <t:selectOneRadio id="selectedMode_#{widget.id}" value="#{dynamicDate.getWidget(widget.id).selectedMode}" layout="spread">
+        <f:selectItem id="STATIC" itemLabel="" itemValue="STATIC" />
+        <f:selectItem id="DYNAMIC" itemLabel="" itemValue="DYNAMIC" />
+         <a4j:support event="onchange" actionListener="#{dynamicDate.updateDate}" reRender="calendarControl_#{widget.id}" ajaxSingle="true" eventsQueue="ajax_events_queue">
+            <a4j:actionparam name="dynamicDateComponentId" value="#{widget.id}" />
+       	 </a4j:support>
+      </t:selectOneRadio>
+     </a4j:region>
+     <a4j:outputPanel id="calendarPanel_#{widget.id}" layout="block" style="white-space:nowrap;">
+      <div>
+        <t:radio for="selectedMode_#{widget.id}" index="0"/>
+          <a4j:region>
+            <h:selectOneMenu id="select_day_#{widget.id}" value="#{dynamicDate.getWidget(widget.id).selectDay}">
+               <f:selectItem id="default_day" itemLabel="" itemValue="0" />
+               <c:forEach var="day" items="#{dynamicDate.getWidget(widget.id).getDays()}" varStatus="status"> 
+                <f:selectItem id="day_#{status.index}" itemLabel="#{day}" itemValue="#{status.index + 1}" />
+               </c:forEach>
+               <a4j:support actionListener="#{dynamicDate.updateDateFromSelectDay}" reRender="calendarControl_#{widget.id}" ajaxSingle="true" event="onclick" eventsQueue="ajax_events_queue">
+                   <a4j:actionparam name="dynamicDateComponentId" value="#{widget.id}" />
+               </a4j:support>
+            </h:selectOneMenu>
+          </a4j:region>
+          <a4j:region>
+            <h:selectOneMenu id="select_month_#{widget.id}" value="#{dynamicDate.getWidget(widget.id).selectMonth}">
+               <f:selectItem id="default_month" itemLabel="" itemValue="0" />
+                 <c:forEach var="month" items="#{dynamicDate.getWidget(widget.id).getMonths()}" varStatus="status"> 
+                  <f:selectItem id="month_#{status.index}" itemLabel="#{month}" itemValue="#{status.index + 1}" />
+                 </c:forEach>
+              <a4j:support actionListener="#{dynamicDate.updateDateFromSelectMonth}" reRender="calendarControl_#{widget.id}" ajaxSingle="true" event="onclick" eventsQueue="ajax_events_queue">
+                   <a4j:actionparam name="dynamicDateComponentId" value="#{widget.id}" />
+               </a4j:support>
+            </h:selectOneMenu>
+          </a4j:region>
+          <a4j:region>
+            <h:selectOneMenu id="select_year_#{widget.id}" value="#{dynamicDate.getWidget(widget.id).selectYear}">
+               <f:selectItem id="default_year" itemLabel="" itemValue="0" />
+                 <c:forEach var="year" items="#{dynamicDate.getWidget(widget.id).getYears()}" varStatus="status"> 
+                  <f:selectItem id="year_#{status.index}" itemLabel="#{year}" itemValue="#{year}" />
+                 </c:forEach>
+               <a4j:support actionListener="#{dynamicDate.updateDateFromSelectYear}" reRender="calendarControl_#{widget.id}" ajaxSingle="true" event="onclick" eventsQueue="ajax_events_queue">
+                   <a4j:actionparam name="dynamicDateComponentId" value="#{widget.id}" />
+               </a4j:support>
+              </h:selectOneMenu>
+          </a4j:region>
+          <a4j:outputPanel ajaxRendered="true" id="calendarControl_#{widget.id}" >
+             <div style="display:none">
+              <rich:calendar id="hiddenCalendar_#{widget.id}" value="#{field_0}" immediate="true"/>
+              <h:inputHidden id="hiddenDynamicPart_#{widget.id}" value="#{field_1}" />
+              <h:inputHidden id="hiddenDateSelectorPart_#{widget.id}" value="#{field_2}" />
+              <h:outputText value="#{field_1}"/>
+              <h:outputText value="#{field_2}"/>
+             </div>
+          </a4j:outputPanel>
+            <rich:calendar id="calendar_#{widget.id}"
+          			  value="#{dynamicDate.getWidget(widget.id).calendarDate}"
+          			  locale="fr" popup="true" datePattern="dd/MM/yyyy"
+          			  cellWidth="24px" cellHeight="22px"
+          			  style="width:200px"
+                      enableManualInput="false"
+                      showInput="false"
+                      immediate="true">
+               <a4j:support actionListener="#{dynamicDate.updateDateAndSetStaticMode}" reRender="calendarPanel_#{widget.id}, calendarControl_#{widget.id}" 
+                 ajaxSingle="true" event="onchanged" eventsQueue="ajax_events_queue">
+                   <a4j:actionparam name="dynamicDateComponentId" value="#{widget.id}" />
+               </a4j:support>
+             </rich:calendar>
+        </div>
+         </a4j:outputPanel>
+        <div style="white-space:nowrap;">
+         <t:radio for="selectedMode_#{widget.id}" index="1"/>
+         <h:outputText value="#{messages['dateDynamic.today']}"/>
+         <a4j:region>
+          <h:selectOneMenu id="select_operator_#{widget.id}" value="#{dynamicDate.getWidget(widget.id).selectOperator}">
+             <c:forEach var="operator" items="#{dynamicDate.getWidget(widget.id).getOperators()}" varStatus="status"> 
+              <f:selectItem id="operator_#{status.index}" itemLabel="#{messages[operator.label]}" itemValue="#{operator.toString()}" />
+             </c:forEach>
+             <a4j:support actionListener="#{dynamicDate.updateDate}" reRender="calendarControl_#{widget.id}" ajaxSingle="true" event="onclick" eventsQueue="ajax_events_queue">
+                  <a4j:actionparam name="dynamicDateComponentId" value="#{widget.id}" />
+             </a4j:support>
+         </h:selectOneMenu>
+         <h:inputText id="inputCount_#{widget.id}" value="#{dynamicDate.getWidget(widget.id).inputCount}" size="2">
+              <a4j:support actionListener="#{dynamicDate.updateDate}" reRender="calendarControl_#{widget.id}" ajaxSingle="true" event="onchange" eventsQueue="ajax_events_queue">
+                  <a4j:actionparam name="dynamicDateComponentId" value="#{widget.id}" />
+             </a4j:support>
+         </h:inputText>
+         <h:selectOneMenu id="select_period_#{widget.id}" value="#{dynamicDate.getWidget(widget.id).selectPeriod}">
+             <c:forEach var="period" items="#{dynamicDate.getWidget(widget.id).getPeriods()}" varStatus="status"> 
+              <f:selectItem id="period_#{status.index}" itemLabel="#{messages[period.label]}" itemValue="#{period.toString()}" />
+             </c:forEach>
+             <a4j:support actionListener="#{dynamicDate.updateDate}" reRender="calendarControl_#{widget.id}" ajaxSingle="true" event="onchange" eventsQueue="ajax_events_queue">
+                  <a4j:actionparam name="dynamicDateComponentId" value="#{widget.id}" />
+             </a4j:support>
+         </h:selectOneMenu>
+         </a4j:region>
+        </div>
+  </c:if>
+
+</f:subview>

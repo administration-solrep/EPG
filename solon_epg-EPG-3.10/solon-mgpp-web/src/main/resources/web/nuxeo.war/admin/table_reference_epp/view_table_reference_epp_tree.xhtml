@@ -1,0 +1,94 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html">
+  
+  <style>
+    .rich-tree-node-selected {
+      border-color: #FFFFFF;
+    }
+    .rich-tree-node-highlighted {
+      text-decoration: none;
+      color: #000000;
+    }
+    .add_icon {
+      padding-left: 3px;
+    }
+    .inactive {
+      color: #888888;
+    }
+  </style>
+
+	<h:form>
+   		<a4j:poll id="pollTDR" interval="30000" action="#{notificationActions.reloadCacheTdrEppIfNecessary()}"/>
+	</h:form>
+  <h:form id="tableReferenceEppForm">
+    <rich:tree id="tableReferenceEppTree"
+      style="width:300px" switchType="ajax" ajaxSingle="true"
+      eventsQueue="ajax_events_queue"
+      iconExpanded="/icons/toggle_minus.png"
+      iconCollapsed="/icons/toggle_plus.png"
+      changeExpandListener="#{tableReferenceEppTree.changeExpandListener}"
+      adviseNodeOpened="#{tableReferenceEppTree.adviseNodeOpened}">
+      
+      <rich:recursiveTreeNodesAdaptor id="node" var="item" roots="#{tableReferenceEppTree.tableReference}" nodes="#{item.children}">
+      
+      <rich:treeNode rendered="#{item.typeValue == 'GOUVERNEMENT' and item.id != 'Mandats sans Ministeres'}"
+        iconLeaf="/img/icons/base_organigramme.png"
+        icon="/img/icons/base_organigramme.png">
+        <h:outputText value="#{messages[item.label]}" style="#{item.style}"/>
+        <rich:componentControl event="oncontextmenu" for="menuGov" operation="show" rendered="true">
+          <f:param value="#{item.id}" name="id" />
+        </rich:componentControl>
+        <rich:componentControl event="onclick" for="menuLock" operation="show" rendered="true">
+          <f:param value="#{item.id}" name="id" />
+          <f:param value="#{item.typeValue}" name="type" />
+        </rich:componentControl>
+      </rich:treeNode>
+      <rich:treeNode rendered="#{item.typeValue == 'MINISTERE'}"
+        iconLeaf="/img/icons/unite_structurelle.png"
+        icon="/img/icons/unite_structurelle.png">
+        <h:outputText value="#{messages[item.label]}" style="#{item.style}"/>
+        <rich:componentControl event="oncontextmenu" for="menuMin" operation="show" rendered="true">
+          <f:param value="#{item.id}" name="id" />
+        </rich:componentControl>
+        <rich:componentControl event="onclick" for="menuLock" operation="show" rendered="true">
+          <f:param value="#{item.id}" name="id" />
+          <f:param value="#{item.typeValue}" name="type" />
+        </rich:componentControl>
+      </rich:treeNode>
+      <rich:treeNode rendered="#{item.typeValue == 'MANDAT'}"
+        iconLeaf="/img/icons/unite_structurelle.png"
+        icon="/img/icons/unite_structurelle.png">
+        <h:outputText value="#{messages[item.label]}" style="#{item.style}"/>
+        <rich:componentControl event="oncontextmenu" for="menuMan" operation="show" rendered="true">
+          <f:param value="#{item.id}" name="id" />
+        </rich:componentControl>
+        <rich:componentControl event="onclick" for="menuLock" operation="show" rendered="true">
+          <f:param value="#{item.id}" name="id" />
+          <f:param value="#{item.typeValue}" name="type" />
+        </rich:componentControl>
+      </rich:treeNode>
+      
+      <rich:treeNode rendered="#{item.typeValue == 'GOUVERNEMENT' and item.id == 'Mandats sans Ministeres'}"
+        iconLeaf="/img/icons/base_organigramme.png"
+        icon="/img/icons/base_organigramme.png">
+        <h:outputText value="#{messages[item.label]}" style="#{item.style}"/>
+        <rich:componentControl event="oncontextmenu" for="menuManSansMinistr" operation="show" rendered="true">
+          <f:param value="#{item.id}" name="id" />
+        </rich:componentControl>
+        <rich:componentControl event="onclick" for="menuLock" operation="show" rendered="true">
+          <f:param value="#{item.id}" name="id" />
+          <f:param value="#{item.typeValue}" name="type" />
+        </rich:componentControl>
+      </rich:treeNode>
+      
+      </rich:recursiveTreeNodesAdaptor>
+
+    </rich:tree>
+    
+  </h:form>
+</div>

@@ -1,0 +1,95 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:p="http://jboss.com/products/seam/pdf">
+  <c:choose>
+    <!-- État brouillon -->
+    <c:when test="#{field_0 eq 'draft'}">
+      <p:image value="/img/icons/bullet_ball_glass_grey_16.png" alt="#{messages['label.epg.feuilleRoute.etape.draft']}" height="16" width="16" alignment="center"
+      />
+    </c:when>
+
+    <!-- État validé -->
+    <c:when test="#{field_0 eq 'validated'}">
+      <p:image value="/img/icons/bullet_ball_glass_green_16.png" alt="#{messages['label.epg.feuilleRoute.etape.validated']}" height="16" width="16" alignment="center" />
+    </c:when>
+
+    <!-- État à venir -->
+    <c:when test="#{field_0 eq 'ready'}">
+      <p:image value="/img/icons/bullet_ball_glass_grey_16.png" alt="#{messages['label.epg.feuilleRoute.etape.ready']}" height="16" width="16" alignment="center" />
+    </c:when>
+
+    <!-- État en cours -->
+    <c:when test="#{field_0 eq 'running'}">
+      <p:image value="/img/icons/bullet_ball_glass_yellow_16.png" alt="#{messages['label.epg.feuilleRoute.etape.running']}" height="16" width="16" alignment="center" />
+    </c:when>
+
+    <!-- État effectué -->
+    <c:when test="#{field_0 eq 'done'}">
+      <c:choose>
+        <!-- État validée manuellement -->
+        <c:when test="#{field_1 eq '1'}">
+          <nxu:set var="buttonLabel" value="#{dossierDistributionActions.getActionFeuilleRouteButtonLabel(field_2, 'label.epg.feuilleRoute.etape.valide.manuellement')}" cache="true">
+            <p:image value="/img/icons/check_16.png" alt="#{buttonLabel}" height="16" width="16" alignment="center" />
+            <p:font size="8">
+            <p:paragraph alignment="left"> #{buttonLabel} </p:paragraph>
+            </p:font>
+          </nxu:set>
+        </c:when>
+        
+        <!-- État avis favorable avec correction -->
+        <c:when test="#{field_1 eq '10'}">
+          <nxu:set var="buttonLabel" value="#{dossierDistributionActions.getActionFeuilleRouteButtonLabel(field_2, 'label.epg.feuilleRoute.etape.valide.avisFavorableCorrection')}" cache="true">
+            <p:image value="/img/icons/check_yellow_16.png" alt="#{buttonLabel}" height="16" width="16" alignment="center" />
+            <p:font size="8">
+            <p:paragraph alignment="left"> #{buttonLabel} </p:paragraph>
+            </p:font>
+          </nxu:set>
+        </c:when>
+        
+        <!-- État invalidée -->
+        <c:when test="#{field_1 eq '2'}">
+          <nxu:set var="buttonLabel" value="#{dossierDistributionActions.getActionFeuilleRouteButtonLabel(field_2, 'label.epg.feuilleRoute.etape.valide.refusValidation')}" cache="true">
+            <p:image value="/img/icons/check_red_16.png" alt="#{buttonLabel}" height="16" width="16" alignment="center"  />
+            <p:font size="8">
+            <p:paragraph alignment="left"> #{buttonLabel} </p:paragraph>
+            </p:font>
+          </nxu:set>
+        </c:when>
+        
+        <!-- État validée automatiquement -->
+        <c:when test="#{field_1 eq '3'}">
+          <nxu:set var="buttonLabel" value="#{dossierDistributionActions.getActionFeuilleRouteButtonLabel(field_2, 'label.epg.feuilleRoute.etape.valide.automatiquement')}" cache="true">
+            <p:image value="/img/icons/bullet_ball_glass_green_16.png" alt="#{buttonLabel}" height="16" width="16" alignment="center" />
+            <p:font size="8">
+            <p:paragraph alignment="left"> #{buttonLabel} </p:paragraph>
+            </p:font>
+          </nxu:set>
+        </c:when>
+        
+        <!-- État avec sortie 'non concerné' -->
+        <c:when test="#{field_1 eq '4'}">
+          <nxu:set var="buttonLabel" value="#{dossierDistributionActions.getActionFeuilleRouteButtonLabel(field_2, 'label.epg.feuilleRoute.etape.valide.nonConcerne')}" cache="true">
+            <p:image value="/img/icons/non_concerne.png" alt="#{buttonLabel}" height="16" width="16" alignment="center" />
+            <p:font size="8">
+            <p:paragraph alignment="left"> #{buttonLabel} </p:paragraph>
+            </p:font>
+          </nxu:set>
+        </c:when>     
+
+        <!-- État retour pour modification -->
+        <c:when test="#{field_1 eq '15'}">
+          <nxu:set var="buttonLabel" value="#{dossierDistributionActions.getActionFeuilleRouteButtonLabel(field_2, 'label.epg.feuilleRoute.etape.valide.retourModification')}" cache="true">
+            <p:image value="/img/icons/back_update_16.png" alt="#{buttonLabel}" height="16" width="16" alignment="center" />
+            <p:font size="8">
+            <p:paragraph alignment="left"> #{buttonLabel} </p:paragraph>
+            </p:font>
+          </nxu:set>
+        </c:when>
+      </c:choose>
+    </c:when>
+  </c:choose>
+
+</f:subview>

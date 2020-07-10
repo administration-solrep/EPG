@@ -1,0 +1,478 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:nxdir="http://nuxeo.org/nxdirectory"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="corbeille_tree">
+
+	<script type="text/javascript">
+		function confirmCancel(event) {
+			return displayConfirm(event,
+					"#{messages['label.evenement.confim.cancel']}");
+		}
+		function confirmAbandon(event) {
+			return displayConfirm(event,
+					"#{messages['label.evenement.confim.abandon']}");
+		}
+		function confirmSupprimer(event) {
+			return displayConfirm(event,
+					"#{messages['label.evenement.confim.supprimer']}");
+		}
+		function confirmAnnuler(event) {
+			return displayConfirm(event,
+					"#{messages['label.evenement.confim.annuler']}");
+		}
+		function confirmPublication(event) {
+			return displayConfirm(event,
+					"#{messages['label.evenement.confim.publication']}");
+		}
+		function confirmTraiter(event) {
+			var x = document.getElementById("estLieOEP");
+			if (x == null) {
+				return displayConfirm(event,
+						"#{messages['label.evenement.confim.traiter']}");
+			} else {
+				return displayConfirm(event,
+						"#{messages['label.evenement.confim.traiter.sansOEP']}");
+			}
+		}
+
+		jQuery(document)
+				.ready(
+						function() {
+							jQuery(
+									'#corbeilleForm\\:corbeilleTreeDossier\\:adaptor\\:2\\:\\:FICHE_DR')
+									.before(
+											'<div class="spaceDivTop"></div><div class="spaceDivBottom"></div>');
+							jQuery(
+									'#corbeilleForm\\:corbeilleTreeDossier\\:adaptor\\:2\\:\\:FICHE_DECRET')
+									.before(
+											'<div class="spaceDivTop"></div><div class="spaceDivBottom"></div>');
+						});
+	</script>
+
+	<style>
+.rich-tree-node-highlighted {
+	text-decoration: none;
+}
+
+.selected {
+	background-color: #F3EFDD;
+	font-weight: bold;
+}
+
+.redDiv a {
+	color: red !important;
+}
+
+.spaceDivTop {
+	height: 2px;
+}
+
+.spaceDivBottom {
+	border-top: 2px solid #F4F2EA;
+	height: 4px;
+}
+</style>
+
+	<c:if test="#{filterActions.peutLierUnOEP()}">
+		<div id="estLieOEP" />
+	</c:if>
+
+
+	<h:panelGroup rendered="#{!currentUser.anonymous}">
+		<div class="menu">
+			<h:form id="corbeilleForm">
+				<ui:decorate template="/incl/menu_arrondi.xhtml">
+					<ui:define name="reponsesClipboard_panel">
+						<div class="userMailboxes" style="overflow: auto;">
+							<div class="userMailboxesContent">
+
+								<h4>
+									<h:outputText value="#{messages['label.mailBoxListTitle']}" />
+									<h:commandLink
+										action="#{espaceParlementaireActions.refreshPage()}"
+										styleClass="espaceCorbeilleListTitle">
+										<h:graphicImage value="/img/refresh.png"
+											alt="#{messages['label.refresh']}"
+											title="#{messages['label.refresh']}" />
+									</h:commandLink>
+								</h4>
+								<div id="uMContent"
+									style="overflow-x: auto; overflow-y: hidden;"
+									class="userLeftMenuContent">
+									<div>
+										<a4j:status for="corbeilleRegion">
+											<f:facet name="start">
+												<h:graphicImage value="/img/standart_waiter.gif"
+													style="position: absolute;" />
+											</f:facet>
+										</a4j:status>
+										<a4j:region id="corbeilleRegion">
+
+											<rich:tree id="corbeilleTree" style="width:100%"
+												switchType="ajax" iconExpanded="/icons/toggle_minus.png"
+												iconCollapsed="/icons/toggle_plus.png" ajaxSingle="true"
+												eventsQueue="ajax_events_queue" toggleOnClick="false"
+												adviseNodeOpened="#{corbeilleTree.adviseNodeOpened}"
+												changeExpandListener="#{corbeilleTree.changeExpandListener}">
+
+												<rich:recursiveTreeNodesAdaptor
+													roots="#{corbeilleTree.corbeilleMessage}"
+													var="corbeilleItem"
+													nodes="#{corbeilleItem.corbeilleNodeList}">
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'ROOT_NODE'}"
+														ajaxSubmitSelection="false"
+														icon="/img/icons/message_mailbox.png"
+														iconLeaf="/img/icons/message_mailbox.png">
+														<h:outputText id="rootNodeName"
+															value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+															style="font-weight: bold;" />
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'CORBEILLE_NODE'}"
+														icon="/img/icons/message_mailbox.png"
+														iconLeaf="/img/icons/message_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="corbeilleNodeCmd"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="corbeilleNodeName"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'MESSAGE'}"
+														icon="/img/icons/message_mailbox.png"
+														iconLeaf="/img/icons/message_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdM"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameM"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+
+													<rich:treeNodesAdaptor id="corbeilleItem" var="messageDTO"
+														nodes="#{corbeilleItem.messageDTO}">
+
+														<rich:treeNode icon="/img/icons/message.png"
+															iconLeaf="/img/icons/message.png">
+															<h:panelGroup style="display:block;"
+																styleClass="#{nxu:test(corbeilleTree.isCurrentMessage(messageDTO), 'selected', '')}"
+																rendered="#{messageDTO.etatDossier eq 'ALERTE'}">
+																<h:panelGroup class="redDiv"
+																	rendered="#{messageDTO.etatEvenement eq 'ANNULE'}">
+																	<s> <h:commandLink id="msgCmdALA"
+																			action="#{corbeilleTree.navigateToMessageAnResetItem(messageDTO)}">
+																			<h:outputText id="msgNameALA" value="#{messageDTO}" />
+																		</h:commandLink>
+																	</s>
+																</h:panelGroup>
+																<h:panelGroup class="redDiv"
+																	rendered="#{messageDTO.etatEvenement ne 'ANNULE'}">
+																	<h:commandLink id="msgCmdAL"
+																		action="#{corbeilleTree.navigateToMessageAnResetItem(messageDTO)}">
+																		<h:outputText id="msgNameAL" value="#{messageDTO}" />
+																	</h:commandLink>
+																</h:panelGroup>
+															</h:panelGroup>
+															<h:panelGroup style="display:block;"
+																styleClass="#{nxu:test(corbeilleTree.isCurrentMessage(messageDTO), 'selected', '')}"
+																rendered="#{messageDTO.etatDossier ne 'ALERTE'}">
+																<h:panelGroup
+																	rendered="#{messageDTO.etatEvenement eq 'ANNULE'}">
+																	<s> <h:commandLink id="msgCmdA"
+																			action="#{corbeilleTree.navigateToMessageAnResetItem(messageDTO)}">
+																			<h:outputText id="msgNameA" value="#{messageDTO}" />
+																		</h:commandLink>
+																	</s>
+																</h:panelGroup>
+																<h:panelGroup
+																	rendered="#{messageDTO.etatEvenement ne 'ANNULE'}">
+																	<h:commandLink id="msgCmd"
+																		action="#{corbeilleTree.navigateToMessageAnResetItem(messageDTO)}">
+																		<h:outputText id="msgName" value="#{messageDTO}" />
+																	</h:commandLink>
+																</h:panelGroup>
+															</h:panelGroup>
+														</rich:treeNode>
+													</rich:treeNodesAdaptor>
+
+												</rich:recursiveTreeNodesAdaptor>
+											</rich:tree>
+
+											<c:if
+												test="#{not empty corbeilleTree.corbeilleDossier and not empty corbeilleTree.corbeilleMessage}">
+												<div class="spaceDivTop"></div>
+												<div class="spaceDivBottom"></div>
+											</c:if>
+
+
+											<rich:tree id="corbeilleTreeDossier" style="width:100%"
+												switchType="ajax" iconExpanded="/icons/toggle_minus.png"
+												iconCollapsed="/icons/toggle_plus.png" ajaxSingle="true"
+												eventsQueue="ajax_events_queue" toggleOnClick="false"
+												adviseNodeOpened="#{corbeilleTree.adviseNodeOpened}"
+												changeExpandListener="#{corbeilleTree.changeExpandListener}">
+
+												<rich:recursiveTreeNodesAdaptor id="adaptor"
+													roots="#{corbeilleTree.corbeilleDossier}"
+													var="corbeilleItem"
+													nodes="#{corbeilleItem.corbeilleNodeList}">
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'DOSSIER'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdDoss"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameDoss"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'OEP'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdOepDoss"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameOepDoss"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'AVI'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdAvi"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameAvi"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_LOI'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFLoi"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFLoi"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_DR'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png" id="FICHE_DR">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFDR"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFDR"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_DR_67'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFDR67"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFDR67"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_DECRET'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png" id="FICHE_DECRET">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFDecret"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFDecret"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_IE'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFIE"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFIE"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_341'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdF341"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameF341"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_DPG'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFDPG"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFDPG"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_SD'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFSD"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFSD"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_JSS'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFJSS"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFJSS"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_DOC'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFDOC"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFDOC"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+													<rich:treeNode
+														rendered="#{corbeilleItem.type == 'MGPP_NODE' and corbeilleItem.typeObjet == 'FICHE_AUD'}"
+														icon="/img/icons/folder_mailbox.png"
+														iconLeaf="/img/icons/folder_mailbox.png">
+														<h:panelGroup style="display:block;"
+															styleClass="#{nxu:test(corbeilleTree.isCurrentItem(item), 'selected', '')}">
+															<h:commandLink id="mgppNodeCmdFAUD"
+																action="#{corbeilleTree.setCurrentItem(corbeilleItem)}">
+																<h:outputText id="mgppNodeNameFAUD"
+																	value="#{corbeilleItem.name} (#{corbeilleItem.count})"
+																	style="font-weight: bold;" />
+															</h:commandLink>
+														</h:panelGroup>
+													</rich:treeNode>
+
+
+												</rich:recursiveTreeNodesAdaptor>
+
+											</rich:tree>
+
+										</a4j:region>
+									</div>
+								</div>
+
+								<!-- Bottom of the rounded box -->
+
+								<p class="nobottomgap"></p>
+							</div>
+						</div>
+					</ui:define>
+				</ui:decorate>
+			</h:form>
+		</div>
+		<!-- Recherche rapide -->
+		<ui:include src="/corbeille/quick_search.xhtml" />
+
+		<!-- Creation evenement -->
+		<ui:include src="/corbeille/create_evenement_createur.xhtml" />
+
+		<div class="bottom-left"></div>
+		<div class="bottom-right"></div>
+
+	</h:panelGroup>
+
+</div>

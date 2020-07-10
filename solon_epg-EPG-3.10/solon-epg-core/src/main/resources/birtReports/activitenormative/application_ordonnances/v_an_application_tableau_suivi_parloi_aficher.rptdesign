@@ -1,0 +1,1949 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="DOSSIERID_PARAM" id="320">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="MINISTERES_PARAM" id="321">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DIRECTIONS_PARAM" id="762">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_QA</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfUUE=</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="TEXTE_MAITRE_ORDO" id="845">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">MES_NUMEROORDRE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_NUMEROORDRE</text-property>
+                    <text-property name="heading">MES_NUMEROORDRE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_ARTICLE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_ARTICLE</text-property>
+                    <text-property name="heading">MES_ARTICLE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_BASELEGALE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_BASELEGALE</text-property>
+                    <text-property name="heading">MES_BASELEGALE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_OBJETRIM</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_OBJETRIM</text-property>
+                    <text-property name="heading">MES_OBJETRIM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_MINISTEREPILOTE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_MINISTEREPILOTE</text-property>
+                    <text-property name="heading">MES_MINISTEREPILOTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_DIRECTIONRESPONSABLE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_DIRECTIONRESPONSABLE</text-property>
+                    <text-property name="heading">MES_DIRECTIONRESPONSABLE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DEC_TYPEACTE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DEC_TYPEACTE</text-property>
+                    <text-property name="heading">DEC_TYPEACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_CONSULTATIONSHCE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_CONSULTATIONSHCE</text-property>
+                    <text-property name="heading">MES_CONSULTATIONSHCE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_CALENDRIERCONSULTATIONSHCE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_CALENDRIERCONSULTATIONSHCE</text-property>
+                    <text-property name="heading">MES_CALENDRIERCONSULTATIONSHCE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_DATESAISINECE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_DATESAISINECE</text-property>
+                    <text-property name="heading">MES_DATESAISINECE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_DATEPREVSAISINECE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_DATEPREVSAISINECE</text-property>
+                    <text-property name="heading">MES_DATEPREVSAISINECE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DEC_DATESORTIECE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DEC_DATESORTIECE</text-property>
+                    <text-property name="heading">DEC_DATESORTIECE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_DATEOBJECTIFPUBLICATION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_DATEOBJECTIFPUBLICATION</text-property>
+                    <text-property name="heading">MES_DATEOBJECTIFPUBLICATION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_OBSERVATION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_OBSERVATION</text-property>
+                    <text-property name="heading">MES_OBSERVATION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_TYPEMESURE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_TYPEMESURE</text-property>
+                    <text-property name="heading">MES_TYPEMESURE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DEC_NUMERONOR</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DEC_NUMERONOR</text-property>
+                    <text-property name="heading">DEC_NUMERONOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DEC_TITREOFFICIEL</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DEC_TITREOFFICIEL</text-property>
+                    <text-property name="heading">DEC_TITREOFFICIEL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DEC_DATEPUBLICATION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DEC_DATEPUBLICATION</text-property>
+                    <text-property name="heading">DEC_DATEPUBLICATION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MES_DATEMISEAPPLICATION</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">MES_DATEMISEAPPLICATION</text-property>
+                    <text-property name="heading">MES_DATEMISEAPPLICATION</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">MES_NUMEROORDRE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">MES_ARTICLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">MES_BASELEGALE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">MES_OBJETRIM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">MES_MINISTEREPILOTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">MES_DIRECTIONRESPONSABLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">DEC_TYPEACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">MES_CONSULTATIONSHCE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">MES_CALENDRIERCONSULTATIONSHCE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">MES_DATESAISINECE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">MES_DATEPREVSAISINECE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">DEC_DATESORTIECE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">MES_DATEOBJECTIFPUBLICATION</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">MES_OBSERVATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">MES_TYPEMESURE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">DEC_NUMERONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">DEC_TITREOFFICIEL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">DEC_DATEPUBLICATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">MES_DATEMISEAPPLICATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">MES_NUMEROORDRE</property>
+                    <property name="nativeName">MES_NUMEROORDRE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">MES_ARTICLE</property>
+                    <property name="nativeName">MES_ARTICLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">MES_BASELEGALE</property>
+                    <property name="nativeName">MES_BASELEGALE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">MES_OBJETRIM</property>
+                    <property name="nativeName">MES_OBJETRIM</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">2011</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">MES_MINISTEREPILOTE</property>
+                    <property name="nativeName">MES_MINISTEREPILOTE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">MES_DIRECTIONRESPONSABLE</property>
+                    <property name="nativeName">MES_DIRECTIONRESPONSABLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">DEC_TYPEACTE</property>
+                    <property name="nativeName">DEC_TYPEACTE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">MES_CONSULTATIONSHCE</property>
+                    <property name="nativeName">MES_CONSULTATIONSHCE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">MES_CALENDRIERCONSULTATIONSHCE</property>
+                    <property name="nativeName">MES_CALENDRIERCONSULTATIONSHCE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">MES_DATESAISINECE</property>
+                    <property name="nativeName">MES_DATESAISINECE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">MES_DATEPREVSAISINECE</property>
+                    <property name="nativeName">MES_DATEPREVSAISINECE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">DEC_DATESORTIECE</property>
+                    <property name="nativeName">DEC_DATESORTIECE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">MES_DATEOBJECTIFPUBLICATION</property>
+                    <property name="nativeName">MES_DATEOBJECTIFPUBLICATION</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">MES_OBSERVATION</property>
+                    <property name="nativeName">MES_OBSERVATION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">2011</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">MES_TYPEMESURE</property>
+                    <property name="nativeName">MES_TYPEMESURE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">DEC_NUMERONOR</property>
+                    <property name="nativeName">DEC_NUMERONOR</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">DEC_TITREOFFICIEL</property>
+                    <property name="nativeName">DEC_TITREOFFICIEL</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">DEC_DATEPUBLICATION</property>
+                    <property name="nativeName">DEC_DATEPUBLICATION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">MES_DATEMISEAPPLICATION</property>
+                    <property name="nativeName">MES_DATEMISEAPPLICATION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT 
+NVL(TM_MES.NUMEROORDRE, ' ') AS MES_NUMEROORDRE,
+NVL(TM_MES.ARTICLE, ' ') AS MES_ARTICLE,
+NVL(TM_MES.BASELEGALE, ' ') AS MES_BASELEGALE,
+NVL(TM_MES.OBJETRIM, ' ') AS MES_OBJETRIM,
+NVL(TM_MES.MINISTEREPILOTE, ' ') AS MES_MINISTEREPILOTE,
+NVL(TM_MES.DIRECTIONRESPONSABLE, ' ') AS MES_DIRECTIONRESPONSABLE,
+NVL(VOC_TACT."label", ' ') AS DEC_TYPEACTE,
+NVL(TM_MES.CONSULTATIONSHCE, ' ') AS MES_CONSULTATIONSHCE,
+NVL(TM_MES.CALENDRIERCONSULTATIONSHCE, ' ') AS MES_CALENDRIERCONSULTATIONSHCE,
+NVL(TO_CHAR(TM_MES.DATESAISINECE, 'DD/MM/YYYY'), ' ') AS MES_DATESAISINECE,
+NVL(TO_CHAR(TM_MES.DATEPREVISIONNELLESAISINECE, 'DD/MM/YYYY'), ' ') AS MES_DATEPREVSAISINECE,
+NVL(TO_CHAR(TM_DEC.DATESORTIECE, 'DD/MM/YYYY'), ' ') AS DEC_DATESORTIECE,
+TM_MES.DATEOBJECTIFPUBLICATION AS MES_DATEOBJECTIFPUBLICATION,
+NVL(TM_MES.OBSERVATION, ' ') AS MES_OBSERVATION,
+NVL(VOC_TMES."label", ' ') AS MES_TYPEMESURE,
+NVL(TM_DEC.NUMERONOR, ' ') AS DEC_NUMERONOR,
+TM_DEC.TITREOFFICIEL AS DEC_TITREOFFICIEL,
+NVL(TO_CHAR(TM_DEC.DATEPUBLICATION, 'DD/MM/YYYY'), ' ') AS DEC_DATEPUBLICATION,
+NVL(TO_CHAR(TM_MES.DATEMISEAPPLICATION, 'DD/MM/YYYY'), ' ') AS MES_DATEMISEAPPLICATION
+FROM
+TEXTE_MAITRE TM_ORDO INNER JOIN ACTIVITE_NORMATIVE AN ON TM_ORDO.ID = AN.ID AND AN.APPLICATIONORDONNANCE = '1'
+LEFT OUTER JOIN TEXM_MESUREIDS TEXM ON TM_ORDO.ID = TEXM.ID
+LEFT OUTER JOIN TEXTE_MAITRE TM_MES ON TEXM.ITEM = TM_MES.ID
+  LEFT OUTER JOIN VOC_TYPE_MESURE VOC_TMES    ON TM_MES.TYPEMESURE = VOC_TMES."id"
+LEFT OUTER JOIN TEXM_DECRETIDS TEXD ON TM_MES.ID = TEXD.ID
+LEFT OUTER JOIN TEXTE_MAITRE TM_DEC ON TEXD.ITEM = TM_DEC.ID
+  LEFT OUTER JOIN VOC_ACTE_TYPE VOC_TACT      ON TM_DEC.TYPEACTE   = VOC_TACT."id"
+WHERE TM_ORDO.ID = ?
+AND (TM_ORDO.DISPOSITIONHABILITATION IS NULL OR TM_ORDO.DISPOSITIONHABILITATION = 1)
+ORDER BY TO_NUMBER(DECODE(TM_MES.NUMEROORDRE, ' ', 0, TM_MES.NUMEROORDRE))
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ORDO_TITREOFFICIEL</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ORDO_TITREOFFICIEL</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ORDO_TITREOFFICIEL</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_NUMEROORDRE</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_NUMEROORDRE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_NUMEROORDRE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_ARTICLE</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_ARTICLE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_ARTICLE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_BASELEGALE</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_BASELEGALE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_BASELEGALE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_OBJETRIM</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2011</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_OBJETRIM</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_OBJETRIM</design:label>
+            <design:formattingHints>
+              <design:displaySize>4000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_MINISTEREPILOTE</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_MINISTEREPILOTE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_MINISTEREPILOTE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_DIRECTIONRESPONSABLE</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_DIRECTIONRESPONSABLE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_DIRECTIONRESPONSABLE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DEC_TYPEACTE</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DEC_TYPEACTE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DEC_TYPEACTE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_CONSULTATIONSHCE</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_CONSULTATIONSHCE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_CONSULTATIONSHCE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_CALENDRIERCONSULTATIONSHCE</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_CALENDRIERCONSULTATIONSHCE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_CALENDRIERCONSULTATIONSHCE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_DATESAISINECE</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_DATESAISINECE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_DATESAISINECE</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_DATEPREVSAISINECE</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_DATEPREVSAISINECE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_DATEPREVSAISINECE</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DEC_DATESORTIECE</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DEC_DATESORTIECE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DEC_DATESORTIECE</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_DATEOBJECTIFPUBLICATION</design:name>
+              <design:position>14</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_DATEOBJECTIFPUBLICATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_DATEOBJECTIFPUBLICATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_OBSERVATION</design:name>
+              <design:position>15</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2011</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_OBSERVATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_OBSERVATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>4000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_TYPEMESURE</design:name>
+              <design:position>16</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_TYPEMESURE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_TYPEMESURE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DEC_NUMERONOR</design:name>
+              <design:position>17</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DEC_NUMERONOR</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DEC_NUMERONOR</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DEC_TITREOFFICIEL</design:name>
+              <design:position>18</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DEC_TITREOFFICIEL</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DEC_TITREOFFICIEL</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DEC_DATEPUBLICATION</design:name>
+              <design:position>19</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DEC_DATEPUBLICATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DEC_DATEPUBLICATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MES_DATEMISEAPPLICATION</design:name>
+              <design:position>20</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MES_DATEMISEAPPLICATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MES_DATEMISEAPPLICATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="TITRE_ORDO" id="826">
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">DOSSIERID_PARAM</property>
+                    <property name="paramName">DOSSIERID_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">TITREOFFICIEL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">TITREOFFICIEL</property>
+                    <property name="nativeName">TITREOFFICIEL</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT TITREOFFICIEL
+FROM TEXTE_MAITRE
+WHERE ID = ?]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="dateLong" id="839">
+            <structure name="dateTimeFormat">
+                <property name="category">Custom</property>
+                <property name="pattern">MMMM yyyy</property>
+                <property name="locale">fr_FR</property>
+            </structure>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">custom</property>
+            <property name="orientation">landscape</property>
+            <property name="height">12in</property>
+            <property name="width">30in</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <data id="866">
+            <property name="dataSet">TITRE_ORDO</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">TITREOFFICIEL</property>
+                    <text-property name="displayName">TITREOFFICIEL</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITREOFFICIEL"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">TITREOFFICIEL</property>
+        </data>
+        <label id="828">
+            <text-property name="text"> </text-property>
+        </label>
+        <table id="542">
+            <property name="dataSet">TEXTE_MAITRE_ORDO</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">ORDO_TITREOFFICIEL</property>
+                    <text-property name="displayName">ORDO_TITREOFFICIEL</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ORDO_TITREOFFICIEL"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_NUMEROORDRE</property>
+                    <text-property name="displayName">MES_NUMEROORDRE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_NUMEROORDRE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_ARTICLE</property>
+                    <text-property name="displayName">MES_ARTICLE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_ARTICLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_BASELEGALE</property>
+                    <text-property name="displayName">MES_BASELEGALE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_BASELEGALE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_OBJETRIM</property>
+                    <text-property name="displayName">MES_OBJETRIM</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_OBJETRIM"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_MINISTEREPILOTE</property>
+                    <text-property name="displayName">MES_MINISTEREPILOTE</text-property>
+                    <expression name="expression" type="javascript">var MES_MINISTEREPILOTE = dataSetRow["MES_MINISTEREPILOTE"];
+var messageToDisplay = MES_MINISTEREPILOTE;
+
+var MINISTERES_PARAM = params["MINISTERES_PARAM"] + "";
+MINISTERES_PARAM = (MINISTERES_PARAM == "null" ? "" : MINISTERES_PARAM);
+var SEPARATEURS = "&amp;";
+var KEY_ID = "$id$=";
+var KEY_LABEL = "$label$=";
+var KEY_LIMIT = ";;";
+var MINISTERES = MINISTERES_PARAM.split(SEPARATEURS);
+
+for(i = 0; i &lt; (MINISTERES.length  - 1); i++)
+{
+	var MINISTERE = MINISTERES[i].split(KEY_LIMIT);
+	var MINISTERE_ID = "";
+	var MINISTERE_LABEL = "";
+	
+	for(j = 0; j &lt; (MINISTERE.length  - 1); j++)
+	{
+		if(MINISTERE[j].indexOf(KEY_ID) == 0)
+		{
+			MINISTERE_ID = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_ID) + KEY_ID.length);
+		}else if(MINISTERE[j].indexOf(KEY_LABEL) == 0)
+		{
+			MINISTERE_LABEL = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_LABEL) + KEY_LABEL.length);
+		}
+	}
+	
+	if(MINISTERE_ID != "")
+	{
+		if(BirtStr.toUpper(MINISTERE_ID) == BirtStr.toUpper(MES_MINISTEREPILOTE))
+		{
+			messageToDisplay = MINISTERE_LABEL;
+			break;
+		}
+	}
+}
+
+messageToDisplay;</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_DIRECTIONRESPONSABLE</property>
+                    <text-property name="displayName">MES_DIRECTIONRESPONSABLE</text-property>
+                    <expression name="expression" type="javascript">var MES_DIRECTIONRESPONSABLE = dataSetRow["MES_DIRECTIONRESPONSABLE"];
+var messageToDisplay = MES_DIRECTIONRESPONSABLE;
+
+var DIRECTIONS_PARAM = params["DIRECTIONS_PARAM"] + "";
+DIRECTIONS_PARAM = (DIRECTIONS_PARAM == "null" ? "" : DIRECTIONS_PARAM);
+var SEPARATEURS = "&amp;";
+var KEY_ID = "$id$=";
+var KEY_LABEL = "$label$=";
+var KEY_LIMIT = ";;";
+var DIRECTIONS = DIRECTIONS_PARAM.split(SEPARATEURS);
+
+for(i = 0; i &lt; (DIRECTIONS.length  - 1); i++)
+{
+	var DIRECTION = DIRECTIONS[i].split(KEY_LIMIT);
+	var DIRECTION_ID = "";
+	var DIRECTION_LABEL = "";
+	
+	for(j = 0; j &lt; (DIRECTION.length  - 1); j++)
+	{
+		if(DIRECTION[j].indexOf(KEY_ID) == 0)
+		{
+			DIRECTION_ID = DIRECTION[j].substring(DIRECTION[j].indexOf(KEY_ID) + KEY_ID.length);
+		}else if(DIRECTION[j].indexOf(KEY_LABEL) == 0)
+		{
+			DIRECTION_LABEL = DIRECTION[j].substring(DIRECTION[j].indexOf(KEY_LABEL) + KEY_LABEL.length);
+		}
+	}
+	
+	if(DIRECTION_ID != "")
+	{
+		if(BirtStr.toUpper(DIRECTION_ID) == BirtStr.toUpper(MES_DIRECTIONRESPONSABLE))
+		{
+			messageToDisplay = DIRECTION_LABEL;
+			break;
+		}
+	}
+}
+
+messageToDisplay;</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">DEC_TYPEACTE</property>
+                    <text-property name="displayName">DEC_TYPEACTE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DEC_TYPEACTE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_CONSULTATIONSHCE</property>
+                    <text-property name="displayName">MES_CONSULTATIONSHCE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_CONSULTATIONSHCE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_CALENDRIERCONSULTATIONSHCE</property>
+                    <text-property name="displayName">MES_CALENDRIERCONSULTATIONSHCE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_CALENDRIERCONSULTATIONSHCE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_DATESAISINECE</property>
+                    <text-property name="displayName">MES_DATESAISINECE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_DATESAISINECE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_DATEPREVSAISINECE</property>
+                    <text-property name="displayName">MES_DATEPREVSAISINECE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_DATEPREVSAISINECE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DEC_DATESORTIECE</property>
+                    <text-property name="displayName">DEC_DATESORTIECE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DEC_DATESORTIECE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_DATEOBJECTIFPUBLICATION</property>
+                    <text-property name="displayName">MES_DATEOBJECTIFPUBLICATION</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_DATEOBJECTIFPUBLICATION"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_OBSERVATION</property>
+                    <text-property name="displayName">MES_OBSERVATION</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_OBSERVATION"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_TYPEMESURE</property>
+                    <text-property name="displayName">MES_TYPEMESURE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_TYPEMESURE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DEC_NUMERONOR</property>
+                    <text-property name="displayName">DEC_NUMERONOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DEC_NUMERONOR"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DEC_TITREOFFICIEL</property>
+                    <text-property name="displayName">DEC_TITREOFFICIEL</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DEC_TITREOFFICIEL"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DEC_DATEPUBLICATION</property>
+                    <text-property name="displayName">DEC_DATEPUBLICATION</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DEC_DATEPUBLICATION"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MES_DATEMISEAPPLICATION</property>
+                    <text-property name="displayName">MES_DATEMISEAPPLICATION</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MES_DATEMISEAPPLICATION"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="742">
+                <property name="width">80px</property>
+            </column>
+            <column id="743">
+                <property name="width">250px</property>
+            </column>
+            <column id="744">
+                <property name="repeat">1</property>
+                <property name="width">200px</property>
+            </column>
+            <column id="764">
+                <property name="repeat">1</property>
+                <property name="width">200px</property>
+            </column>
+            <column id="746">
+                <property name="width">250px</property>
+            </column>
+            <column id="747">
+                <property name="width">250px</property>
+            </column>
+            <column id="771">
+                <property name="repeat">1</property>
+                <property name="width">150px</property>
+            </column>
+            <column id="748">
+                <property name="width">150px</property>
+            </column>
+            <column id="792">
+                <property name="repeat">1</property>
+                <property name="width">100px</property>
+            </column>
+            <column id="749">
+                <property name="width">100px</property>
+            </column>
+            <column id="836">
+                <property name="width">100px</property>
+            </column>
+            <column id="796">
+                <property name="repeat">1</property>
+                <property name="width">100px</property>
+            </column>
+            <column id="750">
+                <property name="width">100px</property>
+            </column>
+            <column id="754">
+                <property name="width">250px</property>
+            </column>
+            <column id="802">
+                <property name="repeat">1</property>
+                <property name="width">130px</property>
+            </column>
+            <column id="808">
+                <property name="repeat">1</property>
+                <property name="width">120px</property>
+            </column>
+            <column id="814">
+                <property name="repeat">1</property>
+                <property name="width">250px</property>
+            </column>
+            <column id="820">
+                <property name="repeat">1</property>
+                <property name="width">100px</property>
+            </column>
+            <column id="842">
+                <property name="repeat">1</property>
+                <property name="width">100px</property>
+            </column>
+            <header>
+                <row id="543">
+                    <property name="verticalAlign">middle</property>
+                    <property name="height">70px</property>
+                    <cell id="576">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="577">
+                            <text-property name="text">N° d’ordre</text-property>
+                        </label>
+                    </cell>
+                    <cell id="578">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="579">
+                            <text-property name="text">Article de l'ordonnance</text-property>
+                        </label>
+                    </cell>
+                    <cell id="580">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="581">
+                            <text-property name="text">Base légale </text-property>
+                        </label>
+                    </cell>
+                    <cell id="765">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="766">
+                            <text-property name="text">Objet RIM 	</text-property>
+                        </label>
+                    </cell>
+                    <cell id="584">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="585">
+                            <text-property name="text">Ministère responsable de la mesure</text-property>
+                        </label>
+                    </cell>
+                    <cell id="586">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="587">
+                            <text-property name="text">Direction responsable</text-property>
+                        </label>
+                    </cell>
+                    <cell id="772">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="773">
+                            <text-property name="text">Catégorie de texte</text-property>
+                        </label>
+                    </cell>
+                    <cell id="588">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="589">
+                            <text-property name="text">Consultations obligatoires</text-property>
+                        </label>
+                    </cell>
+                    <cell id="793">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="794">
+                            <text-property name="text">Calendrier des consultations </text-property>
+                        </label>
+                    </cell>
+                    <cell id="590">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="591">
+                            <text-property name="text">Date prévisionnelle de saisine du Conseil d’Etat</text-property>
+                        </label>
+                    </cell>
+                    <cell id="834">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="837">
+                            <text-property name="text">Date Saisine du Conseil d'Etat</text-property>
+                        </label>
+                    </cell>
+                    <cell id="797">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="798">
+                            <text-property name="text">Date de sortie CE 	</text-property>
+                        </label>
+                    </cell>
+                    <cell id="592">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="593">
+                            <text-property name="text">Objectif de publication</text-property>
+                        </label>
+                    </cell>
+                    <cell id="600">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="601">
+                            <text-property name="text">Observations</text-property>
+                        </label>
+                    </cell>
+                    <cell id="803">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="804">
+                            <text-property name="text">Type de mesure</text-property>
+                        </label>
+                    </cell>
+                    <cell id="809">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="810">
+                            <text-property name="text">Nor du decret</text-property>
+                        </label>
+                    </cell>
+                    <cell id="815">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="816">
+                            <text-property name="text">Titre du decret</text-property>
+                        </label>
+                    </cell>
+                    <cell id="821">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="822">
+                            <text-property name="text">Date de publication du decret</text-property>
+                        </label>
+                    </cell>
+                    <cell id="840">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <label id="843">
+                            <text-property name="text">Date de mise en application</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="616">
+                    <property name="verticalAlign">middle</property>
+                    <cell id="649">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="847">
+                            <property name="resultSetColumn">MES_NUMEROORDRE</property>
+                        </data>
+                    </cell>
+                    <cell id="651">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="848">
+                            <property name="resultSetColumn">MES_ARTICLE</property>
+                        </data>
+                    </cell>
+                    <cell id="653">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="849">
+                            <property name="resultSetColumn">MES_BASELEGALE</property>
+                        </data>
+                    </cell>
+                    <cell id="767">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="850">
+                            <property name="resultSetColumn">MES_OBJETRIM</property>
+                        </data>
+                    </cell>
+                    <cell id="657">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="851">
+                            <property name="resultSetColumn">MES_MINISTEREPILOTE</property>
+                        </data>
+                    </cell>
+                    <cell id="659">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="852">
+                            <property name="resultSetColumn">MES_DIRECTIONRESPONSABLE</property>
+                        </data>
+                    </cell>
+                    <cell id="774">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="865">
+                            <property name="resultSetColumn">DEC_TYPEACTE</property>
+                        </data>
+                    </cell>
+                    <cell id="661">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="854">
+                            <property name="resultSetColumn">MES_CONSULTATIONSHCE</property>
+                        </data>
+                    </cell>
+                    <cell id="795">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="855">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">MMMM yyyy</property>
+                                <property name="locale">fr</property>
+                            </structure>
+                            <property name="resultSetColumn">MES_CALENDRIERCONSULTATIONSHCE</property>
+                        </data>
+                    </cell>
+                    <cell id="663">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="856">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">MMMM yyyy</property>
+                                <property name="locale">fr</property>
+                            </structure>
+                            <property name="resultSetColumn">MES_DATEPREVSAISINECE</property>
+                        </data>
+                    </cell>
+                    <cell id="835">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="857">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Date</property>
+                                <property name="pattern">Short Date</property>
+                                <property name="locale">fr</property>
+                            </structure>
+                            <property name="resultSetColumn">MES_DATESAISINECE</property>
+                        </data>
+                    </cell>
+                    <cell id="799">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="859">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Date</property>
+                                <property name="pattern">Short Date</property>
+                                <property name="locale">fr</property>
+                            </structure>
+                            <property name="resultSetColumn">DEC_DATESORTIECE</property>
+                        </data>
+                    </cell>
+                    <cell id="665">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="858">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">MMMM yyyy</property>
+                                <property name="locale">fr</property>
+                            </structure>
+                            <property name="resultSetColumn">MES_DATEOBJECTIFPUBLICATION</property>
+                        </data>
+                    </cell>
+                    <cell id="673">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="860">
+                            <property name="resultSetColumn">MES_OBSERVATION</property>
+                        </data>
+                    </cell>
+                    <cell id="805">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="853">
+                            <property name="resultSetColumn">MES_TYPEMESURE</property>
+                        </data>
+                    </cell>
+                    <cell id="811">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="861">
+                            <property name="resultSetColumn">DEC_NUMERONOR</property>
+                        </data>
+                    </cell>
+                    <cell id="817">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <property name="textTransform">none</property>
+                        <property name="whiteSpace">normal</property>
+                        <data id="862">
+                            <property name="resultSetColumn">DEC_TITREOFFICIEL</property>
+                        </data>
+                    </cell>
+                    <cell id="823">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="863">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Date</property>
+                                <property name="pattern">Short Date</property>
+                                <property name="locale">fr</property>
+                            </structure>
+                            <property name="resultSetColumn">DEC_DATEPUBLICATION</property>
+                        </data>
+                    </cell>
+                    <cell id="841">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">1px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">1px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">1px</property>
+                        <data id="864">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Date</property>
+                                <property name="pattern">Short Date</property>
+                                <property name="locale">fr</property>
+                            </structure>
+                            <property name="resultSetColumn">MES_DATEMISEAPPLICATION</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

@@ -1,0 +1,26 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/create_params_mel_validation_automatique.nxshell
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p Administrator http://localhost:8180/solon-epg/site/automation
+
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre objet-mel-notification-erreur-validation-automatique
+cd objet-mel-notification-erreur-validation-automatique
+setp -xpath parametre:value -value "[S.O.L.O.N. II]  Validation automatique"
+setp -xpath parametre:unit -value Objet
+setp -xpath dc:description -value "« Objet » (par défaut) de la notification par mél suite à une erreur de validation automatique"
+setp -xpath dc:title -value "Objet mél de la notification d'erreur lors de la validation automatique de feuille de route"
+cd ..
+
+mkdir Parametre texte-mel-notification-erreur-validation-automatique
+cd texte-mel-notification-erreur-validation-automatique
+setp -xpath parametre:value -value "Une erreur est survenue au cours de la validation automatique du dossier ${NOR}"
+setp -xpath parametre:unit -value texte
+setp -xpath dc:description -value "« Texte » (par défaut) de la notification par mél suite à une erreur de validation automatique"
+setp -xpath dc:title -value "Texte mél de la notification d'erreur lors de la validation automatique de feuille de route"

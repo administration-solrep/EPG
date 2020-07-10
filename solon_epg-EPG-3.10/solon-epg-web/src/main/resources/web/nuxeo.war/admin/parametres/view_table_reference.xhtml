@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  >
+  <ui:define name="page title">
+    <c:choose>
+  		<c:when test="#{tablesReferenceActions.isAccessAuthorized()}">
+    		<h:outputText value="#{nuxeoApplicationName} - Tables de référence"/>
+    	</c:when>
+    	<c:otherwise>
+    		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+    	</c:otherwise>
+    </c:choose>
+  </ui:define>
+
+  <ui:define name="body">
+  <c:if test="#{tablesReferenceActions.isAccessAuthorized()}">
+    <div class="adminModel">
+ 				<h:form id="tables_reference_properties" enctype="multipart/form-data">
+					<a4j:region id="tablesReferenceViewRegion"  >
+						<a4j:outputPanel id="tablesReferenceViewPanel" >
+						
+					      <h:panelGroup >
+					        <h3 class="summaryTitle">
+					          <h:outputText value="Tables de référence"/>
+					        </h3>
+					      </h:panelGroup>
+					      <ui:include src="/incl/message_banner.xhtml"/>
+					      
+					      <br/><br/>
+					      <h4><u><h:outputText value="#{messages['tables.reference.autorites.validation']}"/></u></h4>
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_autorites_validation" />
+						  <br/>
+						  <h4><u><h:outputText value="#{messages['tables.reference.signataire.communication']}"/></u></h4>					
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_signataires" />
+					      <br/>
+						  <h4><u><h:outputText value="#{messages['tables.reference.ministere.pm']}"/></u></h4>					
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_ministere_pm" />
+					      <br/>
+					    <h4><u><h:outputText value="#{messages['tables.reference.ministere.ce']}"/></u></h4>					
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_ministere_ce" />
+					      <br/>
+					    <h4><u><h:outputText value="#{messages['tables.reference.vecteur.publication']}"/></u></h4>
+					    <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="edit" name="tables_reference_vecteur_publication_multiples" />
+					    <br/>
+					    <h4><u><h:outputText value="#{messages['tables.reference.signature.cheminCroix']}"/></u></h4>
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_signature_cheminCroix" />
+						  <br/>
+						<h4><u><h:outputText value="#{messages['tables.reference.signature.typeObligatoire']}"/></u></h4>
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_signature_typeObligatoire" />
+						  <br/>
+						<h4><u><h:outputText value="#{messages['tables.reference.epreuve.postes']}"/></u></h4>
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_epreuve_postes" />
+						  <br/>
+						<h4><u><h:outputText value="#{messages['tables.reference.avis.rectificatif.config.poste']}"/></u></h4>
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_avis_rectificatif_CE_poste_DAN" />
+						  <br/>
+						<h4><u><h:outputText value="#{messages['tables.reference.retoursdan']}"/></u></h4>					
+					      <nxl:layout value="#{tablesReferenceActions.tableReference}" mode="create" name="tables_reference_retours_dan" />
+					      <br/>
+				      <div style="clear:both"></div>  
+					      <br/>
+					      <table cellspacing="10px">
+					      	<tr>
+						      	<th width="150px"></th>
+						      	<th>
+								  <nxh:commandButton styleClass="button" id="button_save_tref" value="#{messages['command.table.reference.save']}" action="#{tablesReferenceActions.save()}" />
+								</th>
+								<th>
+								  <nxh:commandButton styleClass="button" id="button_cancel_tref" value="#{messages['command.table.reference.cancel']}" action="#{tablesReferenceActions.cancel()}" />
+								</th>
+							 </tr>
+						  </table>
+			      		<div style="clear:both"></div>
+		      		</a4j:outputPanel>
+				</a4j:region>
+		 </h:form>
+
+        <h:form id="mode_parution_properties" >
+	      <a4j:region id="modeParutionViewRegion" >
+		    <a4j:outputPanel id="modeParutionViewPanel" >
+	          <h:panelGroup >
+	            <h3 class="summaryTitle">
+	              <h:outputText value="Modes de parution" />
+	            </h3>
+	          </h:panelGroup>
+	          <nxu:set var="messagesFacesId" value="mode_parution_facesMessages">
+	            <ui:include src="/incl/message_banner.xhtml"/>
+	          </nxu:set>
+
+	          <br /><br />
+
+	          <nxu:set var="contentViewId" value="mode_parution_listing">
+	            <nxu:set var="contentViewName" value="administration_mode_parution">
+	              <nxu:set var="layoutMode" value="edit">
+			        <ui:decorate template="/incl/editable_content_view_no_pagination.xhtml">
+				      <ui:define name="content_view_header_after_selector" />
+				      <ui:define name="content_view_header_before_selector" />
+			        </ui:decorate>
+			      </nxu:set>
+		        </nxu:set>
+		      </nxu:set>
+		      
+		      <table cellspacing="10px">
+		      	  <tr>
+			        <th width="150px"></th>
+			        <th>
+					  <a4j:commandButton immediate="true" styleClass="button" id="button_add_modes" value="#{messages['command.table.reference.addModeParution']}" 
+					    action="#{tablesReferenceActions.addModeParution()}" reRender="mode_parution_properties" />
+				    </th>
+			        <th>
+					  <a4j:commandButton styleClass="button" id="button_save_modes" value="#{messages['command.generic.save']}" 
+					    action="#{tablesReferenceActions.saveModeParution()}" reRender="mode_parution_properties" />
+				    </th>
+				    <th>
+					  <a4j:commandButton immediate="true" onclick="reset()" styleClass="button" id="button_cancel_modes" value="#{messages['command.generic.cancel']}" 
+					    action="#{tablesReferenceActions.cancelModeParution()}" reRender="mode_parution_properties" />
+				    </th>
+				  </tr>
+			    </table>
+		      					      
+    		</a4j:outputPanel>
+          </a4j:region>
+        </h:form>
+      </div>
+    </c:if>
+  </ui:define>
+</nxthemes:composition>

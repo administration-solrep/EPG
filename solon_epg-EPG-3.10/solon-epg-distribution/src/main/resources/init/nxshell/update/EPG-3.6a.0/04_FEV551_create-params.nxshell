@@ -1,0 +1,34 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/04_FEV551_create-params.nxshell
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p 4ju7Ix662Eo1d77u http://localhost:8180/solon-epg/site/automation
+
+########## Parametre d'activation
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre flag-activation-publication-bilansemestriel-bdj
+cd flag-activation-publication-bilansemestriel-bdj
+setp -xpath parametre:value -value "false"
+setp -xpath parametre:unit -value boolean
+setp -xpath dc:description -value "Flag permettant d'activer la fonctionnalité de publication des bilans semestriels à la BDJ"
+setp -xpath dc:title -value "Publication des bilans semestriels à la BDJ - Activation"
+
+
+########## Parametre URL du webservice
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre url-webservice-publication-bilansemestriel-bdj
+cd url-webservice-publication-bilansemestriel-bdj
+setp -xpath parametre:value -value ""
+setp -xpath parametre:unit -value url
+setp -xpath dc:description -value "Adresse URL du webservice de la BDJ auquel doivent être adressés les bilans semestriels."
+setp -xpath dc:title -value "Publication des bilans semestriels à la BDJ - Url du webservice"
+
+l

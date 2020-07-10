@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes">
+
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} - #{messages['title.search.results']}"/>
+  </ui:define>
+
+  <ui:define name="body">
+
+    <ui:include src="/incl/message_banner.xhtml"/>
+
+    <div id="content">
+      <div id="upperContentView">
+        <h:form id="smartSearchResultsActions">
+          <table>
+            <tr>
+              <td>
+                <h:commandButton id="edit_search"
+                  value="#{messages['command.editSmartSearch']}"
+                  action="view_espace_recherche_dossier"
+                  immediate="true"
+                  styleClass="button" />
+              </td>
+            </tr>
+          </table>
+        </h:form>
+       <a4j:outputPanel id="espaceRechercheDossierContentListPanel">
+         <nxu:set var="contentViewName" value="requeteur_dossier_simple">
+	         <nxu:set var="listingDecorator" value="#{dossierListingDecorator}" cache="true">
+	           	<nxu:set var="filtrable" value="true">
+	             	<nxu:set var="contentView" value="#{contentViewActions.getContentViewWithProvider(contentViewName)}" cache="true">
+	                <ui:decorate template="/incl/content_view.xhtml">
+	                  <ui:define name="content_view_header_before_selector" />
+	                  <ui:define name="content_view_no_data" >
+	                  	<f:subview rendered="#{documents.rowCount == 0 and not provider.hasError()}">
+		                  	<div style="text-align: center;">
+		                  		<b><h:outputText value="#{messages['recherche.no_data']}"/></b><br/>
+		                  		 <h:commandButton id="back_search" value="#{messages['recherche.back']}" action="view_espace_recherche_dossier" immediate="true" styleClass="button" />
+		                  	</div>  
+	                  	</f:subview>
+	                  </ui:define>
+	                </ui:decorate>
+	             	</nxu:set>
+	            </nxu:set>
+	          </nxu:set>
+	          <c:if test="#{currentDocument.getType() == 'Dossier'}">
+							<div style="text-align: center; margin: 5px; margin-bottom: 20px;">
+								<nxu:set var="pageProvider"
+									value="#{contentViewActions.getContentViewWithProvider(contentViewName).getCurrentPageProvider()}">
+									<h:form id="req_dos_sim_res">
+										<c:if test="#{pageProvider.isPreviousEntryAvailable() or true}">
+											<h:commandLink
+												action="#{corbeilleActions.navigateToPreviousDossier(contentViewName)}"><h:outputText value="#{messages['label.epg.dossier.precedent']}"/> </h:commandLink>
+										</c:if>
+										<c:if test="#{pageProvider.isNextEntryAvailable() or true}">
+											<h:commandLink
+												action="#{corbeilleActions.navigateToNextDossier(contentViewName)}"><h:outputText value="#{messages['label.epg.dossier.suivant']}"/></h:commandLink>
+										</c:if>
+									</h:form>
+								</nxu:set>
+							</div>
+						</c:if>
+					</nxu:set>
+        </a4j:outputPanel>
+      </div>
+    </div>
+    <ui:include src="/incl/upper_panel_toggle.xhtml" />
+  </ui:define>
+  
+  <ui:define name="subbody">
+           <ui:include src="/espace_recherche/resultats_subbody_dossier_view.xhtml" >
+             <ui:param name="view" value="requeteur_dossier_simple_resultats" />
+           </ui:include>   
+  </ui:define>
+</nxthemes:composition>

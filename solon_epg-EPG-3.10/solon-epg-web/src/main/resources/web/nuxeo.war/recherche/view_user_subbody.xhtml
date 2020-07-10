@@ -1,0 +1,24 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<c:if test="#{userManagerActions.realSelectedUser != null}">
+		<div class="subbodyContainer">
+			<h:form>
+				<ui:decorate template="/recherche/epg_view_user_template.xhtml">
+					<ui:param name="currentUserSubTab"
+						value="#{userManagerActions.currentUserSubTab}" />
+					<ui:define name="mainContent">
+						<nxl:layout name="user"
+							mode="#{userManagerActions.currentUserSubTab}"
+							value="#{userManagerActions.selectedUser}" />
+						<nxl:layout name="userPostes" mode="#{userManagerActions.currentUserSubTab}"
+							value="#{userManagerActions}" />
+					</ui:define>
+				</ui:decorate>
+			</h:form>
+		</div>
+	</c:if>
+
+</div>

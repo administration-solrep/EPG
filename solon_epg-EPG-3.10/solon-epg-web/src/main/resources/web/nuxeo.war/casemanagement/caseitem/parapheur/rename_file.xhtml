@@ -1,0 +1,70 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	>
+	<a4j:region id="renameFileParapheurRegion">
+		<rich:modalPanel id="renameFileParapheurPanel" autosized="true">
+			<div><f:facet name="header">
+				<h:outputText value="Renommage du document" />
+			</f:facet></div>
+			<h:form id="renameFileParapheurForm">
+				<div id="renameFileParapheurDiv">
+					<!-- fileInput -->
+					<div class="popupTabbedDiv">
+						<h:panelGrid id="fileParapheurVersionListpanelGrid" columnClasses="popupMediumDiv" columns="2" >
+							<h:panelGroup>
+								<h:outputText value="Nom :" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<table>
+									<tr>
+										<td><h:inputText id="fileParapheurName"
+												value="#{parapheurManagerActions.getFileNameSansExtention()}"
+												valueChangeListener="#{parapheurManagerActions.nameChangeListenerSansExtention}">
+												<a4j:support event="onblur" ajaxSingle="true"
+													eventsQueue="ajax_events_queue" />
+											</h:inputText></td>
+										<td><h:outputText
+												value="#{parapheurManagerActions.getExtentionFile()}" /></td>
+									</tr>
+								</table>
+							</h:panelGroup>
+						</h:panelGrid>
+					</div>
+					<!-- bouton pour renommage le répertoire -->
+					<div class="popupDiv">
+						 <a4j:commandLink
+							action="#{parapheurManagerActions.concatAndRenameFile()}"
+							id="validFileParapheurRename"
+							oncomplete="if (!#{parapheurManagerActions.isErrorOccurred}) {Richfaces.hideModalPanel('renameFileParapheurPanel');}"
+							reRender="parapheurDocumentViewPanel,errorParapheurName,facesStatusMessagePanel" ajaxSingle="true">
+							<h:graphicImage height="24" width="24" url="/img/icons/check.png" />
+							<h:outputText value="Valider" />
+						</a4j:commandLink>
+					</div>
+					<!-- bouton pour quitter la popup et ne pas effectuer le renommage -->
+					<div class="popupDiv">
+						<a4j:commandLink
+							action="#{parapheurManagerActions.resetProperties()}"
+							id="cancelFileParapheurRename"
+							oncomplete="Richfaces.hideModalPanel('renameFileParapheurPanel')"
+							reRender="parapheurDocumentViewPanel" ajaxSingle="true">
+							<h:graphicImage height="24" width="24" url="/img/icons/delete.png" />
+							<h:outputText value="Annuler" />
+						</a4j:commandLink>
+					</div>
+					<!-- error message -->
+		              <div class="popupDiv">
+		    			<h:outputText class="msgError" id="errorParapheurName" value="#{parapheurManagerActions.errorName}" />
+		              </div>   
+				</div>
+			</h:form>
+		</rich:modalPanel>
+	</a4j:region>
+</div>

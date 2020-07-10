@@ -1,0 +1,57 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
+	logicalFilePath="ddl-dev-epg-indexation">
+
+	<changeSet id="indexation-tables" author="system" context="dev">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="DOSSIERINDEXATIONQUERY" />
+			</not>
+		</preConditions>
+		<comment>
+			Tables introduites pour le suivi des indexations, query (ordre d'indexation) et status (prise en compte).
+			
+			La mise à jour est effectuée par le script 3.5.0/14_FEV501_indexation_tables.sql.
+			
+			Ce script liquibase prend en charge la création sur les environnements dev et qa.
+		</comment>
+
+		<createTable tableName="DOSSIERINDEXATIONQUERY">
+			<column name="DOSSIERID" type="varchar2(36)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="EVENTDATE" type="timestamp" />
+			<column name="INDEXATIONDATE" type="timestamp" />
+			<column name="INDEXATIONMASSIVEDATE" type="timestamp" />
+			<column name="DELETED" type="number(1)" />
+		</createTable>
+		<createIndex tableName="DOSSIERINDEXATIONQUERY" indexName="IDX_DIQ_INDEXATIONDATE">
+			<column name="INDEXATIONDATE" />
+		</createIndex>
+		<createIndex tableName="DOSSIERINDEXATIONQUERY" indexName="IDX_DIQ_INDEXATIONMASSIVEDATE">
+			<column name="INDEXATIONMASSIVEDATE" />
+		</createIndex>
+
+		<createTable tableName="DOSSIERINDEXATIONSTATUS">
+			<column name="DOSSIERID" type="varchar2(36)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="LASTERRORDATE" type="timestamp" />
+			<column name="LASTINDEXATIONDATE" type="timestamp" />
+			<column name="MESSAGE" type="varchar2(3500)" />
+			<column name="STATUS" type="varchar2(25)" />
+		</createTable>
+		<createIndex tableName="DOSSIERINDEXATIONSTATUS" indexName="IDX_DIS_LASTINDEXATIONDATE">
+			<column name="LASTINDEXATIONDATE" />
+		</createIndex>
+		<createIndex tableName="DOSSIERINDEXATIONSTATUS" indexName="IDX_DIS_STATUS">
+			<column name="STATUS" />
+		</createIndex>
+		<addForeignKeyConstraint
+			constraintName="FK_DIS_DIQ"
+			baseTableName="DOSSIERINDEXATIONSTATUS" baseColumnNames="DOSSIERID"
+			referencedTableName="DOSSIERINDEXATIONQUERY" referencedColumnNames="DOSSIERID" />
+	</changeSet>
+</databaseChangeLog>

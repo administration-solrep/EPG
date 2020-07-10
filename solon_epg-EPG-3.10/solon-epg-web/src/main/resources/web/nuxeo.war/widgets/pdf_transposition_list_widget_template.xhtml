@@ -1,0 +1,23 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich">
+	
+		<nxu:set var="widgetTypeMap" value="#{widget.properties['widgetTypeMap']}">
+				<c:forEach var="widgetItems" items="#{field_0}" rendered="#{not empty field_0}">
+					<table cellspacing="5" style="border: 1px solid #ccc; margin: 5px; margin-left: 30px;">
+						<c:forEach var="widgetField" items="#{dossierCreationActions.getWidgetFields(widgetTypeMap)}">
+							<tr>
+								<nxu:set var="fieldWidgetLabel" value="label.content.creationwidget.#{widgetField}">
+								<td style="width: 200px; text-align: right;"><strong><h:outputText value="#{messages[fieldWidgetLabel]}" /></strong></td>
+								<td><h:outputText value="#{widgetItems.get(widgetField).getValue()}" /></td>
+								</nxu:set>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:forEach>
+		</nxu:set>
+</div>

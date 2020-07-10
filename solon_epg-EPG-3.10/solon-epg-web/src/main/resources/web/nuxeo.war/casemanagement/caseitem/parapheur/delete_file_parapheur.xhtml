@@ -1,0 +1,100 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes">
+	<a4j:region	id="deleteParapheurFileRegion">
+	    <rich:modalPanel id="deleteParapheurFilePanel" autosized="true">
+		    <div>
+		        <f:facet name="header">
+			        <h:outputText value="Suppression de documents" />
+		        </f:facet>
+		    </div>
+		    <h:form id="deleteParapheurFileForm">
+	            <a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+				    ignoreDupResponses="true" size="10" id="inputDeleteParapheurFileQueue" name="inputDeleteParapheurFileQueue" timeout="10000" /> 
+			    <div id="deleteFondDossierDiv">
+			    <!-- old file -->
+			    <div class="popupFddTabbedDiv" >
+				    <table>
+					    <tr>
+						    <td>
+							    <div class="divlabel">
+								    <h:outputLabel for="selectedNodeName" value="Nom du fichier : "	style="white-space: nowrap;" />
+							    </div>
+						    </td>
+						    <td>
+							    <h:inputText id="selectedNodeName" value="#{parapheurManagerActions.selectedNodeTitle}" disabled="true" />
+						    </td>
+					    </tr>
+				    </table>
+			    </div>
+			    <!-- version -->
+			    <div class="popupFddTabbedDiv" >
+				    <table>
+					    <tr>
+						    <td>
+							    <div class="divlabel">
+								    <h:outputLabel for="numeroVersion" value="Version : " style="white-space: nowrap;" />
+							    </div>
+						    </td>
+						    <td>
+							    <h:inputText id="numeroVersion"	value="#{parapheurManagerActions.numeroVersion}" disabled="true" />
+						    </td>
+					    </tr>
+				    </table>
+			    <br/>
+			    </div>
+
+			    <!-- radiobutton list on visibility level-->
+			    <div class="popupFddDiv">
+			        <h:outputLabel value="" style="white-space: nowrap;" /> 
+			        <h:selectOneRadio id="radioButtonChoixSuppression" value="#{parapheurManagerActions.choixSuppression}"
+				    valueChangeListener="#{parapheurManagerActions.choiceSuppressionChangeListener}" layout="pageDirection">
+				    <a4j:support event="onclick" eventsQueue="inputDeleteParapheurFileQueue" />
+				    <f:selectItems value="#{parapheurManagerActions.selectItemsDelete}" />
+			    </h:selectOneRadio>
+			    </div>
+
+			    <table>
+				    <tr>
+					    <td>
+						    <!-- button delete document and version -->
+			                <a4j:commandButton styleClass="button"
+				                 action="#{parapheurManagerActions.deleteFile()}"
+							    id="validerSuppressionText" eventsQueue="inputDeleteParapheurFileQueue"
+							    oncomplete="if(#{parapheurManagerActions.erreurSuppression}){alert('Vous ne possédez pas le droit requis pour supprimer un fichier du répertoire Épreuves.');}Richfaces.hideModalPanel('deleteParapheurFilePanel')"
+							    reRender="parapheurDocumentViewPanel,errorParapheurDelete" ajaxSingle="true"  value="Valider">
+			                </a4j:commandButton>
+					    </td>
+					    <td>
+						    <!-- button close -->
+						    <a4j:commandButton styleClass="button"
+							    action="#{parapheurManagerActions.resetProperties()}"
+							    id="annulerSuppressionText" eventsQueue="inputDeleteParapheurFileQueue"
+							    oncomplete="Richfaces.hideModalPanel('deleteParapheurFilePanel')"
+							    reRender="parapheurDocumentViewPanel" ajaxSingle="true" value="Annuler">
+						    </a4j:commandButton>
+					    </td>
+					    <td>
+						    <a4j:status for="deleteParapheurFileRegion">
+							    <f:facet name="start">
+								    <h:graphicImage value="/img/standart_waiter.gif" style="position: absolute;" />
+							    </f:facet>
+						    </a4j:status>
+					    </td>
+				    </tr>
+			    </table>
+			    <!-- error message -->
+                  <div class="popupDiv">
+        			<h:outputText class="msgError" id="errorParapheurDelete" value="#{parapheurManagerActions.errorName}" />
+                  </div> 
+			    </div>
+		    </h:form>
+	    </rich:modalPanel>
+
+    </a4j:region>
+</div>

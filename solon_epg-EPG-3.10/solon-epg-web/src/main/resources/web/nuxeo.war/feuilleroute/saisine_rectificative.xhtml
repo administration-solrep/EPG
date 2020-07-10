@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util" xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+  
+    <ui:define name="page title">
+    <h:outputText value="#{messages['epg.dossierTraitement.saisineRectificative.title']}" />
+  </ui:define>
+  
+  
+   <ui:define name="body">
+   <div>
+	   	<h3>
+	   		<h:outputText value="#{messages['label.epg.saisineRectificative.liste.doc.a.transmettre.saisine.rectificative']}" />
+	   	</h3>
+	   <nxu:set var="listeDocSaisine" value="#{dossierDistributionActions.getListDocModifiesSaisineRectificative()}">
+	   	<h:dataTable var="row" value="#{listeDocSaisine}" styleClass="dataOutput">
+	   	<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['label.casemanagement.tab.files']}" />
+			  </f:facet>
+			  <nxh:graphicImage value="#{nxd:fileIconPath(blobHolderGenerator.getBlobHolder(row.document).blob)}" />
+			  <h:outputText value="#{row.getTitle()}" />
+	   	</h:column>
+	   	<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['label.reponses.dossier.listing.auteur']}" />
+			  </f:facet>
+			  <h:outputText value="#{row.getCreator()}" />
+	   	</h:column>
+	   	<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['dossier.fond.de.dossier.version']}" />
+			  </f:facet>
+			  <h:outputText value="#{row.getMajorVersion()}" />
+	   	</h:column>
+	   	<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['dossier.fond.de.dossier.date']}" />
+			  </f:facet>
+			  <h:outputText value="#{row.getModifiedDate().getTime()}" converter="DateTimeConverter" />
+	   	</h:column>
+	   	<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['dossier.fond.de.dossier.saisine.rectificative.dossier.parent']}" />
+			  </f:facet>
+			  <h:outputText value="#{fondDeDossierTree.getNomParentFolderForFichier(row)}" />
+	   	</h:column>	   
+	   	</h:dataTable>
+	  </nxu:set> 	  	   	
+
+   </div>
+   
+    <div> 
+    	<h:form id="saisine_rectificative">
+     		<c:if test="#{dossierDistributionActions.hasDocumentATransmettreSaisineRectificative()}">
+     		<h:commandButton value="#{messages['command.saisine.rectificative.valider']}" action="#{dossierDistributionActions.doSaisineRectificative()}"
+			id="confirmerSaisineRectificative" styleClass="button" />
+			</c:if>
+    		<h:commandButton value="#{messages['command.global.cancel']}" action="#{routingWebActions.getFeuilleRouteView()}"
+			id="annulerSaisineRectificative" styleClass="button" />
+ 		</h:form>
+     </div>
+   <div>
+	   	<h3>
+	   		<h:outputText value="#{messages['label.epg.saisineRectificative.liste.doc.a.transmettre.autre']}" />
+	   	</h3>	   	
+	   <nxu:set var="listeDocFDD" value="#{dossierDistributionActions.getListDocModifiesFDD()}">
+	   	<h:dataTable var="row" value="#{listeDocFDD}" styleClass="dataOutput">
+	   	<h:column>
+		  <f:facet name="header">
+		    <h:outputText value="#{messages['label.casemanagement.tab.files']}" />
+		  </f:facet>	   		
+	   		<nxh:graphicImage value="#{nxd:fileIconPath(blobHolderGenerator.getBlobHolder(row.document).blob)}" />
+	   		<h:outputText value="#{row.getTitle()}" />
+	   	</h:column>
+		<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['label.reponses.dossier.listing.auteur']}" />
+			  </f:facet>
+			  <h:outputText value="#{row.getCreator()}" />
+	   	</h:column>
+	   	<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['dossier.fond.de.dossier.version']}" />
+			  </f:facet>
+			  <h:outputText value="#{row.getMajorVersion()}" />
+	   	</h:column>
+	   	<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['dossier.fond.de.dossier.date']}" />
+			  </f:facet>
+			  <h:outputText value="#{row.getModifiedDate().getTime()}" converter="DateTimeConverter" />
+	   	</h:column>
+	   	<h:column>
+			  <f:facet name="header">
+			    <h:outputText value="#{messages['dossier.fond.de.dossier.saisine.rectificative.dossier.parent']}" />
+			  </f:facet>
+			  <h:outputText value="#{fondDeDossierTree.getNomParentFolderForFichier(row)}" />
+	   	</h:column>	 	   	
+	   	</h:dataTable>
+	  </nxu:set> 
+   </div>
+     
+  </ui:define> 
+</nxthemes:composition>  

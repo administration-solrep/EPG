@@ -1,0 +1,501 @@
+<?xml version="1.0"?>
+<component name="fr.dila.solonepg.web.layout.requeteurDossierSimple">
+  <require>fr.dila.solonepg.web.widget.requete</require>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgettypes">
+
+    <widgetType name="date_dynamic">
+      <documentation>
+        Widget qui présente le champ date de solon EPG : un choix entre une date statique (select box jour, mois, année) et une date 
+        dynamique (aujourd'hui [moins|plus] XXX [Jour|Mois|Année] )
+      </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">/widgets/recherche/date_dynamic_widget_template.xhtml
+      </property>
+    </widgetType>
+      <widgetType name="orga">
+      <documentation>
+        Le widget de l'organigramme SOLON
+      </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+    </widgetType>
+    
+   <widgetType name="auteur">
+      <documentation>
+        Un widget qui donne les noms d'auteurs
+      </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">/widgets/single_user_suggestion_widget_template.xhtml</property>
+      <property name="userSuggestionSearchType">USER_TYPE</property>
+    </widgetType>
+    
+    <widgetType name="bigtext">
+       <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TextWidgetTypeHandler
+      </handler-class>
+    </widgetType>
+    
+   </extension>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+	
+    <layout name="requeteCriteresPrincipaux">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statut_dossier</widget>
+        </row>
+        <row>
+          <widget>nor</widget>
+        </row>
+        <row>
+          <widget>objet</widget>
+        </row>
+        <row>
+          <widget>auteur</widget>
+        </row>
+        <row>
+          <widget>ministere_responsable</widget>
+        </row>
+        <row>
+          <widget>direction_responsable</widget>
+        </row>
+        <row>
+          <widget>type_acte</widget>
+        </row>
+       </rows>
+        <widget name="statut_dossier" type="selectManyDirectory">
+         <labels>
+          <label mode="any">requeteurDossierSimple.criteres_principaux.statut_dossier</label>
+         </labels>
+         <fields>
+          <field>rqdcp:idStatutDossier</field>
+         </fields>
+          <properties mode="any">
+            <property name="directoryName">statut_dossier</property>
+          </properties>
+        </widget>
+       <widget name="nor" type="bigtext">
+        <labels>
+         <label mode="any">requeteurDossierSimple.nor</label>
+        </labels>
+        <fields>
+          <field>rqdcp:numeroNor</field>
+        </fields>
+       </widget>
+       <widget name="objet" type="text">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_principaux.object</label>
+        </labels>
+        <fields>
+          <field>rqdcp:objet</field>
+        </fields>
+        <properties widgetMode="edit">
+             <property name="size">40</property>
+        </properties>
+      </widget>
+      <widget name="auteur" type="auteur">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_principaux.auteur</label>
+        </labels>
+        <fields>
+          <field>rqdcp:idAuteur</field>
+        </fields>
+      </widget>
+      <widget name="ministere_responsable" type="orga">
+       <labels>
+         <label mode="any">requeteurDossierSimple.criteres_principaux.ministere_responsable</label>
+       </labels>
+       <translated>true</translated>
+        <fields>
+          <field>rqdcp:idMinistereResponsable</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">LIST</property>
+        </properties>
+      </widget>
+      <widget name="direction_responsable" type="orga">
+       <labels>
+         <label mode="any">requeteurDossierSimple.criteres_principaux.direction_responsable</label>
+       </labels>
+       <translated>true</translated>
+       <fields>
+          <field>rqdcp:idDirectionResponsable</field>
+        </fields>
+        <properties widgetMode="any">
+           <property name="organigrammeSelectionType">DIR_TYPE</property>
+           <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+      </widget>
+     <widget name="type_acte" type="selectManyDirectory">
+       <labels>
+         <label mode="any">requeteurDossierSimple.criteres_principaux.type_acte</label>
+       </labels>
+       <translated>true</translated>
+       <fields>
+          <field>rqdcp:idTypeActe</field>
+        </fields>
+       <properties widgetMode="any">
+         <property name="localize">true</property>
+          <property name="directoryName">type_acte</property>
+      </properties>
+     </widget>
+    </layout>
+    
+    <layout name="requeteCriteresSecondaires">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>categorieActe</widget>
+        </row>
+        <row>
+          <widget>transpositionDirective</widget>
+          <widget>indexationRubrique</widget>
+        </row>
+        <row>
+          <widget>transpositionOrdonnance</widget>
+          <widget>indexationMotsClefs</widget>
+        </row>
+        <row>
+          <widget>applicationLoi</widget>
+          <widget>indexationChampLibre</widget>
+        </row>
+        <row>
+          <widget>dateSignature_1</widget>
+          <widget>dateSignature_2</widget>
+        </row>
+        <row>
+          <widget>datePublication_1</widget>
+          <widget>datePublication_2</widget>
+        </row>
+        <row>
+          <widget>numeroTexte</widget>
+        </row>
+      </rows>
+      <widget name="categorieActe" type="selectOneDirectory">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.categoryActe</label>
+        </labels>
+        <fields>
+          <field>rqdcs:idCategorieActe</field>
+        </fields>
+        <properties widgetMode="any">
+         <property name="localize">true</property>
+         <property name="directoryName">category_acte_convention_collective</property>
+        </properties>
+      </widget>
+      <widget name="transpositionDirective" type="bigtext">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.transpositionDirective</label>
+        </labels>
+        <fields>
+          <field>rqdcs:transpositionDirective</field>
+        </fields>
+        <properties widgetMode="any">
+             <property name="size">50</property>
+        </properties>
+      </widget>
+      <widget name="transpositionOrdonnance" type="bigtext">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.transpositionOrdonnance</label>
+        </labels>
+        <fields>
+          <field>rqdcs:transpositionOrdonnance</field>
+        </fields>
+     	<properties widgetMode="any">
+             <property name="size">50</property>
+        </properties>
+      </widget>
+      <widget name="applicationLoi" type="bigtext">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.applicationLoi</label>
+        </labels>
+        <fields>
+          <field>rqdcs:applicationLoi</field>
+        </fields>
+        <properties widgetMode="any">
+             <property name="size">50</property>
+        </properties>
+      </widget>
+      <widget name="indexationRubrique" type="text">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.indexationRubrique</label>
+        </labels>
+        <fields>
+          <field>rqdcs:indexationRubrique</field>
+        </fields>
+        <properties widgetMode="any">
+             <property name="size">50</property>
+        </properties>
+      </widget>
+      <widget name="indexationMotsClefs" type="text">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.indexationMotsClefs</label>
+        </labels>
+        <fields>
+          <field>rqdcs:indexationMotsClefs</field>
+        </fields>
+        <properties widgetMode="edit">
+             <property name="size">50</property>
+        </properties>
+      </widget>
+      <widget name="indexationChampLibre" type="text">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.indexationChampLibre</label>
+        </labels>
+        <fields>
+          <field>rqdcs:indexationChampLibre</field>
+        </fields>
+        <properties widgetMode="edit">
+             <property name="size">50</property>
+        </properties>
+      </widget>
+      <widget name="dateSignature_1" type="date_dynamic">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.dateSignature_1</label>
+        </labels>
+        <fields>
+          <field>rqdcs:dateSignature_1</field>
+        </fields>
+      </widget>
+      <widget name="dateSignature_2" type="date_dynamic">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.dateSignature_2</label>
+        </labels>
+        <fields>
+          <field>rqdcs:dateSignature_2</field>
+        </fields>
+      </widget>
+      <widget name="datePublication_1" type="date_dynamic">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.datePublication_1</label>
+        </labels>
+        <fields>
+          <field>rqdcs:datePublication_1</field>
+        </fields>
+      </widget>
+      <widget name="datePublication_2" type="date_dynamic">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.datePublication_2</label>
+        </labels>
+        <fields>
+          <field>rqdcs:datePublication_2</field>
+        </fields>
+      </widget>
+      <widget name="numeroTexte" type="bigtext">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_secondaires.numeroTexte</label>
+        </labels>
+        <fields>
+          <field>rqdcs:numeroTexte</field>
+        </fields>
+      </widget>
+    </layout> 
+    
+   <layout name="requeteCriteresEtapes">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+     <rows>
+        <row>
+          <widget>etape_action</widget>
+        </row>
+        <row>
+          <widget>etape_statut</widget>
+        </row>
+        <row>
+          <widget>etape_dateActivation_1</widget>
+          <widget>etape_dateActivation_2</widget>
+        </row>
+        <row>
+          <widget>etape_dateValidation_1</widget>
+          <widget>etape_dateValidation_2</widget>
+        </row>
+        <row>
+          <widget>etape_poste</widget>
+        </row>
+        <row>
+          <widget>etape_auteur</widget>
+        </row>
+        <row>
+          <widget>etape_note</widget>
+        </row>
+      </rows>
+      <widget name="etape_action" type="selectOneDirectory">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_etapes.action</label>
+        </labels>
+        <fields>
+          <field>rqdce:idAction</field>
+        </fields>
+        <properties widgetMode="any">
+         <property name="localize">true</property>
+         <property name="directoryName">cm_routing_task_type</property>
+        </properties>
+      </widget>
+      <widget name="etape_statut" type="selectOneDirectory">
+       <labels>
+         <label mode="any">requeteurDossierSimple.criteres_etapes.statut</label>
+       </labels>
+       <translated>true</translated>
+       <fields>
+          <field>rqdce:idStatut</field>
+       </fields>
+       <properties widgetMode="any">
+         <property name="localize">true</property>
+         <property name="directoryName">statut_etape_recherche</property>
+        </properties>
+      </widget>
+      <widget name="etape_dateActivation_1" type="date_dynamic">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_etapes.dateActivation_1</label>
+        </labels>
+        <fields>
+          <field>rqdce:dateActivation_1</field>
+        </fields>
+      </widget>
+      <widget name="etape_dateActivation_2" type="date_dynamic">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_etapes.dateActivation_2</label>
+        </labels>
+        <fields>
+          <field>rqdce:dateActivation_2</field>
+        </fields>
+      </widget>
+      <widget name="etape_dateValidation_1" type="date_dynamic">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_etapes.etape_dateValidation_1</label>
+        </labels>
+        <fields>
+          <field>rqdce:dateValidation_1</field>
+        </fields>
+      </widget>
+      <widget name="etape_dateValidation_2" type="date_dynamic">
+        <labels>
+          <label mode="any">requeteurDossierSimple.criteres_etapes.dateActivation_2</label>
+        </labels>
+        <fields>
+          <field>rqdce:dateValidation_2</field>
+        </fields>
+      </widget>
+      <widget name="etape_poste" type="orga">
+       <labels>
+         <label mode="any">requeteurDossierSimple.criteres_etapes.poste</label>
+       </labels>
+       <translated>true</translated>
+       <fields>
+          <field>rqdce:idPoste</field>
+       </fields>
+       <properties widgetMode="any">
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">LIST</property>
+        </properties>
+      </widget>
+      <widget name="etape_auteur" type="auteur">
+       <labels>
+         <label mode="any">requeteurDossierSimple.criteres_etapes.auteur</label>
+       </labels>
+       <translated>true</translated>
+       <fields>
+          <field>rqdce:idAuteur</field>
+       </fields>
+      </widget>      
+      <widget name="etape_note" type="textarea">
+       <labels>
+         <label mode="any">requeteurDossierSimple.criteres_etapes.note</label>
+       </labels>
+       <translated>true</translated>
+       <fields>
+          <field>rqdce:note</field>
+       </fields>
+      </widget>
+    </layout>
+    
+   <layout name="requeteTexteIntegral">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <columns>
+        <column>
+          <widget>texteIntegral</widget>
+        </column>
+        <column>
+          <widget>dansActe</widget>
+        </column>
+        <column>
+          <widget>dansExtrait</widget>
+        </column>
+        <column>
+          <widget>dansAutrePieceParapheur</widget>
+        </column>
+        <column>
+          <widget>dansFondDossier</widget>
+        </column>
+      </columns>
+      <widget name="texteIntegral" type="textarea">
+        <labels>
+          <label mode="any">requeteurDossierSimple.texteIntegral.texte</label>
+        </labels>
+        <fields>
+          <field>rqdct:texteIntegral</field>
+        </fields>
+        <properties widgetMode="edit">
+            <property name="validator">#{requeteurDossierSimpleActions.validateTextIntegral}</property>
+       </properties>
+      </widget>
+      <widget name="dansActe" type="checkbox">
+        <labels>
+          <label mode="any">requeteurDossierSimple.texteIntegral.dansActe</label>
+        </labels>
+        <helpLabels>
+           <label mode="any">
+				requeteurDossierSimple.textIntegral.help
+           </label>
+        </helpLabels>
+        <fields>
+          <field>rqdct:dansActe</field>
+        </fields>
+      </widget>
+      <widget name="dansExtrait" type="checkbox">
+        <labels>
+          <label mode="any">requeteurDossierSimple.texteIntegral.dansExtrait</label>
+        </labels>
+        <fields>
+          <field>rqdct:dansExtrait</field>
+        </fields>
+      </widget>
+      <widget name="dansAutrePieceParapheur" type="checkbox">
+        <labels>
+          <label mode="any">requeteurDossierSimple.texteIntegral.dansAutrePieceParapheur</label>
+        </labels>
+        <fields>
+          <field>rqdct:dansAutrePieceParapheur</field>
+        </fields>
+      </widget>
+      <widget name="dansFondDossier" type="checkbox">
+        <labels>
+          <label mode="any">requeteurDossierSimple.texteIntegral.dansFondDossier</label>
+        </labels>
+        <fields>
+          <field>rqdct:dansFondDossier</field>
+        </fields>
+      </widget>
+    </layout>                            
+    
+  </extension>
+</component>
+
+
+

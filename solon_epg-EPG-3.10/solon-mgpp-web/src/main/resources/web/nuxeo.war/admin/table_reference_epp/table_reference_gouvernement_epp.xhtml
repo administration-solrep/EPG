@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  >
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} - Gouvernement"/>
+  </ui:define>
+
+  <ui:define name="body">
+  <c:if test="#{tableReferenceEppAction.isAccessAuthorized()}">
+  <ui:include src="/incl/message_banner.xhtml" />
+  <h1><h:outputText value="Ajouter Gouvernement"/></h1>
+    <br/>
+  
+	<h:form id="createGvtForm">
+		<nxl:layout name="table_reference_gouvernement_epp" mode="edit" value="#{tableReferenceEppAction.gouvernementNode}"/>
+		<table class="dataInput">
+    		<tbody>
+            <tr>
+              <td>
+                <h:commandButton
+                  id="button_create"
+                  value="#{messages['command.save']}"
+                  action="#{tableReferenceEppAction.updateGouvernement}" class="button" />
+                <h:commandButton
+                  action="#{tableReferenceEppAction.cancelUpdate}" immediate="true"
+                  value="#{messages['command.cancel']}" class="button" />
+              </td>
+            </tr>
+			</tbody>
+		</table>
+	</h:form>
+	</c:if>
+  </ui:define>
+</nxthemes:composition>

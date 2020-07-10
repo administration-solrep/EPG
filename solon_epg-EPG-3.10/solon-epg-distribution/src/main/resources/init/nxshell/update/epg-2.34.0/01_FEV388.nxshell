@@ -1,0 +1,58 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/01_FEV388.nxshell
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p 4ju7Ix662Eo1d77u http://localhost:8180/solon-epg/site/automation
+
+#Nettoyage des précédents paramètres
+cd /case-management/workspaces/admin/parametre
+rm date-debut-legislature
+rm taux-legislature-date-promulgation-borne-inferieure
+rm taux-legislature-date-promulgation-borne-superieure
+rm taux-legislature-date-publication-borne-inferieure
+rm taux-legislature-date-publication-borne-superieure
+rm taux-parlementaire-date-promulgation-borne-inferieure
+rm taux-parlementaire-date-promulgation-borne-superieure
+rm taux-parlementaire-date-publication-borne-inferieure
+rm taux-parlementaire-date-publication-borne-superieure
+rm bilan-semestriel-date-promulgation-borne-inferieure
+rm bilan-semestriel-date-promulgation-borne-superieure
+rm bilan-semestriel-date-publication-borne-inferieure
+rm bilan-semestriel-date-publication-borne-superieure
+
+cd /case-management/workspaces/admin
+mkdir ParametrageAnModel parametre-an
+cd parametre-an
+setp -xpath paran:legis_ec -value "14"
+setp -xpath paran:ec_debut_legislature -value "2012-06-30"
+setp -xpath paran:ec_bs_promul_lois_debut -value "2012-07-01"
+setp -xpath paran:ec_bs_promul_lois_fin -value "2015-06-30"
+setp -xpath paran:ec_bs_publi_decrets_debut -value "2012-07-01"
+setp -xpath paran:ec_bs_publi_decrets_fin -value "2015-12-31"
+setp -xpath paran:ec_tp_promul_lois_debut -value "2014-10-01"
+setp -xpath paran:ec_tp_promul_lois_fin -value "2015-09-30"
+setp -xpath paran:ec_tp_publi_decrets_debut -value "2014-10-01"
+setp -xpath paran:ec_tp_publi_decrets_fin -value "2016-03-31"
+setp -xpath paran:ec_tl_promul_lois_debut -value "2012-06-30"
+setp -xpath paran:ec_tl_promul_lois_fin -value "2015-06-30"
+setp -xpath paran:ec_tl_publi_decrets_debut -value "2012-06-30"
+setp -xpath paran:ec_tl_publi_decrets_fin -value "2015-12-31"
+
+setp -xpath paran:pre_debut_legislature -value "2012-06-30"
+setp -xpath paran:pre_bs_promul_lois_debut -value "2012-07-01" 
+setp -xpath paran:pre_bs_promul_lois_fin -value "2015-06-30"
+setp -xpath paran:pre_bs_publi_decrets_debut -value "2012-07-01"
+setp -xpath paran:pre_bs_publi_decrets_fin -value "2015-12-31"
+setp -xpath paran:pre_tp_promul_lois_debut -value "2014-10-01"
+setp -xpath paran:pre_tp_promul_lois_fin -value "2015-09-30"
+setp -xpath paran:pre_tp_publi_decrets_debut -value "2014-10-01"
+setp -xpath paran:pre_tp_publi_decrets_fin -value "2016-03-31"
+setp -xpath paran:pre_tl_promul_lois_debut -value "2012-06-30"
+setp -xpath paran:pre_tl_promul_lois_fin -value "2015-06-30"
+setp -xpath paran:pre_tl_publi_decrets_debut -value "2012-06-30"
+setp -xpath paran:pre_tl_publi_decrets_fin -value "2015-12-31"
+
+setp -xpath paran:legislature_publication -value "14"
+setp -xpath paran:legislature_prec_publication -value "13"

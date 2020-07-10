@@ -1,0 +1,29 @@
+ <div xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util">
+    <c:if test="#{rechercheWebActions.displayDossierRecherche()}">
+     <div class="subbodyContainer">
+       <ui:include src="/reponses_infobar.xhtml"/>
+       <ui:include src="/incl/current_document_title.xhtml" />
+       <ui:decorate template="/casemanagement/caseitem/view_cm_case_template.xhtml">
+          <ui:define name="case_body">
+            <h:panelGroup id="case_content">
+              <ui:insert name="case_content">
+                <ui:include src="/solon_epg_toolbar.xhtml" />
+                <div style="clear: both">
+                <ui:include src="/espace_recherche/espacerecherche_case_actions_tabs.xhtml" />
+                </div>
+                <div class="tabsContent">
+                  <ui:include src="#{webActions.currentTabAction.link}" />
+                </div>
+              </ui:insert>
+            </h:panelGroup>
+          </ui:define>
+        </ui:decorate>
+      </div>
+    </c:if>
+</div>

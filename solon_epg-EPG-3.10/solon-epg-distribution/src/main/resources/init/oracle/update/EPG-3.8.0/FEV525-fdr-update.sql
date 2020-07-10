@@ -1,0 +1,1 @@
+update dublincore dc set dc.title='XXXX' and dc.id=(select h.id from hierarchy h where h.id='xxxx' where h.parentid in (select id from hierarchy where primarytype='FeuilleRouteModelFolder');

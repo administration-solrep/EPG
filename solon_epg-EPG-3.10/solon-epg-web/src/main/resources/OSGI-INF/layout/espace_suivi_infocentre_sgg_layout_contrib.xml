@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+
+<!-- Ce composant contribue les layouts + widgets nécessaires à suppression -->
+<component name="fr.dila.solonepg.web.layout.espcase.suivi.infocentre.sgg">
+
+	<require>com.nuxeo.document.routing.table.widget</require>
+	<require>com.nuxeo.cm.table.layout</require>
+
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="layouts">
+		<layout name="espace_suivi_infocentre_sgg_liste_signature_listing">
+			<templates>
+				<template mode="any">/layouts/layout_without_bulb_listing_ajax_template.xhtml
+				</template>
+				<template mode="edit_columns">/layouts/layout_column_selection_template.xhtml
+				</template>				
+			</templates>
+			<properties mode="any">
+				<property name="showListingHeader">true</property>
+				<property name="showRowEvenOddClass">true</property>
+			</properties>
+			<properties mode="edit_columns">
+				<property name="availableElementsLabel">label.selection.availableColumns</property>
+				<property name="selectedElementsLabel">label.selection.selectedColumns</property>
+				<property name="selectedElementsHelp"></property>
+				<property name="selectSize">20</property>
+				<property name="columnSelectionRequired">false</property>
+				<property name="displayAlwaysSelectedColumns">false</property>
+			</properties>			
+			<columns>
+				
+				<column>
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					</properties>
+					<widget>espace_suivi_liste_signature_edit</widget>
+				</column>
+			</columns>
+			
+		</layout>
+		
+		
+		<layout name="espace_suivi_infocentre_sgg_liste_dem_publication_et_dem_epreuve_listing">
+			<templates>
+				<template mode="any">/layouts/layout_without_bulb_listing_ajax_template.xhtml
+				</template>
+				<template mode="edit_columns">/layouts/layout_column_selection_template.xhtml
+				</template>				
+			</templates>
+			<properties mode="any">
+				<property name="showListingHeader">true</property>
+				<property name="showRowEvenOddClass">true</property>
+			</properties>
+			<properties mode="edit_columns">
+				<property name="availableElementsLabel">label.selection.availableColumns</property>
+				<property name="selectedElementsLabel">label.selection.selectedColumns</property>
+				<property name="selectedElementsHelp"></property>
+				<property name="selectSize">20</property>
+				<property name="columnSelectionRequired">false</property>
+				<property name="displayAlwaysSelectedColumns">false</property>
+			</properties>			
+			<columns>
+				<column>
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					</properties>
+					<widget>espace_suivi_type_list</widget>
+				</column>
+				<column>
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					</properties>
+					<widget>espace_suivi_autre_liste_edit</widget>
+				</column>
+			
+				
+			</columns>
+			
+			
+		</layout>
+		
+		
+		<layout name="dossier_for_liste_traitement_listing">
+			<templates>
+				<template mode="any">/layouts/layout_contentview_listing_ajax_template_without_bulb_dto.xhtml
+				</template>
+				<template mode="edit_columns">/layouts/layout_column_selection_template.xhtml
+				</template>				
+			</templates>
+			<properties mode="any">
+				<property name="showListingHeader">true</property>
+				<property name="showRowEvenOddClass">true</property>
+			</properties>
+			<properties mode="edit_columns">
+				<property name="availableElementsLabel">label.selection.availableColumns</property>
+				<property name="selectedElementsLabel">label.selection.selectedColumns</property>
+				<property name="selectedElementsHelp"></property>
+				<property name="selectSize">20</property>
+				<property name="columnSelectionRequired">false</property>
+				<property name="displayAlwaysSelectedColumns">false</property>
+			</properties>			
+			<columns>
+		        <column>
+		          <properties mode="any">
+		            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+		          </properties>
+		          <widget>espace_suivi_dossier_ministere_dto</widget>
+		        </column>
+				<column>
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					</properties>
+					<widget>espace_suivi_dossier_list_intitule_dto</widget>
+				</column>
+		        <column>
+		          <properties mode="any">
+		            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+		          </properties>
+		          <widget>espace_suivi_dossier_titre_acte_dto</widget>
+		        </column>
+
+		        <!-- Colonne selection -->
+		        <column name="selection" alwaysSelected="true">
+		          <properties mode="any">
+		            <property name="isListingSelectionBox">true</property>
+		            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+		            <property name="columnStyleClass">iconColumn</property>
+		          </properties>
+		          <widget>listing_ajax_checkbox_dto</widget>
+		        </column>
+			</columns>
+		</layout>
+		
+	</extension>
+
+	
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="widgets">
+
+		<widget name="espace_suivi_liste_signature_edit" type="espace_suivi_liste_signature_edit">
+			<labels>
+				<label mode="any">Numero de liste</label>
+			</labels>
+			<translated>true</translated>
+			<fields>
+				<field>data</field>
+				<field>data.id</field>
+				<field>data.lis.numeroListe</field>
+				<field>data.lis.typeSignature</field>
+			</fields>
+		</widget>
+     <widget name="espace_suivi_dossier_ministere_dto" type="template">
+      <labels>
+        <label mode="any">Intitulé simplifié ministère</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.ministereResp</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/espace_suivi_infocentre_dossier_ministere_widget_template.xhtml</property>
+      </properties>
+    </widget>
+     <widget name="espace_suivi_dossier_list_intitule_dto" type="text">
+      <labels>
+        <label mode="any">NOR</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.numeroNor</field>
+      </fields>
+    </widget>
+    <widget name="espace_suivi_dossier_titre_acte_dto" type="text">
+      <labels>
+        <label mode="any">Titre du texte</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.titreActe</field>
+      </fields>
+    </widget>
+    <widget name="espace_suivi_numero_list" type="text">
+      <labels>
+        <label mode="any">Numero de liste</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.lis.numeroListe</field>
+      </fields>
+    </widget>
+    
+      <widget name="espace_suivi_type_list" type="espace_suivi_type_list">
+      <labels>
+        <label mode="any">Type de liste</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.lis.typeListe</field>
+        <field>data.id</field>
+      </fields>
+    </widget>
+    
+	<widget name="espace_suivi_autre_liste_edit" type="espace_suivi_autre_liste_edit">
+			<labels>
+				<label mode="any">Numero de liste</label>
+			</labels>
+			<translated>true</translated>
+			<fields>
+				<field>data</field>
+				<field>data.id</field>
+				<field>data.lis.numeroListe</field>
+				<field>data.lis.typeListe</field>
+			</fields>
+		</widget>	
+	</extension>
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="widgettypes">			
+		<widgetType name="espace_suivi_liste_signature_edit">
+			<handler-class>
+				org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+			</handler-class>
+			<property name="template">
+				/widgets/listing/espace_suivi_infocentre_liste_signature_id_widget_template.xhtml
+			</property>
+		</widgetType>
+		<widgetType name="espace_suivi_autre_liste_edit">
+			<handler-class>
+				org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+			</handler-class>
+			<property name="template">
+				/widgets/listing/espace_suivi_infocentre_autre_liste_widget_template.xhtml
+			</property>
+		</widgetType>
+		<widgetType name="espace_suivi_type_list">
+			<handler-class>
+				org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+			</handler-class>
+			<property name="template">
+				/widgets/listing/espace_suivi_type_list_widget_template.xhtml
+			</property>
+		</widgetType>
+		
+		
+	</extension>
+</component>

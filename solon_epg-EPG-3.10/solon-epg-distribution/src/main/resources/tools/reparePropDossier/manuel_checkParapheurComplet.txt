@@ -1,0 +1,18 @@
+Ce script est utilisé pour vérifier l'état de complétude du parapheur d'un dossier et de changer l'information dans le dossier. 
+
+1- se connecter au nxshell : 
+	$ cd /opt/epg-server_inst1/tools/
+	$ sh nxshell.sh
+	
+2- recherche le dossier via son nor :
+	> query "select * from Dossier where dos:numeroNor='NUMERONOR'"
+	/case-management/case-root/AAAA/MM/JJ/NUMERONOR
+	
+3- recupérer la propriété UUID du dossier avec la commande "cat": 
+	> cat "/case-management/case-root/AAAA/MM/JJ/NUMERONOR"
+	Dossier -- NUMERONOR
+	UUID : uuidDossier
+	...
+	
+4- lancer le script
+	> script reparePropDossier/checkParapheurComplet.groovy -ctx "dossierUUID='uuidDossier'"

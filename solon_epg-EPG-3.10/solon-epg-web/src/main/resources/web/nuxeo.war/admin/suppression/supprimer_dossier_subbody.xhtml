@@ -1,0 +1,53 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich">
+  
+    <c:if test="#{currentDocument.getType() == 'Dossier'}">
+      <div class="subbodyContainer">
+		  <ui:include src="/reponses_infobar.xhtml"/>
+	      <h:panelGroup rendered="#{currentDocument.version}">
+	      <h1>
+	      <h:outputText value="#{nxd:titleOrId(versionedActions.sourceDocument)}"/>
+	      (
+	      <h:outputText value="#{messages['label.version']}" />
+	      <h:outputText value=" #{currentDocument.uid.major_version}"/>.
+	      <h:outputText value="#{currentDocument.uid.minor_version}"/>)
+	      </h1>  	
+	      
+	    </h:panelGroup>
+	    <h:panelGroup rendered="#{!currentDocument.version}">
+	      <ui:include src="/incl/current_document_title.xhtml" />
+	    </h:panelGroup>
+	        
+	      <p class="currentDocumentDescription float">
+	        <h:outputText value="#{currentDocument.dublincore.description}"/>
+	      </p>
+	      
+		 <ui:decorate template="/casemanagement/caseitem/view_cm_case_template.xhtml">
+	      <ui:define name="case_body">
+	        <h:panelGroup id="case_content">
+	          <ui:insert name="case_content">
+	          	<ui:include src="/solon_epg_toolbar.xhtml" />
+	          	<div style="clear: both">
+	            <ui:include src="/incl/suppression_action_tabs.xhtml" />           
+	            </div>
+	            <div class="tabsContent">
+	              <ui:include src="#{webActions.currentTabAction.link}" />
+	            </div>
+	          </ui:insert>
+	        </h:panelGroup>
+	      </ui:define>
+	    </ui:decorate>
+	    
+      </div>
+    </c:if>
+      
+
+</div>

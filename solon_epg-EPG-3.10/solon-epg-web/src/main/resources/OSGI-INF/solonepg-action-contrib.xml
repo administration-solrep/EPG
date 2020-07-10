@@ -1,0 +1,1454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Ce composant contribue :
+  - Les actions de l'application SOLON EPG (y compris les actions de CM qui sont désactivées / surchargées) ;
+-->
+<component name="fr.dila.solonepg.web.action">
+  <require>org.nuxeo.ecm.platform.actions</require>
+  <require>fr.dila.ecm.platform.routing.actions</require>
+  <require>org.nuxeo.ecm.platform.userworkspace.actions</require>
+  <require>org.nuxeo.connect.client.actions</require>
+  <require>fr.dila.cm.actions</require>
+  <require>fr.dila.solonepg.web.filters</require>
+
+  <extension target="org.nuxeo.ecm.platform.actions.ActionService" point="actions">
+
+    <!-- ***********************************************************************
+         Actions de CMF surchargées
+         *********************************************************************** -->
+    <action id="user_dashboard" enabled="false" />
+    <action id="user_manager" enabled="false" />
+    <action id="AdminMain" enabled="false" />
+    <action id="TAB_VIEW" enabled="false" />
+    
+    <action id="addCaseItem">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="TAB_CASE_MANAGEMENT_VIEW">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="distribute_cm_case">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="TAB_CASE_MANAGEMENT_RELATIONS">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="CM_TAB_FILES_EDIT">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="TAB_CASE_MANAGEMENT_HISTORY">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="CLASSIFICATION_REQUEST">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="TAB_CASE_MANAGEMENT_COMMENTS">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="TAB_CONTENT">
+      <filter-id>isNotDossier</filter-id>
+    </action>
+    <action id="TAB_MANAGE">
+      <filter-id>isInsidePersonalWorkspace</filter-id>
+    </action>
+    <action id="TAB_MY_SUBSCRIPTIONS">
+      <filter-id>disabled</filter-id>
+    </action>
+    <action id="TAB_CONTENT_HISTORY">
+      <filter-id>isDossier</filter-id>
+    </action>
+    <!-- Création de nouveaux documents -->
+    <action id="newDocument">
+      <filter-id>isNotCmCase</filter-id>
+      <filter-id>isNotCaseItem</filter-id>
+      <filter-id>isNotXX</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Actions du menu de gauche
+         *********************************************************************** --> 
+    <!-- Panneau de gauche de l'espace de traitement -->
+    <action id="LEFT_MENU_ESPACE_TRAITEMENT" link="/espace_traitement/espace_traitement_list.xhtml" />
+    
+    <!-- Panneau de gauche de l'espace de création -->
+    <action id="LEFT_MENU_ESPACE_CREATION" link="/espace_creation/espace_creation_list.xhtml" />
+    
+    <!-- Panneau de gauche de l'espace de suivi -->
+    <action id="LEFT_MENU_ESPACE_SUIVI" link="/espace_suivi/espace_suivi_list.xhtml" />
+    
+    <!-- Panneau de gauche de l'espace de recherche -->
+    <action id="LEFT_MENU_ESPACE_RECHERCHE" link="/espace_recherche/espace_recherche_list.xhtml" />
+
+    <!-- Panneau de gauche de l'espace d'administration -->
+    <action id="LEFT_MENU_ADMIN" link="/admin/admin_menu.xhtml" />
+    
+    <!-- ***********************************************************************
+         Dossier SOLON EPG : action de création de Dossier/ feuille de route
+         *********************************************************************** --> 
+
+    <!-- new tab feuille de route -->
+    <action id="TAB_MODEL" link="/route/route_edit.xhtml" enabled="true"
+      label="Feuilles de route">
+      <category>VIEW_MAILBOX_ACTION_LIST</category>
+      <filter-id>isGenericMailbox</filter-id>
+    </action>
+    
+    <!-- new action button to create a dossier -->
+    <action id="DOSSIER_CREATE_BTN"
+      link="javascript:Richfaces.showModalPanel('selectDocTypePanel');"
+      label="Ajouter un dossier" enabled="true">
+      <category>DRAFT_ACTION_UPPER_LIST_HREF</category>
+      <filter-id>dossier_create_grid</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+     Dossier SOLON EPG : action du formulaire pour creer une question et le dossier associe
+                        désactivation de l'action par défaut de nuxeo et ajout d'une action specifique
+     *********************************************************************** -->
+    <action id="EMPTY_CASE_CREATE" enabled="false" />
+
+    <action id="CREATE_DOSSIER_ACTION" link="#{dossierDistributionActions.createDossier()}"
+      label="command.create" enabled="true">
+      <category>EMPTY_CASE_CREATE_BOTTOM_LIST</category>
+    </action> 
+
+    <!-- ***********************************************************************
+         Dossier SOLON EPG : Liste des onglets
+         *********************************************************************** -->
+    
+     <!-- Dossier / Suivi : onglet Traitement papier -->
+    <action id="TAB_FICHE_PRESENTATION"  link="/fiche_presentation/fiche_presentation_depot_rapport.xhtml"
+        label="Fiche présentation" order="10">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>droitVueMgpp</filter-id>
+      <filter-id>isRapportAuParlement</filter-id>
+      <filter-id>isNotInEspaceParlemetaire</filter-id>      
+      <filter-id>isNotDossierDeleted</filter-id>
+    </action>
+   
+
+    <!-- Dossier : onglet document -->
+    <action id="TAB_DOSSIER_DOCUMENT" link="/casemanagement/caseitem/document/view_document.xhtml"
+      order="20" label="Document">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isNotDossierDeleted</filter-id>
+    </action>    
+
+    <!-- Dossier : onglet bordereau -->
+    <action id="TAB_DOSSIER_BORDEREAU" link="/casemanagement/caseitem/bordereau.xhtml"
+      order="40" label="Bordereau">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isNotDossierDeleted</filter-id>
+    </action>
+
+    <!-- Dossier : onglet feuille de route -->
+    <action id="TAB_CASE_MANAGEMENT_VIEW_RELATED_ROUTE" link="/incl/tabs/related_document_route_preview.xhtml" order="50"
+      label="label.document.routing.related.route">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isRoutable</filter-id>
+      <filter-id>hasRelatedRouteStarted</filter-id>
+      <filter-id>isNotDossierDeleted</filter-id>
+    </action>
+    
+    <!-- Dossier : onglet fond de journal -->
+    <action id="TAB_DOSSIER_JOURNAL" link="/incl/tabs/document_history.xhtml"
+        label="Journal" icon="/icons/file.gif" order="60">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isDossier</filter-id>      
+      <filter-id>isNotDossierDeleted</filter-id>
+    </action>
+    
+    <!-- Dossier / Suivi : onglet Traitement papier -->
+    <action id="TAB_PAPIER" link="/traitement_papier/traitement_papier_tab.xhtml"
+        label="label.epg.papier.tab.title" icon="/icons/file.gif" order="70">
+      <category>VIEW_ACTION_LIST</category>
+      <filter-id>isTraitementPapierReader</filter-id>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isNotDepotRapport</filter-id>
+      <filter-id>isNotDossierDeleted</filter-id>
+    </action>
+
+    <!--  Infobar-->
+    <action id="SIGNALEMENT_DOSSIER" 
+      enabled="false" order="20" label="Dossier signalé" icon="/img/icons/folder_warning.png">
+      <category>DOSSIER_TOPBAR_INFOS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>hasSignalement</filter-id>
+    </action>
+    
+    <action id="PRIORITE_HAUTE_DOSSIER" 
+      enabled="false" order="30" label="Dossier de haute priorité" icon="/img/icons/folder_red.png">
+      <category>DOSSIER_TOPBAR_INFOS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isUrgent</filter-id>      
+    </action>
+    
+    <action id="RAPPEL_DOSSIER"
+      enabled="false" order="40" label="Dossier rappelé" icon="/img/icons/folder_time.png">
+      <category>DOSSIER_TOPBAR_INFOS</category>
+      <filter-id>isDossier</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Dossier SOLON EPG : boutons en haut à gauche (verrous, ..., tous les onglets)
+         *********************************************************************** -->
+    <!-- Fermeture du dossier -->
+    <action id="DOSSIER_CLOSE" link="#{navigationWebActions.closeDocument()}"
+      order="10" label="Fermer le dossier" icon="/img/icons/document_close.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+      <filter-id>isDossier</filter-id>
+    </action>
+ 
+     <!-- permet de passer le dossier à l'état "Terminé sans publication" -->
+    <action id="DOSSIER_TERMINE_SANS_PUBLICATION" link="#{dossierActions.terminerDossierSansPublication(currentDocument)}"
+      order="12" label="label.action.toolbar.terminerDossierSansPublication" icon="/img/icons/document_end.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierEnder</filter-id>
+      <filter-id>isNotDossierPourInitialisation</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isDossierLance</filter-id>
+      <filter-id>isNotDossierTermineSansPublication</filter-id>
+      <filter-id>isNotActeTexteNonPublie</filter-id>
+    </action>
+    
+    
+    <!-- Remettre le tag non-lu -->
+    <action id="UNREAD_DOSSIER" link="#{corbeilleActions.unreadDossierLink()}"
+      order="15" label="label.action.toolbar.nonLu" icon="/img/icons/book_open.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierLinkLoaded</filter-id>
+      <filter-id>isInEspaceTraitementDossierContent</filter-id>
+    </action>    
+    
+    <!-- Suppression de la corbeille pour indexation -->
+    <action id="DOSSIER_REMOVE_CORBEILLE_INDEXATION" link="#{espaceTraitementActions.removeFromCorbeilleIndexation(currentDocument)}"
+      order="16" label="label.action.toolbar.enleverDossierIndexation" icon="/img/icons/book_blue_delete.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isInCorbeilleIndexation</filter-id>
+    </action>
+    
+    <!-- Dossiers similaires -->
+    <action id="DOSSIERS_SIMILAIRES" link="#{dossiersSimilairesActions.navigateToDossiersSimilaires(currentDocument)}"
+      order="17" label="label.action.toolbar.dossiersSimilaire" icon="/img/icons/book_blue_view.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isInBordereau</filter-id>
+      <filter-id>isNotInCorbeilleIndexation</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+    </action>
+    
+    <!-- Verrouillage d'un dossier -->
+    <action id="VERROUILLER_DOSSIER" link="#{dossierLockActions.lockCurrentDossier()}"
+      order="20" label="epg.dossier.lock.action.lock" icon="/img/icons/lock_add_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierLockable</filter-id>
+      <filter-id>isNotDossierAbandon</filter-id>
+      <filter-id>isDossierNotNorAttribue</filter-id>
+      <filter-id>isDossierLoadedOrUpdater</filter-id>
+      <filter-id>isCurrentDocIsLockActionnableByCurrentUser</filter-id>
+    </action>
+    
+    <!-- Déverrouillage d'un dossier -->
+    <action id="DEVERROUILLER_DOSSIER" confirm="return dossierModifiedLock();" link="#{dossierLockActions.unlockCurrentDossier()}"
+      order="20" label="epg.dossier.lock.action.unlock" icon="/img/icons/lock_error_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierUnlockable</filter-id>
+      <filter-id>isDossierLoadedOrUpdater</filter-id>
+      <filter-id>isCurrentDocIsLockActionnableByCurrentUser</filter-id>
+    </action>
+    
+    <!-- Levée du verrou d'un dossier par l'administrateur -->
+    <action id="LEVER_VERROU_DOSSIER" link="#{dossierLockActions.unlockCurrentDossier()}" order="20"
+     label="epg.dossier.lock.action.unlockAdmin" confirm="return confirm('Etes-vous sûr de vouloir lever le verrou ?');" icon="/img/icons/lock_error_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isCurrentDocumentLocked</filter-id>
+      <filter-id>isDossierLoadedOrUpdater</filter-id>
+      <filter-id>isCurrentDocIsNotLockActionnableByCurrentUser</filter-id>
+      <filter-id>isDossierAdminUnlockable</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Dossier SOLON EPG : boutons en haut à droit (actions sur l'étape en cours ou la feuille de route)
+         *********************************************************************** -->
+    <!-- Action permettant de donner un avis "favorable" à une étape de feuille de route -->
+    <action id="ETAPE_VALIDER" link="#{dossierDistributionActions.validerEtape()}" confirm="return confirmBeforeValidation(event);"
+      order="10" label="label.epg.feuilleRoute.etape.command.valider" icon="/img/icons/check.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierLinkLoaded</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isNotDossierPourInitialisation</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isRoutingTaskTypeValiderShown</filter-id>
+    </action>
+    
+    <!-- Action permettant de donner un avis "favorable avec correction" à une étape de feuille de route -->
+    <action id="ETAPE_VALIDER_CORRECTION" link="#{dossierDistributionActions.validerEtapeCorrection()}" confirm="return confirmBeforeValidationAvecCorrection(event);"
+      order="20" label="label.epg.feuilleRoute.etape.command.validerAvecCorrection" icon="/img/icons/check_yellow.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierLinkLoaded</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isNotDossierPourInitialisation</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isRoutingTaskTypeValiderCorrectionShown</filter-id>
+    </action>
+    
+    <!-- Action permettant de donner un avis "défavorable" à une étape de feuille de route -->
+    <action id="ETAPE_VALIDER_REFUS" link="#{dossierDistributionActions.validerEtapeRefus()}" confirm="return confirmBeforeRejetValidation(event);"
+      order="30" label="label.epg.feuilleRoute.etape.command.refuserValidation" icon="/img/icons/delete.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierLinkLoaded</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isNotDossierPourInitialisation</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isRoutingTaskTypeRefuserValidationShown</filter-id>
+    </action>
+    
+    <!-- Action permettant de donner un avis "non concerné" à une étape de feuille de route --> 
+    <action id="ETAPE_VALIDER_NON_CONCERNE" link="javascript:Richfaces.showModalPanel('valider_non_concerne_panel'); return false;"
+      order="40" label="label.epg.feuilleRoute.etape.command.nonConcerne" icon="/img/icons/user1_into.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierLinkLoaded</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isNotDossierPourInitialisation</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isRoutingTaskTypeNonConcerneShown</filter-id>
+    </action>
+    
+    <action id="ETAPE_VALIDER_RETOUR_MODIFICATION" link="javascript:Richfaces.showModalPanel('valider_retour_modification_choix_panel'); return false;"
+      order="50" label="label.epg.feuilleRoute.etape.command.retourModification" icon="/img/icons/back_update_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierLinkLoaded</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isNotDossierPourInitialisation</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isRoutingTaskTypeRetourModificationShown</filter-id>
+    </action>
+    
+    <!-- Action permettant de redémarrer un dossier terminé -->
+    <action id="REDEMARRER_DOSSIER" link="#{dossierDistributionActions.redemarrerDossier()}" order="100"
+      label="label.epg.feuilleRoute.command.redemarrer" icon="/img/icons/check.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isDone</filter-id>
+      <filter-id>isNotDossierAbandon</filter-id>
+      <filter-id>isDossierNotNorAttribueStrict</filter-id>
+      <filter-id>isFeuilleRouteRestartable</filter-id>
+      <filter-id>isFDRInstanceRestarter</filter-id>
+    </action>
+    
+     <!-- Action permettant de relancer un dossier abandonné -->
+    <action id="REVENIR_DOSSIER_ETAT_PRECEDENT" link="#{dossierDistributionActions.relancerDossierAbandonne()}"
+      order="110" label="label.epg.feuilleRoute.command.relancerDossierAbandonner" icon="/img/icons/folder_ok.png">
+    <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDone</filter-id>
+      <filter-id>isDossierAbandon</filter-id>
+    </action>
+    
+        <!-- Action permettant l'action de saisine rectificative sur un dossier à l'étape 'Pour avis CE' -->
+    <action id="SAISINE_RECTIFICATIVE" link="#{dossierDistributionActions.prepareSaisineRectificative()}" 
+      order="120" label="label.epg.feuilleRoute.etape.command.saisine.rectificative" icon="/img/icons/folder_pink_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isEtapePourAvisCEUnrestricted</filter-id>
+      <filter-id>hasUserDroitSaisineEtPieceComplementaire</filter-id>
+    </action>
+    
+    
+    <!-- Action permettant l'action d'envoi de pièces complémentaires sur un dossier à l'étape 'Pour avis CE' -->
+    <action id="ENVOI_PIECES_COMPLEMENTAIRES" link="#{dossierDistributionActions.prepareEnvoiPieceComplementaire()}" 
+      order="130" label="label.epg.feuilleRoute.etape.command.envoi.piece.complementaire" icon="/img/icons/folder_pieces_complementaires_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isEtapePourAvisCEUnrestricted</filter-id>
+      <filter-id>hasUserDroitSaisineEtPieceComplementaire</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Dossier SOLON EPG : action de création de Dossier
+         *********************************************************************** -->
+
+    <!--  Right hand side -->
+    <!-- EDIT & SAVE  OPERATIONS-->
+    <action id="ANNULER_EDITION_DOSSIER" link="if(typeof jsfcljs == 'function'){jsfcljs(document.getElementById('actionToolbarForm'),{'actionToolbarForm:IdCancelReponseButton':'actionToolbarForm:IdCancelReponseButton'},'');}return false"
+      order="30" label="Annuler l'édition du dossier" icon="/img/icons/disk_blue_error.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_EDIT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierUnlockable</filter-id>
+      <filter-id>isInDocument</filter-id>
+      <filter-id>isCurrentDocIsLockActionnableByCurrentUser</filter-id>
+      <filter-id>isDossierLinkLoaded</filter-id>
+    </action>
+    
+    <action id="SAUVEGARDER_DOSSIER" link="if(typeof jsfcljs == 'function'){jsfcljs(document.getElementById('actionToolbarForm'),{'actionToolbarForm:IdSaveReponseButton':'actionToolbarForm:IdSaveReponseButton'},'');}return false"
+      order="20" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_EDIT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierUnlockable</filter-id>
+      <filter-id>isInDocument</filter-id>
+      <filter-id>isCurrentDocIsLockActionnableByCurrentUser</filter-id>
+      <filter-id>isDossierLinkLoaded</filter-id>
+    </action>
+
+    <!-- Marque le dossier comme urgent -->
+    <action id="ADD_URGENCE_DOSSIER" link="#{dossierActions.addUrgenceDossier(currentDocument)}"
+      order="20" label="Marque le dossier comme urgent" icon="/img/icons/folder_red_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isNotUrgent</filter-id>
+    </action>
+    
+    <!-- Marque le dossier comme non urgent -->
+    <action id="REMOVE_URGENCE_DOSSIER" link="#{dossierActions.removeUrgenceDossier(currentDocument)}"
+      order="20" label="Marquer le dossier comme non urgent" icon="/img/icons/folder_green.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isUrgent</filter-id>
+    </action>
+    
+    <!-- Verse le dossier dans les textes signalés de l'espace de suivi -->
+    <action id="VERSER_DOSSIER_TEXTES_SIGNALES" link="#{textesSignalesActions.verserDossierDansTextesSignales()}"
+      order="24" label="Signaler texte" icon="/img/icons/folder_warning_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+      <filter-id>isNotTexteSignale</filter-id>
+      <filter-id>isTexteSignaleCreator</filter-id>
+    </action>
+    
+    <!-- export du pdf du bordereau -->
+    <action id="pdf_bordereau"
+      link="#{archiveActions.exportPdfBordereau()}"
+      order="31" label="label.action.toolbar.imprimerBordereauPdf" icon="/img/icons/printer_view.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isInBordereau</filter-id>
+    </action>
+    
+    <!-- export du pdf de la feuille de route -->
+    <action id="route_pdf_full"
+      link="#{archiveActions.exportPdfFeuilleRoute()}"
+      order="31" label="label.action.toolbar.imprimerFdrPdf" icon="/img/icons/printer_view.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isInFeuilleRoute</filter-id>
+    </action>
+    
+    <!-- export du pdf du journal -->
+    <action id="pdf_journal"
+      link="#{archiveActions.exportPdfJournal()}"
+      order="31" label="label.action.toolbar.imprimerJournalPdf" icon="/img/icons/printer_view.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isJournal</filter-id>
+    </action>
+
+    <!-- export du pdf du dossier -->
+    <action id="pdf_dossier"
+      link="#{archiveActions.exportPdfDossier()}"
+      order="30" label="label.action.toolbar.imprimerDossierPdf" icon="/img/icons/printer.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+    </action>
+    
+    <!-- Verse le dossier dans les dossiers signalés de l'espace de suivi -->
+    <action id="VERSER_DOSSIER" link="#{dossierListingActions.verserDossier()}"
+      order="25" label="label.action.toolbar.verserDossier" icon="/img/icons/folder_out.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+    </action>
+    
+    <!-- Impression & Envoi-->
+    <action id="NICE_PRINT_DOSSIER" link="/casemanagement/caseitem/parapheur/view_parapheur.xhtml"
+      enabled="false" order="10" label="Imprimer le document avec mise en forme" icon="/img/icons/document_plain.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isNotJournal</filter-id>
+    </action>
+
+    <action id="EXPORT_DOSSIER_MERGE_PDF" link="#{archiveActions.exportZipDossier()}"
+       order="21" label="Compresser le Dossier au format ZIP" alt="Compresser le Dossier au format ZIP" icon="/img/icons/compress.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+    </action>
+
+    <action id="COMPRESS_DOSSIER_FDD" link="#{archiveActions.exportZipFdd()}"
+       order="20" label="Compresser arborescence du Fond de Dossier au format ZIP" alt="Compresser arborescence du Fond de Dossier au format ZIP" icon="/img/icons/compress_view.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isInDocument</filter-id>
+    </action>
+
+    <action id="COMPRESS_DOSSIER_PARAPHEUR" link="#{archiveActions.exportZipParapheur()}"
+       order="20" label="Compresser arborescence du Parapheur au format ZIP" alt="Compresser arborescence du Parapheur au format ZIP"  icon="/img/icons/compress_view.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isInDocument</filter-id>
+      <filter-id>isNotRapportAuParlement</filter-id>
+    </action>
+        
+    <action id="CSV_PRINT_DOSSIER" link="/casemanagement/caseitem/parpaheur/view_parapheur.xhtml"
+      enabled="false" order="30" label="Imprimer le fond de dossier au format CSV" icon="/img/icons/document_plain.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isCSVExportable</filter-id>
+    </action>
+    
+    <!-- Action permettant de retirer le caractère confidentiel d'une mesure nominative -->
+    <action id="DOSSIER_ANNULER_MESURE_NOMINATIVE" link="#{dossierActions.annulerMesureNominative}" order="50" 
+      label="epg.dossier.command.annulerMesureNominative" confirm="return confirmBeforeAnnulerMesureNominative(event);" icon="/img/icons/folder_view_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierMesureNominativeUpdater</filter-id>
+      <filter-id>isDossierMesureNominative</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+    </action>
+    
+    <!-- Action permettant de remettre le caractère confidentiel d'une mesure nominative -->
+    <action id="DOSSIER_REDONNER_MESURE_NOMINATIVE" link="#{dossierActions.redonnerMesureNominative}" order="50" 
+      label="epg.dossier.command.redonnerMesureNominative" confirm="return confirmBeforeRedonnerMesureNominative(event);" icon="/img/icons/folder_view_forbidden_24.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+      <filter-id>isDossier</filter-id>
+      <filter-id>isDossierMesureNominativeUpdater</filter-id>
+      <filter-id>isNotDossierMesureNominative</filter-id>
+      <filter-id>hasTypeActeMesureNominative</filter-id>
+      <filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+    </action>
+    
+    <!-- envoi mail -->
+    <action id="EMAIL_FORWARD_DOSSIER" link="javascript:Richfaces.showModalPanel('mailDossierPanel');"
+      enabled="true" order="50" label="Envoyer ce dossier par mél" icon="/img/icons/mail.png">
+      <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>"solon-epg-web/src/main/resources/web/nuxeo.war/img/icons/folder_view_24.png"
+      <filter-id>isDossier</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace de traitement
+         *********************************************************************** --> 
+    <action id="SHOW_REPOSITORY" link="#{espaceTraitementActions.navigateTo}" icon="/img/icons/espace_traitement.png" label="command.espaceTraitement">
+      <filter-id>espace_traitement_reader_grid</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Espace de création
+         *********************************************************************** -->
+    <action id="espace_creation" link="#{espaceCreationActions.navigateTo}" label="command.espaceCreation" order="40" icon="/img/icons/espace_creation.png">
+      <category>USER_SERVICES</category>
+      <filter-id>espace_creation_reader_grid</filter-id>
+    </action>    
+
+    <!-- ***********************************************************************
+         Espace de suivi
+         *********************************************************************** -->
+    <action id="espace_suivi" link="#{espaceSuiviActions.navigateTo}" label="command.espaceSuivi" order="60" icon="/img/icons/espace_suivi.png">
+      <category>USER_SERVICES</category>
+      <filter-id>espace_suivi_reader_grid</filter-id>
+    </action>
+    
+    <!-- Alertes  -->
+    <action id="bulkAlertActivateFromSelection" link="#{alertActions.bulkActivateFromSelection()}"  label="alert.command.bulk_activate" order="10">
+      <category>ALERT_SELECTION_LIST</category>
+      <filter-id>canAddToSelection</filter-id>
+    </action>
+    
+    <action id="bulkAlertSuspendFromSelection" link="#{alertActions.bulkSuspendFromSelection()}"  label="alert.command.bulk_suspend" order="20">
+      <category>ALERT_SELECTION_LIST</category>
+      <filter-id>canAddToSelection</filter-id>
+    </action>  
+    
+    <!-- Suppression de la possibilité de supprimer plusieur alert a la fois a l'aide des case à coché -->
+    <!-- <action id="deleteAlertFromSelection" link="#{alertActions.deleteSelected()}"  label="alert.command.delete.selection" order="30">
+      <category>ALERT_SELECTION_LIST</category>
+      <filter-id>canAddToSelection</filter-id>
+    </action>  -->
+    
+    <!-- ***********************************************************************
+         Espace de recherche
+         *********************************************************************** -->
+    <action id="espace_recherche" link="#{rechercheWebActions.navigateTo}" label="command.espaceRecherche"
+      icon="/img/icons/espace_recherche.png" order="70">
+      <category>USER_SERVICES</category>
+      <filter-id>espace_recherche_reader_grid</filter-id>
+    </action>
+    
+    <!-- Onglets Requeteur Dossier -->
+    <action id="TAB_REQUETEUR_DOSSIER_SIMPLE" link="/requeteur/requeteur_dossier_tabs/requeteur_dossier_simple.xhtml" order="10" label="label.requeteurDossier.simple">
+      <category>RECHERCHE_DOSSIER_UPPER_LIST</category>
+    </action>
+    
+    <action id="TAB_REQUETEUR_DOSSIER_EXPERT" link="/requeteur/requeteur_dossier_tabs/requeteur_dossier_expert.xhtml" order="20" label="label.requeteurDossier.expert">
+      <category>RECHERCHE_DOSSIER_UPPER_LIST</category>
+    </action>    
+    
+    <action id="TAB_REQUETEUR_DOSSIER_LIBRE" link="/requeteur/requeteur_dossier_tabs/requeteur_dossier_libre.xhtml" order="30" label="label.requeteurDossier.libre">
+      <category>RECHERCHE_DOSSIER_UPPER_LIST</category>
+      <filter-id>canUseRechercheLibre</filter-id>
+    </action>
+    
+    <!-- Requeteur Dossier Expert  -->
+    <action id="create_requeteur" link="/requeteur/requeteur_form.xhtml" label="Requeteur Form" order="98"/>
+    
+    <action id="generer_alerte" link="#{requeteurActions.generateAlert()}" label="requeteur.command.generer_alerte" order="10">
+      <category>REQUETEUR_ACTIONS</category>
+    </action>
+    
+    <action id="recherche_requeteur" link="#{requeteurActions.goToResults()}" label="requeteur.command.rechercher" order="20">
+      <category>REQUETEUR_ACTIONS</category>
+    </action>
+    
+    <action id="recherche_favoris" link="#{favorisRechercheActions.navigateToAddFavoris}" label="requeteur.command.ajouter_favoris" order="11">
+      <category>REQUETEUR_ACTIONS</category>
+    </action>
+     
+    <!-- Recherche par NOR  -->
+    <action id="view_recherche_bandeau_service" link="/recherche_nor/view_recherche_nor.xhtml" />
+  
+    <!-- ***********************************************************************
+         Espace de recherche : boutons d'action en haut des listings
+         *********************************************************************** -->
+    <!-- Exporte la liste des résultats de recherche en CSV -->
+    <action id="RECHERCHE_EXPORT_CSV" link="xl"
+      order="10" label="command.global.exportCsv.alt" icon="/img/icons/masse/masse_csv_32.png">
+      <category>LISTING_TOP_ACTION</category>
+    </action>
+
+     <!-- tableau de loi export csv-->
+    <action id="AN_TABLEAU_LOIS_EXPORT_CSV" link="#{activiteNormativeActions.genererCsv()}"
+      order="30" label="export csv" icon="/img/icons/csv_export.png">
+      <category>AN_LISTING_TOP_ACTION</category>
+      <filter-id>isInEspaceActiviteNormative</filter-id>
+      <filter-id>isTexteMaitreExportCsv</filter-id>
+      <filter-id>isInTableauLois</filter-id>
+    </action>
+ 
+ 
+      <!-- tableau des ordonnances export csv-->
+    <action id="AN_TABLEAU_ORDONNANCES_EXPORT_CSV" link="#{activiteNormativeActions.genererCsv()}"
+      order="30" label="export csv" icon="/img/icons/csv_export.png">
+      <category>AN_LISTING_TOP_ACTION</category>
+      <filter-id>isInEspaceActiviteNormative</filter-id>
+      <filter-id>isTexteMaitreExportCsv</filter-id>
+      <filter-id>isInTableauOrdonnances</filter-id>
+    </action>               
+    <!-- ***********************************************************************
+         Espace parlementaire
+         *********************************************************************** -->
+    <action id="espace_parlementaire" link="#{espaceParlementaireActions.navigateTo}" label="command.espaceParlementaire" icon="/img/icons/espace_parlementaire.png" order="80">
+      <category>USER_SERVICES</category>
+      <filter-id>espace_parlementaire_reader_grid</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace d'administration
+         *********************************************************************** -->
+    <action id="espace_administration" link="#{administrationActions.navigateToEspaceAdministration}" label="command.espaceAdministration" icon="/img/icons/espace_administration.png" order="90">
+      <category>USER_SERVICES</category>
+      <filter-id>espace_administration_reader_grid</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace d'administration / Batchs
+         *********************************************************************** -->
+    <action id="admin_batch_suivi" label="command.admin.batch.suivi" order="2">
+      <category>ADMIN_MENU</category>
+    </action>
+    
+    <action id="admin_batch_viewSuivi" link="#{administrationActions.navigateToViewBatchSuivi}" label="command.admin.batch.viewsuivi" order="5">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_batch_grid</filter-id>
+    </action>
+    
+    <action id="admin_batch_viewSuiviPlanification" link="#{administrationActions.navigateToViewBatchSuiviPlanification}" label="command.admin.batch.viewsuivi.planification" order="6">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_batch_grid</filter-id>
+    </action>
+    
+    <action id="admin_batch_viewSuiviNotification" link="#{administrationActions.navigateToViewBatchSuiviNotification}" label="command.admin.batch.viewsuivi.notification" order="7">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_batch_grid</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Espace d'administration / Dossiers
+         *********************************************************************** -->
+    <action id="admin_dossier" label="command.admin.dossier" order="10">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_dossier_grid</filter-id>
+    </action>
+
+    <action id="admin_dossier_parapheur" link="#{administrationActions.navigateToModeleParapheurModelFolder}" label="command.admin.dossier.parapheur" order="20">
+      <category>ADMIN_MENU</category>
+      <filter-id>espace_administration_parapheur_grid</filter-id>
+    </action>
+
+    <action id="admin_dossier_fond_dossier" link="#{administrationActions.navigateToModeleFondDossierModelFolder}" label="command.admin.dossier.fondDossier" order="30">
+      <category>ADMIN_MENU</category>
+      <filter-id>espace_administration_fond_dossier_grid</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace d'administration / Modèles de feuilles de route
+         *********************************************************************** -->
+    <action id="admin_feuille_route" label="command.admin.feuilleRoute" order="40">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_feuille_route_grid</filter-id>
+    </action>
+
+    <action id="admin_feuille_route_modele" link="#{administrationActions.navigateToModeleFeuilleRouteFolder}" label="command.admin.feuilleRoute.modeleFDR" order="50">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_feuille_route_modele_grid</filter-id>
+    </action>
+    
+    <action id="admin_feuille_route_squelette" link="#{administrationActions.navigateToSqueletteFeuilleRouteFolder}" label="command.admin.feuilleRoute.squeletteFDR" order="51">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_feuille_route_squelette_grid</filter-id>
+    </action>
+    
+    <action id="admin_feuille_route_modele_mass_create" link="#{administrationActions.navigateToModeleFeuilleRouteCreationEnMasse}" label="Creation en masse des modeles de feuille de route" order="52">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_feuille_route_modele_mass_create_grid</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace d'administration / Migration
+         *********************************************************************** -->
+
+    <action id="admin_migration" label="command.admin.migration" order="57">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_migration_grid</filter-id>
+    </action>
+    
+    <!-- changement de gouvernement solon epg -->
+    <action id="admin_migration_organigramme_modif" link="#{administrationActions.navigateToChangementGouvernement}" label="command.admin.migration.organigramme" order="58">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_migration_grid</filter-id>
+    </action>
+    
+    <!-- historique changement de gouvernement -->
+    <action id="admin_migration_historiques" link="#{administrationActions.navigateToHistoriqueDesMigrations}" label="command.admin.migration.historique" order="59">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_migration_grid</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace d'administration / Utilisateurs
+         *********************************************************************** -->
+    <action id="admin_utilisateur" label="command.admin.utilisateur" order="60">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_utilisateur_grid</filter-id>
+    </action>
+
+    <action id="admin_utilisateur_organigramme" link="#{administrationActions.navigateToOrganigramme}" label="command.admin.utilisateur.organigramme" order="70">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_utilisateur_organigramme_grid</filter-id>
+    </action>
+
+    <action id="admin_utilisateur_utilisateur" link="#{administrationActions.navigateToUtilisateur}" label="command.admin.utilisateur.utilisateur" order="80">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_utilisateur_utilisateur_grid</filter-id>
+    </action>
+
+    <action id="admin_utilisateur_profil" link="#{profileManagerActions.viewProfiles}" label="command.admin.utilisateur.profil" order="90">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_utilisateur_profil_grid</filter-id>
+    </action>
+
+    <action id="admin_utilisateur_recherche" link="#{administrationActions.navigateToRechercheUtilisateur}" label="command.admin.utilisateur.recherche" order="95">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_utilisateur_recherche_grid</filter-id>
+    </action>
+    
+	<action id="send_mail_popup" link=""
+			confirm="javascript:Richfaces.showModalPanel('mailPanel');return false;"
+			label="label.sendMail" icon="">
+		<category>MANAGEMENT_SELECTION_LIST</category>
+		<filter-id>isSelectionListNotEmpty</filter-id>
+	</action>
+	
+	<action id="3_LIST_SELECT_ALL" link="#{userManagerActions.selectAll()}"
+		label="command.select.all" icon="">
+		<category>MANAGEMENT_SELECTION_LIST</category>
+	</action>
+
+	<action id="4_LIST_DESELECT_ALL" link="#{userManagerActions.deselectAll()}"
+		label="command.deselect.all" icon="">
+		<category>MANAGEMENT_SELECTION_LIST</category>
+		<filter-id>isSelectionListNotEmpty</filter-id>
+	</action>
+
+      <!-- Permet de supprimer les utilisateurs selectionnés -->
+    <action id="delete_user_requeteur" link="#{administrationActions.navigateToDeleteUtilisateur()}" 
+		label="command.admin.suppression" icon="">
+      	<category>MANAGEMENT_SELECTION_LIST</category>
+      	<filter-id>AdminCanDeleteUser</filter-id>
+		<filter-id>isSelectionListNotEmpty</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Espace d'administration / Paramétrage
+         *********************************************************************** -->
+    <action id="admin_param" label="command.admin.param" order="100">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_grid</filter-id>
+    </action>
+
+    <action id="admin_param_param" link="#{administrationActions.navigateToParametrageApplication}" label="command.admin.param.param" order="110">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_param_grid</filter-id>
+    </action>
+
+    <action id="admin_param_param_technique" link="#{administrationActions.navigateToParametreFolder}" label="command.admin.param.technique" order="110">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_param_grid</filter-id>
+    </action>
+    
+    <action id="admin_param_param_moteur_recherche" link="#{administrationActions.navigateToParametreMoteurRechercheFolder}" label="command.admin.param.moteur.recherche" order="115">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_param_grid</filter-id>
+    </action>
+
+    <action id="admin_param_bulletin" link="#{administrationActions.navigateToBulletinsOfficiels}" label="command.admin.param.bulletin" order="120">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_bulletin</filter-id>
+    </action>
+
+    <action id="admin_param_adamant" link="#{administrationActions.navigateToParamAdamant}" label="command.admin.param.adamant" order="125">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_adamant</filter-id>
+    </action>
+
+    <action id="admin_param_reference" link="#{administrationActions.navigateToTableReference}" label="command.admin.param.reference" order="130">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_reference_grid</filter-id>
+    </action>
+
+    <action id="admin_param_index" link="#{administrationActions.navigateToGestionIndexation}" label="command.admin.param.index" order="140">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_index_grid</filter-id>
+    </action>
+
+    <action id="admin_param_etat_app" link="#{etatApplicationActions.editEtatApplication}" label="command.admin.param.etat.application" order="145">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_param_etat</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace d'administration / Journal
+         *********************************************************************** -->
+    <action id="admin_journal" label="command.admin.journal" order="150">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_journal_grid</filter-id>
+    </action>
+
+    <action id="admin_journal_journal" link="#{administrationActions.navigateToJournal}" label="command.admin.journal.journal" order="160">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_journal_grid</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace d'administration / Suppression
+         *********************************************************************** -->
+    <action id="admin_suppression" label="command.admin.suppression" order="170">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_suppression_grid</filter-id>
+    </action>
+
+    <action id="admin_suppression_dossier" link="#{administrationActions.navigateToSuppression}" label="command.admin.suppression.dossier" order="180">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_suppression_suppression_grid</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Espace d'administration / Suppression-Ministrielle
+         *********************************************************************** -->
+    <action id="admin_suppression_dossier_ministrielle" link="#{administrationActions.navigateToSuppressionMinitrielle}" label="command.admin.suppression.ministerielle.dossier" order="180">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_suppression_suppression_ministrielle_grid</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Espace d'administration / Abandon
+         *********************************************************************** -->
+    <action id="admin_abandon" label="command.admin.abandon" order="190">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_abandon_grid</filter-id>
+    </action>
+
+    <action id="admin_abandon_dossier" link="#{administrationActions.navigateToAbandon}" label="command.admin.abandon.dossier" order="200">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_abandon_grid</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Espace d'administration / Archivage
+         *********************************************************************** -->
+    <action id="admin_archivage" label="command.admin.archivage" order="210">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_archivage_grid</filter-id>
+    </action>
+
+    <action id="admin_archivage_adamant" link="#{administrationActions.navigateToArchivageAdamant}" label="command.admin.archivage.adamant" order="215">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_archivage_adamant_grid</filter-id>
+    </action>
+
+    <action id="admin_archivage_intermediaire" link="#{administrationActions.navigateToArchivageIntermediaire}" label="command.admin.archivage.intermediaire" order="220">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_archivage_intermediaire_grid</filter-id>
+    </action>
+
+    <action id="admin_archivage_definitif" link="#{administrationActions.navigateToArchivageDefinitive}" label="command.admin.archivage.definitif" order="230">
+      <category>ADMIN_MENU</category>
+      <filter-id>admin_archivage_definitif_grid</filter-id>
+    </action>
+    
+   <action id="admin_scheduler" label="command.administrator.scheduler" order="240">
+      <category>ADMIN_MENU</category>
+      <filter-id>isAdministrator</filter-id>
+    </action>
+    
+    <action id="admin_scheduler_execute" link="#{administrationActions.navigateToBatch}" label="command.administrator.scheduler.execute" order="241">
+      <category>ADMIN_MENU</category>
+      <filter-id>isAdministrator</filter-id>
+    </action>
+    
+    <!-- ***********************************************************************
+         Espace d'administration / vecteur publication
+         *********************************************************************** -->
+
+	<!-- Sauvegarde vecteur -->
+	<action id="SAVE_VECTEUR_PUBLICATION" link="#{bulletinOfficielActions.saveVecteur()}"
+		order="10" label="Sauvegarder">
+		<category>VECTEUR_PUBLICATION_ACTION</category>
+	</action>
+	<action id="ADD_VECTEUR_PUBLICATION" link="#{bulletinOfficielActions.addVecteur()}"
+		order="11" label="Ajouter un vecteur de publication">
+		<category>VECTEUR_PUBLICATION_ACTION</category>
+	</action>
+    
+
+    <!-- ***********************************************************************
+         Recherche avancée (administrateur technique uniquement)
+         *********************************************************************** -->
+    <action id="advanced_search" order="100">
+      <filter-id>isAdministrator</filter-id>
+    </action>
+
+    <!-- ***********************************************************************
+         Mes réglages
+         *********************************************************************** -->
+    <action id="SHOW_PERSONAL_WORKSPACE" enabled="false" />
+    
+    <!-- profil utilisateur : on charge la popup uniquement quand l'utilisateur clique sur le lien -->
+    <action id="profilUtilisateur"
+      link="#{profilUtilisateurActions.displayAdministrationProfil()}"
+      confirm="javascript:Richfaces.showModalPanel('profilUtilisateurPanel');"
+      enabled="true" label="command.user.profilUtilisateur"
+      icon="/img/icons/user_16.png" order="90">
+      <category>USER_SERVICES_BOTTOM_LEFT</category>
+      <filter-id>not_anonymous</filter-id>
+    </action>
+
+    <action id="profilUtilisateurTest"
+      link="#{profilUtilisateurActions.displayAdministrationProfil()}"
+      confirm="#{rich:component('profilUtilisateurPanel')}.show()"
+      enabled="true" label="command.user.profilUtilisateur"
+      icon="/img/icons/user_16.png" order="90">
+      <category>USER_SERVICES_BOTTOM_LEFT</category>
+      <filter-id>not_anonymous</filter-id>
+    </action>
+    
+    <!-- accès à l'espace de travail de l'utilisateur : non utilisé  -->
+    <action id="userSetting"
+      link="#{userWorkspaceManagerActions.navigateToCurrentUserPersonalWorkspace}"
+      enabled="false" label="command.user.personal.workspace"
+      icon="/img/icons/wrench.png" order="100">
+      <category>USER_SERVICES_BOTTOM</category>
+      <filter-id>not_anonymous</filter-id>
+    </action>
+  
+    <!-- ***********************************************************************
+         Déconnexion
+         *********************************************************************** -->
+    <action id="non_anonymous_logout" link="logout" icon="/img/icons/logout.png" confirm="return confirmBeforeLogout(event);" label="command.logout" order="200">
+      <category>USER_SERVICES_BOTTOM</category>
+    </action>
+    
+    <!-- ***********************************************************************
+         Feuilles de route
+         *********************************************************************** -->
+    <!-- Copie les étapes de feuille de route sélectionnées -->
+    <action id="CURRENT_SELECTION_COPY_FDR" link="#{routingActions.putSelectionInClipboardAndEmptySelection}" label="command.clipboard.copy" icon="">
+      <category>ROUTE_STEP_SELECTION_LIST</category>
+      <filter-id>canCopyFromCurrentSelection</filter-id>
+    </action>
+    
+    <!-- Crée une note partagée à partir des étapes de feuille de route sélectionnées -->
+    <action id="CURRENT_SELECTION_CREATE_SHARED_NOTE" link="#{routeStepNoteActions.initCreateSharedNote}" label="command.clipboard.createSharedNote" icon="">
+      <category>ROUTE_STEP_SELECTION_LIST</category>
+      <filter-id>canCreateSharedNote</filter-id>
+    </action>
+
+    <!-- Ajout avant une étape de feuille de route (surcharge d'une action Nuxeo) -->
+    <action id="ADD_STEP_BEFORE" label="command.add.routeelement.before" link="javascript:document.getElementById('selectRouteElementsTypeForCreationForm:hiddenDocOrder').value = 'before';Richfaces.showModalPanel('selectRouteElementsTypePanel');" icon="/icons/add.png" order="10">
+      <category>ADD_STEP_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isNotSerialStepFolder</filter-id>
+      <filter-id>isNotPourInitialisation</filter-id>
+      <filter-id>isEditableEtapeObligatoire</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+    </action>
+    
+    <!-- Ajout après une étape de feuille de route (surcharge d'une action Nuxeo) -->
+    <action id="ADD_STEP_AFTER" label="command.add.routeelement.after" link="javascript:document.getElementById('selectRouteElementsTypeForCreationForm:hiddenDocOrder').value = 'after';Richfaces.showModalPanel('selectRouteElementsTypePanel');" icon="/icons/add.png" order="20">
+      <category>ADD_STEP_ACTIONS_LIST</category>
+      <filter-id>isNotSerialStepFolder</filter-id>
+      <filter-id>isAddableRouteStepAfter</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+    </action>
+    
+    <!-- Ajout d'une nouvelle branche dans un conteneur parallèle d'étapes de feuille de route -->
+    <action id="ADD_FORK_IN_PARALLEL_STEP_FOLDER" label="st.feuilleRoute.etape.command.addBranch" link="#{routingActions.createNewForkInParallelRouteStep}" icon="/icons/add.png" order="30">
+      <category>ADD_STEP_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isParallelStepFolder</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+    </action>
+
+    <!-- Ajout dans un conteneur vide de feuille de route (surcharge d'une action Nuxeo) -->
+    <action id="ADD_STEP_BETWEEN" label="command.add.routeelement.in" link="javascript:document.getElementById('selectRouteElementsTypeForCreationForm:hiddenDocOrder').value = 'in';Richfaces.showModalPanel('selectRouteElementsTypePanel');" icon="/icons/add.png" order="30">
+      <category>ADD_STEP_IN_FORK_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+    </action>
+
+    <!-- Coller des étapes avant une étape de feuille de route -->
+    <action id="PASTE_STEP_BEFORE" label="st.feuilleRoute.etape.command.pasteBefore" link="#{routingActions.pasteBefore}" icon="/icons/add.png" order="40">
+      <category>PASTE_STEP_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isNotPourInitialisation</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+      <filter-id>isPastableRouteStep</filter-id>
+    </action>
+    
+    <!-- Coller des étapes après une étape de feuille de route -->
+    <action id="PASTE_STEP_AFTER" label="st.feuilleRoute.etape.command.pasteAfter" link="#{routingActions.pasteAfter}" icon="/icons/add.png" order="50">
+      <category>PASTE_STEP_ACTIONS_LIST</category>
+      <filter-id>isEditableRoute</filter-id>
+      <filter-id>isPastableRouteStep</filter-id>
+    </action>
+    
+    <!-- Coller des étapes dans un conteneur d'étapes de feuille de route -->
+    <action id="PASTE_STEP_BETWEEN" label="st.feuilleRoute.etape.command.pasteInto" link="#{routingActions.pasteInto}" icon="/icons/add.png" order="60">
+      <category>PASTE_STEP_IN_FORK_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+      <filter-id>isPastableRouteStep</filter-id>
+    </action>
+
+    <!-- Suppression d'une étape de feuille de route (surcharge d'une action Nuxeo) -->
+    <action id="REMOVE_STEP" label="command.delete" link="#{routingActions.removeStep}" icon="/icons/delete.png">
+      <category>REMOVE_STEP_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isNotPourInitialisation</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+    </action>
+
+    <!-- Mise à jour d'une étape de feuille de route (surcharge d'une action Nuxeo) -->
+    <action id="UPDATE_STEP" label="command.edit" link="#{routingActions.editStep}" icon="/icons/modify.png">
+      <category>EDIT_STEP_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isNotPourInitialisation</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+    </action>
+    
+    <!-- Déplacement vers le haut d'une étape de feuille de route (surcharge d'une action Nuxeo) -->
+    <action id="MOVE_STEP_UP" label="command.selection.moveUp" link="#{routingActions.moveRouteElement('up')}" icon="/icons/move_up.png">
+      <category>EDIT_STEP_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isNotPourInitialisation</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+    </action>
+    
+    <!-- Déplacement vers le bas d'une étape de feuille de route (surcharge d'une action Nuxeo) -->
+    <action id="MOVE_STEP_DOWN" label="command.selection.moveDown" link="#{routingActions.moveRouteElement('down')}" icon="/icons/move_down.png">
+      <category>EDIT_STEP_ACTIONS_LIST</category>
+      <filter-id>isNotRunning</filter-id>
+      <filter-id>isNotDone</filter-id>
+      <filter-id>isNotPourInitialisation</filter-id>
+      <filter-id>isEditableRoute</filter-id>
+    </action>
+    
+    <!-- Surcharge nuxeo : désactivation copie d'une feuille de route -->
+    <action id="SAVE_ROUTE_AS_NEW_INSTANCE" enabled="false" />
+    <action id="SAVE_ATTACHED_ROUTE_AS_NEW_INSTANCE" enabled="false" />
+    
+    <!-- Creation d'étapes de feuilles de routes en masse : ajout d'une étape dans le tableau de création -->
+    <action id="ADD_ROUTE_STEP_MASS" styleClass="button" label="Ajouter une étape" link="#{routingActions.addEtapeFeuilleDeRoute()}" oncomplete="bind()" order="10">
+      <category>CREATE_ROUTE_STEP_MASS</category>
+    </action>
+    
+    <!-- Creation d'étapes de feuilles de routes en masse : création -->
+    <action id="SAVE_ROUTE_STEP_MASS" styleClass="button" label="Sauvegarder" link="#{routingActions.saveRouteElementMass()}" order="20">
+      <category>CREATE_ROUTE_STEP_MASS</category>
+    </action>
+    
+    <!-- Creation d'étapes de feuilles de routes en masse : annuler -->
+    <action id="CANCEL_ROUTE_STEP_MASS" styleClass="button" label="Annuler" link="#{routingActions.goBackToRouteFromCreateMass}" order="30">
+      <category>CREATE_ROUTE_STEP_MASS</category>
+    </action>
+    
+    <!-- ***********************************************************************
+         Outil de sélection
+         *********************************************************************** -->  
+         
+    <!-- validation en masse des dossiers de l'espace de traitement -->   
+    <action id="MASSE_DONNER_AVIS_FAVORABLE_DOSSIER" link="#{dossierDistributionActions.masseFdrAction('donnerAvisFavorable')}" confirm="Etes-vous sûr de vouloir valider ces dossiers ?"
+      order="10" label="label.responses.dossier.toolbar.favorable" icon="/img/icons/document_ok_16.png">
+      <category>DOSSIER_LINK_ACTION_LIST</category>
+    </action>
+
+    <!-- ***********************************************************************
+         Outil de sélection : actions sur les documents sélectionnés
+         *********************************************************************** -->
+    <!-- Outil de sélection : valide en masse l'étape courante des dossiers versés dans l'outil -->
+    <action id="WORKLIST_MASS_VALIDATION"
+      link="#{dossierMassActions.massValidation()}"
+      confirm="return confirmMassValidation(event);"
+      order="10" label="epg.selection.mass.command.validation" icon="/img/icons/document_ok_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isInEspaceTraitement</filter-id>
+    </action>
+
+
+    <action id="WORKLIST_MASS_SUPRESSION" link="#{dossierMassActions.supprimerDossiers()}"  confirm="return confirmMassSuppression(event);" 
+      order="10" label="epg.selection.mass.command.suppression" icon="/img/icons/document_delete_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isInEspaceAdministration</filter-id>
+      <filter-id>AdminFonctionnelDossierSuppression</filter-id>
+    </action>
+  
+    <action id="WORKLIST_MASS_ABANDON" link="#{dossierMassActions.abandonDossiers()}" confirm="return confirmMassAbandon(event);" 
+      order="10" label="epg.selection.mass.command.abandon" icon="/img/icons/document_stop_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isInEspaceAdministration</filter-id>
+      <filter-id>idAdminFonctionnelDossierAbandon</filter-id>
+    </action>
+
+    <!-- Outil de sélection : ajoute en masse les dossiers versés dans l'outil aux dossiers signalés -->
+    <action id="WORKLIST_MASS_DOSSIERS_SIGNALES"
+      link="#{dossierMassActions.massDossiersSignales()}"
+      confirm="return confirmMassDossiersSignales(event);"
+      order="20" label="epg.selection.mass.command.dossiers.signales" icon="/img/icons/folder_out_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isDisplayMassDossiersSignales</filter-id>
+    </action>
+
+    <action id="WORKLIST_MASS_SUBSTITUER_FEUILLE_ROUTE" link="#{dossierMassActions.navigateToMassSubstituerFeuilleRoute()}" 
+      order="20" label="epg.selection.mass.command.substituerFDR" icon="/img/icons/scroll_replace_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isDisplayMassFeuilleDeRoute</filter-id>
+    </action>
+    
+    <action id="WORKLIST_MASS_NOUVELLE_LISTE_MISE_EN_SIGNATURE"
+      link="#{dossierMassActions.creerNouvelleListeMiseEnSignature()}"  confirm="return confirmMassListeMiseEnSignature(event);"
+      order="20" label="selection.mass.nouvelle.Liste.mise.en.signature" icon="/img/icons/document_edit_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isGestionDeListeReader</filter-id>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isInEspaceSuivi</filter-id>
+      <filter-id>currentWorkListIsNotEmpty2</filter-id>
+    </action>
+
+    <action id="WORKLIST_MASS_NOUVELLE_LISTE_DEMANDES_EPREUVE"
+      link="#{dossierMassActions.creerNouvelleListeDemandeEpreuve()}" confirm="return confirmMassListeDemandesEpreuves(event);"
+      order="20" label="selection.mass.nouvelle.Liste.demandes.epreuves" icon="/img/icons/document_text_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isGestionDeListeReader</filter-id>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isInEspaceSuivi</filter-id>
+      <filter-id>currentWorkListIsNotEmpty2</filter-id>
+    </action>
+    
+    <action id="WORKLIST_MASS_NOUVELLE_LISTE_DEMANDES_PUBLICATION"
+      link="#{dossierMassActions.creerNouvelleListeDemandeDePublication()}" confirm="return confirmMassListeDemandesPublication(event);"
+      order="20" label="selection.mass.nouvelle.Liste.demandes.publication" icon="/img/icons/document_certificate_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isGestionDeListeReader</filter-id>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isInEspaceSuivi</filter-id>
+      <filter-id>currentWorkListIsNotEmpty2</filter-id>
+    </action>
+    
+    <!-- Outil de sélection : transfère en masse les dossiers versés dans l'outil -->
+    <action id="WORKLIST_MASS_TRANSFERT"
+      link="#{administrationActions.navigateToMassTransfert()}"
+      order="30" label="epg.selection.mass.command.transfert" icon="/img/icons/reorientation_16.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeDossier</filter-id>
+      <filter-id>isInEspaceAdministration</filter-id>
+      <filter-id>isAdminFonctionnelTransfertExecutor</filter-id>        
+    </action>
+    
+    <!-- Outil de sélection : redirige vers l'écran de substitution de masse des postes
+      dans les modèles de feuille de route -->
+    <action id="WORKLIST_MASS_SUBSTITUER_POSTE"
+      link="#{administrationActions.navigateToModeleFeuilleRouteMassSubstituerPoste()}"
+      order="10" label="epg.selection.mass.command.substituerPoste" icon="/img/icons/poste.png">
+      <category>DEFAULT_LIST</category>
+      <filter-id>isWorkListNotEmpty</filter-id>
+      <filter-id>isWorkListTypeFeuilleRoute</filter-id>
+      <filter-id>isInEspaceRechercheOrInEspaceAdministration</filter-id>
+      <filter-id>isFDRModelPosteMassSubstitutor</filter-id>
+    </action>
+
+ 	<action id="MAJMIN_MASS_DELETE"  link="#{majMinActions.massDelete}" order="10" label="epg.maj_min.mass.delete" confirm="return displayConfirm(event, 'Êtes-vous sûr de vouloir supprimer toutes les mises à jour ?');">
+ 	 <category>MAJMIN_ACTIONS_LIST</category>
+ 	</action>    
+ 	
+ 	<action id="MAJMIN_DELETE_SELECTION"  link="#{majMinActions.deleteSelection}" order="20" label="epg.maj_min.selection.delete">
+ 	 <category>MAJMIN_ACTIONS_LIST</category>
+ 	 <filter-id>isMajMinListNotEmpty</filter-id>
+ 	</action>  
+    
+    <!-- ***********************************************************************
+         Action sur un ensembles de documents cochés dans une liste
+         *********************************************************************** -->
+    <action id="CURRENT_SELECTION_ADDTOLIST" enabled="false"/>
+    <action id="CLIPBOARD_PASTE" enabled="false"/>
+    <action id="CURRENT_SELECTION_COPY" enabled="false"/>
+    <action id="CURRENT_SELECTION_TRASH" enabled="false"/>
+    <action id="WORKLIST_EXPORT" enabled="false"/>
+    <action id="WORKLIST_MOVE" enabled="false"/>
+    <action id="WORKLIST_XMLEXPORT" enabled="false"/>
+    <action id="WORKLIST_PASTE" enabled="false"/>
+    
+    <!-- dossiers signales : vider la corbeille -->
+    <action id="VIDER_CORBEILLE_DOSSIER_SIGNALE" link="#{espaceSuiviActions.viderCorbeilleDossiersSignales}" confirm="return displayConfirm(event, 'Êtes-vous sûr de vouloir vider la corbeille des dossiers signalés ?');"
+      label="label.action.upperlist.viderCorbeilleDossierSignale" icon="">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>isDossierSignale</filter-id>
+    </action>
+
+    <!-- dossiers signales : retirer dossiers -->
+    <action id="RETIRER_DOSSIERS_DOSSIER_SIGNALE" link="#{espaceSuiviActions.retirerDossiersSignales}" 
+      label="label.action.upperlist.retirerDossiersSignales" icon="">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>isDossierSignale</filter-id>
+      <filter-id>canAddToSelection</filter-id>
+    </action>
+    
+    <!-- Action d'ajout de documents aux favoris de consultation -->
+	<action id="CURRENT_SELECTION_ADDTO_FAVORIS_CONSULTATION_EPG"
+      link="#{espaceRechercheActions.putSelectionInFavorisConsultation}"
+      label="label.epg.add.favorisConsultation" icon="">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>canAddToFavConsult</filter-id>      
+      <filter-id>canAddToSelection</filter-id>
+    </action>
+    
+   	<action id="CURRENT_SELECTION_REMOVEFROM_FAVORIS_CONSULTATION_EPG"
+      link="#{espaceRechercheActions.removeSelectionFromFavorisConsultation}"
+      label="label.epg.remove.favorisConsultation" icon="">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>canRemoveFromFavConsultation</filter-id>
+      <filter-id>canAddToSelection</filter-id>
+    </action>
+    
+    <action id="CURRENT_SELECTION_REMOVEFROM_FAVORIS_RECHERCHE_EPG" link="#{espaceRechercheActions.deleteSelection}"
+      label="command.trashDocs" icon="" help="comand.trashDocs.help"
+      confirm="if( !confirmDeleteDocuments() ) return false;">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>canDeleteFR</filter-id>
+      <filter-id>isInFavRecherche</filter-id>
+    </action>
+    
+    <!-- Ajoute l'ensemble des dossiers cochés à l'outil de sélection -->
+    <action id="CURRENT_SELECTION_ADDTOLIST_EPG"
+      link="#{dossierMassActions.putAddSelectionInWorkList}"
+      label="help.command.clipboard.addworklist" icon="" order="1">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>canAddFDR</filter-id>        
+      <filter-id>canAddToSelection</filter-id>
+      <filter-id>isTypeAllowed</filter-id>
+    </action>
+    
+    <!-- Supprime l'ensemble des modèles de feuilles de routes sélectionnés -->
+    <action id="CURRENT_SELECTION_TRASH_MFDR" link="#{deleteActions.deleteSelection}"
+      label="command.trashDocs" icon="" help="comand.trashDocs.help"
+      confirm="if( !confirmDeleteDocuments() ) return false;">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>canAddToSelection</filter-id>
+      <filter-id>can_delete_modele_feuille_route</filter-id>        
+    </action>
+    
+    <!-- Supprime l'ensemble des squelettes de feuilles de routes sélectionnés -->
+    <action id="CURRENT_SELECTION_TRASH_SFDR" link="#{deleteActions.deleteSelection}"
+      label="command.trashDocs" icon="" help="comand.trashDocs.help"
+      confirm="if( !confirmDeleteDocuments() ) return false;">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>canAddToSelection</filter-id>
+      <filter-id>can_delete_squelette_feuille_route</filter-id>        
+    </action>
+    
+    <!-- Ajoute l'ensemble des modèles de feuille de route cochés à l'outil de sélection -->
+    <action id="ADD_CURRENT_SELECTION_MODELE_FEUILLE_ROUTE_TO_WORK_LIST"
+      link="#{clipboardActions.putCurrentContentViewSelectionInDefaultWorkList}"
+      label="help.command.clipboard.addworklist" icon="">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>canAddToSelection</filter-id>
+      <filter-id>can_select_modele_feuille_route</filter-id>
+    </action>
+    
+    <!-- Exporte la liste des résultats en PDF -->
+    <action id="pdf_liste_resultats" link="#{pdfPrintActions.doRenderViewList('view_pdf_liste_resultats.faces')}" 
+      label="label.action.upperlist.printListePdf" icon="">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>hasViewPrintListOption</filter-id>
+    </action>
+    
+    <!-- Exporte la liste des résultats en csv / Excel -->
+    <action id="csv_liste_resultats" link="#{csvPrintActions.doRenderViewList('/incl/export/content_view_csv.faces')}" 
+      label="Exporter la liste des résultats" icon="">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>hasViewExportCsvListOption</filter-id>
+    </action>
+    
+     <!-- Transmet la liste des résultats en csv / Excel par mail -->
+    <action id="csv_liste_resultats_mail" link="#{csvPrintActions.sendSearchUserResult()}" 
+      label="Exporter la liste des résultats" icon="">
+      <category>USER_SEARCH_LISTING</category>
+    </action>
+                
+    <!-- ***********************************************************************
+         Vocabulaire
+         *********************************************************************** -->
+    <action id="directories_manager" icon="/img/icons/book_blue.png" />
+    
+     <!-- ***********************************************************************
+         Onglet Traitement papier
+         *********************************************************************** -->
+    <action id="TAB_PAPIER_REFERENCE" link="/traitement_papier/reference_tab.xhtml"
+        label="label.epg.papier.reference.tab.title" icon="/icons/file.gif" order="10">
+      <category>TAB_PAPIER_sub_tab</category>
+    </action>
+    <action id="TAB_PAPIER_COMMUNICATION" link="/traitement_papier/communication_tab.xhtml"
+        label="label.epg.papier.communication.tab.title" icon="/icons/file.gif" order="20">
+      <category>TAB_PAPIER_sub_tab</category>
+    </action>
+    <action id="TAB_PAPIER_SIGNATURE" link="/traitement_papier/signature_tab.xhtml"
+        label="label.epg.papier.signature.tab.title" icon="/icons/file.gif" order="30">
+      <category>TAB_PAPIER_sub_tab</category>
+      <filter-id>isNotRapportAuParlement</filter-id>
+    </action>
+   <action id="TAB_PAPIER_RETOUR" link="/traitement_papier/retour_tab.xhtml"
+         label="label.epg.papier.retour.tab.title" icon="/icons/file.gif" order="40">
+      <category>TAB_PAPIER_sub_tab</category>
+      <filter-id>isNotRapportAuParlement</filter-id>
+    </action>
+    <action id="TAB_PAPIER_EPREUVES" link="/traitement_papier/epreuves_tab.xhtml"
+         label="label.epg.papier.epreuves.tab.title" icon="/icons/file.gif" order="50">
+      <category>TAB_PAPIER_sub_tab</category>
+      <filter-id>isNotRapportAuParlement</filter-id>
+      <filter-id>isNotActeTexteNonPublie</filter-id>
+    </action>
+    <action id="TAB_PAPIER_PUBLICATION" link="/traitement_papier/publication_tab.xhtml"
+        label="label.epg.papier.publication.tab.title" icon="/icons/file.gif" order="60">
+      <category>TAB_PAPIER_sub_tab</category>
+      <filter-id>isNotRapportAuParlement</filter-id>
+      <filter-id>isNotActeTexteNonPublie</filter-id>
+    </action>
+    <action id="TAB_PAPIER_AMPLIATION" link="/traitement_papier/ampliation_tab.xhtml"
+         label="label.epg.papier.ampliation.tab.title" icon="/icons/file.gif" order="70">
+      <category>TAB_PAPIER_sub_tab</category>
+      <filter-id>isNotRapportAuParlement</filter-id>
+    </action>     
+    
+    <!-- Ajoute l'ensemble des dossiers cochés à l'outil de sélection -->
+    <action id="SAVE_ALL_TEXTES_SIGNALES" 
+    	link="#{textesSignalesActions.saveAllTextesSignales}"
+    	label="label.casemanagement.save" icon="" order="40">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>isInTextesSignales</filter-id>
+      <filter-id>isTextesSignalesUpdater</filter-id>
+    </action>
+    
+    <!-- Ajoute l'ensemble des dossiers cochés à l'outil de sélection -->
+    <action id="REMOVE_SELECTED_TEXTES_SIGNALES" 
+    	link="#{textesSignalesActions.removeSelectedTextesSignales}"
+    	label="label.action.upperlist.retirerDossiersSignales" icon="" order="41">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>canAddToSelection</filter-id>
+      <filter-id>isInTextesSignales</filter-id>
+      <filter-id>isTextesSignalesUpdater</filter-id>
+    </action>
+    
+     <!-- export du pdf du tableau des textes signalés -->
+    <action id="pdf_textes_signales"
+      link="#{pdfPrintActions.doRenderViewList('view_pdf_liste_resultats.faces')}"
+      order="39" label="Imprimer" icon="/img/icons/printer.png">
+      <category>CURRENT_SELECTION_LIST</category>
+      <filter-id>isInTextesSignales</filter-id>
+    </action>
+    
+    <!-- Modification du bean appeler par nuxeo pour la creation de note -->
+    <action id="newComment" link="#{commentManagerActions.addComment}"
+      enabled="true" label="command.add">
+      <category>CASE_MANAGEMENT_COMMENT_ACTIONS</category>
+    </action>
+    
+  </extension>
+
+<extension target="org.nuxeo.ecm.platform.actions.ActionService" point="filters">
+	<filter id="canCreateSharedNote">
+		<rule grant="true">
+			<condition>#{clipboardActions.canCreateSharedNote}</condition>
+		</rule>
+	</filter>
+</extension>
+
+</component>

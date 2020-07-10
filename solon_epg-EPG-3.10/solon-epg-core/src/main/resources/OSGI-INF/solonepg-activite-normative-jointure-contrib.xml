@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!-- La contribution au service Jointure pour l'application EPG -->
+<component name="fr.dila.solonepg.activitenormative.query.jointure.contrib">
+
+	<extension target="fr.dila.st.core.service.STJointureService"
+		point="queryassembler">
+		<queryassembler isDefault="false"
+			class="fr.dila.solonepg.core.recherche.query.ActiviteNormativeQueryAssembler" />
+	</extension>
+
+	<extension target="fr.dila.st.core.service.STJointureService"
+		point="correspondences">
+		<!-- On utilise le préfix d. et non a. car c'est celui qui était utilisé 
+			dans l'activité normative epg -->
+		<correspondence document="ActiviteNormative"
+			doc_prefix="d." emplacement="BEFORE_WHERE"
+			query_part="ufnxql:SELECT DISTINCT d.ecm:uuid AS id FROM ActiviteNormative AS d" />
+		<correspondence document="ActiviteNormative"
+			doc_prefix="m." emplacement="BEFORE_WHERE" query_part=", ActiviteNormative AS m" />
+		<correspondence document="ActiviteNormative"
+			doc_prefix="m." emplacement="AFTER_WHERE" query_part="AND d.texm:mesureIds = m.ecm:uuid " />
+		<correspondence document="ActiviteNormative"
+			doc_prefix="de." emplacement="BEFORE_WHERE" query_part=", ActiviteNormative AS de " />
+		<correspondence document="ActiviteNormative"
+			doc_prefix="de." emplacement="AFTER_WHERE" query_part="AND m.texm:decretIds = de.ecm:uuid" />
+	</extension>
+
+	<extension target="fr.dila.st.core.service.STJointureService"
+		point="dependencies">
+		<dependency prefix="m." need="d." />
+		<dependency prefix="de." need="d." />
+		<dependency prefix="de." need="m." />
+	</extension>
+
+</component>

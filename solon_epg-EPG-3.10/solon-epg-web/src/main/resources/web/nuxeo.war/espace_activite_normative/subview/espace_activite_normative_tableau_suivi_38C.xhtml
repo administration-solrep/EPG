@@ -1,0 +1,85 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	j(document).ready(function() {
+		var sectionid;
+		j("html, body").scrollTop(j(#{texteMaitreActions.scrollTo}).offset().top);
+	});
+</script>
+
+<h:form id="tableau_suivi">
+<h4><h:outputText value="#{tableauProgrammation38CActions.getTableauSuiviPublicationInfo()}" /></h4>
+	<nxu:set var="listProgrammationHabilitationDTO" value="#{tableauProgrammation38CActions.getCurrentListSuiviHabilitation()}" cache="true">
+		<div name="containerTabDiv" style="overflow-x: auto;overflow-y: hidden;">
+			<table class="dataOutput ">
+				<thead>
+					<tr>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.numeroOrdre']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.article']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.objetRIM']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.ministerePilote']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.convention']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.dateTerme']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.conventionDepot']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.datePrevisionnelleSaisineCE']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.datePrevisionnelleCM']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.observation']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.legislature']}"/></th>	
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.numeroNorOrdo']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.objetOrdo']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.dateSaisineCEOrdo']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.datePassageCMOrdo']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.datePublicationOrdo']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.titreOfficielOrdo']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.numeroOrdo']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.conventionDepotOrdo']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.hab.dateLimiteDepotOrdo']}"/></th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="programmationHabilitationDTO" items="#{listProgrammationHabilitationDTO}" varStatus="status">
+						<tr class="#{nxu:test(status.index % 2 == 1, 'dataRowOdd', 'dataRowEven')}">
+							<td><h:outputText value="#{programmationHabilitationDTO.numeroOrdre}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.article}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.objetRIM}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.ministerePilote}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.convention}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.dateTerme}" converter="DateConverter" /></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.conventionDepot}"/></td>
+							<td>
+								<h:outputText value="#{programmationHabilitationDTO.datePrevisionnelleSaisineCE}">
+									<f:convertDateTime type="date" pattern="MMMM yyyy" timeZone="#{tableauProgrammation38CActions.getTimeZone()}"/>
+								</h:outputText>
+							</td>
+							<td>
+								<h:outputText value="#{programmationHabilitationDTO.datePrevisionnelleCM}">
+									<f:convertDateTime type="date" pattern="MMMM yyyy" timeZone="#{tableauProgrammation38CActions.getTimeZone()}"/>
+								</h:outputText>
+							</td>
+							<td><h:outputText value="#{programmationHabilitationDTO.observation}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.legislature}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.numeroNorOrdo}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.objetOrdo}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.dateSaisineCEOrdo}" converter="DateConverter" /></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.datePassageCMOrdo}" converter="DateConverter" /></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.datePublicationOrdo}" converter="DateConverter" /></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.titreOfficielOrdo}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.numeroOrdo}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.conventionDepotOrdo}"/></td>
+							<td><h:outputText value="#{programmationHabilitationDTO.dateLimiteDepotOrdo}" converter="DateConverter" /></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</nxu:set>
+</h:form>
+</div>

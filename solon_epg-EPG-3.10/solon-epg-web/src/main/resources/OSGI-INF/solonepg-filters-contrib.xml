@@ -1,0 +1,1340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Ce composant contribue : - Les filtres utilisés dans les actions. -->
+<component name="fr.dila.solonepg.web.filters">
+	<require>org.nuxeo.ecm.platform.actions</require>
+	<require>fr.dila.ecm.platform.routing.actions</require>
+	<require>org.nuxeo.ecm.platform.userworkspace.actions</require>
+	<require>org.nuxeo.connect.client.actions</require>
+	<require>fr.dila.cm.actions</require>
+
+	<extension target="org.nuxeo.ecm.platform.actions.ActionService" point="filters">
+		<filter id="disabled">
+			<rule grant="false" />
+		</filter>
+
+		<!-- *********************************************************************** 
+			Surcharge des filtres de nuxeo *********************************************************************** -->
+		<!-- Permet d'accéder à l'espace de travail quel que soit l'écran en cours -->
+		<filter id="isInsidePersonalWorkspace">
+			<rule grant="true" />
+		</filter>
+
+		<!-- Permet d'accéder à l'écran de réglages quel que soit l'écran en cours -->
+		<filter id="canAccessPersonalWorkspace">
+			<rule grant="true" />
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur les documents *********************************************************************** -->
+		<!-- Filtre qui conserve uniquement les dossiers à l'état "done" -->
+		<filter id="isDone">
+			<rule grant="true">
+				<condition>document.getCurrentLifeCycleState().equals("done")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui conserve uniquement les dossiers à l'état "abandonne" -->
+		<filter id="isDossierAbandon">
+			<rule grant="true">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("3")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui conserve uniquement les dossiers à l'état "lance" -->
+		<filter id="isDossierLance">
+			<rule grant="true">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("2")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui conserve uniquement les dossiers qui ne sont pas à l'état 
+			"Termine sans publication" -->
+		<filter id="isNotDossierTermineSansPublication">
+			<rule grant="false">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("6")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui consere uniquement les documents qui ne sont pas à l'état 
+			"done" -->
+		<filter id="isNotDone">
+			<rule grant="false">
+				<condition>document.getCurrentLifeCycleState().equals("done")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai uniquement si le dossier n'est pas verrouillé (par n'importe 
+			quel utilisateur) -->
+		<filter id="isDossierUnlocked">
+			<rule grant="false">
+				<condition>#{stLockActions.isDocumentLocked(document)}</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si le document est verrouillé et que le verrou est actionnable 
+			par l'utilisateur -->
+		<filter id="isCurrentDocIsLockActionnableByCurrentUser">
+			<rule grant="true">
+				<condition>#{stLockActions.currentDocIsLockActionnableByCurrentUser()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si le document est verrouillé et que le verrou n'est pas actionnable 
+			par l'utilisateur -->
+		<filter id="isCurrentDocIsNotLockActionnableByCurrentUser">
+			<rule grant="false">
+				<condition>#{stLockActions.currentDocIsLockActionnableByCurrentUser()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si le document courant est verrouillé -->
+		<filter id="isCurrentDocumentLocked">
+			<rule grant="true">
+				<condition>#{stLockActions.isCurrentDocumentLocked()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si le document courant est verrouillé par l'utilisateur en cours -->
+		<filter id="isCurrentDocumentLockedByCurrentUser">
+			<rule grant="true">
+				<condition>#{stLockActions.isCurrentDocumentLockedByCurrentUser()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur l'outil de sélection *********************************************************************** -->
+
+		<!-- *********************************************************************** 
+			Filtres sur les utilisateurs / groupes *********************************************************************** -->
+		<filter id="isAdministrator">
+			<rule grant="true">
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="adminCanDeleteUser">
+			<rule grant="true">
+				<group>UtilisateurDeleter</group>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur peut redémarrer une instance de feuille 
+			de route -->
+		<filter id="isFDRInstanceRestarter">
+			<rule grant="true">
+				<group>FDRInstanceRestarter</group>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur peut lire les informations sur le traitement 
+			papier -->
+		<filter id="isTraitementPapierReader">
+			<rule grant="true">
+				<group>TraitementPapierReader</group>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur peut ecrire les informations sur le 
+			traitement papier -->
+		<filter id="isTraitementPapierWriter">
+			<rule grant="true">
+				<group>TraitementPapierWriter</group>
+			</rule>
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur les dossiers *********************************************************************** -->
+		<filter id="isDossier">
+			<rule grant="true">
+				<type>Dossier</type>
+			</rule>
+		</filter>
+
+		<filter id="isNotDossierDeleted">
+			<rule grant="true">
+				<condition>#{dossierFilter.isNotDossierDeleted()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isNotDossier">
+			<rule grant="false">
+				<type>Dossier</type>
+			</rule>
+		</filter>
+
+		<filter id="isRapportAuParlement">
+			<rule grant="true">
+				<condition>#{typeActeFilter.isRapportAuParlement()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isNotRapportAuParlement">
+			<rule grant="false">
+				<condition>#{typeActeFilter.isRapportAuParlement()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isNotActeTexteNonPublie">
+			<rule grant="false">
+				<condition>#{typeActeFilter.isActeTexteNonPublie()}</condition>
+			</rule>
+		</filter>
+
+
+		<!-- Filtre qui interdit les actions si le dossier est à l'état "init" 
+			(avant d'être lancé) -->
+		<filter id="isNotDossierPourInitialisation">
+			<rule grant="true">
+				<condition>#{dossierDistributionActions.isCurrentDossierPourInitialisation()
+					ne true}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur peut verrouiller le dossier courant -->
+		<filter id="isDossierLockable">
+			<rule grant="true">
+				<condition>#{dossierLockActions.getCanLockCurrentDossier()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur peut déverrouiller le dossier courant -->
+		<filter id="isDossierUnlockable">
+			<rule grant="true">
+				<condition>#{dossierLockActions.getCanUnlockCurrentDossier()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur peut lever le verrou sur le dossier -->
+		<filter id="isDossierAdminUnlockable">
+			<rule grant="true">
+				<group>DossierAdminUnlocker</group>
+			</rule>
+		</filter>
+
+		<filter id="isInDocument">
+			<rule grant="true">
+				<condition>#{webActions.currentTabAction == 'TAB_DOSSIER_DOCUMENT'}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInBordereau">
+			<rule grant="true">
+				<condition>#{webActions.currentTabAction == 'TAB_DOSSIER_BORDEREAU'}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInFeuilleRoute">
+			<rule grant="true">
+				<condition>#{webActions.currentTabAction ==
+					'TAB_CASE_MANAGEMENT_VIEW_RELATED_ROUTE'}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInCorbeilleIndexation">
+			<rule grant="true">
+				<condition>#{espaceTraitementActions.isInCorbeilleIndexation()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isNotInCorbeilleIndexation">
+			<rule grant="false">
+				<condition>#{espaceTraitementActions.isInCorbeilleIndexation()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInEspaceTraitementDossierContent">
+			<rule grant="true">
+				<condition>#{espaceTraitementActions.isInEspaceTraitementDossierContent()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="hasSignalement">
+			<rule grant="true">
+				<condition>#{dossierDistributionActions.hasSignalement()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isUrgent">
+			<rule grant="true">
+				<condition>#{espaceTraitementActions.isDossierUrgent()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isNotUrgent">
+			<rule grant="false">
+				<condition>#{espaceTraitementActions.isDossierUrgent()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si le dossier est une mesure nominative -->
+		<filter id="isDossierMesureNominative">
+			<rule grant="true">
+				<condition>document.getProperty("dossier_solon_epg",
+					"mesureNominative")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Faux si le dossier est une mesure nominative -->
+		<filter id="isNotDossierMesureNominative">
+			<rule grant="true">
+				<condition>!document.getProperty("dossier_solon_epg",
+					"mesureNominative")
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="hasTypeActeMesureNominative">
+			<rule grant="true">
+				<condition>#{dossierActions.hasTypeActeMesureNominative()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isDossierMesureNominativeUpdater">
+			<rule grant="true">
+				<group>DossierMesureNominativeUpdater</group>
+			</rule>
+		</filter>
+
+		<filter id="isZippable">
+			<rule grant="true">
+				<condition>#{webActions.currentTabAction == 'TAB_DOSSIER_FDD'}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isJournal">
+			<rule grant="true">
+				<condition>#{webActions.currentTabAction == 'TAB_DOSSIER_JOURNAL'}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isCSVExportable">
+			<rule grant="true">
+				<condition>#{webActions.currentTabAction == 'TAB_DOSSIER_FDD'}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{webActions.currentTabAction == 'TAB_DOSSIER_JOURNAL'}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isNotJournal">
+			<rule grant="true">
+				<condition>#{webActions.currentTabAction != 'TAB_DOSSIER_JOURNAL'}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai uniquement si l'utilisateur a chargé un DossierLink (en tant 
+			que destinataire de l'étape ou administrateur) -->
+		<filter id="isDossierLinkLoaded">
+			<rule grant="true">
+				<condition>#{corbeilleActions.isDossierLoadedInCorbeille()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur peut agir sur le dossier -->
+		<filter id="isDossierLoadedOrUpdater">
+			<!-- Possibilité de modifier un dossier dont le DossierLink est chargé -->
+			<rule grant="true">
+				<condition>#{corbeilleActions.isDossierLoadedInCorbeille()}
+				</condition>
+			</rule>
+
+			<!-- Possibilité de modifier un dossier en cours pour l'administrateur 
+				fonctionnel -->
+			<rule grant="true">
+				<condition>document.getCurrentLifeCycleState().equals("running")
+				</condition>
+				<group>DossierAdminUpdater</group>
+			</rule>
+
+			<!-- Possibilité de modifier l'onglet traitement papier quel que soit 
+				l'état du dossier -->
+			<rule grant="true">
+				<group>TraitementPapierWriter</group>
+			</rule>
+
+			<!-- Possibilité de modifier un dossier en cours pour le contributeur 
+				activité normative -->
+			<rule grant="true">
+				<group>DossierActiviteNormativeUpdater</group>
+			</rule>
+
+			<!-- Possibilité de modifier un dossier terminé et de relancer sa feuille 
+				de route -->
+			<rule grant="true">
+				<condition>document.getCurrentLifeCycleState().equals("done")
+				</condition>
+				<group>FDRInstanceRestarter</group>
+			</rule>
+
+			<!-- Possibilité de modifier un dossier de la corbeille d'indexation -->
+			<rule grant="true">
+				<condition>#{corbeilleIndexationActions.isDossierIndexationUpdatable(document)}
+				</condition>
+			</rule>
+
+			<!-- Possibilité de modifier un dossier en cours si étape pour avis CE, droit conseilEtatUpdater, et droit envoi saisine -->
+			<rule grant="true">
+				<group>ConseilEtatUpdater</group>
+				<group>EnvoiSaisinePieceComplementaireExecutor</group>
+				<condition>#{filterRoutingTaskActionBean.isEtapePourAvisCE(true)}</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai uniquement si le dossier n'est pas NOR attribué -->
+		<filter id="isDossierNotNorAttribue">
+			<rule grant="true">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("5")
+				</condition>
+				<group>DossierNorAttribueUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>!document.getProperty("dossier_solon_epg",
+					"statut").equals("5")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai uniquement si le dossier n'est pas NOR attribué -->
+		<filter id="isDossierNotNorAttribueStrict">
+			<rule grant="false">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("5")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur les actions du dossiers signalés (contentview) *********************************************************************** -->
+
+		<filter id="isDossierSignale">
+			<rule grant="true">
+				<condition>#{dossierMassActions.isDossierSignale()}</condition>
+			</rule>
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur les actions de la recherche dossier *********************************************************************** -->
+
+		<filter id="isRequeteDossier">
+			<rule grant="true">
+				<type>RequeteSimple</type>
+			</rule>
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur l'outil de sélection *********************************************************************** -->
+		<!-- Vrai si la liste de l'outil de sélection n'est pas vide -->
+		<filter id="isWorkListNotEmpty">
+			<rule grant="false">
+				<condition>#{clipboardActions.workListEmpty}</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si la liste de selection à le bon type (ie Dossier, DossierLink, 
+			Feuille de Route) -->
+		<filter id="isTypeAllowed">
+			<rule grant="true">
+				<condition>#{dossierMassActions.isTypeAllowed()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si la liste de l'outil de sélection contient des dossiers -->
+		<filter id="isWorkListTypeDossier">
+			<rule grant="true">
+				<condition>#{clipboardActions.getCurrentSelectedList().get(0).getType().equals("Dossier")}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si la liste de l'outil de sélection contient des feuilles de 
+			route -->
+		<filter id="isWorkListTypeFeuilleRoute">
+			<rule grant="true">
+				<condition>#{clipboardActions.getCurrentSelectedList().get(0).getType().equals("FeuilleRoute")}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur les feuilles de route *********************************************************************** -->
+		<filter id="isRoute">
+			<rule grant="true">
+				<type>DocumentRoute</type>
+				<type>FeuilleRoute</type>
+			</rule>
+		</filter>
+
+		<filter id="isNotRoute">
+			<rule grant="false">
+				<type>DocumentRoute</type>
+				<type>FeuilleRoute</type>
+			</rule>
+		</filter>
+
+		<!-- Surcharge des filtres de CMF afin de traiter notre type FeuilleRoute 
+			comme le type DocumentRoute -->
+		<filter id="create" append="true">
+			<rule grant="true">
+				<permission>AddChildren</permission>
+				<facet>Folderish</facet>
+				<type>FeuilleRoute</type>
+				<type>StepFolder</type>
+			</rule>
+		</filter>
+
+		<!-- Conserve uniquement les modèles de feuille de route à l'état draft -->
+		<filter id="isDraftRouteModel">
+			<rule grant="true">
+				<condition>
+					document.getCurrentLifeCycleState().equals("draft")
+				</condition>
+				<type>DocumentRoute</type>
+				<type>FeuilleRoute</type>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si un squelette ou un modèle ou une instance de feuille de route est 
+			éditable -->
+		<filter id="isEditableRoute">
+			<rule grant="true">
+				<condition>
+					document.getCurrentLifeCycleState().equals("draft")
+				</condition>
+				<type>FeuilleRoute</type>
+				<type>FeuilleRouteSquelette</type>
+				<type>RouteStep</type>
+				<type>RouteStepSquelette</type>
+				<type>StepFolder</type>
+			</rule>
+			<rule grant="true">
+				<condition>#{routingActions.isFeuilleRouteUpdatable()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur a le droit d'éditer l'étape obligatoire (ou 
+			si l'étape n'est pas obligatoire) -->
+		<filter id="isEditableEtapeObligatoire">
+			<rule grant="true">
+				<condition>#{routingActions.isEditableEtapeObligatoire(document)}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur a le droit d'ajouter une étape de feuille de 
+			route après l'étape en cours -->
+		<filter id="isAddableRouteStepAfter">
+			<rule grant="true">
+				<condition>#{routingActions.isEditableEtapeObligatoire(document)}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<type>RouteStep</type>
+				<condition>document.getProperty("routing_task", "type").equals("1")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si on a copié précédemment des étapes de feuille de route -->
+		<filter id="isPastableRouteStep">
+			<rule grant="true">
+				<condition>#{routingActions.isPastableRouteStepIntoFeuilleRoute()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Conserve uniquement les feuilles de routes à l'état validated -->
+		<filter id="isValidatedRouteModel">
+			<rule grant="true">
+				<condition>document.getCurrentLifeCycleState().equals("validated")
+				</condition>
+				<facet>Routable</facet>
+			</rule>
+		</filter>
+
+		<!-- Vrai uniquement si l'instance de feuille de route peut être redémarrée -->
+		<filter id="isFeuilleRouteRestartable">
+			<rule grant="true">
+				<condition>#{routingActions.isFeuilleRouteRestartable()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai uniquement si le document est un conteneur parallèle -->
+		<filter id="isParallelStepFolder">
+			<rule grant="true">
+				<type>StepFolder</type>
+				<condition>document.getProperty("step_folder",
+					"execution").equals("parallel")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai uniquement si le document n'est pas un conteneur série -->
+		<filter id="isNotSerialStepFolder">
+			<rule grant="false">
+				<type>StepFolder</type>
+				<condition>document.getProperty("step_folder",
+					"execution").equals("serial")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur les étapes de feuille de route *********************************************************************** -->
+		<!-- Filtre qui autorise l'affichage de l'action "valider l'étape" en fonction 
+			du type d'étape -->
+		<filter id="isRoutingTaskTypeValiderShown">
+			<rule grant="true">
+				<condition>#{filterRoutingTaskActionBean.isRoutingTaskTypeValiderShown()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui autorise l'affichage de l'action "valider l'étape avec 
+			correction" en fonction du type d'étape -->
+		<filter id="isRoutingTaskTypeValiderCorrectionShown">
+			<rule grant="true">
+				<condition>#{filterRoutingTaskActionBean.isRoutingTaskTypeValiderCorrectionShown()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui autorise l'affichage de l'action "valider l'étape avec 
+			correction" en fonction du type d'étape -->
+		<filter id="isRoutingTaskTypeRefuserValidationShown">
+			<rule grant="true">
+				<condition>#{filterRoutingTaskActionBean.isRoutingTaskTypeRefuserValidationShown()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui autorise l'affichage de l'action "non concerné" en fonction 
+			du type d'étape -->
+		<filter id="isRoutingTaskTypeNonConcerneShown">
+			<rule grant="true">
+				<condition>#{filterRoutingTaskActionBean.isRoutingTaskTypeNonConcerneShown()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui autorise l'affichage de l'action "retour pour modification" 
+			en fonction du type d'étape -->
+		<filter id="isRoutingTaskTypeRetourModificationShown">
+			<rule grant="true">
+				<condition>#{filterRoutingTaskActionBean.isRoutingTaskTypeRetourModificationShown()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui interdit les actions sur les étapes "pour initialisation" 
+			(1ère étape de la FDR) -->
+		<filter id="isNotPourInitialisation">
+			<rule grant="false">
+				<type>RouteStep</type>
+				<type>RouteStepSquelette</type>
+				<condition>document.getProperty("routing_task", "type").equals("1")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Filtre qui conserve uniquement les dossiers qui ne sont pas à l'état 
+			"abandonne" -->
+		<filter id="isNotDossierAbandon">
+			<rule grant="false">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("3")
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Add to selection -->
+		<filter id="canAddToSelection">
+			<rule grant="true">
+				<condition>#{dossierMassActions.getCanAddToSelection()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si le dossier a pour étape en cours l'étape 'Pour avis CE' et que l'utilisateur a accès au dossierlink -->
+		<filter id="isEtapePourAvisCE">
+			<rule grant="true">
+				<condition>#{filterRoutingTaskActionBean.isEtapePourAvisCE(false)}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si le dossier a pour étape en cours l'étape 'Pour avis CE' (non vérification de l'accès au dossier link) -->
+		<filter id="isEtapePourAvisCEUnrestricted">
+			<rule grant="true">
+				<condition>#{filterRoutingTaskActionBean.isEtapePourAvisCE(true)}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur courant a le droit de faire une saisine rectificative 
+			et un envoi de pièces complémentaires -->
+		<filter id="hasUserDroitSaisineEtPieceComplementaire">
+			<rule grant="true">
+				<condition>#{dossierDistributionActions.canSendSaisineOrPieceComplementaire()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- *********************************************************************** 
+			Filtres sur la navigation *********************************************************************** -->
+
+		<filter id="isSelectionListEmpty">
+			<rule grant="true">
+				<condition>#{administrationActions.isSelectionListEmpty()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isSelectionListNotEmpty">
+			<rule grant="false">
+				<condition>#{administrationActions.isSelectionListEmpty()}
+				</condition>
+			</rule>
+		</filter>
+		<filter id="isInFavRecherche">
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInFavorisRecherche()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInRechercheUser">
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInRechercheUser()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInRechercheDossier">
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInRechercheDossier()}
+				</condition>
+			</rule>
+		</filter>
+		
+		<filter id="canUseRechercheLibre">
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.canUseRechercheLibre()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="hasViewPrintListOption">
+			<rule grant="true">
+				<condition>#{dossierMassActions.hasViewPrintListOption()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="hasViewExportCsvListOption">
+			<rule grant="true">
+				<condition>#{dossierMassActions.hasViewExportCsvListOption()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur est dans l'espace d'administration -->
+		<filter id="isInEspaceAdministration">
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_administration'}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur est dans l'espace traitement -->
+		<filter id="isInEspaceTraitement">
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'SHOW_REPOSITORY'}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur est dans l'espace de recherche -->
+		<filter id="isInEspaceRecherche">
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_recherche'}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur est dans l'espace de recherche ou dans l'espace 
+			d'administration -->
+		<filter id="isInEspaceRechercheOrInEspaceAdministration">
+			<rule grant="true">
+				<condition>#{navigationWebActions.isInEspaceRechercheOrInEspaceAdministration()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur est dans l'espace de suivi -->
+		<filter id="isInEspaceSuivi">
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_suivi'}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur est dans l'espace creation -->
+		<filter id="isInEspaceCreation">
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_creation'}
+				</condition>
+			</rule>
+		</filter>
+
+
+		<!-- Vrai si l'utilisateur est dans l'espace activite normative -->
+		<filter id="isInEspaceActiviteNormative">
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_activite_normative'}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur peut creer des nouvelles liste de traitemement 
+			papier -->
+		<filter id="isGestionDeListeReader">
+			<rule grant="true">
+				<group>GestionDeListeReader</group>
+			</rule>
+		</filter>
+
+		<filter id="isNotTexteSignale">
+			<rule grant="true">
+				<condition>document.getProperty("dossier_solon_epg",
+					"dateVersementTS") == null
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTexteSignaleCreator">
+			<rule grant="true">
+				<group>TexteSignaleCreator</group>
+			</rule>
+		</filter>
+
+		<filter id="isInTextesSignales">
+			<rule grant="true">
+				<condition>#{textesSignalesActions.isInTextesSignales()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTableauProgrammationLockable">
+			<rule grant="true">
+				<condition>#{tableauProgrammationActions.isCurrentProgrammationLoiLocked()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTableauProgrammationUnLockable">
+			<rule grant="false">
+				<condition>#{tableauProgrammationActions.isCurrentProgrammationLoiLocked()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTableauProgrammationHabLockable">
+			<rule grant="true">
+				<condition>#{tableauProgrammation38CActions.isCurrentProgrammationHabilitationLocked()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTableauProgrammationHabUnLockable">
+			<rule grant="false">
+				<condition>#{tableauProgrammation38CActions.isCurrentProgrammationHabilitationLocked()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur peut passer un dossier à "Terminé sans 
+			publication" -->
+		<filter id="isDossierEnder">
+			<rule grant="true">
+				<group>DossierEnder</group>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur peut modifier les textes signalés -->
+		<filter id="isTextesSignalesUpdater">
+			<rule grant="true">
+				<group>TextesSignalesUpdater</group>
+			</rule>
+		</filter>
+
+		<filter id="isAfficherBoutonPublicationDossier">
+			<rule grant="true">
+				<condition>#{publicationDossierActions.isAfficherBoutonPublicationDossier()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur est dans l'espace de recherche ou dans l'espace 
+			d'administration -->
+		<filter id="isNotInEspaceParlemetaire">
+			<rule grant="false">
+				<condition>#{navigationWebActions.isInEspaceParlemetaire()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="droitVueMgpp">
+			<rule grant="true">
+				<group>DroitVueMgpp</group>
+			</rule>
+		</filter>
+
+		<filter id="isDisplayMassDossiersSignales">
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_creation'}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_administration'}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'SHOW_REPOSITORY'}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_recherche'}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_suivi'}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="currentWorkListIsNotEmpty2">
+			<rule grant="false">
+				<condition>#{clipboardActions.workListEmpty}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isAdminFonctionnelTransfertExecutor">
+			<rule grant="true">
+				<group>AdminFonctionnelTransfertExecutor</group>
+			</rule>
+		</filter>
+
+		<filter id="isFDRModelPosteMassSubstitutor">
+			<rule grant="true">
+				<group>FDRModelPosteMassSubstitutor</group>
+			</rule>
+		</filter>
+
+		<filter id="canAddToFavConsult">
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInResultatsConsultes()}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInRechercheUser()}</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInRechercheModeleFeuilleDeRoute()}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInRechercheDossier()}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInRechercheDossierSimple()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="canRemoveFromFavConsultation">
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.isInFavorisConsultations()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="canDeleteFR">
+			<rule grant="true">
+				<condition>#{espaceRechercheActions.canDelete}</condition>
+			</rule>
+		</filter>
+
+		<filter id="canAddFDR">
+			<rule grant="false">
+				<condition>#{modeleFeuilleRouteActions.isInAdministrationModeleFeuilleRoute()}
+				</condition>
+			</rule>
+			<rule grant="false">
+				<condition>#{rechercheModeleFeuilleRouteActions.isModeleFeuilleRouteSelected()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="can_delete_modele_feuille_route">
+			<rule grant="true">
+				<condition>#{modeleFeuilleRouteActions.isInAdministrationModeleFeuilleRoute()}
+				</condition>
+				<condition>#{deleteActions.canDeleteModeleFdr}</condition>
+			</rule>
+		</filter>
+		
+		<filter id="can_delete_squelette_feuille_route">
+			<rule grant="true">
+				<condition>#{modeleFeuilleRouteActions.isInAdministrationSqueletteFeuilleRoute()}
+				</condition>
+				<condition>#{deleteActions.canDeleteSqueletteFdr}</condition>
+			</rule>
+		</filter>
+
+		<filter id="can_select_modele_feuille_route">
+			<rule grant="true">
+				<condition>#{modeleFeuilleRouteActions.isInAdministrationModeleFeuilleRoute()}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{rechercheModeleFeuilleRouteActions.isModeleFeuilleRouteSelected()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="dossier_create_grid">
+			<rule grant="true">
+				<group>DossierCreator</group>
+			</rule>
+		</filter>
+
+		<filter id="espace_traitement_reader_grid">
+			<rule grant="true">
+				<group>EspaceTraitementReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="espace_creation_reader_grid">
+			<rule grant="true">
+				<group>EspaceCreationReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="espace_suivi_reader_grid">
+			<rule grant="true">
+				<group>EspaceSuiviReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="espace_recherche_reader_grid">
+			<rule grant="true">
+				<group>EspaceRechercheReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="espace_parlementaire_reader_grid">
+			<rule grant="true">
+				<group>EspaceParlementaireReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="espace_administration_reader_grid">
+			<rule grant="true">
+				<group>EspaceAdministrationReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_batch_grid">
+			<rule grant="true">
+				<group>BatchSuiviReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_dossier_grid">
+			<rule grant="true">
+				<group>AdministrationParapheur</group>
+				<group>AdministrationFondDeDossier</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="espace_administration_parapheur_grid">
+			<rule grant="true">
+				<group>AdministrationParapheur</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="espace_administration_fond_dossier_grid">
+			<rule grant="true">
+				<group>AdministrationFondDeDossier</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_feuille_route_grid">
+			<rule grant="true">
+				<group>FDRModelUpdater</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_feuille_route_modele_grid">
+			<rule grant="true">
+				<group>FDRModelUpdater</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+		
+		<filter id="admin_feuille_route_squelette_grid">
+			<rule grant="true">
+				<group>FDRSqueletteUpdater</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+		
+		<filter id="admin_feuille_route_modele_mass_create_grid">
+			<rule grant="true">
+				<group>FDRModelMassCreator</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_migration_grid">
+			<rule grant="true">
+				<group>AdministrationChangementGouvernement</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_utilisateur_grid">
+			<rule grant="true">
+				<group>OrganigrammeReader</group>
+				<group>UtilisateurReader</group>
+				<group>ProfilReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_utilisateur_organigramme_grid">
+			<rule grant="true">
+				<group>OrganigrammeReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_utilisateur_utilisateur_grid">
+			<rule grant="true">
+				<group>UtilisateurReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_utilisateur_profil_grid">
+			<rule grant="true">
+				<group>ProfilReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_utilisateur_recherche_grid">
+			<rule grant="true">
+				<group>UtilisateurRechercheReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_param_grid">
+			<rule grant="true">
+				<group>AdministrationParamReader</group>
+				<group>AdministrationBulletinReader</group>
+				<group>AdministrationReferenceReader</group>
+				<group>AdministrationIndexationReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_param_param_grid">
+			<rule grant="true">
+				<group>AdministrationParamReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_param_bulletin_grid">
+			<rule grant="true">
+				<group>AdministrationBulletinReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+		
+		<filter id="admin_param_adamant">
+			<rule grant="true">
+				<group>AdministrationParamAdamant</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_param_reference_grid">
+			<rule grant="true">
+				<group>AdministrationReferenceReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_param_index_grid">
+			<rule grant="true">
+				<group>AdministrationIndexationReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_param_etat">
+			<rule grant="true">
+				<group>AccessUnrestrictedUpdater</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_journal_grid">
+			<rule grant="true">
+				<group>AdministrationJournalReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_suppression_grid">
+			<rule grant="true">
+				<group>AdminFonctionnelDossierSuppression</group>
+				<group>AdminMinisterielDossierSuppression</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_suppression_suppression_grid">
+			<rule grant="true">
+				<group>AdminFonctionnelDossierSuppression</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_suppression_suppression_ministrielle_grid">
+			<rule grant="true">
+				<group>AdminMinisterielDossierSuppression</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_abandon_grid">
+			<rule grant="true">
+				<group>AdminFonctionnelDossierAbandon</group>
+				<group>AdminMinisterielDossierAbandon</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_archivage_grid">
+			<rule grant="true">
+				<group>DossierArchivageAdamantReader</group>
+				<group>DossierArchivageIntermediaireReader</group>
+				<group>DossierArchivageDefinitifReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_archivage_adamant_grid">
+			<rule grant="true">
+				<group>DossierArchivageAdamantReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_archivage_intermediaire_grid">
+			<rule grant="true">
+				<group>DossierArchivageIntermediaireReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="admin_archivage_definitif_grid">
+			<rule grant="true">
+				<group>DossierArchivageDefinitifReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+
+		<filter id="AdminFonctionnelDossierSuppression">
+			<rule grant="true">
+				<group>AdminFonctionnelDossierSuppression</group>
+			</rule>
+		</filter>
+
+		<filter id="idAdminFonctionnelDossierAbandon">
+			<rule grant="true">
+				<group>AdminFonctionnelDossierAbandon</group>
+			</rule>
+		</filter>
+		
+		<filter id="idAdministrationParamAdamant">
+			<rule grant="true">
+				<group>AdministrationParamAdamant</group>
+			</rule>
+		</filter>
+
+		<filter id="isDisplayMassFeuilleDeRoute">
+			<rule grant="true">
+				<condition>#{navigationWebActions.getCurrentMainMenuAction() ==
+					'espace_creation'}</condition>
+			</rule>
+		</filter>
+
+	</extension>
+
+</component>

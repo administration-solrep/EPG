@@ -1,0 +1,90 @@
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxe="http://nuxeo.org/nxweb/seam/excel"  
+  xmlns:e="http://jboss.com/products/seam/excel">
+
+
+		
+	<nxu:set var="dateActiviteList" value="${calendrierParlementaireActions.getListeDeToutesLesDatesDesActivites()}">
+	<nxu:set var="assembleeList" value="#{calendrierParlementaireActions.getListedeSemainesParTypesTrie()}">
+		 <e:workbook type="jxl" filename="calendrier_export.xls" encoding="UTF-8">
+
+    		<e:worksheet defaultRowHeight="500"  style="xls-wrap:true; xls-vertical-alignment:centre; xls-alignment:centre;xls-border:thin gray_25">
+    		
+    			<e:mergeCells startRow="0" startColumn="0" endRow="1" endColumn="#{dateActiviteList.size()+1}"/>
+				<e:cell column="0" row="0" style="xls-alignment:centre;">
+					<h:outputText value="Calendrier parlementaire   "/>
+					<h:outputText value="(${calendrierParlementaireActions.getCurrentDate()})"/>
+				</e:cell>
+			  
+			  <c:forEach var="assemblee" items="#{assembleeList}" varStatus="assembleeStatus">
+		  		  <e:mergeCells startRow="#{assembleeStatus.index+2}" startColumn="0" endRow="#{assembleeStatus.index+2}" endColumn="1"/>
+				  <e:cell column="0" row="#{assembleeStatus.index+2}" value="#{assemblee.key}" style="xls-alignment:right;"/>
+				  <c:set var="colCount" value="0"/>
+				  <c:forEach var="SemaineParAssemblee" items="#{assemblee.value}" varStatus="SemaineParAssembleeStatus">
+					  <c:choose>
+						  <c:when test="${SemaineParAssemblee == null}">
+							  <e:cell column="#{SemaineParAssembleeStatus.index+2+colCount}" row="#{assembleeStatus.index+2}" value=" " style="xls-border-left:none;xls-border-right:none;"/>
+						  </c:when>
+						  <c:otherwise>
+						  	<e:cell column="#{SemaineParAssembleeStatus.index+2+colCount}" row="#{assembleeStatus.index+2}" value="${SemaineParAssemblee.get('label')}" style="xls-background-color:ivory"/>
+						  	<e:mergeCells startRow="#{assembleeStatus.index+2}" startColumn="#{SemaineParAssembleeStatus.index+2+colCount}" endRow="#{assembleeStatus.index+2}" endColumn="#{SemaineParAssembleeStatus.index+2+colCount+SemaineParAssemblee.get('colspan')-1}"/>
+						    <c:set var="colCount" value="#{colCount+SemaineParAssemblee.get('colspan')-1}"/>
+						  </c:otherwise>
+					  </c:choose>
+				  </c:forEach>
+			  </c:forEach>
+			  <e:column style="xls-column-width:6000"></e:column>
+			  <e:cell column="0" row="#{assembleeList.size+2}" value="Lois" style="xls-font-bold:true; xls-background-color:ivory"/>
+			  <e:column style="xls-column-width:2000"></e:column>
+			  <e:cell column="1" row="#{assembleeList.size+2}" value="Dépôt" style="xls-font-bold:true; xls-background-color:ivory;"/>
+			  <c:forEach var="dateDuneActivite" items="${dateActiviteList}" varStatus="ListeDeToutesLesDatesDesActivites">
+			  	  <e:column style="xls-column-width:3000"></e:column>
+				  <e:cell column="#{ListeDeToutesLesDatesDesActivites.index+2}" row="#{assembleeList.size+2}" value="${calendrierParlementaireActions.getFormatedDateValue(dateDuneActivite)}" style="xls-font-bold:true; xls-background-color:ivory;"/>
+			  </c:forEach>
+			  <c:forEach var="ficheLoi" items="${calendrierParlementaireActions.getListeDeToutLesLois()}" varStatus="ListeDeToutLesLoisStatus">
+				<e:cell column="0" row="#{assembleeList.size+3+ListeDeToutLesLoisStatus.index}" value="${ficheLoi.getIntitule()}" style="xls-alignment:left;xls-background-color:#{(assembleeList.size+3+ListeDeToutLesLoisStatus.index)%2==0?'gray_25':'white'}"/>
+				  <c:choose>
+					  <c:when test="${not empty ficheLoi.getAssembleeDepot()}">
+					  	<e:cell column="1" row="#{assembleeList.size+3+ListeDeToutLesLoisStatus.index}" value="#{messages[nxu:concat('ABRV_', ficheLoi.getAssembleeDepot())]}" style="xls-background-color:#{(assembleeList.size+3+ListeDeToutLesLoisStatus.index)%2==0?'gray_25':'white'}"/>
+					  </c:when>
+					  <c:otherwise>
+					  	<e:cell column="1" row="#{assembleeList.size+3+ListeDeToutLesLoisStatus.index}" value=" " style="xls-background-color:#{(assembleeList.size+3+ListeDeToutLesLoisStatus.index)%2==0?'gray_25':'white'}"/>
+					  </c:otherwise>
+				    </c:choose>
+				 
+				  <c:forEach var="ActiviteParlementaireList" items="${calendrierParlementaireActions.getToutesLesActivitesParlementaireDeCeLoiTrie(ficheLoi.getIdDossier())}" varStatus="ListeDesctivitesParlementairesStatus">
+						  <c:choose>
+							  <c:when test="${ActiviteParlementaireList == null or ActiviteParlementaireList.size==0}">
+								  <e:cell column="#{ListeDesctivitesParlementairesStatus.index+2}" row="#{assembleeList.size+3+ListeDeToutLesLoisStatus.index}" value=" " style="xls-background-color:#{(assembleeList.size+3+ListeDeToutLesLoisStatus.index)%2==0?'gray_25':'white'}"/>
+							  </c:when>
+							  <c:otherwise>
+							  	<e:cell column="#{ListeDesctivitesParlementairesStatus.index+2}" row="#{assembleeList.size+3+ListeDeToutLesLoisStatus.index}" style="xls-background-color:#{(assembleeList.size+3+ListeDeToutLesLoisStatus.index)%2==0?'gray_25':'white'}">
+						  			<c:forEach var="ActiviteParlementaire" items="${ActiviteParlementaireList}" varStatus="listeDesAct">
+						  					<c:if test="${listeDesAct.index>0}"><h:outputText value=" 
+						  					"/></c:if>
+						  					<c:if test="${'1'.equals(ActiviteParlementaire.getActivite())||'2'.equals(ActiviteParlementaire.getActivite())}">
+												 <h:outputText value="${ActiviteParlementaire.getAssemblee()}"/>
+											</c:if>
+											<h:outputText value="${ActiviteParlementaire.getActivite()}"/>
+											<c:if test="${'CMP'.equals(ActiviteParlementaire.getActivite())||'lec CMP'.equals(ActiviteParlementaire.getActivite())||'Nelle lec'.equals(ActiviteParlementaire.getActivite())}">
+											  	<h:outputText value="${ActiviteParlementaire.getAssemblee()}"/>
+											</c:if>
+									  </c:forEach>
+								  </e:cell>
+							  </c:otherwise>
+						  </c:choose>
+				  </c:forEach>
+			  </c:forEach>
+			  
+		   </e:worksheet>
+   		</e:workbook>
+	</nxu:set>
+	</nxu:set>
+
+
+</html>

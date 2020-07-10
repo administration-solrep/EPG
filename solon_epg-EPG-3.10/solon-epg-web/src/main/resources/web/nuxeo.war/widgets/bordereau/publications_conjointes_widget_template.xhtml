@@ -1,0 +1,37 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout">
+  <c:if test="#{widget.mode == 'edit'}">
+    <a4j:region renderRegionOnly="true" id="#{widget.id}_ajax_region">
+      <a4j:outputPanel id="#{widget.id}_pubPanel" ajaxRendered="false">
+        <h:inputText id="#{widget.id}_inputPub" value="#{bordereauActions.currentPublicationConjointe}" />
+  	    <a4j:commandLink id="#{widget.id}_addButton" action="#{bordereauActions.addPublicationConjointe(value)}" reRender="#{widget.id}_pubPanel,facesStatusMessagePanel">
+          <h:graphicImage value="/icons/action_add.gif" id="#{widget.id}_addPubImage" />
+        </a4j:commandLink>
+		<span onmouseover="tooltip.show('#{messages['bordereau.publication.conjointe.help']}', 300, 'topleft');" onmouseout="tooltip.hide();">
+        	<h:graphicImage value="/icons/lightbulb.png" />
+        </span>        
+  	    <br />
+  	    
+        <nxu:set var="publications" value="#{bordereauActions.getPublicationsConjointes(value)}" cache="true">
+    	    <c:forEach var="publication" items="#{publications}" varStatus="status">
+    	      <h:outputText value="#{publication}" />
+    	      <a4j:commandLink id="#{widget.id}_indexLabel_#{status.index}" action="#{bordereauActions.removePublicationConjointe(value, publication)}" reRender="#{widget.id}_pubPanel">
+              <h:graphicImage value="/icons/action_delete_mini.gif" />
+            </a4j:commandLink>
+            <br />
+    	    </c:forEach>
+        </nxu:set>
+  	    
+  	    <h:outputText value="#{bordereauActions.publicationConjointeError}" class="error"/>
+  	    
+  	  </a4j:outputPanel>
+  	</a4j:region>
+  </c:if>
+  <c:if test="#{widget.mode == 'view'}">
+<h:outputText value="#{nxu:joinCollection(bordereauActions.getPublicationsConjointes(value), ', ')}" />
+  </c:if>
+</div>

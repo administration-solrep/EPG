@@ -1,0 +1,50 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  id="anormativetextemaitre"
+  class="reponseToolBar">
+  
+	  	<h:form>
+	  	 <table class="fdrActionsRight" style="float:left;">
+         	<tr>
+         	<nxu:set var="actions" value="#{webActions.getActionsList('TOOLBAR_ACTIVITE_NORMATIVE_LEFT')}" cache="true">
+	         	<nxu:dataList id="fdrActionsTableLeft" layout="simple" var="action" value="#{actions}">
+						<td class="enabledButtonContainer">
+							<nxh:commandLink action="#{action.getLink()}" onclick="#{action.confirm}">
+		                    	<h:graphicImage value="#{action.getIcon()}" alt="#{messages[action.getLabel()]}" title="#{messages[action.getLabel()]}"/>
+		                    	<f:setPropertyActionListener target="#{texteMaitreActions.scrollTo}" value="anormativetextemaitre" />
+		                    	<f:setPropertyActionListener target="#{transpositionDirectiveActions.scrollTo}" value="anormativetextemaitre" />
+		                    	<f:setPropertyActionListener target="#{texteMaitreHabilitationActions.scrollTo}" value="anormativetextemaitre" />
+		                    	<f:setPropertyActionListener target="#{texteMaitreOrdonnanceActions.scrollTo}" value="anormativetextemaitre" />
+		                  	</nxh:commandLink> 
+						</td>
+		        </nxu:dataList>
+		     </nxu:set>
+                <td>
+                  <h:graphicImage value="/img/icons/lock_16.png" rendered="#{not empty activiteNormativeActions.getCurrentLockTime()}" />
+                  <h:outputText value="Verrouillé le #{activiteNormativeActions.getCurrentLockTime()}, par #{activiteNormativeActions.getCurrentLockOwnerInfo()}" rendered="#{not empty activiteNormativeActions.getCurrentLockTime()}" />
+                </td>
+			</tr>
+        </table>
+        
+         <table class="fdrActionsRight" style="float:right;">
+         	<tr>
+         	<nxu:set var="actions" value="#{webActions.getActionsList('TOOLBAR_ACTIVITE_NORMATIVE_RIGHT')}" cache="true">
+	         	<nxu:dataList id="fdrActionsTableRight" layout="simple" var="action" value="#{actions}">
+						<td class="enabledButtonContainer">
+							<nxh:commandLink action="#{action.getLink()}" onclick="#{action.confirm}">
+		                    	<h:graphicImage value="#{action.getIcon()}" alt="#{messages[action.getLabel()]}" title="#{messages[action.getLabel()]}"/>
+		                  	</nxh:commandLink> 
+						</td>
+		        </nxu:dataList>
+		     </nxu:set>
+			</tr>
+        </table>
+		</h:form>
+</div>

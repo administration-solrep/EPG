@@ -1,0 +1,54 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+
+  
+	 
+  <div style="clear:both;"></div>
+    <h:form id="papierForm" enctype="multipart/form-data">
+    
+    
+      <h:commandButton id="idSavePapierButton" value="Enregistrer" style="visibility: hidden;"
+           action="#{papierActions.saveTraitementPapier(currentDocument)}" />
+      
+      <nxu:set var="layoutMode" value="#{lockActions.getCanUnlockDoc(currentDocument)  and papierActions.canCurrentUserWrite()  ?'edit':'view'}">
+            
+        <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_retour_part" />
+      
+      </nxu:set>
+          <h:commandButton 
+  			action="#{papierActions.imprimerRetour(currentDocument)}"
+  			immediate="true"
+  			styleClass="button"
+  			value="#{messages['label.epg.papier.editer.bordereau.retour']}" />
+  		
+    </h:form>
+  	<!-- mise a jour de la variable globlae si modification d'un champ pour eviter la perte de données -->
+  	<script>
+  	   	  var j = jQuery.noConflict();
+  		  j(document).ready(function() {
+  	
+  		    j('.tabsContent input').change(function() {
+  		    	isDossierModified = true;
+  		    });
+  
+  		    j('.tabsContent textarea').change(function() {
+  		    	isDossierModified = true;
+  		    });
+  
+  		    j('.tabsContent select').change(function() {
+  		    	isDossierModified = true;
+  		    });
+  
+  		    
+  		  });
+    </script>
+  
+  
+</div>

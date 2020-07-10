@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  >
+  <ui:define name="page title">
+  	<c:choose>
+  		<c:when test="#{parapheurModelManagerActions.isAccessAuthorized()}">
+    		<h:outputText value="#{nuxeoApplicationName} - Administration des parapheurs"/>
+    	</c:when>
+    	<c:otherwise>
+    		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+    	</c:otherwise>
+    </c:choose>
+  </ui:define>
+
+  <ui:define name="body">
+	<c:if test="#{parapheurModelManagerActions.isAccessAuthorized()}">
+	    <div class="adminModel">
+	 				<h:form id="parapheur_model_properties" enctype="multipart/form-data">
+						<a4j:region id="parapheurModelViewRegion"  >
+							<a4j:outputPanel id="parapheurModelViewPanel" >
+							<a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+											ignoreDupResponses="true" size="1" id="editParapheurQueue" name="inputeditFileQueue" timeout="5000" /> 
+							<!-- affichage des informations concernant le modèle de parapheur et l'information commune à tous les modèles de parapheur  -->
+							<div class="ModelFddZone">
+					      <h:panelGroup >
+					        <h3 class="summaryTitle">
+					          <h:outputText value="Administration des parapheurs"/>
+					        </h3>
+					      </h:panelGroup>
+					
+								<!-- gestion des messages d'information et/ou erreur -->
+								<ui:include src="/incl/message_banner.xhtml"/>
+					
+					      <div style="clear:both"></div>
+	
+								<!-- layout du modèle de parapheur -->
+								<div class="fullWidthLayout" >
+									<nxl:layout value="#{parapheurModelManagerActions.currentModel}" mode="edit" name="parapheur_modele" />
+								</div>
+							</div>
+							
+							<!-- affichage de l'arborescence de répertoire du modèle de parapheur et du formulaire associé au répertoire sélectionné  -->
+							<div class="ModelTreeZone">	
+								<div class="treeModelTitle">
+								  <h2>
+						         <h:outputText value="Répertoires : "/>
+						         <!-- on précise le type d'acte sélectionné -->
+						         <h:outputText value="#{parapheurModelManagerActions.getCurrentTypeActeLabel()}"/>
+						      </h2>
+					      </div>
+					      
+					     <!-- on affiche ce champ uniquement si un modèle est sélectionné -->
+							 <f:subview id="treeParapheurSubview" rendered="#{parapheurModelManagerActions.isModelEditable}">
+							 
+									<!-- arborescence du modèle de parapheur -->
+									<div class="administrationParapheurTreeWidth" >
+										<rich:tree id="parapheurModelTree" eventsQueue="editParapheurQueue"
+											reRender="selectedNode" ajaxSubmitSelection="true" ignoreDupResponses="true"
+											switchType="client" value="#{parapheurModelTree.parapheurModele}"
+											var="item" nodeFace="#{item.typeValue}" ajaxSingle="true" limitToList="true"
+											adviseNodeOpened="#{parapheurModelTree.adviseNodeOpened}" ajaxKeys="#{null}">
+											<!-- show contextMenu menuModelParapheurFolder when right-click in treenode -->
+											<rich:treeNode type="ParapheurFolder"
+												nodeClass="fddTreeNodeSelectedClass"
+												highlightedClass="fddTreeNodeHighlightedClass"
+												iconLeaf="/img/icons/folder_explore.png"
+												icon="/img/icons/folder_explore.png"
+												ajaxSingle="true"
+												limitToList="true"
+												ajaxSubmitSelection="false"
+												ignoreDupResponses="true"
+												>
+												<a4j:commandLink id="nomRepertoire"  action="#{parapheurModelManagerActions.editFolder()}" eventsQueue="editParapheurQueue" reRender="parapheurModelViewPanel">
+														<a4j:actionparam assignTo="#{parapheurModelManagerActions.selectedNodeId}" name="SelectedNodeId" value="#{item.id}" />
+													<h:outputText value="#{item.name}" />
+												</a4j:commandLink>
+											</rich:treeNode>
+	
+										 </rich:tree>
+									 </div>
+									</f:subview>
+									
+									<!-- champ d'édition des répertoires du parapheur -->
+									<div class="formulaireParapheurFolderModel">
+									
+									<!-- on affiche ce champ uniquement si un repertoire est sélectionné -->
+									<f:subview id="treeParapheurFolderSubview" rendered="#{parapheurModelManagerActions.isModelRepositoryEditable}">
+										<div class="formFolderModelField">
+											<nxl:layout value="#{parapheurModelManagerActions.currentModelRepository}" mode="edit" name="parapheur_modele_repertoire_formulaire" />
+										</div>
+										<div class="formFolderModelButtons">
+											<!-- bouton d'action permettant  d'enregistrer les modifications apportées dans les propriétés d’un répertoire du parapheur -->
+											<a4j:commandButton value="Valider"
+												action="#{parapheurModelManagerActions.validerParapheurModelRepository()}" eventsQueue="editParapheurQueue"
+												id="validerModeleParapheur" reRender="parapheurModelViewPanel" styleClass="firstButton" >
+											</a4j:commandButton>
+											<!-- bouton d'action permettant d’annuler les modifications apportées dans les propriétés d’un répertoire du parapheur -->
+											<a4j:commandButton value="Annuler"
+												action="#{parapheurModelManagerActions.annulerParapheurModelRepository()}" eventsQueue="editParapheurQueue"
+												id="annulerModeleParapheur" ajaxSingle="true" reRender="parapheurModelViewPanel" styleClass="button" >
+											</a4j:commandButton>
+											</div>
+											</f:subview>
+								</div>
+							</div>
+	      		<div style="clear:both"></div>
+	      	</a4j:outputPanel>
+				</a4j:region>
+			 </h:form>
+			 <script language="javascript">
+			 //on utilise cette fonctions pour faire l'effet de selection d'action (on ne passe pas par l'attribut css :hover car non compatible IE6)
+			 function selected(element)
+			 {
+			     element.style.backgroundColor = "#774743";
+			 }
+			 </script>	
+	    </div>
+    </c:if>
+  </ui:define>
+</nxthemes:composition>

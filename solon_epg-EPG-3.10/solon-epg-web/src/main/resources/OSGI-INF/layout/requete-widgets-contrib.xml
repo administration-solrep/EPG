@@ -1,0 +1,469 @@
+<?xml version="1.0"?>
+<component name="fr.dila.solonepg.web.widget.requete">
+  <require>fr.dila.solonepg.core.vocabulaire</require>
+  <require>org.nuxeo.ecm.platform.smart.query.layouts</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+    point="widgettypes">
+    <require>org.nuxeo.ecm.platform.smart.folder.layouts</require>
+    <widgetType name="date_range">
+      <documentation>
+        Widget used to search on a date range.
+      </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">/widgets/date_range_widget_template.xhtml
+      </property>
+    </widgetType>
+    
+    <widgetType name="int_range">
+      <documentation>
+        Widget used to search on a date range.
+      </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">/widgets/int_range_widget_template.xhtml
+      </property>
+    </widgetType>
+    
+     <widgetType name="suggestion">
+      <documentation>
+        Widget used to have auto-completion.
+      </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">/widgets/suggestion_widget_template.xhtml
+      </property>
+    </widgetType>
+    
+  </extension>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+   <!-- Widgets listing -->
+     <widget name="listing_dossier_createur" type="text">
+      <labels>
+        <label mode="any">listing.dossier.createur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dossier_solon_epg.idCreateurDossier</field>
+      </fields>
+    </widget>
+    
+    <widget name="listing_dossier_type_acte" type="selectOneDirectory">
+      <labels>
+        <label mode="any">listing.dossier.typeActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dossier_solon_epg.typeActe</field>
+      </fields>
+       <properties widgetMode="any">
+         <property name="notDisplayDefaultOption">true</property>
+         <property name="localize">true</property>
+          <property name="directoryName">type_acte</property>
+      </properties>
+    </widget>
+    
+    <widget name="listing_dossier_rubriques" type="template">
+      <labels>
+        <label mode="any">listing.dossier.rubriques</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dossier_solon_epg.rubriques</field>
+      </fields>
+      <properties>
+        <property name="template">/widgets/listing/join_list_widget_template.xhtml</property>
+      </properties>
+    </widget>
+  
+    <!-- Widgets requeteur : à supprimer quand les widgets générés auront été validés -->
+    <widget name="dossier_nom_responsable" type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_nom_responsable</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:nomRespDossier</property>
+        <propertyList name="availableOperators">
+          <value>=</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="nom_resp_dossier" type="template">
+          <fields>
+            <field>stringValue</field>
+          </fields>
+             <properties mode="any">
+                <property name="template">
+                  /widgets/single_user_suggestion_widget_template.xhtml
+                </property>
+                <property name="userSuggestionSearchType">USER_TYPE</property>
+              </properties>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+    <widget name="dossier_type_acte" type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_type_acte</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:typeActe</property>
+        <propertyList name="availableOperators">
+          <value>IN</value>
+          <value>NOT IN</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="type_acte" type="selectManyDirectory">
+          <fields>
+            <field>stringArrayValue</field>
+          </fields>
+          <properties mode="any">
+            <property name="notDisplayDefaultOption">true</property>
+            <property name="directoryName">type_acte</property>
+            <property name="localize">true</property>
+          </properties>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+   <widget name="dossier_numero_nor"
+        type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_numero_nor</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.ecm:fulltext_nor</property>
+        <propertyList name="availableOperators">
+          <value>LIKE</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="numeroNor" type="text">
+          <fields>
+            <field>stringValue</field>
+          </fields>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+    <widget name="dossier_creator"
+        type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_creator</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:idCreateurDossier</property>
+        <propertyList name="availableOperators">
+          <value>=</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="id_createur_dossier_field" type="template">
+          <fields>
+            <field>stringValue</field>
+          </fields>
+             <properties mode="any">
+                <property name="template">
+                  /widgets/single_user_suggestion_widget_template.xhtml
+                </property>
+                <property name="userSuggestionSearchType">USER_TYPE</property>
+              </properties>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+   <widget name="dossier_titre_acte"
+        type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_titre_acte</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:titreActe</property>
+        <propertyList name="availableOperators">
+          <value>=</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="titre_acte" type="text">
+          <translated>true</translated>
+          <fields>
+            <field>stringValue</field>
+          </fields>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+   <widget name="dossier_ministere_responsable"
+        type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_ministere_responsable</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:ministereResp</property>
+        <propertyList name="availableOperators">
+          <value>=</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+       <widget name="ministere_responsable" type="template">
+        <translated>true</translated>
+        <fields>
+          <field>stringValue</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+       </widget>
+      </subWidgets>
+    </widget>
+    
+   <widget name="dossier_direction_responsable"
+        type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_direction_responsable</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:directionResp</property>
+        <propertyList name="availableOperators">
+          <value>=</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="direction_responsable" type="template">
+          <translated>true</translated>
+          <fields>
+            <field>stringValue</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+            <property name="organigrammeSelectionType">DIR_TYPE</property>
+            <property name="organigrammeSelectionMode">SINGLE</property>
+          </properties>
+          <properties widgetMode="edit">
+            <property name="required">true</property>
+          </properties>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+   <widget name="dossier_categorie_acte"
+        type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_categorie_acte</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:categorieActe</property>
+         <propertyList name="availableOperators">
+          <value>IN</value>
+          <value>NOT IN</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="categorie_acte" type="selectManyDirectory">
+          <fields>
+            <field>stringArrayValue</field>
+          </fields>
+          <properties mode="any">
+            <property name="notDisplayDefaultOption">true</property>
+            <property name="directoryName">categorie_acte</property>
+            <property name="localize">true</property>
+          </properties>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+   <widget name="dossier_date_publication"
+      type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_date_publication</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:datePublication</property>
+        <propertyList name="availableOperators">
+          <value>BETWEEN</value>
+          <value>NOT BETWEEN</value>
+          <value>&lt;</value>
+          <value>&gt;</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="created_before" type="datetime">
+          <fields>
+            <field>dateValue</field>
+          </fields>
+          <properties widgetMode="edit">
+            <property name="required">true</property>
+            <property name="pattern">dd/MM/yyyy</property>
+	        <property name="format">dd/MM/yyyy</property>
+          </properties>
+        </widget>
+        <widget name="and" type="text">
+          <widgetModes>
+            <mode value="any">
+              <![CDATA[
+              #{not empty value.conditionalOperator
+              and value.conditionalOperator!='BETWEEN'
+              and value.conditionalOperator!='NOT BETWEEN'?'hidden':'view'}
+              ]]>
+            </mode>
+          </widgetModes>
+          <properties mode="any">
+            <property name="value">
+              &amp;nbsp;#{messages['label.and']}&amp;nbsp;
+            </property>
+            <property name="escape">false</property>
+          </properties>
+        </widget>
+        <widget name="created_after" type="datetime">
+          <fields>
+            <field>otherDateValue</field>
+          </fields>
+          <widgetModes>
+            <mode value="any">
+              <![CDATA[
+              #{not empty value.conditionalOperator
+              and value.conditionalOperator!='BETWEEN'
+              and value.conditionalOperator!='NOT BETWEEN'?'hidden':mode}
+              ]]>
+            </mode>
+          </widgetModes>
+          <properties widgetMode="edit">
+            <property name="required">true</property>
+            <property name="pattern">dd/MM/yyyy</property>
+	        <property name="format">dd/MM/yyyy</property>
+          </properties>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+   <widget name="dossier_date_signature"
+      type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_date_signature</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:dateSignature</property>
+        <propertyList name="availableOperators">
+          <value>BETWEEN</value>
+          <value>NOT BETWEEN</value>
+          <value>&lt;</value>
+          <value>&gt;</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="created_before" type="datetime">
+          <fields>
+            <field>dateValue</field>
+          </fields>
+          <properties widgetMode="edit">
+            <property name="required">true</property>
+            <property name="pattern">dd/MM/yyyy</property>
+	        <property name="format">dd/MM/yyyy</property>
+          </properties>
+        </widget>
+        <widget name="and" type="text">
+          <widgetModes>
+            <mode value="any">
+              <![CDATA[
+              #{not empty value.conditionalOperator
+              and value.conditionalOperator!='BETWEEN'
+              and value.conditionalOperator!='NOT BETWEEN'?'hidden':'view'}
+              ]]>
+            </mode>
+          </widgetModes>
+          <properties mode="any">
+            <property name="value">
+              &amp;nbsp;#{messages['label.and']}&amp;nbsp;
+            </property>
+            <property name="escape">false</property>
+          </properties>
+        </widget>
+        <widget name="created_after" type="datetime">
+          <fields>
+            <field>otherDateValue</field>
+          </fields>
+          <widgetModes>
+            <mode value="any">
+              <![CDATA[
+              #{not empty value.conditionalOperator
+              and value.conditionalOperator!='BETWEEN'
+              and value.conditionalOperator!='NOT BETWEEN'?'hidden':mode}
+              ]]>
+            </mode>
+          </widgetModes>
+          <properties widgetMode="edit">
+            <property name="required">true</property>
+            <property name="pattern">dd/MM/yyyy</property>
+	        <property name="format">dd/MM/yyyy</property>
+          </properties>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+    <widget name="dossier_rubriques"
+        type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_rubriques</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:rubriques</property>
+         <propertyList name="availableOperators">
+          <value>=</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="rubrique" type="text">
+          <fields>
+            <field>stringValue</field>
+          </fields>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+    <widget name="dossier_statut" type="incremental_smart_query_condition">
+      <labels>
+        <label mode="any">label.requeteur.dossier_statut</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="edit">
+        <property name="searchField">d.dos:statut</property>
+         <propertyList name="availableOperators">
+          <value>IN</value>
+          <value>NOT IN</value>
+        </propertyList>
+      </properties>
+      <subWidgets>
+        <widget name="dossier_statut" type="selectManyDirectory">
+          <fields>
+            <field>stringArrayValue</field>
+          </fields>
+          <properties mode="any">
+            <property name="notDisplayDefaultOption">true</property>
+            <property name="directoryName">statut_dossier</property>
+            <property name="localize">true</property>
+          </properties>
+        </widget>
+      </subWidgets>
+    </widget>
+    
+  </extension>
+</component>

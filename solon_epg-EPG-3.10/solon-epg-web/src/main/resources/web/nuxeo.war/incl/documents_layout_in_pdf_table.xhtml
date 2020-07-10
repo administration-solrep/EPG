@@ -1,0 +1,33 @@
+<p:paragraph xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:fmt="http://java.sun.com/jstl/fmt"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:p="http://jboss.com/products/seam/pdf" 
+  >
+
+<c:if test="#{documents != null}">
+
+  <ui:insert name="empty_content_view_label">
+    <p:text value="#{messages['label.content.emptyFolder']}"
+      rendered="#{documents.rowCount == 0}" />
+  </ui:insert>
+  <c:set var="nbTotalColumn" value="#{pdfPrintActions.getTotalNbColumn(routeToPdfActionBean.getLayoutColumnsCount(layoutName),documents.rows.get(0).getData())}" />
+  <c:set var="nbAdditionalColumn" value="#{pdfPrintActions.getNbAdditionnalColumn(documents.rows.get(0).getData())}" />
+  <p:table columns="#{nbTotalColumn}" 
+  widthPercentage="100"
+  widths="#{pdfPrintActions.getTableWidths(nbTotalColumn,nbAdditionalColumn)}"
+   headerRows="1">
+    <c:forEach var="row" items="#{documents.rows}" varStatus="layoutListingStatus">
+      <c:set var="showListingHeader" value="#{layoutListingStatus.index == 0}" /> 
+     <nxl:layout name="#{layoutName}" value="#{row}" mode="view" selectedColumns="#{selectedResultLayoutColumns}"/>
+    </c:forEach>  
+  </p:table>
+</c:if>
+
+</p:paragraph>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://cm.nuxeo.com/schemas/actionnablecaselink/"
+	xmlns:acmxs="http://case-management.nuxeo.com/schemas/actionnablecaselink/"
+	xmlns:nxs="http://case-management.nuxeo.com/schemas/base/">
+
+	<xs:include schemaLocation="base.xsd" />
+
+	<xs:element name="dueDate" type="xs:date" />
+	<xs:element name="automaticValidation" type="xs:boolean"
+		default="false" />
+	<xs:element name="taskType" type="xs:string" />
+	<xs:element name="validationOperationChainId" type="xs:string" />
+	<xs:element name="refusalOperationChainId" type="xs:string" />
+	<xs:element name="stepDocumentId" type="xs:string" />
+	<xs:element name="caseLifeCycleState" type="xs:string" />
+
+	<!-- statut d'archivage du dossier : utilise pour savoir si le dossier est 
+		dans la base d'achivage intermédiaire ou non -->
+	<xs:element name="statutArchivage" type="xs:string" default="1" />
+
+	<!-- Identifiant technique de l'étape en cours de la feuille de route -->
+	<xs:element name="routingTaskId" type="xs:string" />
+
+	<!-- Type de l'étape en cours de la feuille de route (champ dénormalisé) -->
+	<xs:element name="routingTaskType" type="xs:string" />
+
+	<!-- Intitulé de l'étape en cours de feuille de route (champ dénormalisé) -->
+	<xs:element name="routingTaskLabel" type="xs:string" />
+
+	<!-- Intitulé de la mailbox de distribution de l'étape en cours (champ dénormalisé) -->
+	<xs:element name="routingTaskMailboxLabel" type="xs:string" />
+
+	<!-- Indique si l'étape de feuille de route a été validée automatiquement -->
+	<xs:element name="automaticValidated" type="xs:boolean"
+		default="false" />
+
+	<!-- Indique si un mail a été envoyé suite à la validation automatique -->
+	<xs:element name="isMailSend" type="xs:boolean" default="false" />
+
+	<!-- Dénormalisation du titre de l'acte du dossier -->
+	<xs:element name="titreActe" type="xs:string" />
+
+	<!-- Date de création dupliquée dublincore -->
+	<xs:element name="created" type="xs:date" />
+
+	<!-- caseDocumentId dupliquée case_link -->
+	<xs:element name="caseDocumentId" type="xs:string" />
+
+	<!-- archive dupliquée du dossier -->
+	<xs:element name="archive" type="xs:boolean" default="false" />
+
+	<!-- 1 si supprimé, 0 sinon -->
+	<xs:element name="deleted" type="xs:boolean" default="false" />
+
+</xs:schema>

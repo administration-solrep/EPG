@@ -1,0 +1,1194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Ce composant contribue : - Les actions de l'application SOLON EPG (y 
+	compris les actions de CM qui sont désactivées / surchargées) ; - Les filtres 
+	utilisés dans les actions. -->
+<component name="fr.dila.solonepg.web.activite.normative.action">
+	<require>fr.dila.solonepg.web.action</require>
+	<require>fr.dila.solonepg.web.filters</require>
+	<require>fr.dila.solonepg.web.filters.activite.normative</require>
+
+	<extension target="org.nuxeo.ecm.platform.actions.ActionService"
+		point="actions">
+
+		<!-- *********************************************************************** 
+			Boutons de l'activité normative 
+		*********************************************************************** -->
+		<!-- Verrouillage d'un dossier dans l'activite normative -->
+		<action id="LOCK_DOSSIER_ACTIVITE_NORMATIVE" link="#{activiteNormativeActions.lockCurrentDocument()}"
+			order="110" label="epg.dossier.lock.action.lock" icon="/img/icons/lock_add_24.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_LEFT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isTexteMaitreNotLocked</filter-id>
+		</action>
+
+		<!-- Déverrouillage d'un dossier dans l'activite normative -->
+		<action id="UNLOCK_DOSSIER_ACTIVITE_NORMATIVE"
+			link="#{activiteNormativeActions.unlockCurrentDocument()}" order="120"
+			label="epg.dossier.lock.action.unlock" icon="/img/icons/lock_error_24.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_LEFT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isTexteMaitreLocked</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative 
+		*********************************************************************** -->
+		<action id="espace_activite_normative"
+			link="#{activiteNormativeActions.navigateToEspaceActiviteNormative}"
+			label="command.espaceActiviteNormative" order="85">
+			<category>USER_SERVICES</category>
+			<filter id="espace_activite_normative_reader_grid">
+				<rule grant="true">
+					<group>EspaceActiviteNormativeAppLoisReader</group>
+					<group>EspaceActiviteNormativeRatOrdoReader</group>
+					<group>EspaceActiviteNormativeSuivHabReader</group>
+					<group>EspaceActiviteNormativeTraitAccReader</group>
+					<group>EspaceActiviteNormativeTranspositionReader</group>
+					<group>administrators</group>
+					<group>EspaceActiviteNormativeMinistereApplicationLoi</group>
+					<group>EspaceActiviteNormativeMinistereApplicationOrdonnance</group>
+				</rule>
+			</filter>
+		</action>
+
+		<!-- Panneau de gauche de l'espace de l'activite normative -->
+		<action id="LEFT_MENU_ESPACE_ACTIVITE_NORMATIVE"
+			link="/espace_activite_normative/espace_activite_normative_list.xhtml" />
+
+		<!-- ONGLETS Activite normative : Partie Haute -->
+		<!-- Activité normative : onglet tableau maitre -->
+		<action id="TAB_AN_TABLEAU_MAITRE"
+			link="/espace_activite_normative/view/espace_activite_normative_tableau_maitre.xhtml"
+			order="10" label="activite.normative.tableau.maitre">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+		</action>
+
+		<!-- Activité normative : onglet tableau maitre -->
+		<action id="TAB_AN_TABLEAU_MAITRE_MIN"
+			link="/espace_activite_normative/view/espace_activite_normative_tableau_maitre_ministere.xhtml"
+			order="15" label="activite.normative.tableau.maitre.ministere">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet tableau de bord -->
+		<action id="TAB_AN_TABLEAU_BORD"
+			link="/espace_activite_normative/view/espace_activite_normative_tableau_bord.xhtml"
+			order="20" label="activite.normative.tableau.bord">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Statistiques -->
+		<action id="TAB_AN_STATISTIQUES"
+			link="/espace_activite_normative/view/espace_activite_normative_statistiques.xhtml"
+			order="30" label="activite.normative.statistiques">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isNotInApplicationDesLois</filter-id>
+			<filter-id>isNotInApplicationDesOrdonnances</filter-id>
+			<filter-id>isNotInOrdonnances38C</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Indicateurs LOLF -->
+		<action id="TAB_AN_INDICATEUR_LOLF"
+			link="/espace_activite_normative/view/espace_activite_normative_statistiques.xhtml"
+			order="30" label="activite.normative.applicationDesLois.indicateursLOLF">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Bilan Semestriel -->
+		<action id="TAB_AN_BILAN_SEMESTRIEL"
+			link="/espace_activite_normative/view/espace_activite_normative_bilan_semestriel.xhtml"
+			order="40" label="activite.normative.bilan.semestriel">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Taux d'application -->
+		<action id="TAB_AN_TAUX_APPLICATION"
+			link="/espace_activite_normative/view/espace_activite_normative_taux_application.xhtml"
+			order="50" label="activite.normative.taux.application">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Délais moyen -->
+		<action id="TAB_AN_DELAIS_MOYEN"
+			link="/espace_activite_normative/view/espace_activite_normative_delai_moyen.xhtml"
+			order="60" label="activite.normative.delai.moyen">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Statistiques sur les mois et années de 
+			publication -->
+		<action id="TAB_AN_COURBES"
+			link="/espace_activite_normative/view/espace_activite_normative_courbes.xhtml"
+			order="70" label="activite.normative.courbes">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Tableau des lois -->
+		<action id="TAB_AN_TABLEAU_LOIS"
+			link="/espace_activite_normative/view/espace_activite_normative_tableau_lois.xhtml"
+			order="80" label="activite.normative.tableau.lois">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Historique des mises à jour ministérielles -->
+		<action id="TAB_AN_HISTORIQUE_MAJ_MINISTERIELLES_LOI"
+			link="/espace_activite_normative/view/espace_activite_normative_historique_maj_ministerielles.xhtml"
+			order="90" label="activite.normative.historiqueMajMin">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isHistoriqueMajMinisterielReader</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<action id="TAB_AN_HISTORIQUE_MAJ_MINISTERIELLES_TRANSPOSITION"
+			link="/espace_activite_normative/view/espace_activite_normative_historique_maj_ministerielles.xhtml"
+			order="90" label="activite.normative.historiqueMajMin">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInTransposition</filter-id>
+			<filter-id>isHistoriqueMajMinisterielReader</filter-id>
+		</action>
+
+		<action id="TAB_AN_HISTORIQUE_MAJ_MINISTERIELLES_ORDONNANCE"
+			link="/espace_activite_normative/view/espace_activite_normative_historique_maj_ministerielles.xhtml"
+			order="100" label="activite.normative.historiqueMajMin">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances</filter-id>
+			<filter-id>isHistoriqueMajMinisterielReader</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Suivi habilitation (ordonnance 38C) -->
+		<action id="TAB_AN_HISTORIQUE_MAJ_MINISTERIELLES_HABILITATION"
+			link="/espace_activite_normative/view/espace_activite_normative_historique_maj_ministerielles.xhtml"
+			order="100" label="activite.normative.historiqueMajMin">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isHistoriqueMajMinisterielReader</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+		</action>
+
+		<action id="TAB_AN_RECHERCHE"
+			link="/espace_activite_normative/view/espace_activite_normative_recherche.xhtml"
+			order="110" label="activite.normative.recherche">
+			<category>TAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : Résultat de recherche, tab action non visible -->
+		<action id="TAB_AN_RESULTATS_RECHERCHE"
+			link="/espace_activite_normative/subview/espace_activite_normative_recherche_texte_maitre.xhtml"
+			order="10" label="activite.normative.recherche.resultats">
+		</action>
+
+
+		<!-- ONGLETS Activite normative : Partie Basse -->
+		<!-- Activité normative : onglet texte maitre (par defaut) -->
+		<action id="TAB_AN_TEXTE_MAITRE"
+			link="/espace_activite_normative/subview/espace_activite_normative_texte_maitre.xhtml"
+			order="10" label="activite.normative.texte.maitre">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet texte maitre (ordonnances) -->
+		<action id="TAB_AN_TEXTE_MAITRE_ORDONNANCE"
+			link="/espace_activite_normative/subview/espace_activite_normative_texte_maitre_ordonnance.xhtml"
+			order="10" label="activite.normative.texte.maitre">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet texte maitre (Transposition) -->
+		<action id="TAB_AN_TEXTE_MAITRE_TRANSPOSITION"
+			link="/espace_activite_normative/subview/espace_activite_normative_texte_maitre_transposition.xhtml"
+			order="10" label="activite.normative.texte.maitre">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInTransposition</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet texte maitre (ordonnances 38C) -->
+		<action id="TAB_AN_TEXTE_MAITRE_ORDONNANCE_38C"
+			link="/espace_activite_normative/subview/espace_activite_normative_texte_maitre_ordonnance_38C.xhtml"
+			order="10" label="activite.normative.texte.maitre">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet texte maitre (Traités et Accords) -->
+		<action id="TAB_AN_TEXTE_MAITRE_TRAITE"
+			link="/espace_activite_normative/subview/espace_activite_normative_texte_maitre_traite.xhtml"
+			order="10" label="activite.normative.texte.maitre">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInTraiteAccord</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet fiche signaletique APPLICATION DES LOIS -->
+		<action id="TAB_AN_FICHE_SIGNALETIQUE_APPLICATION_LOIS"
+			link="/espace_activite_normative/subview/espace_activite_normative_fiche_signaletique.xhtml"
+			order="20" label="activite.normative.fiche.signaletique">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet fiche signaletique ORDONNANCE -->
+		<action id="TAB_AN_FICHE_SIGNALETIQUE_ORDONNANCE"
+			link="/espace_activite_normative/subview/espace_activite_normative_fiche_signaletique_ordonnance.xhtml"
+			order="20" label="activite.normative.fiche.signaletique">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet tableau de programmation / lois -->
+		<action id="TAB_AN_TABLEAU_PROGRAMMATION"
+			link="/espace_activite_normative/subview/espace_activite_normative_tableau_programmation.xhtml"
+			order="30" label="activite.normative.tableau.programmation">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet tableau de programmation / Suivi des habilitation -->
+		<action id="TAB_AN_TABLEAU_PROGRAMMATION_38C"
+			link="/espace_activite_normative/subview/espace_activite_normative_tableau_programmation_38C.xhtml"
+			order="30" label="activite.normative.tableau.programmation">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet tableau de suivi -->
+		<action id="TAB_AN_TABLEAU_SUIVI"
+			link="/espace_activite_normative/subview/espace_activite_normative_tableau_suivi.xhtml"
+			order="50" label="activite.normative.tableau.suivi">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet tableau de suivi -->
+		<action id="TAB_AN_TABLEAU_SUIVI_38C"
+			link="/espace_activite_normative/subview/espace_activite_normative_tableau_suivi_38C.xhtml"
+			order="50" label="activite.normative.tableau.suivi">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet mesure Application -->
+		<action id="TAB_AN_MESURES_APPLICATION_LOI"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="60" label="activite.normative.mesures.application">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- ARL Activité normative : onglet Bilan semestriel par loi -->
+		<action id="TAB_AN_BILAN_SEMESTRIEL_LOI"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="62" label="activite.normative.bilan.semestriel.loi">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- ARL Activité normative : onglet Taux d'application au fil de l'eau 
+			par loi -->
+		<action id="TAB_AN_TAUX_APPLICATION_LOI"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="64" label="activite.normative.mesures.taux.application.loi">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isDocumentLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Mesure d'application (Ministere) -->
+		<action id="TAB_AN_MESURE_APPLICATION_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="10" label="activite.normative.mesure.application.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- ARL Activité normative : onglet Taux d'exécution des lois promulguées 
+			(Ministere) -->
+		<action id="TAB_AN_DEBUT_LEGISLATURE_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="15" label="activite.normative.debut.legislature.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Bilan Semestriel (Ministere) -->
+		<action id="TAB_AN_BILAN_SEMESTRIEL_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="20" label="activite.normative.bilan.semestriel.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative : onglet Taux d'application au fil de l'eau (Ministere) -->
+		<action id="TAB_AN_TAUX_APPLICATION_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="30" label="activite.normative.taux.application.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Transposition des directives européennes: Tableau 
+			de bord: Suivi des travaux de transposition à la charge des ministères -->
+		<action id="TAB_AN_TRANSPOSITION_ENCOURS_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="40" label="activite.normative.tableau.bord.transposition.min.encours">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInTransposition</filter-id>
+		</action>
+
+		<!-- Activité normative: Transposition des directives européennes: Tableau 
+			de bord: Tableaux ministériels des directives dont la transposition est achevée -->
+		<action id="TAB_AN_TRANSPOSITION_ACHEVEE_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="50" label="activite.normative.tableau.bord.transposition.min.achevee">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInTransposition</filter-id>
+		</action>
+
+		<!-- Activité normative : Suivi des habilitations: Suivi par ministère 
+			de la ratification des ordonnances de l’article 38-C (Ministere) -->
+		<action id="TAB_AN_RATIFICATION_38C_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="60" label="activite.normative.ratification.38C.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative : Ratification des ordonnances: Suivi par ministère 
+			de la ratification des ordonnances de l’article 74-1 (Ministere) -->
+		<action id="TAB_AN_RATIFICATION_741_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="70" label="activite.normative.ratification.741.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative : Suivi des habilitations: Suivi par ministère 
+			des habilitations de la législature en cours (ordonnances de l’article 38 
+			C) (Ministere) -->
+		<action id="TAB_AN_HABILITATION_FLTR_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="80" label="activite.normative.habilitation.fltr.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+		</action>
+
+		<!-- Activité normative : Suivi des habilitations: Suivi par ministère 
+			des habilitations (ordonnances de l’article 38 C) (Ministere) -->
+		<action id="TAB_AN_HABILITATION_SS_FLTR_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="90" label="activite.normative.habilitation.ss.fltr.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+		</action>
+
+		<!-- Activité normative : Traités et accords: Tableaux ministériels des 
+			traités et accords dont la publication reste à intervenir (Ministere) -->
+		<action id="TAB_AN_TRAITE_PUB_AVENIR_MIN"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="100" label="activite.normative.traite.pub.avenir.ministere">
+			<category>SUBTAB_LIST_ACTIVITE_NORMATIVE</category>
+			<filter-id>isMinistereLoadedActiviteNormative</filter-id>
+			<filter-id>isInTraiteAccord</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative Texte-Maître Loi d'application 
+			*********************************************************************** -->
+
+		<!-- Sauvegarde texte-maître -->
+		<action id="SAVE_TEXTE_MAITRE_ACTIVITE_NORMATIVE" link="#{texteMaitreActions.saveTexteMaître()}"
+			order="10" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>TEXTE_MAITRE_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Refresh texte-maître -->
+		<action id="REFRESH_TEXTE_MAITRE_ACTIVITE_NORMATIVE" link="#{texteMaitreActions.reloadTexteMaître()}"
+			order="11" label="Recharger à partir du dossier S.O.L.O.N. E.P.G." icon="/img/icons/refresh.png">
+			<category>TEXTE_MAITRE_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Sauvegarde mesure -->
+		<action id="SAVE_MESURE_ACTIVITE_NORMATIVE" link="#{texteMaitreActions.saveMesure()}"
+			order="10" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>MESURE_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh mesure -->
+		<action id="REFRESH_MESURE_ACTIVITE_NORMATIVE" link="#{texteMaitreActions.reloadMesures()}"
+			order="11" label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>MESURE_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Sauvegarde decret -->
+		<action id="SAVE_DECRET_ACTIVITE_NORMATIVE" link="#{texteMaitreActions.saveDecret()}"
+			order="10" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>DECRET_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Refresh decret -->
+		<action id="REFRESH_DECRET_ACTIVITE_NORMATIVE" link="#{texteMaitreActions.reloadDecrets()}"
+			order="11" label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>DECRET_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative Texte-Maître Ordonnance *********************************************************************** -->
+
+		<!-- Sauvegarde texte-maître -->
+		<action id="SAVE_LOI_HABILITATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreHabilitationActions.saveTexteMaître()}" order="10"
+			label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>LOI_HABILITATION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh texte-maître -->
+		<action id="REFRESH_LOI_HABILITATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreHabilitationActions.reloadTexteMaître()}" order="11"
+			label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>LOI_HABILITATION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Sauvegarde texte-maître -->
+		<action id="SAVE_ORDONNANCE_ACTIVITE_NORMATIVE" link="#{texteMaitreOrdonnanceActions.saveOrdonnance()}"
+			order="10" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>ORDONNANCE_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh texte-maître -->
+		<action id="REFRESH_ORDONNANCE_ACTIVITE_NORMATIVE" link="#{texteMaitreOrdonnanceActions.reloadOrdonnance()}"
+			order="11" label="Rafraîchir à partir de l'ordonnance" icon="/img/icons/refresh.png">
+			<category>ORDONNANCE_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Sauvegarde Loi de ratification -->
+		<action id="SAVE_LOI_RATIFICATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreOrdonnanceActions.saveLoiRatification()}" order="10"
+			label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>LOI_RATIFICATION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh loi ratification -->
+		<action id="REFRESH_LOI_RATIFICATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreOrdonnanceActions.reloadLoiRatification()}" order="11"
+			label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>LOI_RATIFICATION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Sauvegarde decret -->
+		<action id="SAVE_DECRET_APPLICATION_ACTIVITE_NORMATIVE" link="#{texteMaitreOrdonnanceActions.saveDecret()}"
+			order="10" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>DECRET_APPLICATION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh decret -->
+		<action id="REFRESH_DECRET_APPLICATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreOrdonnanceActions.reloadDecrets()}" order="11"
+			label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>DECRET_APPLICATION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Sauvegarde habilitation -->
+		<action id="SAVE_HABILITATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreHabilitationActions.saveHabilitation()}" order="10"
+			label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>HABILITATION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh habilitation -->
+		<action id="REFRESH_HABILITATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreHabilitationActions.reloadHabilitation()}" order="11"
+			label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>HABILITATION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Sauvegarde Ordonnance habilitation -->
+		<action id="SAVE_ORDONNANCE_HABILITATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreHabilitationActions.saveOrdonnanceHabilitation()}"
+			order="10" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>ORDONNANCE_HABILITATION_TOOLBAR_ACTIVITE_NORMATIVE
+			</category>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh Ordonnance habilitation -->
+		<action id="REFRESH_ORDONNANCE_HABILITATION_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreHabilitationActions.reloadOrdonnanceHabilitation()}"
+			order="11" label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>ORDONNANCE_HABILITATION_TOOLBAR_ACTIVITE_NORMATIVE
+			</category>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative Tableau de programmation 
+			*********************************************************************** -->
+
+		<!-- Refresh d'un tableau de programmation -->
+		<action id="REFRESH_TABLEAU_PROGRAMMATION_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammationActions.refreshCurrentProgrammationLoi()}"
+			order="1" label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTableauProgrammation</filter-id>
+			<filter-id>isTableauProgrammationLockable</filter-id>
+		</action>
+
+		<!-- Verrouillage d'un tableau de programmation -->
+		<action id="LOCK_TABLEAU_PROGRAMMATION_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammationActions.lockCurrentProgrammationLoi()}"
+			order="10" label="activite.normative.tableau.programmation.lock"
+			icon="/img/icons/document_lock.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTableauProgrammation</filter-id>
+			<filter-id>isTableauProgrammationLockable</filter-id>
+		</action>
+
+		<!-- Déverrouillage d''un tableau de programmation -->
+		<action id="UNLOCK_TABLEAU_PROGRAMMATION_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammationActions.unlockCurrentProgrammationLoi()}"
+			order="10" label="activite.normative.tableau.programmation.unlock"
+			icon="/img/icons/document_unlock.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTableauProgrammation</filter-id>
+			<filter-id>isTableauProgrammationUnLockable</filter-id>
+		</action>
+
+		<!-- export csv d'un tableau de programmation -->
+		<action id="TABLEAU_PROGRAMMATION_AN_EXPORT_CSV" link="#{activiteNormativeActions.genererCsv()}"
+			order="10" label="export csv" icon="/img/icons/csv_export.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isInTableauProgrammation</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative Tableau de programmation Suivi 
+			des Habilitations 
+			*********************************************************************** -->
+
+		<!-- Refresh d'un tableau de programmation -->
+		<action id="REFRESH_TABLEAU_PROGRAMMATION_HAB_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammation38CActions.refreshCurrentProgrammationHabilitation()}"
+			order="1" label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTableauProgrammation</filter-id>
+			<filter-id>isTableauProgrammationHabLockable</filter-id>
+		</action>
+
+		<!-- Verrouillage d'un tableau de programmation -->
+		<action id="LOCK_TABLEAU_PROGRAMMATION_HAB_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammation38CActions.lockCurrentProgrammationHabilitation()}"
+			order="10" label="activite.normative.tableau.programmation.lock"
+			icon="/img/icons/document_lock.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTableauProgrammation</filter-id>
+			<filter-id>isTableauProgrammationHabLockable</filter-id>
+		</action>
+
+		<!-- Déverrouillage d''un tableau de programmation -->
+		<action id="UNLOCK_TABLEAU_PROGRAMMATION_HAB_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammation38CActions.unlockCurrentProgrammationHabilitation()}"
+			order="10" label="activite.normative.tableau.programmation.unlock"
+			icon="/img/icons/document_unlock.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTableauProgrammation</filter-id>
+			<filter-id>isTableauProgrammationHabUnLockable</filter-id>
+		</action>
+
+		<!-- export csv d'un tableau de programmation -->
+		<action id="TABLEAU_PROGRAMMATION_HAB_AN_EXPORT_CSV" link="#{activiteNormativeActions.genererCsv()}"
+			order="10" label="export csv" icon="/img/icons/csv_export.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isInTableauProgrammation</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative Tableau de suivi 
+			*********************************************************************** -->
+		<!-- Refresh d'un tableau de programmation -->
+		<action id="REFRESH_TABLEAU_SUIVI_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammationActions.refreshCurrentProgrammationLoi()}"
+			order="1" label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isInTableauSuivi</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+		</action>
+
+		<!-- Verrouillage d'un tableau de programmation -->
+		<action id="PUBLIER_TABLEAU_SUIVI_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammationActions.publierTableauSuivi()}" order="10"
+			label="activite.normative.tableau.suivi.publier" icon="/img/icons/document_add_24.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isInTableauSuivi</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+		</action>
+
+		<!-- Sauvegarder le tableau de programmation -->
+		<action id="SAUVEGARDER_TABLEAU_SUIVI_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammationActions.sauvegarderTableauSuivi()}"
+			order="10" label="activite.normative.tableau.suivi.sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isInTableauSuivi</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+		</action>
+
+		<!-- export csv d'un tableau de suivi -->
+		<action id="TABLEAU_SUIVI_AN_EXPORT_CSV" link="#{activiteNormativeActions.genererCsv()}"
+			order="10" label="export csv" icon="/img/icons/csv_export.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInApplicationDesLoisOrOrdonnances</filter-id>
+			<filter-id>isInTableauSuivi</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative Tableau de suivi Suivi des Habilitations 
+			*********************************************************************** -->
+		<!-- Refresh d'un tableau de programmation -->
+		<action id="REFRESH_TABLEAU_SUIVI_HAB_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammation38CActions.refreshCurrentProgrammationHabilitation()}"
+			order="1" label="Rafraîchir" icon="/img/icons/refresh.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isInTableauSuivi</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+		</action>
+
+		<!-- Verrouillage d'un tableau de programmation -->
+		<action id="PUBLIER_TABLEAU_SUIVI_HAB_ACTIVITE_NORMATIVE"
+			link="#{tableauProgrammation38CActions.publierTableauSuiviHabilitation()}"
+			order="10" label="activite.normative.tableau.suivi.publier" icon="/img/icons/document_add_24.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isInTableauSuivi</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+		</action>
+
+		<!-- export csv d'un tableau de suivi -->
+		<action id="TABLEAU_SUIVI_HAB_AN_EXPORT_CSV" link="#{activiteNormativeActions.genererCsv()}"
+			order="10" label="export csv" icon="/img/icons/csv_export.png">
+			<category>TOOLBAR_ACTIVITE_NORMATIVE_RIGHT</category>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+			<filter-id>isInOrdonnances38C</filter-id>
+			<filter-id>isInTableauSuivi</filter-id>
+		</action>
+
+		<!-- ARL*********************************************************************** 
+			Espace de pilotage de l'activité normative: Tableau de bord 
+			*********************************************************************** -->
+		<!-- Activité normative: Application des lois: Tableau de bord: Mesures 
+			d’application actives (par defaut) -->
+		<action id="TAB_AN_TABLEAU_BORD_ACTIVE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.tableau.bord.mesures.application.actives">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des lois: Tableau de bord: Mesures 
+			d’application pour lesquelles la date prévisionnelle de publication est dépassée -->
+		<action id="TAB_AN_TABLEAU_BORD_DEPASSE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1"
+			label="activite.normative.tableau.bord.mesures.application.date.depassee">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des lois: Tableau de bord: Mesures 
+			d’application différée -->
+		<action id="TAB_AN_TABLEAU_BORD_DIFFEREE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="2" label="activite.normative.tableau.bord.mesures.application.differee">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Ratifications des ordonnances: Tableau de bord: 
+			Suivi global de la ratification des ordonnances de l’article 38 C -->
+		<action id="TAB_AN_TABLEAU_BORD_RATIFICATION_PAS_DEPOSE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="11" label="activite.normative.tableau.bord.ratification.pas.depose">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Ratifications des ordonnances: Tableau de bord: 
+			Suivi global de la ratification des ordonnances de l’article 38 C -->
+		<action id="TAB_AN_TABLEAU_BORD_RATIFICATION_38C"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="12" label="activite.normative.tableau.bord.ratification.38c">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Ratifications des ordonnances: Tableau de bord: 
+			Suivi global de la ratification des ordonnances de l’article 74-1 -->
+		<action id="TAB_AN_TABLEAU_BORD_RATIFICATION_741"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="13" label="activite.normative.tableau.bord.ratification.741">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Ratifications des ordonnances: Suivi des décrets 
+			pris en application des ordonnances -->
+		<action id="TAB_AN_TABLEAU_BORD_RATIFICATION_DECRET"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="14"
+			label="activite.normative.tableau.bord.ratification.decret.application">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInOrdonnances</filter-id>
+		</action>
+
+		<!-- Activité normative: Suivi des habilitations: Tableau de bord: Suivi 
+			global des habilitations -->
+		<action id="TAB_AN_TABLEAU_BORD_HABILITATION_SS_FILTRE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="22" label="activite.normative.tableau.bord.habilitation.ss.filtre">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInOrdonnances38C</filter-id>
+		</action>
+
+		<!-- Activité normative: Traités et Accords: Tableau général des traités 
+			et accords dont la publication est intervenue -->
+		<action id="TAB_AN_TABLEAU_BORD_TRAITE_PUB_INTERVENUE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="31" label="activite.normative.tableau.bord.traite.intervenue">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInTraiteAccord</filter-id>
+		</action>
+
+		<!-- Activité normative: Traités et Accords: Tableau de bord: Tableau général 
+			des traités et accords dont la publication reste à intervenir -->
+		<action id="TAB_AN_TABLEAU_BORD_TRAITE_PUB_INTERVENIR"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="32" label="activite.normative.tableau.bord.traite.intervenir">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInTraiteAccord</filter-id>
+		</action>
+
+		<!-- Activité normative: Transposition des directives européennes: Tableau 
+			de bord: Tableau général des directives dont la transposition est achevée -->
+		<action id="TAB_AN_TABLEAU_BORD_TRANSPOSITION_ACHEVEE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="41" label="activite.normative.tableau.bord.transposition.achevee">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInTransposition</filter-id>
+		</action>
+
+		<!-- Activité normative: Transposition des directives européennes: Tableau 
+			de bord: Tableau général des directives dont la transposition reste en cours -->
+		<action id="TAB_AN_TABLEAU_BORD_TRANSPOSITION_ENCOURS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="43" label="activite.normative.tableau.bord.transposition.encours">
+			<category>SUBTAB_AN_TABLEAU_BORD</category>
+			<filter-id>isInTransposition</filter-id>
+		</action>
+
+		<!-- ARL*********************************************************************** 
+			Espace de pilotage de l'activité normative: Statistiques 
+			*********************************************************************** -->
+		<!-- Activité normative: Application des lois: Statistiques: Taux d’exécution 
+			des lois promulguées depuis le début de la législature -->
+		<action id="TAB_AN_STAT_DEBUT_LEGISLATURE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.statisriques.debut.legislature">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des lois: Statistiques: Taux d’exécution 
+			des lois promulguées depuis le début de la législature -->
+		<action id="TAB_AN_STAT_MISE_APPLICATION"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.statisriques.mise.application">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des lois: Statistiques: Taux d’exécution 
+			des lois promulguées au cours de la dernière session parlementaire -->
+		<action id="TAB_AN_STAT_DERNIERE_SESSION"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1"
+			label="activite.normative.statisriques.mesures.derniere.session.parlementaire">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des lois: Statistiques: Indicateurs 
+			ministériels de confection des études d’impact -->
+		<action id="TAB_AN_STAT_TRAITE_ETUDES_IMPACT"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="10" label="activite.normative.statisriques.etudes.impact">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInTraiteAccord</filter-id>
+		</action>
+
+		<!-- Activité normative: Application des lois: Statistiques: Répartition 
+			par ministères des traités et accords signés et restant à publier -->
+		<action id="TAB_AN_STAT_TRAITE_PUBLIER"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="11"
+			label="activite.normative.statisriques.repartition.ministeres.restant.publier">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInTraiteAccord</filter-id>
+		</action>
+
+		<!-- Activité normative: Transposition des directives européennes: Statistiques: 
+			Tableau des indicateurs ministériels de transposition des directives -->
+		<action id="TAB_AN_STAT_INDICATEUR_MIN_TRANS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="20"
+			label="activite.normative.statisriques.indicateurs.ministeriels.transposition.directives">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInTransposition</filter-id>
+		</action>
+
+		<!-- Activité normative: Transposition des directives européennes: Statistiques: 
+			Tableau des retards moyens de transposition -->
+		<action id="TAB_AN_STAT_RETARD_MOY_TRANS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="21" label="activite.normative.statisriques.retards.moyens.transposition">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInTransposition</filter-id>
+		</action>
+
+		<!-- Activité normative: Transposition des directives européennes: Statistiques: 
+			Répartition par ministères des textes de transposition restant à prendre -->
+		<action id="TAB_AN_STAT_REPARTITION_DIR_APRENDRE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="22"
+			label="activite.normative.statisriques.repartition.ministères.textes.transposition.restant.a.prendre">
+			<category>SUBTAB_AN_STATISTIQUES</category>
+			<filter-id>isInTransposition</filter-id>
+		</action>
+
+		<!-- ARL*********************************************************************** 
+			Espace de pilotage de l'activité normative: Bilan semestriels 
+			*********************************************************************** -->
+		<!-- Activité normative: Bilan semestriels: Par loi -->
+		<action id="TAB_AN_BILAN_SEM_LOI_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.bilan.semestriels.par.loi">
+			<category>SUBTAB_AN_BILAN_SEMESTRIELS</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Bilan semestriels: Par Ministère -->
+		<action id="TAB_AN_BILAN_SEM_MIN_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1" label="activite.normative.bilan.semestriels.par.ministere">
+			<category>SUBTAB_AN_BILAN_SEMESTRIELS</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Bilan semestriels: Par nature de text -->
+		<action id="TAB_AN_BILAN_SEM_NATURE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="2" label="activite.normative.bilan.semestriels.par.nature.texte">
+			<category>SUBTAB_AN_BILAN_SEMESTRIELS</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Bilan semestriels: Par procédure de vote -->
+		<action id="TAB_AN_BILAN_SEM_VOTE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="3" label="activite.normative.bilan.semestriels.par.procedure.vote">
+			<category>SUBTAB_AN_BILAN_SEMESTRIELS</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- ARL*********************************************************************** 
+			Espace de pilotage de l'activité normative: Taux d'application au fil de l'eau 
+			*********************************************************************** -->
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux global 
+			à une date donnée -->
+		<action id="TAB_AN_FIL_EAU_GLOBAL"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.taux.dapplication.fil.eau.taux.global">
+			<category>SUBTAB_AN_FIL_EAU</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux par loi 
+			à une date donnée -->
+		<action id="TAB_AN_FIL_EAU_LOI_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1" label="activite.normative.taux.dapplication.fil.eau.taux.loi">
+			<category>SUBTAB_AN_FIL_EAU</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux par ministère 
+			à une date donnée -->
+		<action id="TAB_AN_FIL_EAU_MIN_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1" label="activite.normative.taux.dapplication.fil.eau.taux.ministere">
+			<category>SUBTAB_AN_FIL_EAU</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux par nature 
+			de texte -->
+		<action id="TAB_AN_FIL_EAU_NATURE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="2" label="activite.normative.taux.dapplication.fil.eau.taux.nature">
+			<category>SUBTAB_AN_FIL_EAU</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Taux d'application au fil de l'eau: Taux par procédure 
+			de vote -->
+		<action id="TAB_AN_FIL_EAU_VOTE"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="3" label="activite.normative.taux.dapplication.fil.eau.taux.vote">
+			<category>SUBTAB_AN_FIL_EAU</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- ARL*********************************************************************** 
+			Espace de pilotage de l'activité normative: Bilan sur les délais de publication 
+			*********************************************************************** -->
+		<!-- Activité normative: Bilan sur les délais de publication: Délai moyen 
+			par loi -->
+		<action id="TAB_AN_DELAI_LOI_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.delai.par.loi">
+			<category>SUBTAB_AN_BILAN_DELAI</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Bilan sur les délais de publication: Délai moyen 
+			d’application par ministère -->
+		<action id="TAB_AN_DELAI_MIN_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.delai.par.ministere">
+			<category>SUBTAB_AN_BILAN_DELAI</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- Activité normative: Bilan sur les délais de publication: Délai moyen 
+			d’application par nature de texte -->
+		<action id="TAB_AN_DELAI_NATURE_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="1" label="activite.normative.delai.par.nature.texte">
+			<category>SUBTAB_AN_BILAN_DELAI</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- ARL*********************************************************************** 
+			Espace de pilotage de l'activité normative: Statistiques sur les mois et 
+			années de publication 
+			*********************************************************************** -->
+		<!-- Activité normative: Bilan sur les délais de publication: Délai moyen 
+			par loi -->
+		<action id="TAB_AN_COURBE_TOUS"
+			link="/espace_activite_normative/subview/view_espace_activite_normative_resultat_stats.xhtml"
+			order="0" label="activite.normative.courbes">
+			<category>SUBTAB_AN_PUBLICATION_COURBE</category>
+			<filter-id>isInApplicationDesLois</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative Texte-Maître Traites et accords 
+			*********************************************************************** -->
+
+		<!-- Sauvegarde texte-maître -->
+		<action id="SAVE_TEXTE_MAITRE_TRAITE_ACTIVITE_NORMATIVE" link="#{texteMaitreTraitesActions.saveTexteMaître()}"
+			order="10" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>TEXTE_MAITRE_TRAITE_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInTraiteAccord</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh texte-maître -->
+		<action id="REFRESH_TEXTE_MAITRE_TRAITE_ACTIVITE_NORMATIVE"
+			link="#{texteMaitreTraitesActions.reloadTexteMaître()}" order="11"
+			label="Recharger" icon="/img/icons/refresh.png">
+			<category>TEXTE_MAITRE_TRAITE_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInTraiteAccord</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			Espace de pilotage de l'activité normative Texte-Maître Transposition 
+			*********************************************************************** -->
+
+		<!-- Sauvegarde texte-maître -->
+		<action id="SAVE_TRANSPOSITION_ACTIVITE_NORMATIVE"
+			link="#{transpositionDirectiveActions.saveTransposition()}" order="10"
+			label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>TRANSPOSITION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInTransposition</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Sauvegarde texte-maître -->
+		<action id="REFRESH_TRANSPOSITION_ACTIVITE_NORMATIVE"
+			link="#{transpositionDirectiveActions.reloadTransposition()}" order="20"
+			label="Recharger" icon="/img/icons/refresh.png">
+			<category>TRANSPOSITION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInTransposition</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Sauvegarde des texteTransposition -->
+		<action id="SAVE_TEXTE_TRANSPOSITION_ACTIVITE_NORMATIVE"
+			link="#{transpositionDirectiveActions.saveTexteTransposition()}"
+			order="10" label="Sauvegarder" icon="/img/icons/disk_blue.png">
+			<category>TEXTE_TRANSPOSITION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInTransposition</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+		<!-- Refresh des texteTransposition -->
+		<action id="REFRESH_TEXTE_TRANSPOSITION_ACTIVITE_NORMATIVE"
+			link="#{transpositionDirectiveActions.refreshTexteTransposition()}"
+			order="20" label="Rafraîchir à partir des dossiers" icon="/img/icons/refresh.png">
+			<category>TEXTE_TRANSPOSITION_TOOLBAR_ACTIVITE_NORMATIVE</category>
+			<filter-id>isInTransposition</filter-id>
+			<filter-id>isTexteMaitreEditMode</filter-id>
+			<filter-id>isInTexteMaitre</filter-id>
+		</action>
+
+	</extension>
+</component>

@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+
+<!-- Ce composant contribue les layouts + widgets nécessaires à la gestion 
+	du profil utilisateur. -->
+<component name="fr.dila.solonepg.web.layout.profilUtilisateur">
+
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="layouts">
+
+		<layout name="profil_utilisateur_premieres_options">
+			<templates>
+				<template mode="any">/layouts/layout_default_template.xhtml
+				</template>
+			</templates>
+			<rows>
+				<row>
+					<widget>nb_dossiers_pages</widget>
+				</row>
+				<row>
+					<widget>poste_defaut</widget>
+				</row>
+			</rows>
+			<widget name="nb_dossiers_pages" type="template">
+				<translated>true</translated>
+				<labels>
+					<label mode="any">label.epg.parametrage.application.nbDossierPage
+					</label>
+				</labels>
+				<translated>true</translated>
+				<properties widgetMode="any">
+					<property name="required">true</property>
+					<property name="template">
+ 						/widgets/page_number_list.xhtml
+ 					</property>
+				</properties>
+				<fields>
+					<field>pusr:nbDossiersVisiblesMax</field>
+				</fields>
+			</widget>
+			<widget name="poste_defaut" type="template">
+				<translated>true</translated>
+				<labels>
+					<label mode="any">label.epg.profilUtilisateur.notification.posteDefaut
+					</label>
+				</labels>
+				<fields>
+					<field>pusr:posteDefaut</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="required">true</property>
+					<property name="template">
+						/widgets/selectOneMenu_widget_template.xhtml
+					</property>
+					<property name="type">posteUtilisateur</property>
+				</properties>
+			</widget>
+		</layout>
+
+
+		<layout name="profil_utilisateur_notification_layout_dossier">
+			<templates>
+				<template mode="any">/layouts/layout_default_template.xhtml
+				</template>
+			</templates>
+			<rows>
+				<row>
+					<widget>dossier_urgent</widget>
+				</row>
+				<row>
+					<widget>retour_sgg</widget>
+				</row>
+				<row>
+					<widget>mesure_nominative</widget>
+				</row>
+				<row>
+					<widget>type_acte_notification</widget>
+				</row>
+			</rows>
+			<!-- widget typeActe -->
+			<widget name="type_acte_notification" type="template">
+				<labels>
+					<label mode="any">label.epg.profilUtilisateur.notification.typeActe
+					</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>pusr:notificationTypeActes</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="template">/widgets/type_acte_profil_utilisateur_suggestion_widget_template.xhtml
+					</property>
+					<property name="directoryName">type_acte</property>
+				</properties>
+			</widget>
+			<!-- widget dossier urgent -->
+			<widget name="dossier_urgent" type="checkbox">
+				<translated>true</translated>
+				<labels>
+					<label mode="any">label.epg.profilUtilisateur.notification.dossierUrgent
+					</label>
+				</labels>
+				<fields>
+					<field>pusr:notificationDossierUrgent</field>
+				</fields>
+			</widget>
+			<!-- widget retour sgg -->
+			<widget name="retour_sgg" type="checkbox">
+				<translated>true</translated>
+				<labels>
+					<label mode="any">label.epg.profilUtilisateur.notification.retourSgg
+					</label>
+				</labels>
+				<fields>
+					<field>pusr:notificationRetourSgg</field>
+				</fields>
+			</widget>
+			<!-- widget mesureNominative -->
+			<widget name="mesure_nominative" type="checkbox">
+				<translated>true</translated>
+				<labels>
+					<label mode="any">label.epg.profilUtilisateur.notification.mesureNominative
+					</label>
+				</labels>
+				<fields>
+					<field>pusr:notificationMesureNominative</field>
+				</fields>
+				<widgetModes>
+					<mode value="any">#{nxu:test(profilUtilisateurAdministrationActions.isVisibleMesureNominative(),mode,'hidden')}
+					</mode>
+				</widgetModes>
+			</widget>
+		</layout>
+
+		<layout name="profil_utilisateur_notification_layout_fdr">
+			<templates>
+				<template mode="any">/layouts/layout_default_template.xhtml
+				</template>
+			</templates>
+			<rows>
+				<row>
+					<widget>presence_live_edit</widget>
+				</row>
+				<row>
+					<widget>mail_si_franchissement_automatique</widget>
+				</row>
+				<row>
+					<widget>mail_si_maj_ce</widget>
+				</row>
+			</rows>
+			<!-- widget mail_si_franchissement_automatique -->
+			<widget name="mail_si_franchissement_automatique" type="checkbox">
+				<translated>true</translated>
+				<labels>
+					<label mode="any">label.epg.profilUtilisateur.notification.mailSiFranchissementAutomatique
+					</label>
+				</labels>
+				<fields>
+					<field>pusr:notificationMailSiFranchissementAutomatique</field>
+				</fields>
+			</widget>
+			<widget name="presence_live_edit" type="checkbox">
+				<translated>true</translated>
+				<labels>
+					<label mode="any">label.epg.profilUtilisateur.notification.liveEdit
+					</label>
+				</labels>
+				<fields>
+					<field>pusr:presenceLiveEdit</field>
+				</fields>
+			</widget>
+			<widget name="mail_si_maj_ce" type="checkbox">
+				<translated>true</translated>
+				<labels>
+					<label mode="any">label.epg.profilUtilisateur.notification.mailSiModificationDossierCE
+					</label>
+				</labels>
+				<fields>
+					<field>pusr:mailSiMajCE</field>
+				</fields>
+			</widget>
+		</layout>
+	</extension>
+</component>

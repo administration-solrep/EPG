@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- La contribution au service Jointure pour l'application Réponses -->
+<component name="fr.dila.solonmgpp.query.jointure.contrib">
+
+  <extension target="fr.dila.solonmgpp.core.service.MGPPJointureService" point="queryassembler">
+    <queryassembler class="fr.dila.solonmgpp.core.query.MGPPUFNXQLQueryAssembler" />
+  </extension>
+  
+   <extension target="fr.dila.solonmgpp.core.service.MGPPJointureService" point="correspondences">
+     <correspondence document="FicheLoi" doc_prefix="fl." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fl.ecm:uuid AS id FROM FicheLoi AS fl"/>
+     <correspondence document="Navette" doc_prefix="n." emplacement="BEFORE_WHERE" query_part=", Navette AS n"/>
+     <correspondence document="Navette" doc_prefix="n." emplacement="AFTER_WHERE" query_part=" AND n.nav:idFiche = fl.ecm:uuid"/>
+     <correspondence document="FichePresentationOEP" doc_prefix="fpo." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpo.ecm:uuid AS id FROM FichePresentationOEP AS fpo"/>
+     <correspondence document="FichePresentationAVI" doc_prefix="fpa." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpa.ecm:uuid AS id FROM FichePresentationAVI AS fpa"/>
+     <correspondence document="FichePresentationDR" doc_prefix="fpd." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpd.ecm:uuid AS id FROM FichePresentationDR AS fpd"/>
+     <correspondence document="FichePresentationDecret" doc_prefix="fpde." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpde.ecm:uuid AS id FROM FichePresentationDecret AS fpde"/>
+     <correspondence document="FichePresentation341" doc_prefix="fp3." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fp3.ecm:uuid AS id FROM FichePresentation341 AS fp3"/>
+     <correspondence document="FichePresentationIE" doc_prefix="fpi." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpi.ecm:uuid AS id FROM FichePresentationIE AS fpi"/>
+     <correspondence document="FichePresentationAUD" doc_prefix="fpau." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpau.ecm:uuid AS id FROM FichePresentationAUD AS fpau"/>
+     <correspondence document="FichePresentationDOC" doc_prefix="fpdo." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpdo.ecm:uuid AS id FROM FichePresentationDOC AS fpdo"/>
+     <correspondence document="FichePresentationDPG" doc_prefix="fpdp." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpdp.ecm:uuid AS id FROM FichePresentationDPG AS fpdp"/>
+     <correspondence document="FichePresentationJSS" doc_prefix="fpjs." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fpjs.ecm:uuid AS id FROM FichePresentationJSS AS fpjs"/>
+     <correspondence document="FichePresentationSD" doc_prefix="fps." emplacement="BEFORE_WHERE" query_part="ufnxql: SELECT DISTINCT fps.ecm:uuid AS id FROM FichePresentationSD AS fps"/>
+     
+   </extension>
+   
+   <extension target="fr.dila.solonmgpp.core.service.MGPPJointureService" point="dependencies">
+      <dependency prefix="n." need="fl."/>
+   </extension>
+</component>

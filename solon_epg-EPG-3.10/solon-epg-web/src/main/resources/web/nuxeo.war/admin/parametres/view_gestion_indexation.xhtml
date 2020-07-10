@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  >
+  <ui:define name="page title">
+    <c:choose>
+  		<c:when test="#{gestionIndexationActions.isAccessAuthorized()}">
+    		<h:outputText value="#{nuxeoApplicationName} - Gestion de l'indexation"/>
+    	</c:when>
+    	<c:otherwise>
+    		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+    	</c:otherwise>
+    </c:choose>
+  </ui:define>
+ <ui:define name="body">
+ 	<c:if test="#{gestionIndexationActions.isAccessAuthorized()}">
+    <div class="adminModel">
+		      <style>
+				 .dataInput td{
+				 	white-space: nowrap !important;
+				 }
+			  </style>
+		      <h:panelGroup >
+		        <h3 class="summaryTitle">
+		          <h:outputText value="Gestion de l'indexation"/>
+		        </h3>
+		      </h:panelGroup>
+		      <ui:include src="/incl/message_banner.xhtml"/>
+		      <table class="dataInput" style="border-collapse:collapse;">
+		      	<tr>
+			      	<th width="20px"></th>
+					<td style="vertical-align:top;"><ui:include src="/admin/parametres/indexation/indexation_rubrique_widget.xhtml"></ui:include></td>
+					<th width="50px"></th>
+					<td style="vertical-align:top;"><ui:include src="/admin/parametres/indexation/indexation_motcle_widget.xhtml"></ui:include></td>
+				 </tr>
+			  </table>
+      		<div style="clear:both"></div>
+    </div>
+    </c:if>
+  </ui:define>
+</nxthemes:composition>

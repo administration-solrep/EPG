@@ -1,0 +1,81 @@
+##########
+# Creation
+##########
+
+dn: cn=EspaceActiviteNormativeAppOrdoReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: add
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: EspaceActiviteNormativeAppOrdoReader
+uniqueMember: cn=emptyRef
+description: Accès en lecture au menu Application des ordonnances de l'espace de pilotage de l'activité normative
+
+dn: cn=EspaceActiviteNormativeAppOrdoUpdater,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: add
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: EspaceActiviteNormativeAppOrdoUpdater
+uniqueMember: cn=emptyRef
+description: Accès en modification au menu Application des ordonnances de l'espace de pilotage de l'activité normative
+
+dn: cn=EspaceActiviteNormativeMinistereApplicationLoi,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: add
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: EspaceActiviteNormativeMinistereApplicationLoi
+uniqueMember: cn=emptyRef
+description: Accès en modification au menu Application des lois de l'espace de pilotage de l'activité normative pour un profil ministériel
+
+dn: cn=EspaceActiviteNormativeMinistereApplicationOrdonnance,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: add
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: EspaceActiviteNormativeMinistereApplicationOrdonnance
+uniqueMember: cn=emptyRef
+description: Accès en modification au menu Application des ordonnances de l'espace de pilotage de l'activité normative pour un profil ministériel
+
+##############
+# Mise à jour
+##############
+dn: cn=EspaceActiviteNormativeAppLoisReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+replace: description
+description: Accès en lecture au menu Application des lois de l'espace de pilotage de l'activité normative
+
+dn: cn=EspaceActiviteNormativeAppLoisUpdater,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+replace: description
+description: Accès en modification au menu Application des lois de l'espace de pilotage de l'activité normative
+
+dn: cn=EspaceActiviteNormativeSuivHabReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+replace: description
+description: Accès en lecture au menu Suivi des habilitations de l'espace de pilotage de l'activité normative
+
+dn: cn=EspaceActiviteNormativeSuivHabUpdater,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+replace: description
+description: Accès en modification au menu Suivi des habilitations de l'espace de pilotage de l'activité normative
+
+
+##########
+# Ajout
+##########
+
+dn: cn=Administrateur fonctionnel,ou=groups,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+add: uniqueMember
+uniqueMember: cn=EspaceActiviteNormativeAppOrdoReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+uniqueMember: cn=EspaceActiviteNormativeAppOrdoUpdater,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+
+dn: cn=Contributeur Activité Normative du SGG,ou=groups,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+add: uniqueMember
+uniqueMember: cn=EspaceActiviteNormativeAppOrdoReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+uniqueMember: cn=EspaceActiviteNormativeAppOrdoUpdater,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+
+dn: cn=Vigie du SGG,ou=groups,ou=SolonEpg,dc=dila,dc=fr
+changetype: modify
+add: uniqueMember
+uniqueMember: cn=EspaceActiviteNormativeAppOrdoReader,ou=fonctions,ou=SolonEpg,dc=dila,dc=fr
+

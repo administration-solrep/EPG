@@ -1,0 +1,56 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	<rich:modalPanel id="validationPourExtractionModalPanel" width="300"
+		height="100">
+		<div>
+			<f:facet name="header">
+				<h:outputText value="Confirmation" />
+			</f:facet>
+		</div>
+
+		<a4j:outputPanel id="popUpValidationExtraction">
+		<a4j:region id="archivageAdamantValidationRegion">
+
+			<h:form id="ajouterUneSemaineForm">
+				<h:outputText
+					value="#{messages['message.archivage.adamant.validation.debutMsg']
+							.concat(' ')
+							.concat(archivageActions.compterDosPourExtraction())
+							.concat(' ')
+							.concat(messages['message.archivage.adamant.validation.finMsg'])}" />
+				<table>
+					<tr>
+						<td><a4j:commandButton
+								action="#{archivageActions.creerLotArchivage()}"
+								reRender="archivageAdamantPanel"
+								oncomplete="#{Richfaces.hideModalPanel('validationPourExtractionModalPanel')}"
+								value="Confirmer" /></td>
+						<td><a4j:commandButton
+								action="${archivageActions.annulerExtraction()}"
+								reRender="archivageAdamantPanel"
+								oncomplete="Richfaces.hideModalPanel('validationPourExtractionModalPanel')"
+								value="Annuler" /></td>
+					</tr>
+				</table>
+			</h:form>
+			<a4j:status for="archivageAdamantValidationRegion">
+				<f:facet name="start">
+					<h:graphicImage value="/img/standart_waiter.gif"
+						style="position: absolute;" />
+				</f:facet>
+			</a4j:status>
+		</a4j:region>
+		</a4j:outputPanel>
+	</rich:modalPanel>
+</div>

@@ -1,0 +1,153 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:rich="http://richfaces.org/rich"><script
+	type="text/javascript">
+      function traiterEnSeriePopup() {        
+    	  Richfaces.showModalPanel('traiterEnSeriePanel');
+    	  return false;
+      }      
+ </script> <a4j:region id="ajax_region">
+	<rich:modalPanel id="traiterEnSeriePanel" 
+		onmaskclick="Richfaces.hideModalPanel('traiterEnSeriePanel')" width="340" height="282">
+
+
+
+		<f:facet name="header">
+			<h:outputText value="#{messages['espace.suivi.popup.title']}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/icons/action_delete_mini.gif"
+					onclick="Richfaces.hideModalPanel('traiterEnSeriePanel')" />
+			</h:panelGroup>
+		</f:facet>
+		<h:panelGroup layout="block">
+			<h:form id="traiter">
+				<table>
+					<c:if
+						test="#{traitementEnSerieActions.isMiseEnSignatureList(currentDocument) eq true}">
+						<c:if
+							test="#{traitementEnSerieActions.isSignataireSGGList(currentDocument) eq true}">
+							<tr>
+								<td width='120px'><h:outputText
+									value="#{messages['espace.suivi.popup.date.retour.sgg']}" /></td>
+								<td><a4j:outputPanel id="calendarPanel_SGG" layout="block">
+									<rich:calendar id="calendar_SGG"
+										value="#{traitementEnSerieActions.dateRetourSGG}"
+										locale="fr/FR" popup="true" datePattern="dd/MM/yyyy"
+										showApplyButton="false" cellWidth="24px" cellHeight="22px"
+										style="width:200px" >
+									</rich:calendar>
+
+								</a4j:outputPanel></td>
+							</tr>
+						</c:if>
+						<c:if
+							test="#{traitementEnSerieActions.isSignatairePRList(currentDocument) eq true}">
+							<tr>
+								<td width='120px'><h:outputText
+									value="#{messages['espace.suivi.popup.date.envoi.pr']}" /></td>
+								<td><a4j:outputPanel id="calendarPanel_envoi_PR"
+									layout="block">
+									<rich:calendar id="calendar_envoi_PR"
+										value="#{traitementEnSerieActions.dateEnvoiPR}" locale="fr/FR"
+										popup="true" datePattern="dd/MM/yyyy" showApplyButton="false"
+										cellWidth="24px" cellHeight="22px" style="width:200px" >
+									</rich:calendar>
+
+								</a4j:outputPanel></td>
+							</tr>
+							<tr>
+								<td width='120px'><h:outputText
+									value="#{messages['espace.suivi.popup.date.retour.pr']}" /></td>
+								<td><a4j:outputPanel id="calendarPanel_retour_PR"
+									layout="block">
+									<rich:calendar id="calendar_retour_PR"
+										value="#{traitementEnSerieActions.dateRetourPR}"
+										locale="fr/FR" popup="true" datePattern="dd/MM/yyyy"
+										showApplyButton="false" cellWidth="24px" cellHeight="22px"
+										style="width:200px" >
+									</rich:calendar>
+
+								</a4j:outputPanel></td>
+							</tr>
+						</c:if>
+						<c:if
+							test="#{traitementEnSerieActions.isSignatairePMList(currentDocument) eq true}">
+							<tr>
+								<td width='120px'><h:outputText
+									value="#{messages['espace.suivi.popup.date.retour.pm']}" /></td>
+								<td><a4j:outputPanel id="calendarPanel_retour_PM"
+									layout="block">
+									<rich:calendar id="calendar_retour_PM"
+										value="#{traitementEnSerieActions.dateRetourPM}"
+										locale="fr/FR" popup="true" datePattern="dd/MM/yyyy"
+										showApplyButton="false" cellWidth="24px" cellHeight="22px"
+										style="width:200px" >
+									</rich:calendar>
+
+								</a4j:outputPanel></td>
+							</tr>
+						</c:if>
+					</c:if>
+					<c:if
+						test="#{traitementEnSerieActions.isDemandeEpreuvesList(currentDocument) eq true}">
+						<tr>
+							<td width='120px'><h:outputText
+								value="#{messages['espace.suivi.popup.pour.le.label']}" /></td>
+							<td><a4j:outputPanel id="calendarPanel_pour_le"
+								layout="block">
+								<rich:calendar id="calendar_pour_le"
+									value="#{traitementEnSerieActions.datePourLe}" locale="fr/FR"
+									popup="true" datePattern="dd/MM/yyyy" showApplyButton="false"
+									cellWidth="24px" cellHeight="22px" style="width:200px" >
+								</rich:calendar>
+
+							</a4j:outputPanel></td>
+						</tr>
+						</c:if>
+						<tr>
+						<td colspan="2"><br/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<table>
+									<tr>
+										<td align="left">
+											<a4j:commandButton
+											styleClass="button"
+											id="traiterBtn"
+											name="traiterBtn" 
+											type="submit"
+											value="#{messages['espace.suivi.popup.traiter.button']}"
+											action='#{traitementEnSerieActions.traiterEnSerie(currentDocument)}'
+											oncomplete="#{facesContext.maximumSeverity == null ? 'Richfaces.hideModalPanel(\'traiterEnSeriePanel\');' : 'Richfaces.showModalPanel(\'traiterEnSeriePanel\');'}" />
+											
+										</td>
+										<td align="left">
+										<h:commandButton 
+											styleClass="button"
+											id="annuler"
+											name="annuler" 
+											type="submit"
+											value="#{messages['espace.suivi.popup.annuler.button']}"
+											onclick="Richfaces.hideModalPanel('traiterEnSeriePanel')"></h:commandButton>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+				</table>
+				<br/>
+			</h:form>
+		</h:panelGroup>
+	</rich:modalPanel>
+</a4j:region></div>

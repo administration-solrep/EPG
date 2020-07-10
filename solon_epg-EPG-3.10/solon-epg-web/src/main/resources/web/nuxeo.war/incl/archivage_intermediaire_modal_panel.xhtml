@@ -1,0 +1,156 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:rich="http://richfaces.org/rich"><script
+	type="text/javascript">
+      function authenticationPopup() {  
+         
+    	  Richfaces.showModalPanel('autenthicationPanel');
+    	  return false;
+      }      
+ </script> <a4j:region id="ajax_region">
+	<rich:modalPanel id="autenthicationPanel" autosized="true"
+		onmaskclick="Richfaces.hideModalPanel('autenthicationPanel')">
+		<rich:componentControl for="ajax_region" event="oncomplete"
+			operation="#{archivageActions.resetAuthenticationSuccess()}" />
+		<style>
+		.button {
+			cursor: pointer;
+			color: #454545;
+			font-size: 10px;
+			background: #CECFD1
+				url(#{facesContext.externalContext.requestContextPath}/img/theme_galaxy/buttons.png)
+				repeat-x scroll left top;
+			border: 1px solid #BFC5CB;
+			padding: 2px 5px 2px 5px;
+			margin: 5px 10px 10px 0;
+		}
+		</style>
+		<f:facet name="header">
+			<h:outputText value="#{messages['message.login.popup.title']}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/icons/action_delete_mini.gif"
+					onclick="Richfaces.hideModalPanel('autenthicationPanel')" />
+			</h:panelGroup>
+		</f:facet>
+		<h:panelGroup layout="block">
+			<h:form id="autenticate">
+				<div style="padding: 10px;">
+				<table>
+					<c:if test='#{archivageActions.authenticationSuccess=="uncheck"}'>
+						<tr>
+							<td colspan="2"><font color="red"><b><h:outputText
+								value="#{messages['message.login.error']}" /></b></font></td>
+						</tr>
+					</c:if>
+					<tr>
+						<td><h:outputText
+							value="#{messages['message.login.popup.username.label']}" /></td>
+						<td><h:inputText name="userName" size="12"
+							value="#{archivageActions.userName}" readonly="true" /></td>
+					</tr>
+					<tr>
+						<td><h:outputText
+							value="#{messages['message.login.popup.password.label']}" /></td>
+						<td><h:inputSecret name="password" size="12"
+							value="#{archivageActions.password}" /></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+						<c:if
+							test='#{archivageActions.typeAction == "versement-archivage-intermediaire"}'>
+							<h:commandButton id="autenticate" name="autenticate"
+								type="submit" styleClass="button"
+								value="#{messages['message.login.popup.autentifier.label']}"
+								action='#{archivageActions.verserSelection()}'></h:commandButton>
+						</c:if></td>
+					</tr>
+				</table>
+				</div>
+			</h:form>
+		</h:panelGroup>
+
+	</rich:modalPanel>
+	<rich:modalPanel id="dureeMaintienPanel"
+		onmaskclick="Richfaces.hideModalPanel('dureeMaintienPanel')"
+		width="350" height="110">
+		<style>
+		.button {
+			cursor: pointer;
+			color: #454545;
+			font-size: 10px;
+			background: #CECFD1
+				url(#{facesContext.externalContext.requestContextPath}/img/theme_galaxy/buttons.png)
+				repeat-x scroll left top;
+			border: 1px solid #BFC5CB;
+			padding: 2px 5px 2px 5px;
+			margin: 5px 10px 10px 0;
+		}
+		</style>
+		<f:facet name="header">
+			<h:outputText value="#{messages['message.login.popup.title']}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/icons/action_delete_mini.gif"
+					onclick="Richfaces.hideModalPanel('dureeMaintienPanel')" />
+			</h:panelGroup>
+		</f:facet>
+		<h:panelGroup layout="block">
+			<h:form id="verser">
+				<div style="padding: 10px;">
+				<table>
+					<tr>
+						<td>
+							<h:outputText value="#{messages['message.maintien.duree.popup.username.label']}" />
+						</td>
+						<td>
+							<h:inputText  id="nbMois" name="nbMois" size="12"
+								value="#{archivageActions.nbMois}"
+								converterMessage="#{messages['message.maintien.duree.popup.validation.label']}"
+								requiredMessage="#{messages['message.maintien.duree.popup.validation.label']}"
+								validatorMessage="#{messages['message.maintien.duree.popup.validation.label']}"
+								required="true">
+								<f:converter converterId="javax.faces.Integer" />
+								<f:validateLength minimum="1" />
+							</h:inputText>
+							<h:outputText value=" #{messages['message.maintien.duree.popup.unite.duree']}"></h:outputText>
+						</td>
+						<td>
+							<rich:messages
+								passedLabel="Data is allowed to be emailed."
+								style="width:100%; text-align: left; color: red; font-weight: bold;"
+								rendered="#{facesContext.maximumSeverity == null ? 'true' : 'true'}"
+								layout="list">
+									<h:outputText value=""></h:outputText>
+							</rich:messages>
+						</td> 
+					</tr>
+					<tr>
+						<td colspan="3" align="center">
+							<a4j:commandButton
+								action="#{archivageActions.retirerSelection()}" styleClass="button"
+								value="#{messages['message.maintien.duree.popup.valider.label']}"
+								oncomplete="#{facesContext.maximumSeverity == null ? 'Richfaces.hideModalPanel(\'dureeMaintienPanel\');' : 'Richfaces.showModalPanel(\'dureeMaintienPanel\');'}" />
+						</td>
+					</tr>
+				</table>
+				</div>
+			</h:form>
+		</h:panelGroup>
+	</rich:modalPanel>
+</a4j:region> <c:if test='#{archivageActions.authenticationSuccess=="uncheck" and archivageActions.typeAction == "versement-archivage-intermediaire"}'>
+	<script type="text/javascript">
+      authenticationPopup()       
+      </script>
+</c:if> 
+</div>

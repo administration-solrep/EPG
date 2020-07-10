@@ -1,0 +1,28 @@
+<span xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  id="#{widget.id}">
+
+  <c:choose>
+    <c:when test="#{widget.mode != 'edit'}"> 
+      <c:choose>
+        <c:when test="#{field_1 eq 'ANNULER'}">
+          <s>
+            <h:outputText value="#{evenementCreationActions.getTypeEvenementLibelle(field_0)}"  />
+          </s>
+        </c:when>
+        <c:otherwise>
+          <h:outputText value="#{evenementCreationActions.getTypeEvenementLibelle(field_0)}"  />
+        </c:otherwise>
+      </c:choose>
+    </c:when>
+    <c:otherwise>
+      <h:selectOneMenu id="typeEvenementId" value="#{field_0}" style="width:200px">
+        <f:selectItem itemLabel="Sélectionnez une valeur." itemValue=""  />
+        <f:selectItems value="#{metadonneesActions.typeEvenement}" />
+      </h:selectOneMenu>
+    </c:otherwise>
+  </c:choose>
+</span>
+  

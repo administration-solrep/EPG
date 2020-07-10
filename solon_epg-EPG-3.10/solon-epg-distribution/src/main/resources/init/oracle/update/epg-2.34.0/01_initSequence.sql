@@ -1,0 +1,26 @@
+CREATE OR REPLACE PROCEDURE CREATE_NEW_SEQUENCE(seqName VARCHAR2)
+IS
+  request VARCHAR2(2000);
+BEGIN
+    request := 'CREATE SEQUENCE '||seqName||' START WITH 0 MINVALUE 0 MAXVALUE 99999';
+    EXECUTE IMMEDIATE request;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE INIT_NEW_SEQUENCE_FOR_235
+IS
+	numeroChrono INTEGER;
+BEGIN
+	select seq_index +1 into numeroChrono from NXP_UIDSEQ where seq_key = 'SOLON_EPG_NOR_SEQUENCER_16';
+	execute immediate 'CREATE SEQUENCE SOLON_EPG_NOR_SEQUENCER_16 START WITH '||numeroChrono||' MAXVALUE 99999';
+END;
+/
+
+call INIT_NEW_SEQUENCE_FOR_235();
+
+--Init du currval sequenceur
+select SOLON_EPG_NOR_SEQUENCER_16.nextval from dual;
+
+commit;
+drop procedure INIT_NEW_SEQUENCE_FOR_235;
+

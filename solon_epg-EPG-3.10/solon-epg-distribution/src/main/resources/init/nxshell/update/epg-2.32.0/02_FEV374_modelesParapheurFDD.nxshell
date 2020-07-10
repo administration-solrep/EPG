@@ -1,0 +1,136 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/02_FEV374_modelesParapheurFDD.nxshell
+
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p 4ju7Ix662Eo1d77u http://localhost:8180/solon-epg/site/automation
+
+# creation ModeleParapheur ModeleParapheur Textes non publiés au JO
+mkdir ModeleParapheur "/case-management/workspaces/admin/parapheur/ModeleParapheur Textes non publiés au JO" -title "ModeleParapheur ModeleParapheur Textes non publiés au JO"
+
+# maj type ModeleParapheur Textes non publiés au JO
+setp -value "48" -xpath mp:typeActe "/case-management/workspaces/admin/parapheur/ModeleParapheur Textes non publiés au JO"
+
+# creation ParapheurFolder Textes non publiés au JO/Acte intégral
+mkdir ParapheurFolder "/case-management/workspaces/admin/parapheur/ModeleParapheur Textes non publiés au JO/Acte intégral" -title "Acte intégral"
+
+# maj propriété non vide
+setp -value true -xpath pf:estNonVide "/case-management/workspaces/admin/parapheur/ModeleParapheur Textes non publiés au JO/Acte intégral"
+
+# update pf:formatAutorise
+update  pf:formatAutorise=doc "/case-management/workspaces/admin/parapheur/ModeleParapheur Textes non publiés au JO/Acte intégral" 
+
+# maj propriété nbDoc max
+setp -value 1 -xpath pf:nbDocAccepteMax "/case-management/workspaces/admin/parapheur/ModeleParapheur Textes non publiés au JO/Acte intégral"
+
+
+# creation ModeleFondDeDossier Textes non publiés au JO
+mkdir ModeleFondDeDossier "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO" -title "ModeleFondDeDossier Textes non publiés au JO"
+
+# maj ModeleFondDeDossier Textes non publiés au JO
+setp -value "48" -xpath mfdd:typeActe "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au ministère porteur
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au ministère porteur" -title "Répertoire réservé au ministère porteur"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au ministère porteur
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au ministère porteur"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au SGG
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au SGG" -title "Répertoire réservé au SGG"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au SGG
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au SGG"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au ministère porteur et au SGG
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au ministère porteur et au SGG" -title "Répertoire réservé au ministère porteur et au SGG"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au ministère porteur et au SGG
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire réservé au ministère porteur et au SGG"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs" -title "Répertoire accessible à tous les utilisateurs"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe" -title "Documentation jointe"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Annexes non publiées
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Annexes non publiées" -title "Annexes non publiées"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Annexes non publiées
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Annexes non publiées"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Note pour le ministère
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Note pour le ministère" -title "Note pour le ministère"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Note pour le ministère
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Note pour le ministère"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Rapport de présentation
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Rapport de présentation" -title "Rapport de présentation"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Rapport de présentation
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Rapport de présentation"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettres d'accord
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettres d'accord" -title "Lettres d'accord"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettres d'accord
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettres d'accord"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettre de saisine du Conseil d'Etat
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettre de saisine du Conseil d'Etat" -title "Lettre de saisine du Conseil d'Etat"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettre de saisine du Conseil d'Etat
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Lettre de saisine du Conseil d'Etat"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Liste des commissaires du gouvernement
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Liste des commissaires du gouvernement" -title "Liste des commissaires du gouvernement"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Liste des commissaires du gouvernement
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Liste des commissaires du gouvernement"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis divers
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis divers" -title "Avis divers"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis divers
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis divers"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes de références
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes de références" -title "Textes de références"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes de références
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes de références"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Etude d'impact
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Etude d'impact" -title "Etude d'impact"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Etude d'impact
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Etude d'impact"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Divers
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Divers" -title "Divers"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Divers
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Divers"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis du Conseil d'Etat
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis du Conseil d'Etat" -title "Avis du Conseil d'Etat"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis du Conseil d'Etat
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Avis du Conseil d'Etat"
+
+# creation ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes consolidés
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes consolidés" -title "Textes consolidés"
+
+# maj ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes consolidés
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Textes non publiés au JO/Répertoire accessible à tous les utilisateurs/Documentation jointe/Textes consolidés"
+

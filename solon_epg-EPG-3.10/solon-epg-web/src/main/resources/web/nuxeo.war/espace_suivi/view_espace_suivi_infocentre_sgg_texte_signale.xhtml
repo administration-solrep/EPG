@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:rich="http://richfaces.org/rich">
+	<ui:define name="page title">
+		<h:outputText value="#{nuxeoApplicationName} - Espace de suivi" />
+	</ui:define>
+
+
+	<ui:define name="body">
+		<ui:include src="/select_document_type.xhtml" />
+		<ui:include src="/incl/message_banner.xhtml" />
+		<div id="content">
+			<div id="upperContentView">
+				<table >
+					<tr>
+						<td>
+							<h:form>
+								<div class="tabsBar" >
+						          <ul>
+									<nxu:set var="currentUserSubTab" value="#{textesSignalesActions.currentUserSubTab}" >
+							            <li class="#{nxu:test(currentUserSubTab == '1', 'selected', '')}">
+							              <h:commandLink action="#{textesSignalesActions.setCurrentUserSubTab('1')}"
+							                immediate="true">
+							                <h:outputText value="#{messages['label.textesSignales.tab1']}" />
+							              </h:commandLink>
+							            </li>
+							             <li class="#{nxu:test(currentUserSubTab == '0', 'selected', '')}">
+							              <h:commandLink action="#{textesSignalesActions.setCurrentUserSubTab('0')}"
+							                immediate="true">
+							                <h:outputText value="#{messages['label.textesSignales.tab2']}" />
+							              </h:commandLink>
+							            </li>
+						              </nxu:set>
+						           </ul>
+						           </div>
+							</h:form>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<style>
+								.barContent .dataOutput td{
+									border-left:1px solid #E7DECE;
+									border-right:1px solid #E7DECE;
+								}
+								.barContent .dataOutput th{
+									border-left:1px solid #E7DECE;
+									border-right:1px solid #E7DECE;
+								}
+								.barContent .dataOutput span{
+									white-space: nowrap;
+								}
+								.iconColumnNR{
+									border-left:1px solid #E7DECE !important;
+									border-right:none !important;
+								}
+								.iconColumn span{
+									padding-left:5px;
+								}
+								.iconColumnNL{
+									border-left:none !important;
+									border-right:1px solid #E7DECE !important;
+								}
+								.iconColumn10{
+									width:10px !important;
+								}
+							</style>
+							<div class="tabsBarContent barContent">
+								<nxu:set var="contentViewId" value="#{textesSignalesActions.contentViewName}">
+								  <nxu:set var="contentViewName" value="#{textesSignalesActions.contentViewName}">
+									<nxu:set var="listingDecorator" value="#{dtoListingDecorator}" cache="true">
+									  <ui:decorate template="/incl/content_view_espace_suivi_textes_signales.xhtml">
+									    <ui:define name="content_view_header_before_selector" />
+									  </ui:decorate>
+									</nxu:set>
+								  </nxu:set>
+								 </nxu:set>
+<h:form id="mainForm">
+	<h:commandLink 
+				id="exportCSV" 
+				style="display: none;"
+				target="_blank"
+				action="/incl/export/content_view_csv.faces?contentViewName=espace_suivi_textes_signales_content&amp;resultLayout=textes_signales_listing_csv&amp;currentPage=0&amp;pageSize=0&amp;csvFileName=Textes-signales.xls">	
+		<h:outputText style="font-size: 10px;" value="Export CSV"/>
+	</h:commandLink>
+</h:form>
+<br/>
+<script>
+	var j = jQuery.noConflict();
+	function openLinkInNewWindow(linkID)
+	{
+		j(linkID).click();
+	}
+</script>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<ui:include src="/incl/upper_panel_toggle.xhtml" />
+	</ui:define>
+	
+	
+	
+	  <ui:define name="subbody">
+    <c:if test="#{currentDocument.getType() == 'Dossier'}">
+      <div class="subbodyContainer">
+		 <ui:include src="/reponses_infobar.xhtml"/>
+	     <ui:include src="/incl/current_document_title.xhtml" />
+	      
+		 <ui:decorate template="/casemanagement/caseitem/view_cm_case_template.xhtml">
+	      <ui:define name="case_body">
+	        <h:panelGroup id="case_content">
+	          <ui:insert name="case_content">
+	            <ui:include src="/solon_epg_toolbar.xhtml" />
+	            <div style="clear: both">
+	            <ui:include src="/espace_suivi/espacesuivi_texte_signale_case_actions_tabs.xhtml" />
+	            </div>
+	            <div class="tabsContent">
+	              <ui:include src="#{webActions.currentTabAction.link}" />
+	            </div>
+	          </ui:insert>
+	        </h:panelGroup>
+	      </ui:define>
+	    </ui:decorate>
+	    
+      </div>
+    </c:if>
+  </ui:define>
+</nxthemes:composition>

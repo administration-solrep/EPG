@@ -1,0 +1,701 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.contentview.contrib">
+  <extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">
+
+ <!-- Content view permettant d'afficher la liste des dossiers dans l'espace de traitement -->
+    <contentView name="espace_traitement_dossier_content">
+      	<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">espace_traitement_dossier_content</property>
+	        <property name="isCaseLink">#{true}</property>
+	        <!-- jointure sur Dossier obligatoire pour les tri -->
+            <!-- pas de testAcl car cela ne sert que pour les mesures nominatives => corbeilleActions.getMesureNominativeRestriction() -->
+	        <pattern quoteParameters="false" escapeParameters="false">
+	          SELECT dl.ecm:uuid as id FROM DossierLink as dl, Dossier as d WHERE d.ecm:uuid = dl.acslk:caseDocumentId ? AND dl.ecm:parentId = '?' AND dl.acslk:deleted = 0 AND dl.acslk:caseLifeCycleState = 'running' AND dl.acslk:archive = 0
+	        </pattern>
+            <parameter>#{corbeilleActions.getMesureNominativeRestriction()}</parameter>
+	        <parameter>#{cmMailboxActions.getCurrentMailbox().getDocument().id}</parameter>
+	        <sort column="dl.acslk:created" ascending="false" />
+	        <property name="additionalSort">dl.ecm:uuid asc</property>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+		</genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>espace_traitement_dossier_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>ESPACE_TRAITEMENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste des dossiers à indexer -->
+    <contentView name="espace_traitement_indexation_content">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+			<property name="sortFieldNotInColumn">d.dos:created</property>
+	        <property name="coreSession">#{documentManager}</property>
+	    	<property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">espace_traitement_indexation_content</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?  
+	        </pattern>
+	        <parameter>#{espaceTraitementActions.getDossierIndexationQuery()}</parameter>
+	        <sort column="d.dos:created" ascending="false" />
+	        <pageSize>20</pageSize>
+	        <property name="additionalSort">d.ecm:uuid asc</property>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CORBEILLE_INDEXATION_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste des dossiers dans l'espace de création -->
+    <contentView name="espace_creation_dossier_content">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+      		<property name="sortFieldNotInColumn">d.dos:created</property>
+	        <property name="coreSession">#{documentManager}</property>
+	   	    <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">espace_creation_dossier_content</property>
+            <!-- on n'affiche pas les dossiers ayant un nor attribue -->
+            <!-- pas de testAcl car cela ne sert que pour les mesures nominatives => corbeilleActions.getMesureNominativeRestriction() -->
+	        <pattern quoteParameters="false" escapeParameters="false">
+	          SELECT d.ecm:uuid as id FROM DossierLink as dl, Dossier as d WHERE d.ecm:uuid = dl.acslk:caseDocumentId ? AND dl.acslk:deleted = 0 AND dl.acslk:archive = 0 AND dl.ecm:parentId IN ? AND dl.acslk:caseLifeCycleState = 'init' AND d.dos:norAttribue = 0 
+	        </pattern>
+            <parameter>#{corbeilleActions.getMesureNominativeRestriction()}</parameter>
+	        <parameter>#{espaceCreationActions.getPostesQuery()}</parameter>
+	        <sort column="d.dos:created" ascending="false" />
+	        <property name="additionalSort">d.ecm:uuid asc</property>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>espace_creation_dossier_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="dossier_listing_dto" mode="view" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>ESPACE_CREATION_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+	<!-- Content view permettant d'afficher la liste des dossiers dans l'espace de création -->
+	<contentView name="espace_suivi_statistique_dossier_archivage_content">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierArchivageStatPageProvider">
+			<property name="coreSession">#{documentManager}</property>
+			<property name="statistiquesAction">#{statistiquesAction}</property>
+			<pattern></pattern>
+			<parameter>#{statistiquesAction.dateDebutArchivage}</parameter>
+			<parameter>#{statistiquesAction.dateFinArchivage}</parameter>
+			<parameter>#{statistiquesAction.statutArchivage}</parameter>
+			<sort column="nor" ascending="true" />
+			<pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+
+		<useGlobalPageSize>true</useGlobalPageSize>
+		<refresh>
+			<event>documentChanged</event>
+			<event>documentChildrenChanged</event>
+		</refresh>
+		<cacheKey>statistique_dossier_archivage_cache</cacheKey>
+		<cacheSize>10</cacheSize>
+
+		<resultLayouts>
+			<layout name="dossier_archivage_listing_dto" title="label.document_listing.layout" translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+		</resultLayouts>
+
+		<selectionList>STATISTIQUE_DOSSIER_ARCHIVAGE_SELECTION</selectionList>
+		<actions category="CURRENT_SELECTION_LIST" />
+	</contentView>
+
+    <contentView name="espace_suivi_dossiers_signales_content">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+  	    <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">espace_suivi_dossiers_signales_content</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+           ?
+        </pattern>
+        <parameter>#{espaceSuiviActions.getQueryDossiersSignales()}</parameter>
+        <sort column="d.dos:numeroNor" ascending="true" />
+        <property name="additionalSort">d.ecm:uuid asc</property>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+        <pageSize>10</pageSize>
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>espace_suivi_dossiers_signales_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>DOSSIERS_SIGNALES_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+        
+    <!-- Content view permettant d'afficher la liste des dossiers dans l'espace de suivi -->
+    <contentView name="espace_suivi_dossier_content">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+	    <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">espace_suivi_dossier_content</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+             ? 
+        </pattern>
+        <parameter>#{espaceSuiviTree.query}</parameter>
+        <sort column="d.dos:numeroNor" ascending="true" />
+        <pageSize>10</pageSize>
+        <property name="additionalSort">d.ecm:uuid asc</property>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>espace_suivi_dossier_content</cacheKey>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>ESPACE_SUIVI_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <contentView name="suppression_dossier">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">suppression_dossier</property>
+	        <property name="isEmptyByDefault">true</property>
+	        <property name="defaultEmptyField">created</property>
+	        <property name="defaultEmptyFiltrableProperty">d.dos:created</property>
+	        <property name="defaultEmptyType">date</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:candidat = '2' AND d.dos:deleted = 0 AND testAcl(d.ecm:uuid) = 1
+	        </pattern>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSize>20</pageSize>
+	        <property name="additionalSort">d.ecm:uuid asc</property>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+		</genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+       <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+     <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="dossier_suppression_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="SUPPRIMER_DOSSIER_SELECTION_LIST" />
+    </contentView>
+    
+    <!--Suppression suivi des dossiers  -->
+    <contentView name="suppression_suivi_dossier">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">suppression_suivi_dossier</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:candidat = '3' AND testAcl(d.ecm:uuid) = 1
+	        </pattern>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSize>20</pageSize>
+	        <property name="additionalSort">d.ecm:uuid asc</property>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+		</genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="dossier_suppression_suivi_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="SUPPRIMER_DOSSIER_SELECTION_LIST" />
+    </contentView>   
+    
+    <contentView name="suppression_ministerielle_dossier">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">suppression_ministerielle_dossier</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:candidat = '3' AND d.dos:ministereAttache IN ? AND testAcl(d.ecm:uuid) = 1
+          </pattern>
+	        <parameter>#{suppressionActions.getMinisteresQuery()}</parameter>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSize>20</pageSize>
+	        <property name="additionalSort">d.ecm:uuid asc</property>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+		</genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="dossier_suppression_ministerielle_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="SUPPRIMER_DOSSIER_SELECTION_LIST" />
+    </contentView>
+    
+    
+    <contentView name="abandonne_dossier">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	  	    <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">abandonne_dossier</property>
+	        <property name="isEmptyByDefault">true</property>
+	        <property name="defaultEmptyField">created</property>
+	        <property name="defaultEmptyFiltrableProperty">d.dos:created</property>
+	        <property name="defaultEmptyType">date</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:candidat = '4' AND d.dos:ministereAttache IN ? AND testAcl(d.ecm:uuid) = 1
+	        </pattern>
+            <parameter>#{suppressionActions.getMinisteresQuery()}</parameter>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSize>20</pageSize>
+	        <property name="additionalSort">d.ecm:uuid asc</property>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+		</genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="dossier_abandonne_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="ABANDONNE_DOSSIER_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view de l'espace d'archivage intermediaire : affiche les dossiers candidats à l'archivage intermédiaire -->
+    <contentView name="archivage_intermediaire_dossier">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">archivage_intermediaire_dossier</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:statutArchivage = '2' AND testAcl(d.ecm:uuid) = 1
+	        </pattern>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSize>20</pageSize>
+	        <property name="additionalSort">d.ecm:uuid asc</property>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+		</genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+          <event>documentChanged</event>
+          <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+          <layout name="dossier_listing_dto" title="dossier_archivage_intermediaire_listing"
+              translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="ARCHIVAGE_INTERMEDIAIRE_DOSSIER_SELECTION_LIST" />
+    </contentView>
+ 
+    <!-- Content view de l'espace d'archivage definitive : affiche les dossiers candidats à l'archivage définitif -->
+    <contentView name="archivage_definitive_dossier">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+            <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">archivage_definitive_dossier</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:statutArchivage = '4' AND testAcl(d.ecm:uuid) = 1
+	        </pattern>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <property name="additionalSort">d.ecm:uuid asc</property>
+	        <pageSize>20</pageSize>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+		</genericPageProvider>
+  
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="dossier_archivage_definitive_listing"
+            translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="ARCHIVAGE_DEFINITIVE_DOSSIER_SELECTION_LIST" />
+    </contentView>
+ 
+    
+    <contentView name="espace_suivi_mes_alertes_content">
+      <coreQueryPageProvider>
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            SELECT * FROM Alert WHERE ecm:currentLifeCycleState != 'deleted' and ecm:isProxy = 0 
+        </pattern>
+        <pageSize>20</pageSize>
+      </coreQueryPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChildrenChanged</event>
+        <event>documentChanged</event>
+      </reset>
+      <cacheKey>alert_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="alert_listing" title="document_listing" translateTitle="true" 
+        iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="ALERT_SELECTION_LIST" />
+    </contentView>
+   
+    <contentView name="bulletin_officiel_content">
+      <coreQueryPageProvider>
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            SELECT * FROM BulletinOfficiel where boEtat != 'deleted' and ecm:isProxy = 0 
+        </pattern>
+        <sort column="bulletin_officiel:boNor" ascending="true" />
+        <pageSize>1000000000</pageSize>
+      </coreQueryPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChildrenChanged</event>
+        <event>documentChanged</event>
+      </reset>
+      <cacheKey>bulletin_officiel_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="bulletin_officiel_listing" title="document_listing" translateTitle="true" 
+        iconPath="/icons/document_listing_icon.png"/>
+      </resultLayouts>
+    </contentView>
+    
+    <contentView name="vecteur_publication_content">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.VecteurPublicationPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="bulletinOfficielActions">#{bulletinOfficielActions}</property>
+        <sort column="vp:vpIntitule" ascending="true" />
+        <pageSize>1000000000</pageSize>
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <resultLayouts>
+        <layout name="vecteur_publication_listing" title="document_listing" translateTitle="true" 
+        iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <contentView name="espace_suivi_infocentre_sgg_liste_signature_content">
+      <coreQueryPageProvider>
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            SELECT * FROM ListeTraitementPapier where lis:dateGenerationListe &lt; TIMESTAMP '? ' and lis:dateGenerationListe &gt;= TIMESTAMP '? ' and lis:typeListe='1' and ecm:isProxy = 0 
+        </pattern>
+        <parameter>#{espaceSuiviInfocentreSggActionsBean.getDatePlusOne()}</parameter>
+        <parameter>#{espaceSuiviInfocentreSggActionsBean.getSelectedDate()}</parameter>
+      </coreQueryPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChildrenChanged</event>
+        <event>documentChanged</event>
+      </reset>
+      <cacheKey>liste_signature_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="espace_suivi_infocentre_sgg_liste_signature_listing" title="espace_suivi_infocentre_sgg_liste_signature_listing" 
+        iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+    </contentView>
+    
+    <contentView name="espace_suivi_infocentre_sgg_liste_dem_publication_et_dem_epreuve_content">
+      <coreQueryPageProvider>
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            SELECT * FROM ListeTraitementPapier where lis:dateGenerationListe &lt; TIMESTAMP '? ' and lis:dateGenerationListe &gt;= TIMESTAMP '? ' and (lis:typeListe='2' or lis:typeListe='3') and ecm:isProxy = 0  
+        </pattern>
+        <parameter>#{espaceSuiviInfocentreSggActionsBean.getDatePlusOne()}</parameter>
+        <parameter>#{espaceSuiviInfocentreSggActionsBean.getSelectedDate()}</parameter>
+      </coreQueryPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChildrenChanged</event>
+        <event>documentChanged</event>
+      </reset>
+      <cacheKey>dem_publication_et_dem_epreuve_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="espace_suivi_infocentre_sgg_liste_dem_publication_et_dem_epreuve_listing" title="espace_suivi_infocentre_sgg_liste_dem_publication_et_dem_epreuve_listing" 
+        iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+    </contentView>
+    
+    <contentView name="dossier_for_liste_traitement">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="bean">#{profilUtilisateurActions}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">dossier_for_liste_traitement</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+            	SELECT d.ecm:uuid as id FROM Dossier as d where d.ecm:uuid in (?) AND d.dos:archive = 0
+	        </pattern>
+	        <parameter>#{espaceSuiviInfocentreSggActionsBean.getCurrentListeTraitementPapierDossierIds()}</parameter>
+      	</genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChildrenChanged</event>
+        <event>documentChanged</event>
+      </reset>
+      <cacheKey>dossier_for_liste_traitement_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="dossier_for_liste_traitement_listing" title="dossier_for_liste_traitement" 
+        iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+        <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+  
+    <contentView name="numero_liste_traitement_for_dossier">
+      <coreQueryPageProvider>
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            SELECT * FROM ListeTraitementPapier where lis:idsDossier = '?'  and lis:typeListe='1' and ecm:isProxy = 0 
+        </pattern>
+        <parameter>#{navigationContext.getCurrentDocument().getId()}</parameter>
+        
+      </coreQueryPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChildrenChanged</event>
+        <event>documentChanged</event>
+      </reset>
+      <cacheKey>numero_liste_cache</cacheKey>
+      <cacheSize>1</cacheSize>
+      <resultLayouts>
+        <layout name="numero_liste_traitement_for_dossier_listing" title="_liste_traitement_for_dossier" 
+        iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+        <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste des textes signalés dans l'espace de suivi -->
+    <contentView name="espace_suivi_textes_signales_content">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.TexteSignalePageProvider">
+     	<property name="columnBeanManager">#{textesSignalesActions}</property>
+        <property name="coreSession">#{documentManager}</property>
+        <sortable value="false" ></sortable>
+        <pageSize>20</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <reset>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </reset>
+      <cacheKey>espace_suivi_textes_signales_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="textes_signales_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTES_SIGNALES_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view mode de parution dans la partie administration / table de référence -->
+    <contentView name="administration_mode_parution">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.ModeParutionPageProvider">
+     	<property name="columnBeanManager">#{tablesReferenceActions}</property>
+        <property name="coreSession">#{documentManager}</property>
+        <property name="tablesReferenceActions">#{tablesReferenceActions}</property>
+        <sortable value="false" ></sortable>
+        <pageSize>20</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+         <pattern quoteParameters="false" escapeParameters="false">
+            SELECT * FROM ModeParution  
+        </pattern>
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>administration_mode_parution</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="mode_parution_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" mode="edit"/>
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+  </extension>
+  
+</component>
+
+
+

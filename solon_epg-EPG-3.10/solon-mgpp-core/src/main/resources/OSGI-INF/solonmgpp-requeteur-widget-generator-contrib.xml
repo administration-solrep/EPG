@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+
+<!-- 
+  La contribution qui est utilisée pour générer les widgets qui seront utilisés dans le requêteur.
+  On utilise le point d'extension selecteddocuments pour trouver les champs (et les exclure) sur lesquels seront générés les widgets.
+  
+  Le point d'extension addinfofields sert à ajouter des informations supplémentaires à un champ. On peut l'utiliser pour affiner le type d'un widget, ou
+  pour ajouter des informations relatives au voculaire lié au champs.
+  
+  Le point d'extension  widgetdescriptions contient ensuite tous les widgets utilisés par le requêteur pour générer la contribution du layout et des widgets du requêteur. 
+  
+ -->
+<component name="fr.dila.solonmgpp.core.requeteurtemplate">
+  <extension target="fr.dila.solonmgpp.core.service.MGPPRequeteurWidgetGenerator" point="selecteddocuments">
+    <selectedDocument name="FicheLoi" key="fl.">
+      <schemas>
+        <schema name="fiche_loi" defaultCategory="fiche_loi" />
+      </schemas>
+		
+      <!-- Champs supplémentaires --><!--
+      <addedField name="d.ecm:fulltext_nor" defaultCategory="dossier" type="fulltext"/>
+      -->
+      <!-- Champs inutiles --><!-- 
+      <excludedField name="a.norm:lignesProgrammations" />
+	  -->
+    </selectedDocument>
+
+	<selectedDocument name="Navette" key="n.">
+	  <schemas>
+        <schema name="navette" defaultCategory="fiche_loi" />
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentationDR" key="fpd.">
+	  <schemas>
+        <schema name="fiche_presentation_dr" defaultCategory="fiche_presentation_dr"/>
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentationOEP" key="fpo.">
+	  <schemas>
+	    <schema name="fiche_presentation_oep" defaultCategory="fiche_presentation_oep"/>
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentationIE" key="fpi.">
+	  <schemas>
+	    <schema name="fiche_presentation_ie" defaultCategory="fiche_presentation_ie"/>
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentation341" key="fp3.">
+	  <schemas>
+	    <schema name="fiche_presentation_341" defaultCategory="fiche_presentation_341"/>
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentationAVI" key="fpa.">
+	  <schemas>
+	    <schema name="fiche_presentation_avi" defaultCategory="fiche_presentation_avi"/>
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentationDec" key="fpde.">
+	  <schemas>
+	    <schema name="fiche_presentation_decret" defaultCategory="fiche_presentation_decret"/>
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentationDPG" key="fpdpg.">
+	  <schemas>
+	    <schema name="fiche_presentation_dpg" defaultCategory="fiche_presentation_dpg"/>
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentationSD" key="fpsd.">
+	  <schemas>
+	    <schema name="fiche_presentation_sd" defaultCategory="fiche_presentation_sd"/>
+      </schemas>
+    </selectedDocument>
+    
+	<selectedDocument name="FichePresentationJSS" key="fpjss.">
+	  <schemas>
+	    <schema name="fiche_presentation_jss" defaultCategory="fiche_presentation_jss"/>
+      </schemas>
+    </selectedDocument>
+
+	<selectedDocument name="FichePresentationAUD" key="fpaud.">
+	  <schemas>
+	    <schema name="fiche_presentation_aud" defaultCategory="fiche_presentation_aud"/>
+      </schemas>
+    </selectedDocument>
+
+
+	<selectedDocument name="FichePresentationDOC" key="fpdoc.">
+	  <schemas>
+	    <schema name="fiche_presentation_doc" defaultCategory="fiche_presentation_doc"/>
+      </schemas>
+    </selectedDocument>
+
+
+  </extension>
+  
+  <extension target="fr.dila.solonmgpp.core.service.MGPPRequeteurWidgetGenerator" point="addinfofields">
+    <addInfoFields>
+      
+      <!-- Modification des types de Nuxeo pour une meilleure prise en compte par le requêteur -->
+      
+      <addInfoField name="fl.floi:assembleeDepot" newType="fdrdestinataire"/>
+      <addInfoField name="fl.floi:auteur" newType="usermgpp">
+      </addInfoField>
+      <addInfoField name="fpd.fpdr:nature" newType="manyDirectory">
+        <property name="DIRECTORY">nature_fdr</property>
+       </addInfoField>
+      <addInfoField name="fpd.fpdr:legislature" newType="manyDirectory">
+        <property name="DIRECTORY">legislature</property>
+      </addInfoField>
+      <addInfoField name="fpd.fpdr:session" newType="manyDirectory">
+        <property name="DIRECTORY">session</property>
+      </addInfoField>
+      <addInfoField name="fpi.fpie:auteur" newType="usermgpp" />
+      <addInfoField name="fpd.fpdr:destinataire1Rapport" newType="fdrdestinataire"/>
+      <addInfoField name="fp3.fp341:auteur" newType="usermgpp" />
+
+      <addInfoField name="fpdp.fpdpg:sensAvis" newType="manyDirectory">
+        <property name="DIRECTORY">sens_avis</property>
+      </addInfoField>
+      
+      <addInfoField name="fps.fpsd:groupeParlementaire" newType="organisme"/>        
+      <addInfoField name="fpdo.fpdoc:commissions" newType="organisme"/>
+      
+      <addInfoField name="fl.floi:refusEngagementProcAss1" newType="fdrdestinataire"/>
+      
+      <addInfoField name="fl.floi:refusEngagementProcAss2" newType="fdrdestinataire"/>
+      
+      <addInfoField name="fl.floi:decisionEngagementAssemblee2" newType="manyDirectory">
+        <property name="DIRECTORY">decision_proc_acc</property>
+      </addInfoField>
+      
+    </addInfoFields>
+  </extension>
+
+
+  <!-- Les données du point d'extension widgetdescriptions sont générées par l'application au démarrage du serveur -->
+  <extension target="fr.dila.solonmgpp.core.service.MGPPRequeteurWidgetGenerator" point="widgetdescriptions">
+	<widgetDescription category="fiche_loi" name="fl.floi:numeroNor" type="string"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:auteur" type="string"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:intitule" type="stringList"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateCM" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:observation" type="stringList"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateProcedureAcceleree" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:article493" type="boolean"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:assembleeDepot" type="string"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateDepot" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:numeroDepot" type="stringList"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:refusEngagementProcAss1" type="string"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateRefusEngProcAss1" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:refusEngagementProcAss2" type="string"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:decisionEngagementAssemblee2" type="string"/>	
+	<widgetDescription category="fiche_loi" name="n.nav:codeLecture" type="string"/>
+	<widgetDescription category="fiche_loi" name="n.nav:niveauLecture" type="string"/>
+	<widgetDescription category="fiche_loi" name="n.nav:dateTransmission" type="date"/>
+	<widgetDescription category="fiche_loi" name="n.nav:dateNavette" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateReception" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateLimitePromulgation" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateSaisieCC" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateDecision" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:numeroJO" type="stringList"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:numeroLoi" type="stringList"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateAdoption" type="date"/>
+	<widgetDescription category="fiche_loi" name="fl.floi:dateJO" type="date"/>
+	
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:numeroOrdre" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:nature" type="string"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:legislature" type="string"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:session" type="string"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:texteRef" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:datePublicationTexteRef" type="date"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:articleTexteRef" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:objet" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:dateRelanceSGG" type="date"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:dateDepotEffectif" type="date"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:numeroDepotJOSenat" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:observation" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:responsabiliteElaboration" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:pole" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:rubrique" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:createurDepot" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:destinataire1Rapport" type="string"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:destinataire2Rapport" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:periodicite" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:conventionCalcul" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:rapportSenat" type="boolean"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:ministeres" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:directeurCM" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:DAJMinistere" type="stringList"/>
+	<widgetDescription category="fiche_presentation_dr" name="fpd.fpdr:anneeDupliquee" type="stringList"/>
+     
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:idDossier" type="string"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:nomOrganisme" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:ministereRattachement" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:ministereRattachement2" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:ministereRattachement3" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:texteRef" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:texteDuree" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:commentaire" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:observation" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:nbDeputes" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:nbSenateurs" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:adresse" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:tel" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:fax" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:mail" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:dureeMandatAN" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:dureeMandatSE" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:date" type="date"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:idCommun" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:nomInterlocuteurRef" type="stringList"/>
+	<widgetDescription category="fiche_presentation_oep" name="fpo.fpoep:fonctionInterlocuteurRef" type="stringList"/>
+	
+	<widgetDescription category="fiche_presentation_ie" name="fpi.fpie:identifiantProposition" type="stringList"/>
+	<widgetDescription category="fiche_presentation_ie" name="fpi.fpie:auteur" type="string"/>
+	<widgetDescription category="fiche_presentation_ie" name="fpi.fpie:intitule" type="stringList"/>
+	<widgetDescription category="fiche_presentation_ie" name="fpi.fpie:date" type="date"/>
+	<widgetDescription category="fiche_presentation_ie" name="fpi.fpie:observation" type="stringList"/>
+	
+	<widgetDescription category="fiche_presentation_341" name="fp3.fp341:identifiantProposition" type="stringList"/>
+	<widgetDescription category="fiche_presentation_341" name="fp3.fp341:auteur" type="string"/>
+	<widgetDescription category="fiche_presentation_341" name="fp3.fp341:intitule" type="stringList"/>
+	<widgetDescription category="fiche_presentation_341" name="fp3.fp341:objet" type="stringList"/>
+	<widgetDescription category="fiche_presentation_341" name="fp3.fp341:numeroDepot" type="stringList"/>
+	<widgetDescription category="fiche_presentation_341" name="fp3.fp341:dateDepot" type="date"/>
+
+	<widgetDescription category="fiche_presentation_avi" name="fpa.fpavi:idDossier" type="string"/>
+	<widgetDescription category="fiche_presentation_avi" name="fpa.fpavi:nomOrganisme" type="stringList"/>
+	<widgetDescription category="fiche_presentation_avi" name="fpa.fpavi:baseLegale" type="stringList"/>
+	<widgetDescription category="fiche_presentation_avi" name="fpa.fpavi:date" type="date"/>
+	
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:nor" type="string"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:dateJO" type="date"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:norPublication" type="stringList"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:pageJO" type="stringList"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:rubrique" type="stringList"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:urlPublication" type="stringList"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:numJO" type="stringList"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:intitule" type="stringList"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:numeroActe" type="stringList"/>
+	<widgetDescription category="fiche_presentation_decret" name="fpde.fpdec:objet" type="stringList"/>
+
+
+	<widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:idDossier" type="string"/>
+	<widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:objet" type="string"/>
+    <widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:datePresentation" type="date"/>
+    <widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:dateLettrePm" type="date"/>
+    <widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:sensAvis" type="string"/>
+    <widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:dateVote" type="date"/>
+    <widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:suffrageExprime" type="string"/>
+    <widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:votePour" type="string"/>
+    <widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:voteContre" type="string"/>
+    <widgetDescription category="fiche_presentation_dpg" name="fpdp.fpdpg:abstention" type="string"/>
+
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:idDossier" type="string"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:objet" type="string"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:dateLettrePm" type="string"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:groupeParlementaire" type="string"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:datedeclaration" type="date"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:dateLettrePm" type="date"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:demandeVote" type="boolean"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:dateVote" type="date"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:sensAvis" type="string"/>
+	<widgetDescription category="fiche_presentation_sd" name="fps.fpsd:suffrageExprime" type="string"/>
+    <widgetDescription category="fiche_presentation_sd" name="fps.fpsd:votePour" type="string"/>
+    <widgetDescription category="fiche_presentation_sd" name="fps.fpsd:voteContre" type="string"/>
+    <widgetDescription category="fiche_presentation_sd" name="fps.fpsd:abstention" type="string"/>
+	
+	
+	
+	
+	<widgetDescription category="fiche_presentation_jss" name="fpjs.fpjss:idDossier" type="string"/>
+	<widgetDescription category="fiche_presentation_jss" name="fpjs.fpjss:objet" type="string"/>
+	<widgetDescription category="fiche_presentation_jss" name="fpjs.fpjss:dateLettrePm" type="date"/>
+	
+	
+	<widgetDescription category="fiche_presentation_aud" name="fpau.fpaud:idDossier" type="string"/>
+	<widgetDescription category="fiche_presentation_aud" name="fpau.fpaud:nomOrganisme" type="string"/>
+	<widgetDescription category="fiche_presentation_aud" name="fpau.fpaud:baseLegale" type="string"/>
+	
+	<widgetDescription category="fiche_presentation_doc" name="fpdo.fpdoc:idDossier" type="string"/>
+	<widgetDescription category="fiche_presentation_doc" name="fpdo.fpdoc:objet" type="string"/>
+	<widgetDescription category="fiche_presentation_doc" name="fpdo.fpdoc:dateLettrePm" type="date"/>
+	<widgetDescription category="fiche_presentation_doc" name="fpdo.fpdoc:baseLegale" type="string"/>
+    <widgetDescription category="fiche_presentation_doc" name="fpdo.fpdoc:commissions" type="stringList"/>
+
+  </extension>
+  
+  
+</component>

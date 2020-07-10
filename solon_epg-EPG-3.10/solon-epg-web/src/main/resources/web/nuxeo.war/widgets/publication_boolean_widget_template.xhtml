@@ -1,0 +1,22 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+			xmlns:h="http://java.sun.com/jsf/html"
+			xmlns:c="http://java.sun.com/jstl/core"
+			xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+	
+	<c:choose>
+		<c:when test="#{field eq true and widget.mode == 'csv'}">
+			<h:outputText value="Publié" />
+		</c:when>
+		<c:when test="#{field eq true and widget.mode == 'pdf'}">
+			<div>
+				<nxp:paragraph/>
+				<nxp:image value="/img/icons/document_ok_16.png" alt="Publié" height="16" width="16" alignment="center" />
+			</div>
+		</c:when>		
+		<c:when test="#{field eq true and !(widget.mode == 'any')}">
+			<div>
+				<h:graphicImage value="/img/icons/document_ok_16.png" alt="Publié" title="Publié" />
+			</div>	
+		</c:when>
+	</c:choose>
+</f:subview>

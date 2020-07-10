@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util" xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+    <h:outputText value="Rectificatif" />
+  </ui:define>
+
+  <ui:define name="body">
+    <div>
+      <h3>
+        <h:outputText value="Rectificatif" />
+      </h3>
+      <ui:include src="/incl/message_banner.xhtml" />
+      <h:form id="creation_dossier_109_a" styleClass="creationDossier">
+        <h:outputText value="Veuillez contacter le SGG avant de créer un rectificatif" style="font:24px;font-weight:bold;"/>
+        <h:panelGrid id="rectificatifGrid" columns="2" >
+        <h:panelGroup>
+        	<nxl:layout value="#{dossierCreationActions}" mode="create" name="creation_dossier_layout_109" />
+				</h:panelGroup>
+				<h:panelGroup>
+					<!-- bouton consultation -->
+					<h:commandButton id="buttonConsulter" value="Consulter" 
+					action="#{dossierCreationActions.consulterDossier()}" styleClass="button"/>
+				</h:panelGroup>
+				</h:panelGrid>
+			</h:form >
+				<!-- import dossier ou affichage message erreur -->
+				<c:choose>
+					<c:when test="#{currentDocument.getType() == 'Dossier' and ! empty dossierCreationActions.numeroNor and empty dossierCreationActions.erreurNumeroNor}">
+				    <div class="subbodyContainer">
+							 <ui:decorate template="/casemanagement/caseitem/view_cm_case_template.xhtml">
+						      <ui:define name="case_body">
+						        <h:panelGroup id="case_content">
+						          <ui:insert name="case_content">
+						            <div style="clear: both">
+						            <ui:include src="/espace_creation/view_creation_case_actions_tabs.xhtml" />
+						            </div>
+						            <div class="tabsContent">
+						            	<!-- on definit la vue (variable utilisé pour les onglets du traitement papier : traitement_papier_tab.xhtml) -->
+						            	<nxu:set var="contentViewName" value="view_creation_dossier_109">
+						              	<ui:include src="#{webActions.currentTabAction.link}" />
+						              </nxu:set>
+						            </div>
+						          </ui:insert>
+						        </h:panelGroup>
+						      </ui:define>
+						    </ui:decorate>
+				      </div>
+					</c:when>
+					<c:when test="#{empty dossierCreationActions.numeroNor and ! empty dossierCreationActions.erreurNumeroNor}">
+						<h:outputText value="#{dossierCreationActions.erreurNumeroNor}" styleClass="msgError" />
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+      <h:form id="creation_dossier_109_b" >
+  				<!-- navigation button -->
+ 					<ui:include src="/espace_creation/navigation_boutons_rectificatif.xhtml" />
+      </h:form>
+    </div>
+  </ui:define>
+
+</nxthemes:composition>

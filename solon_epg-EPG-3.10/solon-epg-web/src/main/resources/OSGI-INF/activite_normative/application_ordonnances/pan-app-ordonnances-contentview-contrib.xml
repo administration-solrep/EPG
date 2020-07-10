@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.contentview.activite.normative.application.ordonnances">
+  <extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">    
+    
+    <!-- Content view permettant d'afficher la liste des mesures de l'onglet tableau maitre -->
+    <contentView name="texte_maitre_mesures_app_ordonnances">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.ActiviteNormativeMesuresPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="texteMaitreActions">#{texteMaitreActions}</property>
+        <sort column="numeroOrdre" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <cacheKey>texte_maitre_mesures_content</cacheKey>
+      <cacheSize>20</cacheSize>
+      <reset>
+        <event>documentChanged</event>
+        <event>mesuresAdded</event>
+      </reset>
+
+      <resultLayouts>
+        <layout name="texte_maitre_mesures_app_ordonnances_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTE_MAITRE_MESURE_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>    
+  
+  <!-- Content view permettant d'afficher la liste de l'onglet tableau maitre dans le menu application des ordonnances -->
+    <contentView name="tableau_maitre_application_ordonnances">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">Dossier</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">tableau_maitre_application_ordonnances</property>
+        <pattern quoteParameters="true" escapeParameters="true">
+           	ufnxql: SELECT d.ecm:uuid as id FROM ActiviteNormative as d WHERE d.norma:applicationOrdonnance = '1'
+        </pattern>
+        <sort column="d.texm:numeroNor" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+        <event>legislaturePublicationChanged</event>
+        <event>mesuresAdded</event>
+      </refresh>
+      <cacheKey>tableau_maitre_ao_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="tableau_maitre_application_ordonnances_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TABLEAU_MAITRE_APPLICATION_ORDONNANCES_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Une content view pour le résultat de la recherche de mesures de l'activité normative -->
+   <contentView name="recherche_activite_normative_applicationOrdonnance">
+    <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+       <property name="coreSession">#{documentManager}</property>
+       <property name="resourcesAccessor">#{resourcesAccessor}</property>
+       <pageSize>20</pageSize>
+       <pattern quoteParameters="false" escapeParameters="false">
+           	?
+        </pattern>
+         <sort column="d.texm:numeroNor" ascending="true" />
+         <parameter>#{epgANSmartNXQLQueryActions.getFullQuery()}</parameter>
+    </genericPageProvider>
+    <useGlobalPageSize>true</useGlobalPageSize>
+    <refresh>
+      <event>documentChanged</event>
+      <event>documentChildrenChanged</event>
+    </refresh>
+    <cacheKey>recherche_an_applicationOrdonnance_key</cacheKey>
+    <cacheSize>20</cacheSize>
+    <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+    <searchLayout name="nxql_incremental_smart_query_recherche_an" />
+    <resultLayouts>
+        <layout name="tableau_maitre_application_ordonnances_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+    </resultLayouts>
+    <selectionList>RECHERCHE_AN_APPLICATION_ORDONNANCE_SELECTION</selectionList>
+    <actions category="RECHERCHE_SELECTION_LIST" />
+  </contentView>
+  
+  <!-- Content view permettant d'afficher la liste de l'onglet tableau des lois dans le menu application des lois -->
+    <contentView name="tableau_ordonnances_application_ordonnances">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">Dossier</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">tableau_ordonnances_application_ordonnances</property>
+        <pattern quoteParameters="true" escapeParameters="true">
+           	ufnxql: SELECT d.ecm:uuid as id FROM ActiviteNormative as d WHERE d.norma:applicationOrdonnance = '1'
+        </pattern>
+        <sort column="d.texm:numeroNor" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+        <event>legislaturePublicationChanged</event>
+      </refresh>
+      <cacheKey>tableau_ordonnances_ao_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="tableau_ordonnances_application_ordonnances_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TABLEAU_MAITRE_APPLICATION_ORDONNANCES_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+  
+ </extension>
+</component>
+
+
+
+

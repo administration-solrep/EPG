@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<!-- Cet composant contribue : - Les cycles de vie de l'application SOLON 
+	EPG ; - Les associations type de document / cycle de vie. -->
+<component name="fr.dila.solonepg.core.lifecycle">
+
+	<required>fr.dila.ss.core.lifecycle</required>
+
+	<extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService" point="lifecycle">
+		<!-- Cycle de vie des éléments à rafraichissement asynchrone -->
+		<lifecycle name="refresh" defaultInitial="done">
+			<transitions>
+				<transition name="toRefreshing" destinationState="refreshing" />
+				<transition name="toDone" destinationState="done" />
+			</transitions>
+			<states>
+				<state name="refreshing" description="En cours de rafraichissement" initial="true">
+					<transitions>
+						<transition>toDone</transition>
+					</transitions>
+				</state>
+				<state name="done" description="Rafraichit" initial="true">
+					<transitions>
+						<transition>toRefreshing</transition>
+					</transitions>
+				</state>
+			</states>
+		</lifecycle>
+	
+		<!-- Cycle de vie des squelettes de feuilles de routes -->
+		<lifecycle name="feuilleRouteSqueletteElement" defaultInitial="draft">
+			<transitions>
+				<transition name="toValidated" destinationState="validated">
+					<description>Le squelette est validé</description>
+				</transition>
+				<transition name="toDraft" destinationState="draft">
+					<description>Retour à l'état brouillon, lorsqu'on dé-valide un
+						squelette
+					</description>
+				</transition>
+				<transition name="delete" destinationState="deleted">
+					<description>Marque l'élément comme supprimé</description>
+				</transition>
+			</transitions>
+			<states>
+				<state name="draft" description="Brouillon" initial="true">
+					<transitions>
+						<transition>toValidated</transition>
+						<transition>delete</transition>
+					</transitions>
+				</state>
+				<state name="validated" description="L'élément est validé">
+					<transitions>
+						<transition>toDraft</transition>
+						<transition>delete</transition>
+					</transitions>
+				</state>
+				<state name="deleted" description="L'élément est supprimé">
+				</state>
+			</states>
+		</lifecycle>
+	</extension>
+	
+	<extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
+		point="types">
+		<types>
+			<type name="FeuilleRoute" noRecursionForTransitions="toReady,toRunning,toDone,toCanceled,backToReady">feuilleRouteElement</type>
+			<type name="FeuilleRouteSquelette">feuilleRouteSqueletteElement</type>
+			<type name="RouteStep">feuilleRouteElement</type>
+			<type name="RouteStepSquelette">feuilleRouteElement</type>
+			<type name="StepFolder" noRecursionForTransitions="toReady,toRunning,toDone,toCanceled,backToReady">feuilleRouteElement</type>
+			<type name="DossierLink">caselink</type>
+			<type name="Dossier">dossier</type>
+			<type name="FondDeDossierFichier">minimaliste</type>
+			<type name="ParapheurFichier">minimaliste</type>
+			<type name="FileSolonEpg">minimaliste</type>
+		</types>
+	</extension>
+</component>

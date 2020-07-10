@@ -1,0 +1,29 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<table style="border-collapse: collapse; width: 100%">
+		<tr>
+			<td>
+				<div class="floatLeftTabs">
+					<div class="tabsBar">
+					    <h:form>
+								<nxu:dataList layout="unorderedList" var="tab" value="#{activiteNormativeStatsActions.subTabsActionsList}"
+									itemStyleClass="#{nxu:test(activiteNormativeStatsActions.currentSubTabAction == tab, 'selected', '')}">
+						              <h:commandLink action="#{activiteNormativeStatsActions.setCurrentSubTabAction(tab)}" immediate="true">
+						                <h:outputText value="#{messages[tab.label]}" />
+						              </h:commandLink>
+						         </nxu:dataList>
+						</h:form>
+					</div>
+			  	</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<ui:include src="#{activiteNormativeStatsActions.currentSubTabAction.link}" />
+			</td>
+		</tr>
+	</table>
+</div>

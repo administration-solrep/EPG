@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util" xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+  <ui:define name="page title">
+    <h:outputText value="Création d'un dossier" />
+  </ui:define>
+
+  <ui:define name="body">
+    <div>
+      <h3>
+        <h:outputText value="Création d'un dossier" />
+      </h3>
+      <ui:include src="/incl/message_banner.xhtml" />
+      <a4j:region id="creationDossier100Region">
+        <a4j:outputPanel id="creationDossier100OutPutPanel" >
+      <h:form id="creation_dossier_100">
+       <style>
+        .choixMinistereList .dataInput{
+          margin:2px 2px 2px 2px; 
+          padding:1px 1px 1px 1px;
+          border:1px solid #F7EEDF;
+          height:80px;
+        }
+        
+       .choixMinistereList .dataInputNorPrm{
+          margin:2px 2px 2px 2px; 
+          padding:1px 1px 1px 1px;
+          border:1px solid #F7EEDF;
+          height:40px;
+        }
+        
+        .rbChoixDirectionMinistere tr{
+        height:60px;
+        }
+        
+        .rbChoixDirectionMinistere tr td{
+        padding:30px 0px 0px 0px;
+        }
+        
+        </style>
+        <!-- type d'acte -->
+        <nxl:layout value="#{dossierCreationActions}" mode="create" name="creation_dossier_layout_100_a" />
+        <h:panelGroup rendered="#{!dossierCreationActions.hideAllField()}">
+        <div class="choixMinistereList">
+          <h:outputText value="Choix du ministère et de la direction responsable du dossier :" rendered="#{! empty dossierCreationActions.norPrmList}" />
+          <!-- choix ministère & direction ou Premier Ministre -->
+          <h:panelGrid  columns="2" >
+            <h:panelGroup rendered="#{! empty dossierCreationActions.norPrmList}">
+              <!-- radiobutton choix ministere -->
+              <h:selectOneRadio id="rbChoixDirectionMinistere"
+                styleClass="rbChoixDirectionMinistere"
+                value="#{dossierCreationActions.choixDirectionMinistere}"
+                 layout="pageDirection"
+                >
+                <f:selectItem itemValue="true" itemLabel="" />
+                <f:selectItem itemValue="false" itemLabel="" />
+                <a4j:support event="onchange" eventsQueue="ajax_events_queue"
+                  actionListener="#{dossierCreationActions.setChoixDirectionMinistere(nxu:test(!(dossierCreationActions.choixDirectionMinistere eq 'false'),'false','true'))}" 
+                  immediate="true" reRender="choixMinistereList"/>
+              </h:selectOneRadio>
+            </h:panelGroup>
+            <h:panelGroup id="choixMinistereList">
+              <!--  ministère & direction -->
+              <nxl:layout value="#{dossierCreationActions}" mode="#{nxu:test(!(dossierCreationActions.choixDirectionMinistere eq 'false'),'create','view')}" name="creation_dossier_layout_100_b" />
+              <!--  NOR PRM -->
+              <h:panelGrid id="directionPmLabel" columns="2" 
+                styleClass="dataInputNorPrm" columnClasses="labelColumn,fieldColumn"
+                rendered="#{! empty dossierCreationActions.norPrmList}" >
+                <h:panelGroup>
+                  <h:outputText value="NOR PRM :"  />
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:selectOneMenu id="norPrm" value="#{dossierCreationActions.norPrm}" style="width:200px;"
+                      valueChangeListener="#{dossierCreationActions.norPrmListener}" 
+                      disabled="#{! (dossierCreationActions.choixDirectionMinistere eq 'false')}">
+                        <nxu:selectItems
+                          value="#{dossierCreationActions.norPrmList}"
+                          var="norPrmItem"
+                          itemValue="#{norPrmItem.id}"
+                          itemLabel="#{norPrmItem.label}"
+                          ordering="label" caseSensitive="true" />
+                    </h:selectOneMenu>
+                  </h:panelGroup>
+              </h:panelGrid>
+            </h:panelGroup>
+          </h:panelGrid>
+        </div>
+        <!-- année -->
+        <table class="dataInput">
+          <tbody>
+            <tr>
+              <td class="iconColumn" style="vertical-align:top;"></td>
+          <td class="labelColumn">Année</td>
+          <td class="fieldColumn" colspan="1"><input type="text" id="annee_courante_field" readonly="readonly" disabled="disabled" size="4" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- fdr à copier -->
+        <nxl:layout value="#{dossierCreationActions}" mode="create" name="create_dossier_copier_fdr_layout" />
+      </h:panelGroup>
+          
+          <h:commandButton id="buttonPrecedent" value="#{messages['label.epg.dossier.precedent']}" immediate='true' disabled="true"
+            action="#{dossierCreationActions.goPrecedent()}" styleClass="button" />
+            
+            <h:commandButton id="buttonSuivant" value="#{messages['label.epg.dossier.suivant']}" disabled="#{!dossierCreationActions.displayGoSuivant()}"
+            action="#{dossierCreationActions.goSuivant()}" styleClass="button" />
+            
+            <h:commandButton id="buttonTerminer" value="Terminer" disabled="#{!dossierCreationActions.displayGoTerminer()}"
+            action="#{dossierCreationActions.goTerminer()}" styleClass="button" />
+         
+          <h:commandButton id="buttonAnnuler" value="Annuler" immediate='true'
+            action="#{dossierCreationActions.goAnnuler()}" styleClass="button" />
+        
+      <script>
+        document.getElementById('annee_courante_field').value = new Date().getFullYear();
+      </script>
+      </h:form>
+      </a4j:outputPanel>
+      </a4j:region>
+    </div>
+    <c:if test="#{navigationContext.currentMessage != null and dossierCreationActions.isCaseTraiter()}">
+      <div>
+        <h3>
+          <h:outputText value="Rattachement à un dossier existant" />
+        </h3>
+        <h:form id="rattachement_dossier">
+          <table class="dataInput">
+            <tr>
+              <td class="labelColumn">
+                <h:outputText value="NOR"/>
+              </td>
+              <td class="fieldColumn">
+                <h:inputText value="#{dossierCreationActions.norRattachement}" immediate="true"/>
+              </td>
+              <td>
+                <h:commandButton id="buttonAnnuler" value="Rattacher" action="#{dossierCreationActions.rattacher()}" styleClass="button" />
+              </td>
+            </tr>
+            <c:if test="#{dossierCreationActions.traiterSansDossier()}">
+            <tr>
+              <td colspan="3">
+              	<h3>
+		          <h:outputText value="Pas de rattachement à un dossier EPG" />
+		        </h3>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <h:commandButton id="sansDossier" value="Pas de rattachement à un dossier EPG" action="#{evenementCreationActions.suivreTransitionTraite()}" styleClass="button" />
+              </td>
+            </tr>
+            </c:if>
+          </table>
+          
+        </h:form>
+      </div>
+    </c:if>
+      
+  </ui:define>
+
+</nxthemes:composition>

@@ -1,0 +1,23 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+  >
+<c:set var="propertyNameFull" value="#{nxu:test(!empty widget.properties.propertyNameFull, widget.properties.propertyNameFull, 'dos:titreActe')}" />
+  <c:choose>
+  <c:when test="#{widget.mode == 'pdf'}">
+    <nxp:font size="8">#{field_0.getProperty(propertyNameFull).getValue()}</nxp:font>
+  </c:when>
+  <c:when test="#{widget.mode == 'csv'}">
+    <nxp:font size="8">#{field_0.getProperty(propertyNameFull).getValue()}</nxp:font>
+  </c:when>
+  <c:otherwise>
+  	<h:outputText value="#{field_0.getProperty(propertyNameFull).getValue()}" />
+  </c:otherwise>
+  </c:choose>
+</f:subview>

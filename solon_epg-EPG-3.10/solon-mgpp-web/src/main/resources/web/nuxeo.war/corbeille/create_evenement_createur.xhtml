@@ -1,0 +1,55 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util">
+
+  <nxu:set var="isUpdater" value="#{filterActions.isUpdater()}" cache="true">
+    <h:panelGroup rendered="#{isUpdater}" id="create_evt_createur">
+         <h:form id="create_evt_createur_form">
+         <ui:decorate template="/incl/menu_arrondi.xhtml">
+         <ui:define name="reponsesClipboard_panel">
+         <div class="menu">
+          <div class="userMailboxes" style="overflow: auto;">
+            <div class="userMailboxesContent">
+              <h4>
+                <h:outputText value="#{messages['label.create.evenement']}" />
+              </h4>
+              <div  id="uMContent" style="overflow-x: auto; overflow-y: hidden;" class="userLeftMenuContent">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <h:selectOneMenu id="selectEvenementTypeId" value="#{evenementCreationActions.currentTypeEvenement}"  style="width:100%" required="true" rendered="#{isUpdater}">
+                          <f:selectItem itemLabel="Sélectionnez une valeur." itemValue="" />
+                          <f:selectItems value="#{evenementCreationActions.evenementCreateurList}" />
+                        </h:selectOneMenu>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h:commandButton id="btn_create_evt" class="button" value="#{messages['label.create.evenement.createur']}"  action="#{evenementCreationActions.navigateToCreationCommunication()}" rendered="#{isUpdater}"/>
+                      </td>
+                    </tr>
+                    <ui:repeat id="actionListTable" value="#{webActions.getActionsList('CREATE_DOSSIER_MGPP')}" var="action" >
+                      <tr>
+                        <td>
+                          <nxh:commandButton class="button" value="#{action.label}" action="#{action.getLink()}" onclick="#{action.confirm}" immediate="true"/>
+                        </td>
+                      </tr>
+                    </ui:repeat>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          </div>
+         </ui:define>
+         </ui:decorate>
+         
+         </h:form>
+    </h:panelGroup>
+ </nxu:set>
+</div>

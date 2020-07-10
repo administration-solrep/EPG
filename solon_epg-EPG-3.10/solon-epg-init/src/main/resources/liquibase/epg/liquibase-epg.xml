@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
+	logicalFilePath="liquibase-epg">
+
+	<includeAll path="liquibase/epg/ddl-init/" />
+	<includeAll path="liquibase/common/ddl-organigramme/" />
+	<includeAll path="liquibase/common/init-nuxeo/" />
+	<includeAll path="liquibase/common/init-organigramme/" />
+	
+	<!-- updates -->
+	<include file="liquibase/epg/updates/v3.5.0.xml" />
+	<include file="liquibase/epg/updates/v3.6.0.xml" />
+	<include file="liquibase/epg/updates/v3.6.1.xml" />
+	<include file="liquibase/epg/updates/v3.7.0.xml" />
+	<include file="liquibase/epg/updates/v3.8.1.xml" />
+
+	<!--
+	la suppression des tables de vocabulaire ; doit intervenir après les mises à jour
+	pour traiter les cas où on ajoute des tables de vocabulaire dans la mise à jour
+	ou la modification de vues exploitant les tables de vocabulaire
+	-->
+	<includeAll path="liquibase/epg/ddl-vocabulary/" />
+
+</databaseChangeLog>
+

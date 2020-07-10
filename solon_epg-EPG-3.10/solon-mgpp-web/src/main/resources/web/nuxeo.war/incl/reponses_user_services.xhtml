@@ -1,0 +1,171 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+  <div class="userServices" >
+    <ui:insert name="user">
+      <!--[if lte IE 7]>
+        <style>
+   #userServicesForm{
+   padding-left:7px;
+   padding-top:7px;
+   }
+   </style>
+        <![endif]-->
+      <h:form id="userServicesForm">
+        <style>
+                      .actionsMGPP {
+                        float: left;
+                          border-top: 1px solid #2e281e;
+                          border-bottom: 1px solid #d2d2d2;
+                          width: 100%;
+                          padding-top: 4px;
+                          padding-left: 5px;
+                          padding-right: 5px;
+                          background: #f4f4f4;
+                          box-shadow: 1px 2px 3px #aaa inset;
+                      }
+                      
+                      .actionsMGPP .mgppTab {
+                          background: #988e7e;
+                          display: inline-block;
+                          border-radius: 0 0 5px 5px;
+                          margin-bottom: 5px;
+                          font-weight: normal;
+                          padding-left: 6px;
+                          padding-right: 6px;
+                          box-shadow: 1px 2px 3px #625848 inset;
+                      }
+                      
+                      .actionsMGPP .mgppTab:hover {
+                          background: #7a6f5e;
+                          cursor: pointer;
+                          box-shadow: none;
+                      }
+                      
+                      .actionsMGPP a {
+                          display: block;
+                          padding: 6px;
+                      }
+                      
+                      .actionsMGPP a:hover {
+                          text-decoration: none;
+                      }
+                      
+                      .actionsMGPP .mgppTab.selected {
+                          box-shadow: none;
+                          background: #eee;
+                          box-shadow: 1px 2px 3px #625848 inset;
+                          border: 2px solid #B92125;
+                      }
+                      
+                      .actionsMGPP .mgppTab.selected a {
+                          color: #000;
+                          padding: 4px;
+                      }
+
+                      .actionsMGPP .hasMessage {
+                      	background: #B92125;
+        				font-weight: bold;
+                      }
+        </style>
+        
+	        <nxu:set var="actions" value="#{webActions.getActionsList('USER_SERVICES')}" cache="true">
+	          <c:choose>
+	            <c:when test="#{fn:length(actions) > 3}">
+	              <!-- + de 3 menus l'espace parlementaire est dans un menu séparé -->
+	              <nxu:dataList layout="simple" var="action" value="#{actions}"
+	                           rowIndexVar="row" rowCountVar="rowCount" id="userServicesActionsTable">
+	                <div class="leftHandleTab #{navigationWebActions.currentMainMenuAction == action.id ? 'selected' : ''}" id="#{action.id}">
+	                  <div class="rightHandleTab">
+	                    <div class="mainTab">
+	                      <nxh:commandLink action="#{action.getLink()}" id="userServicesActionCommandLink">
+	                        <f:param id="userTabId" name="id" value="#{action.id}"/>
+	                        <h:outputText value="#{messages[action.label]}" />
+	                      </nxh:commandLink>
+	                    </div></div></div>
+	                  </nxu:dataList>
+	                  <c:if test="#{navigationWebActions.currentMainMenuAction == 'espace_parlementaire'}">
+	                    <a4j:poll id="pollInfosCorbeilles" interval="#{notificationActions.getNotificationDelai()}" 
+        					reRender="userServicesActionsTableMGPP,userServicesSubActionsTableMGPP"/>
+	                    <div class="actionsMGPP">
+	                      <!-- Affichage du menu secondaire du MGPP -->
+	                      <nxu:set var="actionsMGPP" value="#{webActions.getActionsList('USER_SERVICES_MGPP')}" cache="true">
+	                        <nxu:dataList layout="simple" var="action" value="#{actionsMGPP}"
+	                                    rowIndexVar="row" rowCountVar="rowCount" id="userServicesActionsTableMGPP">
+	                          <div class="mgppTab #{espaceParlementaireActions.isTabSelected(action.id) == true ? 'selected' : ''} 
+	                          	#{espaceParlementaireActions.hasTabMessages(action.id) == true ? 'hasMessage':''}" id="#{action.id}">
+	                            <nxh:commandLink action="#{action.getLink()}" id="userServicesActionCommandLink">
+	                              <f:param id="userTabId" name="id" value="#{action.id}"/>
+	                              <h:outputText value="#{messages[action.label]}" />
+	                            </nxh:commandLink>
+	                          </div>
+	                        </nxu:dataList>
+	                      </nxu:set>
+	                    </div>
+	                    <div class="actionsMGPP">
+	                      <nxu:dataList layout="simple" var="tab" value="#{espaceParlementaireActions.subTabsActionList}" id="userServicesSubActionsTableMGPP">
+	                        <div class="mgppTab #{navigationWebActions.currentSecondMenuAction == tab.id ? 'selected' : ''}
+	                          #{espaceParlementaireActions.hasTabMessages(tab.id) == true ? 'hasMessage':''}" id="#{tab.id}">
+	                          <nxh:commandLink action="#{tab.getLink()}" id="userServicesActionDetailCommandLink">
+	                            <f:param id="userTabId" name="id" value="#{tab.id}"/>
+	                            <h:outputText value="#{messages[tab.label]}" />
+	                          </nxh:commandLink>
+	                        </div>
+	                      </nxu:dataList>
+	                    </div>
+	                  </c:if>
+	                </c:when>
+	                <c:otherwise>
+	                  <!-- - de 3 menus l'espace parlementaire est dans le menu principal -->
+	                  <!-- Affichage du menu de EPG -->
+	                  <nxu:dataList layout="simple" var="action" value="#{actions}"
+	                   rowIndexVar="row" rowCountVar="rowCount" id="userServicesActionsTable">
+	                    <h:panelGroup rendered="#{action.id != 'espace_parlementaire'}">
+	                      <div class="leftHandleTab #{navigationWebActions.currentMainMenuAction == action.id ? 'selected' : ''}" id="#{action.id}" >
+	                        <div class="rightHandleTab">
+	                          <div class="mainTab">
+	                            <nxh:commandLink action="#{action.getLink()}" id="userServicesActionCommandLink">
+	                              <f:param id="userTabId" name="id" value="#{action.id}"/>
+	                              <h:outputText value="#{messages[action.label]}" />
+	                            </nxh:commandLink>
+	                          </div></div></div>
+	                        </h:panelGroup>
+	                      </nxu:dataList>
+	                      <!-- Affichage du menu du MGPP -->
+	                      <nxu:set var="actionsMGPP" value="#{webActions.getActionsList('USER_SERVICES_MGPP')}" cache="true">
+	                        <a4j:poll id="pollInfosCorbeilles" interval="#{notificationActions.getNotificationDelai()}" 
+        						reRender="userServicesActionsTableMGPP,userServicesSubActionsTableMGPP"/>
+	                        <nxu:dataList layout="simple" var="action" value="#{actionsMGPP}"
+	                            rowIndexVar="row" rowCountVar="rowCount" id="userServicesActionsTableMGPP">
+	                          <div class="leftHandleTab #{navigationWebActions.currentSecondMenuAction == action.id ? 'selected' : ''}" id="#{action.id}">
+	                            <div class="rightHandleTab">
+	                              <div class="mainTab">
+	                                <nxh:commandLink action="#{action.getLink()}" id="userServicesActionCommandLink">
+	                                  <f:param id="userTabId" name="id" value="#{action.id}"/>
+	                                  <h:outputText value="#{messages[action.label]}" />
+	                                </nxh:commandLink>
+	                              </div></div></div>
+	                            </nxu:dataList>
+	                            <div class="actionsMGPP">
+	                              <nxu:dataList layout="simple" var="tab" value="#{espaceParlementaireActions.subTabsActionList}" id="userServicesSubActionsTableMGPP">
+	                                <div class="mgppTab #{navigationWebActions.currentSecondMenuAction == tab.id ? 'selected' : ''}
+	                                  #{espaceParlementaireActions.hasTabMessages(tab.id) == true ? 'hasMessage':''}" id="#{tab.id}">
+	                                  <nxh:commandLink action="#{tab.getLink()}" id="userServicesActionDetailCommandLink">
+	                                    <f:param id="userTabId" name="id" value="#{tab.id}"/>
+	                                    <h:outputText value="#{messages[tab.label]}" />
+	                                  </nxh:commandLink>
+	                                </div>
+	                              </nxu:dataList>
+	                            </div>
+	                          </nxu:set>
+	                        </c:otherwise>
+	                      </c:choose>
+	                    </nxu:set>
+                  </h:form>
+                </ui:insert>
+              </div></div>

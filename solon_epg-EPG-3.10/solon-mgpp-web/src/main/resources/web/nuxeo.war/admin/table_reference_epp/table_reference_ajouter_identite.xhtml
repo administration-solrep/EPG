@@ -1,0 +1,70 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+	<a4j:region id="ajouterIdentiteMainRegion">
+		<rich:modalPanel id="ajouterIdentitePanel" autosized="true">
+			<div>
+				<f:facet name="header">
+					<h:outputText value="Ajouter Identite" />
+				</f:facet>
+			</div>
+			<h:form id="ajouterIdentiteForm">		
+				<table style="width: 450px;">
+					<tr>
+						<td align="left">
+							<nxl:layout value="#{tableReferenceEppAction.identiteNode}" mode="edit" name="table_reference_identite_epp" />
+						</td>
+					</tr>
+				</table>
+				
+				<!-- button create -->
+				<table>
+					<tr>
+						<td>
+							<div class="popupFddDiv">
+								<h:commandLink
+									id="ajouterIdentitePanel_validerButton"
+									action="${tableReferenceEppAction.createIdentite()}"
+									oncomplete="Richfaces.hideModalPanel('ajouterIdentitePanel')">
+									<h:graphicImage height="24" width="24" url="/img/icons/check.png" alt="Ajouter" />
+									<h:outputText value="Valider" />
+								</h:commandLink>
+
+							</div>
+						</td>
+						<td>
+							<div class="popupFddDiv">
+								<a4j:commandLink
+									id="ajouterIdentitePanel_annulerButton"
+									action="${tableReferenceEppAction.annulerLaCreation()}"
+									reRender="AjouterIdentiteA4JPanel"
+									oncomplete="Richfaces.hideModalPanel('ajouterIdentitePanel')"
+									ajaxSingle="true">
+									<h:graphicImage height="24" width="24" url="/img/icons/delete.png" alt="Annuler" />
+									<h:outputText value="Annuler" />
+								</a4j:commandLink>
+							</div>
+						</td>
+						<td>
+							<a4j:status for="ajouterIdentiteMainRegion">
+								<f:facet name="start">
+									<h:graphicImage value="/img/standart_waiter.gif" style="position: absolute;" />
+								</f:facet>
+							</a4j:status>
+						</td>
+					</tr>
+				</table>
+			</h:form>
+		</rich:modalPanel>
+	</a4j:region>
+</div>

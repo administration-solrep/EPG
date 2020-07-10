@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les layouts + widgets nécessaires à la liste des dossiers affichées de manière générique.
+-->
+<component name="fr.dila.solonepg.web.layout.dossierlisting">
+  <require>fr.dila.solonepg.web.widget.dossierlisting</require>
+  <require>com.nuxeo.document.routing.table.widget</require>
+  <require>com.nuxeo.cm.table.layout</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+    
+    <!--  layout utilisé pour faire l'export csv : version simple -->
+    <layout name="cm_dossier_csv_dto">
+      <templates>
+        <template mode="any">/layouts/layout_listing_csv_template.xhtml
+        </template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+    <columns>       
+        <!-- Colonne NOR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          <property name="sortPropertyName">d.dos:numeroNor</property>
+          </properties>
+          <widget>dossier_listing_titre_dto</widget>
+        </column> 
+        <!-- Colonne Intitulé du texte -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+              <property name="sortPropertyName">d.dos:titreActe</property>
+           </properties>
+          <widget>dossier_listing_texte_dto</widget>
+        </column>
+        <!-- Colonne Date de création -->
+        <column name="colonneDateCreation" alwaysSelected="true">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.dc:created</property>
+          </properties>
+          <widget>dossier_listing_date_creation_dto</widget>
+        </column>
+        <!-- Colonne Dernier contributeur -->
+        <column name="colonneDernierContributeur" alwaysSelected="true">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.dc:lastContributor</property>
+          </properties>
+          <widget>dossier_listing_dernier_contributeur_dto</widget>
+        </column>
+        <!-- Colonne Verrou -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dossier_listing_lock_dto</widget>
+        </column>
+      </columns>
+    </layout>
+    
+  </extension>
+
+</component>

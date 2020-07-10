@@ -1,0 +1,29 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/08_param_mailDilaParameters.nxshell
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p Administrator http://localhost:8180/solon-epg/site/automation
+
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre objet-mel-dila-parameters
+cd objet-mel-dila-parameters
+setp -xpath parametre:value -value "[SOLON EPG - Administration] Paramètres DILA inconnus"
+setp -xpath parametre:unit -value Objet
+setp -xpath dc:description -value "« Objet » (par défaut) du mél d'envoi de non renseignement des paramètres DILA"
+setp -xpath dc:title -value "Objet mél paramètres DILA"
+
+# go to parametre folder
+cd /case-management/workspaces/admin/parametre/
+
+# create 
+mkdir Parametre texte-mel-dila-parameters
+cd texte-mel-dila-parameters
+setp -xpath parametre:value -value "Bonjour, les paramètres nécessaires à l'envoi de notifications aux webservices sont vides ou partiellement complétés. Afin d'assurer le bon fonctionnement de l'application, il est nécessaire qu'ils soient renseignés."
+setp -xpath parametre:unit -value texte
+setp -xpath dc:description -value "« Texte » (par défaut) du mél d'envoi de non renseignement des paramètres DILA"
+setp -xpath dc:title -value "Texte mél paramètres DILA"

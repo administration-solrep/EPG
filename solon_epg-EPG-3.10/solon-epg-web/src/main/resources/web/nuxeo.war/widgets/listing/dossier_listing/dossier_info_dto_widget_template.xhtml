@@ -1,0 +1,27 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+    <c:choose>
+      <c:when test="#{widget.mode == 'pdf'}">
+        <nxp:paragraph/>
+        <nxp:image value="/img/icons/lock_16.png" height="16" width="16" alignment="center" rendered="#{field_0}"/>
+        <nxp:image value="/img/icons/folder_red.png" height="16" width="16" alignment="center" rendered="#{field_1}"/>
+        <nxp:image value="/img/icons/back_update_16.png" height="16" width="16" alignment="center" rendered="#{field_2}"/>
+        <nxp:image value="/img/icons/document_text_16.png" height="16" width="16" alignment="center" rendered="#{field_4}"/>
+      </c:when>
+      <c:otherwise>
+        <nxu:set var="lockName" value="#{stLockActions.getLockMessageWithUserInfo(field_3)}" cache="true">  
+        	<h:graphicImage value="/img/icons/lock_16.png" alt="#{lockName}" title="#{lockName}" rendered="#{field_0}"/>
+        </nxu:set>
+        <h:graphicImage value="/img/icons/folder_red.png" alt="Urgent" title="Urgent" rendered="#{field_1}"/>
+        <h:graphicImage value="/img/icons/back_update_16.png" alt="#{messages[label.epg.feuilleRoute.etape.valide.retourModification]}" title="#{messages[label.epg.feuilleRoute.etape.valide.retourModification]}" rendered="#{field_2}"/>
+        <h:graphicImage value="/img/icons/document_text_16.png" alt="#{messages[label.epg.dossier.listing.decret.arrive]}" title="#{messages[label.epg.dossier.listing.decret.arrive]}" rendered="#{field_4}"/>
+      </c:otherwise>
+    </c:choose>
+  
+</f:subview>

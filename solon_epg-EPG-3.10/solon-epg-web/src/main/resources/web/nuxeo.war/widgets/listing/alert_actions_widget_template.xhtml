@@ -1,0 +1,23 @@
+ <div id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+ 
+   <nxu:set var="alert" value="#{field_0}" cache="true">
+   
+      <a4j:outputPanel id="#{widget.id}_a4jPanel">
+        <h:outputLink  value="javascript:return false;" >
+          <rich:componentControl disableDefault="true" event="onclick" for="alertMenu" operation="show">
+            <f:param value="#{alert.id}" name="alertparam" />
+          </rich:componentControl>
+          <h:outputText value="#{nxu:test(empty alert.dc.title, alert.id, alert.dc.title)}" />
+        </h:outputLink>  
+      </a4j:outputPanel>
+    
+  </nxu:set>
+</div>

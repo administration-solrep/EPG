@@ -1,0 +1,89 @@
+<f:subview xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+
+
+    <nxp:document title="Calendrier test" orientation="landscape" fileName="calendrier_export.pdf" >
+
+		<nxu:set var="dateActiviteList" value="${calendrierParlementaireActions.getListeDeToutesLesDatesDesActivites()}">
+		<nxu:set var="assembleeList" value="#{calendrierParlementaireActions.getListedeSemainesParTypesTrie()}">
+		<nxu:set var="fontSize" value="#{dateActiviteList.size()>20?5:(dateActiviteList.size()>15?6:(dateActiviteList.size()>10?7:9))}">
+			<nxp:paragraph spacingBefore="1" alignment="center">
+				<nxp:html>
+					<h:outputText value="Calendrier parlementaire   " />
+					<h:outputText value="(${calendrierParlementaireActions.getCurrentDate()})"/>
+				</nxp:html>
+			</nxp:paragraph>
+			<nxp:paragraph spacingBefore="1">
+				<nxp:table  widthPercentage="100" columns="#{dateActiviteList.size()+2}" headerRows="#{assembleeList.size()+1}">
+					  <c:forEach var="assemblee" items="#{assembleeList}" varStatus="assembleeStatus">
+							  <nxp:cell colspan="2" border="0011" borderColor="#C7C7C7"><nxp:paragraph alignment="right" ><nxp:font size="${fontSize}">#{assemblee.key}</nxp:font></nxp:paragraph></nxp:cell>
+							  <c:forEach var="SemaineParAssemblee" items="#{assemblee.value}" varStatus="SemaineParAssembleeStatus">
+								  <c:choose>
+									  <c:when test="${SemaineParAssemblee == null}">
+										  <nxp:cell border="0001" borderColor="#C7C7C7"><nxp:paragraph alignment="center" ><nxp:font size="${fontSize}"></nxp:font></nxp:paragraph></nxp:cell>
+									  </c:when>
+									  <c:otherwise>
+									  	<nxp:cell border="1111" borderColor="#C7C7C7" colspan="${SemaineParAssemblee.get('colspan')}" backgroundColor="#E7DECE"><nxp:paragraph alignment="center" ><nxp:font size="${fontSize}">${SemaineParAssemblee.get('label')}</nxp:font></nxp:paragraph></nxp:cell>
+									  </c:otherwise>
+								  </c:choose>
+							  </c:forEach>
+					  </c:forEach>
+					  <nxp:cell border="0011" borderColor="#C7C7C7"><nxp:paragraph alignment="center"><nxp:font size="${fontSize}" style="bold">Lois</nxp:font></nxp:paragraph></nxp:cell>
+					  <nxp:cell border="1111" borderColor="#C7C7C7"><nxp:paragraph alignment="center"><nxp:font size="${fontSize}" style="bold">Dépôt</nxp:font></nxp:paragraph></nxp:cell>
+					   <c:forEach var="dateDuneActivite" items="${dateActiviteList}" varStatus="ListeDeToutesLesDatesDesActivites">
+						  <nxp:cell border="1111" borderColor="#C7C7C7" backgroundColor="#F3EFDD"><nxp:paragraph alignment="center" ><nxp:font size="${fontSize}" style="bold">${calendrierParlementaireActions.getFormatedDateValue(dateDuneActivite)}</nxp:font></nxp:paragraph></nxp:cell>
+					  </c:forEach>
+				  <c:forEach var="ficheLoi" items="${calendrierParlementaireActions.getListeDeToutLesLois()}" varStatus="ListeDeToutLesLoisStatus">
+					<nxp:cell border="0011" borderColor="#C7C7C7"><nxp:paragraph alignment="center"><nxp:font size="${fontSize}">${ficheLoi.getIntitule()}</nxp:font></nxp:paragraph></nxp:cell>
+					<nxp:cell border="1111" borderColor="#C7C7C7"><nxp:paragraph alignment="center" >
+					  <c:choose>
+						  <c:when test="${not empty ficheLoi.getAssembleeDepot()}">
+						  	<nxp:font size="${fontSize}">#{messages[nxu:concat('ABRV_', ficheLoi.getAssembleeDepot())]}</nxp:font>
+						  </c:when>
+						  <c:otherwise>
+						  	<nxp:font size="${fontSize}"> </nxp:font>
+						  </c:otherwise>
+					    </c:choose>
+					 </nxp:paragraph></nxp:cell>
+					 
+					  <c:forEach var="ActiviteParlementaireList" items="${calendrierParlementaireActions.getToutesLesActivitesParlementaireDeCeLoiTrie(ficheLoi.getIdDossier())}" varStatus="ListeDesctivitesParlementairesStatus">
+						  <nxp:cell border="1111" borderColor="#C7C7C7"><nxp:paragraph alignment="center" >
+							  <c:choose>
+								  <c:when test="${ActiviteParlementaireList == null or ActiviteParlementaireList.size==0}">
+									  <nxp:font size="${fontSize}"> </nxp:font>
+								  </c:when>
+								  <c:otherwise>
+							  			<c:forEach var="ActiviteParlementaire" items="${ActiviteParlementaireList}" varStatus="listeDesAct">
+							  					<c:if test="${listeDesAct.index>0}"><nxp:html><br/></nxp:html></c:if>
+							  					<c:if test="${'1'.equals(ActiviteParlementaire.getActivite())||'2'.equals(ActiviteParlementaire.getActivite())}">
+													<nxp:font size="${fontSize}">${ActiviteParlementaire.getAssemblee()}</nxp:font>
+												</c:if>
+												<nxp:font size="${fontSize}">${ActiviteParlementaire.getActivite()}</nxp:font>
+												<c:if test="${'CMP'.equals(ActiviteParlementaire.getActivite())||'lec CMP'.equals(ActiviteParlementaire.getActivite())||'Nelle lec'.equals(ActiviteParlementaire.getActivite())}">
+												  	<nxp:font size="${fontSize}"> </nxp:font>
+												  	<nxp:font size="${fontSize}">${ActiviteParlementaire.getAssemblee()}</nxp:font>
+												</c:if>
+										  </c:forEach>
+									  
+								  </c:otherwise>
+							  </c:choose>
+						  </nxp:paragraph></nxp:cell>
+					  </c:forEach>
+				  </c:forEach>
+			  </nxp:table>
+	      </nxp:paragraph>
+		</nxu:set>
+		</nxu:set>
+		</nxu:set>
+
+    </nxp:document>
+
+
+</f:subview>

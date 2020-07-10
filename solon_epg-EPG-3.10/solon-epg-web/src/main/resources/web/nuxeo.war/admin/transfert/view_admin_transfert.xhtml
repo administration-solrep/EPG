@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  >
+
+	<ui:define name="page title">
+    <c:choose>
+  		<c:when test="#{dossierMassActions.isAccessTransfertAuthorized()}">
+    		<h:outputText value="#{nuxeoApplicationName} - Transfert de dossiers et réattribution de NOR"/>
+    	</c:when>
+    	<c:otherwise>
+    		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+    	</c:otherwise>
+    </c:choose>
+  </ui:define>
+  <ui:define name="body">
+  
+  <script type="text/javascript">
+		function confirmBeforeValidationReattribution(event) {
+			return displayConfirm(event,
+					"#{messages['message.epg.document.validation.reattribution']}");
+		}
+		function confirmBeforeValidationTransfert(event) {
+			return displayConfirm(event,
+					"#{messages['message.epg.document.validation.transfert']}");
+		}
+	</script>
+  
+  <c:if test="#{dossierMassActions.isAccessTransfertAuthorized()}">
+    <div class="adminModel">
+		
+		    <h:panelGroup >
+		       <h3 class="summaryTitle">
+		         <h:outputText value="Transfert de dossiers et réattribution de NOR"/>
+		       </h3>
+		    </h:panelGroup>
+		    <ui:include src="/incl/message_banner.xhtml"/>
+		    <style>
+			   .dataOutput {
+			   	width: auto !important;
+			   }
+			   .dataOutput td{
+			   	text-align: center;
+			   }
+		  	</style>
+		  	<br/><br/>
+		  	<nxu:set  var="dossiersList" value="#{dossierMassActions.getAllDossierTransfert()}" cache="true">
+		  		<c:if test="#{dossiersList.size > 0}">
+				<h:dataTable var="dossier" value="#{dossiersList}" class="dataOutput" rowClasses="dataRowEven,dataRowOdd">
+		            <h:column>
+		              <f:facet name="header">
+		                <h:outputText value="#{messages['label.epg.dossier.numeroNor']}" />
+		              </f:facet>
+		              <h:outputText value="#{nxd:titleOrId(dossier)}" />
+		            </h:column>
+		             <h:column>
+		              <f:facet name="header">
+		                <h:outputText value="#{messages['label.epg.dossier.titreActe']}" />
+		              </f:facet>
+		              <h:outputText value="#{dossier.dos.titreActe}" />
+		            </h:column>
+		            <h:column>
+		              <f:facet name="header">
+		                <h:outputText value="#{messages['transfert.dossier.transferable']}" />
+		              </f:facet>
+		              		<h:graphicImage value="/icons/task.png" alt="Oui" title="Oui" rendered="#{dossierMassActions.isTransferable(dossier)}" />
+		            </h:column>
+		            <h:column>
+		              <f:facet name="header">
+		                <h:outputText value="#{messages['transfert.dossier.reattribuable']}" />
+		              </f:facet>
+             				<h:graphicImage value="/icons/warning.gif" alt="Rectificatif" title="Rectificatif" rendered="#{dossierMassActions.isReattribuable(dossier) and dossierMassActions.isRectificatif(dossier)}"/>
+             				<h:graphicImage value="/icons/task.png" alt="Oui" title="Oui" rendered="#{dossierMassActions.isReattribuable(dossier) and not dossierMassActions.isRectificatif(dossier)}"/>
+		            </h:column>
+	           	 </h:dataTable>
+	            </c:if>
+	            </nxu:set>
+			
+			<br/><br/>
+			<style>
+				.formBO{
+					white-space:nowrap !important;
+				}
+			</style>
+			<h:form id="admin_transfert_form" enctype="multipart/form-data" class="formBO">
+				<a4j:region id="adminTransfertViewRegion"  >
+				<a4j:outputPanel id="adminTransfertViewPanel" >
+						<h3 class="summaryTitle">
+					         <h:outputText value=""/>
+					    </h3>
+							<table>
+								<tr>
+									<th width="40px"></th>
+									<th ><nxl:layout value="#{dossierCreationActions}" mode="create" name="transfert_dossier_layout" /></th>
+								</tr>
+							</table>
+							<table>
+								<tr >
+									<th width="40px"></th>
+									<th><a4j:commandButton styleClass="button" id="button_cancelTransfert" value="#{messages['transfert.dossier.annuler']}" action="#{administrationActions.navigateToEspaceAdministration()}" immediate="true"/></th>
+									<th><nxh:commandButton styleClass="button" id="button_saveTransfert" value="#{messages['transfert.dossier.transferer']}" 
+											action="#{dossierMassActions.saveTransfertDossier()}" onclick="return confirmBeforeValidationTransfert(event)" /></th>
+									<th><nxh:commandButton styleClass="button" id="button_saveReattribution" value="#{messages['transfert.dossier.reattribuer']}" 
+											action="#{dossierMassActions.saveReattributionDossier()}" onclick="return confirmBeforeValidationReattribution(event)" /></th>
+								</tr>
+							</table>
+		      			<div style="clear:both"></div>
+	      			</a4j:outputPanel>
+				</a4j:region>
+			</h:form>
+    </div>
+  </c:if>
+  </ui:define>
+</nxthemes:composition>

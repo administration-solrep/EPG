@@ -1,0 +1,38 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+  <c:choose>
+    <c:when test="#{widget.mode == 'csv'}">
+		  <h:outputText value="#{nxu:test(field, 'Oui', 'Non')}" />
+    </c:when>
+    <c:when test="#{widget.mode == 'pdf'}">
+      <div>
+        <nxp:paragraph />
+        <c:choose>
+          <c:when test="#{field }">
+            <nxp:image value="/icons/task.png" alt="Oui" height="16"
+              width="16" alignment="center" />
+          </c:when>
+          <c:otherwise>
+            <nxp:image value="/img/icons/empty_task.png" alt="Non"
+              height="16" width="16" alignment="center" />
+          </c:otherwise>
+        </c:choose>
+      </div>
+    </c:when>
+    <c:otherwise>
+      <div>
+      <c:choose>
+        <c:when test="#{field}">
+          <h:graphicImage value="/icons/task.png" alt="Oui" title="Oui" />
+        </c:when>
+        <c:otherwise>
+          <h:graphicImage value="/img/icons/empty_task.png" alt="Non"
+            title="Non" />
+        </c:otherwise>
+      </c:choose></div>
+    </c:otherwise>
+  </c:choose>
+</f:subview>

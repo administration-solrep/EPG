@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<component name="fr.dila.solonepg.batch.scheduler.config">
+  <require>fr.dila.solonepg.elastic.batch.IndexationSchedulerRegistryService</require>
+  
+  <!-- ATTENTION, on utilise un SchedulerRegistryService spécifique à l'indexation -->
+  <extension
+    target="fr.dila.solonepg.elastic.batch.IndexationSchedulerRegistryService"
+    point="schedule">
+
+    <schedule id="indexationContinue">
+      <username>Administrator</username>
+      <password>Administrator</password>
+      <eventId>indexationContinueEvent</eventId>
+      <eventCategory>indexation</eventCategory>
+      <!-- toutes les 2 minutes -->
+      <cronExpression>0 0/2 * * * ?</cronExpression>
+    </schedule>
+
+  </extension>
+
+</component>

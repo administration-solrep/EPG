@@ -1,0 +1,160 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	j(document).ready(function() {
+		var sectionid;
+		j("html, body").scrollTop(j(#{texteMaitreActions.scrollTo}).offset().top);
+	});
+</script>
+
+<style>
+	.dataFiche{
+		width : auto !important;
+	}
+	
+	.dataFiche td{
+		border : 0px !important;
+	}
+	
+	.dataFicheTable{
+		width : auto !important;
+	}
+	
+	.dataFicheTable .labelColumn{
+		width : auto !important;
+	}
+	
+</style>
+<h:form id="fiche_signaletique">
+	<nxu:set var="ficheSignaletique" value="#{activiteNormativeActions.getCurrentFicheSignaletiqueOrdonnance()}" cache="true">
+		<div class="foldableBox" > <!-- Info Ordonnance -->
+				<h3 class="folded">
+					<a href="#nologo" onclick="return toggleBox(this)">Ordonnance</a>
+				</h3>
+			<div class="boxBody">
+				<table class="dataOutput dataFiche">
+					<tbody>
+						<tr>
+							<td class="labelColumn">	
+								<span>#{messages['activite.normative.fiche.signaletique.ordonnance.fondementConstitutionnel']}</span>
+							</td>
+							<td class="fieldColumn">
+								<h:outputText value="#{ficheSignaletique.ordonnanceDTO.fondementConstitutionnel}"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="labelColumn">	
+								<span>#{messages['activite.normative.fiche.signaletique.ordonnance.ministere']}</span>
+							</td>
+							<td class="fieldColumn">
+								<h:outputText value="#{ficheSignaletique.ordonnanceDTO.ministere}"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="labelColumn">	
+								<span>#{messages['activite.normative.fiche.signaletique.ordonnance.titre']}</span>
+							</td>
+							<td class="fieldColumn">
+								<h:outputText value="#{ficheSignaletique.ordonnanceDTO.titre}"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="labelColumn">	
+								<span>#{messages['activite.normative.fiche.signaletique.ordonnance.date']}</span>
+							</td>
+							<td class="fieldColumn">
+								<h:outputText value="#{ficheSignaletique.ordonnanceDTO.date}" converter="DateConverter"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="labelColumn">	
+								<span>#{messages['activite.normative.fiche.signaletique.ordonnance.datePublication']}</span>
+							</td>
+							<td class="fieldColumn">
+								<h:outputText value="#{ficheSignaletique.ordonnanceDTO.datePublication}" converter="DateConverter"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="labelColumn">	
+								<span>#{messages['activite.normative.fiche.signaletique.ordonnance.numeroNor']}</span>
+							</td>
+							<td class="fieldColumn">
+								<h:outputText value="#{ficheSignaletique.ordonnanceDTO.numeroNor}"/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="foldableBox" > <!-- Info Ratification -->
+				<h3 class="folded">
+					<a href="#nologo" onclick="return toggleBox(this)">Ratification</a>
+				</h3>
+			<div class="boxBody">
+				<div name="containerTabDiv" style="overflow-x: auto;overflow-y: hidden;">
+					<table class="dataOutput ">
+						<thead>
+							<tr>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.ratification.numeroNor']}"/></th>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.ratification.titre']}"/></th>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.ratification.dateDepot']}"/></th>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.ratification.numeroDepot']}"/></th>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.ratification.assemblee']}"/></th>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.ratification.datePromulgation']}"/></th>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.ratification.datePublication']}"/></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="loiDeRatification" items="#{ficheSignaletique.ratificationDTO}" varStatus="status">
+								<tr class="#{nxu:test(status.index % 2 == 1, 'dataRowOdd', 'dataRowEven')}">
+									<td><h:outputText value="#{loiDeRatification.numeroNor}"/></td>
+									<td><h:outputText value="#{loiDeRatification.titre}"/></td>
+									<td><h:outputText value="#{loiDeRatification.dateDepot}" converter="DateConverter"/></td>
+									<td><h:outputText value="#{loiDeRatification.numeroDepot}"/></td>
+									<td><h:outputText value="#{loiDeRatification.assemblee}"/></td>
+									<td><h:outputText value="#{loiDeRatification.datePromulgation}" converter="DateConverter"/></td>
+									<td><h:outputText value="#{loiDeRatification.datePublication}" converter="DateConverter"/></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="foldableBox" > <!-- Info Decret -->
+				<h3 class="folded">
+					<a href="#nologo" onclick="return toggleBox(this)">Décrets d'application</a>
+				</h3>
+			<div class="boxBody">
+				<div name="containerTabDiv" style="overflow-x: auto;overflow-y: hidden;">
+					<table class="dataOutput ">
+						<thead>
+							<tr>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.decretApplication.titre']}"/></th>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.decretApplication.numeroNor']}"/></th>
+								<th><h:outputText value="#{messages['activite.normative.fiche.signaletique.decretApplication.datePublication']}"/></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="decretApplication" items="#{ficheSignaletique.decretApplicationDTO}" varStatus="status">
+								<tr class="#{nxu:test(status.index % 2 == 1, 'dataRowOdd', 'dataRowEven')}">
+									<td><h:outputText value="#{decretApplication.titre}"/></td>
+									<td><h:outputText value="#{decretApplication.numeroNor}"/></td>
+									<td><h:outputText value="#{decretApplication.datePublication}" converter="DateConverter"/></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</nxu:set>
+</h:form>
+</div>

@@ -1,0 +1,43 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:c="http://java.sun.com/jstl/core">
+  
+  <div style="clear: both">
+    <div class="tabsBar">
+
+      <div class="floatLeftTabs">
+
+        <h:form>
+         <!--  selection de la view -->
+	         <c:choose>
+	           <c:when test="#{contentViewName=='view_creation_dossier_109'}">
+		           	<nxu:dataList layout="unorderedList" var="tab" value="#{subTabsActionsList}"
+			            itemStyleClass="#{nxu:test(webActions.currentSubTabAction == tab, 'selected', '')}">
+			            <nxd:restDocumentLink document="#{currentDocument}" view="#{contentViewName}" tab="#{webActions.currentTabAction.id}" subTab="#{tab.id}">
+			              <h:outputText value="#{messages[tab.label]}" />
+			            </nxd:restDocumentLink>
+		          	</nxu:dataList>
+	           </c:when>
+	           <c:otherwise>
+		           	<nxu:dataList layout="unorderedList" var="tab" value="#{subTabsActionsList}"
+			            itemStyleClass="#{nxu:test(webActions.currentSubTabAction == tab, 'selected', '')}">
+			            <nxd:restDocumentLink document="#{currentDocument}" view="#{routingWebActions.getFeuilleRouteView()}" tab="#{webActions.currentTabAction.id}" subTab="#{tab.id}">
+			              <h:outputText value="#{messages[tab.label]}" />
+			            </nxd:restDocumentLink>
+		          	</nxu:dataList>
+	           </c:otherwise>
+	         </c:choose>
+        </h:form>
+
+      </div>
+    </div>
+    <div class="tabsContent">
+      <ui:include src="#{webActions.currentSubTabAction.link}" />
+    </div>
+  </div>
+</div>

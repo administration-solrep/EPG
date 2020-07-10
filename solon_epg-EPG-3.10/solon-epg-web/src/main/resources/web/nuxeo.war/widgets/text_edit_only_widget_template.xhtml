@@ -1,0 +1,22 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+	id="#{widget.id}">
+		<c:choose>
+		    <c:when test="#{widget.mode == 'csv'}">
+		      <h:outputText value="#{field_0}" />
+		    </c:when>
+		    <c:when test="#{widget.mode == 'pdf'}">
+		      <nxp:font size="8">#{field_0}</nxp:font>
+		    </c:when>
+		    <c:otherwise>
+					<div>
+						<h:inputText id="#{widget.id}_edittext"
+							styleClass="#{widget.properties['styleClass']}"
+							required="#{widget.properties['required']}" value="#{field_0}" />
+					</div>
+			</c:otherwise>
+		</c:choose>
+</f:subview>

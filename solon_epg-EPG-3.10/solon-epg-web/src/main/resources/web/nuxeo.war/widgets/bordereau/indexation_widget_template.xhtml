@@ -1,0 +1,63 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:rich="http://richfaces.org/rich">
+  
+  <c:set var="indexationType" value="#{widget.properties.indexationType}" />
+  
+  <c:if test="#{widget.mode == 'edit'}">
+    <a4j:region renderRegionOnly="true" id="#{widget.id}_ajax_region">
+      <a4j:outputPanel id="#{widget.id}_indexPanel" ajaxRendered="false">
+        <h:inputText id="#{widget.id}_indexLabel" value="#{indexationActions.currentIndexation}" />
+  	    <a4j:commandLink action="#{indexationActions.addIndexation(indexationType, value)}" reRender="#{widget.id}_indexPanel">
+          <h:graphicImage value="/icons/action_add.gif" id="#{widget.id}_addIndexImage" />
+        </a4j:commandLink>
+        <h:panelGroup id="#{widget.id}_index_suggestGrouprubriques" rendered="#{indexationType eq 'rubriques'}">
+ 			<rich:suggestionbox id="#{widget.id}_index_suggestBoxrubriques"
+ 				for="#{widget.id}_indexLabel" tokens=""
+ 				suggestionAction="#{indexationActions.getSuggestionsRubriques}" var="sugindex"
+ 				nothingLabel="#{messages['label.suggestion.sansresultats']}" minChars="3" frequency="0"
+ 				requestDelay="100">
+ 				<h:column>
+ 					<f:subview>
+ 						<h:graphicImage value="/icons/tag_blue.png" alt="(index)" />
+ 						<h:outputText value="${sugindex}" />
+ 					</f:subview>
+ 				</h:column>
+ 			</rich:suggestionbox>
+ 		</h:panelGroup>
+ 		<h:panelGroup id="#{widget.id}_index_suggestGroupmotscles" rendered="#{indexationType eq 'motscles'}">
+ 			<rich:suggestionbox id="#{widget.id}_index_suggestBoxmotscles"
+ 				for="#{widget.id}_indexLabel" tokens=""
+ 				suggestionAction="#{indexationActions.getSuggestionsMotscles}" var="sugindex"
+ 				nothingLabel="#{messages['label.suggestion.sansresultats']}" minChars="3" frequency="0"
+ 				requestDelay="100">
+ 				<h:column>
+ 					<f:subview>
+ 						<h:graphicImage value="/icons/tag_blue.png" alt="(index)" />
+ 						<h:outputText value="${sugindex}" />
+ 					</f:subview>
+ 				</h:column>
+ 			</rich:suggestionbox>
+ 		</h:panelGroup>
+        
+  	    <br />
+  	    <nxu:set var="indexations" value="#{indexationActions.getIndexations(indexationType, value)}" cache="true">
+    	    <c:forEach var="indexation" items="#{indexations}" varStatus="status">
+    	      <h:outputText value="#{indexation}" />
+    	      <a4j:commandLink action="#{indexationActions.removeIndexation(indexationType, value, indexation)}" reRender="#{widget.id}_indexPanel">
+              <h:graphicImage value="/icons/action_delete_mini.gif" />
+            </a4j:commandLink>
+            <br />
+    	    </c:forEach>
+        </nxu:set>
+  	  </a4j:outputPanel>
+  	</a4j:region>
+  </c:if>
+  <c:if test="#{widget.mode == 'view'}">
+    <h:outputText value="#{nxu:joinCollection(indexationActions.getIndexations(indexationType, value), ', ')}" />
+  </c:if>
+</div>

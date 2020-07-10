@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.contentviews.journal">
+	<require>fr.dila.ss.web.contentviews.journal</require>
+
+	<extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">
+
+		<contentView name="ADMIN_JOURNAL_DOSSIER">
+			<genericPageProvider class="fr.dila.solonepg.web.contentview.JournalAdminPageProvider">
+				<property name="coreSession">#{documentManager}</property>
+				<property name="journalActions">#{journalAdminActions}</property>
+				<pattern>
+				</pattern>
+				<parameter>#{journalAdminActions.currentCategories}</parameter>
+				<parameter>#{journalAdminActions.currentUtilisateur}</parameter>
+				<parameter>#{journalAdminActions.currentDateDebut}</parameter>
+				<parameter>#{journalAdminActions.currentDateFin}</parameter>
+				<parameter>#{journalAdminActions.currentDossierRef}</parameter>
+				<parameter>#{journalAdminActions.currentCommentaire}</parameter>
+				<pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+				<pageSize>20</pageSize>
+				<sort column="eventDate" ascending="false" />
+			</genericPageProvider>
+			<useGlobalPageSize>true</useGlobalPageSize>
+			<selectionList>CURRENT_SELECTION</selectionList>
+			<actions category="CURRENT_SELECTION_LIST" />
+
+			<refresh>
+				<event>documentChanged</event>
+				<event>documentChildrenChanged</event>
+			</refresh>
+			<cacheKey>admin_journal_dossier_cache</cacheKey>
+			<cacheSize>10</cacheSize>
+			<resultLayouts>
+				<layout name="admin_journal_listing" title="label.document_listing.layout" translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+			</resultLayouts>
+		</contentView>
+
+		<contentView name="JOURNAL_DOSSIER">
+			<genericPageProvider class="fr.dila.ss.web.contentview.SSJournalPageProvider">
+				<property name="coreSession">#{documentManager}</property>
+				<property name="currentDocument">#{currentDocument}</property>
+				<property name="journalActions">#{journalActions}</property>
+				<pattern>
+				</pattern>
+				<parameter>#{journalActions.currentCategory}</parameter>
+				<parameter>#{journalActions.currentUtilisateur}</parameter>
+				<parameter>#{journalActions.currentDateDebut}</parameter>
+				<parameter>#{journalActions.currentDateFin}</parameter>
+				<pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+				<pageSize>20</pageSize>
+				<sort column="eventDate" ascending="false" />
+			</genericPageProvider>
+
+			<useGlobalPageSize>true</useGlobalPageSize>
+			<selectionList>CURRENT_SELECTION_JOURNAL_DOSSIER</selectionList>
+			<actions category="CURRENT_SELECTION_LIST" />
+
+			<refresh>
+				<event>documentChanged</event>
+				<event>documentChildrenChanged</event>
+			</refresh>
+			<cacheKey>#{currentDocument.id}</cacheKey>
+			<cacheSize>10</cacheSize>
+			<resultLayouts>
+				<layout name="journal_listing" title="label.document_listing.layout" translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+			</resultLayouts>
+		</contentView>
+
+		<contentView name="PAN_JOURNAL">
+			<genericPageProvider class="fr.dila.solonepg.web.contentview.JournalAdminPageProvider">
+				<property name="coreSession">#{documentManager}</property>
+				<property name="journalActions">#{journalAdminPANActions}</property>
+				<pattern>
+				</pattern>
+				<parameter>#{journalAdminPANActions.currentCategories}</parameter>
+				<parameter>#{journalAdminPANActions.currentUtilisateur}</parameter>
+				<parameter>#{journalAdminPANActions.currentDateDebut}</parameter>
+				<parameter>#{journalAdminPANActions.currentDateFin}</parameter>
+				<parameter>#{journalAdminPANActions.currentDossierRef}</parameter>
+				<parameter>#{journalAdminPANActions.currentCommentaire}</parameter>
+				<pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+				<pageSize>20</pageSize>
+				<sort column="eventDate" ascending="false" />
+			</genericPageProvider>
+
+			<useGlobalPageSize>true</useGlobalPageSize>
+			<selectionList>CURRENT_SELECTION</selectionList>
+			<actions category="CURRENT_SELECTION_LIST" />
+
+			<refresh>
+				<event>documentChanged</event>
+				<event>documentChildrenChanged</event>
+			</refresh>
+			<cacheKey>admin_journal_dossier_cache</cacheKey>
+			<cacheSize>10</cacheSize>
+			<resultLayouts>
+				<layout name="pan_journal_listing" title="label.document_listing.layout" translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+			</resultLayouts>
+		</contentView>
+
+	</extension>
+</component>

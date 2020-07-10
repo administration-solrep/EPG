@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+	<h:outputText value="Paramètres necessaires pour Publier le dossier"/>
+  </ui:define>
+
+  <ui:define name="bookmark">
+    <link rel="bookmark" href="#{navigationContext.currentDocumentFullUrl}"/>
+  </ui:define>
+
+  <ui:define name="body">  
+    <div id="Page Title" style="border-bottom: solid 1px black;">
+    	<table width="100%">
+    		<tr>
+    			<td><b>Parution JORF</b></td>
+    		</tr>
+    	</table>
+    </div>  
+	<div id="ContentView">
+		<h:form id= 'pasametrePublicationDossier'>
+			<table  width="50%">
+				<tr>
+                    <td>
+                      <table>
+                        <tr>
+                          <td><b>Date JO (jj/mm/aaaa)</b></td>
+                          <td><h:inputText value="#{publicationDossierActions.dateJO}" size="10"  maxlength="10" id="dateJO" /></td>                         
+                        </tr>
+                        <tr>
+                          <td><b>N° du texte JO (yyyy-nnnnnn)</b></td>
+                          <td><h:inputText value="#{publicationDossierActions.numTexteJO}" size="11"  maxlength="11" id="numTexteJO" /></td>   
+                        </tr>
+                        <tr>
+                          <td><b>Page JO (nnnnnn)</b></td>
+                          <td><h:inputText value="#{publicationDossierActions.pageJO}" size="6"  maxlength="6" id="pageJO" /></td>  
+                        </tr>
+                      </table>
+                    </td>
+				</tr>
+				<tr>
+                 <td align="right">
+					<h:commandButton
+						id="parametersSubmit"
+						value="Publier le dossier.."
+					    action="#{publicationDossierActions.publierDossierStub(currentDocument)}" />			
+				  </td>
+				</tr>
+			</table>
+		</h:form>
+    </div>
+    
+  </ui:define>
+</nxthemes:composition>

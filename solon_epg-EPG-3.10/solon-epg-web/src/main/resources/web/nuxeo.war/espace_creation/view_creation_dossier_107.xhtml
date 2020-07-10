@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util" xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+    <h:outputText value="Disposition d'habilitation" />
+  </ui:define>
+
+  <ui:define name="body">
+    <div>
+      <h3>
+        <h:outputText value="Disposition d'habilitation" />
+      </h3>
+      <ui:include src="/incl/message_banner.xhtml" />
+      <h:form id="creation_dossier_107">
+        <p>Sur le fondement de quelle disposition d'habilitation l'ordonnance est-elle prise ?</p>
+        <br/>
+        <nxl:layout value="#{dossierCreationActions}" mode="create" name="creation_dossier_layout_107" />
+		
+        <ui:include src="/espace_creation/navigation_boutons.xhtml" />
+        
+        <script>
+		var j = jQuery.noConflict();
+		
+		var buttonSuivantId = '#creation_dossier_107\\:buttonSuivant';
+		var buttonTerminerId = '#creation_dossier_107\\:buttonTerminer';
+		
+		j(document).ready(function() {
+			disabledButtonSuivant();
+			enabledButtonTerminer();
+		});
+		
+		function disabledButtonSuivant() {
+	    j(buttonSuivantId).attr('disabled', 'disabled');
+			//style bouton grisé
+			j(buttonSuivantId).css('color', '#CECFD1');
+		}
+		
+		function enabledButtonTerminer() {
+		  j(buttonTerminerId).removeAttr('disabled');
+			//style bouton actif
+			j(buttonTerminerId).css('color', '#000000');
+		}
+		</script>
+      </h:form>
+    </div>
+  </ui:define>
+
+</nxthemes:composition>

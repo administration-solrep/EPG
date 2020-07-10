@@ -1,0 +1,321 @@
+<div  xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:nxu="http://nuxeo.org/nxweb/util" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:nxl="http://nuxeo.org/nxforms/layout" >
+
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	j(document).ready(function() {
+		var sectionid;
+		j("html, body").scrollTop(j(#{texteMaitreActions.scrollTo}).offset().top);
+	});
+</script>
+
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	j(document).ready(function() {
+		var sectionid;
+		j("html, body").scrollTop(j(#{texteMaitreActions.scrollTo}).offset().top);
+	});
+</script>
+
+<script type="text/javascript">
+	function confirmPublish() {
+		return confirm("#{messages['activite.normative.bilan.semestriels.publication.confirmation']}");
+	}
+</script>
+  <br/><br/>
+<div id="upperContentView"></div>
+<div id="BackToHome" style="border-bottom: solid 1px black;">
+<h:form>
+    <nxu:set var="canBeRefresh" value="#{activiteNormativeStatsActions.canBeRefresh()}" cache="true">
+    <nxu:set var="statDefaultValue" value="#{activiteNormativeStatsActions.statDefaultValue}">
+        <c:if test="${!canBeRefresh}">
+            <div align="center">
+                <span style="color:red;">
+                    <h:outputText>#{messages['activite.normative.stats.currentlyRefreshing']} (#{messages['activite.normative.stats.dateDemande']} #{activiteNormativeStatsActions.getHorodatageRequest()})</h:outputText>
+                </span>
+            </div>
+        </c:if>
+        <table width="100%">
+            <c:choose>
+                <c:when test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_STAT_DEBUT_LEGISLATURE') ||                
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_DEBUT_LEGISLATURE_MIN')||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_STAT_MISE_APPLICATION')}">
+                    <tr>
+                        <td align="left" class="activiteStats">
+                            <table>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_taux_legislature_promulgation" /></td> 
+                                </tr>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_taux_legislature_publication" /></td> 
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </c:when>
+                
+                <c:when test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_INDIC_APP_ORDO_DEBUT_LEGISLATURE')|| 
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_DEBUT_LEGISLATURE_MIN_APP_ORDO') ||               
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_INDIC_APP_ORDO_MISE_APPLI')}">
+                    <tr>
+                        <td align="left" class="activiteStats">
+                            <table>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_taux_legis_promulgation_ordos" /></td> 
+                                </tr>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_taux_legis_publication_decrets_ordos" /></td> 
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </c:when>
+                
+                <c:when test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_STAT_DERNIERE_SESSION')}">
+                    <tr>
+                        <td align="left" class="activiteStats">
+                            <table>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_taux_parlementaire_promulgation" /></td> 
+                                </tr>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_taux_parlementaire_publication" /></td> 
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </c:when>
+                
+                <c:when test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_INDIC_APP_ORDO_DERNIERE_SESSION')}">
+                    <tr>
+                        <td align="left" class="activiteStats">
+                            <table>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_taux_SP_promulgation_ordos" /></td> 
+                                </tr>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_taux_SP_publication_decrets_ordos" /></td> 
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </c:when>
+                
+                <c:when test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_GLOBAL')||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_LOI_TOUS')      ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_MIN_TOUS')      ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_NATURE')        ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_VOTE')          ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TAUX_APPLICATION_LOI')  ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TAUX_APPLICATION_MIN')  ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TAUX_APPLICATION_MIN_APP_ORDO')  ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_DELAI_LOI_TOUS')  		||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_DELAI_MIN_TOUS')  		||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_DELAI_NATURE_TOUS') || 
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_DELAI_ORDO_TOUS_APP_ORDO')  		||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_DELAI_MIN_TOUS_APP_ORDO')  		||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TAUX_APPLICATION_SUB_APP_ORDONNANCES') || 
+                 (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TAUX_APPLICATION_APP_ORDONNANCES')  || 
+                 (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_ORDO_TOUS_APP_ORDONNANCE')  || 
+                 (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_ORDO_TOUS_APP_ORDONNANCE_ALL')  ||
+                 (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_MIN_TOUS_APP_ORDONNANCE')  || 
+                 (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_GLOBAL_APP_ORDONNANCE') 
+                }">
+                    <tr>
+                        <td colspan="5" align="left">
+                            <table>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_date_debut_legislature" /></td> 
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </c:when>
+
+                <c:when test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEM_LOI_TOUS')    ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEM_MIN_TOUS')    ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEM_NATURE')      ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEM_VOTE')        ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEMESTRIEL_LOI')  ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEMESTRIEL_MIN')
+                }">
+                    <tr>
+                        <td align="left" class="activiteStats">
+                            <table>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_bilanSemestriel_promulgation" /></td> 
+                                </tr>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_bilanSemestriel_publication" /></td> 
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:when test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEM_ORDONNANCE_TOUS')    ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEM_MIN_TOUS_ORDONNANCE')    ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEMESTRIEL_SUB_APP_ORDONNANCES')  ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_BILAN_SEMESTRIEL_MIN_APP_ORDO')
+                }">
+                    <tr>
+                        <td align="left" class="activiteStats">
+                            <table>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_bilanSemestriel_date_publication_ordonnance" /></td> 
+                                </tr>
+                                <tr>
+                                    <td><nxl:layout value="#{statDefaultValue}" mode="edit" name="an_intervalle_bilanSemestriel_publication_decret_ordonnance" /></td> 
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </c:when>
+            </c:choose>
+            <c:if test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_MESURE_APPLICATION_MIN')    ||
+            	(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_MESURE_APPLICATION_MIN_APP_ORDO')    ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_ACTIVE')    ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_DEPASSE')    ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_DIFFEREE')	||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TB_APP_ORDO_ACTIVE')		||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TB_APP_ORDO_DEPASSE')    ||
+                (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TB_APP_ORDO_DIFFEREE')
+                }">
+            	<tr>
+            		<td><nxl:layout value="#{activiteNormativeStatsActions}" mode="edit" name="anLegislationSelector" /></td>
+            	</tr>
+            </c:if>
+
+            <tr>
+                <td>
+                    <table width="100%">
+                        <tr>
+                            <c:choose>
+                                <c:when test="${activiteNormativeStatsActions.isDisplayLienPubliee()}">
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_HABILITATION_SS_FLTR_MIN') ||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_HABILITATION_SS_FLTR_MIN_ALL')	||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_HABILITATION_FLTR_MIN') 			||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_HABILITATION_FLTR_MIN_ALL')		||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_HABILITATION_FILTRE') 		||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_HABILITATION_FILTRE_ALL')	||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_HABILITATION_SS_FILTRE') 	||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_HABILITATION_SS_FILTRE_ALL')
+                                            }">
+                                                <c:set  var="afficher" value="#{messages['activite.normative.afficher.habilitation.utilisees']}"  />
+                                                <c:set  var="masquer" value="#{messages['activite.normative.masquer.habilitation.utilisees']}"  />
+                                            </c:when>
+
+                                            <c:when test="${	(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_RATIFICATION_741_MIN') 		||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_RATIFICATION_741_MIN_ALL')	||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_RATIFICATION_38C_MIN') 		||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_RATIFICATION_38C_MIN_ALL')	||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_RATIFICATION_38C') 		||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_RATIFICATION_38C_ALL')	||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_RATIFICATION_741') 		||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TABLEAU_BORD_RATIFICATION_741_ALL')
+                                            }">
+                                                <c:set  var="afficher" value="#{messages['activite.normative.afficher.ratification.abouti']}"  />
+                                                <c:set  var="masquer" value="#{messages['activite.normative.masquer.ratification.abouti']}"  />
+                                            </c:when>
+
+                                            <c:when test="${	(activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_FIL_EAU_LOI_TOUS') || 
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TAUX_APPLICATION_LOI') ||
+                                            (activiteNormativeStatsActions.currentSubTabAction.getId() == 'TAB_AN_TAUX_APPLICATION_SUB_APP_ORDONNANCES')
+                                            }">
+                                                <c:set  var="afficher" value="#{messages['activite.normative.affichage.avancee']}"  />
+                                                <c:set  var="masquer" value="#{messages['activite.normative.affichage.initiale']}"  />
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:set  var="afficher" value="#{messages['activite.normative.mesures.application.afficher.decrets.publies']}"  />
+                                                <c:set  var="masquer" value="#{messages['activite.normative.mesures.application.masquer.decrets.publies']}"  />
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <h:commandLink action="#{activiteNormativeStatsActions.dipslayMesuresApplication()}" immediate="true" id="afficherLesDecretPubliees" value="#{nxu:test(activiteNormativeStatsActions.isDipslayMesuresApplicationAll()  == false, afficher, masquer)}">
+                                        </h:commandLink>
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td></td>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:if test="${ activiteNormativeStatsActions.isActiviteNormativeUpdater()}">
+                                <c:if test="${ activiteNormativeStatsActions.isDisplayPublierLink()}">
+                                    <td align="right"  width='30px'>
+                                    <c:if test="#{activiteNormativeStatsActions.isBilanSemestriel()}">
+                                        <h:commandLink action="#{activiteNormativeStatsActions.publierResultat()}" id="publierResulat" onclick="return confirmPublish();">
+                                            <h:graphicImage  title="#{messages['activite.normative.stats.publier']}" url="/img/icons/document_add_24.png" />
+                                        </h:commandLink>
+                                    </c:if>
+                                    <c:if test="#{!activiteNormativeStatsActions.isBilanSemestriel()}">
+                                        <h:commandLink action="#{activiteNormativeStatsActions.publierResultat()}" id="publierResulat">
+                                            <h:graphicImage  title="#{messages['activite.normative.stats.publier']}" url="/img/icons/document_add_24.png" />
+                                        </h:commandLink>
+                                    </c:if>
+                                    </td>
+                                </c:if>
+                            </c:if>
+                            <c:if test="${activiteNormativeStatsActions.isActiviteNormativeReader() || activiteNormativeStatsActions.isActiviteNormativeUpdater()}">
+                                <c:choose>
+                                    <c:when test="${canBeRefresh}">
+                                        <c:if test="${ activiteNormativeStatsActions.isDisplaySaveLink()}">
+                                            <td align="right"  width='30px'>
+                                                <h:commandLink action="#{activiteNormativeStatsActions.saveResultat()}" id="saveResulat">
+                                                    <h:graphicImage  title="#{messages['activite.normative.stats.save']}" url="/img/icons/disk_blue.png" />
+                                                </h:commandLink>
+                                            </td>
+                                        </c:if>
+                                        <td align="right"  width='30px'>
+                                            <h:commandLink action="#{activiteNormativeStatsActions.refreshBirtResultat()}"  id="rafraichirSortie">
+                                                <h:graphicImage title="#{messages['activite.normative.stats.refresh']}" url="/img/icons/refresh.png" />
+                                            </h:commandLink>
+                                        </td>
+                                        <c:if test="${ activiteNormativeStatsActions.isDisplayExcelLink()}">
+                                            <td align="right"  width='30px'>
+                                                <h:commandLink target="_blank" action="#{activiteNormativeStatsActions.displayBirtResultatXsl()}" id="extraireEnExcel">
+                                                    <h:graphicImage title="#{messages['activite.normative.stats.export.excel']}" url="/img/icons/csv_export.png" />
+                                                </h:commandLink>
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${ activiteNormativeStatsActions.isDisplayImprimerLink()}">
+                                            <td align="right"  width='30px'>
+                                                <h:commandLink target="_blank" action="#{activiteNormativeStatsActions.displayBirtResultatPdf()}" id="extraireEnPDF">
+                                                    <h:graphicImage title="#{messages['activite.normative.stats.imprimer']}" url="/img/icons/printer.png" />
+                                                </h:commandLink>
+                                            </td>
+                                        </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${activiteNormativeStatsActions.isDisplaySaveLink()}">
+                                            <td align="right"  width='30px'>
+                                                <h:graphicImage styleClass="deactivateButton" title="#{messages['activite.normative.stats.save']}" url="/img/icons/disk_blue.png" />
+                                            </td>
+                                        </c:if>
+                                        <td align="right"  width='30px'>
+                                            <h:graphicImage styleClass="deactivateButton" title="#{messages['activite.normative.stats.currentlyRefreshing']} (#{messages['activite.normative.stats.dateDemande']} #{activiteNormativeStatsActions.getHorodatageRequest()})" url="/img/icons/refresh.png" />
+                                        </td>
+                                        <c:if test="${activiteNormativeStatsActions.isDisplayExcelLink()}">
+                                            <td align="right"  width='30px'>
+                                                <h:graphicImage styleClass="deactivateButton" title="#{messages['activite.normative.stats.export.excel']}" url="/img/icons/csv_export.png" />
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${activiteNormativeStatsActions.isDisplayImprimerLink()}">
+                                            <td align="right"  width='30px'>
+                                                <h:graphicImage styleClass="deactivateButton" title="#{messages['activite.normative.stats.imprimer']}" url="/img/icons/printer.png" />
+                                            </td>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </nxu:set></nxu:set>
+</h:form>
+</div>
+<iframe src="#{activiteNormativeStatsActions.getUrlView('espace_activite_normative_resultat_stats_content.faces')}" height="600px" width="100%" scrolling="auto" /></div>

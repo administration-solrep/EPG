@@ -1,0 +1,44 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory">
+  <c:choose>
+    <c:when test="#{widget.mode == 'pdf'}">
+      <nxp:font size="8">#{vocabulary.getEntryLabel(widget.properties['directoryName'],field_0)}</nxp:font>
+    </c:when>
+    <c:when test="#{widget.mode == 'csv'}">
+      <h:outputText value="#{vocabulary.getEntryLabel(widget.properties['directoryName'],field_0)}" />
+    </c:when>
+    <c:otherwise>
+    <div xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:nxu="http://nuxeo.org/nxweb/util"
+        xmlns:nxl="http://nuxeo.org/nxforms/layout"><c:set
+        var="rerenderValues"
+        value="#{nxu:test(!empty widget.properties.rerenderValues, widget.properties.rerenderValues, '')}" />
+      <h:selectOneMenu id="#{widget.id}_select_one_menu"
+        value="#{field_0}">
+        <f:selectItem itemLabel="Sélectionnez une valeur." itemValue="" />
+        <c:choose>
+          <c:when test="${!widget.properties['localized']}">
+            <nxdir:selectItems id="#{widget.id}"
+              directoryName="${widget.properties['directoryName']}"
+              var="item" itemValue="#{item.id}"
+              itemLabel="#{messages[item.vocabulary.label]}"
+              localize="true" />
+          </c:when>
+          <c:otherwise>
+            <nxdir:selectItems id="#{widget.id}"
+              directoryName="${widget.properties['directoryName']}"
+              var="item" itemValue="#{item.id}"
+              itemLabel="#{item.vocabulary.label}" />
+          </c:otherwise>
+        </c:choose>
+        <a4j:support event="onchange" reRender="#{rerenderValues}" eventsQueue="ajax_events_queue"
+          disabled="#{empty rerenderValues or rerenderValues == ''}" />
+      </h:selectOneMenu>
+    </div>
+    </c:otherwise>
+  </c:choose>
+</f:subview>

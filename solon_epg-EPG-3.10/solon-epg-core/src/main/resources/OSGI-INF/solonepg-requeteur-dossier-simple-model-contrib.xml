@@ -1,0 +1,140 @@
+<component name="fr.dila.reponses.core.models.requete">
+	<extension
+		target="org.nuxeo.ecm.core.search.api.client.querymodel.QueryModelService"
+		point="model">
+
+		<queryModel name="requeteCriteresPrincipaux" docType="RequeteDossierSimple">
+			<whereClause>
+				<!-- Choix de la base dans laquelle effectuer la requête -->
+				<predicate parameter="d.dos:archive" operator="=">
+					<field schema="requete_dossier_simple_criteres_principaux"
+						name="idStatutArchivage" />
+				</predicate>
+				<predicate parameter="d.dos:statut" operator="IN">
+					<field schema="requete_dossier_simple_criteres_principaux"
+						name="idStatutDossier" />
+				</predicate>
+				<predicate parameter="d.dos:numeroNor" operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_principaux"
+						name="numeroNorModified" />
+				</predicate>
+				<predicate parameter="d.dos:ministereResp" operator="IN">
+					<field schema="requete_dossier_simple_criteres_principaux"
+						name="idMinistereResponsable" />
+				</predicate>
+				<predicate parameter="d.dos:titreActe" operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_principaux"
+						name="objetModifie" />
+				</predicate>
+				<predicate parameter="d.dos:directionResp" operator="=">
+					<field schema="requete_dossier_simple_criteres_principaux"
+						name="idDirectionResponsable" />
+				</predicate>
+				<predicate parameter="d.dos:idCreateurDossier" operator="=">
+					<field schema="requete_dossier_simple_criteres_principaux"
+						name="idAuteur" />
+				</predicate>
+				<predicate parameter="d.dos:typeActe" operator="IN">
+					<field schema="requete_dossier_simple_criteres_principaux"
+						name="idTypeActe" />
+				</predicate>
+			</whereClause>
+		</queryModel>
+
+		<queryModel name="requeteCriteresSecondaires" docType="RequeteDossierSimple">
+			<whereClause>
+				<predicate parameter="d.dos:categorieActe" operator="=">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="idCategorieActe" />
+				</predicate>
+				<predicate parameter="d.dos:transpositionDirectiveNumero"
+					operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="transpositionDirective" />
+				</predicate>
+				<predicate parameter="d.dos:transpositionOrdoRefs"
+					operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="transpositionOrdonnance" />
+				</predicate>
+				<predicate parameter="d.dos:applicationLoiRefs" operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="applicationLoi" />
+				</predicate>
+				<predicate parameter="d.dos:rubriques" operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="indexationRubriqueModified" />
+				</predicate>
+				<predicate parameter="d.dos:motscles" operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="indexationMotsClefsModified" />
+				</predicate>
+				<predicate parameter="d.dos:libre" operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="indexationChampLibreModified" />
+				</predicate>
+				<predicate parameter="d.dos:dateSignature" operator="BETWEEN">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="dateSignature_1" />
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="dateSignature_2" />
+				</predicate>
+				<predicate parameter="d.dos:datePublication" operator="BETWEEN">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="datePublication_1" />
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="datePublication_2" />
+				</predicate>
+				<predicate parameter="d.retdila:numeroTexteParutionJorf"
+					operator="=">
+					<field schema="requete_dossier_simple_criteres_secondaires"
+						name="numeroTexte" />
+				</predicate>
+			</whereClause>
+		</queryModel>
+
+		<!-- Le idStatut de la requête correspond à un mixte entre le cycle de 
+			vie d'une étape(ready, running) et la propriété validationStatus -->
+		<queryModel name="requeteCriteresEtapes" docType="RequeteDossierSimple">
+			<whereClause>
+				<predicate parameter="e.rtsk:type" operator="=">
+					<field schema="requete_dossier_simple_criteres_etapes" name="idAction" />
+				</predicate>
+				<predicate parameter="e.rtsk:validationStatus" operator="=">
+					<field schema="requete_dossier_simple_criteres_etapes" name="validationStatus" />
+				</predicate>
+				<predicate parameter="e.ecm:currentLifeCycleState "
+					operator="=">
+					<field schema="requete_dossier_simple_criteres_etapes" name="currentLifeCycleState " />
+				</predicate>
+				<predicate parameter="e.rtsk:dateDebutEtape" operator="BETWEEN">
+					<field schema="requete_dossier_simple_criteres_etapes" name="dateActivation_1" />
+					<field schema="requete_dossier_simple_criteres_etapes" name="dateActivation_2" />
+				</predicate>
+				<predicate parameter="e.rtsk:dateFinEtape" operator="BETWEEN">
+					<field schema="requete_dossier_simple_criteres_etapes" name="dateValidation_1" />
+					<field schema="requete_dossier_simple_criteres_etapes" name="dateValidation_2" />
+				</predicate>
+				<predicate parameter="e.rtsk:distributionMailboxId"
+					operator="IN">
+					<field schema="requete_dossier_simple_criteres_etapes" name="distributionMailboxId" />
+				</predicate>
+				<predicate parameter="e.rtsk:validationUserId" operator="=">
+					<field schema="requete_dossier_simple_criteres_etapes" name="idAuteur" />
+				</predicate>
+				<predicate parameter="c.comment:text" operator="LIKE">
+					<field schema="requete_dossier_simple_criteres_etapes" name="noteModified" />
+				</predicate>
+			</whereClause>
+		</queryModel>
+
+		<queryModel name="requeteTexteIntegral" docType="RequeteDossierSimple">
+			<whereClause>
+				<predicate type="subClause">
+					<field schema="requete_dossier_simple_texte_integral" name="sousClauseTexteIntegral" />
+				</predicate>
+			</whereClause>
+		</queryModel>
+	</extension>
+
+</component>

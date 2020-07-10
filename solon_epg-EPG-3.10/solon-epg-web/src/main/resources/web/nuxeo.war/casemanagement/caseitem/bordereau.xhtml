@@ -1,0 +1,245 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets" 
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html" 
+  xmlns:nxu="http://nuxeo.org/nxweb/util">
+
+  <h:form id="bordereauForm" enctype="multipart/form-data">
+    <div style="clear:both;"></div>
+    
+    <nxu:set var="layoutMode" value="#{!espaceTraitementActions.isInCorbeilleIndexation() and isBordereauUpdatable and !fieldsCopySelection and contentViewActions.getCurrentContentView().getName()!='archivage_definitive_dossier'?'edit':'view'}" cache="true">
+      <c:if test="#{webActions.currentTabAction eq 'TAB_DOSSIER_BORDEREAU' and (isBordereauUpdatable or hasRightModifCE or isIndexationUpdatable or isBordereauActiviteNormativeUpdatable)}">
+        <h:commandButton id="idSaveBordereauButton" value="Enregistrer" style="visibility: hidden;"
+          action="#{bordereauActions.saveBordereau(currentDocument)}" />
+                 
+        <script>
+          var j = jQuery.noConflict();
+          j(document).ready(function() {
+              var delaiPubId = '#bordereauForm\\:nxl_bordereau_parution\\:nxw_delai_publication_field';
+              var pubDatePreciseeId = '#bordereauForm\\:nxl_bordereau_parution\\:nxw_date_precisee_publication_fieldPopup';
+              var baseLegaleActe = '#bordereauForm\\:nxl_bordereau_base_legale\\:nxw_base_legale_acte_field'; 
+			var texteEntrepriseId = '#bordereauForm\\:nxl_bordereau_donnees_principales\\:nxw_texte_entreprise_bord';
+			var dateEffetId = '#bordereauForm\\:nxl_bordereau_donnees_principales\\:nxw_texte_entreprise_date_effet_bord_inputDateEffetInputDate';
+			var deleteDatesEffetId = '#bordereauForm\\:nxl_bordereau_donnees_principales\\:nxw_texte_entreprise_date_effet_bord_removeAllDatesEffetEntreprise';
+              
+              refreshForm();
+              j(delaiPubId).change(function() {
+                  refreshForm();
+              });
+
+			refreshTexteEntreprise();
+			j(texteEntrepriseId).change(function() {
+				refreshTexteEntreprise();
+			});
+
+              function refreshForm() {
+                  j(delaiPubId + ' option:selected').each(function() {
+                      var selectedPubId = j(this).val();
+                      if(selectedPubId == "1") {
+                          j(pubDatePreciseeId).parent().parent().show();
+                      } else {
+                          j(pubDatePreciseeId).parent().parent().hide();
+                      }
+                  });
+              }
+
+			function refreshTexteEntreprise() {
+				if(j(texteEntrepriseId).is(':checked')) {
+					j(dateEffetId).parent().parent().parent().parent().parent().show();
+				} else {
+					j(dateEffetId).parent().parent().parent().parent().parent().hide();
+					j(deleteDatesEffetId).click();
+				}
+			}
+
+              function substring(limit){
+            	  var val = j(baseLegaleActe).val();
+            	  var length = val.length;
+            	  if(length > limit){
+            		j(baseLegaleActe).val(val.substring(0,limit));
+            	  }
+            	}
+
+              	substring(500);
+		j(baseLegaleActe).bind('input propertychange', function() {
+			substring(500);
+		});
+          });
+        </script>
+      </c:if>     
+      <div class="foldableBox">
+        <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+          <h:outputText value="Données principales" /></a></h3>
+ 
+        <div class="boxBody">
+          <h3 class="summaryTitle"><h:outputText value="Information sur l'acte" /></h3>
+          <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_donnees_principales" />
+          
+          <h3 class="summaryTitle"><h:outputText value="Responsable de l'acte" /></h3>
+          <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_responsable_acte" />
+
+          <c:if test="#{acteVisibility['INFORMATIONS_PARLEMENTAIRES']}">
+	          <h3 class="summaryTitle"><h:outputText value="Informations Parlementaires" /></h3>
+	          <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_infos_parlementaires" />
+          </c:if>
+                    
+          <c:if test="#{acteVisibility['CE']}">
+          	<div class="foldableBox">
+	            <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)"  id="foldableBoxCE">
+          			<h:outputText value="CE"/></a></h3>
+	            <div class="boxBody" style="#{nxu:test(bordereauActions.isSectionCEEmpty(currentDocument), 'overflow: visible; display: none;','')}">
+		            <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_ce" />
+	            </div>
+         	 </div>  
+          </c:if>
+          
+		<h3 class="summaryTitle">
+              <c:choose>
+                <c:when test="#{typeActeFilter.isRapportAuParlement()}">
+                  <h:outputText value="Validation" />
+                </c:when>
+                <c:otherwise>
+                  <h:outputText value="Signature" />
+                </c:otherwise>
+              </c:choose>
+          </h3>
+
+           <nxl:layout value="#{currentDocument}" mode="view" name="bordereau_charge_mission" />
+          <div style="height: 20px;"></div>
+          <c:if test="#{acteVisibility['DATE_SIGNATURE']}">
+            <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_date_signature" />
+          </c:if>
+
+          <c:if test="#{acteVisibility['PUBLICATION']}">
+            <h3 class="summaryTitle"><h:outputText value="Publication" /></h3>
+            <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_date_publication" />
+          </c:if>
+                    
+          <c:if test="#{acteVisibility['PARUTION']}">
+            <h3 class="summaryTitle"><h:outputText value="Parution" /></h3>
+            <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_parution" />
+          </c:if>
+          
+          <c:if test="#{acteVisibility['JORF']}">
+          	<div class="foldableBox">
+    	       <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+  				<h:outputText value="Parution JORF" /></a></h3>
+				<div class="boxBody" style="#{nxu:test(bordereauActions.isParutionJorfEmpty(currentDocument), 'overflow: visible; display: none;','')}">
+	            	<nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_jorf" />
+	            </div>
+            </div>
+          </c:if>
+          
+          <c:if test="#{acteVisibility['PARUTION_BO']}">
+            <h3 class="summaryTitle"><h:outputText value="Parution BO" /></h3>
+            <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_bo" />
+          </c:if>
+          
+          <c:if test="#{acteVisibility['SGG_DILA']}">
+          	<div class="foldableBox">
+	           	<h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+          			<h:outputText value="SGG-DILA" /></a></h3>
+	            <div class="boxBody" style="#{nxu:test(bordereauActions.isSGGDILAEmpty(currentDocument), 'overflow: visible; display: none;','')}">
+	            	<nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_sgg_dila" />
+	            </div>
+            </div>
+          </c:if>
+          
+          <div class="foldableBox">
+  	          <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+  					<h:outputText value="Base légale" /></a></h3>
+	          <div class="boxBody" style="#{nxu:test(bordereauActions.isBaseLegaleEmpty(currentDocument), 'overflow: visible; display: none;','')}">
+	          	<nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_base_legale" />
+	          </div>
+          </div>
+          
+          <c:if test="#{acteVisibility['PERIODICITE_RAPPORT']}">
+            <h3 class="summaryTitle"><h:outputText value="Périodicité du rapport" /></h3>
+            <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_periodicite_rapport" />
+          </c:if>
+        </div>
+      </div>
+      
+      <c:if test="#{acteVisibility['INDEXATION']}">
+        <div class="foldableBox">
+          <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+            <h:outputText value="Données d'indexation" /></a></h3>
+          
+          <div class="boxBody">
+            <c:choose>
+              <c:when test="#{isIndexationUpdatable}">
+                <nxl:layout value="#{currentDocument}" mode="edit" name="bordereau_indexation" />
+              </c:when>
+              <c:otherwise>
+                <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_indexation" />
+              </c:otherwise>
+            </c:choose>
+          </div>
+        </div>
+      </c:if>
+    </nxu:set>
+    
+    <c:if test="#{acteVisibility['TRANSPOSITION_APPLICATION']}">
+      <nxu:set var="layoutMode" value="#{!espaceTraitementActions.isInCorbeilleIndexation() and isBordereauActiviteNormativeUpdatable and !fieldsCopySelection?'edit':'view'}" cache="true">
+        <c:if test="#{acteVisibility['ApplicationLoi'] or acteVisibility['TranspositionOrdonnance'] or acteVisibility['TranspositionDirective'] or acteVisibility['Habilitation']}">
+          <div class="foldableBox">
+            <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+              <h:outputText value="Transposition et application" /></a></h3>
+      
+            <div class="boxBody">
+              <c:if test="#{acteVisibility['ApplicationLoi']}">
+                <h3 class="summaryTitle"><h:outputText value="Application des lois" /></h3>
+                <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_application_lois" />
+              </c:if>
+              
+              <c:if test="#{acteVisibility['TranspositionOrdonnance']}">
+                <h3 class="summaryTitle"><h:outputText value="Application des ordonnances" /></h3>
+                <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_application_ordonnances" />
+              </c:if>
+              
+              <c:if test="#{acteVisibility['TranspositionDirective']}">
+                <h3 class="summaryTitle"><h:outputText value="Transposition des directives" /></h3>
+                <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_transposition_directive" />
+              </c:if>
+              
+              <c:if test="#{acteVisibility['Habilitation']}">
+                <h3 class="summaryTitle"><h:outputText value="Disposition d'habilitation" /></h3>
+                <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="bordereau_habilitation" />
+              </c:if>
+            </div>
+          </div>
+        </c:if>
+      </nxu:set>
+    </c:if>
+  </h:form>
+  
+  <!-- mise a jour de la variable globlae si modification d'un champ pour eviter la perte de données -->
+  <script>
+	   	  var j = jQuery.noConflict();
+		  j(document).ready(function() {
+	
+		    j('.tabsContent input').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent textarea').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent select').change(function() {
+		    	isDossierModified = true;
+		    });
+		    
+		    j('.tabsContent a img').click(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent img.rich-calendar-button').click(function() {
+			    isDossierModified = true;
+			});
+		  });
+  </script>
+</div>

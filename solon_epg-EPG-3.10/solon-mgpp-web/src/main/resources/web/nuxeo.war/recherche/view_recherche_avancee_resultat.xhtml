@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout">
+
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} - #{messages['label.recherche.avancee.resultats']}" />
+  </ui:define>
+  <ui:define name="body">
+  
+   <style>
+      .dataRowRed a {
+        color:red !important;
+      }
+  </style>
+
+      <div id="mailboxList">
+        <div id="upperContentView">
+          <div class="mailboxContent">
+            <h3>#{messages['label.recherche.avancee.resultats']}</h3>
+            <nxu:set var="contentViewId" value="recherche_avancee_resultat" cache="true">
+              <nxu:set var="contentViewName" value="recherche_avancee_resultat" cache="true">
+                <nxu:set var="listingDecorator" value="#{corbeilleTree}" cache="true">
+                  <ui:decorate template="/incl/content_view.xhtml">
+                    <ui:define name="content_view_header_before_selector" />
+                  </ui:decorate>
+                </nxu:set>
+                
+                <c:if test="#{navigationContext.currentMessage != null}">
+                  <div style="text-align: center; margin: 5px; margin-bottom: 20px;">
+                    <nxu:set var="pageProvider" value="#{contentViewActions.getContentViewWithProvider(contentViewName).getCurrentPageProvider()}">
+                      <h:form>
+                        <h:commandLink action="#{corbeilleActions.navigateToPreviousDossier(contentViewName)}">#{messages['label.epg.dossier.precedent']}</h:commandLink>
+                        <h:commandLink action="#{corbeilleActions.navigateToNextDossier(contentViewName)}">#{messages['label.epg.dossier.suivant']}</h:commandLink>
+                      </h:form>
+                    </nxu:set>
+                  </div>
+                 </c:if>
+                
+              </nxu:set>
+            </nxu:set>
+          </div>
+        </div>
+        <h:form id="recherche_avancee_resultat_button">
+          <h:commandButton styleClass="button" value="#{messages['label.recherche.avancee.modifier']}" action="#{rechercheActions.goBackToRechercheAvancee()}" />
+        </h:form>
+        <ui:include src="/incl/corbeille_upper_panel_toggle.xhtml" />
+    </div>
+     <ui:include src="/incl/message_banner.xhtml" />
+  </ui:define>
+  
+  <ui:define name="subbody">
+  
+  <style>
+    .tabsContent {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+  </style>
+  
+    <div>
+     <c:if test="#{navigationContext.currentMessage != null}">
+       <div class="subbodyContainer" style="padding: 5px;">
+         <table>
+          <tr>
+            <td>
+              <nxu:set var="field_0" value="#{navigationContext.currentMessage.etatMessage}" cache="true">
+                <ui:include src="/widgets/listing/etat_message_widget.xhtml" />
+              </nxu:set>
+            </td>
+            <td>
+              <nxu:set var="field_0" value="#{navigationContext.currentMessage.etatEvenement}" cache="true">
+                <ui:include src="/widgets/listing/etat_message_widget.xhtml" />
+              </nxu:set>
+            </td>
+            <td>
+              <h3>#{navigationContext.currentMessage}</h3>
+            </td>
+          </tr>
+          </table>
+           <h:panelGroup id="case_content">
+             <ui:insert name="case_content">
+               <div class="tabsBar">
+                 <h:form id="detail_comm">
+                   <nxu:dataList layout="unorderedList" var="tab" value="#{tabsActionsList}"
+                     itemStyleClass="#{nxu:test(webActions.currentTabAction == tab, 'selected', '')}">
+                     <h:commandLink id="corbeilleNodeCmd" action="#{webActions.setCurrentTabAction(tab)}" rerender="facesStatusMessagePanel"  onclick="#{action.confirm}">
+                       <h:outputText value="#{messages[tab.label]}" />
+                     </h:commandLink>
+                   </nxu:dataList>
+                 </h:form>
+               </div>
+               <div style="clear:both" />
+               <div class="tabsContent">
+                 <ui:include src="#{webActions.currentTabAction.link}" />
+               </div>
+             </ui:insert>
+          </h:panelGroup>
+        </div>
+      </c:if>
+      <c:if test="#{navigationContext.currentEvenement != null}">
+        <div class="subbodyContainer" style="padding: 5px;">
+          <ui:include src="/metadonnees/metadonnees_evenement.xhtml" />
+        </div>
+      </c:if>
+    </div>
+  </ui:define>
+  
+  
+  
+</nxthemes:composition>

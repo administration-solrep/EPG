@@ -1,0 +1,128 @@
+<component name="fr.dila.solonmgpp.web.layout.messageLink">
+  <require>com.nuxeo.document.routing.table.widget</require>
+  <require>com.nuxeo.cm.table.layout</require>
+  <require>fr.dila.solonmgpp.web.widget.message</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+    point="layouts">
+
+    <!-- Layout par defaut de la liste des Messages -->
+    <!-- sortPropertyName from EPP xsdtoufnxql.parser -->
+    <layout name="corbeille_message_listing_layout">
+      <templates>
+        <template mode="any">/layouts/decorated_layout_contentview_listing_ajax_template_dto.xhtml
+        </template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml
+        </template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+        <!-- Colonne état du message-->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="sortPropertyName">msg:etat_message</property>
+          </properties>
+          <widget>etatMessage_widget</widget>
+        </column>
+        <!-- Colonne état -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="sortPropertyName">msg:etat_evenement</property>
+          </properties>
+          <widget>etatEvenement_widget</widget>
+        </column>
+        <!-- Colonne icône pièce jointe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="sortPropertyName">msg:presence_piece_jointe</property>
+          </properties>
+          <widget>presencePieceJointe_widget</widget>
+        </column>
+        <!-- Colonne objet dossier -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">msg:objet</property>
+          </properties>
+          <widget>objet_widget</widget>
+        </column>
+        <!-- Colonne id dossier -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">msg:id_dossier</property>
+          </properties>
+          <widget>idDossier_widget</widget>
+        </column>
+        <!-- Colonne niveauLecture -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">msg:niveau_lecture.niveau, msg:niveau_lecture.code</property>
+          </properties>
+          <widget>niveauLecture_widget</widget>
+        </column>
+        <!-- Colonne Emmetteur -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">msg:emetteur_evenement</property>
+          </properties>
+          <widget>emetteurEvenement_widget</widget>
+        </column>
+        <!-- Colonne Destinataire -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">msg:destinataire_evenement</property>
+          </properties>
+          <widget>destinataireEvenement_widget</widget>
+        </column>
+        <!-- Colonne Copie -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+             <property name="sortPropertyName">msg:copie_evenement</property> 
+<!--            <property name="filterPropertyName">msg:copie_evenement</property>-->
+          </properties>
+          <widget>copieEvenement_widget</widget>
+        </column>
+        <!-- Colonne Evènement -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">msg:type_evenement</property>
+          </properties>
+          <widget>typeEvenement_widget</widget>
+        </column>
+        <!-- Colonne Date -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">msg:date_evenement</property>
+          </properties>
+          <widget>dateEvenement_widget</widget>
+        </column>
+        <!-- Colonne Id Evénement -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">msg:id_evenement</property>
+          </properties>
+          <widget>idEvenement_widget</widget>
+        </column>
+      </columns>
+    </layout>
+
+  </extension>
+
+</component>

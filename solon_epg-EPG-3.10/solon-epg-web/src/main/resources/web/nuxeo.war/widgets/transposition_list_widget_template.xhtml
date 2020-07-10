@@ -1,0 +1,196 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich">
+	
+	<script>
+	function showRechercheTransposition(idMessage) {
+    	var x = document.getElementById(idMessage);
+   		if (x.style.display === "none") {
+        	x.style.display = "block";
+    	}
+  	}	
+	</script>
+	<a4j:region id="#{widget.id}_ajax_region">
+		<nxu:set var="widgetTypeMap" value="#{widget.properties['widgetTypeMap']}">
+			<a4j:outputPanel id="#{widget.id}_#{fieldWidgetLabel}_indexPanel" ajaxRendered="true" immediate="true">
+				<!-- Champs d'entrée des données d'indexation -->
+				<c:if test="#{widget.mode == 'edit'}">
+					<table cellpadding="4" cellspacing="0" style="margin-left: 30px;">
+						<c:forEach var="fieldWidget" items="#{dossierCreationActions.getWidgetFields(widgetTypeMap)}" varStatus="status"> 
+							<nxu:set var="fieldWidgetLabel" value="label.content.creationwidget.#{fieldWidget}">
+							<tr>
+								<td style="width: 200px; text-align: right;">
+			                		<strong>
+			                			<h:outputText value="#{messages[fieldWidgetLabel]}" />
+			                			<!-- affichage champ requis -->
+				                		<c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.ref'}">
+					                		<h:outputText value=" *" style="color:red;"/>
+				                		</c:if>
+				                		<c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.directiveAnnee'}">
+					                		<h:outputText value=" *" style="color:red;"/>
+				                		</c:if>				                		
+			                		</strong>
+			                	</td>
+			                	<td>
+					                <h:inputText id="#{widget.id}_indexLabel_#{status.index}" value="#{transpositionActions.widgetMap[fieldWidget]}"
+					    				styleClass="dataInputText"
+					    				onkeydown="if (event.keyCode == 13 || event.keyCode == 9) {return false;}">
+					    			</h:inputText>
+					    			<c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.ref'}">
+						    		<nxu:set var="refLabel" value="label.suggestion.help.ref.#{widgetTypeMap}">
+						    			<span onmouseover="tooltip.show('#{messages[refLabel]}', 300, 'topright');" onmouseout="tooltip.hide();">
+								          <h:graphicImage value="/icons/lightbulb.png" />
+								        </span>
+								    </nxu:set>
+							        </c:if>
+							        <c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.directiveAnnee'}">
+						    		<nxu:set var="refLabel" value="label.suggestion.help.annee.#{widgetTypeMap}">
+						    			<span onmouseover="tooltip.show('#{messages[refLabel]}', 300, 'topright');" onmouseout="tooltip.hide();">
+								          <h:graphicImage value="/icons/lightbulb.png" />
+								        </span>
+								    </nxu:set>
+							        </c:if>
+							        <c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.refMesure'}">
+						    			<span onmouseover="tooltip.show('#{messages['label.suggestion.help.refMesure']}', 300, 'topright');" onmouseout="tooltip.hide();">
+								          <h:graphicImage value="/icons/lightbulb.png" />
+								        </span>
+							        </c:if>
+				    			</td>
+				    		</tr>
+				    		</nxu:set>
+						</c:forEach>
+					</table>
+					<c:if test="#{widgetTypeMap == 'transpositionDirective'}">
+						<a4j:commandLink id="#{widget.id}_addButton" action="#{transpositionActions.addTransposition(value, widgetTypeMap)}" reRender="#{widget.id}_indexPanel"  
+						onclick="showRechercheTransposition('#{widget.id}_rechercheDirectiveEnCours')">
+							<h:graphicImage style="margin-left: 200px;" value="/icons/action_add.gif" id="#{widget.id}_addTranspositionImage" />
+		       	 		</a4j:commandLink>
+					</c:if>
+					<c:if test="#{widgetTypeMap != 'transpositionDirective'}">
+						<a4j:commandLink id="#{widget.id}_addButton" action="#{transpositionActions.addTransposition(value, widgetTypeMap)}" reRender="#{widget.id}_indexPanel">
+							<h:graphicImage style="margin-left: 200px;" value="/icons/action_add.gif" id="#{widget.id}_addTranspositionImage" />
+		        		</a4j:commandLink>
+					</c:if>
+
+      		<c:if test="#{transpositionActions.fieldError == widgetTypeMap}">
+	       		<div>
+	       			<span class="errorMessage" ><h:outputText value="#{transpositionActions.errorName}" /></span>
+	       		</div>
+	       	</c:if>
+	       	<c:if test="#{widgetTypeMap == 'transpositionDirective'}">
+		       	<c:if test="#{(transpositionActions.errorTransposition != null)}">
+		       		<div>
+		       			<span class="errorMessage" ><h:outputText value="#{transpositionActions.errorTransposition}" /></span>
+		       	</div>
+		       	</c:if>
+       		</c:if>
+   			<div id="#{widget.id}_rechercheDirectiveEnCours" style="display: none;">
+       			<span class="infoMessage" ><h:outputText value="#{messages['epg.dossierCreation.transposition.directive.en.attente.recherche.directive']}" /></span>
+       		</div>
+				</c:if>
+		
+				<!-- Panneau d'affichage des données d'indexation -->
+				
+				<c:forEach var="widgetItems" items="#{field_0}" rendered="#{not empty field_0}" varStatus="status">
+					<c:if test="#{transpositionActions.isEditWidgetItem(widgetItems)}">
+					 <table cellspacing="5" style="border: 1px solid #ccc; margin: 5px; margin-left: 30px;">
+						<c:forEach var="widgetField" items="#{dossierCreationActions.getWidgetFields(widgetTypeMap)}" varStatus="fieldStatus">
+							<nxu:set var="fieldWidgetLabel" value="label.content.creationwidget.#{widgetField}">
+							<tr>
+									<td style="width: 200px; text-align: right;">
+				                		<strong>
+				                			<h:outputText value="#{messages[fieldWidgetLabel]}" />
+				                			<!-- affichage champ requis -->
+					                		<c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.ref'}">
+						                		<h:outputText value=" *" style="color:red;"/>
+					                		</c:if>
+					                		<c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.directiveAnnee'}">
+					                			<h:outputText value=" *" style="color:red;"/>
+				                			</c:if>		
+				                		</strong>
+				                	</td>
+				                	<td>
+					                	<c:if test="#{fieldWidgetLabel != 'label.content.creationwidget.directiveAnnee'}">
+					                		<h:inputText id="#{widget.id}_editing_indexLabel_#{fieldStatus.index}" value="#{widgetItems[widgetField]}"
+							    				onkeydown="if (event.keyCode == 13 || event.keyCode == 9) {return false;}">
+							    			</h:inputText>
+							    		</c:if>		
+					                	<c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.directiveAnnee'}">
+					                		<h:inputText id="#{widget.id}_editing_indexLabel_#{fieldStatus.index}" value="#{transpositionActions.directiveAnnee}"
+							    				onkeydown="if (event.keyCode == 13 || event.keyCode == 9) {return false;}">
+							    			</h:inputText>
+							    		</c:if>	
+						    			<h:message for="#{widget.id}_editing_indexLabel_#{fieldStatus.index}"/>
+						    			<c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.ref'}">
+							    		<nxu:set var="refLabel" value="label.suggestion.help.ref.#{widgetTypeMap}">
+							    			<span onmouseover="tooltip.show('#{messages[refLabel]}', 300, 'topright');" onmouseout="tooltip.hide();">
+									          <h:graphicImage value="/icons/lightbulb.png" />
+									        </span>
+									    </nxu:set>
+								        </c:if>
+								        <c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.directiveAnnee'}">
+							    		<nxu:set var="refLabel" value="label.suggestion.help.annee.#{widgetTypeMap}">
+							    			<span onmouseover="tooltip.show('#{messages[refLabel]}', 300, 'topright');" onmouseout="tooltip.hide();">
+									          <h:graphicImage value="/icons/lightbulb.png" />
+									        </span>
+									    </nxu:set>
+								        </c:if>								        
+								        <c:if test="#{fieldWidgetLabel == 'label.content.creationwidget.refMesure'}">
+							    			<span onmouseover="tooltip.show('#{messages['label.suggestion.help.refMesure']}', 300, 'topright');" onmouseout="tooltip.hide();">
+									          <h:graphicImage value="/icons/lightbulb.png" />
+									        </span>
+								        </c:if>
+					    			</td>
+					    		</tr>
+					    		</nxu:set>
+						</c:forEach>
+					 </table>
+					</c:if>
+					<c:if test="#{not transpositionActions.isEditWidgetItem(widgetItems)}">
+					 <table cellspacing="5" style="border: 1px solid #ccc; margin: 5px; margin-left: 30px;">
+						<c:forEach var="widgetField" items="#{dossierCreationActions.getWidgetFieldsRead(widgetTypeMap)}">
+							<tr>
+								<nxu:set var="fieldWidgetLabel" value="label.content.creationwidget.#{widgetField}">
+								<td style="width: 200px; text-align: right;"><strong><h:outputText value="#{messages[fieldWidgetLabel]}" /></strong></td>
+								<td><h:outputText value="#{widgetItems.get(widgetField).getValue()}" /></td>
+								</nxu:set>
+							</tr>
+							
+						</c:forEach>
+					 </table>
+					</c:if>
+					<c:if test="#{widget.mode == 'edit'}">
+						<a4j:commandLink action="#{transpositionActions.removeTransposition(value, widgetTypeMap, widgetItems)}"
+							reRender="#{widget.id}_#{fieldWidgetLabel}_indexPanel" immediate="true">
+							<h:graphicImage style="margin-left: 200px;" value="/icons/action_delete_mini.gif" />
+						</a4j:commandLink>
+						<c:if test="#{not transpositionActions.isEditWidgetItem(widgetItems)}">
+							<a4j:commandLink action="#{transpositionActions.editTransposition(value, widgetTypeMap, widgetItems)}"
+							reRender="#{widget.id}_#{fieldWidgetLabel}_indexPanel">
+							<h:graphicImage style="margin-left: 20px;" value="/img/icons/document_edit_16.png" />
+						    </a4j:commandLink>
+						</c:if>
+						<c:if test="#{transpositionActions.isEditWidgetItem(widgetItems)}">
+							<c:if test="#{widgetTypeMap == 'transpositionDirective'}">
+								<a4j:commandLink action="#{transpositionActions.validateEditTransposition(value, widgetTypeMap, widgetItems)}"
+								reRender="#{widget.id}_#{fieldWidgetLabel}_indexPanel" onclick="showRechercheTransposition('#{widget.id}_rechercheDirectiveEnCours')">
+								<h:graphicImage style="margin-left: 20px;" value="/img/icons/check_16.png" />
+							    </a4j:commandLink>
+							</c:if>
+							<c:if test="#{widgetTypeMap != 'transpositionDirective'}">
+								<a4j:commandLink action="#{transpositionActions.validateEditTransposition(value, widgetTypeMap, widgetItems)}"
+								reRender="#{widget.id}_#{fieldWidgetLabel}_indexPanel">
+								<h:graphicImage style="margin-left: 20px;" value="/img/icons/check_16.png" />
+							    </a4j:commandLink>							
+							</c:if>
+						</c:if>
+					</c:if>
+				</c:forEach>
+			</a4j:outputPanel>
+		</nxu:set>	
+	</a4j:region>
+</div>

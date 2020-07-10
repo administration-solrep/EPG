@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.widget.parapheurModele">
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+
+    <!-- widget typeActe avec liste de suggestion -->
+    <widget name="type_acte_parapheur_model" type="template">
+      <labels>
+        <label mode="any">label.epg.parapheurModele.typeActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>mp:typeActe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/type_acte_model_parapheur_suggestion_widget_template.xhtml</property>
+        <property name="directoryName">type_acte</property>
+      </properties>
+    </widget>
+    
+    <!-- widget title -->
+    <widget name="title_parapheur" type="text">
+      <labels>
+        <label mode="any">label.epg.parapheurModele.nom</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dc:title</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">largeSolonEpgInput</property>
+        <property name="disabled">true</property>
+      </properties>
+    </widget>
+  
+    <!-- widget nonVide -->
+    <widget name="non_vide_parapheur_model" type="checkbox">
+      <translated>true</translated>
+      <labels>
+        <label mode="any">label.epg.parapheurModele.nonVide</label>
+      </labels>
+      <fields>
+        <field>pf:estNonVide</field>
+      </fields>
+    </widget>
+    
+    <!-- widget nb_max_document_parapheur_model -->
+    <widget name="nb_max_document_parapheur_model" type="input_number_spinner">
+      <labels>
+        <label mode="any">label.epg.parapheurModele.nbMaxDocument</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>pf:nbDocAccepteMax</field>
+      </fields>
+       <widgetModes>
+        <!--  -->
+        <mode value="any">#{nxu:test(parapheurModelManagerActions.isRepertoireActeOuExtrait(),'read','edit')}</mode>
+      </widgetModes>
+    </widget>
+    
+    <!-- widget feuilleStyleIds -->
+    <widget name="feuille_style_parapheur_model" type="template">
+      <labels>
+        <label mode="any">label.epg.parapheurModele.feuilleStyleIds</label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="any">
+        <property name="template">/widgets/rich_files_upload_widget_template.xhtml</property>
+        <property name="maxFilesQuantity">100</property>
+        <property name="listHeight">125</property>
+        <property name="listWidth">260</property>
+      </properties>
+    </widget>
+    
+    <!-- widget formatAutorise -->
+    <widget name="format_autorise_parapheur_model" type="template">
+      <labels>
+        <label mode="any">label.epg.fondDossierModele.formatAutorise</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>pf:formatAutorise</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/add_file_format_model_parapheur_suggestion_widget_template.xhtml</property>
+        <property name="directoryName">format_fichier_autorise</property>
+        <property name="minChars">1</property>
+      </properties>
+    </widget>
+    
+  </extension>
+
+</component>

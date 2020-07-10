@@ -1,0 +1,23 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+  <nxu:set var="infoDossierDTO" value="#{dossierActions.getInfo(field_0)}" cache="true">
+    <c:choose>
+      <c:when test="#{widget.mode == 'pdf'}">
+        <nxp:paragraph/>
+        <nxp:image value="/img/icons/lock_16.png" alt="#{infoDossierDTO.getLockInfo()}" height="16" width="16" alignment="center" rendered="#{infoDossierDTO.isLock()}"/>
+        <nxp:image value="/img/icons/folder_red.png" alt="Urgent" height="16" width="16" alignment="center" rendered="#{infoDossierDTO.isUrgent()}"/>
+        <nxp:image value="/img/icons/back_update_16.png" alt="#{messages[label.epg.feuilleRoute.etape.valide.retourModification]}" height="16" width="16" alignment="center" rendered="#{infoDossierDTO.isRetourPourModification()}"/>
+      </c:when>
+      <c:otherwise>
+        <h:graphicImage value="/img/icons/lock_16.png" alt="#{infoDossierDTO.getLockInfo()}" title="#{infoDossierDTO.getLockInfo()}" rendered="#{infoDossierDTO.isLock()}"/>
+        <h:graphicImage value="/img/icons/folder_red.png" alt="Urgent" title="Urgent" rendered="#{infoDossierDTO.isUrgent()}"/>
+        <h:graphicImage value="/img/icons/back_update_16.png" alt="#{messages[label.epg.feuilleRoute.etape.valide.retourModification]}" title="#{messages[label.epg.feuilleRoute.etape.valide.retourModification]}" rendered="#{infoDossierDTO.isRetourPourModification()}"/>
+      </c:otherwise>
+    </c:choose>
+  </nxu:set>
+</f:subview>

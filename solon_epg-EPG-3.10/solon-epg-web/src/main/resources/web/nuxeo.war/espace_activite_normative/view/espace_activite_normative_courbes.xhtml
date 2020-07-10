@@ -1,0 +1,97 @@
+<div  xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:nxu="http://nuxeo.org/nxweb/util" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:nxl="http://nuxeo.org/nxforms/layout" >
+  <br/><br/>
+<div id="upperContentView"></div>
+<div id="BackToHome" style="border-bottom: solid 1px black;">
+<h:form>
+    <nxu:set var="canBeRefresh" value="#{activiteNormativeStatsActions.canBeRefresh()}" cache="true">
+        <c:if test="${!activiteNormativeStatsActions.canBeRefresh()}">
+            <div align="center">
+                <span style="color:red;">
+                    <h:outputText>#{messages['activite.normative.stats.currentlyRefreshing']} (#{messages['activite.normative.stats.dateDemande']} #{activiteNormativeStatsActions.getHorodatageRequest()})</h:outputText>
+                </span>
+            </div>
+        </c:if>
+        <table width="100%">
+            <tr>
+                <td colspan="5" align="left">
+                    <table>
+                        <tr>
+                            <td><nxl:layout value="#{activiteNormativeStatsActions}" mode="edit" name="an_date_periode_mois_annee" /></td> 
+                            <td align="right" valign="bottom">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%">
+                        <tr>
+                            <td></td>
+                            <c:choose>
+                                <c:when test="${canBeRefresh}">
+                                    <c:if test="${ activiteNormativeStatsActions.isActiviteNormativeUpdater()}">
+                                        <c:if test="${activiteNormativeStatsActions.isDisplayPublierLink()}">
+                                            <td align="right"  width='30px'>
+                                                <h:commandLink action="#{activiteNormativeStatsActions.publierResultat()}" id="publierResulat">
+                                                    <h:graphicImage  title="#{messages['activite.normative.stats.publier']}" url="/img/icons/document_add_24.png" />
+                                                </h:commandLink>
+                                            </td>
+                                        </c:if>
+                                        <td align="right"  width='30px'>
+                                            <h:commandLink action="#{activiteNormativeStatsActions.refreshBirtResultat()}"  id="rafraichirSortie">
+                                                <h:graphicImage title="#{messages['activite.normative.stats.refresh']}" url="/img/icons/refresh.png" />
+                                            </h:commandLink>
+                                        </td>
+                                    </c:if>
+                                     <c:if test="${ activiteNormativeStatsActions.isDisplayExcelLink()}">
+                                        <td align="right"  width='30px'>
+                                            <h:commandLink target="_blank" action="#{activiteNormativeStatsActions.displayBirtResultatXsl()}" id="extraireEnExcel">
+                                                <h:graphicImage title="#{messages['activite.normative.stats.export.excel']}" url="/img/icons/csv_export.png" />
+                                            </h:commandLink>
+                                        </td>
+                                    </c:if>
+                                    <c:if test="${ activiteNormativeStatsActions.isDisplayImprimerLink()}">
+                                        <td align="right"  width='30px'>
+                                            <h:commandLink target="_blank" action="#{activiteNormativeStatsActions.displayBirtResultatPdf()}" id="extraireEnPDF">
+                                                <h:graphicImage title="#{messages['activite.normative.stats.imprimer']}" url="/img/icons/printer.png" />
+                                            </h:commandLink>
+                                        </td>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${ activiteNormativeStatsActions.isActiviteNormativeUpdater()}">
+                                        <c:if test="${activiteNormativeStatsActions.isDisplayPublierLink()}">
+                                            <td align="right"  width='30px'>
+                                                <h:graphicImage styleClass="deactivateButton" title="#{messages['activite.normative.stats.publier']}" url="/img/icons/document_add_24.png" />
+                                            </td>
+                                        </c:if>
+                                        <td align="right"  width='30px'>
+                                            <h:graphicImage styleClass="deactivateButton" title="#{messages['activite.normative.stats.currentlyRefreshing']} (#{messages['activite.normative.stats.dateDemande']} #{activiteNormativeStatsActions.getHorodatageRequest()})" url="/img/icons/refresh.png" />
+                                        </td>
+                                    </c:if>
+                                     <c:if test="${ activiteNormativeStatsActions.isDisplayExcelLink()}">
+                                        <td align="right"  width='30px'>
+                                            <h:graphicImage styleClass="deactivateButton" title="#{messages['activite.normative.stats.export.excel']}" url="/img/icons/csv_export.png" />
+                                        </td>
+                                    </c:if>
+                                    <c:if test="${ activiteNormativeStatsActions.isDisplayImprimerLink()}">
+                                        <td align="right"  width='30px'>
+                                            <h:graphicImage styleClass="deactivateButton" title="#{messages['activite.normative.stats.imprimer']}" url="/img/icons/printer.png" />
+                                        </td>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </nxu:set>
+</h:form>
+</div>
+<iframe src="#{activiteNormativeStatsActions.getUrlView('espace_activite_normative_resultat_stats_content.faces')}" height="600px" width="100%" scrolling="auto" /></div>

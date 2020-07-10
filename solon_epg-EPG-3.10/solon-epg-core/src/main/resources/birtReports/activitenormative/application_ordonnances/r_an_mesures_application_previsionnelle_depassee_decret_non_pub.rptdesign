@@ -1,0 +1,1734 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var MINISTERES_PARAM = params["MINISTERES_PARAM"] + "";
+MINISTERES_PARAM = (MINISTERES_PARAM == "null" ? "" : MINISTERES_PARAM);
+var SEPARATEURS = "&amp;";
+var KEY_ID = "$id$=";
+var KEY_LABEL = "$label$=";
+var KEY_LIMIT = ";;";
+var MINISTERES = MINISTERES_PARAM.split(SEPARATEURS);
+var OBJ, ID, LABEL;
+var all_obj = new Object();
+
+for(i = 0; i < (MINISTERES.length  - 1); i++)
+{
+	OBJ = MINISTERES[i].split(KEY_LIMIT);
+	ID = OBJ[0].substring(OBJ[0].indexOf(KEY_ID) + KEY_ID.length);
+	LABEL = OBJ[1].substring(OBJ[1].indexOf(KEY_LABEL) + KEY_LABEL.length);
+	all_obj[ID] = LABEL;
+}
+reportContext.setPersistentGlobalVariable("MINISTERES_VAR", all_obj);
+
+var DIRECTIONS_PARAM = params["DIRECTIONS_PARAM"] + "";
+DIRECTIONS_PARAM = (DIRECTIONS_PARAM == "null" ? "" : DIRECTIONS_PARAM);
+var DIRECTIONS = DIRECTIONS_PARAM.split(SEPARATEURS);
+all_obj = new Object();
+
+for(i = 0; i < (DIRECTIONS.length  - 1); i++)
+{
+	OBJ = DIRECTIONS[i].split(KEY_LIMIT);
+	ID = OBJ[0].substring(OBJ[0].indexOf(KEY_ID) + KEY_ID.length);
+	LABEL = OBJ[1].substring(OBJ[1].indexOf(KEY_LABEL) + KEY_LABEL.length);
+	all_obj[ID] = LABEL;
+}
+reportContext.setPersistentGlobalVariable("DIRECTIONS_VAR", all_obj);
+
+function toddMMyyyy(madate){
+   	if(madate)
+   	{
+   		var day = madate.getDate();
+		var month = madate.getMonth()+1;
+		if (day < 10) day = "0" + day ;
+		if (month < 10) month = "0" + month ;
+		return day + "/" + month  + "/" + madate.getFullYear();
+	}
+	else{
+	 	return " ";
+	}
+}
+reportContext.setPersistentGlobalVariable("toddMMyyyy", toddMMyyyy);
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="MINISTERES_PARAM" id="320">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DIRECTIONS_PARAM" id="349">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="LEGISLATURES" id="351">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="LEGISLATURES_LABEL" id="352">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_QA</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfUUE=</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DECRETS_NON_PUB" id="357">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">NUMEROORDO</property>
+                    <text-property name="displayName">NUMEROORDO</text-property>
+                    <text-property name="heading">NUMEROORDO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TITREOFFICIEL</property>
+                    <text-property name="displayName">TITREOFFICIEL</text-property>
+                    <text-property name="heading">TITREOFFICIEL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NUMEROORDRE</property>
+                    <text-property name="displayName">NUMEROORDRE</text-property>
+                    <text-property name="heading">NUMEROORDRE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ARTICLE</property>
+                    <text-property name="displayName">ARTICLE</text-property>
+                    <text-property name="heading">ARTICLE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BASELEGALE</property>
+                    <text-property name="displayName">BASELEGALE</text-property>
+                    <text-property name="heading">BASELEGALE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">OBJETRIM</property>
+                    <text-property name="displayName">OBJETRIM</text-property>
+                    <text-property name="heading">OBJETRIM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MINISTEREPILOTE</property>
+                    <text-property name="displayName">MINISTEREPILOTE</text-property>
+                    <text-property name="heading">MINISTEREPILOTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DIRECTIONRESPONSABLE</property>
+                    <text-property name="displayName">DIRECTIONRESPONSABLE</text-property>
+                    <text-property name="heading">DIRECTIONRESPONSABLE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONSULTATIONSHCE</property>
+                    <text-property name="displayName">CONSULTATIONSHCE</text-property>
+                    <text-property name="heading">CONSULTATIONSHCE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CALENDRIERCONSULTATIONSHCE</property>
+                    <text-property name="displayName">CALENDRIERCONSULTATIONSHCE</text-property>
+                    <text-property name="heading">CALENDRIERCONSULTATIONSHCE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DATEPREVISIONNELLESAISINECE</property>
+                    <text-property name="displayName">DATEPREVISIONNELLESAISINECE</text-property>
+                    <text-property name="heading">DATEPREVISIONNELLESAISINECE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DATEOBJECTIFPUBLICATION</property>
+                    <text-property name="displayName">DATEOBJECTIFPUBLICATION</text-property>
+                    <text-property name="heading">DATEOBJECTIFPUBLICATION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DATESAISINECE</property>
+                    <text-property name="displayName">DATESAISINECE</text-property>
+                    <text-property name="heading">DATESAISINECE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DATESORTIECE</property>
+                    <text-property name="displayName">DATESORTIECE</text-property>
+                    <text-property name="heading">DATESORTIECE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">OBSERVATION</property>
+                    <text-property name="displayName">OBSERVATION</text-property>
+                    <text-property name="heading">OBSERVATION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NUMERONOR</property>
+                    <text-property name="displayName">NUMERONOR</text-property>
+                    <text-property name="heading">NUMERONOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DECRET_TITREOFFICIEL</property>
+                    <text-property name="displayName">DECRET_TITREOFFICIEL</text-property>
+                    <text-property name="heading">DECRET_TITREOFFICIEL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TYPACTE</property>
+                    <text-property name="displayName">TYPACTE</text-property>
+                    <text-property name="heading">TYPACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DATEPUBLICATIONORDO</property>
+                    <text-property name="displayName">DATEPUBLICATIONORDO</text-property>
+                    <text-property name="heading">DATEPUBLICATIONORDO</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">NUMEROORDO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">TITREOFFICIEL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">NUMEROORDRE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">ARTICLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">BASELEGALE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">OBJETRIM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">MINISTEREPILOTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">DIRECTIONRESPONSABLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">CONSULTATIONSHCE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">CALENDRIERCONSULTATIONSHCE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">DATEPREVISIONNELLESAISINECE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">DATEOBJECTIFPUBLICATION</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">DATESAISINECE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">DATESORTIECE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">OBSERVATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">NUMERONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">DECRET_TITREOFFICIEL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">TYPACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">DATEPUBLICATIONORDO</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[var sQuery="SELECT "+
+	"V.NUMEROORDO, "+
+	"V.TITREOFFICIEL, "+ 
+	"V.NUMEROORDRE, "+ 
+	"V.ARTICLE, "+ 
+	"V.BASELEGALE, "+ 
+	"V.OBJETRIM, "+ 
+	"V.MINISTEREPILOTE, "+ 
+	"V.DIRECTIONRESPONSABLE, "+
+	"V.CONSULTATIONSHCE, "+
+	"V.CALENDRIERCONSULTATIONSHCE, "+
+	"V.DATEPREVISIONNELLESAISINECE, "+
+	"V.DATEOBJECTIFPUBLICATION, "+
+	"V.DATESAISINECE, "+ 
+	"V.DATESORTIECE, "+ 
+	"V.OBSERVATION, "+ 
+	"V.NUMERONOR, "+
+	"V.DECRET_TITREOFFICIEL, "+ 
+	"V.TYPACTE, "+
+	"V.DATEPUBLICATIONORDO "+ 
+	"FROM V_AN_MES_PREV_APP_ORDO V "+
+	"WHERE V.APPLICATIONRECU <>1  AND V.LEGISLATUREPUBLICATION IN("+params["LEGISLATURES"].value+") "+
+	"ORDER BY V.DATEPUBLICATIONORDO, V.NUMEROORDO";
+this.queryText = sQuery;]]></method>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">NUMEROORDO</property>
+                    <property name="nativeName">NUMEROORDO</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">TITREOFFICIEL</property>
+                    <property name="nativeName">TITREOFFICIEL</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">NUMEROORDRE</property>
+                    <property name="nativeName">NUMEROORDRE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">ARTICLE</property>
+                    <property name="nativeName">ARTICLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">BASELEGALE</property>
+                    <property name="nativeName">BASELEGALE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">OBJETRIM</property>
+                    <property name="nativeName">OBJETRIM</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">2011</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">MINISTEREPILOTE</property>
+                    <property name="nativeName">MINISTEREPILOTE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">DIRECTIONRESPONSABLE</property>
+                    <property name="nativeName">DIRECTIONRESPONSABLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">CONSULTATIONSHCE</property>
+                    <property name="nativeName">CONSULTATIONSHCE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">CALENDRIERCONSULTATIONSHCE</property>
+                    <property name="nativeName">CALENDRIERCONSULTATIONSHCE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">DATEPREVISIONNELLESAISINECE</property>
+                    <property name="nativeName">DATEPREVISIONNELLESAISINECE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">DATEOBJECTIFPUBLICATION</property>
+                    <property name="nativeName">DATEOBJECTIFPUBLICATION</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">DATESAISINECE</property>
+                    <property name="nativeName">DATESAISINECE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">DATESORTIECE</property>
+                    <property name="nativeName">DATESORTIECE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">OBSERVATION</property>
+                    <property name="nativeName">OBSERVATION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">2011</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">NUMERONOR</property>
+                    <property name="nativeName">NUMERONOR</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">DECRET_TITREOFFICIEL</property>
+                    <property name="nativeName">DECRET_TITREOFFICIEL</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">TYPACTE</property>
+                    <property name="nativeName">TYPACTE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">DATEPUBLICATIONORDO</property>
+                    <property name="nativeName">DATEPUBLICATIONORDO</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT
+V.NUMEROORDO,
+V.TITREOFFICIEL, 
+V.NUMEROORDRE, 
+V.ARTICLE, 
+V.BASELEGALE, 
+V.OBJETRIM, 
+V.MINISTEREPILOTE, 
+V.DIRECTIONRESPONSABLE,
+V.CONSULTATIONSHCE,
+V.CALENDRIERCONSULTATIONSHCE,
+V.DATEPREVISIONNELLESAISINECE,
+V.DATEOBJECTIFPUBLICATION,
+V.DATESAISINECE, 
+V.DATESORTIECE, 
+V.OBSERVATION, 
+V.NUMERONOR,
+V.DECRET_TITREOFFICIEL, 
+V.TYPACTE,
+V.DATEPUBLICATIONORDO
+FROM V_AN_MES_PREV_APP_ORDO V
+WHERE V.APPLICATIONRECU <>1
+ORDER BY V.DATEPUBLICATIONORDO, V.NUMEROORDO]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>NUMEROORDO</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NUMEROORDO</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NUMEROORDO</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>TITREOFFICIEL</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>TITREOFFICIEL</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>TITREOFFICIEL</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>NUMEROORDRE</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NUMEROORDRE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NUMEROORDRE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ARTICLE</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ARTICLE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ARTICLE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>BASELEGALE</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>BASELEGALE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>BASELEGALE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>OBJETRIM</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2011</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>OBJETRIM</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>OBJETRIM</design:label>
+            <design:formattingHints>
+              <design:displaySize>4000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MINISTEREPILOTE</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MINISTEREPILOTE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MINISTEREPILOTE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DIRECTIONRESPONSABLE</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DIRECTIONRESPONSABLE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DIRECTIONRESPONSABLE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CONSULTATIONSHCE</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CONSULTATIONSHCE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CONSULTATIONSHCE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CALENDRIERCONSULTATIONSHCE</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CALENDRIERCONSULTATIONSHCE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CALENDRIERCONSULTATIONSHCE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DATEPREVISIONNELLESAISINECE</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DATEPREVISIONNELLESAISINECE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DATEPREVISIONNELLESAISINECE</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DATEOBJECTIFPUBLICATION</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DATEOBJECTIFPUBLICATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DATEOBJECTIFPUBLICATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DATESAISINECE</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DATESAISINECE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DATESAISINECE</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DATESORTIECE</design:name>
+              <design:position>14</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DATESORTIECE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DATESORTIECE</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>OBSERVATION</design:name>
+              <design:position>15</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2011</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>OBSERVATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>OBSERVATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>4000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>NUMERONOR</design:name>
+              <design:position>16</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NUMERONOR</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NUMERONOR</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DECRET_TITREOFFICIEL</design:name>
+              <design:position>17</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DECRET_TITREOFFICIEL</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DECRET_TITREOFFICIEL</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>TYPACTE</design:name>
+              <design:position>18</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>TYPACTE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>TYPACTE</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DATEPUBLICATIONORDO</design:name>
+              <design:position>19</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>6</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>DATEPUBLICATIONORDO</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DATEPUBLICATIONORDO</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">custom</property>
+            <property name="orientation">landscape</property>
+            <property name="height">20in</property>
+            <property name="width">30in</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="10">
+            <column id="11"/>
+            <row id="12">
+                <cell id="13">
+                    <text-data id="350">
+                        <property name="fontWeight">bold</property>
+                        <expression name="valueExpr">var madate = new Date()
+"Liste des mesures non appliquées à la date du " + toddMMyyyy(madate) + " :";</expression>
+                        <property name="contentType">html</property>
+                    </text-data>
+                </cell>
+            </row>
+            <row id="353">
+                <cell id="354">
+                    <text-data id="355">
+                        <property name="fontStyle">italic</property>
+                        <expression name="valueExpr">"Pour " + params["LEGISLATURES_LABEL"].value;</expression>
+                        <property name="contentType">html</property>
+                    </text-data>
+                </cell>
+            </row>
+            <row id="39">
+                <cell id="40">
+                    <text id="41">
+                        <property name="fontSize">5pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[ ]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="14">
+                <cell id="15">
+                    <table id="223">
+                        <property name="width">2830px</property>
+                        <property name="dataSet">DECRETS_NON_PUB</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">NUMEROORDO</property>
+                                <text-property name="displayName">NUMEROORDO</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NUMEROORDO"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TITREOFFICIEL</property>
+                                <text-property name="displayName">TITREOFFICIEL</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TITREOFFICIEL"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NUMEROORDRE</property>
+                                <text-property name="displayName">NUMEROORDRE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NUMEROORDRE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ARTICLE</property>
+                                <text-property name="displayName">ARTICLE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ARTICLE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">BASELEGALE</property>
+                                <text-property name="displayName">BASELEGALE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["BASELEGALE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">OBJETRIM</property>
+                                <text-property name="displayName">OBJETRIM</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["OBJETRIM"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">MINISTEREPILOTE</property>
+                                <text-property name="displayName">MINISTEREPILOTE</text-property>
+                                <expression name="expression" type="javascript">var MINISTEREPILOTE = dataSetRow["MINISTEREPILOTE"];&#13;
+var messageToDisplay = MINISTEREPILOTE;&#13;
+&#13;
+var min_var = reportContext.getPersistentGlobalVariable("MINISTERES_VAR");&#13;
+if(min_var &amp;&amp; min_var[MINISTEREPILOTE])messageToDisplay = min_var[MINISTEREPILOTE];&#13;
+&#13;
+messageToDisplay;</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DIRECTIONRESPONSABLE</property>
+                                <text-property name="displayName">DIRECTIONRESPONSABLE</text-property>
+                                <expression name="expression" type="javascript">var DIRECTIONRESPONSABLE = dataSetRow["DIRECTIONRESPONSABLE"];&#13;
+var messageToDisplay = DIRECTIONRESPONSABLE;&#13;
+&#13;
+var min_var = reportContext.getPersistentGlobalVariable("DIRECTIONS_VAR");&#13;
+if(min_var &amp;&amp; min_var[DIRECTIONRESPONSABLE])messageToDisplay = min_var[DIRECTIONRESPONSABLE];&#13;
+messageToDisplay;</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CONSULTATIONSHCE</property>
+                                <text-property name="displayName">CONSULTATIONSHCE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["CONSULTATIONSHCE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CALENDRIERCONSULTATIONSHCE</property>
+                                <text-property name="displayName">CALENDRIERCONSULTATIONSHCE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["CALENDRIERCONSULTATIONSHCE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DATEPREVISIONNELLESAISINECE</property>
+                                <text-property name="displayName">DATEPREVISIONNELLESAISINECE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DATEPREVISIONNELLESAISINECE"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DATEOBJECTIFPUBLICATION</property>
+                                <text-property name="displayName">DATEOBJECTIFPUBLICATION</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DATEOBJECTIFPUBLICATION"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DATESAISINECE</property>
+                                <text-property name="displayName">DATESAISINECE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DATESAISINECE"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DATESORTIECE</property>
+                                <text-property name="displayName">DATESORTIECE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DATESORTIECE"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">OBSERVATION</property>
+                                <text-property name="displayName">OBSERVATION</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["OBSERVATION"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NUMERONOR</property>
+                                <text-property name="displayName">NUMERONOR</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NUMERONOR"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DECRET_TITREOFFICIEL</property>
+                                <text-property name="displayName">DECRET_TITREOFFICIEL</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DECRET_TITREOFFICIEL"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TYPACTE</property>
+                                <text-property name="displayName">TYPACTE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TYPACTE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DATEPUBLICATIONORDO</property>
+                                <text-property name="displayName">DATEPUBLICATIONORDO</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DATEPUBLICATIONORDO"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                        </list-property>
+                        <structure name="toc"/>
+                        <column id="230"/>
+                        <column id="233"/>
+                        <column id="236"/>
+                        <column id="245"/>
+                        <column id="242"/>
+                        <column id="239"/>
+                        <column id="263"/>
+                        <column id="323"/>
+                        <column id="260"/>
+                        <column id="257"/>
+                        <column id="254"/>
+                        <column id="251"/>
+                        <column id="248"/>
+                        <column id="327"/>
+                        <column id="331"/>
+                        <column id="266"/>
+                        <header>
+                            <row id="224">
+                                <property name="textAlign">center</property>
+                                <property name="verticalAlign">middle</property>
+                                <cell id="225">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="301">
+                                        <text-property name="text">N° de l'ordonnance</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="231">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="270">
+                                        <text-property name="text">Titre de l'ordonnance</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="234">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="272">
+                                        <text-property name="text">N° d’ordre du bleu</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="243">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="274">
+                                        <text-property name="text">Article de l'ordonnance</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="240">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="276">
+                                        <text-property name="text">Base légale</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="237">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="278">
+                                        <text-property name="text">Objet </text-property>
+                                    </label>
+                                </cell>
+                                <cell id="261">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="280">
+                                        <text-property name="text">Ministère pilote du décret d’application</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="321">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="324">
+                                        <text-property name="text">Direction responsable</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="258">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="282">
+                                        <text-property name="text">Consultations obligatoires hors CE</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="255">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="284">
+                                        <text-property name="text">Calendrier des consultations obligatoires hors CE</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="252">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="286">
+                                        <text-property name="text">Date prévisionnelle de saisine du Conseil d’Etat</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="249">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="288">
+                                        <text-property name="text">Objectif de publication</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="246">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="290">
+                                        <text-property name="text">Date de saisine du Conseil d’Etat</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="325">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="328">
+                                        <text-property name="text">Date de sortie du Conseil d’Etat</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="329">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="332">
+                                        <text-property name="text">Observations</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="264">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="294">
+                                        <text-property name="text">Catégorie de décret</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="226">
+                                <property name="verticalAlign">middle</property>
+                                <cell id="227">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="361">
+                                        <property name="resultSetColumn">NUMEROORDO</property>
+                                    </data>
+                                </cell>
+                                <cell id="232">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="362">
+                                        <property name="resultSetColumn">TITREOFFICIEL</property>
+                                    </data>
+                                </cell>
+                                <cell id="235">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="363">
+                                        <property name="resultSetColumn">NUMEROORDRE</property>
+                                    </data>
+                                </cell>
+                                <cell id="244">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="364">
+                                        <property name="resultSetColumn">ARTICLE</property>
+                                    </data>
+                                </cell>
+                                <cell id="241">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="365">
+                                        <property name="resultSetColumn">BASELEGALE</property>
+                                    </data>
+                                </cell>
+                                <cell id="238">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="366">
+                                        <property name="resultSetColumn">OBJETRIM</property>
+                                    </data>
+                                </cell>
+                                <cell id="262">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="367">
+                                        <property name="resultSetColumn">MINISTEREPILOTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="322">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="368">
+                                        <property name="resultSetColumn">DIRECTIONRESPONSABLE</property>
+                                    </data>
+                                </cell>
+                                <cell id="259">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="369">
+                                        <property name="resultSetColumn">CONSULTATIONSHCE</property>
+                                    </data>
+                                </cell>
+                                <cell id="256">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="370">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">MMMM yyyy</property>
+                                            <property name="locale">fr</property>
+                                        </structure>
+                                        <property name="resultSetColumn">CALENDRIERCONSULTATIONSHCE</property>
+                                    </data>
+                                </cell>
+                                <cell id="253">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="371">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">MMMM yyyy</property>
+                                            <property name="locale">fr</property>
+                                        </structure>
+                                        <property name="resultSetColumn">DATEPREVISIONNELLESAISINECE</property>
+                                    </data>
+                                </cell>
+                                <cell id="250">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="372">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">MMMM yyyy</property>
+                                            <property name="locale">fr</property>
+                                        </structure>
+                                        <property name="resultSetColumn">DATEOBJECTIFPUBLICATION</property>
+                                    </data>
+                                </cell>
+                                <cell id="247">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="373">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Short Date</property>
+                                            <property name="pattern">Short Date</property>
+                                            <property name="locale">fr</property>
+                                        </structure>
+                                        <property name="resultSetColumn">DATESAISINECE</property>
+                                    </data>
+                                </cell>
+                                <cell id="326">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="374">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Short Date</property>
+                                            <property name="pattern">Short Date</property>
+                                            <property name="locale">fr</property>
+                                        </structure>
+                                        <property name="resultSetColumn">DATESORTIECE</property>
+                                    </data>
+                                </cell>
+                                <cell id="330">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="375">
+                                        <property name="resultSetColumn">OBSERVATION</property>
+                                    </data>
+                                </cell>
+                                <cell id="265">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="376">
+                                        <property name="resultSetColumn">TYPACTE</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
+                </cell>
+            </row>
+        </grid>
+    </body>
+    <property name="pageVariables">
+        <variable-element name="MINISTERES_VAR">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="DIRECTIONS_VAR">
+            <property name="type">report</property>
+        </variable-element>
+    </property>
+</report>

@@ -1,0 +1,413 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonmgpp.web.requete.contentview.contrib">
+  <require>org.nuxeo.ecm.platform.smart.folder.layouts</require>
+  <require>org.nuxeo.ecm.platform.smart.query.layouts</require>
+  <require>fr.dila.solonepg.web.layout.requete.listing</require>
+ 
+  <extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">
+
+	<contentView name="nxql_incremental_smart_query_mgpp">
+    	<emptySentence>label.content.empty.search</emptySentence>
+    	<translateEmptySentence>true</translateEmptySentence>
+    	<coreQueryPageProvider>
+      		<property name="coreSession">#{documentManager}</property>
+      		<pattern quoteParameters="false" escapeParameters="false">
+		        SELECT * FROM Document WHERE (?) AND ecm:mixinType !=
+		        'HiddenInNavigation' AND ecm:isCheckedInVersion = 0 AND
+		        ecm:currentLifeCycleState != 'deleted'
+      		</pattern>
+     	 	<parameter>#{mgppSmartNXQLQueryActions.queryPart}</parameter>
+			<sort column="dc:title" ascending="true" />
+			<pageSize>20</pageSize>
+			<sortInfosBinding>
+			  #{mgppSmartNXQLQueryActions.searchSortInfos}
+			</sortInfosBinding>
+   		</coreQueryPageProvider>
+    	<showPageSizeSelector>true</showPageSizeSelector>
+    	<useGlobalPageSize>true</useGlobalPageSize>
+	    <refresh>
+	      <event>documentChanged</event>
+	      <event>documentChildrenChanged</event>
+	      <event></event>
+	    </refresh>
+	    <cacheKey>only_one_cache</cacheKey>
+	    <cacheSize>1</cacheSize>
+	    <searchLayout name="nxql_incremental_smart_query_mgpp" />
+		<resultLayouts>
+		     <layout name="search_listing_ajax" title="document_listing" translateTitle="true" 
+		     	iconPath="/icons/document_listing_icon.png" showCSVExport="true" />
+		     <layout name="document_virtual_navigation_listing_ajax_compact_2_columns"
+		       title="document_listing_compact_2_columns" translateTitle="true"
+		       iconPath="/icons/document_listing_compact_2_columns_icon.png" />
+		     <layout name="document_virtual_navigation_listing_ajax_icon_2_columns"
+		        title="document_listing_icon_2_columns" translateTitle="true"
+		        iconPath="/icons/document_listing_icon_2_columns_icon.png" />
+	    </resultLayouts>
+	    <resultColumns>
+	      #{mgppSmartNXQLQueryActions.selectedLayoutColumns}
+	    </resultColumns>
+	    <selectionList>CURRENT_SELECTION</selectionList>
+	    <actions category="CURRENT_SELECTION_LIST" />
+	</contentView>
+
+    <!-- Content view pour le résultat du requêteur fiche loi-->
+    <contentView name="recherche_fiche_loi">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FicheLoi</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_loi_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_loi_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_loi_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content view pour le résultat du requêteur fiche presentation oep-->
+    <contentView name="recherche_fiche_presentation_oep">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationOEP</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_oep_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_oep_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_OEP_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content view pour le résultat du requêteur fiche presentation avi-->
+    <contentView name="recherche_fiche_presentation_avi">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationAVI</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_avi_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_avi_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_AVI_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content view pour le résultat du requêteur fiche presentation depot de rapport-->
+    <contentView name="recherche_fiche_presentation_dr">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationDR</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_dr_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_dr_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_DR_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content view pour le résultat du requêteur fiche presentation decret-->
+    <contentView name="recherche_fiche_presentation_decret">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationDecret</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_de_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_de_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_Decret_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content view pour le résultat du requêteur fiche presentation 341-->
+    <contentView name="recherche_fiche_presentation_341">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentation341</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_341_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_341_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_341_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content view pour le résultat du requêteur fiche presentation intervention extérieure-->
+    <contentView name="recherche_fiche_presentation_ie">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationIE</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_ie_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_ie_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_IE_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    
+    
+    
+    <!-- Content view pour le résultat du requêteur fiche presentation DPG-->
+    <contentView name="recherche_fiche_presentation_dpg">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationDPG</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_dpg_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_dpg_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_DPG_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+
+
+    <!-- Content view pour le résultat du requêteur fiche presentation AUD-->
+    <contentView name="recherche_fiche_presentation_aud">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationAUD</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_aud_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_aud_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_AUD_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+
+    <!-- Content view pour le résultat du requêteur fiche presentation DOC-->
+    <contentView name="recherche_fiche_presentation_doc">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationDOC</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_doc_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_doc_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_DOC_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+
+    <!-- Content view pour le résultat du requêteur fiche presentation JSS-->
+    <contentView name="recherche_fiche_presentation_jss">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationJSS</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_jss_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_jss_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_JSS_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+
+    <!-- Content view pour le résultat du requêteur fiche presentation SD-->
+    <contentView name="recherche_fiche_presentation_sd">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="documentType">FichePresentationSD</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">fiche_sd_list</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{mgppSmartNXQLQueryActions.fullQuery}</parameter>
+	        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fiche_sd_cache</cacheKey>
+      <cacheSize>5</cacheSize>
+      <resultLayouts>
+        <layout name="fiche_presentation_SD_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+
+ </extension>
+
+</component>

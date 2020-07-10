@@ -1,0 +1,1344 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.widget.papier">
+  <require>fr.dila.solonepg.web.layout.widgetType</require>
+
+  <!-- *********************************************************************** -->
+  <!-- Types de widgets -->
+  <!-- *********************************************************************** -->
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+    point="widgettypes">
+    <widgetType name="datetimeTP">
+      <documentation>
+        datetimeTP only text widget
+        </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">/widgets/datetime_traitement_papier.xhtml
+      </property>
+    </widgetType>
+    <widgetType name="communication_retour_signataires">
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+        /widgets/papier/communication_signataire_widget_template.xhtml
+      </property>
+    </widgetType>
+    <widgetType name="signature_destinataire">
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+        /widgets/papier/signature_destinataire_widget_template.xhtml
+      </property>
+      <property name="reference" value="" />
+    </widgetType>
+    <widgetType name="references">
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+        /widgets/papier/references_widget_template.xhtml
+      </property>
+      <property name="reference" value="" />
+    </widgetType>
+    <widgetType name="listDestinataire">
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+        /widgets/papier/destinataire_list_widget_template.xhtml
+      </property>
+    </widgetType>
+
+  </extension>
+
+  <!-- *********************************************************************** -->
+  <!-- widgets -->
+  <!-- *********************************************************************** -->
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+    point="widgets">
+
+    <!-- ************************************* -->
+    <!-- REFERENCE -->
+    <!-- ************************************* -->
+
+    <!-- widget ref_date_arrivee -->
+    <widget name="ref_date_arrivee" type="datetime">
+      <labels>
+        <label mode="any">label.epg.papier.reference.date_arrivee
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:dateArrivePapier</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yy</property>
+        <property name="format">dd/MM/yy</property>
+        <property name="styleClass">width:60px</property>
+      </properties>
+    </widget>
+
+    <!-- widget ref_commentaire -->
+    <widget name="ref_commentaire" type="textarea">
+      <labels>
+        <label mode="any">label.epg.papier.reference.commentaire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:commentaireReference</field>
+      </fields>
+    </widget>
+
+    <!-- widget ref_texte_a_publie -->
+    <widget name="ref_texte_a_publie" type="checkbox">
+      <labels>
+        <label mode="any">label.epg.papier.reference.texte_a_publier
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:texteAPublier</field>
+      </fields>
+    </widget>
+
+    <!-- widget ref_texte_soumis_a_validation -->
+    <widget name="ref_texte_soumis_a_validation" type="checkbox">
+      <labels>
+        <label mode="any">label.epg.papier.reference.texte_soumis_a_validation
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:texteSoumisAValidation</field>
+      </fields>
+    </widget>
+
+    <!-- widget ref_signataire -->
+    <widget name="ref_signataire" type="selectOneRadio">
+      <labels>
+        <label mode="any">label.epg.papier.reference.signataire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:signataire</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">type_signataire_traitement_papier
+        </property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+
+    <!-- ************************************* -->
+    <!-- COMMUNICATION -->
+    <!-- ************************************* -->
+    <!-- widget communication_pm -->
+    <widget name="communication_dest_pm" type="listDestinataire">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:cabinetPmCommunication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="destType">DEST_CABINET_PM</property>
+      </properties>
+      <subWidgets>
+        <widget name="destinataireItem" type="template">
+          <labels>
+            <label mode="any">Destinataire</label>
+          </labels>
+          <properties mode="any">
+            <property name="template">
+              /widgets/papier/complex_list_item_as_row_widget_template.xhtml
+            </property>
+            <property name="display">inline</property>
+          </properties>
+          <subWidgets>
+            <widget name="nom" type="references">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.destinataire
+                </label>
+              </labels>
+              <properties widgetMode="any">
+                <property name="reference">CABINET_PM</property>
+              </properties>
+              <fields>
+                <field>nomDestinataireCommunication</field>
+              </fields>
+            </widget>
+            <widget name="date_envoi" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_envoi
+                </label>
+              </labels>
+              <fields>
+                <field>dateEnvoiCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="date_retour" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_retour
+                </label>
+              </labels>
+              <fields>
+                <field>dateRetourCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="date_relance" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_relance
+                </label>
+              </labels>
+              <fields>
+                <field>dateRelanceCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="sens_avis" type="selectOneDirectory">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.sens_avis
+                </label>
+              </labels>
+              <translated>true</translated>
+              <fields>
+                <field>sensAvisCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="directoryName">type_avis_traitement_papier
+                </property>
+              </properties>
+              <properties widgetMode="edit">
+                <property name="onchange">saisirSensAvis(this)</property>
+                <property name="styleClass">dataInputText</property>
+                <property name="ordering">id</property>
+              </properties>
+            </widget>
+            <widget name="objet" type="text">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.objet
+                </label>
+              </labels>
+              <fields>
+                <field>objetCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="style">width:210px</property>
+              </properties>
+            </widget>
+          </subWidgets>
+        </widget>
+      </subWidgets>
+    </widget>
+
+
+    <!-- widget communication_charge_mission -->
+    <widget name="communication_dest_charge_mission" type="listDestinataire">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:chargeMissionCommunication</field>
+      </fields>
+      <subWidgets>
+        <widget name="destinataireItem" type="template">
+          <labels>
+            <label mode="any">Destinataire</label>
+          </labels>
+          <properties mode="any">
+            <property name="template">
+              /widgets/papier/complex_list_item_as_row_widget_template.xhtml
+            </property>
+            <property name="display">inline</property>
+          </properties>
+          <subWidgets>
+            <widget name="nom" type="references">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.destinataire
+                </label>
+              </labels>
+              <properties widgetMode="any">
+                <property name="reference">CHARGES_MISSION</property>
+              </properties>
+              <fields>
+                <field>nomDestinataireCommunication</field>
+              </fields>
+            </widget>
+            <widget name="date_envoi" type="datetime">
+
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_envoi
+                </label>
+              </labels>
+              <fields>
+                <field>dateEnvoiCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="date_retour" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_retour
+                </label>
+              </labels>
+              <fields>
+                <field>dateRetourCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="date_relance" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_relance
+                </label>
+              </labels>
+              <fields>
+                <field>dateRelanceCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="sens_avis" type="selectOneDirectory">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.sens_avis
+                </label>
+              </labels>
+              <translated>true</translated>
+              <fields>
+                <field>sensAvisCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="directoryName">type_avis_traitement_papier
+                </property>
+              </properties>
+              <properties widgetMode="edit">
+                <property name="onchange">saisirSensAvis(this)</property>
+                <property name="styleClass">dataInputText</property>
+                <property name="ordering">id</property>
+              </properties>
+            </widget>
+            <widget name="objet" type="text">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.objet
+                </label>
+              </labels>
+              <fields>
+                <field>objetCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="style">width:210px</property>
+              </properties>
+            </widget>
+          </subWidgets>
+        </widget>
+      </subWidgets>
+    </widget>
+
+    <!-- widget communication_autres -->
+    <widget name="communication_dest_autres" type="listDestinataire">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:autresDestinatairesCommunication</field>
+      </fields>
+      <subWidgets>
+        <widget name="destinataireItem" type="template">
+          <labels>
+            <label mode="any">Destinataire</label>
+          </labels>
+          <properties mode="any">
+            <property name="template">
+              /widgets/papier/complex_list_item_as_row_widget_template.xhtml
+            </property>
+            <property name="display">inline</property>
+          </properties>
+          <subWidgets>
+            <widget name="nom" type="text">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.destinataire
+                </label>
+              </labels>
+              <fields>
+                <field>nomDestinataireCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="styleClass">input125</property>
+              </properties>
+            </widget>
+            <widget name="date_envoi" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_envoi
+                </label>
+              </labels>
+              <fields>
+                <field>dateEnvoiCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="date_retour" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_retour
+                </label>
+              </labels>
+              <fields>
+                <field>dateRetourCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="date_relance" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_relance
+                </label>
+              </labels>
+              <fields>
+                <field>dateRelanceCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="sens_avis" type="selectOneDirectory">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.sens_avis
+                </label>
+              </labels>
+              <translated>true</translated>
+              <fields>
+                <field>sensAvisCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="directoryName">type_avis_traitement_papier
+                </property>
+              </properties>
+              <properties widgetMode="edit">
+                <property name="onchange">saisirSensAvis(this)</property>
+                <property name="styleClass">dataInputText</property>
+                <property name="ordering">id</property>
+              </properties>
+            </widget>
+            <widget name="objet" type="text">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.objet
+                </label>
+              </labels>
+              <fields>
+                <field>objetCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="style">width:210px</property>
+              </properties>
+            </widget>
+          </subWidgets>
+        </widget>
+      </subWidgets>
+    </widget>
+
+
+    <!-- widget communication_dest_cabinet_sg -->
+    <widget name="communication_dest_cabinet_sg" type="listDestinataire">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:cabinetSgCommunication</field>
+      </fields>
+      <subWidgets>
+        <widget name="destinataireItem" type="template">
+          <labels>
+            <label mode="any">Destinataire</label>
+          </labels>
+          <properties mode="any">
+            <property name="template">
+              /widgets/papier/complex_list_item_as_row_widget_template.xhtml
+            </property>
+            <property name="display">inline</property>
+          </properties>
+          <subWidgets>
+            <widget name="nom" type="references">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.destinataire
+                </label>
+              </labels>
+              <properties widgetMode="any">
+                <property name="reference">COMMUNICATION_DIRECTEUR
+                </property>
+              </properties>
+              <fields>
+                <field>nomDestinataireCommunication</field>
+              </fields>
+            </widget>
+            <widget name="date_envoi" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_envoi
+                </label>
+              </labels>
+              <fields>
+                <field>dateEnvoiCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="date_retour" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_retour
+                </label>
+              </labels>
+              <fields>
+                <field>dateRetourCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="date_relance" type="datetime">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.date_relance
+                </label>
+              </labels>
+              <fields>
+                <field>dateRelanceCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="pattern">dd/MM/yy</property>
+                <property name="format">dd/MM/yy</property>
+                <property name="styleClass">width:60px</property>
+              </properties>
+            </widget>
+            <widget name="sens_avis" type="selectOneDirectory">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.sens_avis
+                </label>
+              </labels>
+              <translated>true</translated>
+              <fields>
+                <field>sensAvisCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="directoryName">type_avis_traitement_papier
+                </property>
+              </properties>
+              <properties widgetMode="edit">
+                <property name="onchange">saisirSensAvis(this)</property>
+                <property name="styleClass">dataInputText</property>
+                <property name="ordering">id</property>
+              </properties>
+            </widget>
+            <widget name="objet" type="text">
+              <labels>
+                <label mode="any">label.epg.papier.communication.data.objet
+                </label>
+              </labels>
+              <fields>
+                <field>objetCommunication</field>
+              </fields>
+              <properties widgetMode="any">
+                <property name="style">width:210px</property>
+              </properties>
+            </widget>
+          </subWidgets>
+        </widget>
+      </subWidgets>
+    </widget>
+
+
+    <!-- widget communication_priorite -->
+    <widget name="communication_priorite" type="selectOneRadio">
+      <labels>
+        <label mode="any">label.epg.papier.communication.priorite
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:priorite</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">niveau_priorite_traitement_papier
+        </property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    <!-- widget communication_priorite liste de personnes nommées dans un 
+      même texte -->
+
+    <widget name="communication_personnes" type="textarea">
+      <labels>
+        <label mode="any">label.epg.papier.communication.pesonnes.nommees.dansLeMemeTexete
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:personnesNommees</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">width:100px</property>
+      </properties>
+    </widget>
+    <!-- widget communication_signataires -->
+    <widget name="communication_signataires" type="communication_retour_signataires">
+      <labels>
+        <label mode="any">label.epg.papier.communication.signataires
+        </label>
+      </labels>
+      <fields>
+        <field>tp:nomsSignatairesCommunication</field>
+      </fields>
+    </widget>
+    <!-- ************************************* -->
+    <!-- SIGNATURE -->
+    <!-- ************************************* -->
+    <!-- widget signature_pm -->
+    <widget name="signature_pm" type="template">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:signaturePm</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">
+          /widgets/complex_widget_template.xhtml
+				</property>
+      </properties>
+      <subWidgets>
+        <widget name="date_envoi" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.signature.date_envoi
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>dateEnvoiSignature</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+        <widget name="date_retour" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.signature.date_retour
+            </label>
+          </labels>
+          <fields>
+            <field>dateRetourSignature</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+        <widget name="commentaire" type="textarea">
+		  <labels>
+            <label mode="any">label.epg.papier.signature.commentaire
+            </label>
+          </labels>
+          <fields>
+            <field>commentaireSignature</field>
+          </fields>
+        </widget>
+      </subWidgets>
+    </widget>
+    <!-- widget signature_chemin_de_croix -->
+    <widget name="signature_chemin_de_croix" type="checkbox">
+      <labels>
+        <label mode="any">label.epg.papier.signature.chemin_croix
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:cheminCroix</field>
+      </fields>
+    </widget>
+    <widget name="signature_destinataireSGG" type="signature_destinataire">
+      <labels>
+        <label mode="any">label.epg.papier.signature.destinataireSGG
+        </label>
+      </labels>
+      <fields>
+        <field>tp:signatureDestinataireSGG</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="reference">SIGNATURE_SGG</property>
+      </properties>
+    </widget>
+    <widget name="signature_destinataireCPM" type="signature_destinataire">
+      <labels>
+        <label mode="any">label.epg.papier.signature.destinataireCPM
+        </label>
+      </labels>
+      <fields>
+        <field>tp:signatureDestinataireCPM</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="reference">SIGNATURE_CPM</property>
+      </properties>
+    </widget>
+    <!-- widget signature_sgg -->
+    <widget name="signature_sgg" type="template">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:signatureSgg</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">
+          /widgets/complex_widget_template.xhtml
+				</property>
+      </properties>
+      <subWidgets>
+        <widget name="date_envoi" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.signature.date_envoi
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>dateEnvoiSignature</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+        <widget name="date_retour" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.signature.date_retour
+            </label>
+          </labels>
+          <fields>
+            <field>dateRetourSignature</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+        <widget name="commentaire" type="textarea">
+      	  <labels>
+      	    <label mode="any">label.epg.papier.signature.commentaire
+            </label>
+          </labels>
+          <fields>
+            <field>commentaireSignature</field>
+          </fields>
+        </widget>
+      </subWidgets>
+    </widget>
+    <!-- widget signature_pr_date_envoi -->
+    <widget name="signature_pr" type="template">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:signaturePr</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">
+          /widgets/complex_widget_template.xhtml
+				</property>
+      </properties>
+      <subWidgets>
+        <widget name="date_envoi" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.signature.date_envoi
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>dateEnvoiSignature</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+        <widget name="date_retour" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.signature.date_retour
+            </label>
+          </labels>
+          <fields>
+            <field>dateRetourSignature</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+        <widget name="commentaire" type="textarea">
+          <labels>
+            <label mode="any">label.epg.papier.signature.commentaire
+            </label>
+          </labels>
+          <fields>
+            <field>commentaireSignature</field>
+          </fields>
+        </widget>
+      </subWidgets>
+    </widget>
+    <!-- ************************************* -->
+    <!-- RETOUR -->
+    <!-- ************************************* -->
+    <!-- widget retour_retour_a -->
+    <widget name="retour_retour_a" type="textarea">
+      <labels>
+	    <label mode="any">label.epg.papier.retour.retour_a</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:retourA</field>
+      </fields>
+    </widget>
+    <!-- widget retour_date -->
+    <widget name="retour_date" type="datetime">
+      <labels>
+        <label mode="any">label.epg.papier.retour.date</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:dateRetour</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yy</property>
+        <property name="format">dd/MM/yy</property>
+        <property name="styleClass">width:60px</property>
+      </properties>
+    </widget>
+    <!-- widget retour_motif -->
+    <widget name="retour_motif" type="textarea">
+      <labels>
+        <label mode="any">label.epg.papier.retour.motif</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:motifRetour</field>
+      </fields>
+    </widget>
+    <!-- widget retour_signataires -->
+    <widget name="retour_signataires" type="communication_retour_signataires">
+      <labels>
+        <label mode="any">label.epg.papier.retour.signataires</label>
+      </labels>
+      <fields>
+        <field>tp:nomsSignatairesRetour</field>
+      </fields>
+    </widget>
+    <!-- ************************************* -->
+    <!-- EPREUVE -->
+    <!-- ************************************* -->
+
+
+    <widget name="epreuve" type="template">
+      <labels>
+        <label mode="any">
+        </label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>tp:epreuve</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">
+          /widgets/complex_widget_template.xhtml
+				</property>
+      </properties>
+      <subWidgets>
+        <widget name="epreuve_demande_le" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.epreuve.demande.le
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuveDemandeLe</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="disabled">true</property>
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+        <widget name="epreuve_pour_le" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.epreuve.pour.le
+        </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuvePourLe</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+
+        <widget name="epreuve_numero_liste" type="text">
+          <labels>
+            <label mode="any">label.epg.papier.publication.numero_liste
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuveNumeroListe</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="disabled">true</property>
+            <property name="styleClass">width:100px</property>
+          </properties>
+        </widget>
+
+        <widget name="epreuve_envoie_en_relecture" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.epreuve.envoie.en.relecture.epreuves
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuveEnvoiRelectureLe</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="disabled">true</property>
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+
+        <widget name="epreuve_Destinataire" type="textarea">
+          <labels>
+            <label mode="any">label.epg.papier.epreuve.destinataire
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuveDestinataireEntete</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="styleClass">width:100px</property>
+          </properties>
+        </widget>
+        <widget name="epreuve_signataires" type="communication_retour_signataires">
+          <labels>
+            <label mode="any">label.epg.papier.epreuve.signataires
+            </label>
+          </labels>
+          <fields>
+            <field>epreuveNomsSignataires</field>
+          </fields>
+        </widget>
+      </subWidgets>
+    </widget>
+
+    <widget name="nouvelleDemandeEpreuves" type="template">
+      <labels>
+        <label mode="any">
+        </label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>tp:nouvelleDemandeEpreuves</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">
+          /widgets/complex_widget_template.xhtml
+				</property>
+      </properties>
+      <subWidgets>
+
+        <widget name="nouvelleDemandeEpreuves_demande_le" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.nouvelle.demandeEpreuves.demande.le
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuveDemandeLe</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="disabled">true</property>
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+        <widget name="nouvelleDemandeEpreuves_pour_le" type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.nouvelle.demandeEpreuves.pour.le
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuvePourLe</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+
+        <widget name="nouvelleDemandeEpreuves_numero_liste" type="text">
+          <labels>
+            <label mode="any">label.epg.papier.nouvelle.demandeEpreuves.numero.liste
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuveNumeroListe</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="disabled">true</property>
+            <property name="styleClass">width:100px</property>
+          </properties>
+
+        </widget>
+
+        <widget name="nouvelleDemandeEpreuves_envoie_en_relecture"
+          type="datetime">
+          <labels>
+            <label mode="any">label.epg.papier.nouvelle.demandeEpreuves.envoie.en.relecture.epreuves
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuveEnvoiRelectureLe</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="disabled">true</property>
+            <property name="pattern">dd/MM/yy</property>
+            <property name="format">dd/MM/yy</property>
+            <property name="styleClass">width:60px</property>
+          </properties>
+        </widget>
+
+        <widget name="nouvelleDemandeEpreuves_Destinataire" type="textarea">
+          <labels>
+            <label mode="any">label.epg.papier.nouvelle.demandeEpreuves.destinataire
+            </label>
+          </labels>
+          <translated>true</translated>
+          <fields>
+            <field>epreuveDestinataireEntete</field>
+          </fields>
+          <properties widgetMode="any">
+            <property name="styleClass">width:100px</property>
+          </properties>
+        </widget>
+        <widget name="nouvelleDemandeEpreuves_signataires" type="communication_retour_signataires">
+          <labels>
+            <label mode="any">label.epg.papier.nouvelle.demandeEpreuves.signataires
+            </label>
+          </labels>
+          <fields>
+            <field>epreuveNomsSignataires</field>
+          </fields>
+        </widget>
+      </subWidgets>
+    </widget>
+
+    <widget name="retour_du_bon_a_titrer_le" type="datetime">
+      <labels>
+        <label mode="any">label.epg.papier.epreuve.retour.du.bon.a.tirer.le
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:retourDuBonaTitrerLe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yy</property>
+        <property name="format">dd/MM/yy</property>
+        <property name="styleClass">width:60px</property>
+      </properties>
+    </widget>
+
+
+
+
+
+    <!-- ************************************* -->
+    <!-- PUBLICATION -->
+    <!-- ************************************* -->
+    <!-- widget publication_date_envoi -->
+    <widget name="publication_date_envoi" type="datetime">
+      <labels>
+        <label mode="any">label.epg.papier.publication.date_envoi
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:publicationDateEnvoiJo</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yy</property>
+        <property name="format">dd/MM/yy</property>
+        <property name="styleClass">width:60px</property>
+      </properties>
+    </widget>
+    <!-- widget publication_nom -->
+    <widget name="publication_vecteur" type="template">
+      <labels>
+        <label mode="any">label.epg.papier.publication.nom</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:publicationNomPublication</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/selectOneMenu_widget_template.xhtml</property>
+        <property name="type">vecteurPublication</property>
+      </properties>
+    </widget>
+
+    <!-- widget publication_mode -->
+    <widget name="publication_mode" type="template">
+      <labels>
+        <label mode="any">label.epg.papier.publication.mode</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:publicationModePublication</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/selectOneMenu_widget_template.xhtml</property>
+        <property name="type">modeParution</property>
+      </properties>
+    </widget>
+    
+    <!-- widget vecteurPublication -->
+    <widget name="vecteur_publication" type="template">
+      <labels>
+        <label mode="any">label.epg.dossier.vecteurPublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:vecteurPublication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/bordereau/vecteur_publication_widget_template.xhtml
+        </property>
+      </properties>
+    </widget>
+    <!-- widget publication_epreuve_en_retour -->
+
+
+    <widget name="publication_epreuve_en_retour" type="template">
+      <labels>
+        <label mode="any">label.epg.papier.publication.epreuves_en_retour
+        </label>
+      </labels>
+      <fields>
+        <field>tp:publicationEpreuveEnRetour</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml
+        </property>
+      </properties>
+    </widget>
+
+    <!-- properties mode="any"> <property name="directoryName">delai_publication</property> 
+      </properties -->
+
+
+    <!-- widget publication_delai -->
+    <widget name="publication_delai" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.epg.papier.publication.delai</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:publicationDelai</field>
+      </fields>
+      <properties mode="any">
+        <property name="directoryName">delai_publication</property>
+      </properties>
+    </widget>
+    <!-- widget publication_date_demandee -->
+    <widget name="publication_date_demandee" type="datetime">
+      <labels>
+        <label mode="any">label.epg.papier.publication.date_demandee
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:publicationDateDemande</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yy</property>
+        <property name="format">dd/MM/yy</property>
+        <property name="styleClass">width:60px</property>
+      </properties>
+    </widget>
+    <!-- widget publication_numero_liste -->
+    <widget name="publication_numero_liste" type="text">
+      <labels>
+        <label mode="any">label.epg.papier.publication.numero_liste
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:publicationNumeroListe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="disabled">true</property>
+        <property name="styleClass">width:60px</property>
+      </properties>
+
+    </widget>
+    <!-- widget publication_date_publiee -->
+    <widget name="publication_date_publiee" type="datetime">
+      <labels>
+        <label mode="any">label.epg.papier.publication.date_publiee
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>retdila:dateParutionJorf</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yy</property>
+        <property name="format">dd/MM/yy</property>
+        <property name="disabled">true</property>
+        <property name="styleClass">width:60px;</property>
+      </properties>
+    </widget>
+
+
+    <widget name="date_creation_liste" type="datetime">
+      <labels>
+        <label mode="any">label.epg.papier.publication.liste.date
+        </label>
+      </labels>
+      <translated>true</translated>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yy</property>
+        <property name="format">dd/MM/yy</property>
+        <property name="styleClass">width:90px;</property>
+      </properties>
+      <fields>
+        <field>data.lis.dateGenerationListe</field>
+
+      </fields>
+    </widget>
+    <widget name="numero_liste" type="text">
+      <labels>
+        <label mode="any">label.epg.papier.publication.liste.numero
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.lis.numeroListe</field>
+
+      </fields>
+    </widget>
+
+
+    <!-- ************************************* -->
+    <!-- AMPLIATION -->
+    <!-- ************************************* -->
+    <widget name="ampliation_detail_utilisateur_destinataire"
+      type="template">
+      <labels>
+        <label mode="any">Destinataire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:ampliationDestinataireMails</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/organigramme_select_mail_node_widget.xhtml
+        </property>
+        <property name="organigrammeSelectionType">USER_MAIL_TYPE</property>
+        <property name="organigrammeSelectionMode">LIST</property>
+        <property name="selectionMultiple">SINGLE</property>
+        <property name="saisieLibre">YES</property>
+
+      </properties>
+      <widgetModes>
+        <mode value="create">create</mode>
+        <mode value="edit">edit</mode>
+        <mode value="view">view</mode>
+      </widgetModes>
+    </widget>
+    
+        <!-- widget ref_texte_soumis_a_validation -->
+    <widget name="ampliation_dossier_papier_archive" type="checkbox">
+      <labels>
+        <label mode="any">label.epg.papier.dossier.papier.archive
+        </label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>tp:papierArchive</field>
+      </fields>
+    </widget>
+
+
+
+  </extension>
+
+</component>

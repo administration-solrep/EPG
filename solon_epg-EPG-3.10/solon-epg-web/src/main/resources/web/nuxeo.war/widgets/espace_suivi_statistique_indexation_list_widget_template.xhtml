@@ -1,0 +1,19 @@
+<f:subview id="#{widget.id}" 
+  xmlns:h="http://java.sun.com/jsf/html" 
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:c="http://java.sun.com/jstl/core">  
+  
+    <c:set var="indexationType" value="#{widget.properties.indexationType}" />
+    
+      <h:selectOneMenu id="#{widget.id}_select_index_menu" value="#{field_0}">
+        <f:selectItem itemLabel="Sélectionnez une valeur." itemValue="   "  />
+         <nxu:selectItems
+                  var="item" 
+                  value="#{indexationActions.findAllIndexation(indexationType)}"
+                  itemValue="#{item}"
+                  itemLabel="#{item}" 
+                  ordering="label" caseSensitive="true"/>
+      </h:selectOneMenu>
+      
+</f:subview>

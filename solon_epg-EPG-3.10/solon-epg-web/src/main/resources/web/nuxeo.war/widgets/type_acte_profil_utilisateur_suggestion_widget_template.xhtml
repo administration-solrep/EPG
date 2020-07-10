@@ -1,0 +1,83 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich">
+  
+  <!-- Constantes demandées pour ce widget : 
+    widget.properties['vocabularyId'] == type_acte
+ --> 
+   <c:if test="#{widget.mode == 'edit'}">
+     <nxu:set var="currentTypeActeVocUI" value="#{typeActeSuggMap[widget.properties['directoryName']]}">
+    	<a4j:region id="typeActeProfilUtilisateurRegion" renderRegionOnly="true">
+	    	<a4j:outputPanel id="type_acte_profil_utilisateur_panel" ajaxRendered="false">
+	   			<c:set var="displayHorizontally" value="#{nxu:test(!empty widget.properties.displayHorizontally, widget.properties.displayHorizontally, true)}" />
+	        	<h:panelGrid id="#{widget.id}_panel" columns="${nxu:test(displayHorizontally, 2, 1)}">
+	          	<h:panelGroup id="#{widget.id}_index_suggestGroup" >
+	              <h:panelGrid id="#{widget.id}_panel_sugg" columns="2">
+		              <h:panelGroup id="#{widget.id}_index_suggestInput">
+		                <!-- on affiche le label de l'élément choisi dans vocabulaire -->
+		                <h:inputText id="#{widget.id}_motsCleLabel"  styleClass="smallSolonEpgInput" value="#{currentTypeActeVocUI.motCleLabel}" onkeydown="if (event.keyCode == 13 || event.keyCode == 9) {return false;}"/>
+				          </h:panelGroup>
+				          <h:panelGroup id="#{widget.id}_index_suggestButton">
+				           	<!-- bouton d'action permettant d'ajouter le type d'acte choisi -->
+										<a4j:commandLink actionListener="#{profilUtilisateurAdministrationActions.addTypeActe(currentTypeActeVocUI)}" id="addTypeActeProfilUtilisateurWidget" reRender="type_acte_profil_utilisateur_panel" >
+											<h:graphicImage value="/icons/action_add.gif"/>
+										</a4j:commandLink>
+		   	        	</h:panelGroup>
+	   	        	</h:panelGrid> 
+				    		<h:panelGroup id="#{widget.id}_suggestBox">
+				    			<rich:suggestionbox id="#{widget.id}_index_suggestBox"
+				    				for="#{widget.id}_motsCleLabel" tokens=""
+				    				suggestionAction="#{currentTypeActeVocUI.getDocumentModelListSuggestions}" var="sugindex"
+				    				nothingLabel="#{messages['label.suggestion.sansresultats']}" minChars="3" frequency="0"
+				    				requestDelay="100" height="300">
+				    				<!-- methode pour récupérer l'id de l'élément choisi dans la liste du vocabulaire -->
+				    				<a4j:support event="onselect" focus="#{widget.id}_motsCleLabel" bypassUpdates="true" eventsQueue="ajax_events_queue" >
+				    					<f:setPropertyActionListener value="#{sugindex.vocabularyTypeActe.id}" target="#{currentTypeActeVocUI.motCleId}" />
+				    				</a4j:support>
+				    				<!-- affichage de la liste de suggestion -->
+				    				<h:column>
+				    					<f:subview>
+				    						<h:graphicImage value="/icons/tag_blue.png" alt="(index)" />
+				    						<h:outputText value="${sugindex.vocabularyTypeActe.label}" />
+				    					</f:subview>
+				    				</h:column>
+				    			</rich:suggestionbox>
+				    		</h:panelGroup>
+	    				</h:panelGroup>
+			        <h:panelGroup>
+			        	<!-- affichage de la la liste des types d'actes de la liste -->
+				        <div style="width: 250px; height:105px; overflow: auto;" class="formatList">
+			            <nxu:inputList id="#{widget.id}_list" value="#{profilUtilisateurAdministrationActions.profilUtilisateur.getDocument().profil_utilisateur_solon_epg.notificationTypeActes}" model="model"
+			              required="#{widget.required}">
+			              <h:panelGroup id="#{widget.id}_listItem">
+			                <h:panelGrid columns="2">
+			                <h:panelGroup>
+			                  <a4j:commandLink
+			                    actionListener="#{profilUtilisateurAdministrationActions.deleteTypeActe(model.rowData)}"
+			                    id="#{widget.id}_delete" reRender="type_acte_profil_utilisateur_panel">
+			                    <h:graphicImage value="/icons/action_delete.gif" />
+			                    <f:param name="for" value="#{widget.id}_list" />
+			                    <f:param name="index" value="#{model.rowIndex}" />
+			                  </a4j:commandLink>
+			                  </h:panelGroup>
+			                  <h:panelGroup>
+			                  <nxu:methodResult name="info" value="#{typeActeSuggestionActions.getInfo(model.rowData)}">
+			                      <h:outputText value="#{info.label}" />
+			                  </nxu:methodResult>
+			                </h:panelGroup>
+			                </h:panelGrid>
+			              </h:panelGroup>
+			            </nxu:inputList>
+			            <h:message styleClass="errorMessage" for="#{widget.id}_list" id="#{widget.id}_message" />
+			           </div>
+			        </h:panelGroup>
+			    	</h:panelGrid>
+	    	</a4j:outputPanel>
+    	</a4j:region>
+    </nxu:set>
+  </c:if>
+</div>

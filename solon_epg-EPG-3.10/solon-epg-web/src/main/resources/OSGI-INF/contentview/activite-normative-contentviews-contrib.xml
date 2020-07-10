@@ -1,0 +1,518 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.contentview.activiteNormative">
+  <extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">
+
+    <!-- Content view permettant d'afficher la liste de l'onglet tableau maitre dans le menu application des lois -->
+    <contentView name="tableau_maitre_application_lois">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">Dossier</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">tableau_maitre_application_lois</property>
+        <pattern quoteParameters="true" escapeParameters="true">
+           	ufnxql: SELECT d.ecm:uuid as id FROM ActiviteNormative as d WHERE d.norma:applicationLoi = '1'
+        </pattern>
+        <sort column="d.texm:numeroNor" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+        <event>legislaturePublicationChanged</event>
+        <event>mesuresAdded</event>
+      </refresh>
+      <cacheKey>tableau_maitre_al_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="tableau_maitre_application_lois_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TABLEAU_MAITRE_APPLICATION_LOIS_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste de l'onglet tableau des lois dans le menu application des lois -->
+    <contentView name="tableau_lois_application_lois">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">Dossier</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">tableau_lois_application_lois</property>
+        <pattern quoteParameters="true" escapeParameters="true">
+           	ufnxql: SELECT d.ecm:uuid as id FROM ActiviteNormative as d WHERE d.norma:applicationLoi = '1'
+        </pattern>
+        <sort column="d.texm:numeroNor" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+        <event>legislaturePublicationChanged</event>
+      </refresh>
+      <cacheKey>tableau_lois_al_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="tableau_lois_application_lois_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TABLEAU_MAITRE_APPLICATION_LOIS_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste de l'onglet tableau maitre dans le menu Ordonnances 74-1 -->
+    <contentView name="tableau_maitre_ordonnances">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">Dossier</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">tableau_maitre_ordonnances</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+           	?
+        </pattern>
+        <parameter>#{texteMaitreOrdonnanceActions.getQuery()}</parameter>
+        <sort column="d.texm:numeroNor" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+        <event>legislaturePublicationChanged</event>
+      </refresh>
+      <cacheKey>tableau_maitre_ordo_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="tableau_maitre_ordonnances_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TABLEAU_MAITRE_ORDONNANCES_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>    
+    
+    <!-- Content view permettant d'afficher la liste de l'onglet tableau maitre dans le menu Ordonnances 38 C -->
+    <contentView name="tableau_maitre_ordonnances_38C">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">Dossier</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">tableau_maitre_ordonnances_38C</property>
+        <pattern quoteParameters="true" escapeParameters="true">
+           	ufnxql: SELECT d.ecm:uuid as id FROM ActiviteNormative as d WHERE d.norma:ordonnance38C = '1'
+        </pattern>
+        <sort column="d.texm:numeroNor" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+        <event>legislaturePublicationChanged</event>
+      </refresh>
+      <cacheKey>tableau_maitre_ordo_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="tableau_maitre_ordonnances38C_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TABLEAU_MAITRE_ORDONNANCES_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste de l'onglet tableau maitre dans le menu Traites et accords -->
+    <contentView name="tableau_maitre_traites">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">Dossier</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">tableau_maitre_traites</property>
+        <pattern quoteParameters="true" escapeParameters="true">
+           	ufnxql: SELECT d.ecm:uuid as id FROM ActiviteNormative as d WHERE d.norma:traite = '1'
+        </pattern>
+        <sort column="d.texm:numeroNor" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+        <event>legislaturePublicationChanged</event>
+      </refresh>
+      <cacheKey>tableau_maitre_traites_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="tableau_maitre_traites_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TABLEAU_MAITRE_TRAITES_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste de l'onglet tableau maitre dans le menu Transposition -->
+    <contentView name="tableau_maitre_transpositions">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">TranspositionDirective</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">tableau_maitre_transpositions</property>
+        <pattern quoteParameters="true" escapeParameters="true">
+           	ufnxql: SELECT t.ecm:uuid as id FROM ActiviteNormative as t WHERE t.norma:transposition = '1'
+        </pattern>
+        <sort column="t.texm:numero" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>tableau_maitre_transpo_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="tableau_maitre_transpositions_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TABLEAU_MAITRE_TRANSPO_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste des mesures de l'onglet tableau maitre -->
+    <contentView name="texte_maitre_mesures">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.ActiviteNormativeMesuresPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="texteMaitreActions">#{texteMaitreActions}</property>
+        <sort column="numeroOrdre" ascending="true" />
+        <pageSize>10</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <cacheKey>texte_maitre_mesures_content</cacheKey>
+      <cacheSize>20</cacheSize>
+      <reset>
+        <event>documentChanged</event>
+        <event>mesuresAdded</event>
+      </reset>
+
+      <resultLayouts>
+        <layout name="texte_maitre_mesures_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTE_MAITRE_MESURE_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste des décrets de l'onglet tableau maitre -->
+    <contentView name="texte_maitre_decret">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.ActiviteNormativeDecretsPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="texteMaitreActions">#{texteMaitreActions}</property>
+        <sortable value="false" />
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <cacheKey>texte_maitre_decret_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="texte_maitre_decret_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTE_MAITRE_DECRET_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view permettant d'afficher la liste des loi de ratification de l'onglet tableau maitre des ordonnances -->
+    <contentView name="ordonnance_loi_ratification">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.ActiviteNormativeLoiRatificationPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="texteMaitreOrdonnanceActions">#{texteMaitreOrdonnanceActions}</property>
+        <sortable value="false" />
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <cacheKey>texte_maitre_loi_ratification_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="ordonnance_loi_ratification_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTE_MAITRE_LOI_RATIFICATION_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+     <!-- Content view permettant d'afficher la liste des decrets d'une loi de ratification -->
+    <contentView name="texte_maitre_decret_application_listing">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.ActiviteNormativeDecretApplicationPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="texteMaitreOrdonnanceActions">#{texteMaitreOrdonnanceActions}</property>
+        <sortable value="false" />
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <cacheKey>texte_maitre_decret_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="texte_maitre_decret_application_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTE_MAITRE_DECRET_APPLICATION_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+     <!-- Content view permettant d'afficher la liste des textes transpositions de l'onglet tableau maitre -->
+    <contentView name="transposition_texte_listing">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.TranspositionTextesPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="transpositionDirectiveActions">#{transpositionDirectiveActions}</property>
+        <sortable value="false" />
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <cacheKey>transposition_texte_listing_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="transposition_texte_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTE_MAITRE_TEXTE_TRANSPOSITION_MESURE_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+     <!-- Content view permettant d'afficher la liste des habilitations de l'onglet tableau maitre -->
+    <contentView name="an_habilitation_listing">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.HabilitationsPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="texteMaitreHabilitationActions">#{texteMaitreHabilitationActions}</property>
+        <sortable value="false" />
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <cacheKey>an_habilitation_listing_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="an_habilitation_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTE_MAITRE_HABILITATION_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+     <!-- Content view permettant d'afficher la liste des ordonnances des habilitations de l'onglet tableau maitre -->
+    <contentView name="ordonnance_habilitation_listing">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.OrdonnanceHabilitationsPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="texteMaitreHabilitationActions">#{texteMaitreHabilitationActions}</property>
+        <sortable value="false" />
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <cacheKey>an_ordo_habilitation_listing_content</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="ordonnance_habilitation_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>TEXTE_MAITRE_HABILITATION_ORDO_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+  <!-- Une content view pour l'historique des mises à jour -->
+  <contentView name="majmin_activite_normative">
+    <genericPageProvider class="fr.dila.solonepg.web.contentview.MajMinPageProvider">
+       <property name="coreSession">#{documentManager}</property>
+       <property name="target">#{majMinActions.getTarget()}</property>
+       <pageSize>20</pageSize>
+    </genericPageProvider>
+    <useGlobalPageSize>true</useGlobalPageSize>
+    <refresh>
+      <event>documentChanged</event>
+      <event>documentChildrenChanged</event>
+    </refresh>
+    <!-- Une clé de cache différente par target, on recharge la vue quand celui-ci change -->
+    <cacheKey>majmin_an_#{majMinActions.getTarget()}_key</cacheKey>
+    <cacheSize>20</cacheSize>
+    <resultLayouts>
+      <layout name="majmin_activite_normative_layout_listing" title="document_listing"
+        translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+    </resultLayouts>
+    <selectionList>MAJ_MIN_SELECTION</selectionList>
+    <actions category="MAJMIN_ACTIONS_LIST" />
+  </contentView>
+  
+   <!-- Une content view pour le résultat de la recherche de mesures de l'activité normative -->
+   <contentView name="recherche_activite_normative_applicationLoi">
+    <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+       <property name="coreSession">#{documentManager}</property>
+       <property name="resourcesAccessor">#{resourcesAccessor}</property>
+       <pageSize>20</pageSize>
+       <pattern quoteParameters="false" escapeParameters="false">
+           	?
+        </pattern>
+         <sort column="d.texm:numeroNor" ascending="true" />
+         <parameter>#{epgANSmartNXQLQueryActions.getFullQuery()}</parameter>
+    </genericPageProvider>
+    <useGlobalPageSize>true</useGlobalPageSize>
+    <refresh>
+      <event>documentChanged</event>
+      <event>documentChildrenChanged</event>
+    </refresh>
+    <cacheKey>recherche_an_applicationLoi_key</cacheKey>
+    <cacheSize>20</cacheSize>
+    <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+    <searchLayout name="nxql_incremental_smart_query_recherche_an" />
+    <resultLayouts>
+        <layout name="tableau_maitre_application_lois_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+    </resultLayouts>
+    <selectionList>RECHERCHE_AN_APPLICATION_LOI_SELECTION</selectionList>
+    <actions category="RECHERCHE_SELECTION_LIST" />
+  </contentView>
+  
+   <!-- Une content view pour le résultat de la recherche d'ordonnace de l'activité normative -->
+   <contentView name="recherche_activite_normative_ordonnance">
+    <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+       <property name="coreSession">#{documentManager}</property>
+       <property name="resourcesAccessor">#{resourcesAccessor}</property>
+       <pageSize>20</pageSize>
+       <pattern quoteParameters="false" escapeParameters="false">
+           	?
+        </pattern>
+         <sort column="d.texm:numeroNor" ascending="true" />
+         <parameter>#{epgANSmartNXQLQueryActions.getFullQuery()}</parameter>
+    </genericPageProvider>
+    <useGlobalPageSize>true</useGlobalPageSize>
+    <refresh>
+      <event>documentChanged</event>
+      <event>documentChildrenChanged</event>
+    </refresh>
+    <cacheKey>recherche_an__ordonnance_key</cacheKey>
+    <cacheSize>20</cacheSize>
+    <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+    <searchLayout name="nxql_incremental_smart_query_recherche_an" />
+    <resultLayouts>
+        <layout name="tableau_maitre_ordonnances_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+    </resultLayouts>
+    <selectionList>RECHERCHE_AN_ORDONNANCE_SELECTION</selectionList>
+    <actions category="RECHERCHE_SELECTION_LIST" />
+  </contentView>
+  
+  <!-- Une content view pour le résultat de la recherche de transposition de l'activité normative -->
+   <contentView name="recherche_activite_normative_transposition">
+    <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+       <property name="coreSession">#{documentManager}</property>
+       <property name="resourcesAccessor">#{resourcesAccessor}</property>
+       <pageSize>20</pageSize>
+       <pattern quoteParameters="false" escapeParameters="false">
+           	?
+        </pattern>
+         <sort column="d.texm:numeroNor" ascending="true" />
+         <parameter>#{epgANSmartNXQLQueryActions.getFullQuery()}</parameter>
+    </genericPageProvider>
+    <useGlobalPageSize>true</useGlobalPageSize>
+    <refresh>
+      <event>documentChanged</event>
+      <event>documentChildrenChanged</event>
+    </refresh>
+    <cacheKey>recherche_an_transposition_key</cacheKey>
+    <cacheSize>20</cacheSize>
+    <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+    <searchLayout name="nxql_incremental_smart_query_recherche_an" />
+    <resultLayouts>
+        <layout name="tableau_maitre_transpositions_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+    </resultLayouts>
+    <selectionList>RECHERCHE_AN_TRANSPOSITION_SELECTION</selectionList>
+    <actions category="RECHERCHE_SELECTION_LIST" />
+  </contentView>
+  
+    <!-- Une content view pour le résultat de la recherche de traité de l'activité normative -->
+   <contentView name="recherche_activite_normative_traite">
+    <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+       <property name="coreSession">#{documentManager}</property>
+       <property name="resourcesAccessor">#{resourcesAccessor}</property>
+       <pageSize>20</pageSize>
+       <pattern quoteParameters="false" escapeParameters="false">
+           	?
+        </pattern>
+         <sort column="d.texm:numeroNor" ascending="true" />
+         <parameter>#{epgANSmartNXQLQueryActions.getFullQuery()}</parameter>
+    </genericPageProvider>
+    <useGlobalPageSize>true</useGlobalPageSize>
+    <refresh>
+      <event>documentChanged</event>
+      <event>documentChildrenChanged</event>
+    </refresh>
+    <cacheKey>recherche_an_traite_key</cacheKey>
+    <cacheSize>20</cacheSize>
+    <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+    <searchLayout name="nxql_incremental_smart_query_recherche_an" />
+    <resultLayouts>
+        <layout name="tableau_maitre_traites_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+    </resultLayouts>
+    <selectionList>RECHERCHE_AN_TRAITE_SELECTION</selectionList>
+    <actions category="RECHERCHE_SELECTION_LIST" />
+  </contentView>
+  
+   <!-- Une content view pour le résultat de la recherche d'habilitation de l'activité normative -->
+   <contentView name="recherche_activite_normative_ordonnance38C">
+    <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+       <property name="coreSession">#{documentManager}</property>
+       <property name="resourcesAccessor">#{resourcesAccessor}</property>
+       <pageSize>20</pageSize>
+       <pattern quoteParameters="false" escapeParameters="false">
+           	?
+        </pattern>
+         <parameter>#{epgANSmartNXQLQueryActions.getFullQuery()}</parameter>
+         <sort column="d.texm:numeroNor" ascending="true" />
+    </genericPageProvider>
+    <useGlobalPageSize>true</useGlobalPageSize>
+    <refresh>
+      <event>documentChanged</event>
+      <event>documentChildrenChanged</event>
+    </refresh>
+    <cacheKey>recherche_an_ordonnance38C_key</cacheKey>
+    <cacheSize>20</cacheSize>
+    <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+    <searchLayout name="nxql_incremental_smart_query_recherche_an" />
+    <resultLayouts>
+        <layout name="tableau_maitre_ordonnances38C_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+    </resultLayouts>
+    <selectionList>RECHERCHE_AN_ORDONNANCE38C_SELECTION</selectionList>
+    <actions category="RECHERCHE_SELECTION_LIST" />
+  </contentView>
+  
+ </extension>
+</component>
+
+
+
+

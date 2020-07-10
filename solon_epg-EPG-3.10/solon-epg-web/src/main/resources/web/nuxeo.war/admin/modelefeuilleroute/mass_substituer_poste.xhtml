@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:c="http://java.sun.com/jstl/core">
+  <ui:define name="page title">
+    <c:choose>
+  		<c:when test="#{feuilleRouteMassActions.isAccessAuthorized()}">
+    		<h:outputText value="#{nuxeoApplicationName} - #{messages['epg.modeleFeuilleRoute.substituerPoste.action']}" />
+    	</c:when>
+    	<c:otherwise>
+    		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+    	</c:otherwise>
+    </c:choose>
+  </ui:define>
+
+  <ui:define name="body">
+  	<c:if test="#{feuilleRouteMassActions.isAccessAuthorized()}">
+	    <script>
+	      function confirmBeforeMassValidation() {
+	          return confirm("#{messages['epg.modeleFeuilleRoute.substituerPoste.substitution.confirm']}");
+	      }
+	    </script>
+	    
+	    <div>
+	      <h3>
+	        <h:outputText value="#{messages['epg.modeleFeuilleRoute.substituerPoste.action']}" />
+	      </h3>
+	
+	      <h:form enctype="multipart/form-data" id="substituer_poste">
+	        <nxl:layout name="feuille_route_model_poste_substitution" mode="edit" value="#{feuilleRouteMassActions}" />
+	        
+	        <p class="buttonsGadget">
+	          <h:commandButton class="button" value="#{messages['command.global.validate']}"
+	            action="#{feuilleRouteMassActions.substituerPoste()}" onclick="return confirmBeforeMassValidation();" id="button_create" />
+	          <h:commandButton class="button" value="#{messages['command.global.cancel']}"
+	            action="#{administrationActions.navigateToModeleFeuilleRouteFolder()}" id="button_validate" immediate="true" />
+	        </p>
+	      </h:form>
+	    </div>
+	</c:if>
+  </ui:define>
+
+</nxthemes:composition>

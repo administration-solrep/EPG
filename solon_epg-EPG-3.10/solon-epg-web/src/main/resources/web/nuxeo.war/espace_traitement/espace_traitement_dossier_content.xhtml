@@ -1,0 +1,44 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+	<a4j:region id="espaceTraitementDossierContentRegion">
+     <h:form>
+       <a4j:poll id="espaceTraitementDossierContentListPoll" interval="#{parametrageApplicationActions.getDelaiRafraichissementCorbeille()}" timeout="30000" 
+			enable="true" action="#{refreshActions.refreshPage()}" eventsQueue="ajax_events_queue" reRender="espaceTraitementDossierContentListPanel" ignoreDupResponses="true" />
+     </h:form>
+  </a4j:region>
+  
+  <a4j:outputPanel id="espaceTraitementDossierContentListPanel">  
+  <nxu:set var="contentViewName" value="#{espaceTraitementActions.activeContentViewName}">
+		<nxu:set var="filtrable" value="true">
+		    <nxu:set var="listingDecorator" value="#{dossierListingDecorator}" cache="true">
+		      <ui:decorate template="/incl/content_view.xhtml">
+		        <ui:define name="content_view_header_before_selector" />
+		      </ui:decorate>
+		    </nxu:set>
+    	</nxu:set>
+  
+	  <c:if test="#{currentDocument.getType() == 'Dossier'}">
+	    <div style="text-align: center; margin: 5px; margin-bottom: 20px;">
+	      <nxu:set var="pageProvider" value="#{contentViewActions.getContentViewWithProvider(contentViewName).getCurrentPageProvider()}">
+	        <h:form>
+	          <c:if test="#{pageProvider.isPreviousEntryAvailable() or true}">
+	            <h:commandLink action="#{corbeilleActions.navigateToPreviousDossier(contentViewName)}"><h:outputText value="#{messages['label.epg.dossier.precedent']}"/> </h:commandLink>
+	          </c:if>
+	          <c:if test="#{pageProvider.isNextEntryAvailable() or true}">
+	            <h:commandLink action="#{corbeilleActions.navigateToNextDossier(contentViewName)}"><h:outputText value="#{messages['label.epg.dossier.suivant']}"/></h:commandLink>
+	          </c:if>
+	        </h:form>
+	      </nxu:set>
+	    </div>
+	  </c:if>
+  </nxu:set>
+  </a4j:outputPanel>
+</div>

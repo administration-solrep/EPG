@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<component name="fr.dila.solonepg.elastic.event">
+	<require>fr.dila.solonepg.elastic.batch.IIndexationDossiersBatch</require>
+	<require>fr.dila.solonepg.elastic.bundle.IIndexationDossierListenerService</require>
+
+	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+		<!-- Indexation continue des dossiers -->
+		<listener name="indexationContinueListener" async="false"
+			postCommit="false" priority="30"
+			class="fr.dila.solonepg.elastic.batch.IndexationContinueListener">
+			<event>indexationContinueEvent</event>
+		</listener>
+	</extension>
+
+	<!-- Marquage des documents -->
+	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+		<listener name="indexationDossierListener" async="false"
+			postCommit="true" priority="30"
+			class="fr.dila.solonepg.elastic.bundle.IndexationDossierListener">
+			<event>documentCreated</event>
+			<event>documentModified</event>
+			<event>documentRemoved</event>
+			<event>versionRemoved</event>
+			<event>documentSecurityUpdated</event>
+		</listener>
+	</extension>
+</component>

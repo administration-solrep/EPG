@@ -1,0 +1,444 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les widgets utilisés dans les feuilles de routes.
+-->
+<component name="fr.dila.solonepg.web.widget.feuilleRoute">
+  <require>fr.dila.st.web.widget</require>
+  <require>fr.dila.st.web.widgettype.feuilleRoute</require>
+  <require>fr.dila.st.web.widget.feuilleRoute</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+  
+    <widget name="routing_task_obligatoire_sgg" type="checkbox">
+      <translated>true</translated>
+      <labels>
+        <label mode="any">st.feuilleRoute.etape.obligatoire.sgg</label>
+      </labels>
+      <fields>
+        <field>rtsk:obligatoireSGG</field>
+      </fields>
+      <widgetModes>
+        <mode value="create">#{nxu:test(modeleFeuilleRouteActions.isObligatoireSggUpdater(), 'edit', 'hidden')}</mode>
+        <mode value="edit">#{nxu:test(modeleFeuilleRouteActions.isObligatoireSggUpdater(), 'edit', 'view')}</mode>
+      </widgetModes>
+    </widget>
+
+	<!-- Widget indiquant le poste destinataire de l'étape du squelette de la feuille de route -->
+	<widget name="squelette_task_list_poste_name" type="squelette_task_list_poste_name">
+		<labels>
+			<label mode="any">st.feuilleRoute.etape.list.poste</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.document.rtsk.distributionMailboxId</field>
+			<field>data.document.hasFacet('RouteStep')</field>
+		</fields>
+	</widget>
+	
+	<!-- Widget indiquant le type de destinataire de l'étape du squelette de la feuille de route -->
+	<widget name="squelette_task_list_type_destinataire" type="squelette_task_list_type_destinataire">
+		<labels>
+			<label mode="any">label.epg.feuilleRoute.squelette.liste.typeDestinataire</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.document.rtsk.typeDestinataire</field>
+		</fields>
+	</widget>
+
+	<widget name="squelette_routing_task_distribution_mailbox" type="template">
+		<labels>
+			<label mode="any">label.casemanagement.routing.task.mailboxId</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>rtsk:distributionMailboxId</field>
+			<field>rtsk:typeDestinataire</field>
+		</fields>
+		<properties mode="any">
+			<property name="template">/widgets/feuille_route/squelette_routing_task_distribution_mailbox_widget.xhtml</property>
+			<property name="organigrammeSelectionType">MAILBOX_TYPE</property>
+			<property name="organigrammeSelectionMode">SINGLE</property>
+			<property name="organigrammeActivatePosteFilter">true</property>
+		</properties>
+		<properties widgetMode="edit">
+			<property name="required">false</property>
+		</properties>
+	</widget>
+    
+    <widget name="feuille_route_etat_dto" type="template">
+      <translated>true</translated>
+      <labels>
+        <label mode="any">st.feuilleRoute.liste.validation</label>
+      </labels>
+      <fields>
+        <field>data.etat</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/feuille_route/feuille_route_etat_dto.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="feuille_route_title_dto" type="template">
+      <translated>true</translated>
+      <labels>
+        <label mode="any">st.feuilleRoute.liste.intitule</label>
+      </labels>
+      <fields>
+        <field>data.deleter</field>
+        <field>data.id</field>
+        <field>data.title</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/feuille_route/feuille_route_title_dto.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="feuille_route_numero_dto" type="text">
+      <translated>true</translated>
+      <labels>
+        <label mode="any">label.epg.feuilleRoute.liste.numero</label>
+      </labels>
+      <fields>
+        <field>data.numero</field>
+      </fields>
+    </widget>
+    
+    <widget name="feuille_route_ministere_dto" type="text">
+      <translated>true</translated>
+      <labels>
+        <label mode="any">st.feuilleRoute.liste.ministere</label>
+      </labels>
+      <fields>
+        <field>data.ministere</field>
+      </fields>
+    </widget>
+    
+    <widget name="feuille_route_typeActe_dto" type="text">
+      <translated>true</translated>
+      <labels>
+        <label mode="any">label.epg.feuilleRoute.squelette.liste.typeActe</label>
+      </labels>
+      <fields>
+        <field>data.typeActe</field>
+      </fields>
+    </widget>
+    
+    <widget name="feuille_route_auteur_dto" type="text">
+      <translated>true</translated>
+      <labels>
+        <label mode="any">label.content.header.author</label>
+      </labels>
+      <fields>
+        <field>data.auteur</field>
+      </fields>
+    </widget>
+    
+    <widget name="feuille_route_dateModification_dto" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.modified</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dateModification</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="feuille_route_lockInfo_dto" type="template">
+      <translated>false</translated>
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <fields>
+        <field>data.lockInfo</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/feuille_route/lock_info_dto.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="feuille_route_isDefault_dto" type="template">
+      <translated>false</translated>
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <fields>
+        <field>data.isDefault</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/feuille_route/feuille_route_isDefault_dto.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="epreuve_poste_bdc_field" type="template">
+        <labels>
+          <label mode="any">label.epg.feuilleroute.epreuve.init.postebdc</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>epreuvePosteBdc</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+      
+      <widget name="epreuve_poste_publication_field" type="template">
+        <labels>
+          <label mode="any">label.epg.feuilleroute.epreuve.init.postepubli</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>epreuvePostePublication</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+      
+      <widget name="epreuve_poste_dan_field" type="template">
+        <labels>
+          <label mode="any">label.epg.feuilleroute.epreuve.init.postedan</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>epreuvePosteDan</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="displayRequired">true</property>
+        </properties>
+      </widget>
+
+	<widget name="feuille_route_title_filter" type="text">
+		<labels>
+			<label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteIntitule</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.title</field>
+		</fields>
+		<widgetModes>
+			<mode value="any">edit</mode>
+		</widgetModes>
+		<properties widgetMode="edit">
+			<property name="styleClass">dataInputText</property>
+		</properties>
+	</widget>
+
+	<widget name="feuille_route_numero_filter" type="text">
+		<labels>
+			<label mode="any">epg.recherche.feuilleRoute.feuilleRoute.feuilleRouteNumero</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.numero</field>
+		</fields>
+		<widgetModes>
+			<mode value="any">edit</mode>
+		</widgetModes>
+		<properties widgetMode="edit">
+			<property name="styleClass">dataInputText</property>
+		</properties>
+	</widget>
+
+	<widget name="feuille_route_type_acte_filter" type="selectOneDirectory">
+		<labels>
+			<label mode="any">epg.recherche.feuilleRoute.feuilleRoute.feuilleRouteTypeActe</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.typeActe</field>
+		</fields>
+		<properties widgetMode="any">
+			<property name="notDisplayDefaultOption">false</property>
+			<property name="localize">true</property>
+			<property name="directoryName">type_acte</property>
+		</properties>
+	</widget>
+
+	<widget name="feuille_route_ministere_filter" type="template">
+		<labels>
+			<label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteMinistere</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.ministere</field>
+		</fields>
+		<widgetModes>
+			<mode value="any">edit</mode>
+		</widgetModes>
+		<properties widgetMode="any">
+			<property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+			<property name="organigrammeSelectionType">MIN_TYPE</property>
+			<property name="organigrammeSelectionMode">SINGLE</property>
+		</properties>
+	</widget>
+
+	<widget name="feuille_route_direction_filter" type="template">
+		<labels>
+			<label mode="any">epg.recherche.feuilleRoute.feuilleRoute.feuilleRouteDirection</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.direction</field>
+		</fields>
+		<widgetModes>
+			<mode value="any">edit</mode>
+		</widgetModes>
+		<properties widgetMode="any">
+			<property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+			<property name="organigrammeSelectionType">DIR_TYPE</property>
+			<property name="organigrammeSelectionMode">SINGLE</property>
+		</properties>
+	</widget>
+
+	<widget name="feuille_route_validee_filter" type="selectOneDirectory">
+		<labels>
+			<label mode="any">ss.recherche.feuilleRoute.feuilleRoute.feuilleRouteValidee</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.currentLifeCycleState</field>
+		</fields>
+		<properties widgetMode="any">
+			<property name="notDisplayDefaultOption">false</property>
+			<property name="localize">true</property>
+			<property name="directoryName">boolean_voc</property>
+			<property name="displayEmptyValue">true</property>
+		</properties>
+	</widget>
+
+	<widget name="route_step_type_filter" type="selectOneDirectory">
+		<labels>
+			<label mode="any">ss.recherche.feuilleRoute.routeStep.routeStepRoutingTaskType</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.type</field>
+		</fields>
+		<properties widgetMode="any">
+			<property name="notDisplayDefaultOption">false</property>
+			<property name="localize">true</property>
+			<property name="directoryName">cm_routing_task_type</property>
+		</properties>
+	</widget>
+
+	<widget name="route_step_destination_filter" type="template">
+		<labels>
+			<label mode="any">ss.recherche.feuilleRoute.routeStep.routeStepDistributionMailboxId</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.distributionMailboxId</field>
+		</fields>
+		<properties mode="any">
+			<property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+			<property name="organigrammeSelectionType">MAILBOX_TYPE</property>
+			<property name="organigrammeSelectionMode">SINGLE</property>
+		</properties>
+	</widget>
+
+	<widget name="feuille_route_defaut_filter" type="selectOneDirectory">
+		<labels>
+			<label mode="any">epg.recherche.feuilleRoute.feuilleRoute.feuilleRouteDefaut</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.feuilleRouteDefaut</field>
+		</fields>
+		<properties widgetMode="any">
+			<property name="notDisplayDefaultOption">false</property>
+			<property name="localize">true</property>
+			<property name="directoryName">boolean_voc</property>
+			<property name="displayEmptyValue">true</property>
+		</properties>
+	</widget>
+
+	<!-- Widgets de la création d'étapes en masse -->
+	<widget name="squelette_routing_task_distribution_mailbox_dto" type="template">
+		<labels>
+			<label mode="any">label.casemanagement.routing.task.mailboxId.mandatory</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>data.distributionMailboxId</field>
+			<field>data.typeDestinataire</field>
+		</fields>
+		<properties mode="any">
+			<property name="template">/widgets/feuille_route/squelette_routing_task_distribution_mailbox_widget.xhtml</property>
+			<property name="organigrammeSelectionType">MAILBOX_TYPE</property>
+			<property name="organigrammeSelectionMode">SINGLE</property>
+			<property name="organigrammeActivatePosteFilter">true</property>
+		</properties>
+		<properties widgetMode="edit">
+			<property name="required">false</property>
+		</properties>
+	</widget>
+
+  </extension>
+  
+  <!-- *********************************************************************** 
+		Types de widgets *********************************************************************** -->
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="widgettypes">
+		
+	     <widgetType name="etape_feuille_de_route_widget_type_remove">
+		     <documentation>Ce widget affiche un lien pour supprimer une étape de feuille de route lors de la creation 
+		     en masse </documentation>
+		     <handler-class>
+		       org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+		     </handler-class>
+		     <property name="template">
+		       /widgets/listing/feuilleroute/etape_feuille_de_route_remove_widget_template.xhtml
+		     </property>
+	    </widgetType>
+	    
+	    <!-- Ce type de widget permet d'afficher le nom du poste destinataire d'une 
+			étape du squelette de feuille de route -->
+		<widgetType name="squelette_task_list_poste_name">
+			<handler-class>
+				org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+			</handler-class>
+			<property name="template">
+				/widgets/listing/listing_mailbox_poste_name_widget_template.xhtml
+			</property>
+		</widgetType>
+		
+		<!-- Ce type de widget permet d'afficher le type de destinataire d'une 
+			étape du squelette de feuille de route -->
+		<widgetType name="squelette_task_list_type_destinataire">
+			<handler-class>
+				org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+			</handler-class>
+			<property name="template">
+				/widgets/listing/feuilleroute/listing_squelette_step_type_destinataire_widget_template.xhtml
+			</property>
+			<!-- <property name="template">
+				/widgets/listing/listing_mailbox_poste_name_widget_template.xhtml
+			</property> -->
+		</widgetType>
+    
+	</extension>
+  
+  
+</component>

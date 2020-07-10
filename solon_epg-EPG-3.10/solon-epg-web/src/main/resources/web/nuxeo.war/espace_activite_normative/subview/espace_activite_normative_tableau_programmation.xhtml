@@ -1,0 +1,81 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<script type="text/javascript">
+	var j = jQuery.noConflict();
+	j(document).ready(function() {
+		var sectionid;
+		j("html, body").scrollTop(j(#{texteMaitreActions.scrollTo}).offset().top);
+	});
+</script>
+
+<h:form id="tableau_programmation">
+
+<h4><h:outputText value="#{tableauProgrammationActions.getTableauProgrammationLockInfo()}" /></h4>
+	<nxu:set var="listProgrammationDecretDTO" value="#{tableauProgrammationActions.getCurrentListProgrammationLoi()}" cache="true">
+		<div name="containerDiv">
+			<table class="dataOutput fixedTable">
+				<thead>
+					<tr>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.numeroOrdre']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.articleLoi']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.baseLegale']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.objet.rim']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.ministerePilote']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.directionResponsable']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.categorieTexte']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.consultationObligatoireHCE']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.calendrierConsultationObligatoireHCE']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.datePrevisionnelleSaisineCE']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.objectifPublication']}"/></th>
+						<th><h:outputText value="#{messages['activite.normative.tableau.programmation.observation']}"/></th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="programmationDecretDTO" items="#{listProgrammationDecretDTO}" varStatus="status">
+						<tr class="#{nxu:test(status.index % 2 == 1, 'dataRowOdd', 'dataRowEven')}">
+							<td><h:outputText value="#{programmationDecretDTO.numeroOrdre}"/></td>
+							<td><h:outputText value="#{programmationDecretDTO.article}"/></td>
+							<td><h:outputText value="#{programmationDecretDTO.baseLegale}"/></td>
+							<td><h:outputText value="#{programmationDecretDTO.objet}"/></td>
+							<td><h:outputText value="#{programmationDecretDTO.ministerePilote}"/></td>
+							<td><h:outputText value="#{programmationDecretDTO.directionResponsable}"/></td>
+							<td><h:outputText value="#{programmationDecretDTO.categorieTexte}"/></td>
+							<td><h:outputText value="#{programmationDecretDTO.consultationObligatoireHCE}"/></td>
+							<td><h:outputText value="#{programmationDecretDTO.calendrierConsultationObligatoireHCE}"/></td>
+							<td>
+  								<h:outputText value="#{programmationDecretDTO.datePrevisionnelleSaisineCE}">
+  									<f:convertDateTime type="date" pattern="MMMM yyyy" timeZone="#{tableauProgrammationActions.getTimeZone()}"/>
+  								</h:outputText>
+  							</td>
+							<td>
+								<h:outputText value="#{programmationDecretDTO.objectifPublication}">
+  									<f:convertDateTime type="date" pattern="MMMM yyyy" timeZone="#{tableauProgrammationActions.getTimeZone()}"/>
+								</h:outputText>
+							</td>
+							<td><h:outputText value="#{programmationDecretDTO.observation}"/></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</nxu:set>
+</h:form>
+  <script type="text/javascript">
+    var j = jQuery.noConflict();
+    j(document).ready(function() {
+      var h = j('.fixedTable').height();
+        if(h > 600) {
+            h = 600;
+        }
+      j('.fixedTable').fixedHeaderTable({ height: h + 35, baseClass: 'dataRowEven', altClass: 'dataRowOdd', fixedColumns: 2});
+    });
+
+  </script>
+</div>

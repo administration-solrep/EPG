@@ -1,0 +1,63 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich">
+  <!-- Constantes demandées pour ce widget : 
+    widget.properties['vocabularyId'] == format_fichier_autorise
+ --> 
+   <c:if test="#{widget.mode == 'edit'}">
+     <nxu:set var="currentFormatFichierVocUI" value="#{formatFichierSuggMap[widget.properties['directoryName']]}">
+    	<a4j:region id="addFileViewRegion" renderRegionOnly="true">
+    		<a4j:outputPanel ajaxRendered="false" id="addFilePanel">
+    		<c:set var="displayHorizontally" value="#{nxu:test(!empty widget.properties.displayHorizontally, widget.properties.displayHorizontally, true)}" />
+        <h:panelGrid id="#{widget.id}_panel" columns="${nxu:test(displayHorizontally, 2, 1)}" styleClass="inputFormatAutorise">
+          <h:panelGroup id="#{widget.id}_index_suggestGroup" >
+            <!-- zone de saisie du format de fichier -->
+            <span id="#{widget.id}_index_suggestDiv">
+              <!-- input de saisie du mots clés -->
+              <h:inputText id="#{widget.id}_motsCleLabel" styleClass="smallSolonEpgInput"
+              value="#{fondDeDossierModelManagerActions.currentFormatFichier}"
+ 								onkeydown="if (event.keyCode == 13 || event.keyCode == 9) {return false;}">
+ 			  			</h:inputText>
+	 			  		<!-- bouton d'action permettant d'ajouter le format de fichier dans la liste des formats de fichiers autorisés des mdoèles du fond de dossier  -->
+	            <a4j:commandLink actionListener="#{fondDeDossierModelManagerActions.saveFormatFichierList()}" id="#{widget.id}_add_file" reRender="addFilePanel">
+	            <h:graphicImage value="/icons/action_add.gif"/>
+	            </a4j:commandLink>
+	 	        	</span>
+		    		</h:panelGroup>
+		        <h:panelGroup>
+		        <!-- affichage de la la liste des formats actuels de la liste -->
+		        <div style="height: 150px; width: 100px; overflow: auto;" class="formatList">
+	            <nxu:inputList id="#{widget.id}_list" value="#{fondDeDossierModelManagerActions.formatFichierAutoriseFddIds}" model="model"
+	              required="#{widget.required}">
+	              <h:panelGroup id="#{widget.id}_listItem">
+	                <h:panelGrid columns="2">
+	                <h:panelGroup>
+	                  <a4j:commandLink
+	                    actionListener="#{fondDeDossierModelManagerActions.deleteFormatFichierToRacine(model.rowData)}"
+	                    id="#{widget.id}_delete" reRender="fondDossierModelViewPanel,addFilePanel">
+	                    <h:graphicImage value="/icons/action_delete.gif" />
+	                    <f:param name="for" value="#{widget.id}_list" />
+	                    <f:param name="index" value="#{model.rowIndex}" />
+	                  </a4j:commandLink>
+	                  </h:panelGroup>
+	                  <h:panelGroup>
+	                  <nxu:methodResult name="info" value="#{formatFichierSuggestionActions.getFormatFichierInfo(model.rowData)}">
+	                      <h:outputText value="#{info.id}" />
+	                  </nxu:methodResult>
+	                </h:panelGroup>
+	                </h:panelGrid>
+	              </h:panelGroup>
+	            </nxu:inputList>
+	            <h:message styleClass="errorMessage" for="#{widget.id}_list" id="#{widget.id}_message" />
+	           </div>
+		        </h:panelGroup>
+		    	</h:panelGrid>	
+    		</a4j:outputPanel>
+    	</a4j:region>
+    </nxu:set>
+  </c:if>
+</div>

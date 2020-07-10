@@ -1,0 +1,102 @@
+<f:subview
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  id="#{layout.id}">
+
+  <c:set var="isEditMode" value="#{nxl:isBoundToEditMode(layout.mode)}" />
+  
+  <style>
+  .dataInput input[type=text] {
+  	width: 350px;
+  }
+  .input125{
+  	width: 125px !important;
+  }
+  .input200{
+  	width: 200px !important;
+  }
+  .com_sign_free{
+  	width: 200px !important;
+  }
+  .dataInput td{
+  	white-space: nowrap;
+  }
+  .dataInput span {
+  	white-space: normal !important;
+  }
+  </style>
+  
+  <table class="dataInput">
+    <tbody>
+			
+      <nxl:layoutRow>
+      
+      
+        <tr>
+          <nxl:layoutRowWidget>
+			<c:if test="#{bordereauActions.showWidget(widget.name)}">
+          
+            <c:choose>
+              <c:when test="#{widget.translated}">
+                <td class="iconColumn" style="vertical-align:top;">
+                  <c:if test="#{!empty widget.helpLabel}">
+                  <span onmouseover="tooltip.show('#{nxu:javaScriptEscape(messages[widget.helpLabel])}', 500);" onmouseout="tooltip.hide();">
+	            	<h:graphicImage value="/icons/lightbulb.png" />
+	              </span>
+                  </c:if>
+                </td>
+                 <c:if test="#{!empty widget.label}">
+	                <td class="labelColumn">
+	                  <h:outputText value="#{messages[widget.label]}"
+	                    styleClass="#{nxu:test(widget.properties.displayRequired and isEditMode, 'required', '')}" />
+	                </td>
+                </c:if>
+              </c:when>
+              <c:otherwise>
+                <td class="iconColumn" style="vertical-align:top;">
+                  <c:if test="#{!empty widget.helpLabel}">
+                  <span onmouseover="tooltip.show('#{nxu:javaScriptEscape(messages[widget.helpLabel])}', 500);" onmouseout="tooltip.hide();">
+	            	<h:graphicImage value="/icons/lightbulb.png" />
+	              </span>
+                  </c:if>
+                </td>
+                <c:if test="#{!empty widget.label}">
+	                <td class="labelColumn">
+	                  <h:outputText value="#{widget.label}"
+	                    styleClass="#{nxu:test(widget.properties.displayRequired and isEditMode, 'required', '')}" />
+	                </td>
+                </c:if>
+              </c:otherwise>
+            </c:choose>
+            <nxu:set var="widgetField" value="#{widget.getFieldDefinitions()[0].getPropertyName()}">
+            <td class="fieldColumn" colspan="#{nxu:test(layoutRow.size==1, 3*layout.columns-2, 1)}">
+              <nxl:widget widget="#{widget}" value="#{value}" />
+              <!-- affichage -->
+              <c:if test="#{bordereauActions.displayFieldValidationMessage(widgetField,widget.properties.displayRequired,dossierDistributionActions.displayRequiredMetadonneBordereau)}">
+              	<h:outputText value="Cette valeur est requise" styleClass="errorMessage"  />
+              </c:if>
+            </td>
+            <td style="text-align: right;">
+                <c:if test="#{bordereauActions.isFieldEditable(widgetField) and fieldsCopySelection}">
+                  <h:selectBooleanCheckbox value="#{dossiersSimilairesActions.fieldsToCopy[widgetField]}">
+                    <a4j:support event="onchange" eventsQueue="ajax_events_queue" />
+                  </h:selectBooleanCheckbox>
+                </c:if>
+            </td>
+            </nxu:set>
+            </c:if>
+          </nxl:layoutRowWidget>
+        </tr>
+        
+        
+      </nxl:layoutRow>
+
+    </tbody>
+  </table>
+
+</f:subview>

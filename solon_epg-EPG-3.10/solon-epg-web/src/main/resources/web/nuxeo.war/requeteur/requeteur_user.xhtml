@@ -1,0 +1,47 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	<ui:composition
+		template="/recherche/view_recherche_utilisateur_template.xhtml">
+		<ui:param name="currentUserSubTab" value="view" />
+
+		<ui:define name="mainContent">
+			<c:if test="#{userManagerActions.isAccessAuthorized()}">
+				<h:form id="searchUserForm">
+					<nxl:layout name="recherche_utilisateur" mode="edit"
+						value="#{userManagerActions}" />
+
+					<table>
+						<tr>
+							<td>
+								<!-- nxh => selection du bouton par defaut dans IE --> <nxh:commandButton
+									value="#{messages['requete.widget.admin.button.recherche']}"
+									id="validate" action="#{espaceRechercheActions.searchUser()}"
+									styleClass="button" />
+							</td>
+							<td><a4j:commandButton
+									value="#{messages['requete.widget.admin.button.reset']}"
+									id="cancel" action="#{userManagerActions.resetSearch()}"
+									styleClass="button" /></td>
+							<c:if
+								test="#{navigationWebActions.getCurrentMainMenuAction() == 'espace_recherche'}">
+								<td><a4j:commandButton
+										value="#{messages['requeteur.command.ajouter_favoris']}"
+										id="addToFav"
+										action="#{favorisRechercheActions.navigateToAddFavoris}"
+										styleClass="button" /></td>
+							</c:if>
+						</tr>
+					</table>
+				</h:form>
+			</c:if>
+		</ui:define>
+	</ui:composition>
+</div>

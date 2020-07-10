@@ -1,0 +1,23 @@
+<div class="tabsBar" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+   <h:form>
+    <div class="floatLeftTabs">
+     <div class="tabsBar">
+        <nxu:methodResult name="actions"  value="#{webActions.getActionsList('RECHERCHE_DOSSIER_UPPER_LIST')}">
+          <f:subview rendered="#{!empty actions}">
+            <nxu:dataList layout="unorderedList" var="action" value="#{actions}" itemStyleClass="#{nxu:test(requeteurDossierActions.currentTabAction == action, 'selected', '')}">
+              <nxh:commandLink action="#{requeteurDossierActions.setCurrentTabAction(action)}">
+                <h:outputText value="#{messages[action.label]}" />
+              </nxh:commandLink>
+            </nxu:dataList>
+          </f:subview>
+        </nxu:methodResult>
+        </div>
+      </div>
+    </h:form>
+</div>

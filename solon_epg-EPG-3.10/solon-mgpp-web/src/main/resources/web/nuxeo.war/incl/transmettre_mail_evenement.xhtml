@@ -1,0 +1,41 @@
+
+<div xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:nxl="http://nuxeo.org/nxforms/layout"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:nxh="http://nuxeo.org/nxweb/html"
+    xmlns:nxdir="http://nuxeo.org/nxdirectory"
+    xmlns:nxu="http://nuxeo.org/nxweb/util"
+    xmlns:rich="http://richfaces.org/rich">
+    
+    <c:if test="#{evenementCreationActions.isMailPopupPanelVisible()}">
+    
+      <rich:modalPanel id="sendMailModalPanel" autosized="true" showWhenRendered="true" >
+          <div>
+            <f:facet name="header">
+              <h:outputText value="Transmettre par mél" />
+            </f:facet>
+          </div>
+          <h:form id="mail_form" enctype="multipart/form-data">
+            <div class="boxBody">
+              <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                  <td >
+                    <!-- layout de mail -->
+                    <nxl:layout value="#{evenementCreationActions.mailEvenement}" mode="edit" name="transmettre_mail_evenement" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div align="center">
+              <h:outputText value=" " />
+              <h:commandButton id="mail_form_send" class="button" value="#{messages['label.evenement.transmettre.envoyer']}" action="#{evenementCreationActions.transmettreParMailEnvoyer()}" />
+              <h:outputText value=" " />
+              <h:commandButton id="mail_form_cancel" class="button" value="#{messages['label.evenement.transmettre.annuler']}" action="#{evenementCreationActions.transmettreParMailAnnuler()}" bypassUpdates="true" immediate="true" />
+            </div>
+          </h:form>
+      </rich:modalPanel>
+    </c:if>
+  </div>

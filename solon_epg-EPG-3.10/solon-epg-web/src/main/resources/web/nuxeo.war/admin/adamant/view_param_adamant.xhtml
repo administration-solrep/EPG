@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:nxdir="http://nuxeo.org/nxdirectory"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+	<ui:define name="page title">
+		<c:choose>
+			<c:when
+				test="#{parametrageAdamantAdministrationActions.isAccessAuthorized()}">
+				<h:outputText value="#{nuxeoApplicationName} - Paramétrage ADAMANT" />
+			</c:when>
+			<c:otherwise>
+				<h:outputText
+					value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="body">
+	<ui:include src="/incl/message_banner.xhtml"/>
+		<c:if
+			test="#{parametrageAdamantAdministrationActions.isAccessAuthorized()}">
+			<div class="parametrageAdamant">
+				<h:form id="parametrage_adamant_properties"
+					enctype="multipart/form-data">
+					<a4j:region id="parametrageAdamantViewRegion">
+						<a4j:outputPanel id="parametrageAdamantViewPanel">
+							<h:panelGroup>
+								<h3 class="summaryTitle">
+									<h:outputText value="Paramétrage ADAMANT" />
+								</h3>
+							</h:panelGroup>
+							<div style="clear: both"></div>
+							<h4 class="summarySubTitle">
+								<h:outputText value="Elements du manifest" />
+							</h4>
+							<nxl:layout
+								value="#{parametrageAdamantAdministrationActions.parametrageAdamant}"
+								mode="edit" name="parametrage_adamant_element_manifest" />
+							<div style="clear: both"></div>
+							<h4 class="summarySubTitle">
+								<h:outputText value="Paramétrage de l'extraction" />
+							</h4>
+							<nxl:layout
+								value="#{parametrageAdamantAdministrationActions.parametrageAdamant}"
+								mode="edit" name="parametrage_adamant_extraction" />
+
+							<div class="formFolderModelButtons">
+								<div>
+									<!-- bouton d'action permettant  d'enregistrer les modifications -->
+									<a4j:commandButton value="Valider"
+										action="#{parametrageAdamantAdministrationActions.valider()}"
+										id="validerParametrageAdamant"
+										reRender="parametrageAdamantViewPanel"
+										styleClass="firstButton">
+									</a4j:commandButton>
+									<!-- bouton d'action permettant d’annuler les modifications -->
+									<a4j:commandButton value="Annuler"
+										action="#{parametrageAdamantAdministrationActions.annuler()}"
+										id="annulerParametrageAdamant" ajaxSingle="true"
+										reRender="parametrageAdamantViewPanel" styleClass="button">
+									</a4j:commandButton>
+								</div>
+
+								<div style="clear: both"></div>
+								<div class="formFolderModelButtons">
+									<h:outputText
+										value="#{parametrageAdamantAdministrationActions.errorName}"
+										rendered="#{! empty parametrageAdamantAdministrationActions.errorName}"
+										styleClass="msgError" />
+								</div>
+							</div>
+						</a4j:outputPanel>
+					</a4j:region>
+				</h:form>
+			</div>
+		</c:if>
+	</ui:define>
+</nxthemes:composition>

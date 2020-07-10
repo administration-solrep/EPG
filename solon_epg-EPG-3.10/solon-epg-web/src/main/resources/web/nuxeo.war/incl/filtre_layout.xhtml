@@ -1,0 +1,53 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:fmt="http://java.sun.com/jstl/fmt"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  class="foldableBox" >
+        
+            <h3 class="folded">
+                  <a href="#" onclick="return toggleBox(this)">
+                    <c:choose>
+                      <c:when test="#{provider.isFiltreActif()}">
+                        
+                        <nxu:set var="nbFiltre" value="#{provider.getFiltreActif()}" cache="true">
+                          <c:choose>
+                            <c:when test="#{nbFiltre>1}">
+                              Filtres (#{nbFiltre} appliqués)
+                            </c:when>
+                            <c:otherwise>
+                              Filtres (#{nbFiltre} appliqué)
+                            </c:otherwise>
+                          </c:choose>
+                        </nxu:set>
+                      </c:when>
+                      <c:otherwise>
+                        Filtres
+                      </c:otherwise>
+                    </c:choose>
+                    
+                  </a>
+                </h3>
+                <div class="boxBody" id="boxBody_div" style="display:none">
+                 <h:form id="#{documents.name}_form_filtre">
+                 
+                <table class="dataInput" style="margin-bottom:10px !important;">
+                  <c:forEach var="row" items="#{provider.currentFiltrableMap.rows}" varStatus="layoutListingStatus" end="#{(provider.currentFiltrableMap.size-1)/2}">
+                        <nxl:layout name="#{layoutName}" value="#{row}" mode="edit"/>
+                      </c:forEach>
+                  </table>
+                  
+                  <nxh:commandButton styleClass="button" action="#{provider.processFilter()}"
+                value="Filtrer" id="#{layout.id}_filter_filtrer" />
+                    <h:outputText value=" "/>
+                  <nxh:commandButton styleClass="button" action="#{provider.resetFilter()}" 
+                value="Réinitialiser" id="#{layout.id}_filter_raz" immediate="true" />  
+                </h:form>
+               </div>
+                
+      </div>

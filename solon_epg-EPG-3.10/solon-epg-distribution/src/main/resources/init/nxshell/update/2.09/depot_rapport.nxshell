@@ -1,0 +1,61 @@
+# Pour lancer ce script :
+# 1 - copier ce fichier dans /tmp/
+# 2 - Aller dans le répertoire contenant nxshell.sh
+# 3 - Taper la commande sh nxshell.sh -f /tmp/depot_rapport.nxshell
+# 4 - La console doit afficher les lignes suivantes :
+# ModeleParapheur Rapport au parlement
+# |  +- Rapport
+# ModeleFondDeDossier Rapport au parlement
+# |  +- Répertoire réservé au ministère porteur
+# |  +- Répertoire réservé au SGG
+# |  +- Répertoire réservé au ministère porteur et au SGG
+# |  +- Répertoire accessible à tous les utilisateurs
+
+
+# connect to http://localhost:8180/solon-epg (obligatoire sinon Unknown command...) 
+connect -u Administrator -p Administrator http://localhost:8180/solon-epg/site/automation
+
+# creation ModeleParapheur Rapport au parlement
+mkdir ModeleParapheur "/case-management/workspaces/admin/parapheur/ModeleParapheur Rapport au parlement" -title "ModeleParapheur Rapport au parlement"
+
+# maj type ModeleParapheur Rapport au parlement
+setp -value "45" -xpath mp:typeActe "/case-management/workspaces/admin/parapheur/ModeleParapheur Rapport au parlement"
+
+# creation ParapheurFolder Rapport au parlement/Rapport
+mkdir ParapheurFolder "/case-management/workspaces/admin/parapheur/ModeleParapheur Rapport au parlement/Rapport" -title "Rapport"
+
+# verification
+tree "/case-management/workspaces/admin/parapheur/ModeleParapheur Rapport au parlement"
+
+# creation ModeleFondDeDossier Rapport au parlement
+mkdir ModeleFondDeDossier "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement" -title "ModeleFondDeDossier Rapport au parlement"
+
+# maj ModeleFondDeDossier Rapport au parlement
+setp -value "45" -xpath mfdd:typeActe "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement"
+
+# creation ModeleFondDeDossier Rapport au parlement/Répertoire réservé au ministère porteur
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement/Répertoire réservé au ministère porteur" -title "Répertoire réservé au ministère porteur"
+
+# maj ModeleFondDeDossier Rapport au parlement/Répertoire réservé au ministère porteur
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement/Répertoire réservé au ministère porteur"
+
+# creation ModeleFondDeDossier Rapport au parlement/Répertoire réservé au SGG
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement/Répertoire réservé au SGG" -title "Répertoire réservé au SGG"
+
+# maj ModeleFondDeDossier Rapport au parlement/Répertoire réservé au SGG
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement/Répertoire réservé au SGG"
+
+# creation ModeleFondDeDossier Rapport au parlement/Répertoire réservé au ministère porteur et au SGG
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement/Répertoire réservé au ministère porteur et au SGG" -title "Répertoire réservé au ministère porteur et au SGG"
+
+# maj ModeleFondDeDossier Rapport au parlement/Répertoire réservé au ministère porteur et au SGG
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement/Répertoire réservé au ministère porteur et au SGG"
+
+# creation ModeleFondDeDossier Rapport au parlement/Répertoire accessible à tous les utilisateurs
+mkdir FondDeDossierFolder "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement/Répertoire accessible à tous les utilisateurs" -title "Répertoire accessible à tous les utilisateurs"
+
+# maj ModeleFondDeDossier Rapport au parlement/Répertoire accessible à tous les utilisateurs
+setp -value false -xpath fddf:isSupprimable "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement/Répertoire accessible à tous les utilisateurs"
+
+# verification
+tree "/case-management/workspaces/admin/fond-dossier/ModeleFondDeDossier Rapport au parlement"

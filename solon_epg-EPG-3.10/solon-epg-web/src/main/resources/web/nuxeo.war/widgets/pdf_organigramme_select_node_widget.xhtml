@@ -1,0 +1,42 @@
+<span xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html">
+  
+  <c:set var="selectionType" value="#{nxu:test(!empty widget.properties.organigrammeSelectionType, widget.properties.organigrammeSelectionType, 'POSTE_TYPE')}" />
+  <c:set var="selectionMode" value="#{nxu:test(!empty widget.properties.organigrammeSelectionMode, widget.properties.organigrammeSelectionMode, 'LIST')}" />
+  <c:set var="displayNor" value="#{nxu:test(!empty widget.properties.organigrammeDisplayNor, widget.properties.organigrammeDisplayNor, false)}" />
+
+    <c:if test="#{selectionMode == 'LIST'}">
+      <h:dataTable value="#{field_0}" var="item" rendered="#{not empty field_0}">
+        <h:column>
+            <f:subview>
+              <c:choose>
+                <c:when test="#{selectionType=='POSTE_TYPE'}">
+                  <h:graphicImage value="/img/icons/poste.png" alt="poste.png" />
+                </c:when>
+                <c:otherwise>
+                  <h:graphicImage value="/img/icons/unite_structurelle.png" alt="unite_structurelle.png" />
+                </c:otherwise>
+              </c:choose>
+              <c:choose>
+                <c:when test="#{displayNor}">
+                  <h:outputText value="#{item.node.getNorDirectionForMinistereId(item.id)} - " />
+                </c:when>
+              </c:choose>
+              <h:outputText value="#{item}" converter="#{organigrammeManagerActions.getOrganigrammeConverter(selectionType)}" />
+            </f:subview>
+        </h:column>
+      </h:dataTable>
+    </c:if>
+    
+    <c:if test="#{selectionMode == 'SINGLE'}">
+      <h:outputText value="#{field_0}" converter="#{organigrammeManagerActions.getOrganigrammeConverter(selectionType)}" />
+    </c:if>
+
+</span>
+  

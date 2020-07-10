@@ -1,0 +1,457 @@
+  <div xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:nxthemes="http://nuxeo.org/nxthemes"
+    xmlns:nxu="http://nuxeo.org/nxweb/util"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+    xmlns:nxd="http://nuxeo.org/nxweb/document"
+    xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	  <style>			
+		  .mainTable{
+			  border-collapse: collapse;
+			  /*border: 1px red solid;*/
+		  }
+		  .celluleDactivite td{
+		  	font-size:10px;
+		  }
+		  .fixedTable{
+			  border-collapse: collapse;
+			  border: 0px;
+		  }
+		  
+		  .scrollableTable{
+			  border-collapse: collapse;
+			  border: 0px;
+		  }
+		  
+		  .fixedTableCellule{
+			  border-top: 1px solid black;
+			  border-bottom: 1px solid black;
+		  }
+		  
+		  .scrollableTableCellule{
+			  border: 1px solid black;
+		  }
+		  
+		  .supprimerActivite{
+			  opacity:0.4;
+			  filter:alpha(opacity=40);	
+			  cursor:default;
+		  }	
+		  
+		  .supprimerActivite:hover{
+			  opacity:1;
+			  filter:alpha(opacity=100);
+			  cursor: pointer;
+		  }
+		  .red{
+		  	color: red;
+		  }
+		  
+		  .blue{
+		  	color: blue;
+		  }
+	  </style>
+
+  <a4j:outputPanel id="javascriptA4JPanel" ajaxRendered="true"> 
+	  <script>
+		  var j = jQuery.noConflict();
+		  j(document).ready(function() { 
+			  <c:forEach var="assemblee" items="#{calendrierParlementaireActions.getListedeSemainesParTypesTrie()}" varStatus="assembleeStatus">
+				  setSameHeightToTheseRows("fixedTable_Upper_Header_${assemblee.key}", "scrollableTable_Upper_Header_${assemblee.key}");
+			  </c:forEach>
+
+			  setSameHeightToTheseRows("fixedTable_Row_Header", "scrollableTable_Row_Header");
+			  var fixedTableRowHeight = j("#fixedTable_Row_Header").height();
+			  var scrollableTableRowHeight = j("#scrollableTable_Row_Header").height();
+			  j("#fixedTable_Row_Header").height(j("#fixedTable_Row_Header").height() + 10)
+			  j("#scrollableTable_Row_Header").height(j("#scrollableTable_Row_Header").height() + 10)
+			  
+			  <c:forEach var="ficheLoi" items="${calendrierParlementaireActions.getPageActuelleDeLaListeDesLois()}" varStatus="ListeDeToutLesLoisStatus">
+				  setSameHeightToTheseRows("fixedTable_Row_${ListeDeToutLesLoisStatus.index}", "scrollableTable_Row_${ListeDeToutLesLoisStatus.index}");
+			  </c:forEach>
+
+			  hideUnHideControls();
+		  });
+		  function setSameHeightToTheseRows(row1Id, row2Id)
+		  {
+			  var row1Height = j("#" + row1Id).height();
+			  var row2Height = j("#" + row2Id).height();
+			  var rowHeightShouldBe = 0;
+			  
+			  if(row1Height > row2Height)
+			  {
+				  rowHeightShouldBe = row1Height;
+			  }else
+			  {
+				  rowHeightShouldBe = row2Height;
+			  }
+			  
+			  j("#" + row1Id).height(rowHeightShouldBe);
+			  j("#" + row2Id).height(rowHeightShouldBe);
+		  }
+		  function hideUnHideControls()
+		  {
+			  j(".celluleDactivite, .celluleDeSemaine").each(function () { 
+				  j(this).bind("mouseenter", function() {
+					  j(this).find("a").each(function () { 
+						  j(this).removeAttr("style");
+					  });	
+				  });
+				  
+				  j(this).bind("mouseleave", function() {
+					  j(this).find("a").each(function () { 
+						  j(this).attr("style", "display: none;");
+					  });	
+				  });
+			  });
+		  }
+
+		  
+	  </script>
+	  </a4j:outputPanel>
+	  
+	  
+
+	  <c:set var="widthOfMainTable" value="1250" />
+	  <c:set var="widthOfFirstColumn" value="140" />
+	  <c:set var="widthOfSecondColumn" value="20" />
+	  <c:set var="widthOfThirdColumn" value="30" />
+
+	  <h:form id="calendrierParlementaireMainForm" enctype="multipart/form-data">
+		  <table style="width: ${widthOfMainTable}px; height: 100%;" class="mainTable" cellpadding="0" cellspacing="0">
+			  <tr height="60px">
+			  	<td>
+			  		<div style="padding: 0px 5px 5px 5px;float: left;">
+						<h:panelGrid columns="3">
+							<h:panelGroup >
+								<h:outputText value="Période " style="margin-right: 20px;"/>
+								<h:outputText value="de " style="padding-right:5px;"/>
+								<nxu:inputDateTime showWeeksBar="false" id="dateDebutCalendrier" value="#{calendrierParlementaireActions.dateDeDebutFiltre}" name="dateDebutCalendarJournal"  showsTime="true" format="dd/MM/yyyy" />
+								<h:message styleClass="errorMessage" for="dateDebutCalendrier" id="dateDebutCalendrier_message" />
+						    	</h:panelGroup>
+						   	<h:panelGroup >
+								<h:outputText value="à " style="padding: 0px 5px 0px 25px;"/>
+								<nxu:inputDateTime showWeeksBar="false" id="dateFinCalendrier" value="#{calendrierParlementaireActions.dateDeFinFiltre}" showsTime="true" format="dd/MM/yyyy" />
+								<h:message styleClass="errorMessage" for="dateFinCalendrier" id="dateFinCalendrier_message" />
+							</h:panelGroup>
+							<h:panelGroup >
+								<a4j:commandLink 
+									action="${calendrierParlementaireActions.refreshData()}"
+									reRender="calendrierParlementaireA4JPanel,javascriptA4JPanel">
+										  <h:graphicImage value="/img/refresh.png"
+										  alt="#{messages['label.refresh']}"
+										  title="#{messages['label.refresh']}" style="padding-left:20px" />
+								</a4j:commandLink>
+							</h:panelGroup>
+						</h:panelGrid>
+					</div>
+			  	</td>
+			  </tr>
+			  <tr>
+				  <td align="left" valign="middle">
+					  <a4j:outputPanel id="calendrierParlementaireA4JPanel" ajaxRendered="true">
+						  <c:if test="${calendrierParlementaireActions.getPageActuelleDeLaListeDesLois().size() > 0}">
+							  <table width="100%">
+								  <tr>
+									  <td valign="top" style="width: ${widthOfFirstColumn + widthOfSecondColumn + widthOfThirdColumn}px; padding: 0px; border: 0px;">
+										  <div id="fixedDiv" style="width: ${(widthOfFirstColumn + widthOfSecondColumn + widthOfThirdColumn)}px;">
+											  <table id="fixedTable" class="dataOutput" style="margin-bottom: 10px ! important;">
+												  <thead>
+													  <c:forEach var="assemblee" items="#{calendrierParlementaireActions.getListedeSemainesParTypesTrie()}" varStatus="assembleeStatus">
+														  <tr id="fixedTable_Upper_Header_${assemblee.key}">
+															  <td colspan="3" align="right">
+																  <h:outputText value="${assemblee.key}" />
+															  </td>
+														  </tr>
+													  </c:forEach>
+													  <tr id="fixedTable_Row_Header">
+														  <th colspan="2" style="text-align:center"> Lois </th>	
+														  <th style="text-align:center;border-left:1px solid #C7C7C7;font-size:10px;">Dépôt</th>	
+													  </tr>
+												  </thead>
+												  <c:set var="classTR" value='dataRowEven' />
+												  <c:forEach var="ficheLoi" items="${calendrierParlementaireActions.getPageActuelleDeLaListeDesLois()}" varStatus="ListeDeToutLesLoisStatus">
+												  <c:choose>
+												  <c:when test="${ (ListeDeToutLesLoisStatus.index) % 2 ==0}">
+													  <c:set var="classTR" value='dataRowEven' />
+												  </c:when>
+												  <c:otherwise>
+													  <c:set var="classTR" value='dataRowOdd' />
+												  </c:otherwise>
+											      </c:choose>
+													  <tr id="fixedTable_Row_${ListeDeToutLesLoisStatus.index}" class="${classTR}" idDossier="${ficheLoi.getIdDossier()}">
+														  <td valign="middle" align="left" style="width: ${widthOfFirstColumn}px;">
+															  <h:commandLink
+																  action="#{calendrierParlementaireActions.openFicheDeLoi(ficheLoi.getDocument().getId())}"
+
+																  id="openFicheDeLoi_${ListeDeToutLesLoisStatus.index}">
+																	  <h:outputText value="${ficheLoi.getIntitule()}" />
+																	  <c:if test="${ficheLoi.getProcedureAcceleree()!=null}">
+																	  	<h:outputText value=" - " /><h:outputText styleClass="red" value="Procédure accélérée" />
+																	  </c:if>
+															  </h:commandLink>			
+														  
+														  </td>
+														  <td valign="middle" align="left" style="width: ${widthOfSecondColumn}px;">
+															  <h:outputText value=" " />
+														  </td>
+														  <td valign="middle" align="center" style="border-left:1px solid #C7C7C7;width: ${widthOfThirdColumn}px;">
+														  <c:choose>
+															  <c:when test="${not empty ficheLoi.getAssembleeDepot()}">
+															  	<h:outputText value="#{messages[nxu:concat('ABRV_', ficheLoi.getAssembleeDepot())]}" />
+															  </c:when>
+															  <c:otherwise>
+															  	<h:outputText value=" " />
+															  </c:otherwise>
+														    </c:choose>
+														  </td>
+													  </tr>
+												  </c:forEach>
+											  </table>
+										  </div>
+									  </td>
+									  <td valign="top" style="padding: 0px; border: 0px;">
+										  <div id="scrollableDiv" style="overflow: auto; width: ${widthOfMainTable - widthOfFirstColumn - widthOfSecondColumn - widthOfThirdColumn}px;">
+											  <table id="scrollableTable" class="dataOutput" style="width: ${fn:length(calendrierParlementaireActions.getListeDeToutesLesDatesDesActivites()) * 50}px; margin-bottom: 10px ! important;">
+												  <thead>
+													  <c:forEach var="assemblee" items="#{calendrierParlementaireActions.getListedeSemainesParTypesTrie()}" varStatus="assembleeStatus">
+														  <tr id="scrollableTable_Upper_Header_${assemblee.key}">
+															  <c:forEach var="SemaineParAssemblee" items="#{assemblee.value}" varStatus="SemaineParAssembleeStatus">
+																  <c:choose>
+																	  <c:when test="${SemaineParAssemblee == null}">
+																		  <td>
+																			  <h:outputText value=" " />
+																		  </td>															
+																	  </c:when>
+																	  <c:otherwise>
+																		  <td colspan="${SemaineParAssemblee.get('colspan')}" align="center" valign="middle" style="background-color: #E7DECE;border:1px solid #C7C7C7;padding:0">
+																			  <table class="celluleDeSemaine" height="100%" >
+																				  <tr>
+																					  <td>
+																						  <h:outputText value="${SemaineParAssemblee.get('label')}" />	
+																					  </td>
+																					  <td valign="top" align="left" height="16" width="16" style="padding: 0px;">
+																						  <h:commandLink 
+																							  	action="${calendrierParlementaireActions.supprimerSemaine(SemaineParAssemblee.get('id'))}"
+																							  	id="supprimer_semaine_${assembleeStatus.index}_${SemaineParAssembleeStatus.index}"
+																							  	style="display: none;">
+																								  <h:graphicImage class="supprimerActivite" height="16" width="16" url="/icons/action_delete_mini.gif" />
+																			  			  </h:commandLink>
+																					  <!-- 
+																				  				if using a4j you should reRender these: "calendrierParlementaireA4JPanel,javascriptA4JPanel"
+																			  		 -->
+																					  </td>
+																				  </tr>
+																			  </table>
+																		  </td>
+																	  </c:otherwise>
+																  </c:choose>
+															  </c:forEach>
+														  </tr>
+													  </c:forEach>
+													  <tr id="scrollableTable_Row_Header">
+														  <c:forEach var="dateDuneActivite" items="${calendrierParlementaireActions.getListeDeToutesLesDatesDesActivites()}" varStatus="ListeDeToutesLesDatesDesActivites">
+															  <th style="text-align:center;border:1px solid #C7C7C7;white-space: normal;font-size:10px">
+																  <h:outputText value="${calendrierParlementaireActions.getFormatedDateValue(dateDuneActivite)}" />
+															  </th>
+														  </c:forEach>
+													  </tr>
+												  </thead>
+												  <c:set var="classTR" value='dataRowEven' />
+												  <c:forEach var="ficheLoi" items="${calendrierParlementaireActions.getPageActuelleDeLaListeDesLois()}" varStatus="ListeDeToutLesLoisStatus">
+													  <c:choose>
+														  <c:when test="${ (ListeDeToutLesLoisStatus.index) % 2 ==0}">
+															  <c:set var="classTR" value='dataRowEven' />
+														  </c:when>
+														  <c:otherwise>
+															  <c:set var="classTR" value='dataRowOdd' />
+														  </c:otherwise>
+													  </c:choose>
+													  <tr id="scrollableTable_Row_${ListeDeToutLesLoisStatus.index}" class="${classTR}">
+														  <c:forEach var="ActiviteParlementaireList" items="${calendrierParlementaireActions.getToutesLesActivitesParlementaireDeCeLoiTrie(ficheLoi.getIdDossier())}" varStatus="ListeDesctivitesParlementairesStatus">
+															  <td style="padding: 0px;border:1px solid #C7C7C7" valign="middle" align="center">
+																  <c:choose>
+																	  <c:when test="${ActiviteParlementaireList == null or ActiviteParlementaireList.size==0}">
+																		  <h:outputText value=" " />
+																	  </c:when>
+																	  <c:otherwise>
+																		  <table class="celluleDactivite" height="100%">
+																  		<c:forEach var="ActiviteParlementaire" items="${ActiviteParlementaireList}" varStatus="listeDesAct">
+																			  <tr>
+																				  <td valign="middle" align="center">																  					
+																  					<c:choose>
+																  						<c:when test="${'1'.equals(ActiviteParlementaire.getActivite())||'2'.equals(ActiviteParlementaire.getActivite())}">
+																  							
+																  							<c:choose>
+																  								<c:when test="${'AN'.equals(ActiviteParlementaire.getAssemblee())}">
+																		  							<h:outputText styleClass="red" value="${ActiviteParlementaire.getAssemblee()}"/>
+																		  							<h:outputText styleClass="red" value="${ActiviteParlementaire.getActivite()}"/>
+																  								</c:when>
+																  								<c:otherwise>
+																		  							<h:outputText styleClass="blue" value="${ActiviteParlementaire.getAssemblee()}"/>
+																		  							<h:outputText styleClass="blue" value="${ActiviteParlementaire.getActivite()}"/>																  								
+																  								</c:otherwise>
+																  							</c:choose>
+																  							
+																  						</c:when>
+																  						<c:otherwise>
+																  							<c:choose>
+																  								<c:when test="${'AN'.equals(ActiviteParlementaire.getAssemblee())}">
+																  								<h:outputText styleClass="red" value="${ActiviteParlementaire.getActivite()}"/>
+																  									<h:outputText value=" "/>
+																		  							<h:outputText styleClass="red" value="${ActiviteParlementaire.getAssemblee()}"/>																		  							
+																  								</c:when>
+																  								<c:otherwise>
+																  									<h:outputText styleClass="blue" value="${ActiviteParlementaire.getActivite()}"/>
+																  									<h:outputText value=" "/>
+																		  							<h:outputText styleClass="blue" value="${ActiviteParlementaire.getAssemblee()}"/>																		  																							  								
+																  								</c:otherwise>
+																  							</c:choose>
+																  						</c:otherwise>
+																  					</c:choose>																  					
+																				  </td>
+																				  <td valign="top" align="left" height="16" width="16" style="padding: 0px;">
+																					  <h:commandLink 
+																						  	action="${calendrierParlementaireActions.supprimerActivite(ActiviteParlementaire.getDocument().getId())}"
+																						  	id="supprimer_activite_${ListeDeToutLesLoisStatus.index}_${ListeDesctivitesParlementairesStatus.index}_${listeDesAct.index}"
+																						  	style="display: none;">
+																							  <h:graphicImage class="supprimerActivite" height="16" width="16" url="/icons/action_delete_mini.gif" />
+																		  			  </h:commandLink>
+																				  	<!-- 
+																			  				if using a4j you should reRender these: "calendrierParlementaireA4JPanel,javascriptA4JPanel"
+																		  			 -->
+																				  </td>
+																			  </tr>
+																			  </c:forEach>
+																		  </table>
+																		  
+																	  </c:otherwise>
+																  </c:choose>
+															  </td>
+														  </c:forEach>
+													  </tr>
+												  </c:forEach>
+											  </table>
+										  </div>
+									  </td>
+								  </tr>
+								  <tr>
+									  <td colspan="2">
+										  <table width="100%">
+											  <tr>
+												  <td width="33%" align="left" valign="middle">
+													  <h:outputText style="color:#757575;font-size: 13px; font-weight: bold;" value="${calendrierParlementaireActions.getListeDeToutLesLois().size()} dossiers" />
+												  </td>
+												  <td width="33%" align="center" valign="middle">
+												    <h:panelGroup layout="block" styleClass="pageNavigationControls" style="width: 100%">
+													      <a4j:commandButton action="${calendrierParlementaireActions.premierePageDuCalendrierParlementaire()}"
+																	  reRender="calendrierParlementaireA4JPanel,javascriptA4JPanel"
+															      alt="#{messages['command.navigation.rewind']}"
+															      image="/icons/action_page_rewind.gif" >
+														<f:attribute name="disabled" value="${not calendrierParlementaireActions.isPagePrecedentDisponible()}"/>
+													      </a4j:commandButton>
+													      <a4j:commandButton action="${calendrierParlementaireActions.pagePrecedentDuCalendrierParlementaire()}"
+																	  reRender="calendrierParlementaireA4JPanel,javascriptA4JPanel"
+															      alt="#{messages['command.navigation.previous']}"
+															      image="/icons/action_page_previous.gif" >
+														<f:attribute name="disabled" value="${not calendrierParlementaireActions.isPagePrecedentDisponible()}"/>
+													      </a4j:commandButton>
+													  
+														  
+														  <h:panelGroup styleClass="currentPageStatus">
+															  <h:outputText value="${calendrierParlementaireActions.statusDeLaPAgeActuelleDuCalendrierParlementaire()}"/>
+														  </h:panelGroup>
+													      
+													  
+													      <a4j:commandButton action="${calendrierParlementaireActions.pageSuivantDuCalendrierParlementaire()}"
+																	  reRender="calendrierParlementaireA4JPanel,javascriptA4JPanel"
+															      alt="#{messages['command.navigation.next']}"
+															      image="/icons/action_page_next.gif" >
+														<f:attribute name="disabled" value="${not calendrierParlementaireActions.isPageSuivantDisponible()}"/>
+													      </a4j:commandButton>
+													  
+													      <a4j:commandButton action="${calendrierParlementaireActions.dernierePageDuCalendrierParlementaire()}"
+																	  reRender="calendrierParlementaireA4JPanel,javascriptA4JPanel"
+															      alt="#{messages['command.navigation.fastforward']}"
+															      image="/icons/action_page_fastforward.gif" >
+														<f:attribute name="disabled" value="${not calendrierParlementaireActions.isPageSuivantDisponible()}"/>
+													      </a4j:commandButton>
+												    </h:panelGroup>
+												  </td>
+												  <td width="33%" align="right" valign="middle">
+												      <p class="contentViewPageSelectorDesc">
+													<h:outputText style="font: 11px/1.25em 'Lucida Grande',Verdana,Arial,sans-serif" value="#{messages['label.contentview.pageSize']}" />
+														<h:selectOneMenu
+														  value="${calendrierParlementaireActions.ligneParPage}"
+														  id="contentViewPageSizeSelector"
+														  styleClass="langSelect">
+															  <f:selectItem itemValue="1" itemLabel="1"/>
+															  <f:selectItem itemValue="5" itemLabel="5"/>
+															  <f:selectItem itemValue="10" itemLabel="10"/>
+															  <f:selectItem itemValue="20" itemLabel="20"/>
+															  <f:selectItem itemValue="30" itemLabel="30"/>
+															  <f:selectItem itemValue="40" itemLabel="40"/>
+															  <f:selectItem itemValue="50" itemLabel="50"/>
+															  <a4j:support event="onchange" reRender="calendrierParlementaireA4JPanel,javascriptA4JPanel" eventsQueue="ajax_events_queue" /> 
+														  </h:selectOneMenu>
+													  <a4j:commandLink 
+														  action="${calendrierParlementaireActions.refreshData()}"
+														  reRender="calendrierParlementaireA4JPanel,javascriptA4JPanel">
+															  <h:graphicImage value="/img/refresh.png"
+															  alt="#{messages['label.refresh']}"
+															  title="#{messages['label.refresh']}" />
+													  </a4j:commandLink>
+												      </p>
+												  </td>
+											  </tr>
+										  </table>
+									  </td>
+								  </tr>
+							  </table>
+						  </c:if>
+					  </a4j:outputPanel>
+				  </td>
+			  </tr>		
+			  <tr>
+				  <td>
+					  <table width="100%">
+						  <tr>
+							  <td align="left">
+								  <a4j:commandButton
+									  styleClass="button"
+									  type="button"
+									  action="#{calendrierParlementaireActions.setSemaineAjoute(false)}"
+									  oncomplete="Richfaces.showModalPanel('ajouterUneSemainePanel');" 
+									  value="Ajouter une semaine"
+									  id="ajouterUneSemaineButton" />
+							  </td>
+							  <td width="100%" align="left">
+								  <a4j:commandButton
+									  styleClass="button"
+									  type="button"
+									  action="#{calendrierParlementaireActions.setActiviteAjoute(false)}"
+									  oncomplete="Richfaces.showModalPanel('ajouterUneActivitePanel');" 
+									  value="Ajouter une activité"
+									  id="ajouterUneActiviteButton" />
+							  </td>
+						  </tr>
+					  </table>
+				  </td>
+			  </tr>
+		  </table>
+
+	  </h:form>
+	  <a4j:outputPanel id="AjouterSemaineA4JPanel" >
+		  <ui:include src="/suivi/view_calendrier_parlementaire_ajouter_semaine.xhtml" />
+	  </a4j:outputPanel>
+	  
+	  <a4j:outputPanel id="AjouterActiviteA4JPanel" >
+		  <ui:include src="/suivi/view_calendrier_parlementaire_ajouter_activite.xhtml" />
+	  </a4j:outputPanel>
+
+ </div>

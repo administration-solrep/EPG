@@ -1,0 +1,4 @@
+-- FEV569 - Ajout de colonne poste Dan pour avis rectificatif CE
+
+ALTER TABLE TABLE_REFERENCE
+ADD POSTEDANIDAVISRECTIFICATIFCE NVARCHAR2(2000);

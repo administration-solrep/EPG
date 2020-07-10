@@ -1,0 +1,129 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich">
+  
+  <h:form id="metadonnee_dossier" enctype="multipart/form-data">
+    <a4j:region id="documentViewRegion">
+
+      <nxu:set var="fichePresentationDoc" value="#{fichePresentation341Actions.fiche341Doc}" cache="true">
+        <a4j:outputPanel id="documentViewPanelEmpty" rendered="#{fichePresentationDoc == null}">
+          <h:outputText value="Aucune fiche présentation trouvée."/>
+        </a4j:outputPanel>
+        <a4j:outputPanel id="documentViewPanel" rendered="#{fichePresentationDoc != null}">
+          <div style="clear: both;"></div>
+  
+            <nxu:set var="canCurrentUserEdit" value="#{fichePresentation341Actions.canCurrentUserEdit()}" cache="true">
+              <table width="100%" style="border-collapse: collapse;">                
+                <tr>
+                  <td style="white-space: nowrap;">
+                    <span style="float: right">
+                      <h:commandLink target="_blank" action="#{fichePresentation341Actions.genererXLS()}" id="extraireEnExcel">
+                        <h:graphicImage title="#{messages['label.fiche.dossier.genererXLS']}" url="/img/icons/csv_export.png" />
+                      </h:commandLink>
+                      <h:outputText value=" " />
+                      <h:commandLink target="_blank" action="#{fichePresentation341Actions.genererPDF()}" id="extraireEnPDF">
+                        <h:graphicImage title="#{messages['label.fiche.dossier.genererPDF']}" url="/img/icons/printer.png" />
+                      </h:commandLink>
+                    </span>
+                    <span>
+                      <c:if test="#{canCurrentUserEdit}">
+                          <h:commandLink action="#{stLockActions.unlockDocument(fichePresentationDoc)}" >
+                            <h:graphicImage value="/img/icons/lock_error_24.png" />
+                          </h:commandLink>
+                          <h:outputText value=" " />
+                          <h:selectOneMenu value="#{fichePresentation341Actions.currentCourier}" style="width:200px">
+                            <f:selectItem itemLabel="Sélectionnez une valeur." itemValue=""  />
+                            <nxdir:selectItems directoryName="courrier_resolution_341" var="item" 
+                                itemValue="#{item.id}" itemLabel="#{item.vocabulary.label}" localize="false"/>
+                          </h:selectOneMenu>
+                          <h:outputText value=" " />                                            
+                          <h:commandButton class="button" value="#{messages['label.fiche.dossier.gerenerercourier']}"  action="#{fichePresentation341Actions.genererCourier()}" />
+                          <h:outputText value=" " />
+                          <h:commandButton class="button" value="#{messages['label.fiche.dossier.save']}"  action="#{fichePresentation341Actions.saveFiche341()}" />
+                          <nxu:set var="creerAlerteAction" value="#{evenementDetailsActions.getActionAlerte()}"  cache="true" >           
+                            <c:if test="#{not empty creerAlerteAction}">
+                              <h:outputText value=" " />
+                              <nxh:commandButton class="button" value="#{creerAlerteAction.label}" action="#{creerAlerteAction.getLink()}" onclick="#{creerAlerteAction.getConfirm()}" />
+                            </c:if>
+                          </nxu:set>
+                      </c:if>
+                      <c:if test="#{not canCurrentUserEdit}">
+                          <c:choose>
+                            <c:when test="#{fichePresentation341Actions.canCurrentUserLock()}">
+                           <nxh:commandLink action="#{fichePresentation341Actions.reload()}" immediate="true">
+                            <h:graphicImage value="/img/refresh.png" alt="Recharger" title="Recharger" />
+                          </nxh:commandLink>
+                              <h:commandLink action="#{stLockActions.lockDocument(fichePresentationDoc)}" >
+                                <h:graphicImage value="/img/icons/lock_add_24.png" />
+                              </h:commandLink>
+                            </c:when>
+                            <c:otherwise>
+                              <c:choose>
+                                <c:when test="#{fichePresentation341Actions.canCurrentUserForceUnlock()}">
+                                  <h:commandLink action="#{stLockActions.unlockDocumentUnrestricted(fichePresentationDoc)}" >
+                                    <h:graphicImage value="/img/icons/lock_error_24.png" alt="Déverrouiller fiche" />
+                                  </h:commandLink>
+                                </c:when>
+                                <c:otherwise>
+                             <nxh:commandLink action="#{fichePresentation341Actions.reload()}" immediate="true">
+                            <h:graphicImage value="/img/refresh.png" alt="Recharger" title="Recharger" />
+                          </nxh:commandLink>
+                                  <h:graphicImage value="/img/icons/lock_16.png" />
+                                </c:otherwise>
+                               </c:choose>
+                              <h:outputText value="Verrouillé le #{stLockActions.getLockTime(fichePresentationDoc)}, par #{stLockActions.getLockOwnerName(fichePresentationDoc)}" />
+                            </c:otherwise>
+                          </c:choose>
+                      </c:if>
+                    </span>
+                  </td>
+                </tr>
+                <c:if test="#{canCurrentUserEdit}">
+                  <tr>
+                    <!-- layout de la fiche_presentation_341 mode edit-->
+                    <td>
+                      <div class="foldableBox">
+                        <h3 class="folded">
+                          <a href="#nologo" onclick="return toggleBox(this)">
+                            <h:outputText value="Fiche présentation" />
+                          </a>
+                        </h3>
+                        <div class="boxBody">
+                          <nxl:layout value="#{fichePresentationDoc}" mode="edit" name="fiche_presentation_341" />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </c:if>
+                <c:if test="#{not canCurrentUserEdit}">
+                  <tr>
+                    <!-- layout de la fiche_presentation_341 mode view -->
+                    <td>
+                      <div class="foldableBox">
+                        <h3 class="folded">
+                          <a href="#nologo" onclick="return toggleBox(this)">
+                            <h:outputText value="Fiche présentation" />
+                          </a>
+                        </h3>
+                        <div class="boxBody">
+                          <nxl:layout value="#{fichePresentationDoc}" mode="view" name="fiche_presentation_341" />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </c:if>
+              </table>
+            </nxu:set>
+        </a4j:outputPanel>
+     </nxu:set>
+    </a4j:region>
+  </h:form>
+    
+</div>

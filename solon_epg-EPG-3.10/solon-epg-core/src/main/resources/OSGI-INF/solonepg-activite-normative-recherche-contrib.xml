@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+
+<!-- La contribution qui est utilisée pour générer les widgets de la recherche 
+	de l'activité normative. -->
+
+<component name="fr.dila.solonepg.core.activitenormative.recherche">
+	<require>fr.dila.st.core.service.STRequeteurWidgetGenerator</require>
+
+	<extension target="fr.dila.st.core.service.STRequeteurWidgetGenerator"
+		point="contributionbuilders">
+		<contributionbuilder
+			class="fr.dila.st.core.requeteur.RequeteurContributionBuilderImpl"
+			name="generated_contrib_activite_normative"
+			componentName="fr.dila.solonepg.web.widget.generatedrechercheactivitenormative"
+			layoutName="incremental_smart_query_selection_recherche_an_layout"
+			showCategories="true" templateName="recherche_an_layout_template" />
+	</extension>
+
+	<extension target="fr.dila.st.core.service.STRequeteurWidgetGenerator"
+		point="addinfofields">
+		<addInfoField name="d.texm:procedureVote" newType="manyDirectory">
+			<property name="DIRECTORY">procedure_vote</property>
+		</addInfoField>
+		<addInfoField name="d.texm:natureTexte" newType="manyDirectory">
+			<property name="DIRECTORY">nature_texte</property>
+		</addInfoField>
+		<addInfoField name="d.texm:ministerePilote" newType="orga">
+			<property name="ORGA_TYPE">MIN_TYPE</property>
+		</addInfoField>
+		<addInfoField name="m.texm:ministerePilote" newType="orga">
+			<property name="ORGA_TYPE">MIN_TYPE</property>
+		</addInfoField>
+		<addInfoField name="m.texm:directionResponsable" newType="orga">
+			<property name="ORGA_TYPE">DIR_TYPE</property>
+		</addInfoField>
+		<addInfoField name="de.texm:typeActe" newType="manyDirectory">
+			<property name="DIRECTORY">type_acte</property>
+		</addInfoField>
+		<addInfoField name="m.texm:typeMesure" newType="manyDirectory">
+			<property name="DIRECTORY">type_mesure</property>
+		</addInfoField>
+		<addInfoField name="d.texm:dispositionHabilitation" newType="disposition_habilitation">
+			<property name="DIRECTORY">disposition_habilitation</property>
+		</addInfoField>
+	</extension>
+
+	<!-- Les données du point d'extension widgetdescriptions peuvent être généré 
+		par un outil : ... à partir du schéma texte_maitre.xsd -->
+	<extension target="fr.dila.st.core.service.STRequeteurWidgetGenerator"
+		point="widgetdescriptions">
+
+		<!-- Catégorie applicationLoi -->
+		<widgetDescription category="applicationLoi" name="d.texm:titreActe" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:ministerePilote" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:numeroInterne" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:motCle" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:dateEntreeEnVigueur" type="date" />
+		<widgetDescription category="applicationLoi" name="d.texm:observation" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:datePublication" type="date" />
+		<widgetDescription category="applicationLoi" name="d.texm:datePromulgation" type="date" />
+		<widgetDescription category="applicationLoi" name="d.texm:legislaturePublication" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:numero" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:dateReunionProgrammation" type="date" />
+		<widgetDescription category="applicationLoi" name="d.texm:dateCirculationCompteRendu" type="date" />
+		<widgetDescription category="applicationLoi" name="d.texm:intitule" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:titreOfficiel" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:numeroNor" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:natureTexte" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:procedureVote" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:commissionAssNationale" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:commissionSenat" type="string" />
+		<widgetDescription category="applicationLoi" name="d.texm:applicationDirecte" type="boolean" />
+		<widgetDescription category="applicationLoi" name="d.texm:dateModification" type="date" />
+		<widgetDescription category="applicationLoi" name="d.texm:dateInjection" type="date" />
+			
+			<!-- Catégorie applicationOrdonnance -->
+		<widgetDescription category="applicationOrdonnance" name="d.texm:dispositionHabilitation" type="disposition_habilitation" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:ministerePilote" type="string" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:numeroInterne" type="string" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:motCle" type="string" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:observation" type="string" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:datePublication" type="date" />
+		<widgetDescription category="applicationOrdonnance"	name="d.texm:legislaturePublication" type="string" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:numero" type="string" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:intitule" type="string" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:titreOfficiel" type="string" />
+		<widgetDescription category="applicationOrdonnance" name="d.texm:numeroNor"	type="string" />
+		<widgetDescription category="applicationOrdonnance"	name="d.texm:applicationDirecte" type="boolean" />
+
+		<!-- Catégorie transposition -->
+		<widgetDescription category="transposition" name="d.texm:ministerePilote" type="string" />
+		<widgetDescription category="transposition" name="d.texm:observation" type="string" />
+		<widgetDescription category="transposition" name="d.texm:champLibre" type="string" />
+		<widgetDescription category="transposition" name="d.texm:numero" type="string" />
+		<widgetDescription category="transposition" name="d.texm:directionResponsable" type="string" />
+		<widgetDescription category="transposition" name="d.texm:dateDirective" type="date" />
+		<widgetDescription category="transposition" name="d.texm:titreOfficiel" type="string" />
+		<widgetDescription category="transposition" name="d.texm:dateEcheance" type="date" />
+		<widgetDescription category="transposition" name="d.texm:tabAffichageMarcheInt" type="boolean" />
+		<widgetDescription category="transposition" name="d.texm:dateProchainTabAffichage" type="date" />
+		<widgetDescription category="transposition" name="d.texm:achevee" type="boolean" />
+		<widgetDescription category="transposition" name="d.texm:dateTranspositionEffective" type="date" />
+		<widgetDescription category="transposition" name="d.texm:directiveEtat" type="string" />
+
+		<!-- Catégorie ordonnance -->
+		<widgetDescription category="ordonnance" name="d.texm:ministerePilote" type="string" />
+		<widgetDescription category="ordonnance" name="d.texm:numeroInterne" type="string" />
+		<widgetDescription category="ordonnance" name="d.texm:observation" type="string" />
+		<widgetDescription category="ordonnance" name="d.texm:datePublication" type="date" />
+		<widgetDescription category="ordonnance" name="d.texm:dispositionHabilitation" type="disposition_habilitation" />
+		<widgetDescription category="ordonnance" name="d.texm:numero" type="string" />
+		<widgetDescription category="ordonnance" name="d.texm:renvoiDecret" type="boolean" />
+		<widgetDescription category="ordonnance" name="d.texm:titreOfficiel" type="string" />
+		<widgetDescription category="ordonnance" name="d.texm:numeroNor" type="string" />
+		<widgetDescription category="ordonnance" name="d.texm:ratifie" type="boolean" />
+
+		<!-- Catégorie ordonnance38C -->
+		<widgetDescription category="ordonnance38C" name="d.texm:motCle" type="string" />
+		<widgetDescription category="ordonnance38C" name="d.texm:observation" type="string" />
+		<widgetDescription category="ordonnance38C" name="d.texm:datePublication" type="date" />
+		<widgetDescription category="ordonnance38C" name="d.texm:datePromulgation" type="date" />
+		<widgetDescription category="ordonnance38C" name="d.texm:legislaturePublication" type="string" />
+		<widgetDescription category="ordonnance38C" name="d.texm:numero" type="string" />
+		<widgetDescription category="ordonnance38C" name="d.texm:titreOfficiel" type="string" />
+		<widgetDescription category="ordonnance38C" name="d.texm:numeroNor" type="string" />
+
+		<!-- Catégorie traite -->
+		<widgetDescription category="traite" name="d.texm:ministerePilote" type="string" />
+		<widgetDescription category="traite" name="d.texm:dateEntreeEnVigueur" type="date" />
+		<widgetDescription category="traite" name="d.texm:observation" type="string" />
+		<widgetDescription category="traite" name="d.texm:intitule" type="string" />
+		<widgetDescription category="traite" name="d.texm:categorie" type="string" />
+		<widgetDescription category="traite" name="d.texm:organisation" type="string" />
+		<widgetDescription category="traite" name="d.texm:thematique" type="string" />
+		<widgetDescription category="traite" name="d.texm:autorisationRatification" type="boolean" />
+		<widgetDescription category="traite" name="d.texm:publication" type="boolean" />
+		<widgetDescription category="traite" name="d.texm:degrePriorite" type="string" />
+		<widgetDescription category="traite" name="d.texm:datePJL" type="date_dynamique" />
+		<widgetDescription category="traite" name="d.texm:etudeImpact" type="boolean" />
+		<widgetDescription category="traite" name="d.texm:dispoEtudeImpact" type="boolean" />
+		<widgetDescription category="traite" name="d.texm:dateDepotRatification" type="date" />
+		<widgetDescription category="traite" name="d.texm:dateSignature" type="date" />
+
+		<!-- Catégorie decret -->
+		<widgetDescription category="decret" name="de.texm:datePublication" type="date" />
+		<widgetDescription category="decret" name="de.texm:titreOfficiel" type="string" />
+		<widgetDescription category="decret" name="de.texm:typeActe" type="string" />
+		<widgetDescription category="decret" name="de.texm:sectionCE" type="string" />
+		<widgetDescription category="decret" name="de.texm:dateSectionCE" type="date" />
+		<widgetDescription category="decret" name="de.texm:dateSortieCE" type="date" />
+		<widgetDescription category="decret" name="de.texm:rapporteurCE" type="string" />
+		<widgetDescription category="decret" name="de.texm:numeroJOPublication" type="string" />
+		<widgetDescription category="decret" name="de.texm:numeroPage" type="string" />
+		<widgetDescription category="decret" name="de.texm:delaiPublication" type="string" />
+		<widgetDescription category="decret" name="de.texm:referenceDispositionRatification" type="string" />
+		<widgetDescription category="decret" name="de.texm:dateSaisineCE" type="date" />
+		<widgetDescription category="decret" name="de.texm:numeroNor" type="string" />
+		<widgetDescription category="decret" name="de.texm:referenceAvisCE" type="string" />
+		<widgetDescription category="decret" name="de.texm:dateSignature" type="date" />
+
+		<!-- Catégorie mesure -->
+		<widgetDescription category="mesure" name="m.texm:ministerePilote" type="string" />
+		<widgetDescription category="mesure" name="m.texm:dateEntreeEnVigueur" type="date" />
+		<widgetDescription category="mesure" name="m.texm:observation" type="string" />
+		<widgetDescription category="mesure" name="m.texm:numeroOrdre" type="string" />
+		<widgetDescription category="mesure" name="m.texm:article" type="string" />
+		<widgetDescription category="mesure" name="m.texm:objetRIM" type="string" />
+		<widgetDescription category="mesure" name="m.texm:datePrevisionnelleSaisineCE" type="date" />
+		<widgetDescription category="mesure" name="m.texm:codeModifie" type="string" />
+		<widgetDescription category="mesure" name="m.texm:baseLegale" type="string" />
+		<widgetDescription category="mesure" name="m.texm:typeMesure" type="string" />
+		<widgetDescription category="mesure" name="m.texm:directionResponsable" type="string" />
+		<widgetDescription category="mesure" name="m.texm:dateDisponibiliteAvantProjet" type="date" />
+		<widgetDescription category="mesure" name="m.texm:consultationsHCE" type="string" />
+		<widgetDescription category="mesure" name="m.texm:calendrierConsultationsHCE" type="string" />
+		<widgetDescription category="mesure" name="m.texm:dateObjectifPublication" type="date" />
+		<widgetDescription category="mesure" name="m.texm:poleChargeMission" type="string" />
+		<widgetDescription category="mesure" name="m.texm:datePassageCM" type="date" />
+		<widgetDescription category="mesure" name="m.texm:differe" type="boolean" />
+		<widgetDescription category="mesure" name="m.texm:applicationRecu" type="boolean" />
+		<widgetDescription category="mesure" name="m.texm:numeroQuestion" type="string" />
+		<widgetDescription category="mesure" name="m.texm:amendement" type="boolean" />
+		<widgetDescription category="mesure" name="m.texm:responsableAmendement" type="string" />
+		<widgetDescription category="mesure" name="m.texm:dateMiseApplication" type="date" />		
+		<widgetDescription category="mesure" name="m.texm:champLibre" type="string_nclob" />
+
+	</extension>
+</component>

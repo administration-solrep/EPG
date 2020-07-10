@@ -1,0 +1,66 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+    
+  	 <div class="recherche">
+              <h3>
+                <h:outputText value="#{messages['label.requeteurDossier.simple']}"/>
+              </h3>
+          <h:form id="requete_all_form">
+            <nxu:repeat var="recherche" value="#{recherches}" >
+              <ui:decorate template="/recherche/template_requete.xhtml">
+                <ui:param name="recherche" value="#{recherche}" />
+                <ui:param name="layoutName" value="#{recherche.getLayoutName()}" />
+                <ui:param name="requete" value="#{currentRequete}" />
+              </ui:decorate>
+            </nxu:repeat>
+           <table>
+            <tr>
+             <td><!-- nxh => selection du bouton par defaut dans IE -->
+                <nxh:commandButton
+                  value="#{messages['requeteur.command.rechercher']}"
+                  id="recherche_requeteur"
+                  action="#{requeteurDossierSimpleActions.goToResults()}"
+                  styleClass="button" />
+              </td>
+              <td>
+                 <nxh:commandButton
+                  value="#{messages['requeteur.command.generer_alerte']}"
+                  id="generer_alerte"
+                  action="#{requeteurDossierSimpleActions.generateAlert()}"
+                  styleClass="button" />
+              </td>
+              <td>
+                 <nxh:commandButton
+                  value="#{messages['requeteur.command.ajouter_favoris']}"
+                  id="addToFav"
+                  action="#{requeteurDossierSimpleActions.navigateToAddFavoris}"
+                  styleClass="button" />
+              </td>
+              <td>
+                 <nxh:commandButton
+                  value="#{messages['requeteur.command.ajouter_tableau_dynamique']}"
+                  id="addToTabDynamique"
+                  action="#{requeteurDossierSimpleActions.navigateToAddTableauDynamique}"
+                  styleClass="button" />
+              </td>
+              <td>
+                <nxh:commandButton
+                  value="#{messages['command.global.reset']}"
+                  id="clearSearchButton"
+                  action="#{requeteurDossierSimpleActions.reset()}"
+                  styleClass="button" />
+              </td>
+            </tr>
+           </table>
+          </h:form>
+        </div>
+</div>
+

@@ -1,0 +1,16 @@
+<span xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core" >
+  
+  <!-- Recherche sur le numéro de NOR, valable pour tout le monde -->
+  <h:outputText value="#{messages['recherche.command.recherche_nor_before']}"/>
+  <h:inputText value="#{rechercheNorActions.nor}" size="15"
+    onkeydown="if (event.keyCode == 13) {Element.next(Element.next(this)).select();} else return true;" id="numeroNor"
+    required="true" requiredMessage="#{messages['feedback.search.noKeywords']}" validator="#{documentSearchActions.validateSimpleSearchKeywords}"/>
+  <input type="hidden" />
+  <h:commandButton action="#{rechercheNorActions.goToResults()}"
+    value="#{messages['recherche.command.recherche_nor']}" styleClass="button" id="rechercheNumeroSubmitButton">
+  </h:commandButton>
+</span>

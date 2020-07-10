@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les types ECM nécessaires aux recherches.
+-->
+<component name="fr.dila.solonepg.web.ecmtype.requete">
+  <require>com.nuxeo.case-management.types</require>
+
+  <extension target="org.nuxeo.ecm.platform.types.TypeService"
+    point="types">
+
+    <type id="RequeteSimple">
+      <layouts mode="any">
+        <layout>requeteSimple</layout>
+      </layouts>
+    </type>
+    <type id="RequeteComplexe">
+      <layouts mode="any">
+        <layout>requeteComplexe</layout>
+      </layouts>
+    </type>
+    <type id="RequeteComposite">
+      <layouts mode="any">
+        <layout>requeteSimple</layout>
+        <layout>requeteComplexe</layout>
+      </layouts>
+    </type>  
+    
+    <!-- Alertes -->
+    <type id="AlertRoot" coreType="AlertRoot"/>
+    
+    <type id="Alert" coretype="Alert">
+      <label>Alerte</label>
+      <create-view>create_alert</create-view>
+      <edit-view>create_alert</edit-view>
+      <views>
+        <view id="after-create" value="view_espace_suivi_mes_alertes" />
+      </views>
+      <layouts mode="any">
+        <layout>alert</layout>
+      </layouts>
+    </type>  
+    
+          
+  </extension>
+</component>

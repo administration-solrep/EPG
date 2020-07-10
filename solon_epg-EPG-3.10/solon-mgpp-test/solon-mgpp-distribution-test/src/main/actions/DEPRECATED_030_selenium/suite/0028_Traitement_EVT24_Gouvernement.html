@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Traitement EVT24 GVT</title>
+<link rel="selenium.base" href="http://localhost:8180/"/>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+  <thead>
+    <tr>
+      <td rowspan="1" colspan="3">Traitement EVT24 GVT</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>store</td>
+      <td>javascript{var date = new Date(); '' + (date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()) + '/' + ((date.getMonth()+1) < 10 ? '0'+ (date.getMonth()+1) : (date.getMonth()+1))+ '/' + date.getFullYear() ;}</td>
+      <td>currentDate</td>
+    </tr>
+    <tr>
+      <td>store</td>
+      <td>javascript{var date = new Date(); '' + date.getFullYear()  + '-' + ((date.getMonth()+1) < 10 ? '0'+ (date.getMonth()+1) : (date.getMonth()+1)) + '-' + (date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()) ;}</td>
+      <td>currentDateWS</td>
+    </tr>
+    <!--Connexion-->
+    <tr>
+      <td>setTimeout</td>
+      <td>120000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>setSpeed</td>
+      <td>200</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/logout</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/login.jsp</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>username</td>
+      <td>adminsgg</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>password</td>
+      <td>adminsgg</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>Submit</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>userServicesForm:userServicesActionsTable:6:userServicesActionCommandLink</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Procédure législative (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Reçu (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Emis (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Historique (17)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Reçu (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=CCOZ1300000L</td>
+      <td></td>
+    </tr>
+    <!-- Vérification Loi votée (reçue le) -->
+    <tr>
+      <td>verifyText</td>
+      <td>metadonnee_dossier:nxl_fiche_loi_vote:nxw_fiche_loi_dateReception</td>
+      <td>*${currentDate}*</td>
+    </tr>
+    <!-- Traitement -->
+    <tr>
+      <td>click</td>
+      <td>//*[@value=&quot;Traiter&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextPresent</td>
+      <td>Souhaitez-vous poursuivre le traitement ?</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//input[@id='popup_ok']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextNotPresent</td>
+      <td>La communication a été traitée</td>
+      <td></td>
+    </tr>
+    <!-- Verification non validation étape "Pour attribution secteur parlementaire" (#43298) -->
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Publication</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Pour attribution secteur parlementaire (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Pour publication à la DILA JO (0)</td>
+      <td></td>
+    </tr>
+    <!-- Validation étape 'Pour attrivution secteur parlementaire' -->
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Pour attribution secteur parlementaire (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=CCOZ1300000L</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//img[@alt='Verrouiller']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//input[@alt='Valider']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextPresent</td>
+      <td>Êtes-vous sûr de vouloir valider l'étape de la feuille de route ?</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//input[@id='popup_ok']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextNotPresent</td>
+      <td>L'acte CCOZ1300000L a été validé (avis favorable)</td>
+      <td></td>
+    </tr>
+    <!-- Renseignement des info de publication -->
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Publication</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Pour attribution secteur parlementaire (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Pour publication à la DILA JO (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Pour publication à la DILA JO (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=CCOZ1300000L</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Fiche Loi</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>userServicesForm:userServicesActionsTable:6:userServicesActionCommandLink</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Procédure législative (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Reçu (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Emis (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Historique (18)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Historique (18)</td>
+      <td></td>
+    </tr>
+    <!-- Publication du dossier dans EPG -->
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/logout</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/technique/xml_post.html</td>
+      <td></td>
+    </tr>
+    <!-- webservices WS SPE : envoyerRetourPE : publicationJO (ministere PRM)-->
+    <tr>
+      <td>type</td>
+      <td>id=username</td>
+      <td>ws_ministere_prm</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=password</td>
+      <td>ws_ministere_prm</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=url</td>
+      <td>../site/solonepg/WSspe/envoyerRetourPE</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=request</td>
+      <td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;p:envoyerRetourPERequest xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe&quot; xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/spe-commons&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe ../../../../../../../xsd/solon/epg/WSspe.xsd &quot;&gt; &lt;p:type&gt;PUBLICATION_JO&lt;/p:type&gt; &lt;p:retourPublicationJo&gt;&nbsp;&nbsp;&lt;p1:gestion&gt; &lt;p1:date_parution&gt;${currentDateWS}&lt;/p1:date_parution&gt; &lt;/p1:gestion&gt; &lt;p1:acte&gt; &lt;p1:nor&gt;CCOZ1300000L&lt;/p1:nor&gt; &lt;p1:numero_texte&gt;2012-01&lt;/p1:numero_texte&gt; &lt;p1:titre_officiel&gt;titre officiel apres publication CCOZ1300000L&lt;/p1:titre_officiel&gt; &lt;p1:page&gt;100&lt;/p1:page&gt; &lt;/p1:acte&gt; &lt;/p:retourPublicationJo&gt; &lt;/p:envoyerRetourPERequest&gt;</td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=submit</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextPresentXML</td>
+      <td>&lt;envoyerRetourPEResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe&quot;&gt;&lt;status&gt;OK&lt;/status&gt;&lt;/envoyerRetourPEResponse&gt;</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/logout</td>
+      <td></td>
+    </tr>
+    <!-- Publication EVT28 pour AN et SE -->
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/login.jsp</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>username</td>
+      <td>adminsgg</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>password</td>
+      <td>adminsgg</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>Submit</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>userServicesForm:userServicesActionsTable:6:userServicesActionCommandLink</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Procédure législative (2)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Reçu (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Emis (2)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Historique (18)</td>
+      <td></td>
+    </tr>
+    <!-- Publication EVT28 pour SE -->
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Emis (2)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>corbeille_message_list:nxl_corbeille_message_listing_layout_1:nxw_idDossier_widget_1:msgName</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>//*[@id='meta_evt:nxl_metadonnees_evenement:nxw_metadonnees_evenement_identifiant']</td>
+      <td>*CCOZ1300000L_00019*</td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>//*[@id='meta_evt:nxl_metadonnees_evenement:nxw_metadonnees_evenement_titre']</td>
+      <td>*titre officiel apres publication CCOZ1300000L*</td>
+    </tr>
+    <!-- Vérification Loi votée (LOI N°) -->
+    <tr>
+      <td>verifyText</td>
+      <td>//*[@id='metadonnee_dossier:nxl_fiche_loi_vote:nxw_fiche_loi_numeroLoi']</td>
+      <td>*2012-01*</td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>//*[@id='metadonnee_dossier:nxl_fiche_loi_vote:nxw_fiche_loi_dateReception']</td>
+      <td>*${currentDate}*</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value=&quot;Modifier&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>CCOZ1300000L_00019</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_nor</td>
+      <td>*CCOZ1300000L*</td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_titre</td>
+      <td>*titre officiel apres publication CCOZ1300000L*</td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_nor</td>
+      <td>*CCOZ1300000L*</td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_datePublicationInputDate</td>
+      <td>*${currentDate}*</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_objet</td>
+      <td>Publication CCOZ1300000L SE</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_datePromulgationInputDate</td>
+      <td>${currentDate}</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value=&quot;Publier&quot;]</td>
+      <td></td>
+    </tr>
+    <!-- Creation Dossier -->
+    <tr>
+      <td>select</td>
+      <td>creation_dossier_100:nxl_creation_dossier_layout_100_a:nxw_type_acte_field_select_one_menu</td>
+      <td>label=Rapport au parlement</td>
+    </tr>
+    <tr>
+      <td>waitForEditable</td>
+      <td>creation_dossier_100:buttonTerminer</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>creation_dossier_100:buttonTerminer</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Historique (19)</td>
+      <td></td>
+    </tr>
+    <!-- Publication EVT28 pour AN -->
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Emis (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>corbeille_message_list:nxl_corbeille_message_listing_layout_1:nxw_idDossier_widget_1:msgName</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>//*[@id='meta_evt:nxl_metadonnees_evenement:nxw_metadonnees_evenement_identifiant']</td>
+      <td>*CCOZ1300000L_00018*</td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>//*[@id='meta_evt:nxl_metadonnees_evenement:nxw_metadonnees_evenement_titre']</td>
+      <td>*titre officiel apres publication CCOZ1300000L*</td>
+    </tr>
+    <!-- Vérification Loi votée (LOI N°) -->
+    <tr>
+      <td>verifyText</td>
+      <td>//*[@id='metadonnee_dossier:nxl_fiche_loi_vote:nxw_fiche_loi_numeroLoi']</td>
+      <td>*2012-01*</td>
+    </tr>
+    <tr>
+      <td>verifyText</td>
+      <td>//*[@id='metadonnee_dossier:nxl_fiche_loi_vote:nxw_fiche_loi_dateReception']</td>
+      <td>*${currentDate}*</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value=&quot;Modifier&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>CCOZ1300000L_00018</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_nor</td>
+      <td>*CCOZ1300000L*</td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_titre</td>
+      <td>*titre officiel apres publication CCOZ1300000L*</td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_nor</td>
+      <td>*CCOZ1300000L*</td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_datePublicationInputDate</td>
+      <td>*${currentDate}*</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_datePromulgationInputDate</td>
+      <td>${currentDate}</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_objet</td>
+      <td>Publication CCOZ1300000L AN</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_datePromulgationInputDate</td>
+      <td>${currentDate}</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value=&quot;Publier&quot;]</td>
+      <td></td>
+    </tr>
+    <!-- Creation Dossier -->
+    <tr>
+      <td>watchA4jRequests</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>select</td>
+      <td>creation_dossier_100:nxl_creation_dossier_layout_100_a:nxw_type_acte_field_select_one_menu</td>
+      <td>label=Rapport au parlement</td>
+    </tr>
+    <tr>
+      <td>waitForA4jRequest</td>
+      <td>3000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>creation_dossier_100:buttonTerminer</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Procédure législative (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Reçu (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Emis (0)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Historique (20)</td>
+      <td></td>
+    </tr>
+    <!-- Déconnexion -->
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/logout</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

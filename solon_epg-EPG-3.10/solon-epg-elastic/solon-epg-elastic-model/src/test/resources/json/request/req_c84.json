@@ -1,0 +1,73 @@
+{
+  "from" : 0,
+  "size" : 25,
+  "query" : {
+    "bool" : {
+      "must" : [ {
+        "bool" : {
+          "disable_coord" : false,
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      }, {
+        "bool" : {
+          "should" : [ {
+            "term" : {
+              "dos:ministereResp" : {
+                "value" : "Ministère de l’agriculture et de l’alimentation",
+                "boost" : 1.0
+              }
+            }
+          } ],
+          "disable_coord" : false,
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      }, {
+        "bool" : {
+          "should" : [ {
+            "term" : {
+              "dos:statut" : {
+                "value" : "Initié",
+                "boost" : 1.0
+              }
+            }
+          } ],
+          "disable_coord" : false,
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      }, {
+        "bool" : {
+          "should" : [ {
+            "term" : {
+              "dos:directionResp" : {
+                "value" : "DGPE - Direction générale de la performance économique et environnementale des entreprises",
+                "boost" : 1.0
+              }
+            }
+          } ],
+          "disable_coord" : false,
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      } ],
+      "disable_coord" : false,
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "stored_fields" : [ "dos:titreActe" ],
+  "docvalue_fields" : [ "dos:ministereResp", "dos:statut", "dos:numeroNor", "retdila:dateParutionJorf" ],
+  "highlight" : {
+    "require_field_match" : false,
+    "type" : "plain",
+    "fields" : {
+      "dos:titreActe" : {
+        "fragment_size" : 1500,
+        "number_of_fragments" : 1
+      }
+    }
+  }
+}

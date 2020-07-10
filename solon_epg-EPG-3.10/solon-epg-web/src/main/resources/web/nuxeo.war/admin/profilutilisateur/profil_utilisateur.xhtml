@@ -1,0 +1,133 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+   <a4j:region id="profilUtilisateurPopupViewRegion"  >
+    <a4j:outputPanel id="profilUtilisateurPopup" >
+     <f:subview id="displayedProfilUtilisateurPopup" rendered="#{profilUtilisateurAdministrationActions.isDisplayAdministrationProfil()}" >
+			<rich:modalPanel id="profilUtilisateurPanel" autosized="true">
+				<div><f:facet name="header">
+					<h:outputText value="Profil Utilisateur" />
+				</f:facet></div>
+				<h:form id="profilUtilisateurForm" enctype="multipart/form-data">
+					<div class="profilUtilisateur">
+					<nxu:set var="profilUtilisateurDoc" value="#{profilUtilisateurAdministrationActions.profilUtilisateur.getDocument()}" cache="true">
+					
+					
+					    <div class="nbdossier_et_poste_defaut">
+        					<nxl:layout
+        						value="#{profilUtilisateurDoc}"
+        						mode="edit" name="profil_utilisateur_premieres_options" />
+    					</div>
+					
+						<h:outputText value="Métadonnées affichées dans les listes de dossiers" />
+
+					<!--  layout 1 : liste de choix de colonne -->
+					<div style="padding: 0 0 0 32px;">
+					<rich:listShuttle
+						id="metadonneesDisponibleEspaceTraitement"
+						sourceValue="#{profilUtilisateurAdministrationActions.sourceValueEspaceTraitement}"
+						targetValue="#{profilUtilisateurAdministrationActions.targetValueEspaceTraitement}"
+						var="itemsEspaceTraitement" listsHeight="90" sourceListWidth="250"
+						targetListWidth="325" sourceCaptionLabel="" targetCaptionLabel=""
+						fastMoveControlsVisible="true" fastOrderControlsVisible="false"
+						orderControlsVisible="false" copyControlLabel="Ajouter"
+						copyAllControlLabel="Ajouter tout" removeControlLabel="Enlever"
+						removeAllControlLabel="Enlever tout"
+						converter="#{profilUtilisateurAdministrationActions.getEspaceTraitementConverter()}">
+						<rich:column>
+							<h:outputText value="#{itemsEspaceTraitement.label}" />
+						</rich:column>
+					</rich:listShuttle></div>
+
+					<h:outputText
+						value="Métadonnées affichées dans les instances de feuille de route" />
+
+					<div style="padding: 0 0 0 32px;">
+					<rich:listShuttle
+						id="metadonneesDisponibleFeuilleRoute"
+						sourceValue="#{profilUtilisateurAdministrationActions.sourceValueInstanceFeuilleRoute}"
+						targetValue="#{profilUtilisateurAdministrationActions.targetValueInstanceFeuilleRoute}"
+						var="itemsInstanceFeuilleRoute" listsHeight="90"
+						sourceListWidth="250" targetListWidth="325" sourceCaptionLabel=""
+						targetCaptionLabel="" fastMoveControlsVisible="true"
+						fastOrderControlsVisible="false" orderControlsVisible="false"
+						copyControlLabel="Ajouter" copyAllControlLabel="Ajouter tout"
+						removeControlLabel="Enlever" removeAllControlLabel="Enlever tout"
+						converter="#{profilUtilisateurAdministrationActions.getFeuilleRouteConverter()}">
+						<rich:column>
+							<h:outputText value="#{itemsInstanceFeuilleRoute.label}" />
+						</rich:column>
+					</rich:listShuttle></div>
+
+					<div class="popupDiv">
+                    	<a4j:commandLink
+    						action="#{profilUtilisateurAdministrationActions.displayResetPassword()}"
+    						oncomplete="Richfaces.showModalPanel('resetPasswordPanel');"
+    						reRender="resetPasswordPopup">
+    						<h:outputText value="#{messages['command.user.resetPassword']}" />
+    					</a4j:commandLink></div>
+    					
+    					<div class="popupDiv">
+    						<a href="/liveedit-installer.zip" target="_blank" style="float: right;margin-top: 10px;">Télécharger LiveEdit</a>
+    					</div>
+    
+    					<!--  layout 2 : notification mail fdr -->
+    					<div class="notif_fdr">
+        					<nxl:layout
+        						value="#{profilUtilisateurDoc}"
+        						mode="edit" name="profil_utilisateur_notification_layout_fdr" />
+    					</div>
+
+    					<!--  layout 3 : notification mail dossier -->
+    					<div class="notif_mail">
+    					<h:outputText
+    						value="#{messages['label.epg.profilUtilisateur.notification.titre']}" />
+    					</div>
+    
+    					<div class="notif_dossier">
+    					<nxl:layout
+    						value="#{profilUtilisateurDoc}"
+    						mode="edit" name="profil_utilisateur_notification_layout_dossier" />
+    					</div>
+                      </nxu:set>
+
+					<!--  boutons d'actions -->
+					<div style="margin-left: 300px;"><!-- bouton d'action permettant  d'enregistrer les modifications apportées dans le profil utilisateur -->
+					<a4j:commandButton value="Valider "
+						action="#{profilUtilisateurAdministrationActions.valider()}"
+						oncomplete="Richfaces.hideModalPanel('profilUtilisateurPanel')"
+						id="validerProfilUtilisateur" reRender="profilUtilisateurPanel,espaceTraitementDossierContentListPanel,espaceCreationDossierContentListPanel,espaceSuiviDossierContentListPanel,espaceRechercheDossierContentListPanel"
+						styleClass="firstButton">
+					</a4j:commandButton> <!-- bouton d'action permettant d’annuler les modifications apportées dans le profil utilisateur -->
+					<a4j:commandButton value="Annuler "
+						action="#{profilUtilisateurAdministrationActions.annuler()}"
+						oncomplete="Richfaces.hideModalPanel('profilUtilisateurPanel')"
+						id="annulerProfilUtilisateur" reRender="profilUtilisateurPanel"
+						styleClass="button">
+					</a4j:commandButton></div>
+
+					<!-- error message -->
+					<div class="popupDiv"><h:outputText class="msgError"
+						id="profilErrorName"
+						value="#{profilUtilisateurAdministrationActions.errorName}" /></div>
+					</div>
+				</h:form>
+				<a4j:region id="resetPasswordPopupViewRegion"  >
+            <a4j:outputPanel id="resetPasswordPopup" >
+              <f:subview rendered="#{profilUtilisateurAdministrationActions.isDisplayResetPassword()}" >
+                <ui:include src="/admin/profilutilisateur/reset_password_popup.xhtml" />
+              </f:subview>
+            </a4j:outputPanel>
+          </a4j:region>
+			</rich:modalPanel>
+   	</f:subview>
+   </a4j:outputPanel>
+  </a4j:region>
+</div>

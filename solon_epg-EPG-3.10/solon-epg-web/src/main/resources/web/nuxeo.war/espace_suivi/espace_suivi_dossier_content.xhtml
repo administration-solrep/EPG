@@ -1,0 +1,38 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxh="http://nuxeo.org/nxweb/html" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core" xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+<c:if test="false">
+ Template pour les dossiers de l'espace de suvi. On l'utilise pour afficher les content view espace_suivi_dossier_content et recherche_nor
+
+ Parameters:
+ - contentViewName: le nom de la content view, c'est un paramêtre obligatoire
+ </c:if>
+ 
+ <a4j:outputPanel id="espaceSuiviDossierContentListPanel">
+ 		<nxu:set var="filtrable" value="true">
+			<nxu:set var="listingDecorator" value="#{dossierListingDecorator}" cache="true">
+				<ui:decorate template="/incl/content_view.xhtml">
+					<ui:define name="content_view_header_before_selector" />
+				</ui:decorate>
+			</nxu:set>
+		</nxu:set>
+
+		<c:if test="#{currentDocument.getType() == 'Dossier'}">
+		  <div style="text-align: center; margin: 5px; margin-bottom: 20px;"> 
+		    <nxu:set var="pageProvider" value="#{contentViewActions.getContentViewWithProvider(contentViewName).getCurrentPageProvider()}">
+		      <h:form>
+		        <c:if test="#{pageProvider.isPreviousEntryAvailable() or true}">
+		          <h:commandLink action="#{corbeilleActions.navigateToPreviousDossier(contentViewName)}"><h:outputText value="#{messages['label.epg.dossier.precedent']}"/> </h:commandLink>
+		        </c:if>
+		        <c:if test="#{pageProvider.isNextEntryAvailable() or true}">
+		          <h:commandLink action="#{corbeilleActions.navigateToNextDossier(contentViewName)}"><h:outputText value="#{messages['label.epg.dossier.suivant']}"/></h:commandLink>
+		        </c:if>
+		      </h:form>
+		    </nxu:set>
+		  </div>
+		</c:if>
+	</a4j:outputPanel>
+</div>

@@ -1,0 +1,57 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+  <a4j:region id="texteSignalePopupRegion" rendered="#{textesSignalesActions.showPopup}">
+    <style>
+    .errorMessage{
+        color:#000;
+        border:1px solid #666;
+        background:url(#{facesContext.externalContext.requestContextPath}/icons/warning.gif) 2px 3px no-repeat #FFCC33;
+        width:300px;
+        margin:2px 0 2px 0;
+        display:block;
+        padding:3px 3px 3px 23px;
+        }
+    </style>
+    <rich:modalPanel id="texteSignalePopup" autosized="true" showWhenRendered="true">
+      <div>
+        <f:facet name="header">
+          <h:outputText value="Séléctionner la destination" />
+        </f:facet>
+      </div>
+      <h:form id="texteSignalePopupForm">
+  
+        <table style="width: 450px;">
+          <tr>
+            <td>
+              <h:selectOneMenu class="dataInputText" id="ministereId" value="#{textesSignalesActions.type}" required="true">
+                <f:selectItem itemValue="" itemLabel="Sélectionnez une valeur." />
+                <f:selectItem itemValue="1" itemLabel="#{messages['label.textesSignales.tab1']}"/>
+                <f:selectItem itemValue="0" itemLabel="#{messages['label.textesSignales.tab2']}"/> 
+              </h:selectOneMenu>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h:message styleClass="errorMessage" for="ministereId" id="ministereId_message" />
+            </td>
+          </tr>
+          <tr align="center">
+            <td>
+              <h:commandButton class="button" action="#{textesSignalesActions.verserDossierDansTextesSignales()}" id="validerTS" value="Valider"/>
+              <h:outputText value=" "/>
+              <h:commandButton class="button" action="#{textesSignalesActions.cancelverserDossierDansTextesSignales()}" id="cancelTS" value="Annuler" immediate="true"/>
+            </td>
+          </tr>
+        </table>
+      </h:form>
+    </rich:modalPanel>
+  </a4j:region>
+</div>

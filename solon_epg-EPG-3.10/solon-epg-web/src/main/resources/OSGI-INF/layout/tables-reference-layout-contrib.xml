@@ -1,0 +1,311 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les layouts + widgets nécessaires à la gestion
+  des tables de réferences
+-->
+<component name="fr.dila.solonepg.web.layout.tablesReference">
+  <require>fr.dila.solonepg.web.widget.tablesReference</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+  
+    <layout name="tables_reference_autorites_validation">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>cabinet_pm_select</widget>
+        </row>
+       <row>
+          <widget>charge_mission_select</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="tables_reference_signataires">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>signataire_select</widget>
+        </row>
+      </rows>
+	    <widget name="signataire_select" type="template">
+	      <labels>
+	        <label mode="any">tables.reference.signataire</label>
+	      </labels>
+	      <translated>true</translated>
+	      <fields>
+          	<field schema="table_reference">signataires</field>
+		  </fields>
+	      <properties widgetMode="any">
+	        <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+	        <property name="organigrammeSelectionType">USER_TYPE</property>
+	        <property name="organigrammeSelectionMode">LIST</property>
+	        <property name="organigrammeSaisieLibre">YES</property> <!-- marche que pour table de réference pour le moment -->
+	      </properties>
+	    </widget>
+    </layout>
+    
+    <layout name="tables_reference_ministere_pm">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>ministerePM_select</widget>
+        </row>
+        <row>
+          <widget>directionPM_select</widget>
+        </row>
+      </rows>
+      <!-- widget ministereResp -->
+      <widget name="ministerePM_select" type="template">
+        <labels>
+          <label mode="any">tables.reference.ministerePm</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field schema="table_reference">ministerePm</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="rerenderOrganigrammeId">directionPM_select</property>
+        </properties>
+      </widget>
+      <!-- widget directionResp -->
+      <widget name="directionPM_select" type="template">
+        <labels>
+          <label mode="any">tables.reference.directions.pm</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field schema="table_reference">directionPm</field>
+          <field schema="table_reference">ministerePm</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">DIR_TYPE</property>
+          <property name="organigrammeSelectionMode">LIST</property>
+          <property name="organigrammeFilterMode">true</property>
+          <property name="organigrammeFilterProfilSggMode">true</property>
+          <property name="organigrammeDisplayNor">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+        <layout name="tables_reference_retours_dan">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>retoursDAN_select</widget>
+        </row>
+      </rows>
+      <!-- widget retoursDAN -->
+      <widget name="retoursDAN_select" type="template">
+        <labels>
+          <label mode="any">tables.reference.retoursdan.postes</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field schema="table_reference">retourDan</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">LIST</property>
+        </properties>
+      </widget>
+    </layout>
+    
+
+    
+    <layout name="tables_reference_ministere_ce">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>ministereCe_select</widget>
+        </row>
+      </rows>
+      <widget name="ministereCe_select" type="template">
+        <labels>
+          <label mode="any">tables.reference.ministere.ce</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+            <field schema="table_reference">ministereCe</field>
+      </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <layout name="tables_reference_vecteur_publication_multiples">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>vecteur_publication_multiples_select</widget>
+        </row>
+      </rows>
+      <widget name="vecteur_publication_multiples_select" type="template">
+        <labels>
+          <label mode="any">tables.reference.vecteurPublication</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+            <field schema="table_reference">vecteursPublications</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">USER_TYPE</property>
+          <property name="organigrammeSelectionMode">LIST</property>
+        </properties>
+       </widget>
+    </layout>
+    
+    <layout name="tables_reference_signature_cheminCroix">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>signature_cheminCroix_cpm_select</widget>
+        </row>
+       <row>
+          <widget>signature_cheminCroix_sgg_select</widget>
+        </row>
+      </rows>
+      <widget name="signature_cheminCroix_cpm_select" type="template">
+        <labels>
+          <label mode="any">tables.reference.signature.cheminCroix.CPM</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+            <field schema="table_reference">signatureCPM</field>
+      </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">USER_TYPE</property>
+          <property name="organitables.reference.charge.missiongrammeSelectionMode">LIST</property>
+        </properties>
+      </widget>
+      <widget name="signature_cheminCroix_sgg_select" type="template">
+        <labels>
+          <label mode="any">tables.reference.signature.cheminCroix.SGG</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+            <field schema="table_reference">signatureSGG</field>
+      </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">USER_TYPE</property>
+          <property name="organigrammeSelectionMode">LIST</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <layout name="tables_reference_signature_typeObligatoire">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>signature_typeObligatoire_autocomplete</widget>
+        </row>
+      </rows>
+      <widget name="signature_typeObligatoire_autocomplete" type="template">
+        <labels>
+          <label mode="any">tables.reference.signature.typeObligatoire.acte</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+            <field schema="table_reference">typeActe</field>
+      	</fields>
+	    <properties widgetMode="any">
+	      <property name="template">/widgets/type_acte_suggestion_widget_template.xhtml</property>
+	      <property name="directoryName">type_acte</property>
+	    </properties>
+      </widget>
+    </layout>
+    
+    <layout name="mode_parution_listing">
+      <templates>
+		<template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+		<template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>				
+	  </templates>
+	  <properties mode="any">
+		<property name="showListingHeader">true</property>
+		<property name="showRowEvenOddClass">true</property>
+	  </properties>
+	  <properties mode="edit_columns">
+		<property name="availableElementsLabel">label.selection.availableColumns</property>
+		<property name="selectedElementsLabel">label.selection.selectedColumns</property>
+		<property name="selectedElementsHelp"></property>
+		<property name="selectSize">20</property>
+		<property name="columnSelectionRequired">false</property>
+		<property name="displayAlwaysSelectedColumns">false</property>
+	  </properties>
+	  <columns>
+		<column>
+		  <properties mode="any">
+			<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+		  </properties>
+		  <widget>modeParution</widget>
+		</column>
+		<column>
+		  <properties mode="any">
+			<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+		  </properties>
+		  <widget>dateDebutMode</widget>
+		</column>
+		<column>
+		  <properties mode="any">
+			<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+		  </properties>
+		  <widget>dateFinMode</widget>
+		</column>
+	  </columns>
+	</layout>
+	
+	<layout name="tables_reference_epreuve_postes">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>epreuve_poste_publication</widget>
+        </row>
+       <row>
+          <widget>epreuve_poste_dan</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="tables_reference_avis_rectificatif_CE_poste_DAN">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>avis_rectificatif_CE_poste_DAN</widget>
+        </row>
+      </rows>
+    </layout>
+    
+  </extension>
+    
+</component>

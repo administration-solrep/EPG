@@ -1,0 +1,56 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core" class="menu"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<a4j:region id="espaceCreationListRegion">
+      <h:form>
+        <a4j:poll id="espaceCreationListPoll" interval="#{parametrageApplicationActions.getDelaiRafraichissementCorbeille()}" timeout="60000" 
+			enable="true" action="#{dossierCreationActions.refreshPage()}" eventsQueue="ajax_events_queue" reRender="espaceCreationListPanel" ignoreDupResponses="true" />
+      </h:form>
+    </a4j:region>
+
+<h:form id="formCreationDossier">
+  <ui:decorate template="/incl/menu_arrondi.xhtml">
+  <ui:define name="reponsesClipboard_panel">
+  	<h:panelGroup>
+  		<div class="userMailboxes">
+  		<div class="userMailboxesContent">
+  			  <h4><h:outputText value="Création" />
+             <h:commandLink action="#{dossierCreationActions.refreshPage()}" styleClass="espaceCorbeilleListTitle" >
+               <h:graphicImage value="/img/refresh.png" />
+             </h:commandLink>
+  	      </h4>
+  	    
+  	    <div  id="uMContent" style="overflow-x: auto; overflow-y: hidden;" class="userLeftMenuContent">
+  				<div >
+  				<a4j:outputPanel id="espaceCreationListPanel">
+                        <ul>
+                          <li>
+  					 <nxh:commandLink value="Dossiers en cours de création (#{dossierCreationActions.getDossiersCreationCount()})" action="view_espace_creation" />
+                          </li>
+                        </ul>
+  				</a4j:outputPanel>
+  				</div>
+  			</div>
+  			
+  			<div style="text-align: center; margin-top: 30px;">
+  				<nxh:commandButton class="button" id="buttonCreationDossier" value="Ajouter un dossier" action="#{dossierCreationActions.navigateTo(true)}" />
+  			</div>
+  		</div>
+  		<!-- Bottom of the rounded box -->
+  		<p class="nobottomgap"></p>
+  		</div>
+  
+  		<div class="bottom-left"></div>
+  		<div class="bottom-right"></div>
+  
+  	</h:panelGroup>
+  </ui:define>
+  </ui:decorate>
+</h:form>
+</div>

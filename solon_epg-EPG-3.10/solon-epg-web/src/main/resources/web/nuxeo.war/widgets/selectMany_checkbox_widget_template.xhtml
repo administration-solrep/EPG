@@ -1,0 +1,45 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util">
+   <style>
+   .selection {
+   		width: 100%;
+   }
+   .selection table{
+   		width: 100%;
+   }
+    .selection tr {
+   		float: left;
+    	width: 50%;
+	} 
+  </style>
+    
+  <c:choose>
+    <c:when test="#{widget.mode == 'edit'}">
+    	
+      <nxu:set var="values" value="#{selectManyCheckboxActions.getValues(widget.properties.type)}" cache="true">
+      <h:panelGroup layout="block" styleClass="selection">
+        <h:selectManyCheckbox id="#{widget.id}_checkBox" value="#{field_0}" layout="pageDirection">
+        
+    	  <c:forEach var="item" items="#{values}" varStatus="status">
+    	  	   
+    	    	<f:selectItem itemLabel="#{selectManyCheckboxActions.getItemLabel(widget.properties.type, item)}" itemValue="#{selectManyCheckboxActions.getItemValue(widget.properties.type, item)}" />
+    	    
+    	  </c:forEach>
+    	  
+    	  <f:selectItem 
+				itemLabel="#{widget.properties.defaultLabel == null ? messages['label.checkbox.default'] : messages[widget.properties.defaultLabel]}" 
+				itemValue="#{widget.properties.defaultValue == null ? '': widget.properties.defaultValue}" />
+    	</h:selectManyCheckbox>
+    	
+    	</h:panelGroup>
+      </nxu:set>
+      	
+    </c:when>
+    <c:otherwise>      
+      <h:outputText value="#{selectManyCheckboxActions.getItemLabelFromId(widget.properties.type, field_0)}" />
+    </c:otherwise>
+  </c:choose>
+</f:subview>

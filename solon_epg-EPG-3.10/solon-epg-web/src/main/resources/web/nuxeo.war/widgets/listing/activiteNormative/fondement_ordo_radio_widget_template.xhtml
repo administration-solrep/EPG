@@ -1,0 +1,30 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" id="#{widget.id}">
+
+  <c:choose>
+      <c:when test="#{widget.mode != 'edit'}">  
+		  <c:choose>
+			  <c:when test="#{field_0}">
+			  	Article 38 C
+			  </c:when>
+			  <c:otherwise>
+			    Article 74-1
+			  </c:otherwise>
+		  </c:choose>
+	</c:when>
+	<c:otherwise>
+	    <h:selectOneRadio value="#{field}" id="#{widget.id}_checkbox">
+	      <f:selectItem itemValue="#{true}" itemLabel="Article 38 C" />
+	      <f:selectItem itemValue="#{false}" itemLabel="Article 74-1" />
+	    </h:selectOneRadio>
+	    <h:message styleClass="errorMessage" for="#{widget.id}_checkbox"
+	      id="#{widget.id}_message" />
+	</c:otherwise>
+  </c:choose>
+
+</f:subview>

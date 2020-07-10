@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory">
+
+  <ui:define name="page title">
+    <h:outputText value="Création fiche avis nomination" />
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:include src="/incl/message_banner.xhtml" />
+    <style>
+        .errorMessage{
+          width:150px !important;
+        }
+    </style>
+    <div> 
+      <h:form id="create_fpavi" enctype="multipart/form-data">
+      
+          <nxu:set var="layoutMode" value="edit'" cache="true">
+            <nxu:set var="fichePresentationDoc" value="#{fichePresentationAVIActions.ficheAVICreation}" cache="true">
+              <h3>Fiche organisme avis nomination</h3>
+              <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_AVI" />
+              
+              <h3>Nominés</h3>
+              <a4j:outputPanel id="nomineA4J" >
+                <nxu:set var="nomines" value="#{fichePresentationAVIActions.fetchNomine()}" cache="true">
+                  <table class="dataOutput">
+                    <thead>
+                      <tr>
+                        <th><h:outputText value="#{messages['label.mgpp.nomine']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.nomine.dateDebut']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.nomine.dateFin']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.nomine.dateAuditionAN']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.nomine.dateAuditionSE']}"/></th>
+                        <th><h:outputText value=" "/></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <c:forEach var="nomine" items="#{nomines}" varStatus="status">
+                        <nxl:layout value="#{nomine}" mode="#{layoutMode}" name="nomine_AVI" />
+                      </c:forEach>
+                    </tbody>
+                   </table>
+                   <table>
+                     <tbody>
+                      <tr>
+                        <td>
+                          <h:outputText value="#{nomines.size} #{messages['label.mgpp.nomine']}" 
+                            style="color:#757575;font-size: 13px; font-weight: bold;vertical-align=top;" rendered="#{nomines.size lt 2}"/>
+                          <h:outputText value="#{nomines.size} #{messages['label.mgpp.nomine']}s" 
+                            style="color:#757575;font-size: 13px; font-weight: bold;vertical-align=top;" rendered="#{nomines.size gt 1}"/>
+                        </td>
+                       <td>
+                        <a4j:commandButton reRender="nomineA4J" eventsQueue="ajax_events_queue" styleClass="button" value="#{messages['label.fiche.dossier.addNomine']}" 
+                          action="#{fichePresentationAVIActions.addNewNomine()}" immediate="true"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </nxu:set>
+              </a4j:outputPanel>
+              
+              <h:commandButton class="button" value="#{messages['label.fiche.dossier.save']}"  action="#{fichePresentationAVIActions.saveCreationAVI()}" />
+              <h:outputText value=" " />
+              <h:commandButton class="button" value="#{messages['label.fiche.dossier.cancel']}"  action="#{fichePresentationAVIActions.cancelCreationAVI()}" immediate="true" onclick="return confirmCancel(event);"/>
+              <h:outputText value=" " />
+           </nxu:set>
+         </nxu:set>
+      </h:form>
+    </div>
+ </ui:define>
+</nxthemes:composition>

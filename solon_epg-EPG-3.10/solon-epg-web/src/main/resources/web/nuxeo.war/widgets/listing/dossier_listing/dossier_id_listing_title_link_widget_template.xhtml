@@ -1,0 +1,60 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+<c:choose>
+    <c:when test="#{widget.mode == 'csv'}">
+      <h:outputText value="#{field_0}" />
+    </c:when>
+    <c:when test="#{widget.mode == 'pdf'}">
+      <nxp:font size="8">#{field_0}</nxp:font>
+    </c:when>
+    <c:otherwise>
+     <nxu:set var="dossier" value="#{dossierListingActions.findDossierById(field_1)}" cache="true">
+      <nxu:set var="dossierLinkList" value="#{dossierListingActions.findDossierLink(dossier)}" cache="true">
+        <c:choose>
+          <c:when test="#{fn:length(dossierLinkList) > 1}">
+            <h:outputLink id="titleref" class="#{dossier.ref}_popupTarget" value="javascript:return false;">
+              #{field_0}
+            </h:outputLink>
+
+            <div>
+              <c:set var="popupId" value="#{nxu:concat(dossier.ref, nxu:concat('_menuPopup', field_0))}" />
+              <script type="text/javascript"> 
+                  var options = {
+                      bind: 'click',
+                      useFilter: false,
+                      anchor: '#popupReceiver'
+                  };
+                  setupContextMenu('a.#{dossier.ref}_popupTarget','#{popupId}', options);
+              </script>
+              <div style="display: none" class="contextMenu" id="#{popupId}">
+                <ul>
+                  <c:forEach var="dossierLink" items="#{dossierLinkList.toArray()}">
+                    <li style="width: 300px;">
+                      <nxu:graphicImage value="/icons/view_doc.png"/>
+                      <nxh:commandLink action="#{dossierListingActions.navigateToDossierLink(dossier, dossierLink)}">
+                        #{dossierListingActions.getDossierLinkLabel(dossierLink)}
+                      </nxh:commandLink>
+                    </li>
+                  </c:forEach>
+                </ul>
+              </div>
+            </div>
+          </c:when>
+          <c:otherwise>
+            <nxh:commandLink action="#{dossierListingActions.navigateToDossier(dossier)}">
+              #{field_0}
+            </nxh:commandLink>
+          </c:otherwise>
+        </c:choose>
+      </nxu:set>
+       </nxu:set>
+    </c:otherwise>
+</c:choose>
+</f:subview>

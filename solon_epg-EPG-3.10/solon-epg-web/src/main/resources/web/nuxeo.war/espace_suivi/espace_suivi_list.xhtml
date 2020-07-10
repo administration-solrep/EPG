@@ -1,0 +1,195 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core" class="menu"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:nxdir="http://nuxeo.org/nxdirectory">
+
+	<h:panelGroup>
+	<style>
+		.rich-tree-node-highlighted {
+	      text-decoration: none;
+	    }
+	    
+		 .selected {
+	    	background-color: #F3EFDD;
+   		 	font-weight: bold;
+	    }
+	   
+	</style>
+	
+  <h:form id="form_espace_suivi" rendered="#{!currentUser.anonymous}" >
+<ui:decorate template="/incl/menu_arrondi.xhtml">
+<ui:define name="reponsesClipboard_panel">
+	<div class="userMailboxes">
+	<div class="userMailboxesContent">
+		  	<h4><h:outputText value="Espace de suivi" />
+			  	<a4j:commandLink value="" action="#{espaceSuiviTree.reset()}" styleClass="espaceCorbeilleListTitle">
+			            <h:graphicImage value="/img/refresh.png"/>
+			    </a4j:commandLink>
+	        </h4>
+		<div  id="uMContent" style="overflow-x: auto; overflow-y: hidden;" class="userLeftMenuContent">
+		
+	            <a4j:status for="espaceSuiviRegion">
+	              <f:facet name="start">
+	                <h:graphicImage value="/img/standart_waiter.gif" style="position: absolute;" />
+	              </f:facet>
+	            </a4j:status>
+	            <a4j:region id="espaceSuiviRegion">
+	            
+	         <rich:tree id="espaceSuiviTree"  
+		            style="white-space: nowrap;"
+		            switchType="ajax" ajaxSingle="true"
+		            eventsQueue="ajax_events_queue"
+		            iconExpanded="/icons/toggle_minus.png"
+		            iconCollapsed="/icons/toggle_plus.png"
+		            changeExpandListener="#{espaceSuiviTree.changeExpandListener}"
+		            adviseNodeOpened="#{espaceSuiviTree.adviseNodeOpened}">
+            
+		            <rich:recursiveTreeNodesAdaptor id="node" var="item" roots="#{espaceSuiviTree.espaceSuivi}" nodes="#{item.children}">
+		            
+		            		<!-- Base node -->
+							<rich:treeNode id="base" rendered="#{item.type == 'BASE' and item.role == 'BASE'}"
+							  icon="/img/icons/users1.png"
+							  iconLeaf="/img/icons/users1.png">                  
+							  <h:outputText id="baseNodeLabel" value="#{item.label}" style="font-weight: bold; white-space: nowrap;" />
+							</rich:treeNode>
+							
+							<!-- Execution -->
+							<rich:treeNode id="baseExec" rendered="#{item.type == 'BASE' and item.role == 'EXECUTOR'}"
+							  icon="/img/icons/list_action_16.png" 
+							  iconLeaf="/img/icons/list_action_16.png">                  
+							    
+							    <h:outputText id="baseExecNodeLabel" value="#{item.label}" style="white-space: nowrap;" />
+					            
+					            <rich:componentControl disableDefault="true" event="onclick" for="executorContextMenu" operation="show">
+					            		<f:param value="#{item.key}" name="key" />
+								</rich:componentControl>
+					
+							</rich:treeNode>
+							
+							<!-- Execution + Modification + Suppression -->
+							<rich:treeNode id="baseGod" rendered="#{item.type == 'BASE' and item.role == 'GOD'}"
+							  icon="/img/icons/list_action_16.png" 
+							  iconLeaf="/img/icons/list_action_16.png">                  
+							    
+							    <h:outputText id="baseGodNodeLabel" value="#{item.label}" style="white-space: nowrap;" />
+					            
+					            <rich:componentControl disableDefault="true" event="onclick" for="godContextMenu" operation="show">
+					            		<f:param value="#{item.key}" name="key" />
+								</rich:componentControl>
+					
+							</rich:treeNode>
+							
+		
+		                    <rich:treeNode id="user" rendered="#{item.type == 'USER'}"
+		                    	icon="/img/icons/folder.png"
+		                    	iconLeaf="/img/icons/folder.png">
+								<h:panelGroup style="display:block;" styleClass="#{nxu:test(espaceSuiviTree.isCurrentItem(item), 'selected', '')}">
+							      <a4j:commandLink id="etapeNodeCmdUSR" action="#{espaceSuiviTree.setElement(item)}">
+							        <h:outputText id="elementNodeLabelUSR" value="#{item.label} (#{item.count})" style="white-space: nowrap;"/>
+							      </a4j:commandLink>
+							   </h:panelGroup>
+		                    </rich:treeNode>
+		                    
+		                    <rich:treeNode id="gouvernement" rendered="#{item.type == 'GOUVERNEMENT'}"
+		                    	icon="/img/icons/folder.png"
+		                    	iconLeaf="/img/icons/folder.png">
+		                    	<h:panelGroup style="display:block;" styleClass="#{nxu:test(espaceSuiviTree.isCurrentItem(item), 'selected', '')}">
+							      <a4j:commandLink id="etapeNodeCmdGVT" action="#{espaceSuiviTree.setElement(item)}">
+							        <h:outputText id="elementNodeLabelGVT" value="#{item.label}" style="white-space: nowrap;"/>
+							      </a4j:commandLink>
+							   </h:panelGroup>
+		                    </rich:treeNode>
+		                    
+		                    <rich:treeNode id="ministere" rendered="#{item.type == 'MINISTERE'}"
+		                    	icon="/img/icons/folder.png"
+		                    	iconLeaf="/img/icons/folder.png">
+		                    	<h:panelGroup style="display:block;" styleClass="#{nxu:test(espaceSuiviTree.isCurrentItem(item), 'selected', '')}">
+							      <a4j:commandLink id="etapeNodeCmdMIN" action="#{espaceSuiviTree.setElement(item)}">
+							        <h:outputText id="elementNodeLabelMIN" value="#{item.label} #{nxu:test(empty item.count, '', nxu:concat('(', nxu:concat(item.count , ')')))}" style="white-space: nowrap;"/>
+							      </a4j:commandLink>
+							   </h:panelGroup>
+		                    </rich:treeNode>
+		                    
+		                    <rich:treeNode id="direction" rendered="#{item.type == 'DIRECTION'}"
+		                    	icon="/img/icons/folder.png"
+		                    	iconLeaf="/img/icons/folder.png">
+		                    	<h:panelGroup style="display:block;" styleClass="#{nxu:test(espaceSuiviTree.isCurrentItem(item), 'selected', '')}">
+							      <a4j:commandLink id="etapeNodeCmdDIR" action="#{espaceSuiviTree.setElement(item)}">
+							        <h:outputText id="elementNodeLabelDIR" value="#{item.label} (#{item.count})" style="white-space: nowrap;"/>
+							      </a4j:commandLink>
+							   </h:panelGroup>
+		                    </rich:treeNode>
+		                    
+		                    <rich:treeNode id="unite_structurelle" rendered="#{item.type == 'UNITE_STRUCTURELLE'}"
+		                    	icon="/img/icons/folder.png"
+		                    	iconLeaf="/img/icons/folder.png">
+		                    	<h:panelGroup style="display:block;" styleClass="#{nxu:test(espaceSuiviTree.isCurrentItem(item), 'selected', '')}">
+							      <a4j:commandLink id="etapeNodeCmdUST" action="#{espaceSuiviTree.setElement(item)}">
+							        <h:outputText id="elementNodeLabelUST" value="#{item.label} (#{item.count})" style="white-space: nowrap;"/>
+							      </a4j:commandLink>
+							   </h:panelGroup>
+		                    </rich:treeNode>
+		                    
+							<rich:treeNode id="poste" rendered="#{item.type == 'POSTE'}"
+								icon="/img/icons/folder.png"
+								iconLeaf="/img/icons/folder.png">
+							    <h:panelGroup style="display:block;" styleClass="#{nxu:test(espaceSuiviTree.isCurrentItem(item), 'selected', '')}">
+							      <a4j:commandLink id="etapeNodeCmdPST" action="#{espaceSuiviTree.setElement(item)}">
+							        <h:outputText id="elementNodeLabelPST" value="#{item.label} (#{item.count})" style="white-space: nowrap;"/>
+							      </a4j:commandLink>
+							   </h:panelGroup>
+							</rich:treeNode>
+							
+							 <rich:treeNode id="other" rendered="#{item.type == 'OTHER'}"
+		                    	icon="/img/icons/users1.png"
+		                    	iconLeaf="/img/icons/users1.png">
+		                    	<h:panelGroup style="display:block;" styleClass="#{nxu:test(espaceSuiviTree.isCurrentItem(item), 'selected', '')}">
+							      <a4j:commandLink id="etapeNodeCmdOT" action="#{espaceSuiviTree.setElement(item)}">
+							        <h:outputText id="elementNodeLabelOT" value="#{item.label}" style="font-weight: bold; white-space: nowrap;"/>
+							      </a4j:commandLink>
+							   </h:panelGroup>
+		           </rich:treeNode>
+			</rich:recursiveTreeNodesAdaptor>
+          </rich:tree>
+             <div class="menuContextuelStyle">
+                  <rich:contextMenu id="executorContextMenu" attached="false" submitMode="server">
+			        <rich:menuItem value="Exécuter" ajaxSingle="true" action="#{espaceSuiviTree.showTableauDynamique()}" onmouseover="selected(this);"  id="show">
+			        	<a4j:actionparam assignTo="#{espaceSuiviTree.currentNodeId}"	name="SelectedNodeId" value="{key}"/>
+			        </rich:menuItem>
+		      </rich:contextMenu>
+		  	 </div>
+		  	 <div class="menuContextuelStyle">
+                  <rich:contextMenu id="godContextMenu" attached="false" submitMode="server">
+			        <rich:menuItem value="Exécuter" ajaxSingle="true" action="#{espaceSuiviTree.showTableauDynamique()}" onmouseover="selected(this);"  id="exec">
+			        	<a4j:actionparam assignTo="#{espaceSuiviTree.currentNodeId}"	name="SelectedNodeId" value="{key}"/>
+			        </rich:menuItem>
+			        <rich:menuItem value="Modifier" ajaxSingle="true" action="#{espaceSuiviTree.udpateTableauDynamique()}" onmouseover="selected(this);"  id="update">
+			        	<a4j:actionparam assignTo="#{espaceSuiviTree.currentNodeId}"	name="SelectedNodeId" value="{key}"/>
+			        </rich:menuItem>
+			        <rich:menuItem value="Supprimer" ajaxSingle="true" onselect="javascript:if(!displayConfirm(event,'Voulez-vous supprimer ce tableau dynamique ?')) throw 'TODO: Ignore this exception: Workaround for JBoss RF-7203: no server side action'; " action="#{espaceSuiviTree.deleteTableauDynamique()}" onmouseover="selected(this);"  id="delete">
+			        	<a4j:actionparam assignTo="#{espaceSuiviTree.currentNodeId}"	name="SelectedNodeId" value="{key}"/>
+			        </rich:menuItem>
+		      </rich:contextMenu>
+		  	</div>
+	       </a4j:region>
+		</div>
+		</div>
+		
+
+		<!-- Bottom of the rounded box -->
+		<p class="nobottomgap"></p>
+		</div>
+
+		<div class="bottom-left"></div>
+		<div class="bottom-right"></div>
+</ui:define>
+</ui:decorate>
+</h:form>
+	</h:panelGroup>
+</div>

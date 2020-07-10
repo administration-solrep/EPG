@@ -1,0 +1,41 @@
+1- se connecter au nxshell : 
+	$ cd /opt/epg-server_inst1/tools/
+	$ sh nxshell.sh
+	
+2- recherche le dossier via son nor :
+	> query "select * from Dossier where dos:numeroNor='NUMERONOR'"
+	/case-management/case-root/AA/MM/JJ/NUMERONOR
+	
+3- recupérer la propriété dos:lastDocumentRoute du dossier avec la commande "cat -all": 
+	> cat -all "/case-management/case-root/AA/MM/JJ/NUMERONOR"
+	Dossier -- NUMERONOR
+	...
+	dos:lastDocumentRoute = uidFDR
+	...
+	
+4- naviguer vers la feuille de route :
+	> cd doc:uidFDR
+	
+5- rechercher l'etape a redemarrer :
+	> tree
+	|  +- etape_X_Y
+	|  +- etape_X_poste-A
+	|  +- etape_X_poste-B
+	|  +- etape_X_poste-C
+	|  +- etape_X_poste-D
+	|  +- etape_X_poste-E
+	|  +- etape_X_poste-F
+
+6- recuperer l'uid de l'étape :
+	> cat -all etape_X_poste-D
+	RouteStep -- etape_X_poste-D
+	UID: uidRouteStep
+	...
+	State: ready
+
+7- vérifier que State est bien "ready"
+
+8- lancer le script
+	> script feuille_toute/runStep.groovy -ctx "stepUUID='uidRouteStep'"
+
+9- Attendre la fin du script, en cas de non redemarrage de l'étape, voir la cause dans les logs ( /var/log/epg-server_inst1/server.log)	

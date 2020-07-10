@@ -1,0 +1,278 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	<style>			
+		.mainTable{
+			border-collapse: collapse;
+		}
+		
+		.fixedTable{
+			border-collapse: collapse;
+			border: 0px;
+		}
+		
+		.scrollableTable{
+			border-collapse: collapse;
+			border: 0px;
+		}
+		
+		.fixedTableCellule{
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+		}
+		
+		.scrollableTableCellule{
+			border: 1px solid black;
+		}
+	</style>
+	
+	<a4j:outputPanel id="javascriptPanel" >
+
+	<script>
+		var j = jQuery.noConflict();
+		j(document).ready(function() {
+			var fixedTableRowHeight = j("#fixedTable_Row_Header").height();
+			var scrollableTableRowHeight = j("#scrollableTable_Row_Header").height();
+				setSameHeightToTheseRows("fixedTable_Row_Header", "scrollableTable_Row_Header");
+			j("#fixedTable_Row_Header").height(j("#fixedTable_Row_Header").height() + 10)
+			j("#scrollableTable_Row_Header").height(j("#scrollableTable_Row_Header").height() + 10)
+			j("#fixedTable tr").each(function(index){
+				setSameHeightToTheseRows("fixedTable_Row_"+index, "scrollableTable_Row_"+index);
+			})
+		});
+		function setSameHeightToTheseRows(row1Id, row2Id)
+		{
+			var row1Height = j("#" + row1Id).height();
+			var row2Height = j("#" + row2Id).height();
+			var rowHeightShouldBe = 0;
+			
+			if(row1Height > row2Height)
+			{
+				rowHeightShouldBe = row1Height;
+			}else
+			{
+				rowHeightShouldBe = row2Height;
+			}
+			
+			j("#" + row1Id).height(rowHeightShouldBe);
+			j("#" + row2Id).height(rowHeightShouldBe);
+		}
+	</script>
+	</a4j:outputPanel>
+	<c:set var="widtOfMainTable" value="1200" />
+	<c:set var="widtOfFirstColumn" value="150" />
+	
+	<h:form id="mgppSuivi" enctype="multipart/form-data"> 
+	<nxu:set var="pageActuelleListe" value="#{echeancierDePromulgationActions.getPageActuelleDeLechancierDePromulgation()}" cache="true">
+	<nxu:set var="countTotale" value="#{echeancierDePromulgationActions.getTableauDeLechancierDePromulgationCount()}" cache="true">
+		<c:if test="${countTotale > 0}">
+			<table style="width: ${widtOfMainTable}px; height: 100%;" class="mainTable">
+				<tr>
+					<td valign="top"  style="width: 150px; padding: 0px; border: 0px;">
+						<a4j:outputPanel id="fixedPanel" >
+						<div id="fixedDiv" style="width: ${widtOfFirstColumn}px;">
+							<table id="fixedTable" class="dataOutput" style="margin-bottom: 10px ! important;">
+								<thead>
+									<tr id="fixedTable_Row_Header">
+										<th>
+											<c:set var="enteteDeLaPremiereColonne" value='${echeancierDePromulgationActions.getEntetesDesColonnes()[0]}' />
+											<a4j:commandLink 
+												action="${echeancierDePromulgationActions.triTableauDeLechancierDePromulgation(0)}"
+					                        	reRender="fixedPanel,scrollablePanel,javascriptPanel"
+												id="linkColonne_0_label">
+													<h:outputText value="${messages[enteteDeLaPremiereColonne]}" />
+					                        </a4j:commandLink>
+					                        <c:if test="${echeancierDePromulgationActions.getColonneDeTriage() == 0}" >
+			                       	 			<f:verbatim>&amp;nbsp;</f:verbatim>
+												<h:commandLink
+													action="${echeancierDePromulgationActions.triTableauDeLechancierDePromulgation(0)}"
+													id="linkColonne_0_icon">
+														<c:choose>
+															<c:when test="${echeancierDePromulgationActions.isTriageAscendant()}" >
+																	<h:graphicImage value="/icons/sort_selected_up.png" />
+															</c:when>
+															<c:otherwise>
+																<h:graphicImage value="/icons/sort_selected_down.png" />
+															</c:otherwise>
+														</c:choose>
+												</h:commandLink>
+											</c:if>
+										</th>	
+									</tr>
+								</thead>
+								
+								<c:forEach var="ligneDeDonnees" items="#{pageActuelleListe}" varStatus="ligneDeDonneesStatus">
+						        	<c:set var="classTR" value='dataRowEven' />
+						        	<c:choose>
+						            	<c:when test="${ (ligneDeDonneesStatus.index) % 2 ==0}">
+						              		<c:set var="classTR" value='dataRowEven' />
+						            	</c:when>
+						            	<c:otherwise>
+						              		<c:set var="classTR" value='dataRowOdd' />
+						            	</c:otherwise>
+						            </c:choose>
+						            <c:set var="ficheLoi" value="#{echeancierDePromulgationActions.getFicheDeLoi(ligneDeDonnees[0])}" />
+									<tr id="fixedTable_Row_${ligneDeDonneesStatus.index}" class="${classTR}">
+										<td valign="middle" align="left">
+											<h:commandLink id="openFicheDeLoi_${ligneDeDonneesStatus.index}" action="#{echeancierDePromulgationActions.openFicheDeLoi(ficheLoi.getDocument().getId())}">
+												<h:outputText value="${ficheLoi.getIntitule()}" />
+											</h:commandLink>			
+										</td>
+									</tr>
+								</c:forEach>
+
+							</table>
+						</div>
+						</a4j:outputPanel>
+					</td>
+					<td valign="top" style="padding: 0px; border: 0px;">
+						<a4j:outputPanel id="scrollablePanel" >
+							<div id="scrollableDiv" style="overflow: auto; width: ${widtOfMainTable - widtOfFirstColumn}px;">
+								<table id="scrollableTable" class="dataOutput" style="width: ${fn:length(echeancierDePromulgationActions.getEntetesDesColonnes()) * 150}px; margin-bottom: 10px ! important;">
+									<thead>
+										<tr id="scrollableTable_Row_Header">
+											<c:forEach var="enteteDeLaColonne" items="${echeancierDePromulgationActions.getEntetesDesColonnes()}" varStatus="entetesDesColonnesStatus">
+												<c:if test="${entetesDesColonnesStatus.index > 0}">
+													<th>
+														<a4j:commandLink 
+															action="${echeancierDePromulgationActions.triTableauDeLechancierDePromulgation(entetesDesColonnesStatus.index)}"
+								                        	reRender="fixedPanel,scrollablePanel,javascriptPanel"
+															id="linkColonne_${entetesDesColonnesStatus.index}_label">
+																<h:outputText value="${messages[enteteDeLaColonne]}" />
+								                        </a4j:commandLink>
+								                        <c:if test="${echeancierDePromulgationActions.getColonneDeTriage() == entetesDesColonnesStatus.index}" >
+						                       	 			<f:verbatim>&amp;nbsp;</f:verbatim>
+															<h:commandLink
+																action="${echeancierDePromulgationActions.triTableauDeLechancierDePromulgation(entetesDesColonnesStatus.index)}"
+																id="linkColonne_${entetesDesColonnesStatus.index}_icon">
+																	<c:choose>
+																		<c:when test="${echeancierDePromulgationActions.isTriageAscendant()}" >
+																				<h:graphicImage value="/icons/sort_selected_up.png" />
+																		</c:when>
+																		<c:otherwise>
+																			<h:graphicImage value="/icons/sort_selected_down.png" />
+																		</c:otherwise>
+																	</c:choose>
+															</h:commandLink>
+														</c:if>
+													</th>
+												</c:if>
+											</c:forEach>
+										</tr>
+									</thead>
+									<c:set var="classTR" value='dataRowEven' />
+									<c:forEach var="ligneDeDonnees" items="#{pageActuelleListe}" varStatus="ligneDeDonneesStatus">
+							        	<c:choose>
+							            	<c:when test="${ (ligneDeDonneesStatus.index) % 2 ==0}">
+							              		<c:set var="classTR" value='dataRowEven' />
+							            	</c:when>
+							            	<c:otherwise>
+							              		<c:set var="classTR" value='dataRowOdd' />
+							            	</c:otherwise>
+							            </c:choose>
+										<tr id="scrollableTable_Row_${ligneDeDonneesStatus.index}" class="${classTR}">
+											<c:forEach var="celluleDeDonnees" items="${ligneDeDonnees}" varStatus="celluleDeDonneesStatus">
+												<c:if test="${celluleDeDonneesStatus.index > 0}">
+													<td  valign="middle" align="left">
+														<h:outputText value="${echeancierDePromulgationActions.getFormatedValueToDisplay(celluleDeDonnees)}" />
+													</td>
+												</c:if>
+											</c:forEach>
+										</tr>
+									</c:forEach>
+								</table>
+							</div>
+						</a4j:outputPanel>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<table width="100%">
+							<tr>
+								<td width="33%" align="left" valign="middle">
+									<h:outputText style="color:#757575;font-size: 13px; font-weight: bold;" value="${echeancierDePromulgationActions.getTableauDeLechancierDePromulgationCount()} dossiers" />
+								</td>
+								<td width="33%" align="center" valign="middle">
+								  <h:panelGroup layout="block" styleClass="pageNavigationControls">
+									<a4j:outputPanel id="controlPagePanel">
+									    <a4j:commandButton action="${echeancierDePromulgationActions.premierePageDeLechancierDePromulgation()}"
+									    				 reRender="fixedPanel,scrollablePanel,javascriptPanel,controlPagePanel"
+									                     alt="#{messages['command.navigation.rewind']}"
+									                     image="/icons/action_page_rewind.gif" >
+									      <f:attribute name="disabled" value="${not echeancierDePromulgationActions.isPagePrecedentDisponible()}"/>
+									    </a4j:commandButton>
+									    <a4j:commandButton action="${echeancierDePromulgationActions.pagePrecedentDeLechancierDePromulgation()}"
+									    				 reRender="fixedPanel,scrollablePanel,javascriptPanel,controlPagePanel"
+									                     alt="#{messages['command.navigation.previous']}"
+									                     image="/icons/action_page_previous.gif" >
+									      <f:attribute name="disabled" value="${not echeancierDePromulgationActions.isPagePrecedentDisponible()}"/>
+									    </a4j:commandButton>
+									
+										
+										<h:panelGroup styleClass="currentPageStatus">
+											<h:outputText value="${echeancierDePromulgationActions.statusDeLaPAgeActuelleDeLechancierDePromulgation()}"/>
+										</h:panelGroup>
+									    
+									
+									    <a4j:commandButton action="${echeancierDePromulgationActions.pageSuivantDeLechancierDePromulgation()}"
+									    				 reRender="fixedPanel,scrollablePanel,javascriptPanel,controlPagePanel"
+									                     alt="#{messages['command.navigation.next']}"
+									                     image="/icons/action_page_next.gif" >
+									      <f:attribute name="disabled" value="${not echeancierDePromulgationActions.isPageSuivantDisponible()}"/>
+									    </a4j:commandButton>
+									
+									    <a4j:commandButton action="${echeancierDePromulgationActions.dernierePageDeLechancierDePromulgation()}"
+									    				 reRender="fixedPanel,scrollablePanel,javascriptPanel,controlPagePanel"
+									                     alt="#{messages['command.navigation.fastforward']}"
+									                     image="/icons/action_page_fastforward.gif" >
+									      <f:attribute name="disabled" value="${not echeancierDePromulgationActions.isPageSuivantDisponible()}"/>
+									    </a4j:commandButton>
+								    </a4j:outputPanel>
+								  </h:panelGroup>
+								</td>
+								<td width="33%" align="right" valign="middle">
+								    <p class="contentViewPageSelectorDesc">
+								      <h:outputText style="font: 11px/1.25em 'Lucida Grande',Verdana,Arial,sans-serif" value="#{messages['label.contentview.pageSize']}" />
+									      <a4j:outputPanel id="rowPerPagePanel">
+									      <h:selectOneMenu
+									      	value="${echeancierDePromulgationActions.ligneParPage}"
+									      	id="contentViewPageSizeSelector"
+									      	styleClass="langSelect">
+									      		<f:selectItem itemValue="1" itemLabel="1"/>
+									      		<f:selectItem itemValue="5" itemLabel="5"/>
+									      		<f:selectItem itemValue="10" itemLabel="10"/>
+									      		<f:selectItem itemValue="20" itemLabel="20"/>
+									      		<f:selectItem itemValue="30" itemLabel="30"/>
+									      		<f:selectItem itemValue="40" itemLabel="40"/>
+									      		<f:selectItem itemValue="50" itemLabel="50"/>
+									      		<a4j:support event="onchange" reRender="fixedPanel,scrollablePanel,javascriptPanel,controlPagePanel,rowPerPagePanel" eventsQueue="ajax_events_queue" /> 
+									      	</h:selectOneMenu>
+									    </a4j:outputPanel>
+								        <a4j:commandLink 
+								        	action="${echeancierDePromulgationActions.getPageActuelleDeLechancierDePromulgation()}"
+								        	reRender="fixedPanel,scrollablePanel,javascriptPanel">
+								          		<h:graphicImage value="/img/refresh.png"
+								            		alt="#{messages['label.refresh']}"
+								            		title="#{messages['label.refresh']}" />
+								        </a4j:commandLink>
+								    </p>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</c:if>
+		</nxu:set>
+		</nxu:set>
+	</h:form>
+</div>

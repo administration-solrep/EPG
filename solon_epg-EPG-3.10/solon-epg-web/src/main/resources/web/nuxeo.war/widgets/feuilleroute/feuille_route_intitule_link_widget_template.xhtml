@@ -1,0 +1,64 @@
+<f:subview id="#{widget.id}" xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://jboss.com/products/seam/pdf"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	<c:choose>
+		<c:when test="#{widget.mode == 'csv'}">
+			<h:outputText value="#{field_0.title}" escape="false" />
+		</c:when>
+		<c:when test="#{widget.mode == 'pdf'}">
+			<p:text value="#{field_0.title}" />
+		</c:when>
+		<c:otherwise>
+			<h:outputLink id="titleref" class="#{field_0.id}_popupTarget_1"
+				value="return false;">
+				<h:outputText value="#{field_0.title}" />
+			</h:outputLink>
+
+
+			<div>
+				<c:set value="#{nxu:concat(field_0.id, '_menuPopup')}" var="popupId" />
+				<script type="text/javascript"> 
+			        var options = {
+			            bind: 'click',
+			            useFilter: false,
+			            anchor: '#popupReceiver'
+			        };
+			        setupContextMenu('a.#{field_0.id}_popupTarget_1','#{popupId}', options);
+    			</script>
+
+				<div style="display: none;" class="contextMenu" id="#{popupId}">
+					<ul>
+						<li><nxh:commandLink
+								action="#{rechercheModeleFeuilleRouteActions.loadFeuilleRoute(field_0)}">
+								<nxu:graphicImage value="/icons/view_doc.png" />
+								<h:outputText value=" #{messages['command.global.open']}" />
+							</nxh:commandLink></li>
+						<c:if test="#{rechercheModeleFeuilleRouteActions.isCanDelete(field_0)}">
+							<li>
+								<nxh:commandLink
+									action="#{rechercheModeleFeuilleRouteActions.deleteRouteModel(field_0)}" onclick="if (!confirmDeleteDocuments()) return false;">
+									<nxu:graphicImage value="/icons/delete.png"/>
+									<h:outputText value=" #{messages['command.global.delete']}" />
+								</nxh:commandLink>
+							</li>
+						</c:if>
+						<c:if test="#{rechercheModeleFeuilleRouteActions.isCanDuplicate(field_0)}">
+							<li>
+								<nxh:commandLink
+									action="#{rechercheModeleFeuilleRouteActions.duplicateRouteModel(field_0)}">
+									<nxu:graphicImage value="/img/icons/action_duplicate.png" />
+									<h:outputText value=" #{messages['command.global.duplicate']}" />
+								</nxh:commandLink>
+							</li>
+						</c:if>
+					</ul>
+				</div>
+			</div>
+		</c:otherwise>
+	</c:choose>
+</f:subview>

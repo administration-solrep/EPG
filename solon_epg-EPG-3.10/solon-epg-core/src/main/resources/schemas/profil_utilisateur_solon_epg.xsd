@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://nuxeo.org/schemas/profil_utilisateur_solon_epg/"
+	xmlns:pusr="http://nuxeo.org/schemas/profil_utilisateur_solon_epg/">
+
+	<!-- on inclut le schema contenant la definition de stringList -->
+	<xs:include schemaLocation="base.xsd" />
+
+	<!-- date de dernier changement de mot de passe -->
+	<xs:element name="dernierChangementMotDePasse" type="xs:date" />
+
+	<!-- Metadonnées liées aux préférences de l'utilisateur -->
+
+	<!-- nombre maximum de dossiers visibles dans une liste par défaut pour 
+		l'utilisateur -->
+	<xs:element name="nbDossiersVisiblesMax" type="xs:int" />
+	
+	<!--  id du poste par defaut de l'utilisateur pour la création de dossier -->
+	<xs:element name="posteDefaut" type="xs:int" />
+	
+	<!-- liste des colonnes affichées dans l'espace de traitement -->
+	<xs:element name="idColonneEspaceTraitementVisible" type="pusr:stringList" />
+
+	<!-- liste des colonnes affichées dans l'instance de feuille de route -->
+	<xs:element name="idColonneInstanceFeuilleRouteVisible"
+		type="pusr:stringList" />
+
+	<!-- Metadonnées liées aux notifications -->
+
+	<!-- Liste des types d'actes -->
+	<xs:element name="notificationTypeActes" type="pusr:stringList" />
+
+	<xs:element name="notificationDossierUrgent" type="xs:boolean"
+		default="0" />
+	<xs:element name="notificationRetourSgg" type="xs:boolean"
+		default="0" />
+	<xs:element name="notificationMesureNominative" type="xs:boolean"
+		default="0" />
+
+	<xs:element name="notificationMailSiFranchissementAutomatique"
+		type="xs:boolean" default="0" />
+		
+	<xs:element name="presenceLiveEdit"
+		type="xs:boolean" default="0" />
+		
+	<xs:element name="mailSiMajCE"
+		type="xs:boolean" default="0" />
+	
+	<!-- derniers dossiers consultés (concaténés)-->
+	<xs:element name="derniersDossiersIntervention" type="xs:string" />	
+</xs:schema>

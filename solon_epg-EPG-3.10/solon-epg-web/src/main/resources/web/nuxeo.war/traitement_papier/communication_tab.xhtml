@@ -1,0 +1,134 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout">
+	 
+  <div style="clear:both;"></div>
+  
+  <h:form id="papierForm" enctype="multipart/form-data">
+    <h:commandButton id="idSavePapierButton" value="Enregistrer" style="visibility: hidden;"
+          	action="#{papierActions.saveTraitementPapier(currentDocument)}" />
+    <nxu:set var="layoutMode" value="#{lockActions.getCanUnlockDoc(currentDocument)  and papierActions.canCurrentUserWrite() ?'edit':'view'}">      
+            <c:if test="#{layoutMode == 'edit'}">
+            
+            <script type="text/javascript" src="#{contextPath}/scripts/formatDate.js"></script>
+            
+  			<script>
+
+	        function saisirSensAvis(obj) {
+                id = obj.id;
+                id = id.replace('sens_avis', 'date_retour');
+                id = id + 'InputDate';            
+                input = document.getElementById(id);
+                var now = new Date();
+                input.value = now.formatDate("dd/MM/yy");  
+            }
+            
+ 
+
+  		</script>
+		</c:if>        
+      <style>
+      	.workflowFieldColumn{
+      		border-collapse:collapse;
+      	}
+      </style>
+     <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.communication.subtitle.cabinet_pm']}" /></a></h3>
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_communication_pm_part" />
+		</div>
+	  </div>
+	  <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.communication.subtitle.charge_mission']}" /></a></h3>
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_communication_charge_mission_part" />
+		</div>
+	  </div>
+	  <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.communication.subtitle.autres']}" /></a></h3>
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_communication_autres_part" />
+		</div>
+	  </div>
+	       <c:if test="#{papierActions.isDossierDeTypeArrete()}"> 
+	  	  <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.communication.subtitle.cabinet_sg']}" /></a></h3>
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_communication_cabinet_sg_part" />
+		</div>
+	  </div>
+	  </c:if>
+	  
+	  
+	   <c:if test="${not typeActeFilter.isRapportAuParlement()}">
+      <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.communication.subtitle.comp']}" /></a></h3>
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_communication_comp_part" />
+		</div>
+	  </div>
+
+      <div>
+          <h:commandButton 
+			action="#{papierActions.imprimerCommunication(currentDocument)}"
+			immediate="true"
+			class="button"
+			value="#{messages['label.epg.papier.editer.bordereau.communication']}" />
+			
+	  </div> 
+	  <div>
+          <h:commandButton 
+			action="#{papierActions.imprimerCommunicationRelance(currentDocument)}"
+			immediate="true"
+			class="button"
+			value="#{messages['label.epg.papier.editer.bordereau.communication.relance']}" />
+			
+     </div> 
+    
+    
+      <c:if test="#{papierActions.isDossierDeTypeArrete()}"> 
+    <div>
+          <h:commandButton 
+			action="#{papierActions.imprimerCommunicationCabinetSg(currentDocument)}"
+			immediate="true"
+			class="button"
+			value="#{messages['label.epg.papier.editer.bordereau.communication.cabinet_sg']}" />
+			
+     </div> 
+     
+      </c:if>
+        </c:if>
+
+    </nxu:set>
+  </h:form>
+	<!-- mise a jour de la variable globlae si modification d'un champ pour eviter la perte de données -->
+	<script>
+	   	  var j = jQuery.noConflict();
+		  j(document).ready(function() {
+	
+		    j('.tabsContent input').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent textarea').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent select').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		
+		  });
+  </script>
+  
+</div>

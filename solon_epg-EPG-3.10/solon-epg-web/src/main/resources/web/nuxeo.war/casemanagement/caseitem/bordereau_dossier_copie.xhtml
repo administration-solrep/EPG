@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util" xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+    <h:outputText value="Dossiers similaires" />
+  </ui:define>
+
+  <ui:define name="body">
+    <div>
+      <h3>
+        <h:outputText value="Dossiers similaires" />
+      </h3>
+
+<h:form id="dossierSimilaireRetourListeForm" >
+	<p class="directoryBack">
+  	<h:commandLink id="dossierSimilaireRetourListe" action="#{dossiersSimilairesActions.navigateToDossiersSimilaires(dossiersSimilairesActions.getBaseDossierSimilaire())}" value="#{messages['command.parametre.back']}" />
+  </p>
+</h:form>
+
+<nxu:set var="fieldsCopySelection" value="#{true}">
+  <ui:include src="/casemanagement/caseitem/bordereau.xhtml" />
+</nxu:set>
+
+<h:form id="dossierSimilaireActionsForm">
+  <h:commandButton id="dossierSimilairePrecedent" value="Précédent" action="#{dossiersSimilairesActions.previousDossierCopie()}" immediate="true" styleClass="firstButton" />
+  <h:commandButton id="dossierSimilaireSuivant" value="Suivant" action="#{dossiersSimilairesActions.nextDossierCopie()}" immediate="true" styleClass="firstButton" />
+  <h:commandButton id="dossierSimilaireCopier" value="Copier" action="#{dossiersSimilairesActions.copyFields()}" styleClass="firstButton" />
+  <h:commandButton id="dossierSimilaireAnnuler" value="Annuler" action="#{dossiersSimilairesActions.annulerCopie()}" immediate="true" styleClass="firstButton" />
+</h:form>
+
+</div>
+
+</ui:define>
+</nxthemes:composition>

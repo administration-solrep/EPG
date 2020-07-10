@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+
+<!-- Ce composant contribue les layouts + widgets nécessaires à la gestion 
+	des bulletins officiels -->
+<component name="fr.dila.solonepg.web.layout.bulletinOfficiel">
+
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="layouts">
+
+		<layout name="bulletin_officiel_layout_nor">
+			<templates>
+				<template mode="any">/layouts/layout_default_template.xhtml
+				</template>
+			</templates>
+			<rows>
+				<row>
+					<widget>bo_nor_select</widget>
+				</row>
+			</rows>
+			<widget name="bo_nor_select" type="template">
+				<labels>
+					<label mode="any">bulletin.officiel.nor</label>
+				</labels>
+				<translated>true</translated>
+				<fields>
+					<field>nor</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="template">/widgets/organigramme_select_node_widget.xhtml
+					</property>
+					<property name="organigrammeSelectionType">NOR_TYPE</property>
+					<property name="organigrammeSelectionMode">SINGLE</property>
+					<property name="organigrammeSaisieLibre">NO</property>
+					<property name="organigrammeSaisieLibreLength">3</property>
+					<property name="required">true</property>
+				</properties>
+			</widget>
+		</layout>
+
+		<layout name="bulletin_officiel_layout_intitule">
+			<templates>
+				<template mode="any">/layouts/layout_default_template.xhtml
+				</template>
+			</templates>
+			<rows>
+				<row>
+					<widget>bo_intitule_select</widget>
+				</row>
+			</rows>
+			<widget name="bo_intitule_select" type="text">
+				<labels>
+					<label mode="any">bulletin.officiel.intitule</label>
+				</labels>
+				<fields>
+					<field>intitule</field>
+				</fields>
+				<properties widgetMode="any">
+					<property name="required">true</property>
+				</properties>
+			</widget>
+		</layout>
+
+
+		<layout name="bulletin_officiel_listing">
+			<templates>
+				<template mode="any">/layouts/layout_listing_ajax_template.xhtml
+				</template>
+				<template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml
+				</template>
+				<template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml
+				</template>
+			</templates>
+			<properties mode="any">
+				<property name="showListingHeader">true</property>
+				<property name="showRowEvenOddClass">true</property>
+			</properties>
+			<properties mode="edit_sort_infos">
+				<property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}
+				</property>
+				<property name="required">false</property>
+			</properties>
+			<properties mode="edit_sort_infos_map">
+				<property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}
+				</property>
+				<property name="required">false</property>
+			</properties>
+			<columns>
+
+				<!-- Colonne NOR -->
+				<column name="colonneNOR">
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+						<property name="sortPropertyName">bulletin_officiel:boNor</property>
+					</properties>
+					<properties mode="edit_sort_infos">
+						<property name="showInSortInfoSelection">true</property>
+					</properties>
+					<properties mode="edit_sort_infos_map">
+						<property name="showInSortInfoSelection">true</property>
+					</properties>
+					<widget>bulletin_officiel_nor</widget>
+				</column>
+
+				<!-- Colonne Intitule -->
+				<column name="colonneIntitule">
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+						<property name="sortPropertyName">dc:title</property>
+					</properties>
+					<properties mode="edit_sort_infos">
+						<property name="showInSortInfoSelection">true</property>
+					</properties>
+					<properties mode="edit_sort_infos_map">
+						<property name="showInSortInfoSelection">true</property>
+					</properties>
+					<widget>bulletin_officiel_title</widget>
+				</column>
+				<!-- Colonne Remove -->
+				<column>
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					</properties>
+					<widget>bulletin_officiel_remove</widget>
+				</column>
+
+			</columns>
+		</layout>
+		<layout name="vecteur_publication_listing">
+		      <templates>
+		        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+		      </templates>
+		      <properties mode="any">
+		        <property name="showListingHeader">true</property>
+		        <property name="showRowEvenOddClass">true</property>
+		      </properties>
+			<columns>
+				<!-- Colonne Intitulé -->
+				<column name="colonneIntitule">
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+						<property name="sortPropertyName">vp:vpIntitule</property>
+						<property name="showInSortInfoSelection">true</property>
+					</properties>
+					<widget>vp_intitule</widget>
+				</column>
+				<!-- Colonne Date Début -->
+				<column name="colonneDebut">
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+						<property name="sortPropertyName">vp:vpDebut</property>
+						<property name="showInSortInfoSelection">true</property>
+					</properties>
+					<widget>vp_debut</widget>
+				</column>
+				<!-- Colonne Date Fin -->
+				<column name="colonneFin">
+					<properties mode="any">
+						<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+						<property name="sortPropertyName">vp:vpFin</property>
+						<property name="showInSortInfoSelection">true</property>
+					</properties>
+					<widget>vp_fin</widget>
+				</column>
+			</columns>
+		</layout>
+	</extension>
+
+	<extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+		point="widgets">
+		<widget name="vp_debut" type="datetime">
+			<labels>
+				<label mode="any">vecteur.publication.debut</label>
+			</labels>
+			<fields>
+				<field>data.vpDebut</field>
+			</fields>
+			<properties widgetMode="any">
+				<property name="required">false</property>
+				<property name="format">#{nxu:basicDateFormater()}</property>
+			</properties>
+		</widget>
+		<widget name="vp_fin" type="datetime">
+			<labels>
+				<label mode="any">vecteur.publication.fin</label>
+			</labels>
+			<fields>
+				<field>data.vpFin</field>
+			</fields>
+			<properties widgetMode="any">
+				<property name="required">false</property>
+				<property name="format">#{nxu:basicDateFormater()}</property>
+			</properties>
+		</widget>
+		<widget name="vp_intitule" type="text">
+			<labels>
+				<label mode="any">vecteur.publication.intitule</label>
+			</labels>
+			<fields>
+				<field>data.vpIntitule</field>
+			</fields>
+			<properties widgetMode="edit">
+				<property name="required">true</property>
+			</properties>
+		</widget>
+		<widget name="bulletin_officiel_nor" type="template">
+			<labels>
+				<label mode="any">bulletin.officiel.nor</label>
+			</labels>
+			<translated>true</translated>
+			<fields>
+				<field>data</field>
+			</fields>
+			<properties widgetMode="any">
+				<property name="template">/widgets/listing/bulletinOfficiel/bulletin_officiel_nor_widget_template.xhtml
+				</property>
+			</properties>
+		</widget>
+		<widget name="bulletin_officiel_title" type="template">
+			<labels>
+				<label mode="any">bulletin.officiel.intitule</label>
+			</labels>
+			<translated>true</translated>
+			<fields>
+				<field>data</field>
+			</fields>
+			<properties widgetMode="any">
+				<property name="template">/widgets/listing/bulletinOfficiel/bulletin_officiel_title_widget_template.xhtml
+				</property>
+			</properties>
+		</widget>
+		<widget name="bulletin_officiel_remove" type="template">
+			<labels>
+				<label mode="any">
+				</label>
+			</labels>
+			<translated>false</translated>
+			<fields>
+				<field>data.id</field>
+			</fields>
+			<properties widgetMode="any">
+				<property name="template">/widgets/listing/bulletinOfficiel/bulletin_officiel_remove_widget_template.xhtml
+				</property>
+			</properties>
+		</widget>
+	</extension>
+</component>

@@ -1,0 +1,88 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core" class="menu"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+  
+  <a4j:region id="espaceTraitementListRegion">
+    <h:form>
+      <a4j:poll id="espaceTraitementListPoll" interval="#{parametrageApplicationActions.getDelaiRafraichissementCorbeille()}" timeout="60000"  ignoreDupResponses="true"
+			enable="true" action="#{espaceTraitementActions.refreshPage()}" eventsQueue="ajax_events_queue" reRender="espaceTraitementListPanel,espaceTraitementDossierContentListPanel" />
+    </h:form>
+  </a4j:region>
+  
+  <h:form>
+<ui:decorate template="/incl/menu_arrondi.xhtml">
+<ui:define name="reponsesClipboard_panel">
+    <h:panelGroup >
+      <div class="userMailboxes">
+        <div class="userMailboxesContent">
+        
+        <h4><h:outputText value="#{messages['label.mailBoxListTitle']}" />
+          <h:commandLink action="#{espaceTraitementActions.refreshPage()}" styleClass="espaceCorbeilleListTitle">
+            <h:graphicImage value="/img/refresh.png" />
+          </h:commandLink>
+        </h4>
+        
+        <div  id="uMContent" style="overflow-x: auto; overflow-y: hidden;" class="userLeftMenuContent">
+   	    <a4j:status for="espaceTraitementListPanel">
+           <f:facet name="start">
+             <h:graphicImage value="/img/standart_waiter.gif" style="position: absolute;" />
+           </f:facet>
+         </a4j:status>
+      	 <a4j:region id="espaceTraitementListPanel">
+            <div>
+              <nxu:set var="posteMailboxes" value="#{espaceTraitementActions.getMailboxList()}">
+                <f:subview rendered="#{!empty posteMailboxes}">
+                  <nxu:dataList var="mailbox" value="#{posteMailboxes}" layout="unorderedList"
+                    itemStyleClass="#{nxu:test(mailbox.document.mlbx.mailbox_id == currentMailbox.id, 'selected', '')}">
+                    <h:commandLink action="#{espaceTraitementActions.navigateToCorbeilleTraitement(mailbox.document)}" styleClass="permalink">
+                      <h:outputText value="#{mailbox.title}" />
+                      <h:outputText value=" (#{mailbox.numberOfDossierLinkIds})" />
+                    </h:commandLink>
+                  </nxu:dataList>
+                </f:subview>
+                <f:subview rendered="#{empty posteMailboxes}">
+                  <div class="userMailboxesEmptyMessage">
+                    <h:outputText value="#{messages['label.casemanagement.mailboxes.empty']}" />
+                  </div>
+                </f:subview>
+              </nxu:set>
+              
+              <!-- Corbeille pour indexation -->
+              <c:if test="#{corbeilleIndexationActions.isVisibleCorbeilleIndexation()}">
+                <br />
+                <ul>
+                  <li class="#{nxu:test(espaceTraitementActions.isInCorbeilleIndexation(), 'selected', '')}">
+                    <h:commandLink action="#{espaceTraitementActions.navigateToCorbeilleIndexation()}" styleClass="permalink">
+                    	<h:outputText value="Pour indexation" />
+                    	<!-- note execute une requête  pour faire le count -->
+                    	<h:outputText value=" (#{espaceTraitementActions.getDossierIndexationQueryCount()})" />
+                    </h:commandLink>
+                  </li>
+                </ul>
+                
+              </c:if>
+            </div>
+          </a4j:region>
+        </div>
+      
+      </div>
+  
+      <!-- Bottom of the rounded box -->
+  
+      <p class="nobottomgap"></p>
+      </div>
+  
+      <div class="bottom-left"></div>
+      <div class="bottom-right"></div>
+  
+    </h:panelGroup>
+</ui:define>
+</ui:decorate>  
+  </h:form>
+  
+</div>

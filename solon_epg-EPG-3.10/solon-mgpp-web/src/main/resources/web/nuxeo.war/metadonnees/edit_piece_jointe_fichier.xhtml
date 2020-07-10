@@ -1,0 +1,85 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+    <a4j:region id="editFileRegion">
+          <rich:modalPanel id="editFilePanel" autosized="true" >
+            <div>
+              <f:facet name="header">
+                <h:outputText value="Ajouter un document" />
+              </f:facet>
+            </div>
+            <h:form id="editFileForm">
+              <a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+                ignoreDupResponses="true" size="10" id="editFileQueue" name="inputeditFileQueue" timeout="5000" /> 
+              <div>
+                <!-- file input -->
+                <rich:fileUpload listHeight="120"
+                  fileUploadListener="#{pieceJointeTreeManagerActions.fileUploadListener}"
+                  maxFilesQuantity="#{pieceJointeTreeManagerActions.uploadsAvailable}"
+                  id="uploadParapheurFiles" doneLabel="Téléchargement effectué"
+                  clearAllControlLabel="Supprimer" immediateUpload="true"
+                  addControlLabel="Ajouter Fichier" clearControlLabel="Supprimer" allowFlash="false">
+                  
+
+				<a4j:support event="onclear" eventsQueue="editFileQueue" >
+					<a4j:actionparam name="fname" noEscape="true"
+						value="(event.memo.entry)?event.memo.entry.fileName:'' "
+						assignTo="#{pieceJointeTreeManagerActions.fileName}"
+						actionListener="#{pieceJointeTreeManagerActions.clearUploadData}" />
+				</a4j:support>
+
+				
+                  <a4j:support event="onuploadcomplete" eventsQueue="editFileQueue" reRender="errorName" />
+                </rich:fileUpload>
+              
+                <!-- button ajout document -->
+                <div class="popupDiv">
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.ajoutDocument()}" eventsQueue="editFileQueue"
+                    id="editFileButtonImage"
+                    reRender="pieceJointePanel, editFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="editFilePanel" operation="hide" event="onclick"/>
+                    <h:graphicImage height="24" width="24" url="/img/icons/check.png"
+                      alt="Valider" />
+                  </a4j:commandLink>
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.ajoutDocument()}" eventsQueue="editFileQueue"
+                    reRender="pieceJointePanel, editFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="editFilePanel" operation="hide" event="onclick"/>
+                    <h:outputText value="Valider" />
+                  </a4j:commandLink>
+                </div>
+        
+                <!-- button close -->
+                <div class="popupDiv">
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.resetProperties()}"
+                    id="annulerParapheurFileCreationImage" eventsQueue="editFileQueue"
+                    reRender="pieceJointePanel, editFilePanel" ajaxSingle="true" >
+                    <rich:componentControl for="editFilePanel" operation="hide" event="onclick"/>
+                    <h:graphicImage height="24" width="24" url="/img/icons/delete.png"
+                      alt="Annuler" />
+                  </a4j:commandLink>
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.resetProperties()}"
+                    id="annulerParapheurFileCreationText" eventsQueue="editFileQueue"
+                    reRender="pieceJointePanel, editFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="editFilePanel" operation="hide" event="onclick"/>
+                    <h:outputText value="Annuler" />
+                  </a4j:commandLink>
+                </div>
+                <div class="popupDiv">
+                  <h:outputText class="msgError" id="errorName" value="#{pieceJointeTreeManagerActions.errorName}" />
+                </div>
+              </div>
+            </h:form>
+          </rich:modalPanel>
+  </a4j:region>
+</div>

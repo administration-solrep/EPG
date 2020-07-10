@@ -1,0 +1,509 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonmgpp.web.contentview.contrib">
+  <require>fr.dila.solonepg.web.layout.dossierlistingdto</require>
+  <require>fr.dila.solonepg.web.contentview.contrib</require>
+  
+  <extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">
+
+    <!-- Content view de la liste des messages dans une corbeille -->
+    <contentView name="corbeille_message_list">
+      <genericPageProvider class="fr.dila.solonmgpp.web.provider.CorbeillePageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="corbeilleTreeBean">#{corbeilleTree}</property>
+        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">corbeille_message_list</property>
+        <pageSize>20</pageSize>
+        <sort column="msg:date_evenement" ascending="false" />
+        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>corbeille_message_list</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="corbeille_message_listing_layout" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_CORBEILLE_MESSAGE</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view de la liste des messages dans une corbeille -->
+    <contentView name="recherche_avancee_resultat">
+      <genericPageProvider class="fr.dila.solonmgpp.web.provider.RechercheResultatsPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="rechercheActionsBean">#{rechercheActions}</property>
+        <pageSize>20</pageSize>
+        <sort column="msg:date_evenement" ascending="false" />
+        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>corbeille_message_list</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="corbeille_message_listing_layout" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_CORBEILLE_MESSAGE</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <contentView name="corbeille_dossier_list">
+      <genericPageProvider class="fr.dila.solonmgpp.web.provider.DossierPageProvider">
+          <property name="coreSession">#{documentManager}</property>
+          <property name="bean">#{profilUtilisateurActions}</property>
+          <property name="resourcesAccessor">#{resourcesAccessor}</property>
+          <property name="providerBean">#{providerBean}</property>
+          <property name="filtrableId">corbeille_dossier_list</property>
+          <property name="isCaseLink">#{true}</property>
+          <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+          <property name="corbeilleTree">#{corbeilleTree}</property>
+          <sort column="d.dos:numeroNor" ascending="true" />
+          <pageSize>20</pageSize>
+          <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>20</cacheSize>
+      <resultLayouts>
+      <layout name="dossier_listing_dto" title="document_listing"
+        translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION_CORBEILLE_DOSSIER</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <contentView name="suivi_echeances_content">
+      <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql:  SELECT fpDr.ecm:uuid as id FROM FichePresentationDR as fpDr
+        </pattern>
+        <pageSize>10</pageSize>
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>suivi_echeances_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="suivi_echeances_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+    
+    <contentView name="fiche_presentation_oep_list">
+      <genericPageProvider class="fr.dila.solonmgpp.web.provider.FicheOEPPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationOEP</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">oep_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpo.fpoep:idDossier" ascending="true" />
+        <property name="additionalSort">fpo.ecm:uuid asc</property>
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>oep_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_OEP_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+    
+    <contentView name="fiche_presentation_avi_list">
+      <genericPageProvider class="fr.dila.solonmgpp.web.provider.FicheAVIPageProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationAVI</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">avi_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpa.fpavi:idDossier" ascending="true" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>avi_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_AVI_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+    
+    <contentView name="fiche_loi_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FicheLoi</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_loi_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fl.ecm:uuid as id FROM FicheLoi as fl WHERE fl.floi:dateCreation > DATE '?'
+        </pattern>
+        <parameter>#{providerBean.getCreationDateFilter()}</parameter>
+        <pageSize>10</pageSize>
+        <sort column="fl.floi:dateCreation" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_loi_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_loi_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+    
+    <contentView name="fiche_dr_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationDR</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_dr_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fpd.ecm:uuid as id FROM FichePresentationDR as fpd WHERE fpd.fpdr:rapportParlement != 'RAPPORT_RELATIF_ARTICLE_67_LOI_N_2004-1343'
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpd.fpdr:dateDepotEffectif" ascending="false" />
+        <property name="additionalSort">fpd.ecm:uuid asc</property>
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_dr_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_DR_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+    
+    <contentView name="fiche_dr_67_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationDR</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_dr_67_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fpd.ecm:uuid as id FROM FichePresentationDR as fpd WHERE fpd.fpdr:rapportParlement = 'RAPPORT_RELATIF_ARTICLE_67_LOI_N_2004-1343'
+        </pattern>
+        <pageSize>10</pageSize>
+        <property name="additionalSort">fpd.ecm:uuid asc</property>
+        <sort column="fpd.fpdr:dateDepotEffectif" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_dr_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_DR_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+
+
+    <contentView name="fiche_presentation_dpg_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationDPG</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_presentation_dpg_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fpdp.ecm:uuid as id FROM FichePresentationDPG as fpdp 
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpdp.fpdpg:dateVote" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_dpg_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_DPG_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+
+
+    <contentView name="fiche_presentation_sd_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationSD</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_presentation_sd_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fps.ecm:uuid as id FROM FichePresentationSD as fps 
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fps.fpsd:dateVote" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_sd_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_SD_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+
+
+    <contentView name="fiche_presentation_jss_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationJSS</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_presentation_jss_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fpjs.ecm:uuid as id FROM FichePresentationJSS as fpjs 
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpjs.fpjss:dateLettrePm" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_jss_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_JSS_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+
+
+    <contentView name="fiche_presentation_aud_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationAUD</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_presentation_aud_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fpau.ecm:uuid as id FROM FichePresentationAUD as fpau 
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpau.fpaud:baseLegale" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_aud_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_AUD_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+
+
+
+    <contentView name="fiche_presentation_doc_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationDOC</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_presentation_doc_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fpdo.ecm:uuid as id FROM FichePresentationDOC as fpdo 
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpdo.fpdoc:dateLettrePm" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_doc_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_DOC_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+
+
+    
+    <contentView name="fiche_decret_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationDecret</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_decret_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fpde.ecm:uuid as id FROM FichePresentationDecret as fpde
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpde.fpdec:date" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_decret_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_Decret_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+    
+    <contentView name="fiche_ie_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentationIE</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_ie_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fpi.ecm:uuid as id FROM FichePresentationIE as fpi
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fpi.fpie:date" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_ie_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_IE_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+    
+    <contentView name="fiche_341_list">
+      <genericPageProvider class="fr.dila.solonepg.web.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentType">FichePresentation341</property>
+        <property name="providerBean">#{providerBean}</property>
+        <property name="filtrableId">fiche_341_list</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT fp3.ecm:uuid as id FROM FichePresentation341 as fp3
+        </pattern>
+        <pageSize>10</pageSize>
+        <sort column="fp3.fp341:dateDepot" ascending="false" />
+      </genericPageProvider>
+
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>fiche_341_content</cacheKey>
+      <cacheSize>5</cacheSize>
+
+      <resultLayouts>
+        <layout name="fiche_presentation_341_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+    </contentView>
+  </extension>
+  
+</component>
+
+
+

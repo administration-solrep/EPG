@@ -1,0 +1,59 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich">
+  
+  <!-- Constantes demandées pour ce widget : 
+    widget.properties['vocabularyId'] == type_acte
+ --> 
+   <c:if test="#{widget.mode == 'edit'}">
+     <nxu:set var="currentTypeActeVocUI"
+    	value="#{typeActeSuggMap[widget.properties['directoryName']]}">
+    	<a4j:outputPanel id="#{widget.id}_indexPanel" ajaxRendered="false">
+          <!--
+          		zone de saisie du vocabulaire
+          -->
+              <span id="#{widget.id}_index_suggestDiv">
+                <!-- on affiche le label de l'élément choisi dans vocabulaire -->
+                <h:inputText id="#{widget.id}_motsCleLabel" styleClass="largeSolonEpgInput" value="#{currentTypeActeVocUI.motCleLabel}"
+   								onkeydown="if (event.keyCode == 13 || event.keyCode == 9) {return false;}">
+   			  			</h:inputText>
+   			  			<!--
+		           		bouton éditer
+		           	-->
+		           <!-- bouton d'action permettant d'édite le modèle de fond de dossier correspondant au type d'acte choisi -->
+							<a4j:commandButton value="Editer"
+								actionListener="#{fondDeDossierModelManagerActions.editFondDeDossierModel(currentTypeActeVocUI)}"
+								id="editerModelefondDossierWidget" reRender="fondDossierModelViewPanel" styleClass="button" >
+							</a4j:commandButton>
+   	        	</span>
+	        <!--
+	        		zone de suggestion du vocabulaire
+	        -->    
+	    		<h:panelGroup id="#{widget.id}_index_suggestGroup">
+	    			<rich:suggestionbox id="#{widget.id}_index_suggestBox"
+	    				for="#{widget.id}_motsCleLabel" tokens=""
+	    				suggestionAction="#{currentTypeActeVocUI.getDocumentModelListSuggestions}" var="sugindex"
+	    				nothingLabel="#{messages['label.suggestion.sansresultats']}" minChars="3" frequency="0"
+	    				requestDelay="100" height="300">
+	    				<!-- methode pour récupérer l'id de l'élément choisi dans la liste du vocabulaire -->
+	    				<a4j:support event="onselect" focus="#{widget.id}_motsCleLabel" bypassUpdates="true" eventsQueue="ajax_events_queue" >
+	    					<f:setPropertyActionListener value="#{sugindex.vocabularyTypeActe.id}" target="#{currentTypeActeVocUI.motCleId}" />
+	    				</a4j:support>
+	    				<!-- affichage de la lsite de suggestion -->
+	    				<h:column>
+	    					<f:subview>
+	    						<h:graphicImage value="/icons/tag_blue.png" alt="(index)" />
+	    						<h:outputText value="${sugindex.vocabularyTypeActe.label}" />
+	    					</f:subview>
+	    				</h:column>
+	    			</rich:suggestionbox>
+	    		</h:panelGroup>
+    		
+    	</a4j:outputPanel>
+    </nxu:set>
+  </c:if>
+</div>

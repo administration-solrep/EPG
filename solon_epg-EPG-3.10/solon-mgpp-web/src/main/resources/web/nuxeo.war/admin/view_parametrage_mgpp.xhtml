@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  >
+
+  <ui:define name="page title">
+		<c:choose>
+			<c:when test="#{parametrageMgppActions.isAccessAuthorized()}">
+				<h:outputText value="#{nuxeoApplicationName} - Paramétrage MGPP"/>
+			</c:when>
+			<c:otherwise>
+				<h:outputText
+					value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+  <ui:define name="body">
+  <c:if test="#{parametrageMgppActions.isAccessAuthorized()}">
+    <ui:include src="/incl/message_banner.xhtml"/>
+    <div class="tabsContent">
+      <h3>
+        <h:outputText value="Paramétrage MGPP" />
+      </h3>
+
+      <h:form id="param_mgpp_connexion">
+        <h3>
+          <h:outputText value="Information de connexion aux webServices SOLON-EPP" />
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(true)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+      <br/>
+      <h:form id="param_mgpp_traite">
+        <h3>
+          <h:outputText value="Persistance d'affichage des messages traités de l'EPP" />
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp_affichage_traite" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(false)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+      <br/>
+      <h:form id="param_mgpp_noms">
+        <h3>
+          <h:outputText value="Présidents des assemblées" />
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp_noms" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(false)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+
+      <h:form id="param_mgpp_delai">
+        <h3>
+          <h:outputText value="Délai de vérification de nouvelles communications" />
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp_delai" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(false)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+      
+      <h:form id="param_mgpp_auteurLEX01">
+        <h3>
+          <h:outputText value="Initialisation des communications" />
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp_auteurLEX01" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(false)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+      
+       <h:form id="param_mgpp_exteLibreListeOep">
+        <h3>
+          <h:outputText value="Page d’accueil - Activité parlementaire"/>
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp_texteLibreListeOep" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(false)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+      
+       <h:form id="param_mgpp_delai_purge_calendrier">
+        <h3>
+          <h:outputText value="Délai de purge des activités parlementaires" />
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp_delai_purge_calendrier" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(false)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+      
+       <h:form id="param_mgpp_filtre_creation_lois">
+        <h3>
+          <h:outputText value="Filtre date de création fiches lois" />
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp_filtre_date_creation_loi" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(false)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+      
+      <h:form id="param_mgpp_ministreOrSecretaire">
+        <h3>
+          <h:outputText value="Initialisation courriers" />
+        </h3>
+        <nxl:layout value="#{parametrageMgppActions.parametrageMgpp}" mode="edit" name="parametrage_mgpp_ministreOrSecretaire" />
+        
+        <h:outputText value=" " />
+        <h:commandButton class="button" value="Enregistrer" action="#{parametrageMgppActions.save(false)}" id="save" />
+        <h:outputText value=" " />
+        <h:commandButton class="button" immediate="true" value="Annuler"  action="#{parametrageMgppActions.cancel()}"/>
+      </h:form>
+
+    </div>
+  </c:if>
+  </ui:define>
+</nxthemes:composition>

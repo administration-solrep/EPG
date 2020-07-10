@@ -1,0 +1,29 @@
+<f:subview id="#{widget.id}" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+	xmlns:c="http://java.sun.com/jstl/core">
+		<nxu:set var="user" value="#{field_0.getAdapter(STUser)}" cache="true">
+			<nxu:set var="dateLastConnection" value="#{user.dateLastConnection != null ? user.dateLastConnection.getTime() : null}">
+				<c:if test="#{currentUser.isMemberOf('OrganigrammeUpdater') || userManagerActions.isFromCurrentUserMinistere(user)}">
+					<c:choose>
+						<c:when test="#{widget.mode == 'pdf'}">
+							<nxp:text value="#{dateLastConnection}">
+								<f:convertDateTime pattern="dd MMM yyyy" timeZone="Europe/Paris" />
+							</nxp:text>
+						</c:when>
+						<c:when test="#{widget.mode == 'csv'}">
+							<h:outputText value="#{dateLastConnection}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+							</h:outputText>
+						</c:when>
+						<c:otherwise>
+							<h:outputText value="#{dateLastConnection}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+							</h:outputText>
+						</c:otherwise>
+					</c:choose>
+				</c:if>
+			</nxu:set>
+		</nxu:set>
+</f:subview>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.contentview.bordereau">
+  <extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">
+    <contentView name="bordereau_dossiers_indexation_content">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	     	<property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">dossier_for_liste_traitement</property>
+	        <property name="loadCaseLink">#{false}</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+          		SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:typeActe = ? AND ? AND d.dos:archive = 0 AND testAcl(d.ecm:uuid) = 1 AND d.dos:deleted=0
+        	</pattern>
+	        <parameter>#{dossiersSimilairesActions.getBaseDossierSimilaire().getAdapter(Dossier).getTypeActe()}</parameter>
+	        <parameter>#{dossiersSimilairesActions.getUFNXQLPart()}</parameter>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+    	    <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+        	<pageSize>10</pageSize>
+	  </genericPageProvider>
+	  
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>bordereau_dossiers_indexation_content</cacheKey>
+      <cacheSize>0</cacheSize>
+
+      <resultLayouts>
+        <layout name="bordereau_dossiers_indexation_layout" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+  </extension>
+</component>

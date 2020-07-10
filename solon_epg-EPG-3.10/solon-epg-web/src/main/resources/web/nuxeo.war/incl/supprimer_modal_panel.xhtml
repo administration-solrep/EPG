@@ -1,0 +1,110 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:rich="http://richfaces.org/rich"><script
+	type="text/javascript">
+      function authenticationPopup() {           
+    	  Richfaces.showModalPanel('autenthicationPanel', {height:'150',width:'250'});
+    	  return false;
+      }      
+ </script> <a4j:region id="ajax_region">
+
+	<rich:modalPanel id="autenthicationPanel" 
+		onmaskclick="Richfaces.hideModalPanel('autenthicationPanel')">
+		<rich:componentControl for="ajax_region" event="oncomplete"
+			operation="#{suppressionActions.resetAuthenticationSuccess()}" />
+
+		<style>
+		.button {
+			cursor: pointer;
+			color: #454545;
+			font-size: 10px;
+			background: #CECFD1
+				url(#{facesContext.externalContext.requestContextPath}/img/theme_galaxy/buttons.png)
+				repeat-x scroll left top;
+			border: 1px solid #BFC5CB;
+			padding: 2px 5px 2px 5px;
+			margin: 5px 10px 10px 0;
+		}
+		</style>
+		<f:facet name="header">
+			<h:outputText value="#{messages['message.login.popup.title']}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/icons/action_delete_mini.gif"
+					onclick="Richfaces.hideModalPanel('autenthicationPanel')" />
+			</h:panelGroup>
+		</f:facet>
+		<h:panelGroup layout="block">
+			<h:form id="autenticate">
+				<div style="padding: 10px;">
+				<table>
+					<c:if test='#{suppressionActions.authenticationSuccess=="uncheck"}'>
+						<tr>
+							<td colspan="2"><font color="red"><b><h:outputText
+								value="#{messages['message.login.error']}" /></b></font></td>
+						</tr>
+					</c:if>
+					<tr>
+						<td><h:outputText
+							value="#{messages['message.login.popup.username.label']}" /></td>
+						<td><h:inputText name="userName" size="12"
+							value="#{suppressionActions.userName}" readonly="true" /></td>
+					</tr>
+					<tr>
+
+						<td><h:outputText
+							value="#{messages['message.login.popup.password.label']}" /></td>
+						<td><h:inputSecret name="password" size="12"
+							value="#{suppressionActions.password}" /></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><c:if
+							test='#{suppressionActions.typeAction == "retirer"}'>
+							<h:commandButton id="autenticate" name="autenticate"
+								type="submit" styleClass="button"
+								value="#{messages['message.login.popup.autentifier.label']}"
+								action='#{suppressionActions.retirerSelection("view_admin_suppression")}'></h:commandButton>
+						</c:if> <c:if test='#{suppressionActions.typeAction == "supprimer"}'>
+							<h:commandButton id="autenticate" name="autenticate"
+								type="submit" styleClass="button"
+								value="#{messages['message.login.popup.autentifier.label']}"
+								action='#{suppressionActions.supprimerSelection("view_admin_suppression")}'></h:commandButton>
+						</c:if> <c:if test='#{suppressionActions.typeAction == "transmission"}'>
+							<h:commandButton id="autenticate" name="autenticate"
+								type="submit" styleClass="button"
+								value="#{messages['message.login.popup.autentifier.label']}"
+								action='#{suppressionActions.validerTransmissionSelection("view_admin_suppression")}'></h:commandButton>
+						</c:if> <c:if styleClass="button"
+							test='#{suppressionActions.typeAction == "retirer-ministrielle"}'>
+							<h:commandButton id="autenticate" name="autenticate"
+								type="submit" styleClass="button"
+								value="#{messages['message.login.popup.autentifier.label']}"
+								action='#{suppressionActions.retirerSelection("view_admin_ministrielle_suppression")}'></h:commandButton>
+						</c:if> <c:if styleClass="button"
+							test='#{suppressionActions.typeAction == "supprimer-ministrielle"}'>
+							<h:commandButton id="autenticate" name="autenticate"
+								type="submit"
+								value="#{messages['message.login.popup.autentifier.label']}"
+								action='#{suppressionActions.supprimerSelection("view_admin_ministrielle_suppression")}'></h:commandButton>
+						</c:if></td>
+					</tr>
+				</table>
+				</div>
+			</h:form>
+		</h:panelGroup>
+	</rich:modalPanel>
+</a4j:region> <c:if test='#{suppressionActions.authenticationSuccess=="uncheck"}'>
+	<script type="text/javascript">
+      authenticationPopup()  
+           
+      </script>
+</c:if></div>

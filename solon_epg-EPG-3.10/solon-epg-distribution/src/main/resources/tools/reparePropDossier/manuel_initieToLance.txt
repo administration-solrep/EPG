@@ -1,0 +1,18 @@
+Ce script est utilisé pour changer le statut d'un dossier de l'état initié à l'état lancé si ce dernier est en cours
+
+1- se connecter au nxshell : 
+	$ cd /opt/epg-server_inst1/tools/
+	$ sh nxshell.sh
+	
+2- recherche le dossier via son nor :
+	> query "select * from Dossier where dos:numeroNor='NUMERONOR'"
+	/case-management/case-root/AAAA/MM/JJ/NUMERONOR
+	
+3- recupérer la propriété UUID du dossier avec la commande "cat": 
+	> cat "/case-management/case-root/AAAA/MM/JJ/NUMERONOR"
+	Dossier -- NUMERONOR
+	UUID : uuidDossier
+	...
+	
+4- lancer le script
+	> script reparePropDossier/initieToLance.groovy -ctx "dossierUUID='uuidDossier'"

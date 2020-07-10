@@ -1,0 +1,59 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" >
+
+  <c:choose>
+    <c:when test="#{widget.mode != 'edit'}"> 
+      <c:choose>
+        <c:when test="#{field_0 eq 'EN_COURS_REDACTION' or field_0 eq 'NON_TRAITE' or field_0 eq 'EN_COURS_TRAITEMENT'}">
+          <h:graphicImage value="/img/icons/bullet_ball_glass_green_16.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+        <c:when test="#{field_0 eq 'EN_ATTENTE_AR'}">
+          <h:graphicImage value="/img/icons/bullet_ball_glass_red_16.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+        <c:when test="#{field_0 eq 'AR_RECU' or field_0 eq 'EMIS' or field_0 eq 'TRAITE'}">
+          <h:graphicImage value="/img/icons/bullet_ball_glass_grey_16.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+        <c:when test="#{field_0 eq 'AR_RECU_VERSION_REJETE'}">
+          <h:graphicImage value="/img/exclamation.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+        
+        <c:when test="#{field_0 eq 'ANNULER'}">
+          <h:graphicImage value="/img/icons/document_delete.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+        <c:when test="#{field_0 eq 'EN_ATTENTE_VALIDATION'}">
+          <h:graphicImage value="/img/icons/document_time.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+        <c:when test="#{field_0 eq 'EN_INSTANCE'}">
+          <h:graphicImage value="/img/icons/document_ok.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+        <c:when test="#{field_0 eq 'PUBLIE'}">
+          <h:graphicImage value="/img/icons/document_out.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+        <c:when test="#{field_0 eq 'BROUILLON'}">
+          <h:graphicImage value="/img/icons/document_dirty.png"
+            alt="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" title="#{messages[nxu:concat('label.mgpp.etat.', field_0)]}" />
+        </c:when>
+      </c:choose>
+    </c:when>
+    <c:otherwise>
+      <h:selectOneMenu id="etatMessageTypeId" value="#{field_0}" style="width:200px">
+        <f:selectItem itemLabel="Sélectionnez une valeur." itemValue=""  />
+        <f:selectItems value="#{metadonneesActions.etatMessage}" />
+      </h:selectOneMenu>
+    </c:otherwise>
+  </c:choose>
+
+</f:subview>

@@ -1,0 +1,18 @@
+<f:subview id="#{widget.id}"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+ <c:choose>
+	<c:when test="#{layoutModeCache != 'edit'}">
+	  <h:outputText value=" " />
+	</c:when>
+	<c:otherwise>
+      <a4j:commandLink id="#{widget.id}_edit_an" action="#{texteMaitreActions.setCurrentEditMesure(field_0)}" reRender="editMesureOutPanel"
+        oncomplete="Richfaces.showModalPanel('editMesurePanel');" immediate="true" eventsQueue="ajax_events_queue">
+        <h:graphicImage id="#{widget.id}edit_img" value="/img/icons/list_action_16.png" alt="Editer" title="Editer" />
+      </a4j:commandLink>
+    </c:otherwise>
+ </c:choose>
+</f:subview>

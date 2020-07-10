@@ -1,0 +1,72 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+	<a4j:region id="ajouterUneSemaineMainRegion">
+		<rich:modalPanel id="ajouterUneSemainePanel" autosized="true">
+			<div>
+				<f:facet name="header">
+					<h:outputText value="Ajouter semaine..." />
+				</f:facet>
+			</div>
+			<h:form id="ajouterUneSemaineForm">
+				<table style="width: 450px;">
+					<tr>
+						<td align="left">
+							<nxl:layout value="#{calendrierParlementaireActions}" mode="edit" name="ajouter_semaine" />
+						</td>
+					</tr>
+				</table>
+			</h:form>
+		</rich:modalPanel>
+	</a4j:region>
+	<script>
+     var j = jQuery.noConflict();
+     var dateDebutId, dateFinId;
+     j(document).ready(function() {
+         dateDebutId = '#ajouterUneSemaineForm\\:nxl_ajouter_semaine\\:nxw_saisir_date_de_debutInputDate';
+         dateFinId = '#ajouterUneSemaineForm\\:nxl_ajouter_semaine\\:nxw_saisir_date_de_fin_semaineInputDate';
+         
+         j(dateDebutId).change(function() {
+             changeDate();
+         });
+     });
+     function changeDate() {
+    	  var val = $('ajouterUneSemaineForm:nxl_ajouter_semaine:nxw_saisir_date_de_debut').component;
+    	  var d = document.getElementById("ajouterUneSemaineForm:nxl_ajouter_semaine:nxw_saisir_date_de_debutInputDate").value;
+    	  val.selectDate(d, false);
+    	  var A = val.selectedDate;
+    	  refreshForm(A)
+     }
+
+    function refreshForm(A) {
+        if(!A) {
+        	$('ajouterUneSemaineForm:nxl_ajouter_semaine:nxw_saisir_date_de_fin_semaine').component.resetSelectedDate();
+            return;
+        }
+        var val = $('ajouterUneSemaineForm:nxl_ajouter_semaine:nxw_saisir_date_de_fin_semaine').component;
+    	var diff = 7 - A.getDay();
+        A.setHours(24 * diff);
+	    val.selectDate(A);
+      }
+      
+     $('ajouterUneSemaineForm:nxl_ajouter_semaine:nxw_saisir_date_de_debut').component.setInputField = function(A, B)
+     {
+    	    var C = $(this.INPUT_DATE_ID);
+    	    if (C.value != A) {
+    	        C.value = A;
+    	        this.invokeEvent("changed", C, B, this.selectedDate);
+	    	    refreshForm(this.selectedDate);
+    	    }
+     }
+   </script>
+</div>

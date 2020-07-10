@@ -1,0 +1,84 @@
+<f:subview 
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+<c:if test="false">
+	layout utilisé pour afficher une liste de résultat.
+	
+	lorsque 'countRows' est vrai on compte le nombre de colonne a afficher.
+	on récupère cette valeur dans la nxp:table de "/incl/export/content_view_pdf_template.xhtml".
+	 
+</c:if>
+
+<nxu:set var="hiddenColumnProvider" value="#{providerBean.checkInstanceOfHiddenColumnPageProvider(provider)}" cache="true">
+  
+  <c:if test="#{countRows}">
+    <c:forEach var="row" items="#{layout.rows}">
+      <c:if test="#{not row.properties.isHidden 
+      and not row.properties.isListingSelectionBox and (not (row.properties.columnStyleClass eq 'iconColumn10')) 
+      and not(hiddenColumnProvider and provider.isHiddenColumn(row.properties.isHidden))
+      }">
+        #{layoutColumnCounter.increment()}
+      </c:if>
+    </c:forEach>
+  </c:if>
+  <c:if test="#{not countRows}">
+    <c:if test="#{showListingHeader and layout.properties.showListingHeader}">
+      <nxl:layoutColumn>
+        <c:if test="#{not layoutColumn.properties.isHidden}">
+          <c:choose>
+  	         <!-- masquage de l'intitulé de la colonne -->
+  	         <c:when test="#{layoutColumn.properties.isHidden}">
+  	         </c:when>
+  	         <c:when test="#{hiddenColumnProvider and provider.isHiddenColumn(layoutColumn.properties.isHidden)}">
+  	         </c:when>
+  	         <c:when test="#{layoutColumn.properties.isListingSelectionBox}">
+  	         </c:when>
+  	         <c:when test="#{layoutColumn.widgets[0].name eq 'dto_dossier_listing_publication'}">
+  	         </c:when>    
+  	         <c:when test="#{layoutColumn.properties.useFirstWidgetLabelAsColumnHeader}">
+  	         	<c:choose>
+	  	         	<c:when test="#{layoutColumn.properties.shortColumn}">
+	  	         		<c:choose>
+			  	         	<c:when test="#{layoutColumn.widgets[0].translated}">
+			  	              <nxp:cell horizontalAlignment="center" verticalAlignment="middle">#{messages[layoutColumn.widgets[0].properties.longLabel]}</nxp:cell>
+			  	            </c:when>
+			  	            <c:otherwise>
+			  	              <nxp:cell horizontalAlignment="center" verticalAlignment="middle">#{layoutColumn.widgets[0].properties.longLabel}</nxp:cell>
+			  	            </c:otherwise>
+			  	        </c:choose>
+	  	            </c:when>
+	  	            <c:when test="#{layoutColumn.widgets[0].translated}">
+	  	              <nxp:cell horizontalAlignment="center" verticalAlignment="middle">#{messages[layoutColumn.widgets[0].label]}</nxp:cell>
+	  	            </c:when>
+	  	            <c:otherwise>
+	  	              <nxp:cell horizontalAlignment="center" verticalAlignment="middle">#{layoutColumn.widgets[0].label}</nxp:cell>
+	  	            </c:otherwise>
+  	            </c:choose>
+  	          </c:when>
+            <c:otherwise>
+              <nxp:cell></nxp:cell>
+            </c:otherwise>
+          </c:choose>
+        </c:if>
+      </nxl:layoutColumn>
+    </c:if>
+  
+    <nxl:layoutColumn>
+      <c:if test="#{not layoutColumn.properties.isHidden and not layoutColumn.properties.isListingSelectionBox and not(hiddenColumnProvider and provider.isHiddenColumn(layoutColumn.properties.isHidden)) and not (layoutColumn.widgets[0].name eq 'dto_dossier_listing_publication')}">
+        <nxp:cell horizontalAlignment="left" verticalAlignment="middle">
+          <nxl:layoutColumnWidget>
+            <nxl:widget widget="#{widget}" value="#{value}" />
+          </nxl:layoutColumnWidget>
+        </nxp:cell>    
+      </c:if>
+    </nxl:layoutColumn>
+  
+  </c:if>
+</nxu:set>
+</f:subview>

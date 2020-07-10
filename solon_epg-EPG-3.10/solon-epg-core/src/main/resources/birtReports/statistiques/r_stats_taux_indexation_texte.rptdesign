@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="MOTSCLES_PARAM" id="58">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="RUBRIQUES_PARAM" id="59">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="LIBRE_PARAM" id="60">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="USERS_PARAM" id="9">
+            <property name="hidden">false</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="PERMISSIONS_PARAM" id="69">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_INTE</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfSU5URQ==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DUAL" id="8">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">COUNTER_SEL</property>
+                    <text-property name="displayName">COUNTER_SEL</text-property>
+                    <text-property name="heading">COUNTER_SEL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COUNTER_ALL</property>
+                    <text-property name="displayName">COUNTER_ALL</text-property>
+                    <text-property name="heading">COUNTER_ALL</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">COUNTER_SEL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">COUNTER_ALL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[var sQuery = '';
+var motsclesQuery = 'SELECT MOT.ID FROM DOS_MOTSCLES MOT WHERE  UPPER(MOT.ITEM) = UPPER(?) '
+var rubriquesQuery = 'SELECT RUB.ID FROM DOS_RUBRIQUES RUB WHERE  UPPER(RUB.ITEM) = UPPER(?) '
+var libresQuery = 'SELECT LIB.ID FROM DOS_LIBRE LIB WHERE  UPPER(LIB.ITEM) = UPPER(?) '
+
+var SEPARATEURS = "&amp;";
+var in_USERS = '';
+var in_PERMISSIONS = '';
+
+if(params["USERS_PARAM"].value != null)
+{
+	var USERS_PARAM = params["USERS_PARAM"].value.split(SEPARATEURS);
+	
+	for(i = 0; i < USERS_PARAM.length - 1; i++)
+	{
+			in_USERS = in_USERS + '\'' + USERS_PARAM[i] + '\'' + ', ';
+	}
+	if(in_USERS.lastIndexOf(', ') > -1)
+	{
+		in_USERS = in_USERS.substring(0, in_USERS.lastIndexOf(', '));
+	}
+}
+
+if(params["PERMISSIONS_PARAM"].value != null)
+{
+	var PERMISSIONS_PARAM = params["PERMISSIONS_PARAM"].value.split(SEPARATEURS);
+			
+	for(i = 0; i < PERMISSIONS_PARAM.length - 1; i++)
+	{
+			in_PERMISSIONS = in_PERMISSIONS + '\'' + PERMISSIONS_PARAM[i] + '\'' + ', ';
+	}
+	if(in_PERMISSIONS.lastIndexOf(', ') > -1)
+	{
+		in_PERMISSIONS = in_PERMISSIONS.substring(0, in_PERMISSIONS.lastIndexOf(', '));
+	}		
+}		
+
+var DOSSIER_ALL = 'SELECT COUNT(DISTINCT STATS_ALL.ID) COUNTER_ALL FROM V_STATS_LISTE_ALL_ACTE STATS_ALL ';
+var DOSSIER_SELECTED = 'SELECT COUNT(DISTINCT DOS.ID) COUNTER_SEL FROM DOSSIER_SOLON_EPG DOS  ';
+var DOSSIER_SELECTED_TABLES = '';
+var DOSSIER_SELECTED_WHERE = '';
+var linkClause = ' WHERE ';
+
+if(params["MOTSCLES_PARAM"].value != null)
+{
+	DOSSIER_SELECTED_TABLES = DOSSIER_SELECTED_TABLES + ', (' + motsclesQuery.replace('?', '\'' + params["MOTSCLES_PARAM"].value.split("'").join("''") + '\'') + ') MOT_SEL ';
+	DOSSIER_SELECTED_WHERE  = DOSSIER_SELECTED_WHERE +  linkClause + ' DOS.ID = MOT_SEL.ID ';
+	linkClause = ' AND ';
+}
+
+if(params["RUBRIQUES_PARAM"].value != null)
+{
+	DOSSIER_SELECTED_TABLES = DOSSIER_SELECTED_TABLES + ', (' + rubriquesQuery.replace('?', '\'' + params["RUBRIQUES_PARAM"].value.split("'").join("''") + '\'') + ') RUB_SEL ';
+	DOSSIER_SELECTED_WHERE  = DOSSIER_SELECTED_WHERE +  linkClause + 'DOS.ID = RUB_SEL.ID ';
+	linkClause = ' AND ';
+}
+
+if(params["LIBRE_PARAM"].value != null)
+{
+	DOSSIER_SELECTED_TABLES = DOSSIER_SELECTED_TABLES + ', (' + libresQuery.replace('?', '\'' + params["LIBRE_PARAM"].value.split("'").join("''") + '\'') + ') LIB_SEL ';
+	DOSSIER_SELECTED_WHERE  = DOSSIER_SELECTED_WHERE +  linkClause + 'DOS.ID = LIB_SEL.ID ';
+	linkClause = ' AND ';
+}
+
+DOSSIER_SELECTED_WHERE = DOSSIER_SELECTED_WHERE + linkClause + 'DOS.STATUTARCHIVAGE IN (\'1\', \'2\') ';
+DOSSIER_SELECTED_WHERE = DOSSIER_SELECTED_WHERE + linkClause + 'NX_ACCESS_ALLOWED( DOS.ID, NX_STRING_TABLE(' + in_USERS + '), NX_STRING_TABLE(' + in_PERMISSIONS + ')) = 1 ';
+DOSSIER_ALL = DOSSIER_ALL + ' WHERE NX_ACCESS_ALLOWED( STATS_ALL.ID, NX_STRING_TABLE(' + in_USERS + '), NX_STRING_TABLE(' + in_PERMISSIONS + ')) = 1 ';
+DOSSIER_SELECTED = DOSSIER_SELECTED + DOSSIER_SELECTED_TABLES + DOSSIER_SELECTED_WHERE;
+
+sQuery = 
+'SELECT DOSSIER_SELECTED.COUNTER_SEL, DOSSIER_ALL.COUNTER_ALL ' + 
+'FROM ( ' + DOSSIER_SELECTED + ' )DOSSIER_SELECTED, ( ' + DOSSIER_ALL + ' ) DOSSIER_ALL';
+
+this.queryText = sQuery;]]></method>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">COUNTER_SEL</property>
+                    <property name="nativeName">COUNTER_SEL</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">COUNTER_ALL</property>
+                    <property name="nativeName">COUNTER_ALL</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select '1' COUNTER_SEL, '4' COUNTER_ALL
+from dual]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <data id="62">
+            <property name="whiteSpace">normal</property>
+            <property name="dataSet">DUAL</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COUNTER_SEL</property>
+                    <text-property name="displayName">COUNTER_SEL</text-property>
+                    <expression name="expression" type="javascript">var aAfficher = 'Le taux sur l\'indexation des textes pour : \n' ;&#13;
+&#13;
+if(params["MOTSCLES_PARAM"].value != null)&#13;
+{&#13;
+	aAfficher = aAfficher + '    Le mot clés : ' + params["MOTSCLES_PARAM"].value + ' \n';&#13;
+}&#13;
+&#13;
+if(params["RUBRIQUES_PARAM"].value != null)&#13;
+{&#13;
+	aAfficher = aAfficher + '    La rubrique : ' + params["RUBRIQUES_PARAM"].value + ' \n';&#13;
+}&#13;
+&#13;
+if(params["LIBRE_PARAM"].value != null)&#13;
+{&#13;
+	aAfficher = aAfficher + '    La valeur libre : ' + params["LIBRE_PARAM"].value + ' \n';&#13;
+}&#13;
+&#13;
+aAfficher = aAfficher + 'est ' + BirtMath.round((dataSetRow["COUNTER_SEL"] / dataSetRow["COUNTER_ALL"] * 100), 3) + '%'</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">COUNTER_SEL</property>
+        </data>
+    </body>
+</report>

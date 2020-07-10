@@ -1,0 +1,904 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.widget.dossierlisting">
+  <require>fr.dila.solonepg.web.layout.widgetType</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+
+    <!-- ***********************************************************************
+     Widgets de la liste des Dossier
+     *********************************************************************** -->
+    <widget name="dossier_listing_titre" type="template">
+      <labels>
+        <label mode="any">NOR</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_title_link_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="dossier_listing_nor_open_with_view" type="template">
+      <labels>
+        <label mode="any">NOR</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_nor_open_with_view_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="dossier_listing_nor_with_view" type="template">
+      <labels>
+        <label mode="any">NOR</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+        <field>data.dc.title</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_nor_with_view_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="dossier_listing_texte" type="template">
+      <labels>
+        <label mode="any">Titre de l'acte</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:titreActe</property>
+      </properties>
+    </widget>
+    
+    <widget name="dossier_listing_date" type="datetime">
+      <labels>
+        <label mode="any">Date d'arrivée</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.dublincore.created</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="dossier_listing_date_creation" type="datetime">
+      <labels>
+        <label mode="any">Date de création</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.dublincore.created</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="dossier_listing_heure_creation" type="datetime">
+      <labels>
+        <label mode="any">Heure de création</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.dublincore.created</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">HH:mm</property>
+        <property name="format">HH:mm</property>
+      </properties>
+    </widget>
+    
+    <widget name="dossier_listing_dernier_contributeur" type="template">
+      <labels>
+        <label mode="any">Dernier contributeur</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_dernier_contributeur_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <!-- note : autres widget de colonnes correspondant aux métadonnées du bordereau -->
+  
+    <!-- widget colonne heureArrivee : heure d'arrivée du caselink -->
+    <widget name="dossier_listing_heureArrivee" type="datetime">
+      <labels>
+        <label mode="any">label.content.header.heureArrivee</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dublincore.created</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">HH:mm</property>
+        <property name="format">HH:mm</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne creePar -->
+    <widget name="dossier_listing_creePar" type="template">
+      <labels>
+        <label mode="any">label.content.header.creePar</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_createur_widget_template.xhtml</property>
+      </properties>
+    </widget>
+  
+    <!-- TODO widget colonne urgence -->
+    <widget name="dossier_listing_urgence" type="template">
+      <labels>
+        <label mode="any">label.content.header.urgence</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_urgence_widget_template.xhtml</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne statut -->
+    <widget name="dossier_listing_statut" type="template">
+      <labels>
+        <label mode="any">label.content.header.statut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_directory_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:statut</property>
+        <property name="directoryName">statut_dossier</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne typeActe -->
+    <widget name="dossier_listing_typeActe" type="template">
+      <labels>
+        <label mode="any">label.content.header.typeActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_directory_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:typeActe</property>
+        <property name="directoryName">type_acte</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne ministereResp -->
+    <widget name="dossier_listing_ministereResp" type="template">
+      <labels>
+        <label mode="any">label.content.header.ministereResp</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_ministere_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:ministereResp</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne directionResp -->
+    <widget name="dossier_listing_directionResp" type="template">
+      <labels>
+        <label mode="any">label.content.header.directionResp</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_direction_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:directionResp</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne ministereAttache -->
+    <widget name="dossier_listing_ministereAttache" type="template">
+      <labels>
+        <label mode="any">label.content.header.ministereAttache</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_ministere_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:ministereAttache</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne directionAttache -->
+    <widget name="dossier_listing_directionAttache" type="template">
+      <labels>
+        <label mode="any">label.content.header.directionAttache</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_direction_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:directionAttache</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne nomRespDossier -->
+    <widget name="dossier_listing_nomRespDossier" type="template">
+      <labels>
+        <label mode="any">label.content.header.nomRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:nomRespDossier</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne prenomRespDossier -->
+    <widget name="dossier_listing_prenomRespDossier" type="template">
+      <labels>
+        <label mode="any">label.content.header.prenomRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:prenomRespDossier</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne qualiteRespDossier -->
+    <widget name="dossier_listing_qualiteRespDossier" type="template">
+      <labels>
+        <label mode="any">label.content.header.qualiteRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:qualiteRespDossier</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne telRespDossier -->
+    <widget name="dossier_listing_telRespDossier" type="template">
+      <labels>
+        <label mode="any">label.content.header.telRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:telRespDossier</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne mailRespDossier -->
+    <widget name="dossier_listing_mailRespDossier" type="template">
+      <labels>
+        <label mode="any">label.content.header.mailRespDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:mailRespDossier</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne categorieActe -->
+    <widget name="dossier_listing_categorieActe" type="template">
+      <labels>
+        <label mode="any">label.content.header.categorieActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_directory_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:categorieActe</property>
+        <property name="directoryName">category_acte_convention_collective</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne baseLegaleActe -->
+    <widget name="dossier_listing_baseLegaleActe" type="template">
+      <labels>
+        <label mode="any">label.content.header.baseLegaleActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:baseLegaleActe</property>
+      </properties>
+    </widget>
+  
+    <!-- date widget colonne datePublication -->
+    <widget name="dossier_listing_datePublication" type="template">
+      <labels>
+        <label mode="any">label.content.header.datePublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_date_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:datePublication</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne publicationRapportPresentation -->
+    <widget name="dossier_listing_publicationRapportPresentation" type="template">
+      <labels>
+        <label mode="any">label.content.header.publicationRapportPresentation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_boolean_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:publicationRapportPresentation</property>
+      </properties>
+    </widget>
+    <!-- widget colonne priorite -->
+    <widget name="dossier_listing_priorite" type="template">
+      <labels>
+        <label mode="any">label.content.header.priorite</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">consetat:priorite</property>
+        <property name="directoryName">priorite_ce</property>
+      </properties>
+    </widget>
+      
+    <!-- widget colonne sectionCe -->
+    <widget name="dossier_listing_sectionCe" type="template">
+      <labels>
+        <label mode="any">label.content.header.sectionCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">consetat:sectionCe</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne rapporteurCe -->
+    <widget name="dossier_listing_rapporteurCe" type="template">
+      <labels>
+        <label mode="any">label.content.header.rapporteurCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">consetat:rapporteurCe</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne dateTransmissionSectionCe -->
+    <widget name="dossier_listing_dateTransmissionSectionCe" type="template">
+      <labels>
+        <label mode="any">label.content.header.dateTransmissionSectionCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_date_widget_template.xhtml</property>
+        <property name="propertyNameFull">consetat:dateTransmissionSectionCe</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne dateSectionCe -->
+    <widget name="dossier_listing_dateSectionCe" type="template">
+      <labels>
+        <label mode="any">label.content.header.dateSectionCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_date_widget_template.xhtml</property>
+        <property name="propertyNameFull">consetat:dateSectionCe</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne dateAgCe -->
+    <widget name="dossier_listing_dateAgCe" type="template">
+      <labels>
+        <label mode="any">label.content.header.dateAgCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_date_widget_template.xhtml</property>
+        <property name="propertyNameFull">consetat:dateAgCe</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne numeroISA -->
+    <widget name="dossier_listing_numeroISA" type="template">
+      <labels>
+        <label mode="any">label.content.header.numeroISA</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">consetat:numeroISA</property>
+      </properties>
+    </widget>
+  
+    <!-- TODO listUser widget colonne nomCompletChargesMissions -->
+    <widget name="dossier_listing_nomCompletChargesMissions" type="template">
+      <labels>
+        <label mode="any">label.content.header.nomCompletChargesMissions</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:nomCompletChargesMissions</property>
+      </properties>
+    </widget>
+  
+    <!-- TODO listUser widget colonne nomCompletConseillersPms -->
+    <widget name="dossier_listing_nomCompletConseillersPms" type="template">
+      <labels>
+        <label mode="any">label.content.header.nomCompletConseillersPms</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:nomCompletConseillersPms</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne dateSignature -->
+    <widget name="dossier_listing_dateSignature" type="template">
+      <labels>
+        <label mode="any">label.content.header.dateSignature</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_date_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:dateSignature</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne pourFournitureEpreuve -->
+    <widget name="dossier_listing_pourFournitureEpreuve" type="template">
+      <labels>
+        <label mode="any">label.content.header.pourFournitureEpreuve</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_date_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:pourFournitureEpreuve</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne vecteurPublication -->
+    <widget name="dossier_listing_vecteurPublication" type="template">
+      <labels>
+        <label mode="any">label.content.header.vecteurPublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.dos.vecteurPublication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/selectOneMenu_widget_template.xhtml</property>
+        <property name="type">vecteurPublication</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne publicationConjointe -->
+    <widget name="dossier_listing_publicationConjointe" type="template">
+      <labels>
+        <label mode="any">label.content.header.publicationsConjointes</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_stringlist_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:publicationsConjointes</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne publicationIntegraleOuExtrait -->
+    <widget name="dossier_listing_publicationIntegraleOuExtrait" type="template">
+      <labels>
+        <label mode="any">label.content.header.publicationIntegraleOuExtrait</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_directory_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:publicationIntegraleOuExtrait</property>
+        <property name="directoryName">type_publication</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne decretNumerote -->
+    <widget name="dossier_listing_decretNumerote" type="template">
+      <labels>
+        <label mode="any">label.content.header.decretNumerote</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_boolean_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:decretNumerote</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne modeParution -->
+    <widget name="dossier_listing_modeParution" type="template">
+      <labels>
+        <label mode="any">label.content.header.modeParution</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.retdila.modeParution</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/selectOneMenu_widget_template.xhtml</property>
+        <property name="type">modeParution</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne delaiPublication -->
+    <widget name="dossier_listing_delaiPublication" type="template">
+      <labels>
+        <label mode="any">label.content.header.delaiPublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_directory_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:delaiPublication</property>
+        <property name="directoryName">delai_publication</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne datePreciseePublication -->
+    <widget name="dossier_listing_datePreciseePublication" type="template">
+      <labels>
+        <label mode="any">label.content.header.datePreciseePublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_date_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:datePreciseePublication</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne dateParutionJorf -->
+    <widget name="dossier_listing_dateParutionJorf" type="template">
+      <labels>
+        <label mode="any">label.content.header.dateParutionJorf</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_date_widget_template.xhtml</property>
+        <property name="propertyNameFull">retdila:dateParutionJorf</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne numeroTexteParutionJorf -->
+    <widget name="dossier_listing_numeroTexteParutionJorf" type="template">
+      <labels>
+        <label mode="any">label.content.header.numeroTexteParutionJorf</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">retdila:numeroTexteParutionJorf</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne pageParutionJorf -->
+    <widget name="dossier_listing_pageParutionJorf" type="template">
+      <labels>
+        <label mode="any">label.content.header.pageParutionJorf</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">retdila:pageParutionJorf</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne parutionBo -->
+    <widget name="dossier_listing_parutionBo" type="template">
+      <labels>
+        <label mode="any">label.content.header.parutionBo</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">retdila:parutionBo</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne zoneComSggDila -->
+    <widget name="dossier_listing_zoneComSggDila" type="template">
+      <labels>
+        <label mode="any">label.content.header.zoneComSggDila</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:zoneComSggDila</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne rubrique -->
+    <widget name="dossier_listing_rubrique" type="template">
+      <labels>
+        <label mode="any">label.content.header.rubriques</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_stringlist_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:rubriques</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne motsCles -->
+    <widget name="dossier_listing_motsCles" type="template">
+      <labels>
+        <label mode="any">label.content.header.motscles</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_stringlist_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:motscles</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne champLibre -->
+    <widget name="dossier_listing_champLibre" type="template">
+      <labels>
+        <label mode="any">label.content.header.libre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_stringlist_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:libre</property>
+      </properties>
+    </widget>
+  
+    <!-- TODO champ transposition widget colonne loisAppliquees -->
+    <widget name="dossier_listing_loisAppliquees" type="template">
+      <labels>
+        <label mode="any">label.content.header.applicationLoi</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:applicationLoi</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne ordonnances -->
+    <widget name="dossier_listing_ordonnances" type="template">
+      <labels>
+        <label mode="any">label.content.header.transpositionOrdonnance</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:transpositionOrdonnance</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne directivesEuropeennes -->
+    <widget name="dossier_listing_directivesEuropeennes" type="template">
+      <labels>
+        <label mode="any">label.content.header.transpositionDirective</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:transpositionDirective</property>
+      </properties>
+    </widget>
+  
+    <!-- widget colonne habilitations réf -->
+    <widget name="dossier_listing_habilitations_ref" type="template">
+      <labels>
+        <label mode="any">label.content.header.habilitationRefLoi</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:habilitationRefLoi</property>
+      </properties>
+    </widget>   
+
+    <!-- widget colonne habilitations numéro -->
+    <widget name="dossier_listing_habilitations_numero" type="template">
+      <labels>
+        <label mode="any">label.content.header.habilitationNumeroArticles</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:habilitationNumeroArticles</property>
+      </properties>
+    </widget>
+    
+    <!-- widget colonne habilitations commentaire -->
+    <widget name="dossier_listing_habilitations_commentaire" type="template">
+      <labels>
+        <label mode="any">label.content.header.habilitationCommentaire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_listing/dossier_listing_texte_widget_template.xhtml</property>
+        <property name="propertyNameFull">dos:habilitationCommentaire</property>
+      </properties>
+    </widget>      
+    
+    <!-- note : fin des autres widget de colonnes correspondant aux métadonnées du bordereau -->
+    <widget name="dossier_listing_complet" type="template">
+      <labels>
+        <label mode="any">Complet</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_complet_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="dossier_listing_lock" type="template">
+      <labels>
+        <label mode="any"> </label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/dossier_info_widget_template.xhtml</property>
+      </properties>
+    </widget>
+
+  </extension>
+
+</component>

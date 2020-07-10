@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!-- Ce composant contribue le service de gestion du drag and drop SOLON EPG. -->
+<component name="fr.dila.solonepg.core.service.DndService">
+	<implementation class="fr.dila.solonepg.core.service.DndServiceImpl" />
+
+	<service>
+		<provide interface="fr.dila.solonepg.api.service.DndService" />
+	</service>
+
+	<extension-point name="persister">
+		<object class="fr.dila.cm.core.service.PersisterDescriptor" />
+	</extension-point>
+
+	<extension target="fr.dila.solonepg.core.service.DndService"
+		point="persister">
+		<persister class="fr.dila.cm.core.persister.CaseItemInCasePersister" />
+	</extension>
+
+</component>

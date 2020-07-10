@@ -1,0 +1,264 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core" class="menu"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:nxdir="http://nuxeo.org/nxdirectory">
+
+	<h:form id="form_espace_activite_normative"
+		rendered="#{!currentUser.anonymous}">
+		<ui:decorate template="/incl/menu_arrondi.xhtml">
+			<ui:define name="reponsesClipboard_panel">
+
+				<h:panelGroup>
+					<style>
+.selected {
+	background-color: #F3EFDD;
+	font-weight: bold;
+}
+
+.userMailboxes .dr-tree-h-ic-img {
+	height: 10px !important;
+	width: 10px !important;
+}
+</style>
+					
+					<div class="userMailboxes">
+						<div class="userMailboxesContent">
+							<h4>
+								<h:outputText
+									value="#{messages['command.espaceActiviteNormative']}" />
+							</h4>
+							<div id="uMContent" style="overflow-x: auto; overflow-y: hidden;"
+								class="userLeftMenuContent">
+								<a4j:status for="espaceActiviteNormativeRegion">
+									<f:facet name="start">
+										<h:graphicImage value="/img/standart_waiter.gif"
+											style="position: absolute;" />
+									</f:facet>
+								</a4j:status>
+								<a4j:region id="espaceActiviteNormativeRegion">
+
+									<rich:tree id="espaceSuiviTree" style="white-space: nowrap;"
+										switchType="ajax" ajaxSingle="true"
+										eventsQueue="ajax_events_queue"
+										iconExpanded="/icons/toggle_minus.png"
+										iconCollapsed="/icons/toggle_plus.png"
+										changeExpandListener="#{espaceActiviteNormativeTree.changeExpandListener}"
+										adviseNodeOpened="#{espaceActiviteNormativeTree.adviseNodeOpened}">
+
+										<rich:recursiveTreeNodesAdaptor id="node" var="item"
+											roots="#{espaceActiviteNormativeTree.espaceActiviteNormative}"
+											nodes="#{item.children}">
+
+											<rich:treeNode id="menu" icon="/img/icons/puceTriangle.png"
+												iconLeaf="/img/icons/puceTriangle.png">
+												<h:panelGroup style="display:block;"
+													styleClass="#{nxu:test(espaceActiviteNormativeTree.isCurrentItem(item), 'selected', '')}">
+													<a4j:commandLink id="menuANLink"
+														action="#{espaceActiviteNormativeTree.setElement(item)}">
+														<h:outputText id="menuANLabel" value="#{item.label}"
+															style="white-space: nowrap;" />
+													</a4j:commandLink>
+												</h:panelGroup>
+											</rich:treeNode>
+
+										</rich:recursiveTreeNodesAdaptor>
+									</rich:tree>
+								</a4j:region>
+							</div>
+
+
+							
+								<a4j:region id="exportReportsRegion" rendered="#{exportActiviteNormativeStatsActions.displayExportTreeNode()}">
+
+									<a4j:outputPanel id="exportReportsPanel">
+									
+					
+								<div id="exportReports"
+									style="overflow-x: auto; overflow-y: hidden;"
+									class="userLeftMenuContent">
+									<rich:tree id="moreActionsTree" style="white-space: nowrap;"
+										switchType="ajax" ajaxSingle="true"
+										eventsQueue="ajax_events_queue"
+										iconExpanded="/icons/toggle_minus.png" 
+										iconCollapsed="/icons/toggle_plus.png"
+										rendered="#{exportActiviteNormativeStatsActions.displayExportTreeNode()}"
+										changeExpandListener="#{espaceActiviteNormativeTree.changeExpandListener}"
+										adviseNodeOpened="#{espaceActiviteNormativeTree.adviseNodeOpened}">
+
+											<rich:recursiveTreeNodesAdaptor id="node" var="item"
+												roots="#{exportActiviteNormativeStatsActions.exportTreeNodes}"
+												nodes="#{item.children}">
+
+												<rich:treeNode id="mainNode-disabled"
+													icon="/img/icons/puceTriangle.png"
+													iconLeaf="/img/icons/puceTriangle.png"
+													rendered="#{item.key == 'export-global-disabled' || item.key == 'export-prec-disabled'}">
+													<h:panelGroup
+														style="display:block;pointer-events: none;cursor: default;">
+														<a4j:commandLink id="mainA">
+															<h:outputText value="#{item.label}"
+																style="white-space: nowrap;" />
+														</a4j:commandLink>
+													</h:panelGroup>
+												</rich:treeNode>
+
+										<c:if
+											test="#{exportActiviteNormativeStatsActions.isAllowedToExportAN()}">
+												<rich:treeNode id="curmainNode-enabled"
+													icon="/img/icons/puceTriangle.png"
+													iconLeaf="/img/icons/puceTriangle.png"
+													rendered="#{item.key == 'export-global-enabled'}">
+													<h:panelGroup style="display:block;">
+														<a4j:commandLink id="mainACX"
+															action="#{exportActiviteNormativeStatsActions.displayParameters()}"
+															oncomplete="Richfaces.showModalPanel('configureReportsParametersPanel');"
+															reRender="exportReportsParametersPopup">
+															<h:outputText value="#{item.label}"
+																style="white-space: nowrap;" />
+
+														</a4j:commandLink>
+													</h:panelGroup>
+												</rich:treeNode>
+												<rich:treeNode id="precmainNode-enabled"
+													icon="/img/icons/puceTriangle.png"
+													iconLeaf="/img/icons/puceTriangle.png"
+													rendered="#{item.key == 'export-prec-enabled'}">
+													<h:panelGroup style="display:block;">
+														<nxh:commandLink id="precACX"
+															action="#{exportActiviteNormativeStatsActions.exportLegisPrec()}"
+															reRender="exportReportsPanel">
+															<h:outputText value="#{item.label}"
+																style="white-space: nowrap;" />
+
+														</nxh:commandLink>
+													</h:panelGroup>
+												</rich:treeNode>
+												<rich:treeNode id="curdetailNode-en-cours"
+													icon="/img/icons/puceTriangle.png"
+													iconLeaf="/img/icons/puceTriangle.png"
+													rendered="#{item.key=='curexport-detail-en-cours'}">
+													<h:panelGroup
+														style="display:block;pointer-events: none;cursor: default;">
+														<a4j:commandLink>
+															<h:outputText value="#{item.label}"
+																style="white-space: nowrap;" />
+														</a4j:commandLink>
+													</h:panelGroup>
+												</rich:treeNode>
+
+												<rich:treeNode id="curdetailNode-terminee"
+													icon="/img/icons/puceTriangle.png"
+													iconLeaf="/img/icons/puceTriangle.png"
+													rendered="#{item.key=='curexport-detail-terminee'}">
+													<h:panelGroup style="display:block;">
+														<nxh:commandLink target="_blank" value="#{item.label}"
+															action="#{exportActiviteNormativeStatsActions.downloadZip(item.legislatures)}">
+															<h:graphicImage title="#{item.label}"
+																url="/img/icons/zip_icon.png" />
+														</nxh:commandLink>
+													</h:panelGroup>
+												</rich:treeNode>
+										
+										</c:if>
+										<c:if
+											test="#{exportActiviteNormativeStatsActions.isAllowedToPublishLegislature()}">
+												<rich:treeNode id="precdetailNode-terminee"
+													icon="/img/icons/puceTriangle.png"
+													iconLeaf="/img/icons/puceTriangle.png"
+													rendered="#{item.key == 'publier-prec-legis'}">
+													<h:panelGroup style="display:block;">
+														<nxh:commandLink
+															action="#{exportActiviteNormativeStatsActions.publierLegisPrec()}">
+															<h:outputText value="#{item.label}"
+																style="white-space: nowrap;" />
+														</nxh:commandLink>
+													</h:panelGroup>
+												</rich:treeNode>
+												
+										</c:if>
+											</rich:recursiveTreeNodesAdaptor>
+										<c:if
+											test="#{exportActiviteNormativeStatsActions.isAllowedToEditParameters()}">
+											<rich:recursiveTreeNodesAdaptor id="node2" var="item"
+												roots="#{paramStatsActiviteNormativeStatsActions.paramStatsTreeNodes}">
+
+												<rich:treeNode id="nodeStatsParam"
+													icon="/img/icons/puceTriangle.png"
+													iconLeaf="/img/icons/puceTriangle.png">
+													<h:panelGroup style="display:block">
+													
+													<nxu:set var="isLocker" value="#{paramStatsActiviteNormativeStatsActions.isThereAnOpenedAndLockedDocument()}" cache="true" >
+													<c:if test="#{!isLocker}">
+														<a4j:commandLink id="mainAX2"
+															action="#{paramStatsActiviteNormativeStatsActions.displayParameters()}"
+															oncomplete="Richfaces.showModalPanel('configureReportsStatsParametersPanel');"
+															reRender="statsParametersPopup">
+
+															<h:outputText value="#{item.label}"
+																style="white-space: nowrap;" />
+														</a4j:commandLink>
+													</c:if>
+													<c:if test="#{isLocker}">
+														<h:outputText value="#{item.label}"
+																style="white-space: nowrap;" title="Paramétrage indisponible durant l'édition d'un document" />
+													</c:if>
+													</nxu:set>
+													</h:panelGroup>
+												</rich:treeNode>
+
+											</rich:recursiveTreeNodesAdaptor>
+										</c:if>
+										
+										
+										<!-- FEV 513 Journal technique du PAN -->
+										<c:if test="#{exportActiviteNormativeStatsActions.isAllowedToViewJournalTechnique()}">
+											<rich:recursiveTreeNodesAdaptor id="nodeJT" var="item"
+												roots="#{paramStatsActiviteNormativeStatsActions.paramStatsTreeNodes}">
+
+												<rich:treeNode id="nodeJournalPAN"
+													icon="/img/icons/puceTriangle.png"
+													iconLeaf="/img/icons/puceTriangle.png">
+													<h:panelGroup style="display:block">
+													
+													
+														<a4j:commandLink id="commandLinkJT"
+															action="#{activiteNormativeActions.displayJournalTechnique()}">
+															<h:outputText value="Journal Technique"
+																style="white-space: nowrap;" />
+														</a4j:commandLink>
+
+													</h:panelGroup>
+												</rich:treeNode>
+
+											</rich:recursiveTreeNodesAdaptor>
+										</c:if>
+									</rich:tree>
+								</div>
+							</a4j:outputPanel>
+						</a4j:region>
+
+
+						</div>
+						<!-- Bottom of the rounded box -->
+						<p class="nobottomgap"></p>
+					</div>
+
+					<div class="bottom-left"></div>
+					<div class="bottom-right"></div>
+					
+				</h:panelGroup>
+			</ui:define>
+		</ui:decorate>
+	</h:form>
+
+	<ui:include
+		src="/espace_activite_normative/view/activite_normative_parameters_config.xhtml" />
+	<ui:include
+		src="/espace_activite_normative/view/activite_normative_stats_parameters_config.xhtml" />
+</div>

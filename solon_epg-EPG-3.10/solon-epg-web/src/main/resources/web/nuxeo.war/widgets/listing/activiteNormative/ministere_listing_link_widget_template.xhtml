@@ -1,0 +1,26 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+  <c:choose>
+    <c:when test="#{widget.mode == 'csv'}">
+       <h:outputText value="#{field_0}" converter="#{organigrammeManagerActions.getIdMinistereToNorConverter()}"/>
+    </c:when>
+    <c:when test="#{widget.mode == 'pdf'}">
+      <nxp:font size="8"><h:outputText value="#{field_0}" converter="#{organigrammeManagerActions.getIdMinistereToNorConverter()}"/></nxp:font>
+    </c:when>
+    <c:when test="#{widget.mode == 'edit'}">
+      <h:inputText value="#{field_0}" converter="#{organigrammeManagerActions.getIdMinistereToNorConverter()}"/>
+    </c:when>
+    <c:otherwise>
+       <nxh:commandLink action="#{texteMaitreActions.navigateToMinistere(field_0)}">
+         <h:outputText value="#{field_0}" converter="#{organigrammeManagerActions.getIdMinistereToNorConverter()}"/>
+       </nxh:commandLink>
+    </c:otherwise>
+  </c:choose>
+</f:subview>

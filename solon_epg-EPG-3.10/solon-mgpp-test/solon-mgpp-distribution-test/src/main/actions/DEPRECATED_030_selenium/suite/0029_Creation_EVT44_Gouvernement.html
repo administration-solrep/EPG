@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Creation EVT44 Gouvernement</title>
+<link rel="selenium.base"
+  href="http://localhost:8180/" />
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+  <thead>
+    <tr>
+      <td rowspan="1" colspan="3">Traitement EVT24 GVT</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>store</td>
+      <td>javascript{var date = new Date(); '' + (date.getDate() <
+      10 ? '0'+ date.getDate() : date.getDate()) + '/' +
+      ((date.getMonth()+1) < 10 ? '0'+ (date.getMonth()+1) :
+      (date.getMonth()+1))+ '/' + date.getFullYear() ;}</td>
+      <td>currentDate</td>
+    </tr>
+    <tr>
+      <td>store</td>
+      <td>javascript{var date = new Date(); '' + date.getFullYear()
+      + '-' + ((date.getMonth()+1) < 10 ? '0'+ (date.getMonth()+1) :
+      (date.getMonth()+1)) + '-' + (date.getDate() < 10 ? '0'+
+      date.getDate() : date.getDate()) ;}</td>
+      <td>currentDateWS</td>
+    </tr>
+    <!--Connexion-->
+    <tr>
+      <td>setTimeout</td>
+      <td>120000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>setSpeed</td>
+      <td>200</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/logout</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/login.jsp</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>username</td>
+      <td>adminsgg</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>password</td>
+      <td>adminsgg</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>Submit</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>userServicesForm:userServicesActionsTable:6:userServicesActionCommandLink</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Dépôt de rapport</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>select</td>
+      <td>//select[@id="create_evt_createur_form:selectEvenementTypeId"]</td>
+      <td>label=RAP-01 : Transmission de rapports au Parlement</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value='Créer communication créatrice']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_identifiant_dossier</td>
+      <td>CCOZ1300000L</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_objet</td>
+      <td>Objet DR CCOZ1300000L</td>
+    </tr>
+    <tr>
+      <td>select</td>
+      <td>//select[@id="evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_rapportParlement"]</td>
+      <td>label=Rapport unique</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_dateInputDate</td>
+      <td>${currentDate}</td>
+    </tr>
+
+    <!--Insertion champ Piece Jointe Lettre PM -->
+    <tr>
+      <td>click</td>
+      <td>//*[@id=&quot;evenement_metadonnees:LETTRE_PM_pieceJointePanel&quot;]/a</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForElementPresent</td>
+      <td>evenement_metadonnees:LETTRE_PM0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:LETTRE_PM0</td>
+      <td>PJLPMPourCCOZ1300000L</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>//*[@id=&quot;evenement_metadonnees:LETTRE_PM_pieceJointePanel&quot;]/table/tbody/tr[2]/td[2]/input</td>
+      <td>url@gmail.fr</td>
+    </tr>
+    <tr>
+      <td>watchA4jRequests</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//*[@id=&quot;evenement_metadonnees:LETTRE_PM_pieceJointePanel&quot;]/table/tbody/tr/td[4]/span[3]/a</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForA4jRequest</td>
+      <td>3000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//*[@id=&quot;PAReditFileForm:parapheurTree:1:1::parapheurFichier:text&quot;]/table/tbody/tr/td/div/span/input</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//*[@id=&quot;PAReditFileForm:parapheurTree:2:1::parapheurFichier:text&quot;]/table/tbody/tr/td/div/span/input</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//*[@id=&quot;PAReditFileForm:PAReditFileButtonImage&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForNotVisible</td>
+      <td>//*[@id=&quot;PAReditFilePanelContentDiv&quot;]</td>
+      <td></td>
+    </tr>
+    <!--Insertion champ Piéce Jointe Texte-->
+    <tr>
+      <td>click</td>
+      <td>//*[@id=&quot;evenement_metadonnees:RAPPORT_pieceJointePanel&quot;]/a</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForElementPresent</td>
+      <td>evenement_metadonnees:RAPPORT0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:RAPPORT0</td>
+      <td>PJTPourCCOZ1300000L</td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//*[@id=&quot;evenement_metadonnees:RAPPORT_pieceJointePanel&quot;]/table/tbody/tr/td[4]/span/a</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForElementPresent</td>
+      <td>//*[@id=&quot;editFilePanelContentDiv&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=editFileForm:uploadParapheurFiles:file</td>
+      <td>/root/mgpp/doc2007.doc</td>
+    </tr>
+    <tr>
+      <td>waitForTextPresent</td>
+      <td>Téléchargement effectué</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//*[@id=&quot;editFileForm:editFileButtonImage&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForNotVisible</td>
+      <td>//*[@id=&quot;editFilePanelContentDiv&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>//*[@id=&quot;evenement_metadonnees:RAPPORT_pieceJointePanel&quot;]/table/tbody/tr[2]/td[2]/input</td>
+      <td>http://CCOZ1300000L@solon-epg.fr</td>
+    </tr>
+    <!-- AN en destinataire -->
+    <tr>
+      <td>watchA4jRequests</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//a[@id='evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_destinataire_findButton']/img</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForA4jRequest</td>
+      <td>3000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>watchA4jRequests</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_evenement:nxw_metadonnees_evenement_destinataire_tree:node:1::nxw_metadonnees_evenement_destinataire_addIns</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForA4jRequest</td>
+      <td>3000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value=&quot;Publier&quot;]</td>
+      <td></td>
+    </tr>
+    <!-- Verification fiche DR -->
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Dépôt de rapport (1)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>corbeille_message_list:nxl_corbeille_message_listing_layout_1:nxw_idDossier_widget_1:msgName</td>
+      <td></td>
+    </tr>
+    <!-- Verification fiche DR -->
+    <tr>
+      <td>verifyTextPresent</td>
+      <td>Projet de loi Test MGPP</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyTextPresent</td>
+      <td>CCOZ1300000L</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>verifyTextPresent</td>
+      <td>RAP-01 : Transmission de rapports au Parlement - CCOZ1300000L - Objet DR CCOZ1300000L</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//img[@alt='Verrouiller fiche']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertElementPresent</td>
+      <td>//*[@value='Diffuser']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertElementPresent</td>
+      <td>//*[@value='Enregistrer']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertElementPresent</td>
+      <td>//*[@value='Générer courier']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertElementPresent</td>
+      <td>//*[@value='Créer alerte']</td>
+      <td></td>
+    </tr>
+
+
+
+    <!-- Déconnexion -->
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/logout</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

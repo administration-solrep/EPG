@@ -1,0 +1,127 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout">
+
+	<script>
+	  var j = jQuery.noConflict();
+	  var isFeuilleRouteModified = false;
+	  j(document).ready(function() {
+	    j('#action_buttons input[value="Valider le modèle"]').click(function() {
+	    	return feuilleRouteModified();
+	    });
+	    
+	    j('.dataInput input').change(function() {
+	        isFeuilleRouteModified = true;
+	    });
+
+	    j('.dataInput textarea').change(function() {
+	        isFeuilleRouteModified = true;
+	    });
+
+	    j('.dataInput select').change(function() {
+	        isFeuilleRouteModified = true;
+	    });
+	    
+	    j('.dataInput a').click(function() {
+	        isFeuilleRouteModified = true;
+	    });
+	  });
+
+	  function feuilleRouteModified() {
+	 	  if(isFeuilleRouteModified) {
+	        return confirm("#{messages['action.save.fdr.change.confirm']}");
+		  }else{
+		  	return true;
+		  }
+	  }
+
+	  </script>
+
+	<c:choose>
+		<c:when
+			test="#{!modeleFeuilleRouteActions.canValidateSquelette()}">
+
+			<!-- Affichage des méta-données de la feuille de route -->
+			<h:form id="document_view">
+				<a4j:region id="documentViewRegion">
+					<a4j:outputPanel id="documentViewPanel">
+						<nxl:layout value="#{currentDocument}" mode="view"
+							name="feuille_route_squelette_detail" />
+					</a4j:outputPanel>
+				</a4j:region>
+			</h:form>
+		</c:when>
+		<c:otherwise>
+			<h:form enctype="multipart/form-data" id="document_edit">
+
+				<!-- Édition des méta-données de la feuille de route -->
+				<c:if test="#{!empty documentActions.changeableDocumentType.layout}">
+					<ui:include src="/incl/document_editor.xhtml" />
+				</c:if>
+
+				<c:if test="#{empty documentActions.changeableDocumentType.layout}">
+					<nxl:documentLayout mode="edit" value="#{changeableDocument}" />
+					<ui:include src="/incl/document_versioning.xhtml" />
+				</c:if>
+
+				<p class="buttonsGadget">
+					<h:commandButton value="#{messages['command.save']}"
+						styleClass="button"
+						action="#{modeleFeuilleRouteActions.updateSquelette}" />
+				</p>
+
+			</h:form>
+		</c:otherwise>
+	</c:choose>
+
+	<!-- Affichage / édition des étapes de la feuille de route -->
+	<div class="tabsContent">
+		<ui:include src="/incl/tabs/squelette_route_content_elements.xhtml" />
+	</div>
+
+	<div style="clear: both"></div>
+
+	<!-- Boutons d'action -->
+	<h:form id="actionsForm">
+		<div id="action_buttons">
+			<!-- Retour à la liste -->
+			<h:commandButton type="submit" class="button"
+				value="#{messages['command.global.retourListe']}"
+				action="#{administrationActions.navigateToSqueletteFeuilleRouteFolder()}"
+				rendered="#{administrationActions.isInEspaceAdministration()}" />
+
+			<c:set var="lifeCycleState"
+				value="#{currentDocument.getCurrentLifeCycleState()}" />
+
+			<!-- Libération du verrou -->
+			<c:if test="#{modeleFeuilleRouteActions.canUserVerrouillerSquelette()}">
+				<h:commandButton type="submit" class="button"
+					value="#{messages['epg.dossier.lock.action.lock']}"
+					action="#{modeleFeuilleRouteActions.verrouillerSquelette()}" />
+			</c:if>
+
+			<!-- Validation du modèle -->
+			<c:if test="#{modeleFeuilleRouteActions.canValidateSquelette()}">
+				<h:commandButton type="submit" class="button"
+					value="#{messages['feuilleRoute.squelette.commande.valider']}"
+					action="#{modeleFeuilleRouteActions.validateSquelette()}" />
+			</c:if>
+
+			<!-- Dévalidation du modèle -->
+			<c:if
+				test="#{modeleFeuilleRouteActions.canInvalidateSquelette()}">
+				<h:commandButton type="submit" class="button"
+					value="#{messages['feuilleRoute.squelette.command.modifier']}"
+					action="#{modeleFeuilleRouteActions.invalidateSquelette()}" />
+			</c:if>
+		</div>
+
+		<ui:include src="/incl/feuille_route_detail_ajax_button.xhtml" />
+	</h:form>
+</div>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Ce composant contribue les schémas de l'application SOLON EPG. -->
+<component name="fr.dila.solonepg.core.schema">
+
+	<require>org.nuxeo.ecm.core.CoreExtensions</require>
+	<require>org.nuxeo.ecm.directory.types</require>
+	<require>fr.dila.cm.schemas</require>
+	<require>fr.dila.st.core.type</require>
+
+	<extension target="org.nuxeo.ecm.core.schema.TypeService"
+		point="schema">
+
+		<!-- *********************************************************************** 
+			Schémas de l'organigramme *********************************************************************** -->
+		<!-- Surcharge du schema "group" de Nuxeo -->
+		<schema name="group" src="schemas/group.xsd" override="true" />
+
+		<!-- Fonctions unitaires -->
+		<schema name="base_function" src="schemas/base_function.xsd" />
+
+		<!-- *********************************************************************** 
+			Surcharge des schémas de Nuxeo *********************************************************************** -->
+		<!-- Surcharge des commentaires de Nuxeo pour ajouter la gestion des droits -->
+		<schema name="comment" src="schemas/comment.xsd" override="true" />
+
+		<!-- *********************************************************************** 
+			Vocabulaires *********************************************************************** -->
+		<schema name="vocabularyLegislature" src="schemas/vocabulary_legislature.xsd" />
+		<schema name="vocabularyTypeAvisTP" src="schemas/vocabulary_type_avis_tp.xsd" />
+		<schema name="vocabularyTypeActe" src="schemas/vocabulary_type_acte.xsd" />
+
+		<!-- *********************************************************************** 
+			Feuille de route *********************************************************************** -->
+		<!-- Feuilles de route -->
+		<schema name="feuille_route" src="schemas/feuille_route_solon_epg.xsd"
+			prefix="fdr" />
+
+		<!-- Réutilisation du schema "routing_task" de Nuxeo afin de limiter le 
+			nombre de tables -->
+		<schema name="routing_task" src="schemas/routing_task.xsd"
+			prefix="rtsk" override="true" />
+
+		<!-- *********************************************************************** 
+			Mailbox SOLON EPG *********************************************************************** -->
+		<!-- Mailbox SOLON EPG -->
+		<schema name="mailbox_solon_epg" src="schemas/mailbox_solon_epg.xsd"
+			prefix="gmlbx" />
+
+		<!-- Réutilisation du schema "actionnable_case_link" de Nuxeo afin de limiter 
+			le nombre de tables -->
+		<schema name="actionnable_case_link" src="schemas/actionnable_case_link.xsd"
+			prefix="acslk" override="true" />
+
+		<!-- *********************************************************************** 
+			Dossier SOLON EPG *********************************************************************** -->
+		<schema name="dossier_solon_epg" src="schemas/dossier_solon_epg.xsd"
+			prefix="dos" />
+
+		<schema name="fond_dossier_solon_epg" src="schemas/fond_dossier_solon_epg.xsd"
+			prefix="fdd" />
+
+		<schema name="fond_dossier_folder_solon_epg" src="schemas/fond_dossier_folder_solon_epg.xsd"
+			prefix="fddf" />
+
+		<schema name="parapheur_folder_solon_epg" src="schemas/parapheur_folder_solon_epg.xsd"
+			prefix="pf" />
+
+		<!-- Schema pour les retours du conseil d'etat -->
+		<schema name="conseil_etat" src="schemas/conseil_etat.xsd"
+			prefix="consetat" />
+
+		<!-- Schema pour les retours de la DILA -->
+		<schema name="retour_dila" src="schemas/retour_dila.xsd"
+			prefix="retdila" />
+
+		<!-- Schema pour le traitement papier -->
+		<schema name="traitement_papier" src="schemas/traitement_papier.xsd"
+			prefix="tp" />
+
+		<!-- Schema pour les textes signales -->
+		<schema name="texte_signale" src="schemas/texte_signale.xsd"
+			prefix="ts" />
+
+		<!-- *********************************************************************** 
+			ACTIVITE NORMATIVE *********************************************************************** -->
+		<!-- activite normative -->
+		<schema name="activite_normative" src="schemas/activite_normative.xsd"
+			prefix="norma" />
+
+		<!-- Texte-Maître -->
+		<schema name="texte_maitre" src="schemas/texte_maitre.xsd"
+			prefix="texm" />
+
+		<!-- activite normative parti programmation -->
+		<schema name="activite_normative_programmation" src="schemas/activite_normative_programmation.xsd"
+			prefix="anp" />
+		<schema name="ligneProgrammation" src="schemas/ligne_programmation.xsd" prefix="lp" />
+
+		<!-- activite normative parti programmation -->
+		<schema name="activite_normative_parametrage" src="schemas/activite_normative_parametrage.xsd"
+			prefix="paran" />
+
+		<!-- Mise à jour ministérielle sur les applications loi, ordonnance, transposition -->
+		<schema name="maj_ministerielle" src="schemas/maj_ministerielle.xsd"
+			prefix="majm" />
+
+		<!-- *********************************************************************** 
+			Divers SOLON EPG *********************************************************************** -->
+		<schema name="file_solon_epg" src="schemas/file_solon_epg.xsd"
+			prefix="filepg" />
+			
+		<schema name="versions" src="schemas/versions.xsd" prefix="ver" />
+
+		<schema name="profil_utilisateur_solon_epg" src="schemas/profil_utilisateur_solon_epg.xsd"
+			prefix="pusr" />
+
+		<schema name="parametrage_application" src="schemas/parametrage_application.xsd"
+			prefix="pa" />
+			
+		<schema name="parametrage_adamant" src="schemas/parametrage_adamant.xsd"
+			prefix="pad" />
+
+		<schema name="liste_traitement_papier_solon_epg" src="schemas/liste_traitement_papier.xsd"
+			prefix="lis" />
+
+		<!-- *********************************************************************** 
+			Administration SOLON EPG *********************************************************************** -->
+
+		<schema name="modele_fond_dossier_racine_solon_epg" src="schemas/modele_fond_dossier_racine_solon_epg.xsd"
+			prefix="mfddr" />
+
+		<schema name="modele_fond_dossier_solon_epg" src="schemas/modele_fond_dossier_solon_epg.xsd"
+			prefix="mfdd" />
+
+		<schema name="modele_parapheur_solon_epg" src="schemas/modele_parapheur_solon_epg.xsd"
+			prefix="mp" />
+
+		<!-- note : les schemas des modèles de répertoires du fdd et du parapheur 
+			sont déjà défini ( fond_dossier_folder_solon_epg et parapheur_folder_solon_epg 
+			) -->
+
+		<!-- *********************************************************************** 
+			Recherche SOLON EPG *********************************************************************** -->
+		<schema name="requete_dossier" src="schemas/requete_dossier.xsd"
+			prefix="rqd" />
+
+		<schema name="requete_dossier_simple_criteres_principaux"
+			src="schemas/requete_dossier_simple_criteres_principaux.xsd" prefix="rqdcp" />
+
+		<schema name="requete_dossier_simple_criteres_secondaires"
+			src="schemas/requete_dossier_simple_criteres_secondaires.xsd" prefix="rqdcs" />
+
+		<schema name="requete_dossier_simple_criteres_etapes"
+			src="schemas/requete_dossier_simple_criteres_etapes.xsd" prefix="rqdce" />
+
+		<schema name="requete_dossier_simple_texte_integral"
+			src="schemas/requete_dossier_simple_texte_integral.xsd" prefix="rqdct" />
+
+
+		<!-- *********************************************************************** 
+			Organigramme SOLON EPG *********************************************************************** -->
+		<schema name="organigramme-poste" src="schemas/organigramme_poste.xsd" />
+
+		<schema name="organigramme-entite" src="schemas/organigramme_entite.xsd" />
+
+		<schema name="organigramme-unite-structurelle" src="schemas/organigramme_unite_structurelle.xsd" />
+
+		<schema name="organigramme-gouvernement" src="schemas/organigramme_gouvernement.xsd" />
+
+		<!-- *********************************************************************** 
+			Table de référence SOLON EPG *********************************************************************** -->
+		<schema name="table_reference" src="schemas/table_reference.xsd"
+			prefix='tbref' />
+
+		<schema name="mode_parution" src="schemas/mode_parution.xsd"
+			prefix='mod' />
+
+		<!-- *********************************************************************** 
+			Bulletin Officiel SOLON EPG *********************************************************************** -->
+		<schema name="bulletin_officiel" src="schemas/bulletin_officiel.xsd" />
+
+		<!-- *********************************************************************** 
+			Vecteur Publication SOLON EPG *********************************************************************** -->
+		<schema name="vecteur_publication" src="schemas/vecteur_publication.xsd"
+			prefix='vp' />
+
+		<!-- *********************************************************************** 
+			birt resultat fichier *********************************************************************** -->
+		<schema name="birt_resultat_fichier" src="schemas/birt_resultat_fichier.xsd"
+			prefix='brf' />
+
+		<!-- *********************************************************************** 
+			birt refresh fichier *********************************************************************** -->
+		<schema name="birt_refresh_fichier" src="schemas/birt_refresh_fichier.xsd"
+			prefix='breff' />
+
+		<!-- *********************************************************************** 
+			export Pan stat *********************************************************************** -->
+		<schema name="export_pan_stat" src="schemas/export_pan_stat.xsd"
+			prefix='expanstat' />
+
+
+		<!-- *********************************************************************** 
+			Indexation SOLON EPG *********************************************************************** -->
+		<schema name="indexation_rubrique_solon_epg" src="schemas/indexation_rubrique.xsd" />
+
+		<schema name="indexation_mot_cle_solon_epg" src="schemas/indexation_mot_cle.xsd" />
+
+		<!-- Demande Publication webservice -->
+		<schema name="wsSpe" src="schemas/ws_spe.xsd" prefix="wsspe" />
+
+		<!-- *********************************************************************** 
+			Recherche SOLON EPG *********************************************************************** -->
+		<!-- Derniers résultats consultés -->
+		<schema name="resultat_consulte" src="schemas/resultat_consulte.xsd"
+			prefix="rescon" />
+
+		<!-- Favoris de consultation -->
+		<schema name="favoris_consultation" src="schemas/favoris_consultation.xsd"
+			prefix="favcon" />
+
+		<!-- Favoris de recherche -->
+		<schema name="favoris_recherche" src="schemas/favoris_recherche.xsd"
+			prefix="favrec" />
+
+		<!-- dossiers signales -->
+		<schema name="dossiers_signales" src="schemas/dossiers_signales.xsd"
+			prefix="ds" />
+
+		<schema name="tableau_dynamique" src="schemas/tableau_dynamique.xsd"
+			prefix="tabdyn" />
+
+		<!-- Schema pour les information de la connection des utilisateurs' -->
+		<schema name="info_utilisateur_connection" src="schemas/info_utilisateur_connection.xsd"
+			prefix="infouc" />
+
+	</extension>
+
+</component>

@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:rich="http://richfaces.org/rich">
+
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} - #{messages['title.search.results']}"/>
+  </ui:define>
+
+  <ui:define name="body">
+
+    <ui:include src="/incl/message_banner.xhtml"/>
+
+    <div id="content">
+ 		<a4j:region id="upperContentView">
+	      <div id="upperContentView">
+	        <h:form id="smartSearchResultsActions">
+	          <table>
+	            <tr>
+	              <td>
+	                <h:commandButton id="edit_search"
+	                  value="#{messages['command.editSmartSearch']}"
+	                  action="view_espace_recherche_user"
+	                  immediate="true"
+	                  styleClass="button" />
+	              </td>
+	              <td style="padding-left:40px;">
+	                <h4>#{messages['label.smart.search.results']} "#{userManagerActions.searchQuery}"</h4>            
+	              </td>
+	            </tr>
+	          </table>
+	        </h:form>
+	        <nxu:set var="contentViewName" value="recherche_user_resultat">
+	          <nxu:set var="contentView" value="#{contentViewActions.getContentViewWithProvider(contentViewName)}" cache="true">
+	            <ui:decorate template="/incl/content_view.xhtml">
+	              <ui:define name="content_view_header_before_selector" />
+	            </ui:decorate>
+	          </nxu:set>
+	        </nxu:set>
+	      </div>
+		</a4j:region>	
+    </div>	
+    <ui:include src="/recherche/user_upper_panel_toggle.xhtml" />
+    
+    
+	<a4j:region id="mailRegion">
+    	<rich:modalPanel id="mailPanel" autosized="true">
+    	 <a4j:outputPanel id="createFileParapheurOutPutPanel" >
+					<div>
+<!-- TODO: make this work						<f:facet name="header"> -->
+						
+<!-- 						</f:facet> -->
+							<h:outputText value="#{messages['label.sendMail.title']}" />
+					</div>
+					<h:form id="mailForm">
+						<table style="width: 550px;">
+							<tr>
+								<td style="width: 150px; text-align: right;">Objet :</td>
+								<td><h:inputText id="objet_mail"
+										value="#{userManagerActions.formObjetMail}"
+										style="width:400px" /></td>
+							</tr>
+							<tr>
+								<td style="width: 150px; text-align: right;">Texte :</td>
+								<td><h:inputTextarea id="texte_mail"
+										value="#{userManagerActions.formTexteMail}"
+										style="max-width: 400px;width: 400px; height: 200px;font-family: Arial,Verdana,sans-serif;" /></td>
+							</tr>
+							<tr>
+								<td style="width: 150px; text-align: right;">Fichier à ajouter :</td>
+								<td> <rich:fileUpload 	listHeight="120"
+              					style="float: right;width: 400px;"
+				            	fileUploadListener="#{userManagerActions.fileUploadListener}"
+				            	maxFilesQuantity="#{userManagerActions.uploadsAvailable}"
+				            	id="uploadFondDeDossierFiles" doneLabel="Téléchargement effectué"
+				            	clearAllControlLabel="Supprimer" immediateUpload="true"
+				            	addControlLabel="Ajouter Fichier" clearControlLabel="Supprimer"
+				            	acceptedTypes="#{userManagerActions.acceptedTypes}" allowFlash="false">
+				                              
+				                <a4j:support event="onuploadcomplete" eventsQueue="createFileParapheurQueue" reRender="errorName" />
+				                <a4j:support event="onclear" eventsQueue="createFileParapheurQueue" reRender="errorName">
+									
+									<a4j:actionparam name="fname" noEscape="true" value="(event.memo.entry)?event.memo.entry.fileName:'' "
+									assignTo="#{userManagerActions.removeFileName}"
+									actionListener="#{userManagerActions.clearUploadData}" />
+									
+								</a4j:support>                
+				              </rich:fileUpload></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+								    <rich:modalPanel id="errorParapheurType" width="300" height="150">
+								       <f:facet name="header"><h:outputText value="Type de document incompatible" style="FONT-SIZE: large;" /></f:facet>
+								       <h:panelGrid>
+								          <h:panelGrid columns="2">
+								             <h:graphicImage value="/img/icons/delete.png" />
+								             <h:outputText value="Le type de document sélectionné n'est pas autorisé. Veuillez choisir un autre document." style="FONT-SIZE: medium;COLOR: red" />
+								          </h:panelGrid>          
+								          <h:panelGroup>
+								             <center><input type="button" value="Fermer" onclick="#{rich:component('errorParapheurType')}.hide()" /></center>                  
+								          </h:panelGroup>          
+								       </h:panelGrid>
+								    </rich:modalPanel>
+							    </td>
+							</tr>
+						</table>
+						<f:subview id="messageAcceptedTypes" rendered="#{ (userManagerActions.acceptedTypes != null) and (!userManagerActions.acceptedTypes.isEmpty()) }">
+						                <div class="popupDiv">
+						<!--                 commented because for the initial release (FEV410) there is no need of verification -->
+						<!--                   <h:outputLabel value="Les types de documents autorisés sont les suivants : #{userManagerActions.acceptedTypes}" /> -->
+						<!--                   <br /> -->
+						                  <h:outputLabel value="Le nom du document ne doit pas comporter de caractères spéciaux (', %, (, etc.)." />
+		               					 </div>
+		              </f:subview>
+		              <div>
+						  <a4j:status for="mailRegion">
+								<f:facet name="start">
+									<h:graphicImage value="/img/standart_waiter.gif" style="position: absolute;" />
+								</f:facet>
+						  </a4j:status>
+					  </div>
+		
+		              <!-- error message -->
+		              <div class="popupDiv">
+		    			<h:outputText class="msgError" id="errorName" value="#{userManagerActions.errorName}" />
+		              </div> 
+				<!-- button create -->
+						<table>
+							<tr>
+								<td>
+									<div class="popupFddDiv">
+										<a4j:commandLink
+											action="#{userManagerActions.sendMail}"
+											id="envoyerMailButton"
+											oncomplete="Richfaces.hideModalPanel('mailPanel')">
+											<h:graphicImage height="24" width="24"
+												url="/img/icons/check.png" alt="Créer" />
+											<h:outputText value="Valider" />
+										</a4j:commandLink>
+									</div>
+								</td>
+								<td>
+									<!-- button close -->
+									<div class="popupFddDiv">
+										<a4j:commandLink
+											action="#{userManagerActions.annulerMail}"
+											id="annulerMail"
+											oncomplete="Richfaces.hideModalPanel('mailPanel')"
+											ajaxSingle="true">
+											<h:graphicImage height="24" width="24"
+												url="/img/icons/delete.png" alt="Annuler" />
+											<h:outputText value="Annuler" />
+										</a4j:commandLink>
+									</div>
+								</td>
+							</tr>
+						</table>
+		        </h:form>
+   			</a4j:outputPanel>
+		</rich:modalPanel>
+    </a4j:region>
+    
+    
+  </ui:define>
+  
+  <ui:define name="subbody">
+    <ui:include src="/recherche/view_user_subbody.xhtml" />
+  </ui:define>
+</nxthemes:composition>

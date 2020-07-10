@@ -1,0 +1,1914 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.widget.dossier">
+  <require>fr.dila.solonepg.web.layout.widgetType</require>
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+
+  <!-- widget NorCreation field -->
+  <widget name="nor_creation_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.numeroNor</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>numeroNor</field>
+    </fields>
+     <properties widgetMode="any">
+        <property name="required">true</property>
+        <property name="maxlength">12</property>
+        <property name="style">width:200px</property>
+      </properties>
+  </widget>
+
+  <!-- widget numeroNor -->
+  <widget name="numero_nor_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.numeroNor</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:numeroNor</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget statut -->
+  <widget name="statut_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.statut</label>
+    </labels>
+    <translated>true</translated>
+    <properties widgetMode="any">
+      <property name="template">/widgets/bordereau/statut_widget_template.xhtml</property>
+    </properties>
+  </widget>
+
+  <!-- widget typeActe -->
+  <widget name="type_acte_field" type="filtered_select_one_directory">
+    <labels>
+      <label mode="any">label.epg.dossier.typeActe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>typeActe</field>
+    </fields>
+      <properties mode="any">
+        <property name="directoryName">type_acte</property>
+        <property name="vocabularySchema">vocabularyTypeActe</property>
+        <property name="filter">typeActeFilter</property>
+        <property name="displayEmptyValue">true</property>
+        <property name="rerenderValues">creationDossier100OutPutPanel</property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="displayRequired">true</property>
+      </properties>
+  </widget>
+  
+  <!-- widget type acte bordereau -->
+  <widget name="type_acte_bord" type="filtered_select_one_directory">
+    <labels>
+      <label mode="any">label.epg.dossier.typeActe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:typeActe</field>
+    </fields>
+    <properties mode="any">
+      <property name="directoryName">type_acte</property>
+      <property name="vocabularySchema">vocabularyTypeActe</property>
+      <property name="filter">typeActeDecretFilter</property>
+    </properties>
+    <properties widgetMode="edit">
+      <property name="required">true</property>
+      <property name="displayRequired">true</property>
+      <property name="displayRequiredValidation">true</property>
+      <property name="onchange">if(!confirm('Etes-vous sûr de vouloir changer le type d\'acte ? \r\n Cette opération peut supprimer des documents du fond de dossier et du parapheur.')) { form.reset(); return false; }</property>
+    </properties>
+    <widgetModes>
+      <mode value="edit">#{nxu:test(!bordereauActions.isEditableTypeActe(currentDocument),'view','edit')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget titreActe -->
+  <widget name="titre_acte_field" type="textarea">
+    <labels>
+      <label mode="any">label.epg.dossier.titreActe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:titreActe</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="rows">2</property>
+    </properties>
+      <properties widgetMode="edit">
+        <property name="displayRequired">true</property>
+      </properties>
+  </widget>
+
+  <!-- widget ministereResp -->
+  <widget name="ministere_resp_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.ministereResp</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>ministereResp</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">MIN_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+      <property name="rerenderOrganigrammeId">direction_resp_field</property>
+    </properties>
+    <properties widgetMode="edit">
+      <property name="displayRequired">true</property>
+    </properties>
+  </widget>
+
+  <!-- widget directionResp -->
+  <widget name="direction_resp_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.directionResp</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>directionResp</field>
+      <field>ministereResp</field>
+      <field>currentNor</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">DIR_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+      <property name="organigrammeFilterMode">true</property>
+      <property name="organigrammeWithNorMode">true</property>
+    </properties>
+    <properties widgetMode="edit">
+      <property name="displayRequired">true</property>
+    </properties>
+  </widget>
+  
+  <!-- widget ministereResp bordereau -->
+  <widget name="ministere_resp_bord" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.ministereRespBord</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:ministereResp</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">MIN_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget directionResp bordereau -->
+  <widget name="direction_resp_bord" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.directionRespBord</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:directionResp</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">DIR_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+  
+  <!-- widget transpositionDirective pour un décret -->
+  <widget name="transposition_directive_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.transpositionDirective</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>transpositionDirective</field>
+    </fields>
+     <properties mode="any">
+     <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+     </properties>
+  </widget>
+  
+  <!-- widget transpositionDirective pour un arrêté -->
+  <widget name="transposition_directive_arrete_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.transpositionDirectiveArrete</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>transpositionDirective</field>
+    </fields>
+     <properties mode="any">
+     <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+     </properties>
+  </widget>
+  
+  <!-- widget transpositionDirective pour une loi -->
+  <widget name="transposition_directive_loi_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.transpositionDirectiveLoi</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>transpositionDirective</field>
+    </fields>
+     <properties mode="any">
+     <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+     </properties>
+  </widget>
+  
+  <!-- widget transpositionDirective pour une ordonnance -->
+  <widget name="transposition_directive_ordonnance_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.transpositionDirectiveOrdonnance</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>transpositionDirective</field>
+    </fields>
+     <properties mode="any">
+     <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+     </properties>
+  </widget>
+  
+  <!-- widget dispositionHabilitation -->
+  <widget name="disposition_habilitation_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.dispositionHabilitation</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dispositionHabilitation</field>
+    </fields>
+     <properties mode="any">
+     <property name="template">/widgets/boolean_habilitation_widget_template.xhtml</property>
+     </properties>
+  </widget>
+  
+  <!-- widget applicationLoi -->
+  <widget name="application_loi_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.applicationLoi</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>applicationLoi</field>
+    </fields>
+     <properties mode="any">
+     <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+     </properties>
+  </widget>
+  
+  <!-- widget transpositionOrdonnance -->
+  <widget name="transposition_ordonnance_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.transpositionOrdonnance</label>
+    </labels>
+    <fields>
+      <field>transpositionOrdonnance</field>
+    </fields>
+     <properties mode="any">
+     <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+     </properties>
+  </widget>
+  
+  <!-- widget transposition_directive_list -->
+  <widget name="transposition_directive_list" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <properties mode="any">
+      <property name="template">/widgets/dossier_creation_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">transpositionDirective</property>
+    </properties>
+  </widget>
+  
+  <!-- widget transposition_directive_list bordereau -->
+  <widget name="transposition_directive_list_bord" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <fields>
+      <field>dos:transpositionDirective</field>
+    </fields>
+    <properties mode="any">
+      <property name="template">/widgets/transposition_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">transpositionDirective</property>
+    </properties>
+  </widget>
+  
+  <!-- widget application_loi_list -->
+  <widget name="application_loi_list_bord" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <fields>
+      <field>dos:applicationLoi</field>
+    </fields>
+    <properties mode="any">
+      <property name="template">/widgets/transposition_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">applicationLoi</property>
+    </properties>
+  </widget>
+  
+  <!-- widget transposition_ordonnance_list -->
+  <widget name="transposition_ordonnance_list_bord" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <fields>
+      <field>dos:transpositionOrdonnance</field>
+    </fields>
+    <properties mode="any">
+      <property name="template">/widgets/transposition_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">transpositionOrdonnance</property>
+    </properties>
+  </widget>
+  
+  <!-- widget application_loi_list -->
+  <widget name="application_loi_list" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <properties mode="any">
+      <property name="template">/widgets/dossier_creation_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">applicationLoi</property>
+    </properties>
+  </widget>
+  
+  <!-- widget transposition_ordonnance_list -->
+  <widget name="transposition_ordonnance_list" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <properties mode="any">
+      <property name="template">/widgets/dossier_creation_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">transpositionOrdonnance</property>
+    </properties>
+  </widget>
+
+  <!-- widget habilitation_reference_loi_field -->
+  <widget name="habilitation_ref" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.habilitation.refLoi</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:habilitationRefLoi</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="displayRequired">true</property>
+      <property name="validator">#{dossierCreationActions.validateReferenceLoi}</property>
+    </properties>
+  </widget>
+  
+    <!-- widget habilitation_numero_article_field -->
+  <widget name="habilitation_numero" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.habilitation.numArticle</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:habilitationNumeroArticles</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="displayRequired">false</property>
+    </properties>
+  </widget>
+ 
+     <!-- widget habilitation_commentaire_field -->
+  <widget name="habilitation_commentaire" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.habilitation.commentaire</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:habilitationCommentaire</field>
+    </fields>
+  </widget>
+
+  <!-- widget habilitation_commentaire_field -->
+  <widget name="habilitation_numero_ordre" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.habilitation.numero.ordre</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:habilitationNumeroOrdre</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="validator">#{dossierCreationActions.validateNumeroOrdre}</property>
+    </properties>
+  </widget>
+   
+  <!-- widget reference_loi_field -->
+  <widget name="reference_loi_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.habilitation.refLoi</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>refLoi</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="required">true</property>
+      <property name="validator">#{dossierCreationActions.validateReferenceLoi}</property>
+    </properties>
+  </widget>
+  
+  <!-- widget numero_article_field -->
+  <widget name="numero_article_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.habilitation.numArticle</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>numArticle</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="required">false</property>
+    </properties>
+  </widget>
+  
+  <!-- widget commentaire_field -->
+  <widget name="commentaire_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.habilitation.commentaire</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>commentaire</field>
+    </fields>
+  </widget>
+  
+  <!-- widget commentaire_field -->
+  <widget name="numero_ordre_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.habilitation.numero.ordre</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>numeroOrdre</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="validator">#{dossierCreationActions.validateNumeroOrdre}</property>
+    </properties>
+  </widget>  
+  
+  <!-- widget ministereAttache -->
+  <widget name="ministere_attache_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.ministereAttache</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:ministereAttache</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">MIN_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget directionAttache -->
+  <widget name="direction_attache_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.directionAttache</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:directionAttache</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">DIR_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget nomRespDossier -->
+  <widget name="nom_resp_dossier_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.nomRespDossier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:nomRespDossier</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="required">#{nxu:test(currentDocument.currentLifeCycleState == 'init', false, nxu:test(currentDocument.currentLifeCycleState == 'done', false, true))}</property>
+      <property name="displayRequired">true</property>
+      <property name="displayRequiredValidation">true</property>
+      <property name="maxlength">100</property>
+    </properties>
+  </widget>
+
+  <!-- widget prenomRespDossier -->
+  <widget name="prenom_resp_dossier_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.prenomRespDossier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:prenomRespDossier</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="maxlength">150</property>
+    </properties>
+  </widget>
+
+  <!-- widget nomCompletRespDossier -->
+  <widget name="nom_complet_resp_dossier_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.nomCompletRespDossier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:nomCompletRespDossier</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="maxlength">2000</property>
+    </properties>
+  </widget>
+
+  <!-- widget qualiteRespDossier -->
+  <widget name="qualite_resp_dossier_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.qualiteRespDossier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:qualiteRespDossier</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="required">#{nxu:test(currentDocument.currentLifeCycleState == 'init', false, nxu:test(currentDocument.currentLifeCycleState == 'done', false, true))}</property>
+      <property name="displayRequired">true</property>
+      <property name="displayRequiredValidation">true</property>
+      <property name="maxlength">250</property>
+    </properties>
+  </widget>
+
+  <!-- widget telRespDossier -->
+  <widget name="tel_resp_dossier_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.telRespDossier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:telRespDossier</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="required">#{nxu:test(currentDocument.currentLifeCycleState == 'init', false, nxu:test(currentDocument.currentLifeCycleState == 'done', false, true))}</property>
+      <property name="displayRequired">true</property>
+      <property name="displayRequiredValidation">true</property>
+      <property name="maxlength">150</property>
+    </properties>
+  </widget>
+
+  <!-- widget mailRespDossier -->
+  <widget name="mail_resp_dossier_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.mailRespDossier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:mailRespDossier</field>
+    </fields>
+    <properties widgetMode="edit">
+      <property name="maxlength">150</property>
+    </properties>
+  </widget>
+
+  <!-- widget idCreateurDossier -->
+  <widget name="id_createur_dossier_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.idCreateurDossier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:idCreateurDossier</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">USER_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget categorieActe -->
+  <widget name="categorie_acte_field" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.categorieActe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>nature</field>
+    </fields>
+    <properties mode="any">
+        <property name="directoryName">category_acte_convention_collective</property>
+    </properties>
+    <properties widgetMode="edit">
+      <property name="required">true</property>
+      <property name="validator">#{dossierCreationActions.validateNatureActe}</property>
+    </properties>
+  </widget>
+
+  <!-- widget categorieActe bord -->
+  <widget name="categorie_acte_bord" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.categorieActe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:categorieActe</field>
+    </fields>
+    <properties mode="any">
+        <property name="directoryName">#{nxu:test(bordereauActions.isVisibleCategorieActeConventionCollective(),'category_acte_convention_collective','categorie_acte')}</property>
+    </properties>
+    <properties widgetMode="edit">
+        <property name="required">true</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+      <mode value="any">#{nxu:test(bordereauActions.isVisibleCategorieActe(),mode,'hidden')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget statut archivage -->
+  <widget name="statut_archivage_bord" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.statutArchivage</label>
+    </labels>
+    <translated>true</translated>
+    <properties widgetMode="any">
+        <property name="template">/widgets/statut_archivage_view_widget_template.xhtml</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+      <mode value="any">#{nxu:test(bordereauActions.isVisibleStatutArchivage(),mode,'hidden')}</mode>
+    </widgetModes>
+  </widget>
+
+
+  <!-- widget texte entreprise bord -->
+  <widget name="texte_entreprise_bord" type="checkbox">
+    <labels>
+      <label mode="any">label.epg.dossier.texte.entreprise</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:texteEntreprise</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+      <mode value="any">#{nxu:test(bordereauActions.isVisibleTexteEntreprise(),mode,'hidden')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget date effet texte entreprise -->
+  <widget name="texte_entreprise_date_effet_bord" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.date.effet.entreprise</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:dateEffet</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/bordereau/date_effet_widget_template.xhtml</property>
+      <property name="displayRequired">true</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+      <mode value="view">#{nxu:test(bordereauActions.isTexteEntrepriseCoche(),mode,'hidden')}</mode>
+      <mode value="edit">#{nxu:test(bordereauActions.isVisibleTexteEntreprise(),mode,'hidden')}</mode>
+    </widgetModes>    
+  </widget>
+    
+  <!-- widget baseLegaleActe -->
+  <widget name="base_legale_acte_field" type="textarea">
+   <labels>
+      <label mode="any">label.epg.dossier.baseLegaleActe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:baseLegaleActe</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isVisibleBaseLegale(value),mode,'hidden')}</mode>
+    </widgetModes>
+    <properties widgetMode="edit">
+      <property name="rows">5</property>
+    </properties>
+  </widget>
+
+  <widget name="base_legale_nature_texte" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.baseLegale.natureDuTexte</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:baseLegaleNatureTexte</field>
+    </fields>
+    <properties mode="any">
+      <property name="directoryName">base_legale_nature_texte</property>
+      <property name="displayRequired">true</property>      
+    </properties>
+  </widget>
+
+  <widget name="base_legale_numero_texte" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.baseLegale.numeroDuTexte</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:baseLegaleNumeroTexte</field>
+    </fields>
+    <properties mode="any">      
+      <property name="displayRequired">true</property>      
+    </properties>
+    
+  </widget>
+
+
+  <widget name="base_legale_date" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.baseLegale.date</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:baseLegaleDate</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="pattern">dd/MM/yyyy</property>
+	  <property name="format">dd/MM/yyyy</property>
+	  <property name="displayRequired">true</property>	  
+    </properties>
+  </widget>
+
+
+  
+  
+  
+    <widget name="periodicite_rapport" type="bordereau_periodicite">
+      <labels>
+        <label mode="any">label.epg.dossier.periodiciteRapport</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dos.periodiciteRapport</field>
+        <field>dos.periodicite</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">periodiciteRapport</property>        
+        <property name="displayRequired">true</property>
+        <property name="required">true</property>
+        <property name="directoryName">periodicite_rapport</property>
+      </properties>
+    </widget>
+  
+  
+
+  <!-- widget datePublication -->
+  <widget name="date_publication_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.datePublication</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:datePublication</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="pattern">dd/MM/yyyy</property>
+	  <property name="format">dd/MM/yyyy</property>
+    </properties>
+  </widget>
+
+  <!-- widget publicationRapportPresentation -->
+  <widget name="publication_rapport_presentation_field" type="checkbox">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationRapportPresentation</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:publicationRapportPresentation</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isVisiblePublicationRapport(value),mode,'hidden')}</mode>
+    </widgetModes>
+  </widget>
+  
+    <!-- widget Priorité CE -->
+  <widget name="priorite_ce_field" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.prioriteCe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>consetat:priorite</field>
+    </fields>
+    <properties mode="any">
+        <property name="directoryName">priorite_ce</property>
+        <property name="ordering">id</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isEditableCE(value),'edit','view')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget sectionCe -->
+  <widget name="section_ce_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.sectionCe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>consetat:sectionCe</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isEditableCE(value),'edit','view')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget rapporteurCe -->
+  <widget name="rapporteur_ce_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.rapporteurCe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>consetat:rapporteurCe</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isEditableCE(value),'edit','view')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget dateTransmissionSectionCe -->
+  <widget name="date_transmission_section_ce_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.dateTransmissionSectionCe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>consetat:dateTransmissionSectionCe</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="pattern">dd/MM/yyyy</property>
+	  <property name="format">dd/MM/yyyy</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isEditableCE(value),'edit','view')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget dateSectionCe -->
+  <widget name="date_section_ce_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.dateSectionCe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>consetat:dateSectionCe</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="pattern">dd/MM/yyyy</property>
+	  <property name="format">dd/MM/yyyy</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isEditableCE(value),'edit','view')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget dateAgCe -->
+  <widget name="date_ag_ce_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.dateAgCe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>consetat:dateAgCe</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="pattern">dd/MM/yyyy</property>
+	  <property name="format">dd/MM/yyyy</property>    </properties>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isEditableCE(value),'edit','view')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget numeroISA -->
+  <widget name="numero_isa_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.numeroISA</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>consetat:numeroISA</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isEditableCE(value),'edit','view')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget nomCompletChargesMissions -->
+  <widget name="nom_complet_charges_missions_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.nomCompletChargesMissions</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:nomCompletChargesMissions</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+    <properties widgetMode="any">
+      <property name="template">/widgets/listing/join_list_widget_template.xhtml</property>
+    </properties>
+  </widget>
+
+  <!-- widget nomCompletConseillersPms -->
+  <widget name="nom_complet_conseillers_pm_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.nomCompletConseillersPms</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:nomCompletConseillersPms</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+    <properties widgetMode="any">
+        <property name="template">/widgets/listing/join_list_widget_template.xhtml</property>
+    </properties>
+  </widget>
+
+  <!-- widget dateSignature -->
+  <widget name="date_signature_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.dateSignature</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:dateSignature</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="pattern">dd/MM/yyyy</property>
+	  <property name="format">dd/MM/yyyy</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isModifiableDateSignature(),mode,'view')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget pourFournitureEpreuve -->
+  <widget name="pour_fourniture_epreuve_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.pourFournitureEpreuve</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:pourFournitureEpreuve</field>
+    </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+	    <property name="format">dd/MM/yyyy</property>
+      </properties>
+  </widget>
+
+  <!-- widget vecteurPublication -->
+  <widget name="vecteur_publication_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.vecteurPublication</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:vecteurPublication</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/bordereau/vecteur_publication_widget_template.xhtml</property>
+    </properties>
+    <properties widgetMode="edit">
+      <property name="required">#{nxu:test(currentDocument.currentLifeCycleState == 'init', false, nxu:test(currentDocument.currentLifeCycleState == 'done', false, true))}</property>
+      <property name="displayRequired">true</property>
+      <property name="displayRequiredValidation">true</property>
+    </properties>
+  </widget>
+
+  <!-- widget publicationConjointe -->
+  <widget name="publication_conjointe_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationConjointe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:publicationsConjointes</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/bordereau/publications_conjointes_widget_template.xhtml</property>
+    </properties>
+  </widget>
+
+  <!-- widget publicationIntegraleOuExtrait -->
+  <widget name="publication_integrale_ou_extrait_field" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationIntegraleOuExtrait</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:publicationIntegraleOuExtrait</field>
+    </fields>
+    <properties mode="any">
+      <property name="directoryName">type_publication</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isVisiblePublicationIntegrale(value),mode,'hidden')}</mode>
+    </widgetModes>
+    <properties widgetMode="edit">
+      <property name="required">true</property>
+      <property name="displayRequired">true</property>
+    </properties>
+  </widget>
+
+  <!-- widget decretNumerote -->
+  <widget name="decret_numerote_field" type="checkbox">
+    <labels>
+      <label mode="any">label.epg.dossier.decretNumerote</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:decretNumerote</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isVisibleDecretNumerote(value),mode,'hidden')}</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget modeParution -->
+  <widget name="mode_parution_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.modeParution</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>retdila:modeParution</field>
+    </fields>
+    <properties mode="any">
+      <property name="template">/widgets/selectOneMenu_widget_template.xhtml</property>
+      <property name="type">modeParution</property>
+    </properties>
+  </widget>
+
+  <!-- widget delaiPublication -->
+  <widget name="delai_publication_field" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.delaiPublication</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:delaiPublication</field>
+    </fields>
+    <properties mode="any">
+      <property name="directoryName">delai_publication</property>
+    </properties>
+  </widget>
+
+  <!-- widget datePreciseePublication -->
+  <widget name="date_precisee_publication_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.datePreciseePublication</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:datePreciseePublication</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="pattern">dd/MM/yyyy</property>
+	    <property name="format">dd/MM/yyyy</property>
+      <property name="displayRequired">true</property>
+      <property name="displayRequiredValidation">true</property>
+    </properties>
+ </widget>
+
+  <!-- widget dateParutionJorf -->
+  <widget name="date_parution_jorf_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.dateParutionJorf</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>retdila:dateParutionJorf</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="pattern">dd/MM/yyyy</property>
+	  <property name="format">dd/MM/yyyy</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget numeroTexteParutionJorf -->
+  <widget name="numero_texte_parution_jorf_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.numeroTexteParutionJorf</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>retdila:numeroTexteParutionJorf</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isVisibleNumeroTexteJO(value),'view','hidden')}</mode>
+    </widgetModes>
+  </widget>
+  
+  <!-- widget pageParutionJorf -->
+  <widget name="page_parution_jorf_field" type="int">
+    <labels>
+      <label mode="any">label.epg.dossier.pageParutionJorf</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>retdila:pageParutionJorf</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget titreOfficielParutionJorf -->
+  <widget name="titre_officiel_parution_jorf_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.titreOfficiel</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>retdila:titreOfficiel</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+  
+  <!-- widget parutionBo -->
+  <widget name="parution_bo_list_bord" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <fields>
+      <field>retdila:parutionBo</field>
+    </fields>
+    <properties mode="any">
+      <property name="template">/widgets/parution_bo_list_widget_template.xhtml</property>
+    </properties>
+  </widget>
+
+  <!-- widget zoneComSggDila -->
+  <widget name="zone_com_sgg_dila_field" type="textarea">
+  	<labels>
+      <label mode="any">label.epg.dossier.zoneComSggDila</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:zoneComSggDila</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">#{nxu:test(bordereauActions.isModifiableZoneComSggDila(),mode,'view')}</mode>
+    </widgetModes>
+    <properties widgetMode="edit">
+      <property name="rows">5</property>
+    </properties>
+  </widget>
+
+  <!-- widget rubrique -->
+  <widget name="rubrique_field" type="list">
+    <labels>
+      <label mode="any">label.epg.dossier.rubrique</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:rubrique</field>
+    </fields>
+  </widget>
+
+  <!-- widget motsCles -->
+  <widget name="mots_cles_field" type="list">
+    <labels>
+      <label mode="any">label.epg.dossier.motsCles</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:motsCles</field>
+    </fields>
+  </widget>
+
+  <!-- widget champLibre -->
+  <widget name="champ_libre_field" type="list">
+    <labels>
+      <label mode="any">label.epg.dossier.champLibre</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:champLibre</field>
+    </fields>
+  </widget>
+
+  <!-- widget dateArrivePapier -->
+  <widget name="date_arrive_papier_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.dateArrivePapier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:dateArrivePapier</field>
+    </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+	    <property name="format">dd/MM/yyyy</property>
+      </properties>
+  </widget>
+
+  <!-- widget commentaireReference -->
+  <widget name="commentaire_reference_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.commentaireReference</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:commentaireReference</field>
+    </fields>
+  </widget>
+
+  <!-- widget texteAPublier -->
+  <widget name="texte_apublier_field" type="checkbox">
+    <labels>
+      <label mode="any">label.epg.dossier.texteAPublier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:texteAPublier</field>
+    </fields>
+  </widget>
+
+  <!-- widget signataire -->
+  <widget name="signataire_field" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.signataire</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:signataire</field>
+    </fields>
+        <properties mode="any">
+          <property name="directoryName">type_signataire_traitement_papier</property>
+        </properties>
+  </widget>
+
+  <!-- widget priorite -->
+  <widget name="niveau_priorite_traitement_papier" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.priorite</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:priorite</field>
+    </fields>
+        <properties mode="any">
+          <property name="directoryName">type_signataire_traitement_papier</property>
+        </properties>
+  </widget>
+
+  <!-- widget nomsSignatairesCommunication -->
+  <widget name="noms_signataires_communication_field" type="list">
+    <labels>
+      <label mode="any">label.epg.dossier.nomsSignatairesCommunication</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:nomsSignatairesCommunication</field>
+    </fields>
+  </widget>
+
+  <!-- widget signaturePm 
+  <widget name="signature_pm_field" type="donneesSignataire">
+    <labels>
+      <label mode="any">label.epg.dossier.signaturePm</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:signaturePm</field>
+    </fields>
+  </widget>-->
+
+  <!-- widget signatureSgg 
+  <widget name="signature_sgg_field" type="donneesSignataire">
+    <labels>
+      <label mode="any">label.epg.dossier.signatureSgg</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:signatureSgg</field>
+    </fields>
+  </widget>-->
+
+  <!-- widget signaturePr 
+  <widget name="signature_pr_field" type="donneesSignataire">
+    <labels>
+      <label mode="any">label.epg.dossier.signaturePr</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:signaturePr</field>
+    </fields>
+  </widget>
+-->
+  <!-- widget cheminCroix -->
+  <widget name="chemin_croix_field" type="checkbox">
+    <labels>
+      <label mode="any">label.epg.dossier.cheminCroix</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:cheminCroix</field>
+    </fields>
+  </widget>
+
+  <!-- widget numerosListeSignatureField 
+  <widget name="numeros_liste_signature_field_field" type="numerosListeSignature">
+    <labels>
+      <label mode="any">label.epg.dossier.numerosListeSignatureField</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:numerosListeSignatureField</field>
+    </fields>
+  </widget>
+-->
+  <!-- widget retourA -->
+  <widget name="retour_a_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.retourA</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:retourA</field>
+    </fields>
+  </widget>
+
+  <!-- widget dateRetour -->
+  <widget name="date_retour_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.dateRetour</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:dateRetour</field>
+    </fields>
+  </widget>
+
+  <!-- widget motifRetour -->
+  <widget name="motif_retour_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.motifRetour</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:motifRetour</field>
+    </fields>
+  </widget>
+
+  <!-- widget nomsSignatairesRetour -->
+  <widget name="noms_signataires_retour_field" type="list">
+    <labels>
+      <label mode="any">label.epg.dossier.nomsSignatairesRetour</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:nomsSignatairesRetour</field>
+    </fields>
+  </widget>
+
+  <!-- widget epreuve 
+  <widget name="epreuve_field" type="infoEpreuve">
+    <labels>
+      <label mode="any">label.epg.dossier.epreuve</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:epreuve</field>
+    </fields>
+  </widget>-->
+
+  <!-- widget nouvelleDemandeEpreuves 
+  <widget name="nouvelle_demande_epreuves_field" type="infoEpreuve">
+    <labels>
+      <label mode="any">label.epg.dossier.nouvelleDemandeEpreuves</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:nouvelleDemandeEpreuves</field>
+    </fields>
+  </widget>
+-->
+  <!-- widget retourDuBonaTitrerLe -->
+  <widget name="retour_du_bona_titrer_le_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.retourDuBonaTitrerLe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:retourDuBonaTitrerLe</field>
+    </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+	    <property name="format">dd/MM/yyyy</property>
+      </properties>
+  </widget>
+
+  <!-- widget publicationDateEnvoiJo -->
+  <widget name="publication_date_envoi_jo_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationDateEnvoiJo</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:publicationDateEnvoiJo</field>
+    </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+	    <property name="format">dd/MM/yyyy</property>
+      </properties>
+  </widget>
+
+  <!-- widget publicationNomPublication -->
+  <widget name="publication_nom_publication_field" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationNomPublication</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:publicationNomPublication</field>
+    </fields>
+        <properties mode="any">
+          <property name="directoryName">mode_parution</property>
+        </properties>    
+  </widget>
+
+  <!-- widget publicationModePublication -->
+  <widget name="publication_mode_publication_field" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationModePublication</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:publicationModePublication</field>
+    </fields>
+        <properties mode="any">
+          <property name="directoryName">mode_parution</property>
+        </properties>    
+  </widget>
+
+  <!-- widget publicationEpreuveEnRetour -->
+  <widget name="publication_epreuve_en_retour_field" type="checkbox">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationEpreuveEnRetour</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:publicationEpreuveEnRetour</field>
+    </fields>
+  </widget>
+
+  <!-- widget publicationDelai -->
+  <widget name="publication_delai_field" type="selectOneDirectory">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationDelai</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:publicationDelai</field>
+    </fields>
+        <properties mode="any">
+          <property name="directoryName">delai_publication</property>
+        </properties>    
+  </widget>
+
+  <!-- widget publicationDateDemande -->
+  <widget name="publication_date_demande_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationDateDemande</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:publicationDateDemande</field>
+    </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+	    <property name="format">dd/MM/yyyy</property>
+      </properties>
+  </widget>
+
+  <!-- widget publicationNumeroListe -->
+  <widget name="publication_numero_liste_field" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationNumeroListe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:publicationNumeroListe</field>
+    </fields>
+  </widget>
+
+  <!-- widget publicationDate -->
+  <widget name="publication_date_field" type="datetime">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationDate</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:publicationDate</field>
+    </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+	    <property name="format">dd/MM/yyyy</property>
+      </properties>
+  </widget>
+
+  <!-- widget ampliationDestinataireMails -->
+  <widget name="ampliation_destinataire_mails_field" type="list">
+    <labels>
+      <label mode="any">label.epg.dossier.ampliationDestinataireMails</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>tp:ampliationDestinataireMails</field>
+    </fields>
+  </widget>
+
+  <!-- widget ampliationHistorique 
+  <widget name="ampliation_historique_field" type="infosHistoriqueAmpliation">
+    <labels>
+      <label mode="any">label.epg.dossier.ampliationHistorique</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:ampliationHistorique</field>
+    </fields>
+  </widget>
+-->
+  
+    <widget name="indexation_rubriques" type="template">
+      <labels>
+        <label mode="any">label.indexation.rubrique</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dos:rubriques</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/bordereau/indexation_list_widget_template.xhtml</property>
+        <property name="indexationType">rubriques</property>
+        <property name="displayRequired">true</property>
+        <property name="displayRequiredValidation">true</property>
+      </properties>
+    </widget>
+    
+    <widget name="indexation_motscles" type="template">
+      <labels>
+        <label mode="any">label.indexation.motscles</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dos:motscles</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/bordereau/indexation_list_widget_template.xhtml</property>
+        <property name="indexationType">motscles</property>
+      </properties>
+    </widget>
+    
+    <widget name="indexation_libre" type="template">
+      <labels>
+        <label mode="any">label.indexation.libre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dos:libre</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/bordereau/indexation_widget_template.xhtml</property>
+        <property name="indexationType">libre</property>
+      </properties>
+    </widget>
+
+    <!-- widget dispositionHabilitation -->
+    <widget name="dossier_creation_poste" type="template">
+      <labels>
+        <label mode="any">label.epg.dossier.dispositionHabilitation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>posteId</field>
+      </fields>
+       <properties mode="any">
+       <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+       </properties>
+    </widget>
+    
+    <widget name="dossier_creation_choix_poste_poste" type="template">
+      <labels>
+        <label mode="any">epg.dossierCreation.choixPoste.poste</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>posteId</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+        <property name="organigrammeSelectionType">POSTE_TYPE</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="required">true</property>
+      </properties>
+    </widget>
+    
+    <!-- widget ministereAttachementTransfert -->
+  <widget name="ministere_attTransfert_field" type="template">
+    <labels>
+      <label mode="any">transfert.dossier.ministereCible</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>ministereResp</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">MIN_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+      <property name="rerenderOrganigrammeId">direction_attTransfert_field</property>
+    </properties>
+    <properties widgetMode="edit">
+      <property name="required">true</property>
+    </properties>
+  </widget>
+
+  <!-- widget directionAttachementTransfert -->
+  <widget name="direction_attTransfert_field" type="template">
+    <labels>
+      <label mode="any">transfert.dossier.directionCible</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>directionResp</field>
+      <field>ministereResp</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">DIR_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+      <property name="organigrammeFilterMode">true</property>
+    </properties>
+    <properties widgetMode="edit">
+      <property name="required">true</property>
+    </properties>
+  </widget>
+
+  <!-- widget infosParlementairesEmetteur -->
+  <widget name="infos_parl_emetteur" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.infosparl.emetteur</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:emetteur</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget infosParlementairesRubrique -->
+  <widget name="infos_parl_rubrique" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.infosparl.rubrique</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:rubrique</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget infosParlementairesCommentaire -->
+  <widget name="infos_parl_commentaire" type="text">
+    <labels>
+      <label mode="any">label.epg.dossier.infosparl.commentaire</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:commentaire</field>
+    </fields>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+    
+    <!-- 
+    
+    widget utilisés pour l'import pdf 
+    
+     -->
+    
+      <!-- widget ministereResp bordereau utilise pour l'impression pdf -->
+  <widget name="pdf_ministere_resp_bord" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.ministereRespBord</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:ministereResp</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/pdf_organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">MIN_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget directionResp bordereau utilise pour l'impression pdf -->
+  <widget name="pdf_direction_resp_bord" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.directionRespBord</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:directionResp</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/pdf_organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">DIR_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+    
+      <!-- widget ministereAttache utilise pour l'impression pdf -->
+  <widget name="pdf_ministere_attache_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.ministereAttache</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:ministereAttache</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/pdf_organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">MIN_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+
+  <!-- widget directionAttache utilise pour l'impression pdf -->
+  <widget name="pdf_direction_attache_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.directionAttache</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:directionAttache</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/pdf_organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">DIR_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+  
+    <!-- widget idCreateurDossier utilise pour l'impression pdf -->
+  <widget name="pdf_id_createur_dossier_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.idCreateurDossier</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:idCreateurDossier</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/pdf_organigramme_select_node_widget.xhtml</property>
+      <property name="organigrammeSelectionType">USER_TYPE</property>
+      <property name="organigrammeSelectionMode">SINGLE</property>
+    </properties>
+    <widgetModes>
+      <mode value="any">view</mode>
+    </widgetModes>
+  </widget>
+  
+    <!-- widget publicationConjointe pour l'impression pdf -->
+  <widget name="pdf_publication_conjointe_field" type="template">
+    <labels>
+      <label mode="any">label.epg.dossier.publicationConjointe</label>
+    </labels>
+    <translated>true</translated>
+    <fields>
+      <field>dos:publicationsConjointes</field>
+    </fields>
+    <properties widgetMode="any">
+      <property name="template">/widgets/bordereau/pdf_publications_conjointes_widget_template.xhtml</property>
+    </properties>
+  </widget>
+ 
+   <!-- widget transposition_directive_list bordereau pour l'impression pdf -->
+  <widget name="pdf_transposition_directive_list_bord" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <fields>
+      <field>dos:transpositionDirective</field>
+    </fields>
+    <properties mode="any">
+      <property name="template">/widgets/pdf_transposition_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">transpositionDirective</property>
+    </properties>
+  </widget>
+  
+  <!-- widget application_loi_list pour l'impression pdf -->
+  <widget name="pdf_application_loi_list_bord" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <fields>
+      <field>dos:applicationLoi</field>
+    </fields>
+    <properties mode="any">
+      <property name="template">/widgets/pdf_transposition_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">applicationLoi</property>
+    </properties>
+  </widget>
+  
+  <!-- widget transposition_ordonnance_list pour l'impression pdf -->
+  <widget name="pdf_transposition_ordonnance_list_bord" type="template">
+    <labels>
+      <label mode="any"></label>
+    </labels>
+    <fields>
+      <field>dos:transpositionOrdonnance</field>
+    </fields>
+    <properties mode="any">
+      <property name="template">/widgets/pdf_transposition_list_widget_template.xhtml</property>
+      <property name="widgetTypeMap">transpositionOrdonnance</property>
+    </properties>
+  </widget>
+  
+  <!-- widget copier fdr dossier pour création -->
+  <widget name="creer_dossier_copier_fdr_widget" type="text">
+    <labels>
+      <label mode="any">epg.dossierCreation.copier.fdr.label</label>
+    </labels>
+    <fields>
+      <field>norDossierCopieFdr</field>
+    </fields>
+  </widget>
+   
+  </extension>
+
+</component>

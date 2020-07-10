@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="USERS_PARAM" id="9">
+            <property name="hidden">false</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="PERMISSIONS_PARAM" id="69">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="MINISTERES_PARAM" id="91">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="VECTEURPUBLICATION_PARAM" id="110">
+            <text-property name="helpText">VECTEUR_PARAM</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_INTE</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfSU5URQ==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="V_STATS_LISTE_TEXTE_EPREUVE" id="111">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">VECTEURPUBLICATION_PARAM</property>
+                    <property name="paramName">VECTEURPUBLICATION_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">VETEUR_PARAM2</property>
+                    <property name="paramName">VECTEURPUBLICATION_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">2</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">NOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">DOSSID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">TITRE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">TYPEACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">NUMEROISA</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">DATEFOURNITUREEP</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">TYPEETAPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">TYPEDEMANDEEPREUVE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">VECTEURS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">NORCONJOINTS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">BULLETINS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">NOR</property>
+                    <property name="nativeName">NOR</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">DOSSID</property>
+                    <property name="nativeName">DOSSID</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">TITRE</property>
+                    <property name="nativeName">TITRE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">TYPEACTE</property>
+                    <property name="nativeName">TYPEACTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">NUMEROISA</property>
+                    <property name="nativeName">NUMEROISA</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">DATEFOURNITUREEP</property>
+                    <property name="nativeName">DATEFOURNITUREEP</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">TYPEETAPE</property>
+                    <property name="nativeName">TYPEETAPE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">TYPEDEMANDEEPREUVE</property>
+                    <property name="nativeName">TYPEDEMANDEEPREUVE</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">VECTEURS</property>
+                    <property name="nativeName">VECTEURS</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">NORCONJOINTS</property>
+                    <property name="nativeName">NORCONJOINTS</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">BULLETINS</property>
+                    <property name="nativeName">BULLETINS</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select nor, dossId, titre, typeActe, numeroIsa, 
+    dateFournitureEp, typeEtape, typeDemandeEpreuve, vecteurs, norConjoints, bulletins from (       
+(select distinct(d.numeronor) as nor, d.id as dossId, d.titreActe as titre, vat."label" as typeActe, ce.numeroisa as numeroIsa, 
+    d.pourfournitureepreuve as dateFournitureEp, r.type as typeEtape, 1 as typeDemandeEpreuve, v.vecteurs, pc.norConjoints, bo.bulletins
+from dossier_solon_epg d 
+      left join voc_acte_type vat on vat."id" = d.typeActe
+      left join routing_task r on r.documentRouteId = d.lastDocumentRoute 
+      left join misc lcs on r.id = lcs.id 
+      left join conseil_etat ce on ce.id = d.id 
+      left join traitement_papier tp on d.id=tp.id 
+      left join hierarchy h on tp.id=h.parentid 
+      left join infoepreuve ie on ie.id = h.id
+      left join (select dos_pc.id, LISTAGG(cast(dpc.item as varchar2(2000)), ', ') WITHIN GROUP (ORDER BY dpc.pos) AS norConjoints
+          from dossier_solon_epg dos_pc inner join dos_publicationsconjointes dpc on dos_pc.id = dpc.id 
+          group by dos_pc.id) pc on pc.id = d.id
+      left join (select dvp.id, LISTAGG(cast(vp.vpintitule as varchar2(2000)), ', ') WITHIN GROUP (ORDER BY vp.vppos) AS vecteurs
+          from vecteur_publication vp inner join dos_vecteurpublication dvp on vp.id = dvp.item 
+          group by dvp.id) v on v.id = d.id
+      left join (select dvp.id, LISTAGG(cast(dvp.item as varchar2(2000)), ', ') WITHIN GROUP (ORDER BY dvp.pos) AS bulletins
+          from dos_vecteurpublication dvp left outer join vecteur_publication vp on dvp.item=vp.id
+          where vp.id is null
+          group by dvp.id) bo on bo.id = d.id
+where d.statut = '2' and lcs.lifecyclestate = 'running'
+and exists(select rt.id from routing_task rt where rt.documentRouteId = d.lastdocumentroute and rt.type='12' and rt.datedebutetape is not null))
+UNION
+(select distinct(d.numeronor) as nor, d.id as dossId, d.titreActe as titre, vat."label" as typeActe, ce.numeroisa as numeroIsa, 
+    d.pourfournitureepreuve as dateFournitureEp, r.type as typeEtape, 2 as typeDemandeEpreuve, v.vecteurs, pc.norConjoints, bo.bulletins
+from dossier_solon_epg d 
+      left join voc_acte_type vat on vat."id" = d.typeActe
+      left join routing_task r on r.documentRouteId = d.lastDocumentRoute 
+      left join misc lcs on r.id = lcs.id 
+      left join conseil_etat ce on ce.id = d.id 
+      left join traitement_papier tp on d.id = tp.id 
+      left join hierarchy h on tp.id=h.parentid 
+      left join infoepreuve ie on ie.id = h.id
+      left join (select dos_pc.id, LISTAGG(cast(dpc.item as varchar2(2000)), ', ') WITHIN GROUP (ORDER BY dpc.pos) AS norConjoints
+        from dossier_solon_epg dos_pc inner join dos_publicationsconjointes dpc on dos_pc.id = dpc.id 
+        group by dos_pc.id) pc on pc.id = d.id
+      left join (select dvp.id, LISTAGG(cast(vp.vpintitule as varchar2(2000)), ', ') WITHIN GROUP (ORDER BY vp.vppos) AS vecteurs
+          from vecteur_publication vp inner join dos_vecteurpublication dvp on vp.id = dvp.item
+          group by dvp.id) v on v.id = d.id
+      left join (select dvp.id, LISTAGG(cast(dvp.item as varchar2(2000)), ', ') WITHIN GROUP (ORDER BY dvp.pos) AS bulletins
+          from dos_vecteurpublication dvp left outer join vecteur_publication vp on dvp.item=vp.id
+          where vp.id is null
+          group by dvp.id) bo on bo.id = d.id
+where d.statut IN ('1','2') and lcs.lifecyclestate = 'running'
+and tp.retourdubonatitrerle is null and ie.epreuvepourle is not null))
+where exists(select dvp.id 
+              from dos_vecteurpublication dvp 
+              where (dvp.item = ? OR item = (select vp.id from vecteur_publication vp where vp.vpintitule = ?)) and dossId=dvp.id)]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="orientation">landscape</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="10">
+            <property name="width">100%</property>
+            <column id="11">
+                <property name="width">7.895833333333333in</property>
+            </column>
+            <row id="12">
+                <cell id="13">
+                    <text id="16">
+                        <property name="fontWeight">bold</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Liste des dossiers en cours d'épreuve, pour un vecteur de publication :]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="39">
+                <cell id="40">
+                    <text id="89">
+                        <property name="fontSize">5pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[ ]]></text-property>
+                    </text>
+                    <label id="109">
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">xls</property>
+                                <expression name="valueExpr" type="javascript">true</expression>
+                            </structure>
+                            <structure>
+                                <property name="format">html</property>
+                                <expression name="valueExpr" type="javascript">false</expression>
+                            </structure>
+                        </list-property>
+                        <text-property name="text"> *les dossiers ayant transité par voie papier sont en gris</text-property>
+                    </label>
+                    <text id="41">
+                        <property name="fontSize">5pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[ ]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="112">
+                <cell id="113">
+                    <table id="202">
+                        <property name="dataSet">V_STATS_LISTE_TEXTE_EPREUVE</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">NOR</property>
+                                <text-property name="displayName">NOR</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NOR"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TITRE</property>
+                                <text-property name="displayName">TITRE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TITRE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TYPEACTE</property>
+                                <text-property name="displayName">TYPEACTE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TYPEACTE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NUMEROISA</property>
+                                <text-property name="displayName">NUMEROISA</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NUMEROISA"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DATEFOURNITUREEP</property>
+                                <text-property name="displayName">DATEFOURNITUREEP</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DATEFOURNITUREEP"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TYPEETAPE</property>
+                                <text-property name="displayName">TYPEETAPE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TYPEETAPE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TYPEDEMANDEEPREUVE</property>
+                                <text-property name="displayName">TYPEDEMANDEEPREUVE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TYPEDEMANDEEPREUVE"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">VECTEURS</property>
+                                <text-property name="displayName">VECTEURS</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["VECTEURS"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NORCONJOINTS</property>
+                                <text-property name="displayName">NORCONJOINTS</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NORCONJOINTS"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding</property>
+                                <text-property name="displayName">NOR</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NOR"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_1</property>
+                                <text-property name="displayName">TITRE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TITRE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_2</property>
+                                <text-property name="displayName">TypeActe</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TYPEACTE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_3</property>
+                                <text-property name="displayName">ISA</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NUMEROISA"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_4</property>
+                                <text-property name="displayName">Vecteurs</text-property>
+                                <expression name="expression" type="javascript">if(dataSetRow["BULLETINS"]!=null){&#13;
+	dataSetRow["VECTEURS"]+", "+dataSetRow["BULLETINS"];&#13;
+}else {&#13;
+	dataSetRow["VECTEURS"];&#13;
+}</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_5</property>
+                                <text-property name="displayName">NORConjoints</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NORCONJOINTS"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_6</property>
+                                <text-property name="displayName">DateFournitureEpreuve</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DATEFOURNITUREEP"]</expression>
+                                <property name="dataType">date</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_7</property>
+                                <text-property name="displayName">TypeEtape</text-property>
+                                <expression name="expression" type="javascript">if(dataSetRow["TYPEETAPE"]!=null) {&#13;
+  if(dataSetRow["TYPEETAPE"]==1){&#13;
+    "Pour initialisation";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==2){&#13;
+    "Pour avis";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==3){&#13;
+    "Pour avis CE";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==4){&#13;
+    "Pour attribution";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==5){&#13;
+    "Pour attribution au SGG";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==6){&#13;
+    "Pour attribution au secteur parlementaire";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==7){&#13;
+    "Pour signature";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==8){&#13;
+    "Pour contreseing";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==9){&#13;
+    "Pour information";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==10){&#13;
+    "Pour impression";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==11){&#13;
+    "Pour bon à tirer";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==12){&#13;
+    "Pour fourniture d'épreuves";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==13){&#13;
+    "Pour publication à la DILA JO";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==14){&#13;
+    "Pour publication à la DILA BO";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==15){&#13;
+    "Retour pour modification";&#13;
+  }&#13;
+  if(dataSetRow["TYPEETAPE"]==16){&#13;
+    "Pour publication BO";&#13;
+  }&#13;
+}&#13;
+else "";</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_8</property>
+                                <text-property name="displayName">TypeDemandeEpreuve</text-property>
+                                <expression name="expression" type="javascript">if(dataSetRow["TYPEDEMANDEEPREUVE"]!=null &amp;&amp; dataSetRow["TYPEDEMANDEEPREUVE"]=="2") {&#13;
+	"*";&#13;
+}&#13;
+else "";</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding_9</property>
+                                <text-property name="displayName">RowNum</text-property>
+                                <expression name="expression" type="javascript">vars["count"]++;</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <column id="236">
+                            <property name="width">3%</property>
+                        </column>
+                        <column id="237">
+                            <property name="width">1.375in</property>
+                        </column>
+                        <column id="238">
+                            <property name="width">20%</property>
+                        </column>
+                        <column id="239"/>
+                        <column id="240"/>
+                        <column id="241"/>
+                        <column id="242">
+                            <property name="width">1.375in</property>
+                        </column>
+                        <column id="243">
+                            <property name="width">10%</property>
+                        </column>
+                        <column id="244"/>
+                        <column id="245">
+                            <property name="width">2%</property>
+                        </column>
+                        <header>
+                            <row id="203">
+                                <cell id="204">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                </cell>
+                                <cell id="205">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="256">
+                                        <text-property name="text">Numéro NOR</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="206">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="257">
+                                        <text-property name="text">Titre de l'acte</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="207">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="258">
+                                        <text-property name="text">Type de l'acte</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="208">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="259">
+                                        <text-property name="text">Numéro ISA</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="209">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="260">
+                                        <text-property name="text">Vecteurs de publication</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="210">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="261">
+                                        <text-property name="text">Publication conjointe</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="211">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="262">
+                                        <text-property name="text">Date de fourniture d'épreuve</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="212">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="263">
+                                        <text-property name="text">Type d'étape en cours du dossier</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="213">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="214">
+                                <list-property name="highlightRules">
+                                    <structure>
+                                        <property name="operator">eq</property>
+                                        <expression name="testExpr" type="javascript">row["TYPEDEMANDEEPREUVE"]</expression>
+                                        <simple-property-list name="value1">
+                                            <value type="javascript">1</value>
+                                        </simple-property-list>
+                                    </structure>
+                                    <structure>
+                                        <property name="operator">eq</property>
+                                        <property name="backgroundColor">#E5E5E5</property>
+                                        <expression name="testExpr" type="javascript">row["TYPEDEMANDEEPREUVE"]</expression>
+                                        <simple-property-list name="value1">
+                                            <value type="javascript">2</value>
+                                        </simple-property-list>
+                                    </structure>
+                                </list-property>
+                                <cell id="215">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="255">
+                                        <property name="resultSetColumn">Column Binding_9</property>
+                                    </data>
+                                </cell>
+                                <cell id="216">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="246">
+                                        <property name="resultSetColumn">Column Binding</property>
+                                    </data>
+                                </cell>
+                                <cell id="217">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="247">
+                                        <property name="resultSetColumn">Column Binding_1</property>
+                                    </data>
+                                </cell>
+                                <cell id="218">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="248">
+                                        <property name="resultSetColumn">Column Binding_2</property>
+                                    </data>
+                                </cell>
+                                <cell id="219">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="249">
+                                        <property name="resultSetColumn">Column Binding_3</property>
+                                    </data>
+                                </cell>
+                                <cell id="220">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="250">
+                                        <property name="resultSetColumn">Column Binding_4</property>
+                                    </data>
+                                </cell>
+                                <cell id="221">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="251">
+                                        <property name="resultSetColumn">Column Binding_5</property>
+                                    </data>
+                                </cell>
+                                <cell id="222">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="252">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/MM/yyyy</property>
+                                            <property name="locale">fr_FR</property>
+                                        </structure>
+                                        <property name="resultSetColumn">Column Binding_6</property>
+                                    </data>
+                                </cell>
+                                <cell id="223">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="253">
+                                        <property name="resultSetColumn">Column Binding_7</property>
+                                    </data>
+                                </cell>
+                                <cell id="224">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="254">
+                                        <property name="resultSetColumn">Column Binding_8</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
+                </cell>
+            </row>
+        </grid>
+    </body>
+    <property name="pageVariables">
+        <variable-element name="count">
+            <expression name="value" type="javascript">1</expression>
+            <property name="type">report</property>
+        </variable-element>
+    </property>
+</report>

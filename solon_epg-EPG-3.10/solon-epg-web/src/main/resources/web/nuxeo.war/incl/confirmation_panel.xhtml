@@ -1,0 +1,60 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="http://richfaces.org/a4j">
+ 
+  <script type="text/javascript"> 
+  function showModalPanel(text){
+	  Richfaces.showModalPanel('confirmationPanel', {param1: text});
+	  return false;
+	 }
+  
+  </script>
+  <h:panelGroup id="confirmationPanelGroup">
+ <rich:modalPanel id="confirmationPanel" autosized="true" onshow="document.getElementById('confirmationPanelText').text = event.parameters.param1;">
+	<style>
+	.button {
+		  cursor:pointer;
+		  color: #454545;
+		  font-size: 10px;
+		  background: #CECFD1 url(#{facesContext.externalContext.requestContextPath}/img/theme_galaxy/buttons.png) repeat-x scroll left top;
+		  border:1px solid #BFC5CB;
+		  padding: 2px 5px 2px 5px;
+		  margin: 5px 10px 10px 0;
+		  }
+	  </style>
+   <f:facet name="header">Confirmation</f:facet>
+      <table style="width: 250px; align=center;">
+      	 <tr>
+      		<td align="center" colspan="2">
+      		<br/>
+      		</td>
+      	</tr>
+      	<tr>
+      		<td align="center" colspan="2">
+      		<a4j:commandLink id="confirmationPanelText" onclick="return false;" style="decoration:none; color:black; cursor:default; text-decoration:none;"/>
+      		</td>
+      	</tr>
+      	 <tr>
+      		<td align="center" colspan="2">
+      		<br/>
+      		</td>
+      	</tr>
+        <tr>
+         <td>
+         	<div align="center">
+         		<a4j:commandButton styleClass="button" value="Confirmer" onclick="Richfaces.hideModalPanel('confirmationPanel');submit();return false" />
+         	</div>
+         </td>
+         <td>
+         	<div align="center">
+		 		<a4j:commandButton styleClass="button" value="Annuler" onclick="Richfaces.hideModalPanel('confirmationPanel');return false" />
+		 	</div>
+		 </td>
+		</tr>
+	</table>
+</rich:modalPanel>
+ </h:panelGroup>
+
+</div>

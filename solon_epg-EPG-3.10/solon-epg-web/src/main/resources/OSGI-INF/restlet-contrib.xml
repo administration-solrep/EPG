@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<component name="fr.dila.solonepg.web.rest.contrib">
+
+  <require>org.nuxeo.ecm.platform.ui.web.restAPI.contrib</require>
+  
+  <extension target="org.nuxeo.ecm.platform.ui.web.restAPI.service.PluggableRestletService"
+      point="restlets">
+
+    <documentation>
+      Upload a file in an existing document
+      POST /nuxeo/restAPI/{repo}/{docid}/{filename}/uploadFile
+      => désactivé
+    </documentation>
+    <restletPlugin
+        name="uploadFileRestlet"
+        class="org.nuxeo.ecm.platform.ui.web.restAPI.UploadFileRestlet"
+        enabled="false"
+        useSeam="true">
+      <urlPatterns>
+        <urlPattern>/{repo}/{docid}/{filename}/uploadFile</urlPattern>
+      </urlPatterns>
+    </restletPlugin>
+    
+    <documentation>
+      Upload a file in an existing document
+      POST /nuxeo/restAPI/{repo}/{docid}/{filename}/uploadFile
+    </documentation>
+    <restletPlugin
+        name="uploadFileRestlet"
+        class="fr.dila.solonepg.web.rest.UploadFileRestlet"
+        enabled="true"
+        useSeam="true">
+      <urlPatterns>
+        <urlPattern>/{repo}/{docid}/{filename}/uploadFile</urlPattern>
+      </urlPatterns>
+    </restletPlugin>
+    
+    <documentation>
+      Allows lock manipulation via Restlet API:
+      GET /nuxeo/restAPI/{repoId}/{docId}/Locking/lock
+      GET /nuxeo/restAPI/{repoId}/{docId}/Locking/unlock
+      GET /nuxeo/restAPI/{repoId}/{docId}/Locking/status
+      GET /nuxeo/restAPI/{repoId}/{docId}/Locking/state
+      LOCK /nuxeo/restAPI/{repoId}/{docId}/Locking
+      UNLOCK /nuxeo/restAPI/{repoId}/{docId}/Locking
+      => désactivé
+    </documentation>
+    <restletPlugin
+        name="locking"
+        class="org.nuxeo.ecm.platform.ui.web.restAPI.LockingRestlet"
+        enabled="false"
+        useSeam="false"
+        useConversation="false">
+      <urlPatterns>
+        <urlPattern>/{repo}/{docid}/Locking</urlPattern>
+      </urlPatterns>
+    </restletPlugin>
+    
+    <documentation>
+      Allows lock manipulation via Restlet API:
+      GET /nuxeo/restAPI/{repoId}/{docId}/Locking/lock
+      GET /nuxeo/restAPI/{repoId}/{docId}/Locking/unlock
+      GET /nuxeo/restAPI/{repoId}/{docId}/Locking/status
+      GET /nuxeo/restAPI/{repoId}/{docId}/Locking/state
+      LOCK /nuxeo/restAPI/{repoId}/{docId}/Locking
+      UNLOCK /nuxeo/restAPI/{repoId}/{docId}/Locking
+      => désactivé
+    </documentation>
+    <restletPlugin
+        name="locking"
+        class="fr.dila.solonepg.web.rest.LockingRestlet"
+        enabled="true"
+        useSeam="false"
+        useConversation="false">
+      <urlPatterns>
+        <urlPattern>/{repo}/{docid}/Locking</urlPattern>
+      </urlPatterns>
+    </restletPlugin>
+
+  </extension>
+</component>

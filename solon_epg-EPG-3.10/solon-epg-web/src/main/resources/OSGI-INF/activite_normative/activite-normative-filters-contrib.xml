@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Ce composant contribue : - Les filtres utilisés dans les actions. -->
+<component name="fr.dila.solonepg.web.filters.activite.normative">
+	<require>fr.dila.solonepg.web.filters</require>
+
+	<extension target="org.nuxeo.ecm.platform.actions.ActionService" point="filters">
+		
+		<filter id="isInOrdonnances">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInOrdonnances()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInOrdonnances38C">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInOrdonnances38C()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInApplicationDesLois">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInApplicationDesLois()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInApplicationDesOrdonnances">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInApplicationDesOrdonnances()}
+				</condition>
+			</rule>
+		</filter>
+		
+		<filter id="isInApplicationDesLoisOrOrdonnances">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInApplicationDesLoisOrOrdonnances()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInTransposition">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTransposition()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInTexteMaitre">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTexteMaitre()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInTableauProgrammation">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTableauProgrammation()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInTableauSuivi">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTableauSuivi()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInTraiteAccord">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTraiteAccord()}
+				</condition>
+			</rule>
+		</filter>
+		
+		<!-- Retourne vrai si un ministere est charge dans l'espace activite Normative -->
+		<filter id="isMinistereLoadedActiviteNormative">
+			<rule grant="true">
+				<condition>#{texteMaitreActions.isMinistereLoaded()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si un dossier est charge dans l'espace activite Normative -->
+		<filter id="isDocumentLoadedActiviteNormative">
+			<rule grant="true">
+				<condition>#{texteMaitreActions.isDocumentLoaded()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si le texteMaitre est editable ie verrouillé par l'utilisateur 
+			courant -->
+		<filter id="isTexteMaitreEditMode">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isEditMode()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si le texteMaitre est n'est pas editable ie non verrouillé 
+			par l'utilisateur courant -->
+		<filter id="isTexteMaitreNotEditMode">
+			<rule grant="false">
+				<condition>#{activiteNormativeActions.isEditMode()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne faux si le texteMaitre est verrouillé -->
+		<filter id="isTexteMaitreNotLocked">
+			<rule grant="false">
+				<condition>#{activiteNormativeActions.isTexteMaitreLocked()}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si le texteMaitre est verrouillé -->
+		<filter id="isTexteMaitreLocked">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isTexteMaitreLocked()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInTableauLois">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTableauLois()}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isInTableauOrdonnances">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTableauOrdonnances()}</condition>
+			</rule>
+		</filter>
+		
+		<!-- Retourne vrai si l'utilisateur peu mettre a jour dans l'espace activite 
+			Normative -->
+		<filter id="espace_activite_normative_updater_grid">
+			<rule grant="true">
+				<group>administrators</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInApplicationDesLois()}
+				</condition>
+				<group>EspaceActiviteNormativeAppLoisUpdater</group>
+				<group>EspaceActiviteNormativeMinistereApplicationLoi</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInOrdonnances()}</condition>
+				<group>EspaceActiviteNormativeRatOrdoUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInOrdonnances38C()}
+				</condition>
+				<group>EspaceActiviteNormativeSuivHabUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTraiteAccord()}
+				</condition>
+				<group>EspaceActiviteNormativeTraitAccUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTransposition()}
+				</condition>
+				<group>EspaceActiviteNormativeTranspositionUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInApplicationDesOrdonnances()}
+				</condition>
+				<group>EspaceActiviteNormativeAppOrdoUpdater</group>
+				<group>EspaceActiviteNormativeMinistereApplicationOrdonnance</group>
+			</rule>
+
+		</filter>
+
+		<filter id="isNotInApplicationDesLois">
+			<rule grant="false">
+				<condition>#{activiteNormativeActions.isInApplicationDesLois()}
+				</condition>
+			</rule>
+		</filter>
+		
+		<filter id="isNotInApplicationDesOrdonnances">
+			<rule grant="false">
+				<condition>#{activiteNormativeActions.isInApplicationDesOrdonnances()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isNotInOrdonnances38C">
+			<rule grant="false">
+				<condition>#{activiteNormativeActions.isInOrdonnances38C()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTexteMaitreExportCsv">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInApplicationDesLois()}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInTransposition()}
+				</condition>
+			</rule>
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isInApplicationDesOrdonnances()}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isHistoriqueMajMinisterielReader">
+			<rule grant="true">
+				<group>HistoriqueMajMinisterielReader</group>
+			</rule>
+		</filter>
+
+		<filter id="isMajMinListNotEmpty">
+			<rule grant="false">
+				<condition>#{majMinActions.isMajMinListEmpty()}</condition>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur courant est un utilisateur avec le profil ministère pour application des lois -->
+		<filter id="isTexteMaitreLoiMinistere">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isUtilisateurMinistereLoi()}</condition>
+			</rule>
+		</filter>	
+		
+		<!-- Retourne vrai si l'utilisateur courant est un utilisateur avec le profil ministère pour application des ordonnances -->
+		<filter id="isTexteMaitreOrdonnanceMinistere">
+			<rule grant="true">
+				<condition>#{activiteNormativeActions.isUtilisateurMinistereOrdonnance()}</condition>
+			</rule>
+		</filter>
+		
+		<!-- Retourne vrai si l'utilisateur courant n'est pas un utilisateur qui a des droits seulement de type ministère -->
+		<filter id="isNotOnlyProfilMinistere">
+			<rule grant="false">
+				<condition>#{activiteNormativeActions.isOnlyUtilisateurMinistereLoiOrOrdonnance()}</condition>
+			</rule>
+		</filter>		
+	</extension>
+	
+</component>

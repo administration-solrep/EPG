@@ -1,0 +1,176 @@
+<f:subview
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:p="http://jboss.com/products/seam/pdf"
+  id="#{layout.id}">
+
+<c:if test="false">
+  Layout template applying to an item instance of SelectDataModel named "documents"
+
+  Other needed parameters are:
+  - provider: instance of a ResultProvider to handle sort
+  - layoutListingStatus: iteration status, used to print table header
+    matching widget label.
+</c:if>
+
+<c:if test="#{showListingHeader and layout.properties.showListingHeader}">
+      <nxl:layoutColumn>
+          <c:choose>
+            <c:when test="#{layoutColumn.properties.isListingSelectionBox}">
+            </c:when>
+            <c:when test="#{layoutColumn.properties.isListingSelectionBoxWithCurrentDocument}">
+            </c:when>
+            <c:when test="#{layoutColumnIndex == 0}">
+              <c:if test="#{value.data.getRouteMaxDepth() gt 0}">
+              	<p:cell colspan="#{value.data.getRouteMaxDepth()}" grayFill=".6" verticalAlignment="middle"/>
+              </c:if>
+            </c:when>
+            <c:when test="#{layoutColumn.properties.useFirstWidgetLabelAsColumnHeader}">
+               <p:cell rendered="#{!layoutColumn.widgets[0].translated}" grayFill=".6" verticalAlignment="middle">
+                <p:font style="bold" size="10">
+                	<p:paragraph alignment="center">#{layoutColumn.widgets[0].label}</p:paragraph>
+                </p:font>
+               </p:cell>
+               <p:cell rendered="#{layoutColumn.widgets[0].translated}" grayFill=".6" verticalAlignment="middle">
+                <p:font style="bold" size="10">
+                	<p:paragraph alignment="center"> #{messages[layoutColumn.widgets[0].label]}</p:paragraph>
+                </p:font>
+              </p:cell>
+            </c:when>
+          </c:choose>
+      </nxl:layoutColumn>
+</c:if>
+
+<c:set var="trStyleClass" value="#{nxu:test(layoutListingStatus.index%2 ==0, 'dataRowEven', 'dataRowOdd')}" />
+  <nxl:layoutColumn>
+    
+      <nxl:layoutColumnWidget>
+       <c:choose>
+         <c:when test="#{layoutColumnIndex == 0 and ! (value.data.getRouteMaxDepth() gt 0) }">
+         </c:when>
+         <c:when test="#{layoutColumnIndex == 0 and value.data.getRouteMaxDepth() gt 0}">
+					<!-- gestion de l'affichage du bon nombre de cellule -->	
+	          <c:choose>
+		          <c:when test="#{value.data.getDepth() eq 0}">
+		          	<!-- on fusionne toutes les cellules vide -->
+		          	<p:cell backgroundColor="white" colspan="#{value.data.getRouteMaxDepth() - value.data.getFirstChildFolders().size()}" verticalAlignment="middle"/>
+		          </c:when>
+		          <c:when test="#{value.data.getFirstChildFolders().size() eq 0}">
+		          	<!-- gestion de l'affichage de la profondeur du noeud si l'étape de feuille de route ne contient pas de firstchildfolder-->
+     	          <c:forEach varStatus="depthStatus" begin="1" end="#{value.data.getDepth()}" >
+			            <c:set var="cellBackgroundColor" 
+			              value="#{nxu:test((1+depthStatus.index)%4 == 1, 'white', nxu:test((1+depthStatus.index)%4 == 2, 'rgb(241,255,251)', nxu:test((1+depthStatus.index)%4 == 3, 'rgb(255,252,238)', nxu:test((1+depthStatus.index)%4 == 0, 'rgb(236,244,255)', ''))))}" />
+			            <c:choose>
+			           	<c:when test="#{depthStatus.last and depthStatus.index lt value.data.getRouteMaxDepth() }">
+				           	<!-- si on affiche la dernière cellule on s'assure d'avoir le bon nombre en rajoutant une cellule ayant le bon colspan -->
+				           	<!-- ajout de la cellule représentant la position de l'élément -->
+				           	<p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}" />
+				           	<!-- ajout de la cellule avec le bon colspan -->
+	            			<p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}" colspan="#{value.data.getRouteMaxDepth() - depthStatus.index }"/>
+			           	</c:when>
+			           	<c:otherwise>
+				           	<p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}"/>
+			           	</c:otherwise>
+			            </c:choose>
+			          </c:forEach>
+		          </c:when>
+		          <c:otherwise>
+			          <!-- gestion du cas ou le premier firstchildfolder ne commence pas à depth = 0  -->
+			          <c:if test="#{value.data.getFirstChildFolders().get(0).getDepth() gt 0}">
+			          		<!-- gestion de l'affichage de la profondeur du noeud -->
+                          <nxu:set var="folders" value="#{value.data.getFirstChildFolders()}" cache="true">
+    		     	          <c:forEach varStatus="depthStatus" begin="1" end="#{folders.get(0).getDepth()}" >
+    					            <c:set var="cellBackgroundColor" 
+    					              value="#{nxu:test((1+depthStatus.index)%4 == 1, 'white', nxu:test((1+depthStatus.index)%4 == 2, 'rgb(241,255,251)', nxu:test((1+depthStatus.index)%4 == 3, 'rgb(255,252,238)', nxu:test((1+depthStatus.index)%4 == 0, 'rgb(236,244,255)', ''))))}" />
+    						           	<p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}" />
+    					      </c:forEach>
+                          </nxu:set>
+			          </c:if>
+		          </c:otherwise>
+	          </c:choose>
+          
+          <!-- gestion de l'affichage des branches -->
+          <nxu:set var="folders" value="#{value.data.getFirstChildFolders()}" cache="true">
+            <c:forEach var="folder" varStatus="folderStatus" items="#{folders}" >
+              <c:set var="cellBackgroundColor"
+                value="#{nxu:test((1+folder.depth)%4 ==0, 'white', nxu:test((1+folder.depth)%4 == 1, 'rgb(241,255,251)', nxu:test((1+folder.depth)%4 ==2, 'rgb(255,252,238)', nxu:test((1+folder.depth)%4 ==3, 'rgb(236,244,255)', ''))))}" />
+              <c:choose>
+             	<c:when test="#{folderStatus.last and folder.depth lt (value.data.getRouteMaxDepth()-1) }">
+  	           	<!-- si on affiche la dernière cellule on s'assure d'avoir le bon nombre en rajoutant une cellule ayant le bon colspan -->
+  	           	<p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}" >
+  	            	<p:paragraph/>
+  		            <nxl:layoutColumnWidget>
+  		              <nxl:widget widget="#{widget}" value="#{folder}" />
+  		              <c:if test="#{layoutColumn.size > 1 and layoutColumn.size > widgetIndex + 1 and widgetIndex > 0}">
+  		                <br />
+  		              </c:if>
+  		            </nxl:layoutColumnWidget>
+  	            </p:cell>
+  	            <!-- ajout de la cellule avec le bon colspan -->
+  	            <p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}" colspan="#{value.data.getRouteMaxDepth() - folder.depth - 1}"/>
+             	</c:when>
+             	<c:otherwise>
+  	           	<p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}">
+  	            	<p:paragraph/>
+  		            <nxl:layoutColumnWidget>
+  		              <nxl:widget widget="#{widget}" value="#{folder}" />
+  		              <c:if test="#{layoutColumn.size > 1 and layoutColumn.size > widgetIndex + 1 and widgetIndex > 0}">
+  		                <br />
+  		              </c:if>
+  		            </nxl:layoutColumnWidget>
+  	            </p:cell>
+             	</c:otherwise>
+              </c:choose>
+            </c:forEach>
+          </nxu:set>
+        </c:when>
+        <c:when test="#{widget.name == 'pdf_routing_task_list_element_state' or widget.name == 'pdf_routing_task_list_obligatoire_icon'}"> 
+                  <c:set var="cellBackgroundColor"
+              value="#{nxu:test((value.data.getDepth())%4 ==0, 'white', nxu:test((value.data.getDepth())%4 == 1, 'rgb(241,255,251)', nxu:test((value.data.getDepth())%4 ==2, 'rgb(255,252,238)', nxu:test((value.data.getDepth())%4 ==3, 'rgb(236,244,255)', ''))))}" />
+          <!--  Hack pour afficher les images à la bonne taille  : on rajoute un p:parapgraph dans le cell avant de mettre la p:image -->
+           <p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}">
+          <p:paragraph/>
+          <nxl:widget widget="#{widget}" value="#{value}" />
+         <c:if test="#{layoutColumn.size > 1 and layoutColumn.size > widgetIndex + 1 and widgetIndex > 0}">
+          <br />
+        </c:if>
+        </p:cell>
+      </c:when>
+       <c:when test="#{widget.name == 'pdf_routing_task_list_numero_version'}"> 
+                  <c:set var="cellBackgroundColor"
+              value="#{nxu:test((value.data.getDepth())%4 ==0, 'white', nxu:test((value.data.getDepth())%4 == 1, 'rgb(241,255,251)', nxu:test((value.data.getDepth())%4 ==2, 'rgb(255,252,238)', nxu:test((value.data.getDepth())%4 ==3, 'rgb(236,244,255)', ''))))}" />
+          <!--  utilise pour signaler que l'on veut centrer la valeur à afficher -->
+           <p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}">
+		        <p:font size="8" alignment="center" >
+		        <p:paragraph >
+				          <nxl:widget widget="#{widget}" value="#{value}" />
+				          <c:if test="#{layoutColumn.size > 1 and layoutColumn.size > widgetIndex + 1 and widgetIndex > 0}">
+				           <br />
+				          </c:if>
+		     		</p:paragraph>
+		     		</p:font>
+        </p:cell>
+      </c:when>
+      <c:otherwise>
+                  <c:set var="cellBackgroundColor"
+              value="#{nxu:test((value.data.getDepth())%4 ==0, 'white', nxu:test((value.data.getDepth())%4 == 1, 'rgb(241,255,251)', nxu:test((value.data.getDepth())%4 ==2, 'rgb(255,252,238)', nxu:test((value.data.getDepth())%4 ==3, 'rgb(236,244,255)', ''))))}" />
+        <p:cell verticalAlignment="middle" backgroundColor="#{cellBackgroundColor}">
+		        <p:font size="8" >
+		        <p:paragraph alignment="left">
+				          <nxl:widget widget="#{widget}" value="#{value}" />
+				          <c:if test="#{layoutColumn.size > 1 and layoutColumn.size > widgetIndex + 1 and widgetIndex > 0}">
+				           <br />
+				          </c:if>
+		     		</p:paragraph>
+		     		</p:font>
+     		</p:cell>
+       </c:otherwise>
+      </c:choose>
+      </nxl:layoutColumnWidget>
+       
+  </nxl:layoutColumn>
+</f:subview>

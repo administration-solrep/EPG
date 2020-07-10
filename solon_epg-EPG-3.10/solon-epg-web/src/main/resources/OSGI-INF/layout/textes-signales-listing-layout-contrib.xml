@@ -1,0 +1,389 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les layouts + widgets nécessaires à la liste des dossiers affichées de manière générique.
+-->
+<component name="fr.dila.solonepg.web.layout.textessignaleslisting">
+  <require>fr.dila.solonepg.web.widget.dossierlisting</require>
+  <require>com.nuxeo.document.routing.table.widget</require>
+  <require>com.nuxeo.cm.table.layout</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+    
+    <!-- liste des dossiers affichées par défaut : utilisée notamment dans l'espace de suivi-->
+    <layout name="textes_signales_listing">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+        <template mode="pdf">/layouts/layout_listing_pdf_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" alwaysSelected="true">
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_checkbox_dto_ts</widget>
+        </column>
+         
+         <!-- Colonne Intitulé du texte -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dto_dossier_listing_texte</widget>
+        </column>
+        
+        <!-- Colonne NOR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumnNR</property>
+          </properties>
+          <widget>dto_dossier_listing_titre</widget>
+        </column>
+        
+        <!-- Colonne Publication -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumnNL</property>
+          </properties>
+          <widget>dto_dossier_listing_publication</widget>
+        </column>
+        
+        <!-- Colonne Publication demandée (date + vecteur) -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn10</property>
+          </properties>
+          	<widget>dto_dossier_listing_date_publicationTS</widget>
+           	<widget>dto_dossier_listing_vecteur_publicationTS</widget>
+        </column>
+        
+        <!-- Colonne Arrivée Solon -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_arrivee_solon_boolean</widget>
+        </column>
+        
+       <!-- Colonne Accord PM -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_accord_pm_boolean</widget>
+        </column>
+        
+        <!-- Colonne Accord SGG -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_accord_sgg_boolean</widget>
+        </column>
+        
+        <!-- Colonne Arrivée original -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_date_arrive_papier_field</widget>
+        </column>
+        
+        <!-- Colonne Mise en signature premier ministre -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_mise_en_signature_boolean</widget>
+        </column>
+        
+        <!-- Colonne Retour signature premier ministre -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_retour_signature_boolean</widget>
+        </column>
+        
+        <!-- Colonne Decret PR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_decret_pr_boolean</widget>
+        </column>
+        
+        <!-- Colonne envoi PR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_envoi_pr_boolean</widget>
+        </column>
+        
+        <!-- Colonne retour PR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_retour_pr_boolean</widget>
+        </column>
+        
+        <!-- Colonne date Envoi Jo -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>dto_dossier_listing_date_envoi_jo</widget>
+        </column>
+        
+        <!-- Colonne Délai/Date de publication-->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>dto_dossier_listing_delai</widget>
+          <widget>dto_dossier_listing_date_publication</widget>
+        </column>
+        
+        <!-- Colonne Observation-->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>dto_dossier_listing_observation</widget>
+        </column>
+       
+      </columns>
+    </layout>
+    
+    <!-- liste des dossiers affichées par défaut : utilisée notamment dans l'espace de suivi-->
+    <layout name="textes_signales_listing_csv">
+      <templates>
+        <template mode="any">/layouts/layout_listing_csv_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+
+         
+         <!-- Colonne Intitulé du texte -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dto_dossier_listing_texte</widget>
+        </column>
+        
+        <!-- Colonne NOR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumnNR</property>
+          </properties>
+          <widget>dto_dossier_listing_titre</widget>
+        </column>
+        
+        <!-- Colonne Publication -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumnNL</property>
+          </properties>
+          <widget>dto_dossier_listing_publication</widget>
+        </column>
+        
+        <!-- Colonne Date Publication demandée -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn10</property>
+          </properties>
+          	<widget>dto_dossier_listing_date_publicationTS</widget>
+        </column>
+        
+        <!-- Colonne Vecteur Publication demandée -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn10</property>
+          </properties>
+           	<widget>dto_dossier_listing_vecteur_publicationTS</widget>
+        </column>
+        
+        <!-- Colonne Arrivée Solon -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_arrivee_solon_boolean</widget>
+        </column>
+        
+       <!-- Colonne Accord PM -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_accord_pm_boolean</widget>
+        </column>
+        
+        <!-- Colonne Accord SGG -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_accord_sgg_boolean</widget>
+        </column>
+        
+        <!-- Colonne Arrivée original -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_date_arrive_papier_field</widget>
+        </column>
+        
+        <!-- Colonne Mise en signature premier ministre -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_mise_en_signature_boolean</widget>
+        </column>
+        
+        <!-- Colonne Retour signature premier ministre -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_retour_signature_boolean</widget>
+        </column>
+        
+        <!-- Colonne Decret PR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_decret_pr_boolean</widget>
+        </column>
+        
+        <!-- Colonne envoi PR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_envoi_pr_boolean</widget>
+        </column>
+        
+        <!-- Colonne retour PR -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+            <property name="isHidden">trueIfTab2</property>
+            <property name="shortColumn">true</property>
+          </properties>
+          <widget>dto_dossier_listing_retour_pr_boolean</widget>
+        </column>
+        
+        <!-- Colonne date Envoi Jo -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>dto_dossier_listing_date_envoi_jo</widget>
+        </column>
+        
+        <!-- Colonne Délai de publication-->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>dto_dossier_listing_delai</widget>
+        </column>
+        
+        <!-- Colonne Date de publication-->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>dto_dossier_listing_date_publication</widget>
+        </column>
+        
+        <!-- Colonne Observation-->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>dto_dossier_listing_observation</widget>
+        </column>
+       
+      </columns>
+    </layout>
+  </extension>
+
+</component>

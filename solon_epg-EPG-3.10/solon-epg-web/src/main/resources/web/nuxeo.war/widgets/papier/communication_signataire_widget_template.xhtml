@@ -1,0 +1,96 @@
+<f:subview id="#{widget.id}"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:t="http://myfaces.apache.org/tomahawk">
+  
+<c:choose>
+  <c:when test="#{widget.mode == 'edit'}">
+ 
+    <table>
+      <tr>
+        <td>
+          <input type="radio" id="#{widget.id}_radi01" name="#{widget.id}_tpRadio" />
+        </td>
+        <td>
+          <h:selectOneMenu value="#{field_0}" id="#{widget.id}_signataire_ref" class="#{widget.id}_com_sign_select">
+            <nxu:selectItems var="signIterator" value="#{papierActions.getReferences('SIGNATAIRES')}" 
+                itemValue="#{signIterator.id}" itemLabel="#{signIterator.value}"/>
+          </h:selectOneMenu>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="radio" id="#{widget.id}_radi02" name="#{widget.id}_tpRadio" />
+        </td>
+        <td>
+          <h:inputText id="#{widget.id}_signataire_autre" value="#{field_0}" class="#{widget.id}_com_sign_free"/>
+        </td>
+      </tr>
+ 	</table>
+ <script>
+
+   var j = jQuery.noConflict();
+   j(document).ready(function(){   
+	  var checkRadio1 = '#'+"#{widget.id}_radi01";
+	  var checkRadio2 = '#'+"#{widget.id}_radi02";
+  	  var selectId = 'select.'+"#{widget.id}_com_sign_select";
+  	  var freeId = 'input.'+"#{widget.id}_com_sign_free";
+        
+	  if(#{(papierActions.getReferences('SIGNATAIRES').size() > 1) and (field_0 == null || ''.equals(field_0))}){
+        //select first radio
+		j(checkRadio1).attr('checked', true);
+        j(freeId).attr('disabled', 'disabled');
+        j(selectId).removeAttr('disabled');
+  	  }  
+      else if(#{papierActions.isSignataireInRef(field_0)}){
+      	//select first radio
+    	j(checkRadio1).attr('checked', true);
+        j(freeId).attr('disabled', 'disabled');
+        j(freeId).val("");
+        j(selectId).removeAttr('disabled');
+      }else {
+          //select second radio
+    	  j(checkRadio2).attr('checked', true);
+    	  j(selectId).attr('disabled', 'disabled');
+          j(freeId).removeAttr('disabled');
+      }
+  	 
+     j(checkRadio1).click(function (){
+  	 
+  	   var n = j(checkRadio1 + ':checked').length;
+  	 
+  	  if(n > 0){
+        j(freeId).attr('disabled', 'disabled');
+        j(selectId).removeAttr('disabled');
+  	  } else {
+        j(selectId).attr('disabled', 'disabled');
+        j(freeId).removeAttr('disabled');
+  	  }
+     });
+
+  	  j(checkRadio2).click(function (){
+  		 
+		   var n = j(checkRadio2 + ':checked').length;
+		 
+		  if(n > 0){
+            j(selectId).attr('disabled', 'disabled');
+            j(freeId).removeAttr('disabled');
+		  } else {
+            j(freeId).attr('disabled', 'disabled');
+            j(selectId).removeAttr('disabled');
+		  }
+	   });
+   });
+ </script>
+ 	
+  </c:when>
+  <c:otherwise>
+  	<h:outputText value="#{field_0}"/>
+  </c:otherwise>
+</c:choose>  
+
+</f:subview>

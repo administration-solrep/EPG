@@ -1,0 +1,65 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util">
+	 
+	 
+  <h:form id="papierForm" enctype="multipart/form-data">
+    <h:commandButton id="idSavePapierButton" value="Enregistrer" style="visibility: hidden;"
+          	action="#{papierActions.saveTraitementPapier(currentDocument)}" />
+          	
+
+      
+    <nxu:set var="layoutMode" value="#{lockActions.getCanUnlockDoc(currentDocument)  and papierActions.canCurrentUserWrite()  ?'edit':'view'}">
+     <c:if test="#{layoutMode == 'edit'}">
+			<script>
+          var j = jQuery.noConflict();
+          j(document).ready(function() {
+              
+              var delaiPubId = '#papierForm\\:nxl_papier_publication_part\\:nxw_publication_delai';
+              var pubDatePreciseeId = '#papierForm\\:nxl_papier_publication_part\\:nxw_publication_date_demandeePopup';
+              
+              refreshForm();
+              j(delaiPubId).change(function() {
+                  refreshForm();
+              });
+        
+              function refreshForm() {
+                  j(delaiPubId + ' option:selected').each(function() {
+                      var selectedPubId = j(this).val();
+                      if(selectedPubId == "1") {
+                          j(pubDatePreciseeId).parent().parent().show();
+                      } else {
+                          j(pubDatePreciseeId).parent().parent().hide();
+                      }
+                  });
+              }
+          });
+        </script>
+		</c:if>     
+      <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_publication_part" />    
+    </nxu:set>
+  </h:form>
+	<!-- mise a jour de la variable globlae si modification d'un champ pour eviter la perte de données -->
+	<script>
+	   	  var j = jQuery.noConflict();
+		  j(document).ready(function() {
+	
+		    j('.tabsContent input').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent textarea').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent select').change(function() {
+		    	isDossierModified = true;
+		    });
+		  });
+  </script>
+	 
+</div>

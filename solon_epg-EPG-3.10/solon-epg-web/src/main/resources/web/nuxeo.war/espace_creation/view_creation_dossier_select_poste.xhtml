@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+
+	<ui:define name="page title">
+		<h:outputText
+			value="#{messages['epg.dossierCreation.choixPoste.title']}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<style>
+.choixPosteList .dataInput {
+	margin: 2px 2px 2px 2px;
+	padding: 1px 1px 1px 1px;
+	border: 1px solid #F7EEDF;
+	height: 80px;
+}
+
+.choixPosteList .dataInputNor {
+	margin: 2px 2px 2px 2px;
+	padding: 1px 1px 1px 1px;
+	border: 1px solid #F7EEDF;
+	height: 40px;
+}
+
+.rbChoixPoste tr {
+	height: 60px;
+}
+
+.rbChoixPoste tr td {
+	padding: 30px 0px 0px 0px;
+}
+</style>
+		<div>
+			<h3>
+				<h:outputText
+					value="#{messages['epg.dossierCreation.choixPoste.title']}" />
+			</h3>
+			<ui:include src="/incl/message_banner.xhtml" />
+			<h:form id="creation_dossier_select_poste">
+				<div class="choixPosteList">
+					<h:panelGrid columns="2" styleClass="dataInputNor">
+						<h:panelGroup>
+							<h:selectOneRadio id="test" styleClass="rbChoixPoste"  value="#{dossierCreationActions.choixPoste}"
+								layout="pageDirection">
+								<f:selectItem itemValue="true" itemLabel="" />
+								<f:selectItem itemValue="false" itemLabel="" />
+								<a4j:support event="onchange" eventsQueue="ajax_events_queue"
+									actionListener="#{dossierCreationActions.setChoixPoste(nxu:test(!(dossierCreationActions.choixPoste eq 'false'),'false','true'))}"
+									immediate="true" reRender="choixPosteList" />
+							</h:selectOneRadio>
+						</h:panelGroup>
+
+						<h:panelGroup id="choixPosteList">
+
+							<nxl:layout value="#{dossierCreationActions}"
+								mode="#{nxu:test(!(dossierCreationActions.choixPoste eq 'false'),'create','view')}"
+								name="creation_dossier_layout_select_poste" />
+
+							<nxl:layout value="#{dossierCreationActions}"
+								mode="#{nxu:test(!(dossierCreationActions.choixPoste eq 'true'),'create','view')}"
+								name="creation_dossier_layout_select_poste_profil" />
+
+						</h:panelGroup>
+					</h:panelGrid>
+				</div>
+
+				<ui:include src="/espace_creation/navigation_boutons.xhtml" />
+
+				<script>
+					var j = jQuery.noConflict();
+
+					var buttonPrecedentId = '#creation_dossier_select_poste\\:buttonPrecedent';
+					var buttonSuivantId = '#creation_dossier_select_poste\\:buttonSuivant';
+					var buttonTerminerId = '#creation_dossier_select_poste\\:buttonTerminer';
+
+					j(document).ready(function() {
+						disabledButtonPrecedent();
+						disabledButtonSuivant();
+						enabledButtonTerminer();
+					});
+
+					function disabledButtonPrecedent() {
+						j(buttonPrecedentId).attr('disabled', 'disabled');
+						//style bouton grisé
+						j(buttonPrecedentId).css('color', '#CECFD1');
+					}
+
+					function disabledButtonSuivant() {
+						j(buttonSuivantId).attr('disabled', 'disabled');
+						//style bouton grisé
+						j(buttonSuivantId).css('color', '#CECFD1');
+					}
+
+					function enabledButtonSuivant() {
+						j(buttonSuivantId).removeAttr('disabled');
+						//style bouton actif
+						j(buttonSuivantId).css('color', '#000000');
+					}
+
+					function disabledButtonTerminer() {
+						j(buttonTerminerId).attr('disabled', 'disabled');
+						//style bouton grisé
+						j(buttonTerminerId).css('color', '#CECFD1');
+					}
+
+					function enabledButtonTerminer() {
+						j(buttonTerminerId).removeAttr('disabled');
+						//style bouton actif
+						j(buttonTerminerId).css('color', '#000000');
+					}
+				</script>
+			</h:form>
+		</div>
+	</ui:define>
+
+</nxthemes:composition>

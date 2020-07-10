@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes">
+
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} - #{messages['title.search.results']}"/>
+  </ui:define>
+
+  <ui:define name="body">
+	<script>document.getElementById("collapsiblePanelIdOpened").style.display="none";</script>
+    <ui:include src="/incl/message_banner.xhtml"/>
+
+    <div id="content">
+    <div id="upperContentView">
+    <div>
+      <h:form id="smartSearchResultsActions">
+        <table>
+      	  <tr>
+      	    <td>
+       		  <h:commandButton id="edit_search"
+				value="#{messages['command.editSmartSearch']}"
+				action="view_espace_mgpp_recherche"
+         		immediate="true"
+         		styleClass="button" />
+            </td>
+            <td style="padding-left:40px;">
+       		  <h4>
+				<h:outputText value="#{messages['label.smart.search.results']}" />
+		        <f:verbatim>&amp;nbsp;</f:verbatim>
+		        "
+          		<nxu:dataList id="dataList" value="#{mgppSmartNXQLQueryActions.userInfo}" 
+          					var="row" rowIndexVar="rowIndex" >
+				  <nxu:set var="labelSearchField" value="label.requeteur.#{fn:replace(row.searchField, ':','.')}">
+					<h:outputText value="#{messages[labelSearchField]}"/>
+				  </nxu:set>
+	 			  <f:verbatim>&amp;nbsp;</f:verbatim>
+				   <nxu:set var="labelCond" value="label.smart.query.operator.#{fn:replace(row.conditionalOperator, ' ','_')}">
+					<h:outputText value="#{messages[labelCond]}"/>
+				  </nxu:set>
+				  <f:verbatim>&amp;nbsp;</f:verbatim>
+				  <h:outputText value="#{row.userFriendlyValue}" converter="#{requeteurMgppActions.getConverter(row.searchField)}">
+			         <f:attribute name="prefixed" value="false" />
+			         <f:attribute name="userDirectory" value="#{userManager.userDirectoryName}" />
+			         <f:attribute name="userSchema" value="#{userManager.userSchemaName}" />
+			         <f:attribute name="firstNameField" value="firstName" />
+			         <f:attribute name="lastNameField" value="lastName" />
+			       </h:outputText>
+			       <f:verbatim>&amp;nbsp;</f:verbatim>
+			       <nxu:set var="labelLogical" value="label.smart.query.operator.#{row.logicalOperator}">
+				 	 <h:outputText value="#{messages[labelLogical]}"/>
+				   </nxu:set>
+				 </nxu:dataList>
+				 "
+				</h4>
+			  </td>
+			</tr>
+		  </table>
+		</h:form>
+	  </div>
+	  
+      <nxu:set var="contentViewId" value="recherche_fiche_presentation_dpg">
+	    <nxu:set var="contentViewName" value="recherche_fiche_presentation_dpg">
+		  <nxu:set var="listingDecorator" value="#{requeteurListingDecorator}" cache="true">
+		    <nxu:set var="filtrable" value="true">
+		        <ui:decorate template="/incl/content_view.xhtml">
+		          <ui:param name="selectedResultLayoutColumns"
+		            value="#{mgppSmartNXQLQueryActions.selectedLayoutColumns}" />
+		          <ui:param name="contentViewSortInfos"
+		            value="#{mgppSmartNXQLQueryActions.searchSortInfos}" />
+		          <ui:define name="empty_folder_label">
+		            <h:outputText value="#{messages['label.content.empty.search']}"
+		              rendered="#{documents.rowCount == 0 and not provider.hasError()}" />
+		          </ui:define>
+		          <ui:define name="content_view_header_before_selector">
+		          </ui:define>
+		          <ui:define name="content_view_header_after_selector" />
+		          <ui:define name="syndication_buttons">
+		            <c:if test="false">syndication currently broken with content views</c:if>
+				  <ui:include src="/incl/syndication_buttons.xhtml">
+					<ui:param name="type" value="search" />
+				  </ui:include>
+				</ui:define>
+			  </ui:decorate>
+			</nxu:set>
+		  </nxu:set>
+      
+          <c:if test="#{fichePresentationDPGActions.getFiche().getType() == 'FichePresentationDPG'}">
+            <div style="text-align: center; margin: 5px; margin-bottom: 20px;">
+              <h:form>
+                <h:commandLink action="#{corbeilleActions.navigateToPreviousDossier(contentViewName)}">#{messages['label.epg.dossier.precedent']}</h:commandLink>
+                <h:commandLink action="#{corbeilleActions.navigateToNextDossier(contentViewName)}">#{messages['label.epg.dossier.suivant']}</h:commandLink>
+              </h:form>
+            </div>
+          </c:if>
+      
+	  </nxu:set>
+	</nxu:set>
+  </div>
+  </div>
+
+  <ui:include src="/incl/upper_panel_toggle.xhtml"/>
+  </ui:define>
+  
+  <ui:define name="subbody">
+    <c:if test="#{fichePresentationDPGActions.getFiche().getType() == 'FichePresentationDPG'}">
+      <div class="subbodyContainer">
+        <h:panelGroup id="case_content">
+           <ui:insert name="case_content">
+             <div class="tabsBar">
+               <h:form>
+                 <nxu:dataList layout="unorderedList" var="tab" value="#{tabsActionsList}"
+                   itemStyleClass="#{nxu:test(webActions.currentTabAction == tab, 'selected', '')}">
+                   <h:commandLink id="corbeilleNodeCmd" action="#{webActions.setCurrentTabAction(tab)}" rerender="facesStatusMessagePanel"  onclick="#{action.confirm}">
+                     <h:outputText value="#{messages[tab.label]}" />
+                   </h:commandLink>
+                 </nxu:dataList>
+               </h:form>
+             </div>
+             <div style="clear:both" />
+             <div class="tabsContent">
+               <ui:include src="#{webActions.currentTabAction.link}" />
+             </div>
+           </ui:insert>
+        </h:panelGroup>
+      </div>
+    </c:if>
+    <c:if test="#{navigationContext.currentEvenement != null}">
+        <div class="subbodyContainer" style="padding: 5px;">
+          <ui:include src="/metadonnees/metadonnees_evenement.xhtml" />
+        </div>
+      </c:if>
+  </ui:define>
+</nxthemes:composition>

@@ -1,0 +1,486 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+	
+	<link rel="stylesheet" href="css/search/search-styles.css" type="text/css"/>
+	<link rel="stylesheet" href="css/search/bootstrap.min.css" type="text/css"/>
+	<link rel="stylesheet" href="css/search/bootstrap-datepicker.min.css" type="text/css"/>
+	
+	<script src="scripts/search/jquery.min.js" type="text/javascript"></script>
+	<script src="scripts/search/search-scripts.js" type="text/javascript"></script>
+	<script src="scripts/search/bootstrap.min.js" type="text/javascript"></script>
+	<script src="scripts/search/bootstrap-datepicker.min.js" type="text/javascript"></script>
+	<script src="scripts/search/bootstrap-datepicker.fr.min.js" type="text/javascript"></script>
+
+	<h:form id="checkbox-actions" style="display:none;">
+		<h:inputHidden id="facetName" value="#{requeteurDossierLibreActions.checkboxFacetName}" />
+		<h:inputHidden id="facetType" value="#{requeteurDossierLibreActions.checkboxFacetType}" />
+		<h:commandButton id="check" action="#{requeteurDossierLibreActions.checkboxCheck()}" />
+		<h:commandButton id="uncheck" action="#{requeteurDossierLibreActions.checkboxUncheck()}" />
+		<h:commandButton id="resetCriteria" action="#{requeteurDossierLibreActions.resetCriteria()}" />
+	</h:form>
+	
+	<div class="container-fluid row" id="search">
+		<h3>
+			<h:outputText value="#{messages['label.requeteurDossier.libre']}"/>
+		</h3>
+		<h:form class="form-inline" id="search-form" onsubmit="${requeteurDossierLibreActions.sendSearchRequest()}">
+
+			<!-- Partie Facets -->
+			<div class="col-md-3">
+				<fieldset id="facets">
+					<h4>#{messages['requeteurDossierLibre.facet.filtrer']}</h4>
+					<div class="facets-content">
+						<button type="submit" class="btn btn-default extra-submit-button">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span> #{messages['requeteurDossierLibre.facet.filtrer']}
+						</button>
+
+						<!-- Facets à choix multiples -->
+						<a4j:outputPanel layout="block" id="facets-panel">
+							<a4j:commandButton id="reload-facets" reRender="facets-panel" style="display:none"/>
+
+							<c:forEach items="${requeteurDossierLibreActions.facetNames}" var="facet_name">
+								<c:set var="facet_type" value="facet_${facet_name}" />
+								<c:set var="label" value="#{messages['requeteurDossierLibre.facet.'.concat(facet_name)]}" />
+								<c:set var="facet_values" value="${requeteurDossierLibreActions.getFacetEntries(facet_type)}" />
+								<c:set var="selected_criteria" value="${requeteurDossierLibreActions.getSelectedFacets(facet_type)}" />
+								<c:set var="more_class" value="${facet_name}_more_class" />
+
+								<c:if test="${fn:length(facet_values)gt 0}">
+									<div class="facet ${facet_type}">
+										<a class="facet-legend collapsed" role="button" data-toggle="collapse" href="#facet_collapsed_${facet_name}" aria-expanded="false">
+											<span> <!-- ce span externe "inutile" corrige un problème d'affichage sur IE11 -->
+												<span class="glyphicon glyphicon-minus" aria-hidden="true"/>
+											</span> ${label}
+										</a>
+										<div class="collapse in" id="facet_collapsed_${facet_name}">
+											<c:forEach items="${facet_values}" var="entry" varStatus="loop" >
+												<label data-criterion-label="${label}" data-key="${facet_name}"
+														class="${loop.index lt 10? '' : more_class}"
+														style="${loop.index lt 10? '' : 'display:none'}">
+													<c:set var="isChecked" value="" />
+													<c:if test="${selected_criteria ne null}">
+														<c:forEach items="${selected_criteria}" var="criterion">
+															<c:if test="${criterion eq entry.key}">
+																<c:set var="isChecked" value="checked" />
+															</c:if>
+														</c:forEach>
+													</c:if>
+													<c:choose>
+														<c:when test="${isChecked eq 'checked'}">
+															<input type="checkbox" name="${facet_name}" value="${entry.key}" data-id="${facet_name}:${entry.key}" checked="checked" />
+														</c:when>
+														<c:otherwise>
+															<input type="checkbox" name="${facet_name}" value="${entry.key}" data-id="${facet_name}:${entry.key}" />
+														</c:otherwise>
+													</c:choose>
+													${facet_name eq 'statut_archivage' ? requeteurDossierLibreActions.getLabelStatutArchivage(entry.key) : entry.key}
+													<span style="white-space:nowrap">(${requeteurDossierLibreActions.formatNumber(entry.doc_count)})</span>
+												</label>
+											</c:forEach>
+											<c:if test="${fn:length(facet_values)gt 10}">
+												<a4j:commandLink styleClass="facet_more_link" value="Voir plus..." />
+											</c:if>
+										</div>
+									</div>
+								</c:if>
+								<div> <!-- ce div externe "inutile" corrige un problème d'affichage sur IE11 -->
+									<div class="selected-criteria" style="display:none">
+										<c:forEach items="${selected_criteria}" var="criterion">
+											<p data-key="${facet_name}" data-label="${label}" data-value="${criterion}"
+													data-display="${facet_name eq 'statut_archivage' ? requeteurDossierLibreActions.getLabelStatutArchivage(criterion) : criterion}" />
+										</c:forEach>
+									</div>
+								</div>
+							</c:forEach>
+						</a4j:outputPanel>
+
+						<!-- Facette DatePicker pour la date de création -->
+						<c:set var="facet_date_creation_min" value="facet_date_creation_min" />
+						<c:set var="facet_date_creation_max" value="facet_date_creation_max" />
+
+						<div class="facet date-picker">
+
+							<a class="facet-legend collapsed" role="button" data-toggle="collapse" href="#facet_collapsed_date_creation" aria-expanded="false">
+								<span class="glyphicon glyphicon-minus" aria-hidden="true"></span> #{messages['requeteurDossierLibre.facet.dateCreation']}
+							</a>
+
+							<div class="collapse in" id="facet_collapsed_date_creation">
+								<div class="facet-date-picker row">
+									<div class="col-md-9">
+										<div class="row">
+											<label for="date-creation-min" class="col-md-2 date-label">Du</label>
+											<label data-criterion-label="Date de création min." data-key="${fn:replace(facet_date_creation_min, 'facet_', '')}">
+												<div class="input-group date col-md-10">
+													<h:inputText class="form-control date-input" id="date-creation-min"
+														name="date-creation-min" placeholder="jj/mm/aaaa"
+														value="${requeteurDossierLibreActions.searchCriteria.dateCreationMin}" />
+													<span class="input-group-addon">
+														<i class="glyphicon glyphicon-th"></i>
+													</span>
+												</div>
+											</label>
+										</div>
+										<div class="row">
+											<label for="date-creation-max" class="col-md-2 date-label">Au</label>
+											<label data-criterion-label="Date de création max." data-key="${fn:replace(facet_date_creation_max, 'facet_', '')}">
+												<div class="input-group date col-md-10">
+													<h:inputText class="form-control date-input" id="date-creation-max"
+														name="date-creation-max" placeholder="jj/mm/aaaa"
+														value="${requeteurDossierLibreActions.searchCriteria.dateCreationMax}" />
+													<span class="input-group-addon">
+														<i class="glyphicon glyphicon-th"></i>
+													</span>
+												</div>
+											</label>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<button id="search-date" class="btn btn-default" data-name="date-creation">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Facette DatePicker pour la date de publication -->
+						<c:set var="facet_date_publication_min" value="facet_date_publication_min" />
+						<c:set var="facet_date_publication_max" value="facet_date_publication_max" />
+
+						<div class="facet date-picker">
+
+							<a class="facet-legend collapsed" role="button" data-toggle="collapse" href="#facet_collapsed_date_publication" aria-expanded="false">
+								<span class="glyphicon glyphicon-minus" aria-hidden="true"></span> #{messages['requeteurDossierLibre.facet.datePublication']}
+							</a>
+
+							<div class="collapse in" id="facet_collapsed_date_publication">
+								<div class="facet-date-picker row">
+									<div class="col-md-9">
+										<div class="row">
+											<label for="date-publication-min" class="col-md-2 date-label">Du</label>
+											<label data-criterion-label="Date de publication min." data-key="${fn:replace(facet_date_publication_min, 'facet_', '')}">
+												<div class="input-group date col-md-10">
+													<h:inputText class="form-control date-input" id="date-publication-min"
+														name="date-publication-min" placeholder="jj/mm/aaaa"
+														value="${requeteurDossierLibreActions.searchCriteria.datePublicationMin}" />
+													<span class="input-group-addon">
+														<i class="glyphicon glyphicon-th"></i>
+													</span>
+												</div>
+											</label>
+										</div>
+										<div class="row">
+											<label for="date-publication-max" class="col-md-2 date-label">Au</label>
+											<label data-criterion-label="Date de publication max." data-key="${fn:replace(facet_date_publication_max, 'facet_', '')}">
+												<div class="input-group date col-md-10">
+													<h:inputText class="form-control date-input" id="date-publication-max"
+														name="date-publication-max" placeholder="jj/mm/aaaa"
+														value="${requeteurDossierLibreActions.searchCriteria.datePublicationMax}" />
+													<span class="input-group-addon">
+														<i class="glyphicon glyphicon-th"></i>
+													</span>
+												</div>
+											</label>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<button id="search-date" class="btn btn-default" data-name="date-publication">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<button type="submit" class="btn btn-default extra-submit-button">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span> #{messages['requeteurDossierLibre.facet.filtrer']}
+						</button>
+					</div>
+				</fieldset>
+			</div>
+
+			<div id="content" class="col-md-9">
+				<div class="row">
+
+					<!-- Partie Barre de Recherche -->
+					<div class="col-md-8">
+						<div class="form-group" style="display:inline-block">
+							<h:inputText class="form-control" name="fulltext" id="fulltext" placeholder="Rechercher"
+								value="${requeteurDossierLibreActions.searchCriteria.fulltext}"/>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							<label class="normal">
+								<h:selectBooleanCheckbox id="expressionExacte-checkbox" value="${requeteurDossierLibreActions.searchCriteria.expressionExacte}" />
+								#{messages['requeteurDossierLibre.recherche.expressionExacte']}
+							</label>
+							<label class="normal">
+								<h:selectBooleanCheckbox id="docCurrentVersion-checkbox" value="${requeteurDossierLibreActions.searchCriteria.docCurrentVersion}" />
+								#{messages['requeteurDossierLibre.recherche.docCurrentVersion']}
+							</label>
+							<h:selectBooleanCheckbox id="archive-checkbox" value="${requeteurDossierLibreActions.searchCriteria.archive}" style="display:none" />
+							<h:selectBooleanCheckbox id="prod-checkbox" value="${requeteurDossierLibreActions.searchCriteria.prod}" style="display:none" />
+						</div>
+						<button type="submit" class="btn btn-default" id="main-submit-button">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span> #{messages['requeteurDossierLibre.recherche.rechercher']}
+						</button>
+					</div>
+					<!-- Partie Tri -->
+					<div class="col-md-4">
+						<div class="sort-group">
+							<div class="dropdown" id="sort-type">
+								<label class="control-label">#{messages['requeteurDossierLibre.recherche.tri']}</label>
+								<h:selectOneMenu id="sort-select" value="${requeteurDossierLibreActions.searchCriteria.sortType}" styleClass="form-control" >
+									<c:forEach items="${requeteurDossierLibreActions.sortTypes}" var="sortType">
+										<f:selectItem itemValue="${sortType}" itemLabel="#{messages['requeteurDossierLibre.sortType.'.concat(sortType)]}" />
+									</c:forEach>
+								</h:selectOneMenu>
+							</div>
+							<div class="dropdown form-inline" id="page-size">
+								<label class="control-label">#{messages['requeteurDossierLibre.recherche.resParPage']}</label>
+								<h:selectOneMenu id="pageSize-select" value="${requeteurDossierLibreActions.searchCriteria.pageSize}" styleClass="form-control" >
+									<c:forEach items="${requeteurDossierLibreActions.pageSizes}" var="pageSize">
+										<f:selectItem itemValue="${pageSize}" itemLabel="${pageSize}" />
+									</c:forEach>
+								</h:selectOneMenu>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Partie Critères -->
+				<div class="row">
+					<div class="col-md-12">					
+						<div id="criteria-container" class="criteria" style="display:none">
+							<span>#{messages['requeteurDossierLibre.recherche.criteres']}</span>
+						</div>
+						<div class="col-md-24 reset-criteria-container">
+							<a4j:commandLink id="reset-criteria-link" value="X #{messages['requeteurDossierLibre.recherche.reinitialiser']}"
+							onclick="resetCriteria()" type="button" />
+						</div>
+					</div>
+				</div>
+
+				<!-- Partie Résultats -->
+				<div id="resultats">
+				<a4j:outputPanel layout="block" id="results-panel">
+				<div class="row">
+					<div class="col-md-12">
+						<c:set var="searchResult" value="${requeteurDossierLibreActions.searchResult}" />
+						<c:set var="maxExceeded" value="${searchResult.isMaxResultCountExceeded()}" />
+
+						<a4j:commandButton id="reload-results" reRender="results-panel" style="display:none"/>
+						<c:if test="${searchResult ne null and searchResult.count ne null}">
+
+							<!-- Affichage du titre en fonction du nombre de résultats -->
+							<h1 class="page-title">
+								#{messages['requeteurDossierLibre.resultats.rechercheRetourne']}
+								<c:choose>
+								    <c:when test="${searchResult.count gt 1}">
+										${requeteurDossierLibreActions.formatNumber(searchResult.count)} résultats
+								    </c:when>
+								    <c:when test="${searchResult.count eq 1}">
+										1 résultat
+								    </c:when>
+								    <c:when test="${searchResult.count eq 0}">
+										Aucun résultat
+								    </c:when>
+								    <c:otherwise></c:otherwise>
+								</c:choose>
+							</h1>
+
+							<c:if test="${searchResult.count gt 0}">
+								<c:if test="${maxExceeded eq true}">
+									<div class="row">
+										<div class="alert alert-warning" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+											#{messages['requeteurDossierLibre.resultats.erreur1']}<br/>
+											#{messages['requeteurDossierLibre.resultats.erreur2']}
+										</div>
+									</div>
+								</c:if>
+
+								<!-- Résultats de recherche -->
+								<div class="row">
+									<div class="col-md-12" id="results-list">
+										<ui:repeat value="${searchResult.results}" var="result">
+											<ui:param name="resIndex" value="${searchResult.results.indexOf(result)}" />
+											<ui:param name="more_class" value="result_${resIndex}_moreClass" />
+
+											<div class="result">
+												<p>
+													<h:commandLink value="${result.dosNumeroNor}" action="${requeteurDossierLibreActions.showNor(result.dosNumeroNor)}"
+															rendered="${not empty result.dosNumeroNor}"/>
+													<h:outputText value=" - ${messages['requeteurDossierLibre.resultat.cree']} " rendered="${not empty result.dosCreated}"/>
+													<h:outputText value="#{result.dosCreated}" >
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" rendered="${not empty result.dosCreated}"/>
+													</h:outputText>
+													<h:outputText value=" - ${messages['requeteurDossierLibre.resultat.publie']} " rendered="${not empty result.retdilaDateParutionJorf}"/>
+													<h:outputText value="#{result.retdilaDateParutionJorf}" >
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" rendered="${not empty result.retdilaDateParutionJorf}"/>
+													</h:outputText>
+												</p>
+												<h:panelGroup rendered="${not empty result.dosTitreActe}">
+													<h2><h:outputText value="${result.dosTitreActe}" escape="false"/></h2>
+												</h:panelGroup>
+												<p><h:outputText value="${messages['requeteurDossierLibre.resultat.responsable']} ${result.dosMinistereResp}"
+														rendered="${not empty result.dosMinistereResp}"/></p>
+												<p><h:outputText value="${messages['requeteurDossierLibre.resultat.etat']} ${result.dosStatut}"
+														rendered="${not empty result.dosStatut}"/></p>
+												<h:panelGroup rendered="${not empty result.documents}">
+													<p><u><h:outputText value="${messages['requeteurDossierLibre.resultat.docsConcernes']}"/></u></p>
+													<ul class="highlights">
+														<ui:repeat value="${result.documents}" var="document">
+															<ui:param name="docIndex" value="${result.documents.indexOf(document)}" />
+															<li class="${docIndex eq 0? '' : more_class}" style="${docIndex eq 0? '' : 'display:none'}">
+																<p>
+																	<b><h:outputText value="${document.dcTitle}" escape="false"/></b>
+																	<h:outputText value=" (${document.uidMajorVersion}.${document.uidMinorVersion})"
+																			rendered="${not empty document.uidMajorVersion and not empty document.uidMinorVersion}"/>
+																</p>
+																<p>
+																	<h:outputText value="${document.fileData}" escape="false"/>
+																</p>
+															</li>
+														</ui:repeat>
+													</ul>
+													<a4j:commandLink styleClass="docs_more_link" value="Voir plus de documents..."
+															rendered="${fn:length(result.documents) gt 1}"/>
+												</h:panelGroup>
+											</div>
+										</ui:repeat>
+									</div>
+								</div>
+
+								<c:if test="${maxExceeded eq true}">
+									<div class="row">
+										<div class="alert alert-warning" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+											#{messages['requeteurDossierLibre.resultats.erreur1']}<br/>
+											#{messages['requeteurDossierLibre.resultats.erreur2']}
+										</div>
+									</div>
+								</c:if>
+
+								<!-- Partie Pagination -->
+								<c:set var="currentPage" value="${requeteurDossierLibreActions.searchCriteria.page}"/>
+								<c:set var="nbPages" value="${requeteurDossierLibreActions.nbPages}"/>
+								<c:if test="${nbPages gt 1}">
+									<h:inputHidden id="currPage" value="#{requeteurDossierLibreActions.searchCriteria.page}" />
+									<div aria-label="Page navigation" id="pagination">
+										<ul class="pagination" data-key="${page}">
+											<!-- Gestion du lien "Précédent" -->
+											<c:choose>
+												<c:when test="${currentPage eq 1 }">
+													<li class="disabled previous">
+														<span aria-hidden="true">&lt; #{messages['requeteurDossierLibre.pagination.precedent']}</span>
+													</li>
+												</c:when>
+												<c:otherwise>
+													<li class="previous">
+														<a4j:commandLink value="&lt; #{messages['requeteurDossierLibre.pagination.precedent']}"
+															onclick="goToPage(${currentPage-1})" />
+													</li>
+												</c:otherwise>
+											</c:choose>
+
+											<!-- Gestion de la première page disponible (1) -->
+											<li class="${currentPage eq 1 ? 'active' : ''}">
+												<a4j:commandLink value="1" onclick="goToPage(1)" />
+											</li>
+
+											<!-- Affichage des ... entre la page 1 et les suivantes, si besoin -->
+											<c:if test="${currentPage gt 4}">
+												<li>
+													<span>
+														<span aria-hidden="true">...</span>
+													</span>
+												</li>
+											</c:if>
+
+											<!-- Gestion de la page courante, des 2 précédentes et 2 suivantes -->
+											<c:if test="${currentPage-2 gt 1 and currentPage-2 lt nbPages}">
+												<li>
+													<a4j:commandLink value="${requeteurDossierLibreActions.formatNumber(currentPage-2)}"
+														onclick="goToPage(${currentPage-2})"/>
+												</li>
+											</c:if>
+											<c:if test="${currentPage-1 gt 1 and currentPage-1 lt nbPages}">
+												<li>
+													<a4j:commandLink value="${requeteurDossierLibreActions.formatNumber(currentPage-1)}"
+														onclick="goToPage(${currentPage-1})"/>
+												</li>
+											</c:if>
+											<c:if test="${currentPage ne 1 and currentPage ne nbPages}">
+												<li class="active">
+													<a4j:commandLink value="${requeteurDossierLibreActions.formatNumber(currentPage)}"
+														onclick="goToPage(${currentPage})"/>
+												</li>
+											</c:if>
+											<c:if test="${currentPage+1 gt 1 and currentPage+1 lt nbPages}">
+												<li>
+													<a4j:commandLink value="${requeteurDossierLibreActions.formatNumber(currentPage+1)}"
+														onclick="goToPage(${currentPage+1})"/>
+												</li>
+											</c:if>
+											<c:if test="${currentPage+2 gt 1 and currentPage+2 lt nbPages}">
+												<li>
+													<a4j:commandLink value="${requeteurDossierLibreActions.formatNumber(currentPage+2)}"
+														onclick="goToPage(${currentPage+2})"/>
+												</li>
+											</c:if>
+
+											<!-- Affichage des ... entre la dernière page et les précédentes, si besoin -->
+											<c:if test="${currentPage lt nbPages-3}">
+												<li>
+													<span>
+														<span aria-hidden="true">...</span>
+													</span>
+												</li>
+											</c:if>
+
+											<!-- Gestion de la dernière page disponible -->
+											<li class="${currentPage eq nbPages? 'active' : ''}">
+												<a4j:commandLink value="${requeteurDossierLibreActions.formatNumber(nbPages)}"
+													onclick="goToPage(${nbPages})" />
+											</li>
+
+											<!-- Gestion du lien "Suivant" -->
+											<c:choose>
+												<c:when test="${currentPage eq nbPages }">
+													<li class="disabled next">
+														<span aria-hidden="true">#{messages['requeteurDossierLibre.pagination.suivant']} &gt;</span>
+													</li>
+												</c:when>
+												<c:otherwise>
+													<li class="next">
+														<a4j:commandLink value="#{messages['requeteurDossierLibre.pagination.suivant']} &gt;"
+															onclick="goToPage(${currentPage+1})" />
+													</li>
+												</c:otherwise>
+											</c:choose>
+										</ul>
+									</div>
+								</c:if>
+							</c:if>
+						</c:if>
+					</div>
+				</div>
+				</a4j:outputPanel>
+				</div>
+			</div>
+		</h:form>
+		<a href="#" id="back-to-top" title="Retour en haut de page">
+			<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span><br/>
+			Retour<br/>
+			Haut de page
+		</a>
+	</div>
+	
+</div>

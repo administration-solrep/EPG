@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://dila.fr/solon/schemas/traitement_papier/"
+	xmlns:tp="http://dila.fr/solon/schemas/traitement_papier/">
+
+	<!-- on inclut le schema contenant la definition de xs:stringList -->
+	<xs:include schemaLocation="base.xsd" />
+
+	<!-- *********************************************************************** 
+		Partie traitement papier. *********************************************************************** -->
+
+	<!-- partie référence -->
+	<xs:element name="dateArrivePapier" type="xs:date" />
+	<xs:element name="commentaireReference" type="xs:string" />
+	<xs:element name="texteAPublier" type="xs:boolean" default="true" />
+	<xs:element name="texteSoumisAValidation" type="xs:boolean"
+		default="false" />
+	<xs:element name="signataire" type="xs:string" default="4" />
+
+	<!-- partie communication -->
+
+	<xs:element name="priorite" type="xs:string" default="3" />
+	<!-- liste de personnes nommées dans un même texte -->
+	<xs:element name="personnesNommees" type="xs:string" />
+
+	<!-- destinataires communication -->
+	<xs:element name="cabinetPmCommunication" type="tp:destinatairesCommunication" />
+	<xs:element name="chargeMissionCommunication" type="tp:destinatairesCommunication" />
+	<xs:element name="autresDestinatairesCommunication" type="tp:destinatairesCommunication" />
+	<xs:element name="cabinetSgCommunication" type="tp:destinatairesCommunication" />
+
+	<!-- définition du Champ complexe : destinataires Communication -->
+	<xs:complexType name="destinatairesCommunication">
+		<xs:sequence>
+			<xs:element name="destinataireCommunication" type="tp:destinataireCommunication"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- définition du Champ complexe : destinataire Signature -->
+	<xs:complexType name="destinataireCommunication">
+		<xs:sequence>
+			<xs:element name="nomDestinataireCommunication" type="xs:string" />
+			<xs:element name="dateEnvoiCommunication" type="xs:date" />
+			<xs:element name="dateRetourCommunication" type="xs:date" />
+			<xs:element name="dateRelanceCommunication" type="xs:date" />
+			<xs:element name="sensAvisCommunication" type="xs:string" />
+			<xs:element name="objetCommunication" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- signataires communication -->
+	<!-- <xs:element name="nomsSignatairesCommunication" type="tp:stringList"/> -->
+	<xs:element name="nomsSignatairesCommunication" type="xs:string" />
+
+	<!-- partie signature -->
+
+	<xs:element name="signaturePm" type="tp:donneesSignataire" />
+	<xs:element name="signatureSgg" type="tp:donneesSignataire" />
+	<xs:element name="signaturePr" type="tp:donneesSignataire" />
+
+	<xs:complexType name="donneesSignataire">
+		<xs:sequence>
+			<xs:element name="dateEnvoiSignature" type="xs:date" />
+			<xs:element name="dateRetourSignature" type="xs:date" />
+			<xs:element name="commentaireSignature" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="cheminCroix" type="xs:boolean" />
+
+	<xs:element name="signatureDestinataireSGG" type="xs:string" />
+	<xs:element name="signatureDestinataireCPM" type="xs:string" />
+
+	<xs:element name="numerosListeSignatureField" type="tp:numerosListeSignature" />
+
+	<!-- définition du Champ complexe : numeros liste -->
+	<xs:complexType name="numerosListeSignature">
+		<xs:sequence>
+			<xs:element name="infoNumeroListeSignature" type="tp:infoNumeroListeSignature"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- définition du Champ complexe : numero liste -->
+	<xs:complexType name="infoNumeroListeSignature">
+		<xs:sequence>
+			<xs:element name="dateGenerationListeSignature" type="xs:date" />
+			<xs:element name="numeroListeSignature" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- partie retour -->
+
+	<xs:element name="retourA" type="xs:string" />
+	<xs:element name="dateRetour" type="xs:date" />
+	<xs:element name="motifRetour" type="xs:string" />
+	<!-- <xs:element name="nomsSignatairesRetour" type="tp:stringList"/> -->
+	<xs:element name="nomsSignatairesRetour" type="xs:string" />
+
+	<!-- partie epreuve -->
+	<xs:element name="epreuve" type="tp:infoEpreuve" />
+	<xs:element name="nouvelleDemandeEpreuves" type="tp:infoEpreuve" />
+
+	<!-- définition du Champ complexe : info Epreuve -->
+	<xs:complexType name="infoEpreuve">
+		<xs:sequence>
+			<xs:element name="epreuveDemandeLe" type="xs:date" />
+			<xs:element name="epreuvePourLe" type="xs:date" />
+			<xs:element name="epreuveNumeroListe" type="xs:string" />
+			<xs:element name="epreuveEnvoiRelectureLe" type="xs:date" />
+			<xs:element name="epreuveDestinataireEntete" type="xs:string" />
+			<xs:element name="epreuveNomsSignataires" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="retourDuBonaTitrerLe" type="xs:date" />
+
+	<!-- partie publication -->
+	<xs:element name="publicationDateEnvoiJo" type="xs:date" />
+
+	<!-- vecteur publication -->
+	<xs:element name="publicationNomPublication" type="xs:string" />
+	<!-- mode parution -->
+	<xs:element name="publicationModePublication" type="xs:string" />
+	<!-- epreuve en retour -->
+	<xs:element name="publicationEpreuveEnRetour" type="xs:boolean"
+		default="0" />
+	<!-- epreuve en retour -->
+	<xs:element name="publicationDelai" type="xs:string" />
+	<!-- publication date precisee -->
+	<xs:element name="publicationDateDemande" type="xs:date" />
+	<xs:element name="publicationNumeroListe" type="xs:string" />
+	<!-- parution JORF -->
+	<xs:element name="publicationDate" type="xs:date" />
+
+	<!-- partie ampliation -->
+
+	<xs:element name="ampliationDestinataireMails" type="tp:stringList" />
+
+	<xs:element name="ampliationHistorique" type="tp:infosHistoriqueAmpliation" />
+
+	<!-- définition du Champ complexe : infos Historique Ampliation -->
+	<xs:complexType name="infosHistoriqueAmpliation">
+		<xs:sequence>
+			<xs:element name="infoHistoriqueAmpliation" type="tp:infoHistoriqueAmpliation"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- définition du Champ complexe : info Historique Ampliation -->
+	<xs:complexType name="infoHistoriqueAmpliation">
+		<xs:sequence>
+			<xs:element name="dateEnvoiAmpliation" type="xs:date" />
+			<xs:element name="ampliationDestinataireMails" type="tp:stringList" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="papierArchive" type="xs:boolean" default="false" />
+
+</xs:schema>

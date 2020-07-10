@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Traitement Comm EVT13</title>
+<link rel="selenium.base" href="http://localhost:8080/"/>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+  <thead>
+    <tr>
+      <td rowspan="1" colspan="3">Traitement Comm EVT13</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>store</td>
+      <td>javascript{var date = new Date(); '' + (date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()) + '/' + ((date.getMonth()+1) < 10 ? '0'+ (date.getMonth()+1) : (date.getMonth()+1))+ '/' + date.getFullYear() ;}</td>
+      <td>currentDate</td>
+    </tr>
+    <!--Connexion-->
+    <tr>
+      <td>setTimeout</td>
+      <td>120000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>setSpeed</td>
+      <td>200</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8080/solon-epp/logout</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8080/solon-epp/login.jsp</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>username</td>
+      <td>an</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>password</td>
+      <td>an</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>Submit</td>
+      <td></td>
+    </tr>
+    <!-- Traitement comm EVT13 du Gouvernement -->
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Toutes les communications*</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>CCOZ1300000L</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@id=&quot;corbeille_message_list&quot;]/div/table/tbody/tr/td[5]/div/a</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value=&quot;Traité&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextNotPresent</td>
+      <td>Transition traité effectuée</td>
+      <td></td>
+    </tr>
+    <!-- Creation comm EVT13Bis successive -->
+    <tr>
+      <td>select</td>
+      <td>//*[@id=&quot;evenement_metadonnees:documentViewPanel&quot;]/div[2]/div/table/tbody/tr/td/div[2]/div/select</td>
+      <td>label=LEX-18 : Pjl - Enregistrement du dépôt en navette</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value=&quot;Créer communication successive&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_version:nxw_metadonnees_version_numeroDepotTexte</td>
+      <td>2012-04</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>id=evenement_metadonnees:nxl_metadonnees_version:nxw_metadonnees_version_dateDepotTexteInputDate</td>
+      <td>${currentDate}</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//*[@value=&quot;Publier&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextPresent</td>
+      <td>La communication a été publiée</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextNotPresent</td>
+      <td>La communication a été publiée</td>
+      <td></td>
+    </tr>
+<!--     Déconnexion -->
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8080/solon-epp/logout</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

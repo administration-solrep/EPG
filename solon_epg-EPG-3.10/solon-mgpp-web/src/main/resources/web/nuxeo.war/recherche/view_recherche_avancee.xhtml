@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory">
+  
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} - #{messages['label.recherche.avancee']}" />
+  </ui:define>
+  
+  <ui:define name="body">
+  <ui:include src="/incl/message_banner.xhtml" />
+    <h:form id="rechercheAvanceeForm">
+      <div class="tabsContent">
+        <h3>#{messages['label.recherche.avancee']}</h3>
+        
+        <div class="foldableBox" >
+          <h3 class="folded">
+            <a href="#nologo" onclick="return toggleBox(this)">
+              <h:outputText value="#{messages['label.recherche.avancee.technique']}" />
+            </a>
+          </h3>
+          <div class="boxBody" id="ra_technique">
+            <nxl:layout name="recherche_avancee_technique" mode="edit" value="#{rechercheActions.critereRechercheAvancee}" />
+          </div>
+        </div>
+  
+        <div class="foldableBox">
+          <h3 class="folded">
+            <a href="#nologo" onclick="return toggleBox(this)">
+              <h:outputText value="#{messages['label.recherche.avancee.distribution']}" />
+            </a>
+          </h3>
+          <div class="boxBody" id="ra_distribution">
+            <nxl:layout name="recherche_avancee_distribution" mode="edit" value="#{rechercheActions.critereRechercheAvancee}" />
+          </div>
+        </div>
+        
+        <div class="foldableBox" id="ra_publication_box">
+          <h3 class="folded">
+            <a href="#nologo" onclick="return toggleBox(this)">
+              <h:outputText value="#{messages['label.recherche.avancee.publication']}" />
+            </a>
+          </h3>
+          <div class="boxBody" id="ra_publication" >
+            <nxl:layout name="recherche_avancee_publication" mode="edit" value="#{rechercheActions.critereRechercheAvancee}" />
+          </div>
+          <script>
+          jQuery(document).ready(function() {
+            if (jQuery('#ra_publication .dataInput tr').length == 0) {
+              jQuery('#ra_publication_box').hide();
+            }
+          });
+          </script>
+        </div>
+        
+        <div class="foldableBox" >
+          <h3 class="folded">
+            <a href="#nologo" onclick="return toggleBox(this)">
+              <h:outputText value="#{messages['label.recherche.avancee.other']}" />
+            </a>
+          </h3>
+          <div class="boxBody" id="ra_other" >
+            <nxl:layout name="recherche_avancee_other" mode="edit" value="#{rechercheActions.critereRechercheAvancee}" />
+          </div>
+        </div>
+        
+        <div class="foldableBox" >
+          <h3 class="folded">
+            <a href="#nologo" onclick="return toggleBox(this)">
+              <h:outputText value="#{messages['label.recherche.avancee.piecesjointes']}" />
+            </a>
+          </h3>
+          <div class="boxBody" id="ra_pj" >
+            <nxl:layout name="recherche_avancee_piecesjointes" mode="edit" value="#{rechercheActions.critereRechercheAvancee}" />
+          </div>
+        </div>
+        
+        <h:commandButton styleClass="button" value="#{messages['label.recherche.avancee.rechercher']}" action="#{rechercheActions.doRechercheAvancee()}" /> 
+        <h:outputText value=" " />
+        <h:commandButton styleClass="button" value="#{messages['label.recherche.avancee.reinitialiser']}" action="#{rechercheActions.resetCritereRecherche()}" />
+          
+      </div>
+    </h:form>
+    
+    <script type="text/javascript">
+      Effect.toggle(document.getElementById('ra_distribution'), 'blind', {duration:0});
+      Effect.toggle(document.getElementById('ra_publication'), 'blind', {duration:0});
+      Effect.toggle(document.getElementById('ra_other'), 'blind', {duration:0});
+      Effect.toggle(document.getElementById('ra_pj'), 'blind', {duration:0});
+    </script>
+    
+  </ui:define>
+</nxthemes:composition>

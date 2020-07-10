@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Administration Parapheur</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Administration Parapheur</td></tr>
+</thead><tbody>
+
+<!--Connexion bdc (admin. ministériel) :  on vérifie que l'on ne peut pas accéder à l'administration des parapheur -->
+<tr>
+	<td>setTimeout</td>
+	<td>120000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/login.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>bdc</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>bdc</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Mon identifiant dans S.O.L.O.N. : bdc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>Parapheur</td>
+	<td></td>
+</tr>
+<!--Connexion adminsgg (admin. fonctionnel)-->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/login.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Mon identifiant dans S.O.L.O.N. : adminsgg</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administration</td>
+	<td></td>
+</tr>
+<!-- Rend possible la création des avis sans fournir de documents -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Parapheur</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>typeKeys</td>
+	<td>parapheur_model_properties:nxl_parapheur_modele:nxw_type_acte_parapheur_model_motsCleLabel</td>
+	<td>Avi</td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//td[text()='Avis']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>parapheur_model_properties:nxl_parapheur_modele:editerModelefondDossierWidget</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[text()='Acte intégral']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Non vide</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_non_vide_parapheur_model</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='Valider']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[text()='Extrait']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Format</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertNotChecked</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_non_vide_parapheur_model</td>
+	<td></td>
+</tr>
+<!-- Tests et vérifications sur les arborescences pour les modèles de parapheur dans l'administration des parapheurs -->
+<!-- On vérifie les répertoires créé par défaut -->
+<!-- On tape les 3 premières lettres du type d'acte -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Parapheur</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>typeKeys</td>
+	<td>parapheur_model_properties:nxl_parapheur_modele:nxw_type_acte_parapheur_model_motsCleLabel</td>
+	<td>amn</td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- Selection du type d'acte -->
+<tr>
+	<td>click</td>
+	<td>//td[text()='Amnistie']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- récupération de l'arborescence du répertoire lié au type d'acte -->
+<tr>
+	<td>click</td>
+	<td>parapheur_model_properties:nxl_parapheur_modele:editerModelefondDossierWidget</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- On vérifie l'arborescence de répertoire créé par défaut -->
+<tr>
+	<td>assertTextPresent</td>
+	<td>Acte intégral</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Extrait</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Pièces complémentaires à publier</td>
+	<td></td>
+</tr>
+<!-- On vérifie les données des répertoires -->
+<!-- modification des propriétés du répertoire extrait -->
+<tr>
+	<td>click</td>
+	<td>//a[text()='Extrait']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Format</td>
+	<td></td>
+</tr>
+<!-- ajout/définition de format de fichier autorisé  -->
+<!-- ajout fichier doc-->
+<tr>
+	<td>typeKeys</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_motsCleLabel</td>
+	<td>doc</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_add_file']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- ajout extension fichier odt -->
+<tr>
+	<td>type</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_motsCleLabel</td>
+	<td></td>
+</tr>
+<tr>
+	<td>typeKeys</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_motsCleLabel</td>
+	<td>odt</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_add_file']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>odt</td>
+	<td></td>
+</tr>
+<!-- enregistrement des modifications -->
+<tr>
+	<td>click</td>
+	<td>//input[@value='Valider']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- On vérifie que les données du répertoires ont bien été enregistrée -->
+<tr>
+	<td>click</td>
+	<td>//a[text()='Extrait']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>odt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>odt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>doc</td>
+	<td></td>
+</tr>
+<!-- retour à l'arborescence des modèles de parapheur -->
+<tr>
+	<td>click</td>
+	<td>//input[@id='parapheur_model_properties:treeParapheurFolderSubview:annulerModeleParapheur']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- vérification des propriétés du répertoire acte intégral -->
+<!-- on édite le document -->
+<tr>
+	<td>click</td>
+	<td>//a[text()='Acte intégral']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Format</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_title_parapheur</td>
+	<td>Acte intégral</td>
+</tr>
+<tr>
+	<td>assertChecked</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_non_vide_parapheur_model</td>
+	<td></td>
+</tr>
+<!-- On vérifie que par  défeult aucun format n'est défini dans la liste des format de fichiers autorisés par défaut dans l'administration des parapheur -->
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>odg</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>odi</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>jpg</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>png</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>pdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>rtf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>odt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>docx</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>ods</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>xls</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>xlsx</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>odp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>ppt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>pptx</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>odc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>vsd</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>zip</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>odi</td>
+	<td></td>
+</tr>
+<!-- edition des données du répertoires -->
+<!-- edition de la propriété estVide-->
+<tr>
+	<td>click</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_non_vide_parapheur_model</td>
+	<td></td>
+</tr>
+<!-- edition du nombre de document : edition non modifiable pour l'Acte intégral et l'Extrait -->
+<!-- récupération du chemin du fichier -->
+<tr>
+	<td>retrieveTestFolderPath</td>
+	<td></td>
+	<td></td>
+</tr>
+<!-- ajouts de fichier feuille de style non valide -->
+<tr>
+	<td>type</td>
+	<td>//input[@type='file']</td>
+	<td>${testfolderpath}doc2003.doc</td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>doc2003.doc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>La feuille de style proposée n'est pas valide et ne sera pas enregistrée en l'état!</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@type='file']</td>
+	<td>${testfolderpath}pdfTest.pdf</td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>pdfTest.pdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>La feuille de style proposée n'est pas valide et ne sera pas enregistrée en l'état!</td>
+	<td></td>
+</tr>
+<!-- Suppression des fichiers non valide-->
+<tr>
+	<td>click</td>
+	<td>//div[text()='Supprimer']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextNotPresent</td>
+	<td>La feuille de style proposée n'est pas valide et ne sera pas enregistrée en l'état!</td>
+	<td></td>
+</tr>
+<!-- ajouts de fichier feuille de style valide  -->
+<tr>
+	<td>type</td>
+	<td>//input[@type='file']</td>
+	<td>${testfolderpath}FeuilleStyleValide1.odt</td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>FeuilleStyleValide1.odt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>La feuille de style proposée n'est pas valide et ne sera pas enregistrée en l'état!</td>
+	<td></td>
+</tr>
+<!-- ajout/définition de format de fichier autorisé  -->
+<!-- ajout fichier doc-->
+<tr>
+	<td>typeKeys</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_motsCleLabel</td>
+	<td>doc</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_add_file']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- ajout extension fichier pdf -->
+<tr>
+	<td>type</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_motsCleLabel</td>
+	<td></td>
+</tr>
+<tr>
+	<td>typeKeys</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_motsCleLabel</td>
+	<td>pdf</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_add_file']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- ajout extension fichier odt -->
+<tr>
+	<td>type</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_motsCleLabel</td>
+	<td></td>
+</tr>
+<tr>
+	<td>typeKeys</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_motsCleLabel</td>
+	<td>odt</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_format_autorise_parapheur_model_add_file']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>odt</td>
+	<td></td>
+</tr>
+<!-- enregistrement des modifications -->
+<tr>
+	<td>click</td>
+	<td>//input[@value='Valider']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- On vérifie que les données du répertoires ont bien été enregistrée -->
+<tr>
+	<td>click</td>
+	<td>//a[text()='Acte intégral']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Format</td>
+	<td></td>
+</tr>
+<!-- vérification des propriétés -->
+<tr>
+	<td>assertNotChecked</td>
+	<td>parapheur_model_properties:treeParapheurFolderSubview:nxl_parapheur_modele_repertoire_formulaire:nxw_non_vide_parapheur_model</td>
+	<td></td>
+</tr>
+<!-- on vérifie que les fichiers non valide n'ont pas été ajouté-->
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>doc2003.doc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>pdfTest.pdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>doc</td>
+	<td></td>
+</tr>
+<!-- <tr>
+	<td>assertTextPresent</td>
+	<td>pdf</td>
+	<td></td>
+</tr>
+ on vérifie que les fichiers valides ont été ajouté 
+<tr>
+	<td>assertTextPresent</td>
+	<td>FeuilleStyleValide1.odt</td>
+	<td></td>
+</tr>-->
+<!-- Déconnexion -->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

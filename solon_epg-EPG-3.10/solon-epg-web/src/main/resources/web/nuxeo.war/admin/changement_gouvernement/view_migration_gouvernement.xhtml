@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:c="http://java.sun.com/jstl/core"
+xmlns:nxthemes="http://nuxeo.org/nxthemes"
+xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+xmlns:nxd="http://nuxeo.org/nxweb/document"
+xmlns:nxu="http://nuxeo.org/nxweb/util"
+xmlns:nxl="http://nuxeo.org/nxforms/layout"
+xmlns:rich="http://richfaces.org/rich"
+xmlns:nxdir="http://nuxeo.org/nxdirectory"
+xmlns:nxh="http://nuxeo.org/nxweb/html">
+    <ui:define name="page title">
+      <c:choose>
+        <c:when test="#{migrationManagerActions.isAccessAuthorized()}">
+          <h:outputText
+value="#{nuxeoApplicationName} - Migration d'éléments de l'organigramme" />
+        </c:when>
+        <c:otherwise>
+          <h:outputText
+value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+        </c:otherwise>
+      </c:choose>
+    </ui:define>
+    <ui:define name="body">
+      <c:if test="#{migrationManagerActions.isAccessAuthorized()}">
+        
+          <nxu:set var="layoutMode"
+value="#{nxu:test(migrationManagerActions.aucuneMigrationEnCours(), 'edit', 'view')}" cache="true">
+            <c:if test="#{!migrationManagerActions.aucuneMigrationEnCours()}">
+              <a4j:region id="changementGouvernementPollRegion">
+                <h:form>
+                  <a4j:poll id="changementGouvernementPoll" interval="5000"
+timeout="30000" enabled="true"
+reRender="a4jChangementGouvernement" ignoreDupResponses="true" />
+                </h:form>
+              </a4j:region>
+            </c:if>
+            <div class="changementGouvernement">
+              <ui:include
+src="/incl/message_banner.xhtml" />
+              <div style="clear: both">
+            </div>
+            <a4j:outputPanel id="migrationPanel" ajaxRendered="false">
+              <h:form id="a4jChangementGouvernement">
+              
+                <a4j:region id="changementGouvernementViewRegion">
+                  <a4j:outputPanel id="changementGouvernementViewPanel">
+                    <h:panelGroup>
+                      <h3 class="summaryTitle">
+                        <h:outputText
+value="Migration d'éléments de l'organigramme" />
+                      </h3>
+                    </h:panelGroup>
+                    <div style="clear: both">
+                  </div>
+                    <table>
+                      <c:forEach var="migrationItem" items="#{migrationManagerActions.getMigrationList()}">
+                        <tr>
+                          <td colspan="2">
+                            <h3>                            
+                              <h:outputText value="#{migrationItem.getTitle()}" /> 
+                            </h3>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:center;width:20%">
+                            <c:if test="#{migrationManagerActions.aucuneMigrationEnCours() and migrationItem.ordre != 1 }">
+                              <br/>
+                              <div>
+                                <a4j:outputPanel>
+                                  <h:commandLink immediate="true"  action="#{migrationManagerActions.supprimerMigration(migrationItem)}">
+                                    <h:graphicImage  value="/icons/action_delete.gif" styleClass="add_icon" title="Supprimer la #{migrationItem.getTitle()}"/>
+                                  </h:commandLink>
+                                </a4j:outputPanel>
+                              </div>
+                            </c:if>
+                            <c:if test="#{migrationManagerActions.isAffichageEtat()}">
+	                            <c:if test="#{!migrationManagerActions.aucuneMigrationEnCours() and migrationManagerActions.candisplayWaiter(migrationItem.loggerId)}">
+	                            	<h:graphicImage url="/img/standart_waiter.gif" alt="En cours" title="En cours" />
+	                            </c:if> 
+	                            
+	                            <c:if test="#{migrationManagerActions.candisplaySucceed(migrationItem.loggerId)}">
+	                            	<h:graphicImage  value="/img/icons/status-finished.png" alt="Terminer" title="Terminer"/>
+	                            </c:if>
+	                            
+				    			<c:if test="#{migrationManagerActions.candisplayFailure(migrationItem.loggerId)}">
+	                            	<h:graphicImage  value="/img/icons/failed.gif" alt="Echouer" title="Echouer"/>
+	                            </c:if> 
+                            </c:if> 
+                             
+                          </td>
+                          <td>
+                            <div class="chgt_gvt_type">
+                              <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_type_element" />
+                            </div>
+                            <div style="clear:both">
+                          </div>
+                            <!-- choix du ministère de départ et de destination pour la migration-->
+                            <h:panelGrid  columns="2" >
+                              <h:panelGroup>
+                                <c:choose>
+                                  <c:when test="#{empty migrationItem.typeMigration }"/>
+                                
+                                  <c:when test="#{migrationItem.typeMigration == 'MIN_TYPE' }">
+                                    <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_ministere_old_element" />
+                                  </c:when>
+                                  <c:when test="#{migrationItem.typeMigration == 'DIR_TYPE' }">
+                                    <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_direction_old_elements" />
+                                  </c:when>
+                                  <c:when test="#{migrationItem.typeMigration == 'UST_TYPE' }">
+                                    <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_unite_structurelle_old_element" />
+                                  </c:when>
+                                  <c:when test="#{migrationItem.typeMigration == 'POSTE_TYPE' }">
+                                    <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_poste_old_element" />
+                                  </c:when>
+                                </c:choose>
+                              </h:panelGroup>
+                              <h:panelGroup>
+                                <c:choose>
+                                  <c:when test="#{empty migrationItem.typeMigration }"/>
+                                
+                                  <c:when test="#{migrationItem.typeMigration == 'MIN_TYPE' }">
+                                    <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_ministere_new_element" />
+                                  </c:when>
+                                  <c:when test="#{migrationItem.typeMigration == 'DIR_TYPE' }">
+                                    <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_direction_new_elements" />
+                                  </c:when>
+                                  <c:when test="#{migrationItem.typeMigration == 'UST_TYPE' }">
+                                    <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_unite_structurelle_new_element" />
+                                  </c:when>
+                                  <c:when test="#{migrationItem.typeMigration == 'POSTE_TYPE' }">
+                                    <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_poste_new_element" />
+                                  </c:when>
+                                </c:choose>
+                              </h:panelGroup>
+                            </h:panelGrid>
+                            <a4j:region>
+                              <a4j:outputPanel id="#{migrationItem.id}changementGouvernementLoaderPanel" >
+                                <!--  étapes de la migration -->
+                                <div class="changement_gouvernement_loader">
+                                  <c:choose>
+                                    <c:when test="#{empty migrationItem.typeMigration }">
+                                  </c:when>
+                                    <c:when test="#{migrationItem.typeMigration == 'MIN_TYPE' }">
+                                      <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_ministere_loader" />
+                                      <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_ministere_delete_loader" />
+                                    </c:when>
+                                    <c:when test="#{migrationItem.typeMigration == 'DIR_TYPE' }">
+                                      <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_direction_loader" />
+                                      <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_direction_delete_loader" />
+                                    </c:when>
+                                    <c:when test="#{migrationItem.typeMigration == 'UST_TYPE' }">
+                                      <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_unite_structurelle_loader" />
+                                      <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_unite_structurelle_delete_loader" />
+                                    </c:when>
+                                    <c:when test="#{migrationItem.typeMigration == 'POSTE_TYPE' }">
+                                      <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_poste_loader" />
+                                      <nxl:layout value="#{migrationItem}" mode="#{layoutMode}" name="changement_gouvernement_poste_delete_loader" />
+                                    </c:when>
+                                  </c:choose>
+                                </div>
+                              </a4j:outputPanel>
+                            </a4j:region>
+                          </td>
+                        </tr>
+                      </c:forEach>
+                    </table>
+                  </a4j:outputPanel>
+                </a4j:region>
+                <div style="clear: both;">
+              </div>
+                <a4j:region id="changementGouvernementValidationRegion">
+                  <div class="formFolderModelButtons" style="margin-bottom: 20px;">
+                    <!-- signale que le changement de gouvernement est en cours -->
+                    <a4j:status>
+                      <f:facet name="start">
+                        <h:graphicImage value="/img/standart_waiter.gif" />
+                      </f:facet>
+                    </a4j:status>
+                  </div>
+                  <div class="formFolderModelButtons">
+						<c:choose>
+							<c:when
+								test="#{migrationManagerActions.aucuneMigrationEnCours()}">
+								<h:commandButton value="Ajouter une migration"
+									action="#{migrationManagerActions.ajouterMigration()}"
+									id="ajouterMigration" styleClass="firstButton"
+									immediate="true" />
+								<h:commandButton value="Lancer la migration"
+									action="#{migrationManagerActions.lancerMigration()}"
+									id="validerChangementGouvernement" styleClass="button"
+									immediate="true" />
+								<h:commandButton value="Annuler"
+									action="#{migrationManagerActions.annuler()}"
+									id="annulerChangementGouvernement" styleClass="button"
+									immediate="true" />
+								<h:commandButton value="Réinitialiser"
+									action="#{migrationManagerActions.resetData()}"
+									id="resetDataMigration" styleClass="button" immediate="true" />
+							</c:when>
+							<c:otherwise>
+								<h:graphicImage url="/img/standart_waiter.gif" alt="En cours"
+									title="En cours" />
+								<b> <h:outputText value="Migration en cours" />
+								</b>
+							</c:otherwise>
+						</c:choose>
+					</div>
+                  <div class="formFolderModelButtons">
+                    <h:outputText
+value="#{migrationManagerActions.errorName}"
+rendered="#{! empty migrationManagerActions.errorName}"
+styleClass="msgError" />
+                  </div>
+                </a4j:region>          
+              </h:form>
+              </a4j:outputPanel>
+            </div>
+          </nxu:set>
+        </c:if>
+      </ui:define>
+    </nxthemes:composition>

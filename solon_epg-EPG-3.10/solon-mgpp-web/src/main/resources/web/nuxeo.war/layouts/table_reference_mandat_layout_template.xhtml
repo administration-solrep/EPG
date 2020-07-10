@@ -1,0 +1,112 @@
+<f:subview
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  id="#{layout.id}">
+
+  <c:set var="isEditMode" value="#{nxl:isBoundToEditMode(layout.mode)}" />
+
+  <table class="dataInput">
+    <tbody>
+	<tr>
+		<td colspan="4">
+			<h3 class="summaryTitle">Mandat</h3>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3"></td>
+		<td>
+			<h:commandButton
+                 rendered="#{tableReferenceEppAction.inEditMode()}"
+                 value="#{messages['command.admin.param.tableRefEPP.modifier']}"
+                 action="#{tableReferenceEppAction.updateMandat}" class="button" />
+		</td>
+	</tr>
+      <nxl:layoutRow>
+       <nxl:layoutRowWidget>
+        <c:choose>
+          <c:when test="#{widget.name=='tableref_identite_identifiant'}">
+			<tr>
+			<td colspan="4">
+				<h3 class="summaryTitle">Identite</h3>
+			</td>
+			</tr>
+			<tr>
+			<td colspan="3"></td>
+			<td>
+			<c:if test="#{tableReferenceEppAction.inEditMode()}">
+				<input 
+					  class="button"
+					  type="button"
+					  onclick="javascript:Richfaces.showModalPanel('ajouterIdentitePanel');" 
+					  value="#{messages['command.admin.param.tableRefEPP.ajouter']}"/>
+			</c:if>
+				<h:commandButton
+                  rendered="#{tableReferenceEppAction.inEditMode()}"
+                  value="#{messages['command.admin.param.tableRefEPP.modifier']}"
+                  action="#{tableReferenceEppAction.updateIdentite}" class="button" />
+			</td>
+			</tr>
+			
+          </c:when>
+          <c:when test="#{widget.name=='tableref_acteur_identifiant'}">
+			<tr>
+			<td colspan="4">
+				<h3 class="summaryTitle">Acteur</h3>
+			</td>
+			</tr>
+			<tr>
+			<td colspan="3"></td>
+			<td>
+				<h:commandButton
+                  rendered="#{tableReferenceEppAction.inEditMode()}"
+                  value="#{messages['command.admin.param.tableRefEPP.ajouter']}"
+                  action="#{tableReferenceEppAction.createActeur}" class="button" />
+			</td>
+			</tr>
+          </c:when>
+        </c:choose>
+        <tr>
+          <c:choose>
+              <c:when test="#{widget.translated}">
+                <td class="iconColumn" style="vertical-align:top;">
+                  <c:if test="#{!empty widget.helpLabel}">
+	                  <span onmouseover="tooltip.show('#{nxu:javaScriptEscape(messages[widget.helpLabel])}', 500);" onmouseout="tooltip.hide();">
+	            			<h:graphicImage value="/icons/lightbulb.png" />
+	           		  </span>
+                  </c:if>
+                </td>
+                <td class="labelColumn">
+                  <h:outputText value="#{messages[widget.label]}"
+                    styleClass="#{nxu:test(widget.required and isEditMode, 'required', '')}" />
+                </td>
+              </c:when>
+              <c:otherwise>
+                <td class="iconColumn" style="vertical-align:top;">
+                  <c:if test="#{!empty widget.helpLabel}">
+	                  <span onmouseover="tooltip.show('#{nxu:javaScriptEscape(messages[widget.helpLabel])}', 500);" onmouseout="tooltip.hide();">
+	            			<h:graphicImage value="/icons/lightbulb.png" />
+	           		  </span>
+                  </c:if>
+                </td>
+                <td class="labelColumn">
+                  <h:outputText value="#{widget.label}"
+                    styleClass="#{nxu:test(widget.required and isEditMode, 'required', '')}" />
+                </td>
+              </c:otherwise>
+            </c:choose>
+            <td class="fieldColumn">
+              <nxl:widget widget="#{widget}" value="#{value}" />
+            </td>
+            <td></td>
+        </tr>
+       </nxl:layoutRowWidget>
+      </nxl:layoutRow>
+
+    </tbody>
+  </table>
+
+</f:subview>

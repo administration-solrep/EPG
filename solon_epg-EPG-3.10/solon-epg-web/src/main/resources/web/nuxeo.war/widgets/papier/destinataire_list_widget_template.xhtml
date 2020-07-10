@@ -1,0 +1,135 @@
+
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+  id="#{widget.id}">
+
+
+
+<c:choose>
+  <c:when test="#{widget.mode == 'edit'}">
+  
+    <a4j:region renderRegionOnly="true" id="#{widget.id}_region">
+      <a4j:outputPanel ajaxRendered="true">
+    
+        <c:set value="#{widget.fieldDefinitions[0].propertyName}"
+          var="propValueForTemplate"/>
+  
+  				<h:panelGroup>
+  					<table class="dataOutput" style="width:1050px;">
+  						<thead>
+  							<tr>
+  								<th></th>
+  								<th><h:outputText
+  									value="#{messages['label.epg.papier.communication.data.destinataire']}" /></th>
+  								<th style="width:130px;"><h:outputText
+  									value="#{messages['label.epg.papier.communication.data.date_envoi']}" /></th>
+  								<th style="width:130px;"><h:outputText
+  									value="#{messages['label.epg.papier.communication.data.date_retour']}" /></th>
+  								<th style="width:130px;"><h:outputText
+  									value="#{messages['label.epg.papier.communication.data.date_relance']}" /></th>
+  								<th><h:outputText
+  									value="#{messages['label.epg.papier.communication.data.sens_avis']}" /></th>
+  								<th><h:outputText
+  									value="#{messages['label.epg.papier.communication.data.objet']}" /></th>
+  
+  								<th><h:outputText
+  									value="#{messages['label.epg.papier.communication.data.suppr']}" /></th>
+  							</tr>
+                            </thead>
+                            <tbody>
+  							<nxu:inputList value="#{field}" id="#{widget.id}_input"
+  								model="model"
+  								template="#{nxd:propertyDefaultValue(propValueForTemplate)}"
+  								required="#{widget.required}"
+  								diff="#{widget.properties['diff']}">
+  
+  								<tr class="#{nxu:test(model.rowIndex % 2 == 1, 'dataRowOdd', 'dataRowEven')}">
+  									<td><h:selectBooleanCheckbox>
+  
+  										<a4j:support event="onclick" ajaxSingle="true" eventsQueue="ajax_events_queue"
+  											action="#{papierActions.selectDestinataire}">
+  											<a4j:actionparam value="#{model.rowIndex}"
+  												assignTo="#{papierActions.destinataireIndex}"
+  												name="destinataireIndex" />
+  											<a4j:actionparam value="#{widget.id}"
+  												assignTo="#{papierActions.typeDestinataire}"
+  												name="typeDestinataire" />
+  										</a4j:support>
+  									</h:selectBooleanCheckbox></td>
+  
+  									<nxl:subWidget>
+  										<nxl:widget widget="#{widget}" value="#{model.rowData}" />
+  									</nxl:subWidget>
+  
+  									<td><a4j:commandLink immediate="true"
+  										actionListener="#{editableListBean.performAction}"
+  										id="#{widget.id}_delete" 
+  										ajaxSingle="true"
+  										action="#{papierActions.removeDestinataire}">
+  										<h:graphicImage value="/icons/action_delete.gif" />
+  										<f:param name="for" value="#{widget.id}_input" />
+  										<f:param name="index" value="#{model.rowIndex}" />
+  										<f:param name="type" value="remove" />
+  
+  										<a4j:actionparam value="#{model.rowIndex}"
+  											assignTo="#{papierActions.destinataireIndex}"
+  											name="destinataireIndex" />
+  										<a4j:actionparam value="#{widget.id}"
+  											assignTo="#{papierActions.typeDestinataire}"
+  											name="typeDestinataire" />
+  
+  									</a4j:commandLink></td> 
+  								</tr>
+  							</nxu:inputList>
+  						  </tbody>
+  					</table>
+  				</h:panelGroup> 
+  
+  
+  
+  				<h:message styleClass="errorMessage" for="#{widget.id}_input"
+          id="#{widget.id}_message" />
+      </a4j:outputPanel>
+    
+      <a4j:commandLink immediate="true"
+        actionListener="#{editableListBean.performAction}" id="#{widget.id}_add">
+        <f:param name="for" value="#{widget.id}_input" />
+        <f:param name="type" value="add" />
+        <h:graphicImage value="/widgets/img/action_add.gif" />
+        <h:outputText value="#{messages['command.add']}" />
+        
+      </a4j:commandLink>
+    
+    </a4j:region>
+  </c:when>
+  <c:otherwise>
+    <table class="dataOutput" style="width:1050px;">
+      <thead>
+        <tr>      
+          <th><h:outputText value="#{messages['label.epg.papier.communication.data.destinataire']}"/></th>
+          <th><h:outputText value="#{messages['label.epg.papier.communication.data.date_envoi']}"/></th>
+          <th><h:outputText value="#{messages['label.epg.papier.communication.data.date_retour']}"/></th>
+          <th><h:outputText value="#{messages['label.epg.papier.communication.data.date_relance']}"/></th>
+          <th><h:outputText value="#{messages['label.epg.papier.communication.data.sens_avis']}"/></th>
+          <th><h:outputText value="#{messages['label.epg.papier.communication.data.objet']}"/></th>
+        </tr>
+      </thead>
+      <tbody>
+        <nxu:inputList value="#{field}" id="#{widget.id}_table" model="model" rendered="#{not empty field}">
+          <tr class="#{nxu:test(model.rowIndex % 2 == 1, 'dataRowOdd', 'dataRowEven')}">
+            <nxl:subWidget>
+              <nxl:widget widget="#{widget}" value="#{model.rowData}" />
+            </nxl:subWidget>
+          </tr>
+        </nxu:inputList>
+      </tbody>
+    </table>
+  </c:otherwise>
+</c:choose>
+</f:subview> 

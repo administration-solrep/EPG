@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!-- Ce composant contribue le service des changements de gouvernement de 
+	l'application SOLON EPG. -->
+<component name="fr.dila.solonepg.core.service.ChangementGouvernementService">
+	<implementation
+		class="fr.dila.solonepg.core.service.ChangementGouvernementServiceImpl" />
+
+	<service>
+		<provide interface="fr.dila.solonepg.api.service.ChangementGouvernementService" />
+	</service>
+
+	<require>org.nuxeo.ecm.core.persistence.PersistenceComponent</require>
+
+	<extension target="org.nuxeo.ecm.core.persistence.PersistenceComponent"
+		point="hibernate">
+		<hibernateConfiguration name="SWMIGRATIONLOGGER">
+			<datasource>swmigrationlogger</datasource>
+			<classes>
+				<class>fr.dila.solonepg.core.migration.MigrationLoggerModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.MigrationDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.BulletinDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.ClosDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.CreatorDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.LancerDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.MailBoxDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.ModeleFDRDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.MotsClesDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.StepDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.TableRefDetailModelImpl</class>
+			</classes>
+			<properties>
+				<property name="hibernate.hbm2ddl.auto">update</property>
+			</properties>
+		</hibernateConfiguration>
+	</extension>
+
+
+</component>

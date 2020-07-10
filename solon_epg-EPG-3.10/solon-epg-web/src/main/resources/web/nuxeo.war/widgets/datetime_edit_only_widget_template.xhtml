@@ -1,0 +1,34 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:h="http://java.sun.com/jsf/html" id="#{widget.id}"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+	<c:choose>
+    <c:when test="#{widget.mode == 'pdf'}">
+     	<nxp:html><h:outputText value="#{field_0}" converter="DateConverter" style="font-size:8px;"/></nxp:html>
+    </c:when>
+    <c:when test="#{widget.mode == 'csv'}">
+     	<h:outputText value="#{field_0}" converter="DateConverter"/>
+    </c:when>
+    <c:otherwise>
+	<div>
+		<table>
+			<tr>
+				<td>
+					<nxu:inputDateTime value="#{field_0}" id="#{widget.id}_edittime"
+						styleClass="#{widget.properties['styleClass']}"
+						showsTime="true" format="#{nxu:basicDateFormater()}" />
+				</td>
+				<td>
+					<div style="z-index:30; position: absolute; ">
+						<h:message id="#{widget.id}_edittim" for="#{widget.id}_edittime" styleClass="errorMessage errorMessage310" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+    </c:otherwise>
+   </c:choose>
+
+</f:subview>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+	<h:outputText value="#{messages[statistiquesAction.getStatistiqueCourante().getLabel()]}"/>
+  </ui:define>
+
+  <ui:define name="bookmark">
+    <link rel="bookmark" href="#{navigationContext.currentDocumentFullUrl}"/>
+  </ui:define>
+
+  <ui:define name="body">
+    <div id="BackToHome" style="border-bottom: solid 1px black;">
+    	<table width="50%">
+    		<tr>
+    			<td>
+			    	<h:form>
+						<h:commandLink
+							immediate="true" 
+							value="#{messages['espace.suivi.statistique.retour.page.acceuil']}"
+						    action="#{statistiquesAction.navigateToStatisticMainPageDestination()}" />
+					</h:form>    			
+    			</td>
+    		</tr>
+    	</table>
+    </div>  
+	<div id="ContentView">
+		<h:form id= 'statDateArriveeSgg'>
+			<table  width="50%">
+                <tr>
+                  <td align="left">
+                    <nxl:layout value="#{statistiquesAction}" mode="edit" name="statistique_arrivee_sgg" />
+                  </td>
+                </tr>
+				<tr>
+                 <td align="right">
+					<h:commandButton
+						id="parametersSubmit"
+						class="button"
+						value="#{messages['espace.suivi.statistique.afficher.resultat']}"
+					    action="#{statistiquesAction.afficherResultatStatistique()}" />			
+				  </td>
+				</tr>
+			</table>
+		</h:form>
+    </div>
+    
+  </ui:define>
+</nxthemes:composition>

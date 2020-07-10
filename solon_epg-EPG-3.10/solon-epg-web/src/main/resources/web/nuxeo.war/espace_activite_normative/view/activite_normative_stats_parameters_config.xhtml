@@ -1,0 +1,133 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+	
+	<nxu:set var="parameterDocument" value="#{paramStatsActiviteNormativeStatsActions.parameterStatsDoc}" cache="true">
+		<a4j:region id="statsReportsParametersPopupViewRegion">
+			<a4j:outputPanel id="statsParametersPopup">
+				<f:subview id="displayedStatsParametersPopup">
+					<rich:modalPanel id="configureReportsStatsParametersPanel" autosized="true"
+						style="width:auto; height:450px; overflow: auto; overflow-x: hidden;">
+						<div>
+							<f:facet name="header">
+								<h:outputText value="Paramétrage des statistiques" />
+							</f:facet>
+						</div>
+						<h:form id="configureStatsParametersForm" >
+							<div>
+								<div style="width: 750px; margin: 10px">
+									<h:outputText value="Législatures"
+										style="padding-left:0em;font-weight: bold;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit" name="legislatures" />
+	
+									<h:outputText value="Bornes de la législature en cours"
+										style="padding-left:0em;font-weight: bold;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="debut_legis_encours" />
+	
+									<h:outputText value="Bilan semestriel lois"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="bs_en_cours" />
+
+									<h:outputText value="Bilan semestriel ordonnances"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="bs_ordo_en_cours" />
+											
+									<h:outputText
+										value="Taux d'exécution des lois (au cours de la dernière session parlementaire)"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="taux_parl_en_cours" />
+	
+									<h:outputText
+										value="Taux d'exécution des lois (depuis le début de la législature)"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="taux_legis_en_cours" />
+										
+									<h:outputText
+										value="Taux d'exécution des ordonnances (au cours de la dernière session parlementaire)"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="taux_parl_ordos_en_cours" />
+	
+									<h:outputText
+										value="Taux d'exécution des ordonnances (depuis le début de la législature)"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="taux_legis_ordos_en_cours" />
+	
+									<h:outputText value="Bornes de la législature précédente"
+										style="padding-left:0em;font-weight: bold;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="debut_legis_preced" />
+	
+									<h:outputText value="Bilan semestriel lois"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="bs_preced" />
+
+									<h:outputText value="Bilan semestriel ordonnances"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="bs_preced_ordo" />
+											
+									<h:outputText
+										value="Taux d'exécution des lois (au cours de la dernière session parlementaire)"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="taux_parl_preced" />
+	
+	
+									<h:outputText
+										value="Taux d'exécution des lois (depuis le début de la législature)"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="taux_legis_preced" />
+										
+									<h:outputText
+										value="Taux d'exécution des ordonnances (au cours de la dernière session parlementaire)"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="taux_parl_ordos_preced" />
+	
+	
+									<h:outputText
+										value="Taux d'exécution des ordonnances (depuis le début de la législature)"
+										style="padding-left:0em;font-weight: italic;font-size: small" />
+									<nxl:layout value="#{parameterDocument}" mode="edit"
+										name="taux_legis_ordos_preced" />
+								</div>
+	
+	
+								<div style="margin-left: 300px;">
+									<h:commandButton value="Valider"
+										onclick="Richfaces.hideModalPanel('configureReportsStatsParametersPanel')"
+										action="#{paramStatsActiviteNormativeStatsActions.validerParamStats()}"
+										id="validParamAN" styleClass="firstButton"/>
+									
+									<h:commandButton value="Annuler"
+										onclick="Richfaces.hideModalPanel('configureReportsStatsParametersPanel')"
+										action="#{paramStatsActiviteNormativeStatsActions.resetParameters()}"
+										id="annulerParamAN" styleClass="button"/>								
+								</div>
+	
+							</div>
+						</h:form>
+					</rich:modalPanel>
+	
+	
+				</f:subview>
+			</a4j:outputPanel>
+		</a4j:region>
+	</nxu:set>
+</div>

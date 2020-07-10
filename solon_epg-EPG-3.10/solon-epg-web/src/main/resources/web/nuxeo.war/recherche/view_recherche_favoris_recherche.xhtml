@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax" >
+
+
+	<ui:define name="page title">
+		<h:outputText value="#{espaceRechercheTree.title}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<div id="upperContentView">
+			<a4j:outputPanel id="espaceRechercheDossierContentListPanel">
+				<nxu:set var="contentViewName"
+					value="recherche_favoris_consultation_dossier">
+					<nxu:set var="listingDecorator" value="#{dossierListingDecorator}" cache="true">
+						<ui:include src="/incl/message_banner.xhtml" />
+						<ui:decorate template="/incl/content_view.xhtml">
+							<ui:define name="content_view_header_before_selector" />
+						</ui:decorate>
+					</nxu:set>
+				</nxu:set>
+			</a4j:outputPanel>
+		</div>
+		<ui:include src="/incl/upper_panel_toggle.xhtml" />
+	</ui:define>
+
+	<ui:define name="subbody">
+		<ui:include
+			src="/espace_recherche/resultats_subbody_dossier_view.xhtml">
+			<ui:param name="view" value="view_recherche_resultats_requeteur" />
+		</ui:include>
+	</ui:define>
+</nxthemes:composition>
+

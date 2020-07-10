@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich">
+  
+
+  <ui:define name="page title">
+    <c:choose>
+  		<c:when test="#{abandonneActions.isAccessAuthorized()}">
+    		<h:outputText value="#{messages['message.abondonne.title']}"/>
+    	</c:when>
+    	<c:otherwise>
+    		<h:outputText value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+    	</c:otherwise>
+    </c:choose>
+  </ui:define>
+ 
+
+  	<ui:define name="body">
+  	<c:if test="#{abandonneActions.isAccessAuthorized()}">
+   <c:if test="#{contentViewActions.getContentView('abandonne_dossier').getPageProvider().getCurrentPage() != null and contentViewActions.getContentView('abandonne_dossier').getPageProvider().getCurrentPage().size()!=0}">
+	<table  width="100%" >
+    	<tr>
+  	
+  	 <td align="right">
+	          	<ui:include src="/widgets/listing/dossier_listing_action.xhtml" />
+	          </td>
+  	
+  	</tr>
+  	</table>
+  	</c:if>
+		<div id="abondonneContent"><nxu:set var="contentViewName"
+			value="abandonne_dossier">
+	<ui:include src="/incl/abondonne_modal_panel.xhtml" />	
+			<ui:decorate template="/incl/content_view_abandonne.xhtml">
+				<ui:define name="content_view_header_after_selector">
+				</ui:define>
+				<ui:define name="content_view_header_before_selector">
+				</ui:define>
+			</ui:decorate>
+		</nxu:set>
+
+
+		</div>
+
+<ui:include src="/incl/upper_panel_toggle.xhtml" />
+</c:if>
+  </ui:define>
+  <ui:define name="subbody">
+  <c:if test="#{abandonneActions.isAccessAuthorized()}">
+    <ui:include src="/admin/abandon/abandonner_dossier_subbody.xhtml" />		 
+  </c:if>
+  </ui:define>
+</nxthemes:composition>

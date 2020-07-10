@@ -1,0 +1,47 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:rich="http://richfaces.org/rich">
+    <h:form id="mgppSmartSearchForm">
+   
+     <nxu:set var="contentViewName" value="nxql_incremental_smart_query_mgpp">
+      <nxu:set var="contentView"
+        value="#{contentViewActions.getContentViewWithProvider(contentViewName)}"
+        cache="true">
+    
+        <div class="subbodyContainer">
+          <h3>
+            <h:outputText value="#{messages['label.requeteur.expert.titre.boite']}"/>
+          </h3>
+          <div class="boxBody">
+            <h:outputText value="#{messages['label.smart.query.build.help']}"
+              class="infoMessage" />
+            <nxl:layout name="#{contentView.searchLayout.name}" mode="edit"
+              value="#{mgppSmartNXQLQueryActions.queryPart}" />
+          </div>
+        </div>
+      </nxu:set>
+
+      <div>
+       <table >
+            <tr>
+              <td>
+                <nxh:commandButton
+                  value="#{messages['requeteur.command.rechercher']}"
+                  id="recherche_requeteur"
+                  action="#{requeteurMgppActions.goToResults()}"
+                  styleClass="button" />
+              </td>
+            </tr>
+        </table>
+       </div>
+     </nxu:set>
+    </h:form>
+</div>

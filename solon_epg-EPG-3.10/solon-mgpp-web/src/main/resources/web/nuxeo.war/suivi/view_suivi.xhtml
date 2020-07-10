@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	<ui:define name="page title">
+		<c:choose>
+			<c:when test="${suiviActions.isInCalendrierParlementaire()}">
+				<h:outputText value="Calendrier parlementaire" />
+			</c:when>
+			<c:when test="${suiviActions.isInEcheancierDePromulgation()}">
+				<h:outputText value="Echéancier de promulgation" />
+			</c:when>
+			<c:when test="${suiviActions.isInSuiviDesEcheances()}">
+				<h:outputText value="Suivi des échéances (rapports)" />
+			</c:when>
+			<c:otherwise>
+				<h:outputText value="Suivi" />
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="bookmark">
+		<link rel="bookmark"
+			href="#{navigationContext.currentDocumentFullUrl}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<script>document.getElementById("collapsiblePanelIdOpened").style.display="none";</script>
+        
+        <style>
+        #calendrierNav {
+            text-align: center;
+            margin-top: 6px;
+            border-bottom: 1px solid #d2d2d2;
+        }
+        
+        #calendrierNav a {
+            display: inline-block;
+            color: #000;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+        
+        #calendrierNav a:hover {
+            text-decoration: none;
+        }
+        
+        #calendrierNav a:hover span {
+            color: #fff;
+            background: #c3b9aa;
+            border-bottom: 2px solid #c3b9aa;
+        }
+        
+        #calendrierNav a span {
+            padding: 6px;
+            padding-left: 10px;
+            padding-right: 10px;
+            display: block;
+            background: #ece2d4;
+            border-radius: 4px 4px 0 0;
+            border-bottom: 2px solid #ece2d4;
+            box-shadow: 1px 2px 3px #c7bcac inset;
+        }
+        
+        #calendrierNav a span.selected {
+            font-weight: normal;
+            background: #c7bcac;
+            border-bottom: 2px solid #B92125;
+        }
+        </style>
+    
+		<div id="calendrierNav">
+				<h:form id="suiviFrm">
+					<h:commandLink
+								onclick="javascript:document.getElementById('suiviFrm:calendrierParlementaireBtn').click();return false"
+								id="goToCalendrierParlementaire">
+								<c:choose>
+									<c:when test="${suiviActions.isInCalendrierParlementaire()}">
+										<h:outputText class="selected" value="Calendrier parlementaire" />
+									</c:when>
+									<c:otherwise>
+										<span><h:outputText value="Calendrier parlementaire" /></span>
+									</c:otherwise>
+								</c:choose>
+							</h:commandLink>
+							<h:commandLink
+								onclick="javascript:document.getElementById('suiviFrm:echeancierDePromulgationBtn').click();return false"
+								id="goToEcheancierDePromulgation">
+								<c:choose>
+									<c:when test="${suiviActions.isInEcheancierDePromulgation()}">
+										<h:outputText class="selected" value="Echéancier de promulgation" />
+									</c:when>
+									<c:otherwise>
+										<span><h:outputText value="Echéancier de promulgation"  /></span>
+									</c:otherwise>
+								</c:choose>
+							</h:commandLink>
+						    <h:commandLink
+								onclick="javascript:document.getElementById('suiviFrm:suiviDesEcheancesBtn').click();return false"
+								id="goToSuiviDesEcheances">
+								<c:choose>
+									<c:when test="${suiviActions.isInSuiviDesEcheances()}">
+										<h:outputText class="selected" value="Suivi des échéances (rapports)" />
+									</c:when>
+									<c:otherwise>
+										<span><h:outputText value="Suivi des échéances (rapports)"  /></span>
+									</c:otherwise>
+								</c:choose>
+							</h:commandLink>
+							
+						<h:commandButton id="calendrierParlementaireBtn" action="${suiviActions.goToCalendrierParlementaire()}" style="display:none"/>
+						<h:commandButton id="echeancierDePromulgationBtn" action="${suiviActions.goToEcheancierDePromulgation()}" style="display:none"/>
+						<h:commandButton id="suiviDesEcheancesBtn" action="${suiviActions.goToSuiviDesEcheances()}" style="display:none"/>
+				</h:form>
+		</div>
+        
+        <div>
+            <c:choose>
+        		<c:when test="${suiviActions.isInCalendrierParlementaireRefreshData()}">
+        			<ui:include src="/suivi/view_calendrier_parlementaire.xhtml" />
+        		</c:when>
+        		<c:when test="${suiviActions.isInEcheancierDePromulgation()}">
+        			<ui:include src="/suivi/view_echeancier_promulgation.xhtml" />
+        		</c:when>
+        		<c:when test="${suiviActions.isInSuiviDesEcheances()}">
+        			<ui:include src="/suivi/view_suivi_echeances.xhtml" />
+        		</c:when>
+    		</c:choose>
+        </div>
+        <div>
+    		<input type="button" value="Export Excel" class="button"
+    			onclick="openLinkInNewWindow('#mainForm\\:exportCSV');" />
+    		<input type="button" value="Export PDF" class="button"
+    			onclick="openLinkInNewWindow('#mainForm\\:exportPDF');" />
+    		<h:form id="mainForm">
+    		<c:choose>
+    			<c:when test="${suiviActions.isInCalendrierParlementaire()}">
+    				<h:commandLink id="exportPDF" target="_blank" style="display:none"
+    					action="/incl/export/calendrier_content_view_pdf.faces">	
+    					<h:outputText style="font-size: 10px;" value="Export Calendrier PDF"/>
+    				</h:commandLink>
+    				<h:commandLink id="exportCSV" target="_blank" style="display:none"
+    					action="/incl/export/calendrier_content_view_csv.faces">	
+    					<h:outputText style="font-size: 10px;" value="Export Calendrier CSV"/>
+    				</h:commandLink>
+    			</c:when>
+    			<c:otherwise>
+    				<h:commandLink id="exportCSV" target="_blank" style="display:none" action="#{suiviActions.exportXls()}">	
+    					<h:outputText style="font-size: 10px;" value="Export CSV"/>
+    				</h:commandLink>
+    				<h:commandLink id="exportPDF" target="_blank" style="display:none" action="#{suiviActions.exportPdf()}">	
+    					<h:outputText style="font-size: 10px;" value="Export PDF"/>
+    				</h:commandLink>
+    			</c:otherwise>
+    		</c:choose>
+    		</h:form>
+        	<script>
+        		var j = jQuery.noConflict();
+        		function openLinkInNewWindow(linkID)
+        		{
+        			j(linkID).click();
+        		}
+        	</script>
+        </div>
+	</ui:define>
+</nxthemes:composition>

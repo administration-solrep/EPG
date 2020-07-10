@@ -1,0 +1,395 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.requete.contentviews.contrib">
+  <require>org.nuxeo.ecm.platform.smart.folder.layouts</require>
+  <require>org.nuxeo.ecm.platform.smart.query.layouts</require>
+ <require>fr.dila.solonepg.web.layout.requete.listing</require>
+  
+  <extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">
+    <!-- Content View de la recherche simple de dossiers (par numéro de NOR) -->
+    <contentView name="recherche_nor">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">recherche_nor</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{rechercheNorActions.query}</parameter>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSize>20</pageSize>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      	</genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>only_one_cache</cacheKey>
+      <cacheSize>20</cacheSize>
+      <resultLayouts>
+      <layout name="dossier_listing_dto" title="document_listing"
+        translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION_RECH_NOR</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+     
+    <!-- Une content view pour le résultat du requêteur en UFNXQL-->
+    <contentView name="recherche_requeteur">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	      	<property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">recherche_requeteur</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ?
+	        </pattern>
+	        <parameter>#{smartNXQLQueryActions.fullQuery}</parameter>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+	        <pageSize>20</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_requeteur_cache</cacheKey>
+      <cacheSize>20</cacheSize>
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+      <selectionList>CURRENT_SELECTION_RECH_UFNXQL</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+     
+    <!-- Content view de la liste des favoris de consultation des dossiers -->
+    <contentView name="recherche_favoris_consultations_dossier">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	      	<property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">recherche_favoris_consultations_dossier</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ufnxql: ? 
+	        </pattern>
+	        <parameter>#{espaceRechercheTree.query}</parameter>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSize>30</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fvcs</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_RECH_FCS_DOSSIER</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+   <!-- Content view de la liste des favoris de consultation des dossiers -->
+    <contentView name="recherche_favoris_consultation_dossier">
+     <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            ufnxql: ? 
+        </pattern>
+        <parameter>#{espaceRechercheTree.query}</parameter>
+        <sort column="d.dc:title" ascending="true" />
+        <pageSize>30</pageSize>
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fvc</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="espace_recherche_listing_favoris" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_RECH_FC_DOSSIER</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content view de la liste des favoris de consultation des modèles de feuilles de route -->
+    <contentView name="recherche_favoris_consultation_modele_feuille_route">
+     <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            ufnxql: ? 
+        </pattern>
+        <parameter>#{espaceRechercheTree.query}</parameter>
+        <pageSize>30</pageSize>
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_favoris_consultation_modele_feuille_route</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="recherche_feuille_route_model_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_FAVORIS_CONSULTATION_MODELE_FEUILLE_ROUTE</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content view de la liste des favoris de consultation des utilisateurs -->
+    <contentView name="recherche_favoris_consultation_user">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.UserPageDocumentProvider">
+      <property name="coreSession">#{documentManager}</property>
+        <property name="userManagerActions">#{userManagerActions}</property>
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            ? 
+        </pattern>
+        <parameter>#{espaceRechercheTree.query}</parameter>
+        <sort column="username" ascending="true" />
+        <pageSize>30</pageSize>
+      </genericPageProvider>
+      <useGlobalPageSize>false</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_fcu</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="recherche_user_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_RECH_FC_USER</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+      <actions category="USER_SEARCH_LISTING" />
+    </contentView>
+
+    <!-- Content View des résultats de recherche sur les modèles de feuille de route -->
+    <contentView name="recherche_modele_feuille_route_resultat">
+     <genericPageProvider class="fr.dila.st.web.contentview.UfnxqlPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="queryString">#{rechercheModeleFeuilleRouteActions.searchQueryString}</property>
+        <property name="parameters">#{rechercheModeleFeuilleRouteActions.searchQueryParameter}</property>
+        <sort column="r.dc:title" ascending="true" />
+        <pageSize>30</pageSize>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_modele_feuille_route_resultat</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="recherche_feuille_route_model_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_RECHERCHE_MODELE_FEUILLE_ROUTE</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content View des résultats de recherche sur les utilisateurs -->
+    <contentView name="recherche_user_resultat">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.UserRecherchePageDocumentProvider">
+        <property name="userManagerActions">#{userManagerActions}</property>
+        <parameter>#{userManagerActions.queryPart}</parameter>
+        <pageSize>30</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_ur</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="recherche_user_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png"/>
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_RECH_USERR</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+      <actions category="USER_SEARCH_LISTING" />
+      <actions category="MANAGEMENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content View permettant d'afficher la liste des derniers dossiers consultés dans la recherche -->
+    <contentView name="recherche_resultats_consultes_dossier">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	     	<property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">recherche_resultats_consultes_dossier</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ufnxql: ? 
+	        </pattern>
+	        <parameter>#{espaceRechercheTree.query}</parameter>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+	        <pageSize>30</pageSize>
+	        <sortable>#{false}</sortable>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_rec</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_RECH_RC_DOSSIER</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+    <!-- Content View permettant d'afficher la liste des derniers modèles de feuilles de route consultés dans la recherche -->
+    <contentView name="recherche_resultats_consultes_modele_feuille_route">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.search.DerniersResultatsConsultesProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <property name="documentCategory">fdr</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            ufnxql: ? 
+        </pattern>
+        <parameter>#{espaceRechercheTree.query}</parameter>
+        <pageSize>30</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_resultats_consultes_modele_feuille_route</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="recherche_feuille_route_model_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_RECHERCHE_RESULTATS_CONSULTES_MODELE_FEUILLE_ROUTE</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+
+    <!-- Content View permettant d'afficher la liste des derniers utilisateurs consultés -->
+    <contentView name="recherche_resultats_consultes_user">
+     <genericPageProvider class="fr.dila.solonepg.web.contentview.UserPageDocumentProvider">
+     	<property name="coreSession">#{documentManager}</property>
+        <property name="userManagerActions">#{userManagerActions}</property>
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            ? 
+        </pattern>
+        <parameter>#{espaceRechercheTree.query}</parameter>
+        <pageSize>30</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_rcu</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="recherche_user_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_RECH_RC_USER</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+      <actions category="USER_SEARCH_LISTING" />
+    </contentView>
+    
+    <!-- Content View permettant d'afficher la liste des dossiers issue du requêteur de dossier simple -->
+    <contentView name="requeteur_dossier_simple">
+		<genericPageProvider class="fr.dila.solonepg.web.contentview.DossierPageProvider">
+	        <property name="coreSession">#{documentManager}</property>
+	        <property name="userColumn">#{profilUtilisateurActions.getEspaceTraitementColumnsToDisplayIds()}</property>
+	        <property name="resourcesAccessor">#{resourcesAccessor}</property>
+	        <property name="providerBean">#{providerBean}</property>
+	        <property name="filtrableId">requeteur_dossier_simple</property>
+	        <pattern quoteParameters="false" escapeParameters="false">
+	            ? 
+	        </pattern>
+	        <parameter>#{requeteurDossierSimpleActions.getCurrentRequetePattern()}</parameter>
+	        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+	        <sort column="d.dos:numeroNor" ascending="true" />
+	        <pageSize>30</pageSize>
+	      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_requeteur_dossier_simple</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="dossier_listing_dto" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_REQUETEUR_DOSSIER_SIMPLE</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+   <!-- Content View permettant d'afficher la liste des dossiers issue d'un favoris de recherche de dossier simple, voir pour fusionner
+   avec la content view requeteur_dossier_simple -->
+   <contentView name="requeteur_dossier_simple_favoris">
+     <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            ? 
+        </pattern>
+        <parameter>#{requeteurDossierSimpleActions.getFavoriRechercheDoc().getQueryPart()}</parameter>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+        <pageSize>30</pageSize>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <cacheKey>recherche_requeteur_dossier_simple_favoris</cacheKey>
+      <cacheSize>30</cacheSize>
+      <resultLayouts>
+        <layout name="recherche_dossier_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+       <!-- On garde la meme sélection liste que pour la recherche de dossier simple -->
+      <selectionList>CURRENT_SELECTION_REQUETEUR_DOSSIER_SIMPLE</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+  </extension>
+</component>
+
+

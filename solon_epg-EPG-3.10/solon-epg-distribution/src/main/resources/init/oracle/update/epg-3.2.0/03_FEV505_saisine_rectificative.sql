@@ -1,0 +1,1 @@
+insert into VOC_TYPE_PJ ("id","obsolete","ordering","label") values ('SAISINE_RECTIFICATIVE',0,10000000,'Saisine rectificative');

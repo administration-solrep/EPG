@@ -1,0 +1,46 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:a4j="http://richfaces.org/a4j"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:rich="http://richfaces.org/rich"
+  id="#{widget.id}">
+  
+  <a4j:region renderRegionOnly="true" id="#{widget.id}_ajax_region">
+        <c:if test="#{widget.mode == 'edit'}">
+          <h:inputText id="#{widget.id}_input"/>
+            <a4j:commandLink immediate="true" id="#{widget.id}_addL" action="#{metadonneesActions.addText(nxu:concat(widget.id, '_input'), nxu:concat(widget.id, '_list'), layoutColumn.widgets[0].properties.restriction)}" reRender="#{widget.id}_listRegion, #{widget.id}_input">
+               <h:graphicImage id="#{widget.id}_addText" value="/icons/action_add.gif" styleClass="add_icon" alt="Ajouter" title="Ajouter" />
+            </a4j:commandLink>
+             
+            <c:if test="#{not empty layoutColumn.widgets[0].properties.lightbulbSearch}">
+              <span onmouseover="tooltip.show('#{messages[layoutColumn.widgets[0].properties.lightbulbSearch]}', 250, 'topright');" onmouseout="tooltip.hide();">
+                <h:graphicImage value="/icons/lightbulb.png" />
+              </span>
+            </c:if>
+            
+        </c:if>
+        
+        <a4j:outputPanel ajaxRendered="false" id="#{widget.id}_listRegion">
+          <nxu:inputList id="#{widget.id}_list" value="#{field_0}" model="model" required="#{widget.required}">
+            <h:panelGroup id="#{widget.id}_listItem">
+              <h:panelGrid columns="1">
+                <h:panelGroup>
+                 <c:if test="#{widget.mode == 'edit'}">
+                  <a4j:commandLink immediate="true" action="#{metadonneesActions.removeText(nxu:concat(widget.id, '_list'), model.rowIndex, model.rowData, layoutColumn.widgets[0].properties.restriction)}" 
+                    id="#{widget.id}_delete" reRender="#{widget.id}_listRegion" rendered="#{metadonneesActions.isReallyEditable(widget.properties.restriction, field_0, model.rowData)}">
+                    <h:graphicImage value="/icons/action_delete.gif" alt="Supprimer" title="Supprimer" />
+                  </a4j:commandLink>
+                 </c:if>
+                  
+                 <h:outputText value="#{model.rowData}"/>
+                 
+                </h:panelGroup>
+              </h:panelGrid>
+            </h:panelGroup>
+          </nxu:inputList>
+          <h:message styleClass="errorMessage" for="#{widget.id}_list" id="#{widget.id}_message" />
+      </a4j:outputPanel>
+  </a4j:region>
+</div>

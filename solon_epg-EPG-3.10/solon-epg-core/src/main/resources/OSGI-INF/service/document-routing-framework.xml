@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<!-- Ce composant contribue le service de document routing de Réponses. -->
+<component name="fr.dila.solonepg.core.service.DocumentRoutingService">
+	<implementation
+		class="fr.dila.solonepg.core.service.DocumentRoutingServiceImpl" />
+
+	<require>fr.dila.ecm.platform.routing.service</require>
+
+	<service>
+		<!-- Ajoute les API de document routing du socle transverse -->
+		<provide interface="fr.dila.ss.api.service.DocumentRoutingService" />
+		
+		<!-- Ajoute les API de document routing de solon epg -->
+		<provide interface="fr.dila.solonepg.api.service.DocumentRoutingService" />
+
+		<!-- Remplace le service Document Routing de Nuxeo -->
+		<provide interface="fr.dila.ecm.platform.routing.api.DocumentRoutingService" />
+	</service>
+
+	<extension-point name="chainsToType">
+		<documentation>
+			Use to map an operation chains to a Step document type. If the
+			chains are declared for the same type, only the last one is use.
+			The same chain can be used for different type.
+			<code>
+				<mapping documentType="The type of the document that extends DocumentRouteStep"
+					chainId="the id of the chain" />
+			</code>
+		</documentation>
+		<object
+			class="fr.dila.ecm.platform.routing.core.impl.ChainToTypeMappingDescriptor" />
+	</extension-point>
+
+	<extension-point name="persister">
+		<documentation>
+			Use to provide a persister. A persister should
+			implement DocumentRoutingPersister. It is responsible to persist
+			instances of route.
+			<code>
+				<persister class="org.my.implementation.of.Persister" />
+			</code>
+		</documentation>
+		<object class="fr.dila.ecm.platform.routing.core.impl.PersisterDescriptor" />
+	</extension-point>
+</component>

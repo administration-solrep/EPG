@@ -1,0 +1,2429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="units">in</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">179</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">179</property>
+        </structure>
+    </list-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="DESTINATAIRES_PARAM" id="35">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <method name="getSelectionValueList"><![CDATA[params["TEST"] = params["TEST"] + 1; ]]></method>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DOSSIERID_PARAM" id="177">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="SIGNATAIRE_PARAM" id="176">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="SIGNATAIRE_FONCTION_PARAM" id="1740">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="RELANCE_PARAM" id="1743">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="178">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_INTE</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfSU5URQ==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DESTINATAIRES" id="487">
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">DESTINATAIRES_PARAM_1</property>
+                    <property name="paramName">DESTINATAIRES_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES_PARAM_2</property>
+                    <property name="paramName">DESTINATAIRES_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">2</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">JOIN_ID</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">OBJECT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">TITLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">OLDDATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">JOIN_ID</property>
+                    <property name="nativeName">JOIN_ID</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">NAME</property>
+                    <property name="nativeName">NAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">OBJECT</property>
+                    <property name="nativeName">OBJECT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">TITLE</property>
+                    <property name="nativeName">TITLE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">OLDDATE</property>
+                    <property name="nativeName">OLDDATE</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT  
+1 AS JOIN_ID,
+substr(TAB.RESULT,(instr(TAB.RESULT,'$name$=') + length('$name$=')),(instr(TAB.RESULT,';;', instr(TAB.RESULT,'$name$=')) - (instr(TAB.RESULT,'$name$=') + length('$name$=')))) AS NAME,
+substr(TAB.RESULT,(instr(TAB.RESULT,'$object$=') + length('$object$=')),(instr(TAB.RESULT,';;', instr(TAB.RESULT,'$object$=')) - (instr(TAB.RESULT,'$object$=') + length('$object$=')))) AS object,
+substr(TAB.RESULT,(instr(TAB.RESULT,'$title$=') + length('$title$=')),(instr(TAB.RESULT,';;', instr(TAB.RESULT,'$title$=')) - (instr(TAB.RESULT,'$title$=') + length('$title$=')))) AS TITLE,
+substr(TAB.RESULT,(instr(TAB.RESULT,'$oldDate$=') + length('$oldDate$=')),(instr(TAB.RESULT,';;', instr(TAB.RESULT,'$oldDate$=')) - (instr(TAB.RESULT,'$oldDate$=') + length('$oldDate$=')))) AS OLDDATE
+FROM (
+SELECT REGEXP_SUBSTR (VAL , '[^&amp;]+', 1, LEVEL) AS result    
+FROM   (SELECT ? AS VAL FROM DUAL)    
+CONNECT BY LEVEL <= (SELECT LENGTH (VAL) - LENGTH (REPLACE (VAL , '&amp;', ''))  FROM (SELECT ? AS VAL FROM DUAL))
+) TAB]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="BORDEREAU_COMMUNICATION" id="179">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">DOSSIERID_PARAM</property>
+                    <property name="paramName">DOSSIERID_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">JOIN_ID</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">SIGNATAIRE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">NUMERONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">TITREACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">PRIORITE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">PRIORITELABEL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">RESPDOSSIER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">TELRESPDOSSIER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">PERSONNESNOMMEES</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">TYPEACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">TEXTESOUMISAVALIDATION</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">TEXTEAPUBLIER</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">JOIN_ID</property>
+                    <property name="nativeName">JOIN_ID</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">ID</property>
+                    <property name="nativeName">ID</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">SIGNATAIRE</property>
+                    <property name="nativeName">SIGNATAIRE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">NUMERONOR</property>
+                    <property name="nativeName">NUMERONOR</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">TITREACTE</property>
+                    <property name="nativeName">TITREACTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">PRIORITE</property>
+                    <property name="nativeName">PRIORITE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">PRIORITELABEL</property>
+                    <property name="nativeName">PRIORITELABEL</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">RESPDOSSIER</property>
+                    <property name="nativeName">RESPDOSSIER</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">TELRESPDOSSIER</property>
+                    <property name="nativeName">TELRESPDOSSIER</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">PERSONNESNOMMEES</property>
+                    <property name="nativeName">PERSONNESNOMMEES</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">TYPEACTE</property>
+                    <property name="nativeName">TYPEACTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">TEXTESOUMISAVALIDATION</property>
+                    <property name="nativeName">TEXTESOUMISAVALIDATION</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">TEXTEAPUBLIER</property>
+                    <property name="nativeName">TEXTEAPUBLIER</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select *
+from v_bordereau_COMMUNICATION where ID=? ]]></xml-property>
+        </oda-data-set>
+        <joint-data-set name="COMMUNICATION_JOIN_DESTINATAIRES" id="551">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">DESTINATAIRES::JOIN_ID</property>
+                    <property name="alias">DESTINATAIRES::JOIN_ID</property>
+                    <text-property name="displayName">DESTINATAIRES::JOIN_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::TEXTEAPUBLIER</property>
+                    <property name="alias">TEXTEAPUBLIER</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TEXTEAPUBLIER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DESTINATAIRES::OLDDATE</property>
+                    <property name="alias">OLDDATE</property>
+                    <text-property name="displayName">DESTINATAIRES::OLDDATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::JOIN_ID</property>
+                    <property name="alias">BORDEREAU_COMMUNICATION::JOIN_ID</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::JOIN_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DESTINATAIRES::NAME</property>
+                    <property name="alias">NAME</property>
+                    <text-property name="displayName">DESTINATAIRES::NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::RESPDOSSIER</property>
+                    <property name="alias">RESPDOSSIER</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::RESPDOSSIER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DESTINATAIRES::OBJECT</property>
+                    <property name="alias">OBJECT</property>
+                    <text-property name="displayName">DESTINATAIRES::OBJECT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::PERSONNESNOMMEES</property>
+                    <property name="alias">PERSONNESNOMMEES</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PERSONNESNOMMEES</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::TEXTESOUMISAVALIDATION</property>
+                    <property name="alias">TEXTESOUMISAVALIDATION</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TEXTESOUMISAVALIDATION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::NUMERONOR</property>
+                    <property name="alias">NUMERONOR</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::NUMERONOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::PRIORITE</property>
+                    <property name="alias">PRIORITE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PRIORITE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::SIGNATAIRE</property>
+                    <property name="alias">SIGNATAIRE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::SIGNATAIRE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::ID</property>
+                    <property name="alias">ID</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::TITREACTE</property>
+                    <property name="alias">TITREACTE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TITREACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::TYPEACTE</property>
+                    <property name="alias">TYPEACTE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TYPEACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::TELRESPDOSSIER</property>
+                    <property name="alias">TELRESPDOSSIER</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TELRESPDOSSIER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DESTINATAIRES::TITLE</property>
+                    <property name="alias">TITLE</property>
+                    <text-property name="displayName">DESTINATAIRES::TITLE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BORDEREAU_COMMUNICATION::PRIORITELABEL</property>
+                    <property name="alias">PRIORITELABEL</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PRIORITELABEL</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">DESTINATAIRES::DESTINATAIRES_PARAM_1</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="allowNull">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::DESTINATAIRES_PARAM_2</property>
+                    <property name="dataType">string</property>
+                    <property name="position">2</property>
+                    <property name="isOptional">false</property>
+                    <property name="allowNull">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::DOSSIERID_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">3</property>
+                    <property name="isOptional">false</property>
+                    <property name="allowNull">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">DESTINATAIRES::JOIN_ID</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">OBJECT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">TITLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">OLDDATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">BORDEREAU_COMMUNICATION::JOIN_ID</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">SIGNATAIRE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">NUMERONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">TITREACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">PRIORITE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">PRIORITELABEL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">RESPDOSSIER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">TELRESPDOSSIER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">PERSONNESNOMMEES</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">TYPEACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">TEXTESOUMISAVALIDATION</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">TEXTEAPUBLIER</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <simple-property-list name="dataSets">
+                <value>DESTINATAIRES</value>
+                <value>BORDEREAU_COMMUNICATION</value>
+            </simple-property-list>
+            <list-property name="joinConditions">
+                <structure>
+                    <property name="joinType">inner</property>
+                    <property name="joinOperator">eq</property>
+                    <property name="leftDataSet">DESTINATAIRES</property>
+                    <property name="rightDataSet">BORDEREAU_COMMUNICATION</property>
+                    <expression name="leftExpression">dataSetRow["JOIN_ID"]</expression>
+                    <expression name="rightExpression">dataSetRow["JOIN_ID"]</expression>
+                </structure>
+            </list-property>
+        </joint-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="leftMargin">0.25in</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="490">
+            <property name="dataSet">COMMUNICATION_JOIN_DESTINATAIRES</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">DESTINATAIRES::JOIN_ID</property>
+                    <text-property name="displayName">DESTINATAIRES::JOIN_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DESTINATAIRES::JOIN_ID"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::NAME</property>
+                    <text-property name="displayName">DESTINATAIRES::NAME</text-property>
+                    <expression name="expression" type="javascript">var NAME = dataSetRow["DESTINATAIRES::NAME"] + "";&#13;
+var TITLE = dataSetRow["DESTINATAIRES::TITLE"] + "";&#13;
+TITLE = (TITLE == "null" ? "": TITLE );&#13;
+NAME = (NAME == "null" ? "": NAME );&#13;
+&#13;
+"à "+TITLE + " " + NAME;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::OBJECT</property>
+                    <text-property name="displayName">DESTINATAIRES::OBJECT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DESTINATAIRES::OBJECT"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::TITLE</property>
+                    <text-property name="displayName">DESTINATAIRES::TITLE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DESTINATAIRES::TITLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::JOIN_ID</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::JOIN_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::JOIN_ID"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::ID</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::SIGNATAIRE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::SIGNATAIRE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::SIGNATAIRE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::NUMERONOR</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::NUMERONOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::NUMERONOR"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::TITREACTE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TITREACTE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::TITREACTE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::PRIORITE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PRIORITE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::PRIORITE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::PRIORITELABEL</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PRIORITELABEL</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::PRIORITELABEL"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::RESPDOSSIER</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::RESPDOSSIER</text-property>
+                    <expression name="expression" type="javascript">var RESPDOSSIER = dataSetRow["BORDEREAU_COMMUNICATION::RESPDOSSIER"] + "";&#13;
+var TELRESPDOSSIER = dataSetRow["BORDEREAU_COMMUNICATION::TELRESPDOSSIER"] + "";&#13;
+var msgToDisplay = "";&#13;
+&#13;
+if(RESPDOSSIER.length > 0)&#13;
+{&#13;
+	msgToDisplay = 'Coordonnées du fonctionnaire responsable du dossier : ' + RESPDOSSIER;&#13;
+	&#13;
+	if(TELRESPDOSSIER.length > 0)&#13;
+	{&#13;
+		msgToDisplay = msgToDisplay + ' (tél. : ' + TELRESPDOSSIER+ ')';&#13;
+	}&#13;
+}&#13;
+msgToDisplay;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::TELRESPDOSSIER</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TELRESPDOSSIER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::TELRESPDOSSIER"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATARES_SUPPLEMENTAIRES</property>
+                    <text-property name="displayName">DESTINATARES_SUPPLEMENTAIRES</text-property>
+                    <expression name="expression" type="javascript">var ACTUAL_DESTINATAIRE_NAME = dataSetRow["DESTINATAIRES::NAME"] + "";&#13;
+ACTUAL_DESTINATAIRE_NAME = (ACTUAL_DESTINATAIRE_NAME == "null" ? "" : ACTUAL_DESTINATAIRE_NAME);&#13;
+var DESTINATAIRES_PARAM = params["DESTINATAIRES_PARAM"] + "";&#13;
+DESTINATAIRES_PARAM = (DESTINATAIRES_PARAM == "null" ? "" : DESTINATAIRES_PARAM);&#13;
+var SEPARATEURS = "&amp;";&#13;
+var KEY_NAME = "$name$=";&#13;
+var KEY_OBJECT = "$object$=";&#13;
+var KEY_TITLE = "$title$=";&#13;
+var KEY_LIMIT = ";;";&#13;
+var DESTINATAIRES = DESTINATAIRES_PARAM.split(SEPARATEURS);&#13;
+var REMPLACEMENT = ", ";&#13;
+&#13;
+var monsieur = "Monsieur";&#13;
+var madame = "Madame";&#13;
+var mr = "M.";&#13;
+var mme = "Mme.";&#13;
+&#13;
+var messageToDisplay = "";&#13;
+&#13;
+for(i = 0; i &lt; (DESTINATAIRES.length  - 1); i++)&#13;
+{&#13;
+	var DESTINATAIRE = DESTINATAIRES[i].split(KEY_LIMIT);&#13;
+	var DESTINATAIRE_NAME = "";&#13;
+	var DESTINATAIRE_OBJECT = "";&#13;
+	var DESTINATAIRE_TITLE = "";&#13;
+	&#13;
+	for(j = 0; j &lt; (DESTINATAIRE.length  - 1); j++)&#13;
+	{&#13;
+		if(DESTINATAIRE[j].indexOf(KEY_NAME) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_NAME = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_NAME) + KEY_NAME.length);&#13;
+		}else if(DESTINATAIRE[j].indexOf(KEY_OBJECT) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_OBJECT = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_OBJECT) + KEY_OBJECT.length);&#13;
+		}else if(DESTINATAIRE[j].indexOf(KEY_TITLE) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_TITLE) + KEY_TITLE.length);&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	if(DESTINATAIRE_TITLE != "")&#13;
+	{&#13;
+		if(DESTINATAIRE_TITLE.toUpperCase().indexOf(monsieur.toUpperCase()) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = mr;&#13;
+		}else	if(DESTINATAIRE_TITLE.toUpperCase().indexOf(madame.toUpperCase()) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = mme;&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	if(DESTINATAIRE_NAME != ACTUAL_DESTINATAIRE_NAME)&#13;
+	{&#13;
+		messageToDisplay = messageToDisplay + DESTINATAIRE_TITLE + " " + DESTINATAIRE_NAME + REMPLACEMENT;&#13;
+	}&#13;
+}&#13;
+&#13;
+&#13;
+&#13;
+if(messageToDisplay.length > 0 )&#13;
+{&#13;
+messageToDisplay =  "NB: le présent projet de texte a également été communiqué pour avis à : " + messageToDisplay.substr(0, (messageToDisplay.length - REMPLACEMENT.length));&#13;
+}&#13;
+&#13;
+messageToDisplay;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">OLDDATE</property>
+                    <text-property name="displayName">DESTINATAIRES::OLDDATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OLDDATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::OLDDATE</property>
+                    <text-property name="displayName">DESTINATAIRES::OLDDATE</text-property>
+                    <expression name="expression" type="javascript">if(params["RELANCE_PARAM"].value == "true"){&#13;
+	var dt =dataSetRow["DESTINATAIRES::OLDDATE"];&#13;
+	if(!dt || dt=="null")dt="";&#13;
+	"Précédente communication le: " + dt&#13;
+}&#13;
+else "";</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PRIORITE_LABEL</property>
+                    <text-property name="displayName">PRIORITE_LABEL</text-property>
+                    <expression name="expression" type="javascript">var prioriteId = (dataSetRow["BORDEREAU_COMMUNICATION::PRIORITE"]);&#13;
+if(prioriteId=="1")  "URGENT ";&#13;
+else if(prioriteId=="2") "TRES URGENT";&#13;
+else "";</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PERSONNESNOMMEES</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PERSONNESNOMMEES</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PERSONNESNOMMEES"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">OBSERVATION_TEXTE</property>
+                    <text-property name="displayName">OBSERVATION_TEXTE</text-property>
+                    <expression name="expression" type="javascript">var text = "En communication avant ";&#13;
+if(dataSetRow["BORDEREAU_COMMUNICATION::TYPEACTE"] == "17" &#13;
+	|| dataSetRow["BORDEREAU_COMMUNICATION::TYPEACTE"]=="43")&#13;
+{&#13;
+	if(dataSetRow["BORDEREAU_COMMUNICATION::TEXTEAPUBLIER"]=="1")&#13;
+		text += "contreseing du Premier ministre, signature du Président de la République et publication au JORF";&#13;
+	else text += "contreseing du Premier ministre et signature du Président de la République"; &#13;
+}&#13;
+else&#13;
+{&#13;
+	text += "signature du Premier ministre";&#13;
+	if(dataSetRow["BORDEREAU_COMMUNICATION::TEXTEAPUBLIER"]=="1")&#13;
+		text += " et publication au JORF";&#13;
+}&#13;
+text;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Column Binding</property>
+                    <text-property name="displayName">CurrentDate</text-property>
+                    <expression name="expression" type="javascript">importPackage( Packages.java.text );&#13;
+var Formatter = new SimpleDateFormat("dd/MM/yyyy", reportContext.getLocale());&#13;
+'Le ' + Formatter.format( new Date() );</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">TEXT_INFO</property>
+                    <text-property name="displayName">TEXT_INFO</text-property>
+                    <expression name="expression" type="javascript">var text = "En vous priant de bien vouloir me faire connaître si ce texte appelle des observations de votre part";&#13;
+var prioriteId = (dataSetRow["BORDEREAU_COMMUNICATION::PRIORITE"]);&#13;
+if(prioriteId=="1" || prioriteId=="2")text = ".\n"+text;&#13;
+text;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <structure name="toc"/>
+            <column id="499"/>
+            <detail>
+                <row id="495">
+                    <property name="height">11in</property>
+                    <cell id="496">
+                        <grid id="960">
+                            <column id="961"/>
+                            <row id="962">
+                                <cell id="963">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="paddingRight">1pt</property>
+                                    <property name="whiteSpace">pre</property>
+                                    <grid id="1909">
+                                        <property name="width">7.59375in</property>
+                                        <column id="1910">
+                                            <property name="width">2.3020833333333335in</property>
+                                        </column>
+                                        <column id="1911">
+                                            <property name="width">5.291666666666667in</property>
+                                        </column>
+                                        <row id="1912">
+                                            <cell id="1913">
+                                                <label id="380">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">REPUBLIQUE FRANCAISE</text-property>
+                                                </label>
+                                                <label id="1642">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="color">#000000</property>
+                                                    <property name="textLineThrough">none</property>
+                                                    <property name="textAlign">center</property>
+                                                    <structure name="toc"/>
+                                                    <text-property name="text"> ___________</text-property>
+                                                </label>
+                                            </cell>
+                                            <cell id="1914"/>
+                                        </row>
+                                    </grid>
+                                    <label id="1760">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">12pt</property>
+                                        <property name="paddingLeft">1pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="964">
+                                <cell id="965">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <grid id="351">
+                                        <property name="width">7.614583333333333in</property>
+                                        <structure name="toc"/>
+                                        <column id="352">
+                                            <property name="width">2.2291666666666665in</property>
+                                        </column>
+                                        <column id="353">
+                                            <property name="width">5.385416666666667in</property>
+                                        </column>
+                                        <row id="354">
+                                            <cell id="355">
+                                                <property name="textAlign">center</property>
+                                                <label id="363">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">SECRETARIAT GENERAL  DU GOUVERNEMENT</text-property>
+                                                </label>
+                                                <label id="1643">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="color">#000000</property>
+                                                    <property name="textLineThrough">none</property>
+                                                    <property name="textAlign">center</property>
+                                                    <structure name="toc"/>
+                                                    <text-property name="text">______________</text-property>
+                                                </label>
+                                            </cell>
+                                            <cell id="356">
+                                                <property name="paddingLeft">1pt</property>
+                                                <property name="textIndent">80pt</property>
+                                                <property name="verticalAlign">middle</property>
+                                                <property name="whiteSpace">pre</property>
+                                                <label id="1883">
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="color">gray</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <label id="1957">
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="color">gray</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <label id="1941">
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="color">gray</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <label id="371">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">BORDEREAU D'ENVOI</text-property>
+                                                </label>
+                                                <label id="1644">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="color">#000000</property>
+                                                    <property name="textLineThrough">none</property>
+                                                    <property name="textAlign">center</property>
+                                                    <structure name="toc"/>
+                                                    <text-property name="text">___________</text-property>
+                                                </label>
+                                            </cell>
+                                        </row>
+                                    </grid>
+                                    <label id="1761">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">12pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="1905">
+                                <cell id="1906">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="paddingLeft">1pt</property>
+                                    <grid id="1959">
+                                        <column id="1960"/>
+                                        <column id="1961"/>
+                                        <row id="1962">
+                                            <cell id="1963"/>
+                                            <cell id="1964">
+                                                <label id="1061">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="marginLeft">0pt</property>
+                                                    <property name="paddingLeft">1pt</property>
+                                                    <property name="textAlign">left</property>
+                                                    <text-property name="text">Le Secrétaire général du Gouvernement</text-property>
+                                                </label>
+                                                <label id="1942">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <data id="1450">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="marginLeft">0pt</property>
+                                                    <property name="paddingLeft">1pt</property>
+                                                    <property name="paddingRight">1pt</property>
+                                                    <property name="textAlign">left</property>
+                                                    <property name="whiteSpace">normal</property>
+                                                    <property name="resultSetColumn">DESTINATAIRES::NAME</property>
+                                                </data>
+                                                <label id="1943">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">10pt</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <label id="1944">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">10pt</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <data id="459">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="marginLeft">0pt</property>
+                                                    <property name="paddingLeft">1pt</property>
+                                                    <property name="textAlign">left</property>
+                                                    <property name="resultSetColumn">Column Binding</property>
+                                                </data>
+                                            </cell>
+                                        </row>
+                                    </grid>
+                                    <label id="1945">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">10pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="1789">
+                                <cell id="1790">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <label id="1946">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">10pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="976">
+                                <cell id="977">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="paddingLeft">5pt</property>
+                                    <data id="552">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">10pt</property>
+                                        <property name="whiteSpace">pre</property>
+                                        <property name="resultSetColumn">BORDEREAU_COMMUNICATION::RESPDOSSIER</property>
+                                    </data>
+                                </cell>
+                            </row>
+                            <row id="978">
+                                <cell id="979">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <label id="1947">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">10pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="980">
+                                <cell id="981">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="paddingTop">0pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="paddingRight">0pt</property>
+                                    <table id="553">
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">1px</property>
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">1px</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">1px</property>
+                                        <property name="borderTopColor">#000000</property>
+                                        <property name="borderTopStyle">solid</property>
+                                        <property name="borderTopWidth">1px</property>
+                                        <property name="width">7.46875in</property>
+                                        <column id="563">
+                                            <property name="width">3.75in</property>
+                                        </column>
+                                        <column id="564">
+                                            <property name="width">3.75in</property>
+                                        </column>
+                                        <header>
+                                            <row id="554">
+                                                <property name="fontSize">10pt</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <cell id="555">
+                                                    <property name="borderBottomColor">#000000</property>
+                                                    <property name="borderBottomStyle">solid</property>
+                                                    <property name="borderBottomWidth">thin</property>
+                                                    <property name="borderRightColor">#000000</property>
+                                                    <property name="borderRightStyle">solid</property>
+                                                    <property name="borderRightWidth">thin</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="565">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">10pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textAlign">center</property>
+                                                        <text-property name="text">DESIGNATION DES PIECES</text-property>
+                                                    </label>
+                                                </cell>
+                                                <cell id="556">
+                                                    <property name="borderBottomColor">#000000</property>
+                                                    <property name="borderBottomStyle">solid</property>
+                                                    <property name="borderBottomWidth">1px</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="568">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">10pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textAlign">center</property>
+                                                        <text-property name="text">OBSERVATIONS</text-property>
+                                                    </label>
+                                                </cell>
+                                            </row>
+                                        </header>
+                                        <detail>
+                                            <row id="557">
+                                                <property name="height">3.7291666666666665in</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <cell id="558">
+                                                    <property name="borderRightColor">#000000</property>
+                                                    <property name="borderRightStyle">solid</property>
+                                                    <property name="borderRightWidth">thin</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="1654">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1451">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="whiteSpace">normal</property>
+                                                        <property name="resultSetColumn">BORDEREAU_COMMUNICATION::NUMERONOR</property>
+                                                    </data>
+                                                    <data id="1452">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="whiteSpace">normal</property>
+                                                        <property name="resultSetColumn">BORDEREAU_COMMUNICATION::TITREACTE</property>
+                                                    </data>
+                                                    <data id="1754">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="whiteSpace">nowrap</property>
+                                                        <property name="resultSetColumn">PERSONNESNOMMEES</property>
+                                                    </data>
+                                                    <label id="1756">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1715">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="resultSetColumn">DESTINATAIRES::OLDDATE</property>
+                                                    </data>
+                                                </cell>
+                                                <cell id="559">
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="1766">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1751">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textAlign">left</property>
+                                                        <property name="resultSetColumn">OBSERVATION_TEXTE</property>
+                                                    </data>
+                                                    <label id="1767">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1737">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textUnderline">underline</property>
+                                                        <list-property name="visibility">
+                                                            <structure>
+                                                                <property name="format">all</property>
+                                                                <expression name="valueExpr" type="javascript">(row["BORDEREAU_COMMUNICATION::PRIORITE"]!="1"&amp;&amp;row["BORDEREAU_COMMUNICATION::PRIORITE"]!="2")</expression>
+                                                            </structure>
+                                                        </list-property>
+                                                        <property name="resultSetColumn">PRIORITE_LABEL</property>
+                                                    </data>
+                                                    <label id="1770">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <label id="1900">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text">En vous priant de bien vouloir me faire connaître si ce texte appelle des observations de votre part</text-property>
+                                                    </label>
+                                                    <label id="1902">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <text id="1773">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="textAlign">center</property>
+                                                        <property name="contentType">auto</property>
+                                                        <text-property name="content"><![CDATA[ 
+ 
+Pour le Secrétaire Général du Gouvernement,
+ 
+ ]]></text-property>
+                                                    </text>
+                                                    <data id="1742">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="textAlign">center</property>
+                                                        <list-property name="boundDataColumns">
+                                                            <structure>
+                                                                <property name="name">SIGNATAIRE_FONCTION_PARAM</property>
+                                                                <expression name="expression" type="javascript">params["SIGNATAIRE_FONCTION_PARAM"];</expression>
+                                                                <property name="dataType">string</property>
+                                                            </structure>
+                                                        </list-property>
+                                                        <property name="resultSetColumn">SIGNATAIRE_FONCTION_PARAM</property>
+                                                    </data>
+                                                    <label id="1768">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1739">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="textAlign">center</property>
+                                                        <list-property name="boundDataColumns">
+                                                            <structure>
+                                                                <property name="name">SIGNATAIRE_PARAM</property>
+                                                                <expression name="expression" type="javascript">params["SIGNATAIRE_PARAM"]</expression>
+                                                                <property name="dataType">string</property>
+                                                            </structure>
+                                                        </list-property>
+                                                        <property name="resultSetColumn">SIGNATAIRE_PARAM</property>
+                                                    </data>
+                                                </cell>
+                                            </row>
+                                            <row id="1778">
+                                                <property name="height">0.2in</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <cell id="1779">
+                                                    <property name="colSpan">2</property>
+                                                    <property name="rowSpan">1</property>
+                                                    <property name="backgroundColor">gray</property>
+                                                    <property name="borderTopColor">#000000</property>
+                                                    <property name="borderTopStyle">solid</property>
+                                                    <property name="borderTopWidth">1px</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                </cell>
+                                            </row>
+                                            <row id="1781">
+                                                <property name="height">2in</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <property name="verticalAlign">middle</property>
+                                                <cell id="1782">
+                                                    <property name="colSpan">2</property>
+                                                    <property name="rowSpan">1</property>
+                                                    <property name="borderTopColor">#000000</property>
+                                                    <property name="borderTopStyle">solid</property>
+                                                    <property name="borderTopWidth">1px</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="1017">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="textAlign">center</property>
+                                                        <text-property name="text">AVIS</text-property>
+                                                    </label>
+                                                    <label id="1028">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text">□ favorable            □ favorable avec corrections            □ défavorable            □ non compétent</text-property>
+                                                    </label>
+                                                    <label id="1786">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <label id="1038">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textUnderline">underline</property>
+                                                        <text-property name="text">Observations :</text-property>
+                                                    </label>
+                                                    <text id="1885">
+                                                        <property name="contentType">auto</property>
+                                                        <text-property name="content"><![CDATA[
+
+
+
+
+
+
+
+]]></text-property>
+                                                    </text>
+                                                </cell>
+                                            </row>
+                                        </detail>
+                                    </table>
+                                    <data id="596">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">12pt</property>
+                                        <property name="fontStyle">normal</property>
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">DESTINATARES_SUPPLEMENTAIRES</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </grid>
+                        <label id="1785">
+                            <property name="fontFamily">"Times New Roman"</property>
+                            <property name="fontSize">12pt</property>
+                            <text-property name="text"> </text-property>
+                        </label>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <table id="1793">
+            <property name="dataSet">COMMUNICATION_JOIN_DESTINATAIRES</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">DESTINATAIRES::JOIN_ID</property>
+                    <text-property name="displayName">DESTINATAIRES::JOIN_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DESTINATAIRES::JOIN_ID"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::NAME</property>
+                    <text-property name="displayName">DESTINATAIRES::NAME</text-property>
+                    <expression name="expression" type="javascript">var NAME = dataSetRow["DESTINATAIRES::NAME"] + "";&#13;
+var TITLE = dataSetRow["DESTINATAIRES::TITLE"] + "";&#13;
+TITLE = (TITLE == "null" ? "": TITLE );&#13;
+NAME = (NAME == "null" ? "": NAME );&#13;
+&#13;
+"à "+TITLE + " " + NAME;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::OBJECT</property>
+                    <text-property name="displayName">DESTINATAIRES::OBJECT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DESTINATAIRES::OBJECT"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::TITLE</property>
+                    <text-property name="displayName">DESTINATAIRES::TITLE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DESTINATAIRES::TITLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::JOIN_ID</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::JOIN_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::JOIN_ID"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::ID</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::SIGNATAIRE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::SIGNATAIRE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::SIGNATAIRE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::NUMERONOR</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::NUMERONOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::NUMERONOR"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::TITREACTE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TITREACTE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::TITREACTE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::PRIORITE</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PRIORITE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::PRIORITE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::PRIORITELABEL</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PRIORITELABEL</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::PRIORITELABEL"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::RESPDOSSIER</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::RESPDOSSIER</text-property>
+                    <expression name="expression" type="javascript">var RESPDOSSIER = dataSetRow["BORDEREAU_COMMUNICATION::RESPDOSSIER"] + "";&#13;
+var TELRESPDOSSIER = dataSetRow["BORDEREAU_COMMUNICATION::TELRESPDOSSIER"] + "";&#13;
+var msgToDisplay = "";&#13;
+&#13;
+if(RESPDOSSIER.length > 0)&#13;
+{&#13;
+	msgToDisplay = 'Coordonnées du fonctionnaire responsable du dossier : ' + RESPDOSSIER;&#13;
+	&#13;
+	if(TELRESPDOSSIER.length > 0)&#13;
+	{&#13;
+		msgToDisplay = msgToDisplay + ' (tél. : ' + TELRESPDOSSIER+ ')';&#13;
+	}&#13;
+}&#13;
+msgToDisplay;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BORDEREAU_COMMUNICATION::TELRESPDOSSIER</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::TELRESPDOSSIER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BORDEREAU_COMMUNICATION::TELRESPDOSSIER"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATARES_SUPPLEMENTAIRES</property>
+                    <text-property name="displayName">DESTINATARES_SUPPLEMENTAIRES</text-property>
+                    <expression name="expression" type="javascript">var ACTUAL_DESTINATAIRE_NAME = dataSetRow["DESTINATAIRES::NAME"] + "";&#13;
+ACTUAL_DESTINATAIRE_NAME = (ACTUAL_DESTINATAIRE_NAME == "null" ? "" : ACTUAL_DESTINATAIRE_NAME);&#13;
+var DESTINATAIRES_PARAM = params["DESTINATAIRES_PARAM"] + "";&#13;
+DESTINATAIRES_PARAM = (DESTINATAIRES_PARAM == "null" ? "" : DESTINATAIRES_PARAM);&#13;
+var SEPARATEURS = "&amp;";&#13;
+var KEY_NAME = "$name$=";&#13;
+var KEY_OBJECT = "$object$=";&#13;
+var KEY_TITLE = "$title$=";&#13;
+var KEY_LIMIT = ";;";&#13;
+var DESTINATAIRES = DESTINATAIRES_PARAM.split(SEPARATEURS);&#13;
+var REMPLACEMENT = ", ";&#13;
+&#13;
+var monsieur = "Monsieur";&#13;
+var madame = "Madame";&#13;
+var mr = "M.";&#13;
+var mme = "Mme.";&#13;
+&#13;
+var messageToDisplay = "";&#13;
+&#13;
+for(i = 0; i &lt; (DESTINATAIRES.length  - 1); i++)&#13;
+{&#13;
+	var DESTINATAIRE = DESTINATAIRES[i].split(KEY_LIMIT);&#13;
+	var DESTINATAIRE_NAME = "";&#13;
+	var DESTINATAIRE_OBJECT = "";&#13;
+	var DESTINATAIRE_TITLE = "";&#13;
+	&#13;
+	for(j = 0; j &lt; (DESTINATAIRE.length  - 1); j++)&#13;
+	{&#13;
+		if(DESTINATAIRE[j].indexOf(KEY_NAME) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_NAME = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_NAME) + KEY_NAME.length);&#13;
+		}else if(DESTINATAIRE[j].indexOf(KEY_OBJECT) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_OBJECT = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_OBJECT) + KEY_OBJECT.length);&#13;
+		}else if(DESTINATAIRE[j].indexOf(KEY_TITLE) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_TITLE) + KEY_TITLE.length);&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	if(DESTINATAIRE_TITLE != "")&#13;
+	{&#13;
+		if(DESTINATAIRE_TITLE.toUpperCase().indexOf(monsieur.toUpperCase()) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = mr;&#13;
+		}else	if(DESTINATAIRE_TITLE.toUpperCase().indexOf(madame.toUpperCase()) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = mme;&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	if(DESTINATAIRE_NAME != ACTUAL_DESTINATAIRE_NAME)&#13;
+	{&#13;
+		messageToDisplay = messageToDisplay + DESTINATAIRE_TITLE + " " + DESTINATAIRE_NAME + REMPLACEMENT;&#13;
+	}&#13;
+}&#13;
+&#13;
+&#13;
+&#13;
+if(messageToDisplay.length > 0 )&#13;
+{&#13;
+messageToDisplay =  "NB: le présent projet de texte a également été communiqué pour avis à : " + messageToDisplay.substr(0, (messageToDisplay.length - REMPLACEMENT.length));&#13;
+}&#13;
+&#13;
+messageToDisplay;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">OLDDATE</property>
+                    <text-property name="displayName">DESTINATAIRES::OLDDATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OLDDATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DESTINATAIRES::OLDDATE</property>
+                    <text-property name="displayName">DESTINATAIRES::OLDDATE</text-property>
+                    <expression name="expression" type="javascript">if(params["RELANCE_PARAM"].value == "true"){&#13;
+	var dt =dataSetRow["DESTINATAIRES::OLDDATE"];&#13;
+	if(!dt || dt=="null")dt="";&#13;
+	"Précédente communication le: " + dt&#13;
+}&#13;
+else "";</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PRIORITE_LABEL</property>
+                    <text-property name="displayName">PRIORITE_LABEL</text-property>
+                    <expression name="expression" type="javascript">var prioriteId = (dataSetRow["BORDEREAU_COMMUNICATION::PRIORITE"]);&#13;
+if(prioriteId=="1")  "URGENT";&#13;
+else if(prioriteId=="2") "TRES URGENT";&#13;
+else "";</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PERSONNESNOMMEES</property>
+                    <text-property name="displayName">BORDEREAU_COMMUNICATION::PERSONNESNOMMEES</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PERSONNESNOMMEES"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">OBSERVATION_TEXTE</property>
+                    <text-property name="displayName">OBSERVATION_TEXTE</text-property>
+                    <expression name="expression" type="javascript">var text = "En communication avant ";&#13;
+if(dataSetRow["BORDEREAU_COMMUNICATION::TYPEACTE"] == "17" &#13;
+	|| dataSetRow["BORDEREAU_COMMUNICATION::TYPEACTE"]=="43")&#13;
+{&#13;
+	if(dataSetRow["BORDEREAU_COMMUNICATION::TEXTEAPUBLIER"]=="1")&#13;
+		text += "contreseing du Premier ministre, signature du Président de la République et publication au JORF";&#13;
+	else text += "contreseing du Premier ministre et signature du Président de la République"; &#13;
+}&#13;
+else&#13;
+{&#13;
+	text += "signature du Premier ministre";&#13;
+	if(dataSetRow["BORDEREAU_COMMUNICATION::TEXTEAPUBLIER"]=="1")&#13;
+		text += " et publication au JORF";&#13;
+}&#13;
+text;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Column Binding</property>
+                    <text-property name="displayName">CurrentDate</text-property>
+                    <expression name="expression" type="javascript">importPackage( Packages.java.text );&#13;
+var Formatter = new SimpleDateFormat("dd/MM/yyyy", reportContext.getLocale());&#13;
+'Le ' + Formatter.format( new Date() );</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <structure name="toc"/>
+            <column id="1880"/>
+            <detail>
+                <row id="1794">
+                    <property name="height">11in</property>
+                    <cell id="1795">
+                        <grid id="1796">
+                            <column id="1797"/>
+                            <row id="1798">
+                                <cell id="1799">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="paddingRight">1pt</property>
+                                    <grid id="1933">
+                                        <property name="width">7.59375in</property>
+                                        <column id="1934">
+                                            <property name="width">2.3229166666666665in</property>
+                                        </column>
+                                        <column id="1935">
+                                            <property name="width">5.270833333333333in</property>
+                                        </column>
+                                        <row id="1936">
+                                            <cell id="1937">
+                                                <label id="1800">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">REPUBLIQUE FRANCAISE</text-property>
+                                                </label>
+                                                <label id="1801">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="color">#000000</property>
+                                                    <property name="textLineThrough">none</property>
+                                                    <property name="textAlign">center</property>
+                                                    <structure name="toc"/>
+                                                    <text-property name="text"> ___________</text-property>
+                                                </label>
+                                            </cell>
+                                            <cell id="1938">
+                                                <property name="verticalAlign">bottom</property>
+                                                <label id="1939">
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="color">gray</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">                  COPIE</text-property>
+                                                </label>
+                                            </cell>
+                                        </row>
+                                    </grid>
+                                    <label id="1888">
+                                        <property name="fontSize">12pt</property>
+                                        <property name="fontWeight">bold</property>
+                                        <property name="color">gray</property>
+                                        <property name="textAlign">left</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="1803">
+                                <cell id="1804">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <grid id="1805">
+                                        <property name="width">7.614583333333333in</property>
+                                        <structure name="toc"/>
+                                        <column id="1806">
+                                            <property name="width">2.2291666666666665in</property>
+                                        </column>
+                                        <column id="1807">
+                                            <property name="width">5.385416666666667in</property>
+                                        </column>
+                                        <row id="1808">
+                                            <cell id="1809">
+                                                <property name="textAlign">center</property>
+                                                <label id="1810">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">SECRETARIAT GENERAL  DU GOUVERNEMENT</text-property>
+                                                </label>
+                                                <label id="1811">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="color">#000000</property>
+                                                    <property name="textLineThrough">none</property>
+                                                    <property name="textAlign">center</property>
+                                                    <structure name="toc"/>
+                                                    <text-property name="text">______________</text-property>
+                                                </label>
+                                            </cell>
+                                            <cell id="1812">
+                                                <property name="paddingLeft">1pt</property>
+                                                <property name="textIndent">80pt</property>
+                                                <property name="verticalAlign">middle</property>
+                                                <label id="1882">
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="color">gray</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <label id="1948">
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="color">gray</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <label id="1958">
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="color">gray</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <label id="1813">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="textAlign">center</property>
+                                                    <text-property name="text">BORDEREAU D'ENVOI</text-property>
+                                                </label>
+                                                <label id="1814">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="color">#000000</property>
+                                                    <property name="textLineThrough">none</property>
+                                                    <property name="textAlign">center</property>
+                                                    <structure name="toc"/>
+                                                    <text-property name="text">___________</text-property>
+                                                </label>
+                                            </cell>
+                                        </row>
+                                    </grid>
+                                    <label id="1815">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">12pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="1903">
+                                <cell id="1904">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="paddingLeft">1pt</property>
+                                    <grid id="1980">
+                                        <column id="1981"/>
+                                        <column id="1982"/>
+                                        <row id="1983">
+                                            <cell id="1984"/>
+                                            <cell id="1985">
+                                                <label id="1818">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="marginLeft">0pt</property>
+                                                    <property name="paddingLeft">1pt</property>
+                                                    <property name="textAlign">left</property>
+                                                    <text-property name="text">Le Secrétaire général du Gouvernement</text-property>
+                                                </label>
+                                                <label id="1949">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <data id="1821">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="marginLeft">0pt</property>
+                                                    <property name="paddingLeft">1pt</property>
+                                                    <property name="paddingRight">1pt</property>
+                                                    <property name="textAlign">left</property>
+                                                    <property name="whiteSpace">normal</property>
+                                                    <property name="resultSetColumn">DESTINATAIRES::NAME</property>
+                                                </data>
+                                                <label id="1950">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">10pt</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <label id="1951">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">10pt</property>
+                                                    <text-property name="text"> </text-property>
+                                                </label>
+                                                <data id="1826">
+                                                    <property name="fontFamily">"Times New Roman"</property>
+                                                    <property name="fontSize">12pt</property>
+                                                    <property name="marginLeft">0pt</property>
+                                                    <property name="paddingLeft">1pt</property>
+                                                    <property name="textAlign">left</property>
+                                                    <property name="resultSetColumn">Column Binding</property>
+                                                </data>
+                                            </cell>
+                                        </row>
+                                    </grid>
+                                    <label id="1952">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">10pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="1829">
+                                <cell id="1830">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <label id="1953">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">10pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="1831">
+                                <cell id="1832">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="paddingLeft">5pt</property>
+                                    <data id="1833">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">10pt</property>
+                                        <property name="whiteSpace">pre</property>
+                                        <property name="resultSetColumn">BORDEREAU_COMMUNICATION::RESPDOSSIER</property>
+                                    </data>
+                                </cell>
+                            </row>
+                            <row id="1834">
+                                <cell id="1835">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <label id="1954">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">10pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                            <row id="1836">
+                                <cell id="1837">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="paddingTop">0pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="paddingRight">0pt</property>
+                                    <table id="1838">
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">1px</property>
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">1px</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">1px</property>
+                                        <property name="borderTopColor">#000000</property>
+                                        <property name="borderTopStyle">solid</property>
+                                        <property name="borderTopWidth">1px</property>
+                                        <property name="width">7.46875in</property>
+                                        <column id="1874">
+                                            <property name="width">3.75in</property>
+                                        </column>
+                                        <column id="1875">
+                                            <property name="width">3.75in</property>
+                                        </column>
+                                        <header>
+                                            <row id="1839">
+                                                <property name="fontSize">10pt</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <cell id="1840">
+                                                    <property name="borderBottomColor">#000000</property>
+                                                    <property name="borderBottomStyle">solid</property>
+                                                    <property name="borderBottomWidth">thin</property>
+                                                    <property name="borderRightColor">#000000</property>
+                                                    <property name="borderRightStyle">solid</property>
+                                                    <property name="borderRightWidth">thin</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="1841">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">10pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textAlign">center</property>
+                                                        <text-property name="text">DESIGNATION DES PIECES</text-property>
+                                                    </label>
+                                                </cell>
+                                                <cell id="1842">
+                                                    <property name="borderBottomColor">#000000</property>
+                                                    <property name="borderBottomStyle">solid</property>
+                                                    <property name="borderBottomWidth">1px</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="1843">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">10pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textAlign">center</property>
+                                                        <text-property name="text">OBSERVATIONS</text-property>
+                                                    </label>
+                                                </cell>
+                                            </row>
+                                        </header>
+                                        <detail>
+                                            <row id="1844">
+                                                <property name="height">3.7291666666666665in</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <cell id="1845">
+                                                    <property name="borderRightColor">#000000</property>
+                                                    <property name="borderRightStyle">solid</property>
+                                                    <property name="borderRightWidth">thin</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="1846">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1847">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="whiteSpace">normal</property>
+                                                        <property name="resultSetColumn">BORDEREAU_COMMUNICATION::NUMERONOR</property>
+                                                    </data>
+                                                    <data id="1848">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="whiteSpace">normal</property>
+                                                        <property name="resultSetColumn">BORDEREAU_COMMUNICATION::TITREACTE</property>
+                                                    </data>
+                                                    <data id="1849">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="whiteSpace">nowrap</property>
+                                                        <property name="resultSetColumn">PERSONNESNOMMEES</property>
+                                                    </data>
+                                                    <label id="1850">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1851">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="resultSetColumn">DESTINATAIRES::OLDDATE</property>
+                                                    </data>
+                                                </cell>
+                                                <cell id="1852">
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="1853">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1854">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textAlign">left</property>
+                                                        <property name="resultSetColumn">OBSERVATION_TEXTE</property>
+                                                    </data>
+                                                    <label id="1855">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1856">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textUnderline">underline</property>
+                                                        <list-property name="visibility">
+                                                            <structure>
+                                                                <property name="format">all</property>
+                                                                <expression name="valueExpr" type="javascript">(row["BORDEREAU_COMMUNICATION::PRIORITE"]!="1"&amp;&amp;row["BORDEREAU_COMMUNICATION::PRIORITE"]!="2")</expression>
+                                                            </structure>
+                                                        </list-property>
+                                                        <property name="resultSetColumn">PRIORITE_LABEL</property>
+                                                    </data>
+                                                    <label id="1857">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <label id="1858">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text">En vous priant de bien vouloir me faire connaître si ce texte appelle des observations de votre part</text-property>
+                                                    </label>
+                                                    <label id="1859">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <text id="1860">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="textAlign">center</property>
+                                                        <property name="contentType">auto</property>
+                                                        <text-property name="content"><![CDATA[ 
+ 
+Pour le Secrétaire Général du Gouvernement,
+ 
+ ]]></text-property>
+                                                    </text>
+                                                    <data id="1861">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="textAlign">center</property>
+                                                        <list-property name="boundDataColumns">
+                                                            <structure>
+                                                                <property name="name">SIGNATAIRE_FONCTION_PARAM</property>
+                                                                <expression name="expression" type="javascript">params["SIGNATAIRE_FONCTION_PARAM"];</expression>
+                                                                <property name="dataType">string</property>
+                                                            </structure>
+                                                        </list-property>
+                                                        <property name="resultSetColumn">SIGNATAIRE_FONCTION_PARAM</property>
+                                                    </data>
+                                                    <label id="1862">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <data id="1863">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontStyle">normal</property>
+                                                        <property name="textAlign">center</property>
+                                                        <list-property name="boundDataColumns">
+                                                            <structure>
+                                                                <property name="name">SIGNATAIRE_PARAM</property>
+                                                                <expression name="expression" type="javascript">params["SIGNATAIRE_PARAM"]</expression>
+                                                                <property name="dataType">string</property>
+                                                            </structure>
+                                                        </list-property>
+                                                        <property name="resultSetColumn">SIGNATAIRE_PARAM</property>
+                                                    </data>
+                                                </cell>
+                                            </row>
+                                            <row id="1865">
+                                                <property name="height">0.2in</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <cell id="1866">
+                                                    <property name="colSpan">2</property>
+                                                    <property name="rowSpan">1</property>
+                                                    <property name="backgroundColor">gray</property>
+                                                    <property name="borderTopColor">#000000</property>
+                                                    <property name="borderTopStyle">solid</property>
+                                                    <property name="borderTopWidth">1px</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                </cell>
+                                            </row>
+                                            <row id="1867">
+                                                <property name="height">2in</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <cell id="1868">
+                                                    <property name="colSpan">2</property>
+                                                    <property name="rowSpan">1</property>
+                                                    <property name="borderTopColor">#000000</property>
+                                                    <property name="borderTopStyle">solid</property>
+                                                    <property name="borderTopWidth">1px</property>
+                                                    <property name="paddingLeft">5pt</property>
+                                                    <label id="1869">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="textAlign">center</property>
+                                                        <text-property name="text">AVIS</text-property>
+                                                    </label>
+                                                    <label id="1870">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text">□ favorable            □ favorable avec corrections            □ défavorable            □ non compétent</text-property>
+                                                    </label>
+                                                    <label id="1871">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <text-property name="text"> </text-property>
+                                                    </label>
+                                                    <label id="1872">
+                                                        <property name="fontFamily">"Times New Roman"</property>
+                                                        <property name="fontSize">12pt</property>
+                                                        <property name="fontWeight">bold</property>
+                                                        <property name="textUnderline">underline</property>
+                                                        <text-property name="text">Observations :</text-property>
+                                                    </label>
+                                                    <text id="1908">
+                                                        <property name="contentType">auto</property>
+                                                        <text-property name="content"><![CDATA[
+
+
+
+
+
+
+
+]]></text-property>
+                                                    </text>
+                                                </cell>
+                                            </row>
+                                        </detail>
+                                    </table>
+                                    <data id="1878">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">12pt</property>
+                                        <property name="fontStyle">normal</property>
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">DESTINATARES_SUPPLEMENTAIRES</property>
+                                    </data>
+                                    <label id="1879">
+                                        <property name="fontFamily">"Times New Roman"</property>
+                                        <property name="fontSize">12pt</property>
+                                        <text-property name="text"> </text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </grid>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <grid id="1446">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">DESTINATAIRES</property>
+                    <text-property name="displayName">DESTINATAIRES</text-property>
+                    <expression name="expression" type="javascript">var DESTINATAIRES_PARAM = params["DESTINATAIRES_PARAM"] + "";&#13;
+DESTINATAIRES_PARAM = (DESTINATAIRES_PARAM == "null" ? "" : DESTINATAIRES_PARAM);&#13;
+var SEPARATEURS = "&amp;";&#13;
+var KEY_NAME = "$name$=";&#13;
+var KEY_OBJECT = "$object$=";&#13;
+var KEY_TITLE = "$title$=";&#13;
+var KEY_LIMIT = ";;";&#13;
+var DESTINATAIRES = DESTINATAIRES_PARAM.split(SEPARATEURS);&#13;
+var REMPLACEMENT = ",\n";&#13;
+&#13;
+var monsieur = "Monsieur";&#13;
+var madame = "Madame";&#13;
+var mr = "M.";&#13;
+var mme = "Mme.";&#13;
+&#13;
+var messageToDisplay = "";&#13;
+&#13;
+for(i = 0; i &lt; (DESTINATAIRES.length  - 1); i++)&#13;
+{&#13;
+	var DESTINATAIRE = DESTINATAIRES[i].split(KEY_LIMIT);&#13;
+	var DESTINATAIRE_NAME = "";&#13;
+	var DESTINATAIRE_OBJECT = "";&#13;
+	var DESTINATAIRE_TITLE = "";&#13;
+	&#13;
+	for(j = 0; j &lt; (DESTINATAIRE.length  - 1); j++)&#13;
+	{&#13;
+		if(DESTINATAIRE[j].indexOf(KEY_NAME) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_NAME = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_NAME) + KEY_NAME.length);&#13;
+		}else if(DESTINATAIRE[j].indexOf(KEY_OBJECT) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_OBJECT = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_OBJECT) + KEY_OBJECT.length);&#13;
+		}else if(DESTINATAIRE[j].indexOf(KEY_TITLE) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = DESTINATAIRE[j].substring(DESTINATAIRE[j].indexOf(KEY_TITLE) + KEY_TITLE.length);&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	if(DESTINATAIRE_TITLE != "")&#13;
+	{&#13;
+		if(DESTINATAIRE_TITLE.toUpperCase().indexOf(monsieur.toUpperCase()) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = mr;&#13;
+		}else	if(DESTINATAIRE_TITLE.toUpperCase().indexOf(madame.toUpperCase()) == 0)&#13;
+		{&#13;
+			DESTINATAIRE_TITLE = mme;&#13;
+		}&#13;
+	}&#13;
+&#13;
+	messageToDisplay = messageToDisplay + DESTINATAIRE_TITLE + " " + DESTINATAIRE_NAME + REMPLACEMENT;&#13;
+}&#13;
+&#13;
+messageToDisplay.substr(0, (messageToDisplay.length - REMPLACEMENT.length));</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CurrentDate</property>
+                    <text-property name="displayName">CurrentDate</text-property>
+                    <expression name="expression" type="javascript">importPackage( Packages.java.text );&#13;
+var Formatter = new SimpleDateFormat("dd/MM/yyyy", reportContext.getLocale());&#13;
+Formatter.format( new Date() );</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="1447"/>
+            <row id="1448">
+                <property name="height">10in</property>
+                <property name="textAlign">center</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1449">
+                    <grid id="759">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="height">3.5520833333333335in</property>
+                        <property name="width">4.145833333333333in</property>
+                        <column id="760">
+                            <property name="width">4.145833333333333in</property>
+                        </column>
+                        <row id="767">
+                            <property name="height">0.8020833333333334in</property>
+                            <property name="verticalAlign">bottom</property>
+                            <cell id="768">
+                                <text id="781">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="contentType">auto</property>
+                                    <text-property name="content"><![CDATA[Titre de l'acte:]]></text-property>
+                                </text>
+                            </cell>
+                        </row>
+                        <row id="769">
+                            <cell id="770">
+                                <data id="784">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <structure name="stringFormat">
+                                        <property name="category">></property>
+                                        <property name="pattern">></property>
+                                    </structure>
+                                    <property name="whiteSpace">normal</property>
+                                    <property name="dataSet">BORDEREAU_COMMUNICATION</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">TITREACTE</property>
+                                            <text-property name="displayName">TITREACTE</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["TITREACTE"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">TITREACTE</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="771">
+                            <cell id="772">
+                                <text id="782">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="contentType">auto</property>
+                                    <text-property name="content"><![CDATA[NOR de l'acte:]]></text-property>
+                                </text>
+                            </cell>
+                        </row>
+                        <row id="777">
+                            <cell id="778">
+                                <data id="786">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <structure name="stringFormat">
+                                        <property name="category">></property>
+                                        <property name="pattern">></property>
+                                    </structure>
+                                    <property name="whiteSpace">nowrap</property>
+                                    <property name="dataSet">BORDEREAU_COMMUNICATION</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">NUMERONOR</property>
+                                            <text-property name="displayName">NUMERONOR</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NUMERONOR"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">NUMERONOR</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="773">
+                            <cell id="774">
+                                <text id="783">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="contentType">auto</property>
+                                    <text-property name="content"><![CDATA[Liste des destinataires:]]></text-property>
+                                </text>
+                            </cell>
+                        </row>
+                        <row id="789">
+                            <cell id="790">
+                                <data id="794">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="resultSetColumn">DESTINATAIRES</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="791">
+                            <property name="height">0.8020833333333334in</property>
+                            <cell id="792">
+                                <data id="793">
+                                    <property name="fontFamily">"Times New Roman"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">CurrentDate</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

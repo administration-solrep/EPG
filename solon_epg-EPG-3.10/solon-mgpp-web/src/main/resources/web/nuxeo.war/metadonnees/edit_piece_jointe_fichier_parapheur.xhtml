@@ -1,0 +1,158 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+  <a4j:outputPanel id="PAReditFileRegion" ajaxRendered="false">
+          <rich:modalPanel id="PAReditFilePanel" autosized="true"  >
+            <div>
+              <f:facet name="header">
+                <h:outputText value="Ajouter un document" />
+              </f:facet>
+            </div>
+            <h:form id="PAReditFileForm" >
+              <a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+                ignoreDupResponses="true" size="10" id="PAReditFileQueue" name="inputPAReditFileQueue" timeout="5000" /> 
+              <div>
+              <a4j:outputPanel rendered="#{not empty currentDocument}">
+                <div style="width: 800px;height: 400px;  overflow-x: hidden; overflow-y: auto;" >
+                    <table style="border-collapse:collapse;width: 100%;table-layout: fixed;">
+                      <thead style="margin:0px;border-collapse:collapse;" >
+                        <tr  >
+                          <th style="background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;text-align:center;" >
+                            <h:outputText value="Fichiers" />
+                          </th>
+                          <th style="width: 100px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;padding:3px 1px 3px 1px;text-align:center;">
+                            <h:outputText value="Auteur" />
+                          </th>
+                          <th style="width: 100px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;padding:3px 1px 3px 1px;text-align:center;">
+                            <h:outputText value="Entité" />
+                          </th>              
+                          <th style="width: 75px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;padding:3px 1px 3px 1px;text-align:center;">
+                           <h:outputText value="Date" />
+                          </th>
+                          <th style="width: 75px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;padding:3px 1px 3px 1px;text-align:center;">
+                           <h:outputText value="Version" />
+                          </th>
+                          <th style="width: 20px;background:#F1F2F3 none repeat scroll 0 0;border-bottom:1px solid #C7C7C7;color:#606161;text-align:center;">
+                           <h:outputText value="" />
+                          </th>
+                        </tr>
+                      </thead>
+                      <!-- note : attributs id and class are used by the style css -->
+                      <tbody id="parapheurTreeTable" class="treeStyle" style="margin:0px;border-collapse:collapse;">
+                        <tr >
+                          <td colspan="6" class="treeTableMainTd" >
+                            <!-- Parapheur Tree -->
+                            <rich:tree id="parapheurTree" 
+                              reRender="selectedNode" ajaxSubmitSelection="true"
+                              switchType="client" value="#{parapheurTree.parapheur}"
+                              var="item" nodeFace="#{item.type}"
+                              adviseNodeOpened="#{parapheurTree.adviseNodeOpened}" ajaxKeys="#{null}"                  
+                              >
+                  <rich:treeNode id="parapheurFolder" type="ParapheurFolder" iconLeaf="#{parapheurTree.getImgIcon(item)}"
+                    icon="#{parapheurTree.getImgIcon(item)}" nodeClass="fddTreeNodeSelectedClass" highlightedClass="fddTreeNodeHighlightedClass">
+                    <table width="100%">
+                                  <tr>
+                                    <td><h:outputText value="#{item.name}" /></td>
+                                  </tr>
+                                </table>
+                  </rich:treeNode>
+
+                              <!-- fichier -->
+                              <rich:treeNode id="parapheurFichier" type="FileSolonEpg"
+                              highlightedClass="PARTreeNodeHighlightedClass">
+                              <nxu:set var="blob" value="#{blobHolderGenerator.getBlobHolder(item.document).blob}">
+                                <!-- add document model in node -->
+                                  <table width="100%">
+                                    <tr>
+                                      <td>
+                                      <div class="treeLinkSizeLimit">
+                                        <a4j:outputPanel id="zoneFichierParapheur">   
+                                          <h:selectBooleanCheckbox >
+                                            <a4j:support id="#{item.id}_ajax_onclick" event="onclick" eventsQueue="PAReditFileQueue"
+                                              action="#{pieceJointeTreeManagerActions.setFromBlob(blob, item.id)}" />
+                                          </h:selectBooleanCheckbox>                       
+                                          <nxh:graphicImage value="#{nxd:fileIconPath(blob)}" />
+                                          <h:outputText value="#{item.filename}" />
+                                        </a4j:outputPanel>
+                                       </div>
+                                      </td>
+                                      <td style="width:100px;text-align:center;white-space:normal;word-wrap:break-word;" >
+                                        <h:outputText value="p n##{item.lastContributor}" converter="OrganigrammeUserIdToLabelConverter" />
+                                      </td>
+                                      <td style="width:100px;text-align:center;white-space:normal;word-wrap:break-word;">
+                                        <h:outputText value="#{item.entite}" />
+                                      </td>
+                                      
+                                      <td style="width:75px;text-align:center;">
+                                        <h:outputText value="#{item.modifiedDate.getTime()}" converter="DateConverter" />
+                                      </td>
+                                      <td style="width:75px;text-align:center;" >
+                                        <h:outputText value="#{item.majorVersion}" />
+                                      </td>
+                                      <td style="width:20px;" >
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </nxu:set>
+                              </rich:treeNode>
+                            </rich:tree>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </a4j:outputPanel>
+              <a4j:outputPanel rendered="#{empty currentDocument}">
+               Aucun dossier ne correspond avec le NOR saisi
+              </a4j:outputPanel>
+                <!-- button ajout document -->
+                <div class="popupDiv">
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.ajoutDocument()}" eventsQueue="PAReditFileQueue"
+                    id="PAReditFileButtonImage"
+                    reRender="pieceJointePanel, PAReditFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="PAReditFilePanel" operation="hide" event="onclick"/>
+                    <h:graphicImage height="24" width="24" url="/img/icons/check.png"
+                      alt="Valider" />
+                  </a4j:commandLink>
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.ajoutDocument()}" eventsQueue="PAReditFileQueue"
+                    reRender="pieceJointePanel, PAReditFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="PAReditFilePanel" operation="hide" event="onclick"/>
+                    <h:outputText value="Valider" />
+                  </a4j:commandLink>
+                </div>
+        
+                <!-- button close -->
+                <div class="popupDiv">
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.resetProperties()}"
+                    id="PARannulerParapheurFileCreationImage" eventsQueue="PAReditFileQueue"
+                    reRender="pieceJointePanel, PAReditFilePanel" ajaxSingle="true" >
+                    <rich:componentControl for="PAReditFilePanel" operation="hide" event="onclick"/>
+                    <h:graphicImage height="24" width="24" url="/img/icons/delete.png"
+                      alt="Annuler" />
+                  </a4j:commandLink>
+                  <a4j:commandLink
+                    action="#{pieceJointeTreeManagerActions.resetProperties()}"
+                    id="PARannulerParapheurFileCreationText" eventsQueue="PAReditFileQueue"
+                    reRender="pieceJointePanel, PAReditFilePanel" ajaxSingle="true">
+                    <rich:componentControl for="PAReditFilePanel" operation="hide" event="onclick"/>
+                    <h:outputText value="Annuler" />
+                  </a4j:commandLink>
+                </div>
+                <div class="popupDiv">
+                  <h:outputText class="msgError" id="PARerrorName" value="#{pieceJointeTreeManagerActions.errorName}" />
+                </div>
+              </div>
+            </h:form>
+          </rich:modalPanel>
+  </a4j:outputPanel>
+</div>

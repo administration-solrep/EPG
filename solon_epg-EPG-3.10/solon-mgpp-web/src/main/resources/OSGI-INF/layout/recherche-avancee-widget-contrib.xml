@@ -1,0 +1,1441 @@
+<component name="fr.dila.solonmgpp.web.widget.recherche.avancee">
+  <require>fr.dila.solonepg.web.layout.widgetType</require>
+  <require>fr.dila.solonmgpp.web.widget.type</require>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+
+    <widget name="recherche_avancee_typeEvenement" type="select_many_type_evenement">
+      <labels>
+        <label mode="any">label.mgpp.evenement.typeEvenement</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>typeEvenement</field>
+        <field>procedure</field>
+      </fields>
+    </widget>
+    
+    <widget name="recherche_avancee_identifiant" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>idEvenement</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">title</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_identifiant_precedent" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.identifiant.precedent</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>idEvenementPrecedent</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">evenementParent</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_identifiant_dossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.identifiant.dossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>idDossier</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">dossier</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_emetteur" type="template">
+      <labels>
+        <label mode="any">label.mgpp.evenement.emetteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>emetteurs</field>
+      </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/listing/metadonnees/select_institutions_widget.xhtml</property>
+          <property name="restriction">emetteur</property>
+          <property name="organigrammeSelectionMode">LIST</property>
+          <property name="filterMode">true</property>
+        </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_destinataire" type="template">
+      <labels>
+        <label mode="any">label.mgpp.evenement.destinataire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>destinataires</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/metadonnees/select_institutions_widget.xhtml</property>
+        <property name="restriction">destinataire</property>
+        <property name="organigrammeSelectionMode">LIST</property>
+        <property name="filterMode">true</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_copie" type="template">
+      <labels>
+        <label mode="any">label.mgpp.evenement.copie</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>copies</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/metadonnees/select_institutions_widget.xhtml</property>
+        <property name="restriction">destinataireCopie</property>
+        <property name="required">#{metadonneesActions.isColumnRequired('destinataireCopie')}</property>
+        <property name="organigrammeSelectionMode">LIST</property>
+        <property name="filterMode">true</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_horodatage" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.horodatage</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>horodatage</field>
+        <field>horodatageMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">horodatage</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_niveauLecture" type="niveau_lecture_widget">
+      <labels>
+        <label mode="any">label.mgpp.evenement.niveauLecture</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>niveauLectureNiveau</field>
+        <field>niveauLectureCode</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">niveauLecture</property>
+        <property name="directoryName">niveau_lecture</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateAr" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateAr</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateAr</field>
+        <field>dateArMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+        <property name="restriction">dateAr</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateDemande" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateDemande</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDemande</field>
+        <field>dateDemandeMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateDemande</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_objet" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.evenement.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>objet</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">objet</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_nor" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.nor</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>nor</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">nor</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_norLoi" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.norApplique</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>norLoi</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">norLoi</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_typeLoi" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.typeLoi</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>typeLoi</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">typeLoi</property>
+        <property name="directoryName">type_loi</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_natureLoi" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.natureLoi</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>natureLoi</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">natureLoi</property>
+        <property name="directoryName">nature_loi</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_auteur" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.auteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>auteurs</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">auteur</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+
+    <widget name="recherche_avancee_coauteur" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.coauteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>coAuteurs</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">coauteur</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_intitule" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.intitule</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>intitule</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">intitule</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_description" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.evenement.description</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>commentaire</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">description</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_urlDossierAn" type="text_url">
+      <labels>
+        <label mode="any">label.mgpp.evenement.urlDossierAn</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>urlDossierAn</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">urlDossierAn</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_urlDossierSenat" type="text_url">
+      <labels>
+        <label mode="any">label.mgpp.evenement.urlDossierSenat</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>urlDossierSenat</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">urlDossierSenat</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    <widget name="recherche_avancee_cosignataire" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.cosignataire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>coSignataireCollectif</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">cosignataire</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateDepotTexte" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateDepotTexte</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDepotTexte</field>
+        <field>dateDepotTexteMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateDepotTexte</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_resultatCMP" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.resultatCMP</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>resultatCMP</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">resultatCMP</property>
+        <property name="directoryName">resultat_cmp</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateCMP" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateCMP</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateCMP</field>
+        <field>dateCMPMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateCMP</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_numeroDepotTexte" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.numeroDepotTexte</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>depotNumero</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">numeroDepotTexte</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_commissionSaisieAuFond" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.commissionSaisieAuFond</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>commissionSaisieAuFond</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">commissionSaisieAuFond</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+
+    <widget name="recherche_avancee_commissionSaisiePourAvis" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.commissionSaisiePourAvis</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>commissionSaisiePourAvis</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">commissionSaisiePourAvis</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateSaisine" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateSaisine</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateSaisine</field>
+        <field>dateSaisineMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateSaisine</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateRetrait" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateRetrait</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateRetrait</field>
+        <field>dateRetraitMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateRetrait</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateDistributionElectronique" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateDistributionElectronique</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDistribution</field>
+        <field>dateDistributionMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateDistributionElectronique</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_rapporteurList" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.rapporteurList</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>rapporteur</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">rapporteurList</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_titre" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.titre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>titre</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">titre</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateDepotRapport" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateDepotRapport</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDepotRapport</field>
+        <field>dateDepotRapportMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateDepotRapport</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_numeroDepotRapport" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.numeroDepotRapport</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>numeroDepotRapport</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">numeroDepotRapport</property>
+      </properties>
+    </widget>
+
+    <widget name="recherche_avancee_commissionSaisie" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.commissionSaisie</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>commissionSaisie</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">commissionSaisie</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+
+    <widget name="recherche_avancee_attributionCommission" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.attributionCommission</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>attributionCommission</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">attributionCommission</property>
+        <property name="directoryName">attribution_commission</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateRefus" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateRefus</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateRefus</field>
+        <field>dateRefusMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateRefus</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_libelleAnnexe" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.libelleAnnexe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>libelleAnnexes</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">libelleAnnexe</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateEngagementProcedure" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateEngagementProcedure</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateEngagementProcedure</field>
+        <field>dateEngagementProcedureMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateEngagementProcedure</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateRefusEngagementProcedureAcc" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateRefusEngagementProcedure</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateRefusEngagementProcedure</field>
+        <field>dateRefusEngagementProcedureMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateRefusEngagementProcedure</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateAdoption" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateAdoption</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateAdoption</field>
+        <field>dateAdoptionMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateAdoption</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_numeroTexteAdopte" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.numeroTexteAdopte</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>numeroTexteAdopte</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">numeroTexteAdopte</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_sortAdoption" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.sortAdoption</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>sortAdoption</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">sortAdoption</property>
+        <property name="directoryName">sort_adoption</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_positionAlerte" type="type_boolean">
+      <labels>
+        <label mode="any">label.mgpp.evenement.positionAlerte</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>positionAlerte</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">positionAlerte</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_rectificatif" type="type_boolean">
+      <labels>
+        <label mode="any">label.mgpp.evenement.rectificatif</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>rectificatif</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">rectificatif</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_redepot" type="type_boolean">
+      <labels>
+        <label mode="any">label.mgpp.evenement.redepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>redepot</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">redepot</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_commissions" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.commissions</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>commissions</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">commissions</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_natureRapport" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.natureRapport</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>natureRapport</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">natureRapport</property>
+        <property name="directoryName">nature_fdr</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_motifIrrecevabilite" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.motifIrrecevabilite</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>motifIrrecevabilite</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">motifIrrecevabilite</property>
+        <property name="directoryName">motif_irrecevabilite</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_date" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.date</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>date</field>
+        <field>dateMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">date</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_anneeRapport" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.anneeRapport</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>anneeRapport</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">anneeRapport</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_urlBaseLegale" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.urlBaseLegale</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>urlBaseLegale</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">urlBaseLegale</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_identifiantMetier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.identifiantMetier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>identifiantMetier</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">identifiantMetier</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_baseLegale" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.baseLegale</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>baseLegale</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">baseLegale</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_parlementaireTitulaireList" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.parlementaireTitulaireList</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>titulaires</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">parlementaireTitulaireList</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_parlementaireSuppleantList" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.parlementaireSuppleantList</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>suppleant</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">parlementaireSuppleantList</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_datePromulgation" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.datePromulgation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>datePromulgation</field>
+        <field>datePromulgationMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">datePromulgation</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_datePublication" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.datePublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>datePublication</field>
+        <field>datePublicationMin</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">datePublication</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_numeroLoi" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.numeroLoi</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>numeroLoi</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">numeroLoi</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_typeActe" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.typeActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>typeActe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">typeActe</property>
+        <property name="directoryName">type_acte_epp</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateActe" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateActe</field>
+        <field>dateActeMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateActe</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateConvocation" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateConvocation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateConvocation</field>
+        <field>dateConvocationMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateConvocation</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateDesignation" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateDesignation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDesignation</field>
+        <field>dateDesignationMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateDesignation</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_numeroJo" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.numeroJo</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>numeroJo</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">numeroJo</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_pageJo" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.pageJo</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>pageJo</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">pageJo</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_anneeJo" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.anneeJo</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>anneeJo</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">anneeJo</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateJo" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateJo</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateJo</field>
+        <field>dateJoMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateJo</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_numeroRubrique" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.numeroRubrique</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>numeroRubrique</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">numeroRubrique</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_urlPublication" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.urlPublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>urlPublication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">urlPublication</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_echeance" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.echeance</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>echeance</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">echeance</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_sensAvis" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.sensAvis</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>sensAvis</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">sensAvis</property>
+        <property name="directoryName">sens_avis</property>
+      </properties>
+    </widget>
+
+    <widget name="recherche_avancee_sensVote" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.sensAvis</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>sensVote</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">Vote</property>
+        <property name="directoryName">sens_avis</property>
+      </properties>
+    </widget>
+
+    
+    <widget name="recherche_avancee_suffrageExprime" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.suffrageExprime</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>nombreSuffrage</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">suffrageExprime</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_votePour" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.votePour</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>votePour</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">votePour</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_voteContre" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.voteContre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>voteContre</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">voteContre</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_abstention" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.abstention</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>abstention</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">abstention</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_bulletinBlanc" type="int">
+      <labels>
+        <label mode="any">label.mgpp.evenement.bulletinBlanc</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>bulletinBlanc</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">bulletinBlanc</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateCaducite" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateCaducite</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateCaducite</field>
+        <field>dateCaduciteMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateCaducite</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dossierCible" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dossierCible</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dossierCible</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">dossierCible</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_rapportParlement" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.rapportParlement</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>rapportParlement</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">rapportParlement</property>
+        <property name="directoryName">rapport_parlement</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateCongres" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateCongres</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateCongres</field>
+        <field>dateCongresMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateCongres</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dossierLegislatif" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dossierLegislatif</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dossierLegislatif</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">dossierLegislatif</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_pieceJointeLabel" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.pieceJointeLabel</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>pieceJointeLabel</field>
+      </fields>
+    </widget>
+    
+    <widget name="recherche_avancee_pieceJointeFullText" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.pieceJointeFullText</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>pieceJointeFullText</field>
+      </fields>
+    </widget>
+    
+    <widget name="recherche_avancee_datepresentation" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.datepresentation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>datePresentation</field>
+        <field>datePresentationMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">datePresentation</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_dateLettrePm" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateLettrePM</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateLettrePm</field>
+        <field>dateLettrePmMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateLettrePm</property>
+      </properties>
+    </widget>
+    
+
+    <widget name="recherche_avancee_dateVote" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.datevote</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateVote</field>
+        <field>dateVoteMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateVote</property>
+      </properties>
+    </widget>
+    
+    
+    <widget name="recherche_avancee_dateDemande" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateDemande</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDemande</field>
+        <field>dateDemandeMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateDemande</property>
+      </properties>
+    </widget>
+
+    
+    <widget name="recherche_avancee_dateDeclaration" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.datedeclaration</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDeclaration</field>
+        <field>dateDeclarationMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateDeclaration</property>
+      </properties>
+    </widget>
+    
+    
+    <widget name="recherche_avancee_demandeVote" type="type_boolean">
+      <labels>
+        <label mode="any">label.mgpp.evenement.demandevote</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>demandeVote</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">demandeVote</property>
+      </properties>
+    </widget>
+    
+    
+    <widget name="recherche_avancee_groupeParlementaire" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.groupeparlementaire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>groupeParlementaire</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">groupeParlementaire</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+
+    <widget name="recherche_avancee_organisme" type="multi_text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.organisme</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>organisme</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">organisme</property>
+        <property name="lightbulbSearch">label.recherche.avancee.nom.only.lightbulb</property>
+      </properties>
+    </widget>
+
+    
+    <widget name="recherche_avancee_fonction" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.fonction</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fonction</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">fonction</property>
+      </properties>
+    </widget>
+    
+
+    <widget name="recherche_avancee_personne" type="text">
+      <labels>
+        <label mode="any">label.mgpp.evenement.personneaeditionner</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>personne</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">personne</property>
+      </properties>
+    </widget>
+
+    
+    <widget name="recherche_avancee_dateAudition" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateaudition</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateAudition</field>
+        <field>dateAuditionMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateAudition</property>
+      </properties>
+    </widget>
+    
+	 <widget name="recherche_avancee_date_refus_assemblee1" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateRefusAssemblee1</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateRefusAssemblee1</field>
+        <field>dateRefusAssemblee1Max</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateRefusAssemblee1</property>
+      </properties>
+    </widget>
+
+    <widget name="recherche_avancee_date_conference_pres_ass2" type="filtrable_date">    
+      <labels>
+        <label mode="any">label.mgpp.evenement.dateConferenceAssemblee2</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateConferenceAssemblee2</field>
+        <field>dateConferenceAssemblee2Max</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="restriction">dateConferenceAssemblee2</property>
+      </properties>
+    </widget>
+    
+    <widget name="recherche_avancee_decision_eng_proc_acc" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.evenement.decisionProcAcc</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>decisionProcAcc</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">decisionProcAcc</property>
+        <property name="directoryName">decision_proc_acc</property>
+      </properties>
+    </widget>
+    
+    
+  </extension>
+
+</component>

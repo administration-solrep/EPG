@@ -1,0 +1,79 @@
+<div
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  >
+
+<h:panelGroup rendered="#{gestionIndexationActions.isUpdater()}">
+<style>
+	.dataoutputindex{
+		margin-bottom:0px !important;
+		margin-top:0px !important;
+	}
+	.dataRowEven {
+		height: 25px !important;
+	}
+	.dataRowOdd {
+		height: 25px !important;
+		}
+</style>
+  <table class="dataInput">
+    <tbody>
+    	<tr>
+	    	<th align="center" >
+	    		<h4><u><h:outputText value="#{messages['indexation.rubrique']}"/></u></h4>
+	    	</th>
+	    </tr>
+		<tr>
+			<td height="10px"></td>
+		</tr>
+        <tr>
+          <td>
+          <a4j:region id="addR">
+         	 <h:form id="add_rubrique">
+         	 	<h:inputText id="input_rubrique" immediate="true" valueChangeListener="#{gestionIndexationActions.indexationRubriqueValueListener}">
+   	  	           	<a4j:support event="onkeyup" bypassUpdates="true" eventsQueue="ajax_events_queue" />
+   	  	          </h:inputText>
+	             <a4j:commandLink id="addRCommandLink" >
+	             	<a4j:support event="onclick" action="#{gestionIndexationActions.addRubrique()}" eventsQueue="ajax_events_queue" />
+	                <h:graphicImage id="addRub" value="/icons/action_add.gif" styleClass="add_icon" title="Ajouter"/>
+	             </a4j:commandLink>
+	          </h:form>
+	       </a4j:region>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; padding: 0px;">
+          <div style="height: 300px; overflow-y: auto; overflow-x: hidden;">
+          	<h:dataTable var="rubrique" value="#{gestionIndexationActions.listIndexationRubrique}" class="dataOutput dataoutputindex" rowClasses="dataRowEven,dataRowOdd" >
+	            <h:column>
+	              <h:outputText value="#{rubrique.getAdapter(IndexationRubrique).getIntitule()}" />
+	            </h:column>
+	            <h:column>
+		            <a4j:region id="deleteR">
+			            <h:form id="#{rubrique.getId()}_rubrique">
+			             <a4j:commandLink id="deleteCommandLink" >
+			             	<a4j:support event="onclick" action="#{gestionIndexationActions.deleteIndexation(rubrique)}" eventsQueue="ajax_events_queue" />
+			                <h:graphicImage id="delete_img" value="/icons/action_delete.gif" title="Supprimer"/>
+			              </a4j:commandLink>
+			             </h:form>
+			        </a4j:region>
+	            </h:column>
+	            <h:column>
+	            	<h:outputText value=" " />
+	            </h:column>
+	            <h:column>
+	            	<h:outputText value=" " />
+	            </h:column>
+	            <h:column>
+	            	<h:outputText value=" " />
+	            </h:column>
+            </h:dataTable>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+</h:panelGroup>
+</div>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+	<h:outputText value="#{nuxeoApplicationName} - Statistiques"/>
+  </ui:define>
+
+  <ui:define name="bookmark">
+    <link rel="bookmark" href="#{navigationContext.currentDocumentFullUrl}"/>
+  </ui:define>
+  <ui:define name="body">
+
+	<div id="upperContentView">
+      <h2>
+        <h:outputText value="Statistiques"/>
+      </h2>
+    </div>
+    
+	<div id="ContentView">
+				<h:form>
+		<c:if test="#{statistiquesAction.canViewAdminStat() || statistiquesAction.hasRightAdminMinStat()}">
+		<table width="100%" class="dataOutput" style="margin-bottom: 10px ! important;">
+			<thead>
+				<tr>
+					<th >#{messages['espace.suivi.statistique.category.admin']}</th>
+				</tr>
+			</thead>
+        <c:set var="i" value='0' />
+        <c:set var="type" value="admin" />
+
+        <c:set var="classTR" value='dataRowEven' />
+        <nxu:set var="statisticItems" value="#{statistiquesAction.getStatistquesMap(type)}" cache="true">
+          <c:forEach items="#{statisticItems}" var="statisticItem" varStatus="index">
+  
+            <c:choose>
+              <c:when test="${ (index.index) % 2 ==0}">
+                <c:set var="classTR" value='dataRowEven' />
+              </c:when>
+              <c:otherwise>
+                <c:set var="classTR" value='dataRowOdd' />
+              </c:otherwise>
+            </c:choose>
+            <tr class="${classTR}">
+  
+              <td><h:commandLink immediate="true" value="#{messages[statisticItem.value.label]}" action="#{statistiquesAction.navigateToStatisticNextDestination(statisticItem.key)}" /></td>
+            </tr>
+  
+          </c:forEach>
+        </nxu:set>
+		</table>
+				<br/>	
+		</c:if>
+
+	
+	<c:if test="#{statistiquesAction.canViewSggStat()}">
+		<table width="100%" class="dataOutput" style="margin-bottom: 10px ! important;">
+			<thead>
+				<tr>
+					<th >#{messages['espace.suivi.statistique.category.sgg']}</th>
+				</tr>
+			</thead>
+        <c:set var="i" value='0' />
+        <c:set var="type" value="sgg" />
+
+        <c:set var="classTR" value='dataRowEven' />
+        <nxu:set var="statisticItems" value="#{statistiquesAction.getStatistquesMap(type)}" cache="true">
+          <c:forEach items="#{statisticItems}" var="statisticItem" varStatus="index">
+  
+            <c:choose>
+              <c:when test="${ (index.index) % 2 ==0}">
+                <c:set var="classTR" value='dataRowEven' />
+              </c:when>
+              <c:otherwise>
+                <c:set var="classTR" value='dataRowOdd' />
+              </c:otherwise>
+            </c:choose>
+            <tr class="${classTR}">
+  
+              <td><h:commandLink immediate="true" value="#{messages[statisticItem.value.label]}" action="#{statistiquesAction.navigateToStatisticNextDestination(statisticItem.key)}" /></td>
+            </tr>
+  
+          </c:forEach>
+         </nxu:set>
+		</table>
+		<br/>
+		</c:if>
+		<table width="100%" class="dataOutput" style="margin-bottom: 10px ! important;">
+			<thead>
+				<tr>
+				<th >#{messages['espace.suivi.statistique.category.global']}</th>
+				</tr>
+			</thead>
+        <c:set var="i" value='0' />
+        <c:set var="type" value="global" />
+
+        <c:set var="classTR" value='dataRowEven' />
+        <nxu:set var="statisticItems" value="#{statistiquesAction.getStatistquesMap(type)}" cache="true">
+        <c:forEach items="#{statisticItems}" var="statisticItem" varStatus="index">
+
+          <c:choose>
+            <c:when test="${ (index.index) % 2 ==0}">
+              <c:set var="classTR" value='dataRowEven' />
+            </c:when>
+            <c:otherwise>
+              <c:set var="classTR" value='dataRowOdd' />
+            </c:otherwise>
+          </c:choose>
+          <tr class="${classTR}">
+
+            <td><h:commandLink immediate="true" value="#{messages[statisticItem.value.label]}" action="#{statistiquesAction.navigateToStatisticNextDestination(statisticItem.key)}" /></td>
+          </tr>
+
+        </c:forEach>
+        </nxu:set>
+		</table>
+	    <br/>
+	</h:form>
+    </div>    
+  </ui:define>
+</nxthemes:composition>
+

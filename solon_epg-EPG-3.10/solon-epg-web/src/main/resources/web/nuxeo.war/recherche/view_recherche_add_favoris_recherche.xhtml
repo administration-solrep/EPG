@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  >
+  
+  <ui:define name="page title">
+    <h:outputText value="Favoris de recherche" />
+  </ui:define>
+
+  <ui:define name="body">
+    <div>
+			<a4j:outputPanel id="espaceRechercheDossierContentListPanel">
+				<nxu:set var="contentViewName"
+					value="view_recherche_add_favoris_recherche">
+					<ui:include src="/incl/message_banner.xhtml" />
+					<div class="subbodyContainer">
+						<h3>
+							<h:outputText value="Favoris de recherche" />
+						</h3>
+
+						<h:form id="fav_rech_form">
+							<nxl:layout value="#{favorisRechercheActions}" mode="create"
+								name="favoris_recherche_layout" />
+							<table>
+								<tr>
+									<td><nxh:commandButton immediate="true"
+											action="#{favorisRechercheActions.navigateToBack}"
+											value="Annuler" id="cancelfr" styleClass="button btnreq" />
+									</td>
+									<td><nxh:commandButton
+											action="#{favorisRechercheActions.save()}" value="Ajouter"
+											id="savefr" styleClass="button btnreq" /></td>
+								</tr>
+							</table>
+						</h:form>
+					</div>
+				</nxu:set>
+			</a4j:outputPanel>
+		</div>
+  </ui:define>
+  
+  <ui:define name="subbody">
+  </ui:define>
+</nxthemes:composition>
+

@@ -1,0 +1,2889 @@
+<component name="fr.dila.solonmgpp.web.widget.metadonnees.dossier">
+  <require>fr.dila.solonmgpp.web.widget.type</require>
+  <!-- *********************************************************************** -->
+  <!-- Types de widgets -->
+  <!-- *********************************************************************** -->
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+    point="widgettypes">
+    
+    <widgetType name="list_chargeMission">
+      <documentation>
+        liste de charges mission widget
+        </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+	/widgets/listing/fiche_presentation/floi_chargeMission_widget_template.xhtml
+      </property>
+    </widgetType>
+    
+    
+    <widgetType name="list_pole">
+      <documentation>
+        fiche presentation dr pole
+        </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+	/widgets/listing/fiche_presentation/fpdr_pole_widget_template.xhtml
+      </property>
+    </widgetType>
+    
+    
+  </extension>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche loi -->
+    <!-- ######################################################################################################## -->
+    
+    <widget name="fiche_loi_numeroNor" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numeroNor</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:numeroNor</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_idDossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.idDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:idDossier</field>
+      </fields>
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>
+    </widget>
+    
+    <widget name="fiche_loi_intitule" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.intitule</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:intitule</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateCM" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateCM</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateCM</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_observation" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.observation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:observation</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_loi_procedureAcceleree" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.procedureAcceleree</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateProcedureAcceleree</field>
+      </fields>      
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <properties mode="any">
+        <property name="template">/widgets/date_or_text_widget_template.xhtml</property>
+        <property name="nullValue">Non</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_article493" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.article493</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:article493</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_assembleeDepot" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.assembleeDepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:assembleeDepot</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/metadonnees/select_assemblee_widget.xhtml</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>
+         <property name="ficheLoiField">ASSEMBLEE_DEPOT</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateDepot" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateDepot</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_numeroDepot" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numeroDepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:numeroDepot</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_loi_ministereResp" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.ministereResp</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:ministereResp</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+        <property name="organigrammeSelectionType">MIN_TYPE</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_nomCompletChargesMissions" type="list_chargeMission">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nomCompletChargesMissions</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:nomCompletChargesMissions</field>
+      </fields>
+    </widget>
+            
+    <widget name="fiche_loi_dateProjet" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateProjet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateProjet</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateSectionCe" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.sectionCe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateSectionCe</field>
+      </fields>
+      <properties widgetMode="any">
+      	<property name="pattern">dd/MM/yyyy</property>
+	  	<property name="format">dd/MM/yyyy</property>
+	  </properties>    
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>
+    </widget>
+    
+    <widget name="fiche_loi_numeroISA" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numeroISA</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:numeroISA</field>
+      </fields>      
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>
+    </widget>
+    
+    <widget name="fiche_loi_diffusion" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.diffusion</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:diffusion</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_diffusionGenerale" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.diffusionGenerale</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:diffusionGenerale</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_titreOfficiel" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.titreOfficiel</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:titreOfficiel</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_loi_dateReception" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateReception</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateReception</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy HH:mm</property>
+        <property name="format">dd/MM/yyyy HH:mm</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateLimitePromulgation" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateLimitePromulgation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateLimitePromulgation</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateSaisieCC" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateSaisieCC</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateSaisieCC</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateDecision" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDecision</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateDecision</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateAdoption" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateAdoption</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateAdoption</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateJO" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateJO</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:dateJO</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_departElysee" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.departElysee</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:departElysee</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_retourElysee" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.retourElysee</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:retourElysee</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_numeroNor_listing" type="ficheLoiLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numeroNor</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.floi.numeroNor</field>
+        <field>data</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_idDossier_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.idDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.floi.idDossier</field>
+      </fields>
+      <widgetModes>
+         <property name="styleClass">dataInputText</property>
+      </widgetModes>
+    </widget>
+    
+    <widget name="fiche_loi_intitule_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.intitule</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.floi.intitule</field>
+      </fields>
+      <properties widgetMode="edit">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+      <properties widgetMode="view">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_loi_dateCreation_listing" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateCreation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.floi.dateCreation</field>
+        <field>data.floi.dateCreationMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="fiche_loi_opposition_assemblee1" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.oppositionEngagementAss1</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:refusEngagementProcAss1</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/metadonnees/select_assemblee_widget.xhtml</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>   
+        <property name="filterAssemblee">true</property>
+        <property name="withImage">false</property>
+        <property name="ficheLoiField">REFUS_ENGAGEMENT_ASS1</property>
+      </properties>
+      <widgetModes>
+        <mode value="view">#{empty layoutValue.floi.refusEngagementProcAss1?'hidden':'view'}</mode>
+      </widgetModes>
+    </widget>
+
+    <widget name="fiche_loi_opposition_assemblee1_date" type="datetime">
+      <labels>
+        <label mode="any">Le</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>floi:dateRefusEngProcAss1</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>  
+      </properties>
+      <widgetModes>
+        <mode value="view">#{empty layoutValue.floi.dateRefusEngProcAss1?'hidden':'view'}</mode>
+      </widgetModes>    
+    </widget>
+
+	<widget name="fiche_loi_opposition_assemblee2" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.oppositionEngagementAss2</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:refusEngagementProcAss2</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/metadonnees/select_assemblee_widget.xhtml</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>   
+        <property name="filterAssemblee">true</property>
+        <property name="withImage">false</property>
+        <property name="ficheLoiField">REFUS_ENGAGEMENT_ASS2</property>
+      </properties>
+      <widgetModes>
+        <mode value="view">#{empty layoutValue.floi.refusEngagementProcAss2?'hidden':'view'}</mode>
+      </widgetModes>
+    </widget>
+    
+    <widget name="fiche_loi_opposition_assemblee2_decision" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.oppositionEngagementDecisionAss2</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>floi:decisionEngagementAssemblee2</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">decision_proc_acc</property>
+      </properties> 
+      <widgetModes>
+        <mode value="view">#{empty layoutValue.floi.decisionEngagementAssemblee2?'hidden':'view'}</mode>
+      </widgetModes>     
+    </widget>
+
+
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche presentation Autres documents transmis aux assemblées -->
+    <!-- ######################################################################################################## -->
+
+    <widget name="fiche_doc_idDossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdoc:idDossier</field>
+      </fields>
+    </widget>
+
+
+    <widget name="fiche_doc_objet" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdoc:objet</field>
+      </fields>
+    </widget>
+
+
+    <widget name="fiche_doc_dateLettrePm" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateLettrePM</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdoc:dateLettrePm</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="fiche_doc_baseLegale" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.baseLegale</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdoc:baseLegale</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_doc_commissions" type="table_ref_list">
+      <labels>
+        <label mode="any">label.mgpp.evenement.commissions</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdoc:commissions</field>        
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">commissions</property>
+        <property name="tableReference">Organisme</property>
+      </properties>
+    </widget>
+    
+
+
+
+
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche presentation Demande de mise en œuvre de l’article 28-3C -->
+    <!-- ######################################################################################################## -->
+
+    <widget name="fiche_jss_idDossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpjss:idDossier</field>
+      </fields>
+    </widget>
+
+
+    <widget name="fiche_jss_objet" type="textarea">
+ 	  <labels>
+         <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpjss:objet</field>
+      </fields>
+    </widget>
+
+
+    <widget name="fiche_jss_dateLettrePm" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateLettrePM</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpjss:dateLettrePm</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche presentation déclaration sur un sujet determine -->
+    <!-- ######################################################################################################## -->
+
+    <widget name="fiche_sd_idDossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:idDossier</field>
+      </fields>
+    </widget>
+
+
+    <widget name="fiche_sd_objet" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:objet</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_sd_dateDemande" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDemande</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:dateDemande</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_sd_groupe_parlementaire" type="table_ref_list">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.groupeparlementaire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:groupeParlementaire</field>        
+      </fields>
+      <properties widgetMode="any">
+        <property name="restriction">groupeParlementaire</property>
+        <property name="tableReference">Organisme</property>
+      </properties>
+    </widget>
+    
+    
+    
+    <widget name="fiche_sd_dateDeclaration" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.datedeclaration</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:dateDeclaration</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_sd_dateLettrePm" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateLettrePM</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:dateLettrePm</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    
+    <widget name="fiche_sd_demandeVote" type="type_boolean">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.demandevote</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:demandeVote</field>
+      </fields>
+    </widget>      
+    
+    
+    <widget name="fiche_sd_dateVote" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.datevote</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:dateVote</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+
+    <widget name="fiche_sd_sensAvis" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.sensAvis</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:sensAvis</field>
+      </fields>
+	  <properties widgetMode="any">
+        <property name="directoryName">sens_avis</property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="ordering"></property>
+      </properties>
+    </widget>
+
+
+    <widget name="fiche_sd_suffrageExprime" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.suffrageExprime</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:suffrageExprime</field>
+      </fields>
+    </widget>
+
+
+    <widget name="fiche_sd_votePour" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.votePour</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:votePour</field>
+      </fields>
+    </widget>
+
+    <widget name="fiche_sd_voteContre" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.voteContre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:voteContre</field>
+      </fields>
+    </widget>
+
+    <widget name="fiche_sd_abstention" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.abstention</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpsd:abstention</field>
+      </fields>
+    </widget>
+
+
+
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche presentation déclaration politique generale -->
+    <!-- ######################################################################################################## -->
+
+
+    <widget name="fiche_dpg_idDossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:idDossier</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_dpg_objet" type="textarea">
+      <labels>
+      	<label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:objet</field>
+      </fields>
+    </widget>
+    
+    
+    <widget name="fiche_dpg_datePresentation" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.datepresentation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:datePresentation</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+
+
+    <widget name="fiche_dpg_sensAvis" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.sensAvis</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:sensAvis</field>
+      </fields>
+	  <properties widgetMode="any">
+        <property name="directoryName">sens_avis</property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="ordering"></property>
+      </properties>
+    </widget>
+
+    
+    
+    <widget name="fiche_dpg_dateLettrePm" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateLettrePM</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:dateLettrePm</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="fiche_dpg_dateVote" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.datevote</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:dateVote</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="fiche_dpg_suffrageExprime" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.suffrageExprime</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:suffrageExprime</field>
+      </fields>
+    </widget>
+
+
+    <widget name="fiche_dpg_votePour" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.votePour</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:votePour</field>
+      </fields>
+    </widget>
+
+    <widget name="fiche_dpg_voteContre" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.voteContre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:voteContre</field>
+      </fields>
+    </widget>
+
+    <widget name="fiche_dpg_abstention" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.abstention</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdpg:abstention</field>
+      </fields>
+    </widget>
+
+    
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche presentation Depot rapport -->
+    <!-- ######################################################################################################## -->
+    
+    <widget name="fiche_depot_rapport_idDossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:idDossier</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_numeroOrdre" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numeroOrdre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:numeroOrdre</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_nature" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nature</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:nature</field>
+      </fields>
+	  <properties widgetMode="any">
+        <property name="directoryName">nature_fdr</property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="ordering"></property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_rapport_parlement" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.rapportParlement</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:rapportParlement</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">rapport_parlement</property>
+      </properties>
+    </widget>
+
+    <widget name="fiche_depot_rapport_legislature" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.legislature</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:legislature</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">legislature</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_session" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.session</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:session</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">session</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_texteRef" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.texteRef</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:texteRef</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_datePublicationTexteRef" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.datePublicationTexteRef</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:datePublicationTexteRef</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_articleTexteRef" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.articleTexteRef</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:articleTexteRef</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_objet" type="textarea">
+      <labels>
+    	<label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:objet</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_dateRelanceSGG" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateRelanceSGG</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:dateRelanceSGG</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_dateRelanceSGG" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateRelanceSGG</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:dateRelanceSGG</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_dateDepotEffectif" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDepotEffectif</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:dateDepotEffectif</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_dateDepotEffectif" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDepotEffectif</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:dateDepotEffectif</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_numeroDepotJOSenat" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numeroDepotJOSenat</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:numeroDepotJOSenat</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_observation" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.observation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:observation</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_responsabiliteElaboration" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.responsabiliteElaboration</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:responsabiliteElaboration</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_pole" type="list_pole">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.pole</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:pole</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_rubrique" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.rubrique</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:rubrique</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_createurDepot" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.createurDepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:createurDepot</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_destinataire1Rapport" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.destinataire1Rapport</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:destinataire1Rapport</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/listing/metadonnees/select_institutions_widget.xhtml</property>
+        <property name="organigrammeSelectionMode">LIST</property>
+        <property name="filterMode">true</property>
+        <property name="filterAssemblee">true</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_destinataire2Rapport" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.destinataire2Rapport</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:destinataire2Rapport</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_periodicite" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.periodicite</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:periodicite</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_conventionCalcul" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.conventionCalcul</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:conventionCalcul</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_rapportSenat" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.rapportSenat</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:rapportSenat</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+
+    
+   <widget name="fiche_depot_rapport_ministeres" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.ministeres</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:ministeres</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+        <property name="organigrammeSelectionType">MIN_TYPE</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>
+      </properties>
+    </widget>    
+    
+    
+    
+    <widget name="fiche_depot_rapport_directeurCM" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.directeurCM</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:directeurCM</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_DAJMinistere" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.DAJMinistere</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:DAJMinistere</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_anneeDupliquee" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.anneeDupliquee</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:anneeDupliquee</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_depot_rapport_datePublicationTexteRef" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.datePublicationTexteRef</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdr:datePublicationTexteRef</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche presentation Intervention Exterieure -->
+    <!-- ######################################################################################################## -->
+    
+    <widget name="fiche_intervention_exterieure_identifiantProposition" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiantProposition</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpie:identifiantProposition</field>
+      </fields>
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_intervention_exterieure_auteur" type="table_ref">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.auteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpie:auteur</field>
+        <field>fpie:date</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="tableReference">Identite</property>
+        <property name="required">true</property>
+      </properties>
+    </widget> 
+    
+    <widget name="fiche_intervention_exterieure_intitule" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpie:intitule</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_intervention_exterieure_date" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateTransmission</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpie:date</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_intervention_exterieure_observation" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.observation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpie:observation</field>
+      </fields>
+    </widget>
+    
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche presentation Résolution article 34-1 -->
+    <!-- ######################################################################################################## -->
+    
+    <widget name="fiche_341_identifiantProposition" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiantProposition</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fp341:identifiantProposition</field>
+      </fields>
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_341_auteur" type="table_ref">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.auteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fp341:auteur</field>
+        <field>fp341:dateDepot</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="tableReference">Identite</property>
+        <property name="required">true</property>
+      </properties>
+    </widget> 
+
+    <widget name="fiche_341_coAuteur" type="table_ref_list">
+      <labels>
+        <label mode="any">label.mgpp.evenement.coauteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fp341:coAuteur</field>
+        <field>fp341:date</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="tableReference">Identite</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_341_intitule" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.intitule</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fp341:intitule</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_341_objet" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fp341:objet</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_341_dateDepot" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fp341:dateDepot</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_341_numeroDepot" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numeroDepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fp341:numeroDepot</field>
+      </fields>
+    </widget>
+    
+    <!-- ######################################################################################################## -->
+    <!-- Metadonnées fiche presentation OEP -->
+    <!-- ######################################################################################################## -->
+    
+    <widget name="fiche_OEP_idCommun" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.idCommun</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:idCommun</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_date" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDebut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:date</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="required">true</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_dateFin" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateFin</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:dateFin</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_nomOrganisme" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nomOrganismeOEP</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:nomOrganisme</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+     
+    <widget name="fiche_OEP_idsAnatLies" type="text">
+      <labels>
+        <label mode="any">Dossiers EPP liés</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:idsANATLies</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">false</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_ministereRattachement" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.ministereRattachement</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:ministereRattachement</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_ministereRattachement2" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.ministereRattachement2</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:ministereRattachement2</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_ministereRattachement3" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.ministereRattachement3</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:ministereRattachement3</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_texteRef" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.texteRef</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:texteRef</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_texteDuree" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.texteDuree</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:texteDuree</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_commentaire" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.commentaire</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:commentaire</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_observation" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.observation</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:observation</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_nbDeputes" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nbDeputes</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:nbDeputes</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_nbSenateurs" type="int">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nbSenateurs</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:nbSenateurs</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_chargesDeMissionConcerne" type="list">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.chargeMission</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+      <field>fpoep:chargeMission</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="hideSubLabels">true</property>
+      </properties>      
+      <subWidgets>
+        <widget name="nom" type="text">
+          <fields>
+            <field></field>
+          </fields>
+          <labels>
+            <label></label>
+          </labels>
+          <properties widgetMode="edit">
+            <property name="required">true</property>
+          </properties>            
+        </widget>
+      </subWidgets> 
+    </widget>
+
+    <widget name="fiche_OEP_informerChargeDeMission" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.informerChargeMission</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:informerChargeMission</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+      </properties>
+    </widget>
+        
+    <widget name="fiche_OEP_natureJuridiqueOrganisme" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.natureJuridiqueOrganisme</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:natureJuridiqueOrganisme</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>    
+          
+    <widget name="fiche_OEP_commissionRelevantDecret2006" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.commissionRelevantDuDecret2006</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:commissionDuDecret2006</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+      </properties>
+    </widget>
+
+    <!-- DQD = Direction de la qualité du droit -->
+    <widget name="fiche_OEP_instanceSuivieParDQD" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.instanceSuivieParDQD</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:isSuivieDQD</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_instanceSuivieParApplication" type="template">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.instanceSuivieParApplication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:isSuivieAppSuiviMandats</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+      </properties>
+    </widget>
+          
+    <widget name="fiche_OEP_motifDeFin" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.motifFinOEP</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:motifFinOEP</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>    
+    
+    <widget name="fiche_OEP_idDossier_listing" type="idDossierOepLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.idDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpoep.idDossier</field>
+        <field>data</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_nomOrganisme_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nomOrganismeOEP</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpoep.nomOrganisme</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_date_listing" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDebut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpoep.date</field>
+        <field>data.fpoep.dateMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_dateFin_listing" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateFin</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpoep.dateFin</field>
+        <field>data.fpoep.dateFinMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_ministereRattachement_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.ministereRattachement</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpoep.ministereRattachement</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_texteRef_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.texteRef</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpoep.texteRef</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_adresse" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.adresse</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:adresse</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_tel" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.tel</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:tel</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_fax" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.fax</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:fax</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_mail" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.mail</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:mail</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_nomInterlocuteurRef" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nomInterlocuteurRef</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:nomInterlocuteurRef</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_fonctionInterlocuteurRef" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.fonctionInterlocuteurRef</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:fonctionInterlocuteurRef</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_dureeMandatAN" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dureeMandatAN</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:dureeMandatAN</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_renouvelMandatAN" type="template">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <fields>
+        <field>fpoep:renouvelableAN</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_nbRenouvellementsAN" type="int">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <fields>
+        <field>fpoep:nbMandatsAN</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_dureeMandatSE" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dureeMandatSE</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpoep:dureeMandatSE</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_OEP_renouvelMandatSE" type="template">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <fields>
+        <field>fpoep:renouvelableSE</field>
+      </fields>
+      <properties mode="any">
+        <property name="template">/widgets/boolean_radio_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_OEP_nbRenouvellementsSE" type="int">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <fields>
+        <field>fpoep:nbMandatsSE</field>
+      </fields>
+    </widget>
+ 
+     <widget name="representant_oep_representant_se" type="table_ref">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>roep:representant</field>
+        <field>roep:dateDebut</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="tableReference">Identite</property>
+        <property name="required">true</property>
+        <property name="proprietaire">SENAT</property>
+      </properties>
+    </widget>
+ 
+    <widget name="representant_oep_representant_an" type="table_ref">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>roep:representant</field>
+        <field>roep:dateDebut</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="tableReference">Identite</property>
+        <property name="required">true</property>
+        <property name="proprietaire">ASSEMBLEE_NATIONALE</property>
+      </properties>
+    </widget>
+ 
+    <widget name="representant_oep_fonction" type="selectOneDirectory">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>roep:fonction</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">fonction</property>
+      </properties>
+    </widget>
+    
+    <widget name="representant_oep_dateDebut" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>roep:dateDebut</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="representant_oep_dateFin" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>roep:dateFin</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="representant_oep_numeroMandat" type="int">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>roep:numeroMandat</field>
+      </fields>
+    </widget>
+    
+    <widget name="representant_oep_autoriteDesignation" type="text">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>roep:autoriteDesignation</field>
+      </fields>
+    </widget>
+    
+    <widget name="representant_oep_commissionSaisie" type="text">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>roep:commissionSaisie</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_AVI_idDossier_listing" type="idDossierAviLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.idDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpavi.idDossier</field>
+        <field>data</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_AVI_nomOrganisme_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nomOrganisme</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpavi.nomOrganisme</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_AVI_baseLegale_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.baseLegale</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpavi.baseLegale</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_AVI_date_listing" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDebut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpavi.date</field>
+        <field>data.fpavi.dateMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_AVI_dateFin_listing" type="filtrable_date">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateFin</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpavi.dateFin</field>
+        <field>data.fpavi.dateFinMax</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_AVI_idDossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.idDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpavi:idDossier</field>
+      </fields>
+      <widgetModes>
+         <mode value="edit">#{fichePresentationAVIActions.getEditModeIdDossier()}</mode>
+      </widgetModes>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+      </properties>
+    </widget>
+ 
+    <widget name="fiche_AVI_nomOrganisme" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nomOrganisme</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpavi:nomOrganisme</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_AVI_baseLegale" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.baseLegale</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpavi:baseLegale</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_AVI_date" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDebut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpavi:date</field>
+      </fields>
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_AVI_dateFin" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateFin</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpavi:dateFin</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    
+    
+     <widget name="nomine_avi_nomine" type="text">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>ravi:nomine</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+      </properties>
+    </widget>
+ 
+    <widget name="nomine_avi_dateDebut" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>ravi:dateDebut</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="nomine_avi_dateFin" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>ravi:dateFin</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="nomine_avi_dateAuditionAN" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>ravi:dateAuditionAN</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="nomine_avi_dateAuditionSE" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>ravi:dateAuditionSE</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+
+
+	<!-- **********************Fiche AUD ****************-->
+	<!-- *********************************************** -->
+	<!-- *********************************************** -->
+    <widget name="fiche_AUD_idDossier" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.idDossier</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpaud:idDossier</field>
+      </fields>
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>      
+      <properties widgetMode="any">
+        <property name="required">true</property>
+      </properties>
+    </widget>
+ 
+    <widget name="fiche_AUD_nomOrganisme" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nomOrganisme</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpaud:nomOrganisme</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_AUD_baseLegale" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.baseLegale</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpaud:baseLegale</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_AUD_date" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDebut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpaud:date</field>
+      </fields>
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_AUD_dateFin" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateFin</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpaud:dateFin</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+	
+	
+	<!-- *************** Personne à auditionner  ****************-->
+	<!-- *********************************************** -->
+	<!-- *********************************************** -->
+	
+	
+	 <widget name="audition_aud_personne" type="text">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>raud:personne</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+      </properties>
+    </widget>
+
+
+	 <widget name="audition_aud_fonction" type="text">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>raud:fonction</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="required">true</property>
+      </properties>
+    </widget>
+
+ 
+    <widget name="audition_aud_dateDebut" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>raud:dateDebut</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="audition_aud_dateFin" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>raud:dateFin</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="audition_aud_dateAuditionAN" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>raud:dateAuditionAN</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+
+    <widget name="audition_aud_dateAuditionSE" type="datetime">
+      <labels>
+        <label mode="any"></label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>raud:dateAuditionSE</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+	
+	
+	 
+    
+    <widget name="fiche_decret_nor" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nor</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:nor</field>
+      </fields>
+      <widgetModes>
+         <mode value="any">view</mode>
+      </widgetModes>
+    </widget>
+
+    <widget name="fiche_decret_dateJO" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateJO</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:dateJO</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_decret_norPublication" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.norPublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:norPublication</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_decret_pageJO" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.pageJO</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:pageJO</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_decret_rubrique" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.rubrique</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:rubrique</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_decret_urlPublication" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.urlPublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:urlPublication</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_decret_numJO" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numJO</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:numJO</field>
+      </fields>
+    </widget>
+    
+     <widget name="fiche_decret_norOuvertureSessionExt" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.norOuvertureSessionExt</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:norOuvertureSessionExt</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_decret_norLoi" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.norLoi</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:norLoi</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_decret_intitule" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.intitule</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:intitule</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="styleClass">dataInputText</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_decret_numeroActe" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.numeroActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:numeroActe</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_decret_objet" type="textarea">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fpdec:objet</field>
+      </fields>
+    </widget>
+     
+    <widget name="fiche_DR_idDossier_listing" type="idDossierDRLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdr.idDossier</field>
+        <field>data</field>
+      </fields>
+    </widget>
+
+     
+    <widget name="fiche_DR_rapportParlement_listing" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.rapportParlement</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdr.rapportParlement</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">rapport_parlement</property>
+      </properties>
+    </widget>
+     
+    <widget name="fiche_DR_objet_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdr.objet</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_DR_dateDepotEffectif_listing" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdr.dateDepotEffectif</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    
+    <widget name="fiche_DPG_idDossier_listing" type="idDossierDPGLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdpg.idDossier</field>
+        <field>data</field>
+      </fields>
+    </widget>
+    
+    
+    <widget name="fiche_DPG_objet_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdpg.objet</field>
+      </fields>
+    </widget>
+    
+
+    <widget name="fiche_SD_idDossier_listing" type="idDossierSDLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpsd.idDossier</field>
+        <field>data</field>
+      </fields>
+    </widget>
+    
+    
+    <widget name="fiche_SD_objet_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpsd.objet</field>
+      </fields>
+    </widget>
+
+
+    <widget name="fiche_JSS_idDossier_listing" type="idDossierJSSLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpjss.idDossier</field>
+        <field>data</field>
+      </fields>
+    </widget>
+
+    
+    <widget name="fiche_JSS_objet_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpjss.objet</field>
+      </fields>
+    </widget>
+
+
+
+    <widget name="fiche_AUD_idDossier_listing" type="idDossierAUDLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpaud.idDossier</field>
+        <field>data</field>
+      </fields>
+    </widget>
+
+    <widget name="fiche_AUD_baseLegale_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.baseLegale</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpaud.baseLegale</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_AUD_nomOrganisme_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.nomOrganisme</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpaud.nomOrganisme</field>
+      </fields>
+    </widget>
+
+
+    
+    
+    <widget name="fiche_DOC_idDossier_listing" type="idDossierDOCLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdoc.idDossier</field>
+        <field>data</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_DOC_objet_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdoc.objet</field>
+      </fields>
+    </widget>
+    
+    
+    
+    <widget name="fiche_Decret_idDossier_listing" type="idDossierDecretLink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdec.nor</field>
+        <field>data</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_Decret_objet_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdec.objet</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_Decret_dateJO_listing" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.datePublication</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpdec.dateJO</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_341_idDossier_listing" type="idDossier341Link">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fp341.identifiantProposition</field>
+        <field>data</field>
+      </fields>
+    </widget>
+    
+	<widget name="fiche_341_auteur_listing" type="table_ref">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.auteurEmetteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fp341.auteur</field>
+        <field>data.fp341.dateCreation</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="tableReference">Identite</property>
+        <property name="styleClass">dataInputText</property>
+        <property name="proprietaire">WILDCARD</property>
+      </properties>
+    </widget>
+
+	<widget name="fiche_341_objet_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fp341.objet</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_341_dateDepot_listing" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateDepot</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fp341.dateDepot</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    <widget name="fiche_IE_idDossier_listing" type="idDossierIELink">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.identifiant</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpie.identifiantProposition</field>
+        <field>data</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_IE_intitule_listing" type="text">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.objet</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpie.intitule</field>
+      </fields>
+    </widget>
+    
+    <widget name="fiche_IE_date_listing" type="datetime">
+      <labels>
+        <label mode="any">label.mgpp.fichedossier.dateTransmission</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fpie.date</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+  </extension>
+  
+</component>

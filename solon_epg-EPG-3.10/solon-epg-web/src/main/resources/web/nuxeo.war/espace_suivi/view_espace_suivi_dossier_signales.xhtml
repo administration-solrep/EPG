@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} - Espace de suivi"/>
+  </ui:define>
+
+  <ui:define name="bookmark">
+    <link rel="bookmark" href="#{navigationContext.currentDocumentFullUrl}"/>
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:include src="/select_document_type.xhtml"/>
+    <ui:include src="/incl/message_banner.xhtml"/>
+    
+
+	<div id="upperContentView">
+      <p class="currentDocumentDescription float">
+        <h:outputText value="#{currentDocument.dublincore.description}"/>
+      </p>
+      <h:form id="mailboxActionsListForm">
+        <nxu:methodResult name="actions" value="#{webActions.getActionsList('MAILBOX_ACTION_UPPER_LIST')}">
+          <f:subview rendered="#{!empty actions}">
+            <div class="action_bar">
+            <nxu:dataList layout="unorderedList" var="action" value="#{actions}">
+            <nxh:commandLink action="#{action.getLink()}">
+              <h:graphicImage value="#{action.icon}"
+                title="#{messages[action.label]}"
+                alt="#{messages[action.label]}" />
+                <h:outputText value="#{messages[action.label]}" />
+            </nxh:commandLink>
+            </nxu:dataList>
+            </div>
+          </f:subview>
+        </nxu:methodResult>
+        <nxu:methodResult name="actions" value="#{webActions.getActionsList('MAILBOX_ACTION_UPPER_LIST_HREF')}">
+          <f:subview rendered="#{!empty actions}">
+            <div class="action_bar">
+            <nxu:dataList layout="unorderedList" var="action" value="#{actions}">
+            <a href="#{action.getLink()}">
+                <h:graphicImage value="#{action.icon}" />
+                <h:outputText value="#{messages[action.label]}" />
+              </a>
+            </nxu:dataList>
+            </div>
+          </f:subview>
+        </nxu:methodResult>
+      </h:form>
+    
+      <div class="mailboxContent">
+        <ui:include src="/espace_suivi/espace_suivi_dossiers_signales_content.xhtml" />
+      </div>
+    </div>
+    
+    <ui:include src="/incl/upper_panel_toggle.xhtml" />
+  </ui:define>
+  
+  <ui:define name="subbody">
+    <c:if test="#{currentDocument.getType() == 'Dossier'}">
+      <div class="subbodyContainer">
+		 <ui:include src="/reponses_infobar.xhtml"/>
+	     <ui:include src="/incl/current_document_title.xhtml" />
+	      
+		 <ui:decorate template="/casemanagement/caseitem/view_cm_case_template.xhtml">
+	      <ui:define name="case_body">
+	        <h:panelGroup id="case_content">
+	          <ui:insert name="case_content">
+	            <ui:include src="/solon_epg_toolbar.xhtml" />
+	            <div style="clear: both">
+	            <ui:include src="/espace_suivi/espacesuivi_case_actions_tabs_dossier_signales.xhtml" />
+	            </div>
+	            <div class="tabsContent">
+	              <ui:include src="#{webActions.currentTabAction.link}" />
+	            </div>
+	          </ui:insert>
+	        </h:panelGroup>
+	      </ui:define>
+	    </ui:decorate>
+	    
+      </div>
+    </c:if>
+  </ui:define>
+</nxthemes:composition>

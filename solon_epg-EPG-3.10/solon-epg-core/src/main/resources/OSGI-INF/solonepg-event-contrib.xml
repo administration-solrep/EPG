@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+
+<!-- Ce composant contribue les listeners de l'application SOLON EPG. -->
+<component name="fr.dila.solonepg.core.event">
+	<require>fr.dila.cm.core.routing.listeners</require>
+	<require>com.nuxeo.case-management.eventContrib</require>
+	<require>org.nuxeo.ecm.platform.htmlsanitizer.HtmlSanitizerService</require>
+	<require>fr.dila.ss.core.listener</require>
+
+	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent"
+		point="listener">
+		<!-- *********************************************************************** 
+			Listeners transverses de SOLON EPG *********************************************************************** -->
+
+		<!-- on ecrase htmlsanitizer qui plante -->
+		<listener name="htmlsanitizerlistener" enabled="true"></listener>
+
+		<!-- Désactive les plans de classements Nuxeo des Mailbox -->
+		<listener name="classificationListener" enabled="false"></listener>
+
+		<!-- Désactive le listener qui appelle jena sur la suppression d'etape 
+			de la feuille de route -->
+		<listener name="deleteRelationsListener" enabled="false"></listener>
+
+		<!-- Désactive les listener sur la gestion des Commentaire par nuxeo -->
+		<listener name="commentListener" enabled="false"></listener>
+		<listener name="docRemovedCommentListener" enabled="false"></listener>
+
+		<!-- Désactive listener sur pour les annotations de version -->
+<!-- 		<listener name="annotationsVersionEventListener" enabled="false" /> -->
+
+		<!-- Désactive le listener de connexion de CMF -->
+		<listener name="loginSuccessListener" enabled="false">
+			<event>loginSuccess</event>
+		</listener>
+
+		<!-- Succès du login de l'utilisateur -->
+		<listener name="solonEpgLoginSuccessListener" async="true"
+			postCommit="true" priority="200"
+			class="fr.dila.solonepg.core.event.LoginSuccessListener">
+			<event>loginSuccess</event>
+		</listener>
+
+		<!-- Verrou / Déverrou lors d'un changement de document -->
+		<listener name="documentLockListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.DocumentLockListener">
+			<event>currentDocumentChanged</event>
+		</listener>
+
+		<!-- Listener permettant de tracer les événements dans le journal d'audit -->
+		<listener name="auditLoggerListener" async="true" postCommit="true"
+			class="fr.dila.solonepg.core.logger.NotificationAuditEventLogger" />
+
+		<!-- *********************************************************************** 
+			Listeners des Mailbox *********************************************************************** 
+			<listener name="mailboxCreationListener" async="false" postCommit="true" 
+			priority="140" class="fr.dila.solonepg.core.event.MailboxCreationListener"> 
+			<event>documentCreated</event> </listener> -->
+
+		<!-- *********************************************************************** 
+			Listeners des fichiers *********************************************************************** -->
+		<!-- Listener permettant de signaler que l'on doit versionner un fichier 
+			avant de le sauvegarder sa mise à jour -->
+		<listener name="versioningFileUpdateListener" async="false"
+			postCommit="true" priority="160"
+			class="fr.dila.solonepg.core.event.VersioningFileUpdateListener">
+			<event>beforeDocumentModification</event>
+		</listener>
+
+		<!-- Listener permettant de mettre la référence du dossier sur un fichier, 
+			et de renseigner le type de fichier -->
+		<listener name="DenormalisationFieldsOnFileListener" async="false"
+			postCommit="true" priority="160"
+			class="fr.dila.solonepg.core.event.DenormalisationFieldsOnFileListener">
+			<event>beforeDocumentModification</event>
+		</listener>
+
+		<!-- *********************************************************************** 
+			Listeners de la distribution des dossiers *********************************************************************** -->
+		<!-- Listener qui permet de renseigner les métadonnées du DossierLink lors 
+			de distribution d'un dossier -->
+		<listener name="DossierLinkCreateFieldsListener" async="false"
+			postCommit="false" priority="160"
+			class="fr.dila.solonepg.core.event.DossierLinkCreateFieldsListener">
+			<event>documentCreated</event>
+		</listener>
+
+		<!-- Listener qui permet d'initialiser les ACL d'un DossierLink après sa 
+			création -->
+		<listener name="AfterDossierLinkCreatedListener" async="false"
+			postCommit="false" priority="180"
+			class="fr.dila.solonepg.core.event.AfterDossierLinkCreatedListener">
+			<event>documentCreated</event>
+		</listener>
+
+		<!-- Surcharge Nuxeo : listener permettant de mettre à jour les droits 
+			après la suppression d'un CaseLink -->
+		<listener name="updateRightsBeforeRemoveCaseLink" enabled="false" />
+
+		<!-- Initialise les droits du dossier avant sa création -->
+		<listener name="dossierCreationRightListener" async="false"
+			postCommit="false" priority="10"
+			class="fr.dila.solonepg.core.event.DossierCreationRightListener">
+			<event>afterDossierCreated</event>
+			<event>injectionAfterDossierCreated</event>
+		</listener>
+
+		<!-- Renseigne les droits du dossier pour l'indexation -->
+		<listener name="DossierIndexationRightListener" async="false"
+			postCommit="false" priority="20"
+			class="fr.dila.solonepg.core.event.DossierIndexationRightListener">
+			<event>dossierStatutChanged</event>
+		</listener>
+
+		<!-- Renseigne les droits du dossier lors de la distribution -->
+		<listener name="distributionlistener" enabled="false"></listener>
+		<listener name="solonEpgDistributionListener" async="false"
+			postCommit="false" priority="180"
+			class="fr.dila.solonepg.core.event.DistributionListener">
+			<event>afterCaseSentEvent</event>
+		</listener>
+
+		<!-- Renseigne les droits sur la feuille de route lors de la distribution -->
+		<listener name="routeSecurityUpdaterListener" enabled="false" />
+		<!-- <listener name="reponseRouteSecurityUpdaterListener" async="false" 
+			postCommit="false" priority="250" class="fr.dila.reponses.core.event.ReponseRouteSecurityUpdaterListener"> 
+			<event>afterCaseSentEvent</event> </listener> -->
+
+		<!-- Listener permettant de démarrer la feuille de route après la création 
+			des dossiers -->
+		<listener name="feuilleRouteStarterListener" async="false"
+			postCommit="false" priority="20"
+			class="fr.dila.solonepg.core.event.FeuilleRouteStarterListener">
+			<event>afterDossierCreated</event>
+		</listener>
+
+		<!-- Listener permettant d'effectuer des traitements après la substitution 
+			d'une feuille de route -->
+		<listener name="feuilleRouteSubstitutionListener" async="false"
+			postCommit="false" priority="10"
+			class="fr.dila.solonepg.core.event.FeuilleRouteSubstitutionListener">
+			<event>afterSubstitutionFeuilleRoute</event>
+		</listener>
+
+		<!-- Listener exécuté après la terminaison d'une instance de feuille de 
+			route -->
+		<listener name="afterRouteFinish" async="false" postCommit="false"
+			priority="10" class="fr.dila.solonepg.core.event.AfterRouteFinishListener">
+			<event>afterRouteFinish</event>
+		</listener>
+
+		<!-- Listener exécuté après le changement de document dans la recherche -->
+		<listener name="documentSearchListener" async="false"
+			postCommit="false" priority="210"
+			class="fr.dila.solonepg.core.event.DocumentSearchListener">
+			<event>currentDocumentSearchChangedEvent</event>
+		</listener>
+
+		<!-- Listener exécuté après la création d'un caseLink après le passage 
+			d'une étape à l'état "running" -->
+		<listener name="solonEpgAfterCaseLinkCreated" async="true"
+			postCommit="true" priority="210"
+			class="fr.dila.solonepg.core.event.AfterCaseLinkCreatedListener">
+			<event>afterCaseLinkCreated</event>
+		</listener>
+
+		<!-- evenement desactive : on recupère les informations du dossier directement 
+			dans le dossier et pas par le dossierLink -->
+		<!-- Listener de dénormalistion exécuté après la modification d'un dossier 
+			<listener name="dossierUpdateListener" async="false" postCommit="false" priority="220" 
+			class="fr.dila.solonepg.core.event.DocumentModifiedListener"> <event>documentModified</event> 
+			</listener> -->
+
+		<!-- Listener de rattachement de l'activite normative -->
+		<listener name="activiteNormativeAttachEventListener" async="true"
+			postCommit="true" priority="230"
+			class="fr.dila.solonepg.core.event.ActiviteNormativeAttachDossierListener">
+			<event>activiteNormativeAttachEvent</event>
+		</listener>
+
+		<!-- Listener exécuté après la validation automatique d'une étape pour 
+			information -->
+		<listener name="AfterValidationPourInformationListener"
+			async="true" postCommit="true" priority="225"
+			class="fr.dila.solonepg.core.event.AfterValidationPourInformationListener">
+			<event>afterValidationPourInformationEvent</event>
+		</listener>
+
+		<!-- Listener exécuté lors d'une demande de rafraichissement de stats AN -->
+		<listener name="RefreshANStatsListener" async="true"
+			postCommit="true" priority="200"
+			class="fr.dila.solonepg.core.event.RefreshANStatsListener">
+			<event>refreshStatsANEvent</event>
+		</listener>
+
+		<!-- Listener pour exporter les stats PAN -->
+		<listener name="ExportPANStatsListener" async="true"
+			postCommit="true" priority="200"
+			class="fr.dila.solonepg.core.event.ExportPANStatsListener">
+			<event>exportPANStatsListener</event>
+		</listener>
+
+		<!-- Listener pour publier les stats PAN -->
+		<listener name="PublishPANStatsListener" async="true"
+			postCommit="true" priority="200"
+			class="fr.dila.solonepg.core.event.PublishPANStatsListener">
+			<event>publishPANStatsEvent</event>
+		</listener>
+		
+		<!-- Listener pour envoyer le résultat d'une recherche utilisateur par mail -->
+		<listener name="SendSearchResultsUsersListener" async="true"
+			postCommit="true" priority="200"
+			class="fr.dila.solonepg.core.event.SendSearchUsersResultsListener">
+			<event>sendSearchUsersResults</event>
+		</listener>
+
+		<!-- Listener pour envoyer les détails d'une migration par mail -->
+		<listener name="SendMigrationDetailsListener" async="true"
+			postCommit="true" priority="200"
+			class="fr.dila.solonepg.core.event.SendMigrationDetailsListener">
+			<event>SendMigrationDetails</event>
+		</listener>
+		
+		<!-- Listener pour envoyer les détails d'une migration par mail -->
+		<listener name="SendStatDossiersArchives" async="true"
+			postCommit="true" priority="200"
+			class="fr.dila.solonepg.core.event.SendStatDossierAarchiveListener">
+			<event>SendStatDossiersArchives</event>
+		</listener>
+
+		<!-- *********************************************************************** 
+			Listeners des traitements batch *********************************************************************** -->
+		<!-- Batch général qui lance les autres batchs -->
+		<listener name="LanceurGeneralListener" async="false"
+			postCommit="false" priority="100"
+			class="fr.dila.solonepg.core.event.batch.LanceurGeneralBatchListener">
+			<event>lanceurGeneralBatchEvent</event>
+		</listener>
+
+		<!-- Batch de notification aux webservices -->
+		<listener name="NotificationBatchListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.NotificationBatchListener">
+			<event>wsNotificationEvent</event>
+		</listener>
+
+		<!-- Batch de gestion de la confirmation des alertes -->
+		<listener name="confirmAlertsListener" async="false"
+			postCommit="false" priority="30"
+			class="fr.dila.solonepg.core.event.batch.ConfirmAlertsListener">
+			<event>confirmAlertEvent</event>
+		</listener>
+
+		<!-- Batch de l'elimination des dossiers' -->
+		<listener name="dossierEliminationListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.DossierEliminationListener">
+			<event>dossierElimination</event>
+		</listener>
+
+		<!-- Batch de la candidature de l'abandon des dossiers' -->
+		<listener name="dossierCandidatAbandonListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.DossierCandidatAbandonListener">
+			<event>dossierCandidatAbandon</event>
+		</listener>
+
+		<!-- Batch de la candidature l'abandon des dossiers' -->
+		<listener name="dossierAbandonListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.DossierAbandonListener">
+			<event>dossierAbandon</event>
+		</listener>
+
+		<!-- Batch de suppression des textes signalés -->
+		<listener name="TextesSignalesBatchListener" async="false"
+			postCommit="false" priority="190"
+			class="fr.dila.solonepg.core.event.batch.TextesSignalesBatchListener">
+			<event>textesSignalesEvent</event>
+		</listener>
+
+		<!-- Batch journalier d'envoi de prévenance de renouvellement de mot de 
+			passe -->
+		<listener name="dailyRemindChangePasswordListener" async="false"
+			postCommit="false" priority="190"
+			class="fr.dila.solonepg.core.event.batch.DailyReminderChangePasswordListener">
+			<event>dailyReminderChangePassEvent</event>
+		</listener>
+
+		<!-- Événement after Validation Transmission SuppressionListener -->
+		<listener name="afterValidationTransmissionSuppressionListener"
+			async="true" postCommit="true"
+			class="fr.dila.solonepg.core.event.AfterValidationTransmissionSuppressionListener">
+			<event>afterValiderTransmissionToSuppression</event>
+		</listener>
+
+		<!-- Batch de la candidature des dossiers pour versement dans la base d'archivage 
+			intermediaire -->
+		<listener name="candidatToArchivageIntermediaireListener"
+			async="false" postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.CandidatToArchivageIntermediaireListener">
+			<event>dossierCandidatToArchivageIntermediaire</event>
+		</listener>
+
+		<!-- Batch de la candidature des dossiers pour versement dans la base d'archivage 
+			intermediaire -->
+		<listener name="candidatToArchivageDefinitiveListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.CandidatToArchivageDefinitiveListener">
+			<event>dossierCandidatToArchivageDefinitive</event>
+		</listener>
+
+		<!-- Batch de la generation de stats pour activite normatives -->
+		<listener name="statsGenerationResultatBatchListener" async="false"
+			postCommit="false" priority="210"
+			class="fr.dila.solonepg.core.event.batch.StatsGenerationResultatBatchListener">
+			<event>statsGenerationResultatBatch</event>
+		</listener>
+
+		<!-- Listener permettant la migration d'un gouvernement -->
+		<listener name="migrationGouvernementListener" async="true"
+			postCommit="true"
+			class="fr.dila.solonepg.core.event.MigrationGouvernementListener"
+			priority="150">
+			<event>migrationGvtEvent</event>
+		</listener>
+
+		<!-- Batch d'envoi des mails d'alerte de dossiers bloqués -->
+		<listener name="blockedRouteAlertListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.BlockedRouteAlertListener">
+			<event>blockedRoutesAlertEvent</event>
+		</listener>
+
+		<!-- Batch d'envoi des mails de dossiers nor incoherent -->
+		<listener name="detectInconsistentNorListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.DetectInconsistentNorListener">
+			<event>detectNorInconsistent</event>
+		</listener>
+
+		<!-- Batch de suppression des textes signalés -->
+		<listener name="SuppressionNotificationListener" async="false"
+			postCommit="false" priority="190"
+			class="fr.dila.solonepg.core.event.batch.SuppressionNotificationListener">
+			<event>suppressionNotificationEvent</event>
+		</listener>
+
+		<!-- Batch d'envoi des mails de dossiers avec étape et caseLink incohérents -->
+		<listener name="dossierLinkIncoherentBatchListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.DossierLinkIncoherentBatchListener">
+			<event>dossierLinkIncoherentBatchEvent</event>
+		</listener>
+
+		<!-- Batch de suppression des birtRefreshFichier -->
+		<listener name="deleteBirtRefreshBatchListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.DeleteBirtRefreshBatchListener">
+			<event>deleteBirtRefreshEvent</event>
+		</listener>
+
+		<!-- Batch de suppression des export pan stats -->
+		<listener name="deleteExportPanStatsBatchListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.DeleteExportPanStatsBatchListener">
+			<event>deleteExportPanStatsBatch</event>
+		</listener>
+
+		<!-- Batch de suppression favorisRecherche à l'état deleted -->
+		<listener name="cleanDeletedFavorisRechercheBatchListener"
+			async="false" postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.CleanDeletedFavorisRechercheBatchListener">
+			<event>cleanDeletedFavorisRechercheEvent</event>
+		</listener>
+
+		<!-- Batch de clôture des textes non publiés au JO -->
+		<listener name="closeTextesNonPubliesBatchListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.CloseTextesNonPubliesBatchListener">
+			<event>closeTextesNonPubliesEvent</event>
+		</listener>
+
+		<!-- Batch de mise à jour du plan de classement -->
+		<listener name="initCaseRootBatchListener" async="false"
+			postCommit="false" priority="200"
+			class="fr.dila.solonepg.core.event.batch.InitCaseRootBatchListener">
+			<event>initCaseRootEvent</event>
+		</listener>
+				
+		<!-- Batch de nettoyage des Dossier supprimés -->
+		<listener name="cleanDeletedDossierBatchListener" async="false"
+			postCommit="false" priority="190"
+			class="fr.dila.solonepg.core.event.batch.CleanDeletedDossierBatchListener">
+			<event>cleanDeletedDossierEvent</event>
+		</listener>
+		
+		<!-- Batch d'injection dans la BDJ -->
+		<listener name="injectionBdjBatchListener" async="false"
+			postCommit="false" priority="190"
+			class="fr.dila.solonepg.core.event.batch.InjectionBdjBatchListener">
+			<event>injectionTextesMaitresBdjEvent</event>
+		</listener>
+		
+		<!-- Batch de purge de la table tentatives de connexion -->
+		<listener name="purgeTentativesConnexionBatchEventListener" async="false"
+			postCommit="false" priority="190"
+			class="fr.dila.st.core.event.batch.PurgeTentativesConnexionBatchEventListener">
+			<event>purgeTentativesConnexionEvent</event>
+		</listener>
+		
+		<!-- Gestionnaire d'événement permettant de renseigner le nom d'une étape 
+			à sa création -->
+		<listener name="routeStepAboutToCreateListener" async="false"
+			postCommit="false" class="fr.dila.solonepg.core.event.SolonEpgRouteStepAboutToCreateListener"
+			priority="170">
+			<event>aboutToCreate</event>
+		</listener>
+
+	</extension>
+
+</component>

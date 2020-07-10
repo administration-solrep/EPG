@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Traitement EVT24 GVT</title>
+<link rel="selenium.base" href="http://localhost:8180/"/>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+  <thead>
+    <tr>
+      <td rowspan="1" colspan="3">Traitement EVT24 GVT</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>store</td>
+      <td>javascript{var date = new Date(); '' + (date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()) + '/' + ((date.getMonth()+1) < 10 ? '0'+ (date.getMonth()+1) : (date.getMonth()+1))+ '/' + date.getFullYear() ;}</td>
+      <td>currentDate</td>
+    </tr>
+    <tr>
+      <td>store</td>
+      <td>javascript{var date = new Date(); '' + date.getFullYear()  + '-' + ((date.getMonth()+1) < 10 ? '0'+ (date.getMonth()+1) : (date.getMonth()+1)) + '-' + (date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()) ;}</td>
+      <td>currentDateWS</td>
+    </tr>
+    <!--Connexion-->
+    <tr>
+      <td>setTimeout</td>
+      <td>120000</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>setSpeed</td>
+      <td>200</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/logout</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/login.jsp</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>username</td>
+      <td>adminsgg</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>password</td>
+      <td>adminsgg</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>Submit</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>userServicesForm:userServicesActionsTable:6:userServicesActionCommandLink</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=OEP</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Désignation OEP (351)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Liste des OEP (175)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>link=Désignation OEP (351)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>corbeille_message_list:nxl_corbeille_message_listing_layout_1:nxw_idDossier_widget_1:msgName</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Aucune fiche trouvé</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>//*[@value=&quot;Traiter&quot;]</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>waitForTextPresent</td>
+      <td>Souhaitez-vous poursuivre le traitement ?</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//input[@id='popup_ok']</td>
+      <td></td>
+    </tr>
+    <!-- Creation de l'oep inconnu du mgpp -->
+    <tr>
+      <td>verifyValue</td>
+      <td>//*[@id='create_fpie:nxl_fiche_presentation_OEP_general:nxw_fiche_OEP_idCommun']</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>verifyValue</td>
+      <td>//*[@id='create_fpie:nxl_fiche_presentation_OEP_general:nxw_fiche_OEP_nomOrganisme']</td>
+      <td>Objet</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>//*[@id='create_fpie:nxl_fiche_presentation_OEP_general:nxw_fiche_OEP_ministereRattachement']</td>
+      <td>ministereRattachement OEP3</td>
+    </tr>
+    <tr>
+      <td>clickAndWait</td>
+      <td>//input[@value='Enregistrer']</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Désignation OEP (350)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>assertTextPresent</td>
+      <td>Liste des OEP (176)</td>
+      <td></td>
+    </tr>
+    <!-- Déconnexion -->
+    <tr>
+      <td>open</td>
+      <td>http://localhost:8180/solon-epg/logout</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

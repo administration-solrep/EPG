@@ -1,0 +1,49 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:nxdir="http://nuxeo.org/nxdirectory"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	id="#{widget.id}">
+	
+  <c:choose>
+   <c:when test="#{widget.mode == 'pdf'}">
+   		<nxp:font size="8">#{vocabulary.getEntryLabel(widget.properties['directoryName'],field_0)}</nxp:font>
+   </c:when>
+   <c:when test="#{widget.mode == 'view'}">
+   		<h:outputText value="#{vocabulary.getEntryLabel(widget.properties['directoryName'],field_0)}" />
+	    <h:graphicImage value="/img/icons/lock_16.png" rendered="#{field_1}"/>
+   </c:when>
+   <c:otherwise>  
+   <c:set var="vocabularySchema" value="#{nxu:test(!empty widget.properties.vocabularySchema, widget.properties.vocabularySchema, 'vocabulary')}" />
+					  
+					  <c:set var="rerenderValues" value="#{nxu:test(!empty widget.properties.rerenderValues, widget.properties.rerenderValues, '')}" />
+					      <h:selectOneMenu id="#{widget.id}_select_one_menu" value="#{field_0}" required="#{widget.required}">
+					        <f:selectItem itemLabel="Sélectionnez une valeur." itemValue=""  />
+					        <c:choose>
+					          <c:when test="${!widget.properties['localized']}">
+					            <nxdir:selectItems
+					              id="#{widget.id}"
+					              directoryName="${widget.properties['directoryName']}"
+					              var="item" 
+					              itemValue="#{item.id}"
+					              itemLabel="#{messages[item.getProperty(vocabularySchema, 'label')]}"
+					              localize="true" /> 
+					          </c:when>
+					          <c:otherwise>
+					            <nxdir:selectItems
+					              id="#{widget.id}"
+					              directoryName="${widget.properties['directoryName']}"
+					              var="item" 
+					              itemValue="#{item.id}"
+					              itemLabel="#{item.getProperty(vocabularySchema, 'label')}" />
+					          </c:otherwise>
+					        </c:choose>
+					        <a4j:support event="onchange" reRender="#{rerenderValues}" disabled="#{empty rerenderValues or rerenderValues == ''}" eventsQueue="ajax_events_queue" />
+					      </h:selectOneMenu>
+					      <h:outputText value=" "  />
+					      <h:selectBooleanCheckbox id="#{widget.id}_check" value="#{field_1}" />
+					      <h:message id="#{widget.id}_sel" for="#{widget.id}_select_one_menu" styleClass="errorMessage errorMessage310" />
+		</c:otherwise>
+	</c:choose>
+</f:subview>

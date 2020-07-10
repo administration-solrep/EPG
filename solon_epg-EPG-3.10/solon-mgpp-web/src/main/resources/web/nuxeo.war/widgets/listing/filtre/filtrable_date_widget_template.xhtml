@@ -1,0 +1,33 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+	<c:choose>
+  	<c:when test="#{widget.mode == 'csv'}">
+      <h:outputText value="#{field_0}" converter="DateConverter" />
+    </c:when>
+    <c:when test="#{widget.mode == 'pdf'}">
+     	<nxp:html><h:outputText value="#{field_0}" converter="DateConverter" style="font-size:8px;"/></nxp:html>
+    </c:when>
+  	<c:otherwise>
+  	<div>
+  <c:choose>
+    <c:when test="#{widget.mode != 'edit'}">
+        <h:outputText value="#{field_0}" converter="DateConverter" style="white-space: nowrap;" />
+    </c:when>
+    <c:otherwise>
+      <h:outputText value=" entre " styleClass="labelColumn" /> 
+      <nxu:inputDateTime id="#{widget.id}_input_min" styleClass="dataInputText" format="dd/MM/yyyy" value="#{field_0}"/>
+      <h:outputText value=" et " styleClass="labelColumn" />
+      <nxu:inputDateTime id="#{widget.id}_input_max" styleClass="dataInputText" format="dd/MM/yyyy" value="#{field_1}"/>
+    </c:otherwise>
+  </c:choose>
+  </div>
+  </c:otherwise>
+  </c:choose>
+</f:subview>

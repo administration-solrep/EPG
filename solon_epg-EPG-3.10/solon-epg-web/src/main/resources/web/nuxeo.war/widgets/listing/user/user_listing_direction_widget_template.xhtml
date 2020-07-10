@@ -1,0 +1,22 @@
+<f:subview id="#{widget.id}" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<nxu:set var="userModel" value="#{field_0}" cache="true">
+		<c:choose>
+			<c:when test="#{widget.mode == 'pdf'}">
+				<nxp:font size="8">#{organigrammeManagerActions.getDirectionDescription(userModel)}</nxp:font>
+			</c:when>
+			<c:when test="#{widget.mode == 'csv'}">
+				<h:outputText
+					value="#{organigrammeManagerActions.getDirectionDescription(field_0)}" />
+			</c:when>
+			<c:otherwise>
+				<h:outputText
+					value="#{organigrammeManagerActions.getDirectionDescription(userModel)}" />
+			</c:otherwise>
+		</c:choose>
+	</nxu:set>
+</f:subview>

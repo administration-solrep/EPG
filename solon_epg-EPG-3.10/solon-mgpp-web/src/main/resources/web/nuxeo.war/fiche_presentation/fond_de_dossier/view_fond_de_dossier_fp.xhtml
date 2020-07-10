@@ -1,0 +1,84 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich">
+  
+  <h:form id="document_properties" enctype="multipart/form-data">
+    <a4j:region id="documentViewRegion"  >
+      <a4j:outputPanel id="documentViewPanel" >
+        <h3>Fond de Dossier</h3>
+        <br />
+        
+        <h:commandButton styleClass="button"  onclick="Richfaces.showModalPanel('editFilePanelFP'); return false;" value="#{fondDossierFichePresentationActions.getLibelleAjouterFichier()}" />
+        
+        <div name="containerTabDiv" style="overflow-x: auto;overflow-y: hidden;">
+          <table class="dataOutput">
+            <thead>
+              <tr>
+                <th>
+                  <h:outputText value="Fichier" />
+                </th>
+                <th>
+                  <h:outputText value="Auteur" />
+                </th>
+                <th >
+                  <h:outputText value="Date" />
+                </th>
+                <th >
+                  <h:outputText value=" " />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <nxu:set var="files" value="#{fondDossierFichePresentationActions.getCurrentFiles()}" cache="true">
+                <c:forEach var="file" items="#{files}" varStatus="status">
+                  <tr>
+                    <td>
+                      <a4j:outputPanel id="zoneFichierParapheur_#{status.index}">
+                        <h:panelGroup>
+                          <nxh:graphicImage value="#{nxd:fileIconPath(blobHolderGenerator.getBlobHolder(file).blob)}" />
+                          <h:outputText value="#{file.file.filename}" />
+                        </h:panelGroup>
+                        <rich:componentControl event="onclick" for="menuFDDFP" operation="show" >
+                          <f:param value="#{file.id}" name="fileId" />
+                        </rich:componentControl>
+                      </a4j:outputPanel>
+                      
+                    </td>
+                    <td>
+                      <h:outputText value="p n##{file.dc.creator}" converter="OrganigrammeUserIdToLabelConverter" />
+                    </td>
+                    <td>
+                      <h:outputText value="#{file.dc.created}" converter="DateTimeConverter" />
+                    </td>
+                    <td>
+                      <h:commandLink action="#{fondDossierFichePresentationActions.removeFile(file)}" immediate="true" id="removeFile_#{status.index}">
+                        <h:graphicImage value="/icons/action_delete.gif" alt="Supprimer" title="Supprimer"/>
+                      </h:commandLink>
+                    </td>
+                  </tr>
+                </c:forEach>
+              </nxu:set>
+            </tbody>
+          </table>
+        </div>
+        <div class="menuContextuelStyle">
+           <!-- Menu pour télécharger un fichier du FDD -->                    
+           <rich:contextMenu attached="false" id="menuFDDFP" submitMode="ajax">
+               <rich:menuItem ajaxSingle="true" immediate="true" target="_blank" submitMode="server" value="#{messages['menu.telecharger.fichier']}" onmouseover="selected(this);" action="#{fondDossierFichePresentationActions.downloadFile()}">
+                    <a4j:actionparam assignTo="#{fondDossierFichePresentationActions.fileId}"  name="fileId" value="{fileId}"/>
+               </rich:menuItem>
+           </rich:contextMenu>
+         </div>
+      
+      </a4j:outputPanel>
+    </a4j:region>
+    </h:form>
+    
+    <ui:include src="/fiche_presentation/fond_de_dossier/add_fichier_fond_dossier_fp.xhtml" />
+</div>

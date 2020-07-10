@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  >
+  
+  <ui:define name="page title">
+    <h:outputText value="Tableaux dynamiques" />
+  </ui:define>
+
+	<ui:define name="body">
+		<div>
+			<a4j:outputPanel id="espaceRechercheDossierContentListPanel">
+				<nxu:set var="contentViewName"
+					value="view_recherche_add_tableau_dynamique">
+					<ui:include src="/incl/message_banner.xhtml" />
+					<div class="subbodyContainer">
+						<h3>
+							<h:outputText value="Tableaux dynamiques" />
+						</h3>
+						<h:form id="view_tab_dyn">
+							<nxl:layout value="#{tableauDynamiqueActions}" mode="create"
+								name="tableau_dynamique_intitule" />
+							
+							<c:if test="#{tableauDynamiqueActions.isDirectionViewer()}">
+								<nxl:layout value="#{tableauDynamiqueActions}" mode="create"
+									name="tableau_dynamique_destinataires" />
+							</c:if>
+							<nxu:set var="contentView"
+				            	value="#{contentViewActions.getContentViewWithProvider('nxql_incremental_smart_query')}"
+				            	cache="true">
+				            	<nxl:layout name="#{contentView.searchLayout.name}" mode="view"
+				                  value="#{requeteurActions.getQueryPartFromTableauDynamique()}" />
+				            </nxu:set>
+							<table>
+								<tr>
+									<td><a4j:commandButton
+											action="#{tableauDynamiqueActions.navigateToBack}"
+											value="Annuler" id="cancelTD" styleClass="button"
+											immediate="true" />
+									</td>
+									<td>
+										<h:panelGroup id="boutonsAddTableauDynamique">
+											<c:choose>
+												<c:when test="#{tableauDynamiqueActions.canAddNewTableauDynamique()}">
+													<nxh:commandButton
+														action="#{tableauDynamiqueActions.save()}" value="Ajouter"
+														id="saveTD" styleClass="button"/>
+												</c:when>
+												<c:otherwise>
+													<a4j:commandButton value="Ajouter"
+														oncomplete="Richfaces.showModalPanel('tableauDynamiquesPanel');"
+														id="openpopup" styleClass="button">
+													</a4j:commandButton>
+												</c:otherwise>
+											</c:choose>
+										</h:panelGroup>
+									</td>
+								</tr>
+							</table>
+						</h:form>
+					</div>
+				</nxu:set>
+			</a4j:outputPanel>
+		</div>
+		<div>
+			<ui:include src="/tableaux_dynamiques/suppression_tableaux_dynamique.xhtml" />
+		</div>
+	</ui:define>
+   <ui:define name="subbody">
+    </ui:define>
+</nxthemes:composition>
+

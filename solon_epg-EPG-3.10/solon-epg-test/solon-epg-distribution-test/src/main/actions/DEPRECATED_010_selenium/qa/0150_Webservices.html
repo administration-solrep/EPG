@@ -1,0 +1,1143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Webservices</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Webservices</td></tr>
+</thead><tbody>
+<!-- ces tests nécessitent le bon fonctionnement des autres tests (créations multiples dossiers, feuille de route) --!>
+<!-- Ouverture page test webservices  -->
+<tr>
+	<td>setTimeout</td>
+	<td>120000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/technique/xml_post.html</td>
+	<td></td>
+</tr>
+<!-- webservices WS EPG : AttribuerNor -->
+<!-- webservices WS EPG : AttribuerNor : test entite inconnue-->
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>ws_ministere_cco</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>ws_ministere_cco</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=url</td>
+	<td>../site/solonepg/WSepg/attribuerNor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br />&lt;p:attribuerNorRequest<br />	xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;<br />	xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/actes&quot;<br />	xmlns:p2=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/solon-commons&quot;<br />	xmlns:p3=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/ar&quot; <br />	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;<br />	xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg ../../../../../../../../xsd/solon/epg/WSepg.xsd &quot;&gt;<br />	<br />	&lt;p:type_acte&gt;AVIS&lt;/p:type_acte&gt;<br />	&lt;p:code_entite&gt;DRD&lt;/p:code_entite&gt;<br />	&lt;p:code_direction&gt;A&lt;/p:code_direction&gt;<br />	<br />&lt;/p:attribuerNorRequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;attribuerNorResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;&gt;&lt;statut&gt;KO&lt;/statut&gt;&lt;code_erreur&gt;ENTITE_INCONNUE&lt;/code_erreur&gt;&lt;/attribuerNorResponse&gt;</td>
+	<td></td>
+</tr>
+<!-- webservices WS EPG : AttribuerNor : test direction inconnue-->
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br />&lt;p:attribuerNorRequest<br />	xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;<br />	xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/actes&quot;<br />	xmlns:p2=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/solon-commons&quot;<br />	xmlns:p3=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/ar&quot; <br />	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;<br />	xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg ../../../../../../../../xsd/solon/epg/WSepg.xsd &quot;&gt;<br />	<br />	&lt;p:type_acte&gt;AVIS&lt;/p:type_acte&gt;<br />	&lt;p:code_entite&gt;CCO&lt;/p:code_entite&gt;<br />	&lt;p:code_direction&gt;A&lt;/p:code_direction&gt;<br />	<br />&lt;/p:attribuerNorRequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;attribuerNorResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;&gt;&lt;statut&gt;KO&lt;/statut&gt;&lt;code_erreur&gt;DIRECTION_INCONNUE&lt;/code_erreur&gt;&lt;/attribuerNorResponse&gt;</td>
+	<td></td>
+</tr>
+<!-- webservices WS EPG : AttribuerNor : test OK-->
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br />&lt;p:attribuerNorRequest<br />	xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;<br />	xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/actes&quot;<br />	xmlns:p2=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/solon-commons&quot;<br />	xmlns:p3=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/ar&quot; <br />	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;<br />	xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg ../../../../../../../../xsd/solon/epg/WSepg.xsd &quot;&gt;<br />	<br />	&lt;p:type_acte&gt;AVIS&lt;/p:type_acte&gt;<br />	&lt;p:code_entite&gt;CCO&lt;/p:code_entite&gt;<br />	&lt;p:code_direction&gt;Z&lt;/p:code_direction&gt;<br />	<br />&lt;/p:attribuerNorRequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<!-- Commenté par JGZ le 2012-05-25 : service web pas forcément utile, test en échec depuis des mois
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;attribuerNorResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;&gt;&lt;statut&gt;OK&lt;/statut&gt;&lt;nor&gt;CCOZ1400011V&lt;/nor&gt;&lt;/attribuerNorResponse&gt;</td>
+	<td></td>
+</tr>
+-->
+<!-- webservices WS EPG : AttribuerNor : Vérification création effective du dossier-->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/login.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>bdc</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>bdc</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Création</td>
+	<td></td>
+</tr>
+<!--<tr>
+	<td>assertTextPresent</td>
+	<td>CCOZ1400011V</td>
+	<td></td>
+</tr>
+-->
+<!-- webservices WS EPG : DonnerAvisCe : préparation dossier décret avec étape courante sur "Avis ce"-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=EFIM1400000D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Feuille de route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Verrouiller']</td>
+	<td></td>
+</tr>
+<!--ajout tâche "pour avis Ce"-->
+<tr>
+	<td>click</td>
+	<td>//table[@class='dataOutput']/tbody/tr[last()]//a[@class='ADD_STEP_AFTER']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Ajouter une étape</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Ajouter une étape</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//form[@name='document_create']//select</td>
+	<td>label=Pour avis CE</td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_findButton']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:9::min:handle:img:collapsed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:9:node:6::poste:handle:img:collapsed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:9:node:6::nxw_routing_task_distribution_mailbox_addPst</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=document_create:button_create</td>
+	<td></td>
+</tr>
+<!--ajout tâche "pour publication Dila Bo"-->
+<tr>
+	<td>click</td>
+	<td>//table[@class='dataOutput']/tbody/tr[last()]//a[@class='ADD_STEP_AFTER']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Ajouter une étape</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Ajouter une étape</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//form[@name='document_create']//select</td>
+	<td>label=Pour publication à la DILA BO</td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_findButton']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62::min:handle:img:collapsed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62:node:5::poste:handle:img:collapsed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62:node:5::nxw_routing_task_distribution_mailbox_addPst</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=document_create:button_create</td>
+	<td></td>
+</tr>
+<!--lancement dossier => arrive sur étape avis ce-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Parapheur</td>
+	<td></td>
+</tr>
+<!-- récupération du chemin du fichier -->
+<tr>
+	<td>retrieveTestFolderPath</td>
+	<td></td>
+	<td></td>
+</tr>
+<!-- ajouts de fichier pour compléter le parapheur-->
+<tr>
+	<td>click</td>
+	<td>//td[text()='Acte intégral']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[text()='Ajouter document']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@type='file']</td>
+	<td>${testfolderpath}doc2003.doc</td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='editFileForm:editFileButtonText']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>doc2003.doc</td>
+	<td></td>
+</tr>
+<!--Remplissage du bordereau-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Bordereau</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>bordereauForm:nxl_bordereau_donnees_principales:nxw_titre_acte_field</td>
+	<td>Titre acte 7</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>bordereauForm:nxl_bordereau_responsable_acte:nxw_nom_resp_dossier_field</td>
+	<td>DUPONT</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>bordereauForm:nxl_bordereau_responsable_acte:nxw_qualite_resp_dossier_field</td>
+	<td>Mr</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>bordereauForm:nxl_bordereau_responsable_acte:nxw_tel_resp_dossier_field</td>
+	<td>0238587469</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>bordereauForm:nxl_bordereau_responsable_acte:nxw_prenom_resp_dossier_field</td>
+	<td>Jean</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>bordereauForm:nxl_bordereau_parution:nxw_mode_parution_field</td>
+	<td>label=Electronique</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>bordereauForm:nxl_bordereau_parution:nxw_delai_publication_field</td>
+	<td>label=Aucun</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>bordereauForm:nxl_bordereau_indexation:nxw_indexation_rubriques_select_index_menu</td>
+	<td>Rubrique de la pêche</td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>bordereauForm:nxl_bordereau_indexation:nxw_indexation_rubriques_addIndexImage</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@title='Sauvegarder le bordereau']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>DUPONT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Jean</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Mr</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>0238587469</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Jean</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Electronique</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Aucun</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Rubrique de la pêche</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Verrouiller']</td>
+	<td></td>
+</tr>
+<!-- lancer le dossier -->
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@title='Lancer le dossier']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>est lancé</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<!-- ajoute les étapes publications JO et pour Epreuve (etape pouvant ne pouvant pas être créé avec un profil administrateur ministériel)-->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/login.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=userMetaServicesSearchForm:numeroNor</td>
+	<td>EFI*</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=userMetaServicesSearchForm:rechercheNumeroSubmitButton</td>
+	<td></td>
+</tr>
+<!-- webservices WS SPE : DemandePublicationPE : préparation dossier décret avec étape "Publication"-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=EFIM1400000D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Feuille de route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Verrouiller']</td>
+	<td></td>
+</tr>
+<!--ajout tâche "pour publication JO"-->
+<tr>
+	<td>click</td>
+	<td>//table[@class='dataOutput']/tbody/tr[last()]//a[@class='ADD_STEP_AFTER']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Ajouter une étape</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Ajouter une étape</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//form[@name='document_create']//select</td>
+	<td>label=Pour publication à la DILA JO</td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_findButton']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62::min:handle:img:collapsed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62:node:5::poste:handle:img:collapsed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62:node:5::nxw_routing_task_distribution_mailbox_addPst</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=document_create:button_create</td>
+	<td></td>
+</tr>
+<!--ajout tâche "pour Epreuve"-->
+<tr>
+	<td>click</td>
+	<td>//table[@class='dataOutput']/tbody/tr[last()]//a[@class='ADD_STEP_AFTER']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Ajouter une étape</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Ajouter une étape</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//form[@name='document_create']//select</td>
+	<td>label=Pour fourniture d'épreuves</td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_findButton']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62::min:handle:img:collapsed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62:node:5::poste:handle:img:collapsed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document_create:nxl_routing_task_detail:nxw_routing_task_distribution_mailbox_tree:node:0:node:62:node:5::nxw_routing_task_distribution_mailbox_addPst</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=document_create:button_create</td>
+	<td></td>
+</tr>
+<!--devérrouillage-->
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Déverrouiller']</td>
+	<td></td>
+</tr>
+<!-- mise à jour de l'utilisateur MCAPPERON comme administrateur webservice  du ministere CE -->
+<!-- Mise à jour du ministère CE -->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/login.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Tables de référence</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Tables de référence</td>
+	<td></td>
+</tr>
+<!-- selection d'un ministere CE-->
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>tables_reference_properties:nxl_tables_reference_ministere_ce:nxw_ministereCe_select_findButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=tables_reference_properties:nxl_tables_reference_ministere_ce:nxw_ministereCe_select_tree:node:0:node:9::nxw_ministereCe_select_addMin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>à renseigner</td>
+	<td></td>
+</tr>
+<!-- enregistrement ministere CE -->
+<tr>
+	<td>clickAndWait</td>
+	<td>tables_reference_properties:button_save_tref</td>
+	<td></td>
+</tr>
+<!-- mise à jour utilisateur MCAPPERON-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Gestion des utilisateurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchForm:searchText</td>
+	<td>MCA</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=searchForm:searchButton</td>
+	<td></td>
+</tr>
+<!-- selection utilisateur MCAPPERON-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=MCAPPERON</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Modifier</td>
+	<td></td>
+</tr>
+<!-- edition titre-->
+<tr>
+	<td>click</td>
+	<td>id=editUser:nxl_user:nxw_title_select:1</td>
+	<td></td>
+</tr>
+<!-- edition telephone-->
+<tr>
+	<td>type</td>
+	<td>id=editUser:nxl_user:nxw_telephoneNumber</td>
+	<td>0611223344</td>
+</tr>
+<!-- edition mail-->
+<tr>
+	<td>type</td>
+	<td>id=editUser:nxl_user:nxw_email:nxw_email_email</td>
+	<td>ab.rs@ze-tb.com</td>
+</tr>
+<!-- ajout profil webservice ministeriel -->
+<tr>
+	<td>select</td>
+	<td>id=editUser:nxl_user:nxw_groups_selectProfile</td>
+	<td>label=Webservices Ministériels</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=editUser:nxl_user:nxw_groups_addProfile</td>
+	<td></td>
+</tr>
+<!-- sauvegarde -->
+<tr>
+	<td>clickAndWait</td>
+	<td>editUser:saveUserButton</td>
+	<td></td>
+</tr>
+<!-- retour test webservice -->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/technique/xml_post.html</td>
+	<td></td>
+</tr>
+<!-- webservices WS EPG : ChercherDossier : recherche par Nor-->
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>MCAPPERON</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>MCAPPERON</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=url</td>
+	<td>../site/solonepg/WSepg/chercherDossier</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;p:chercherDossierRequest xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot; xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/actes&quot; xmlns:p2=&quot;http://www.dila.premier-ministre.gouv.fr/solon/pg/solon-commons&quot; xmlns:p3=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/ar&quot;&nbsp;&nbsp;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg ../../../../../../../../xsd/solon/epg/WSepg.xsd &quot;&gt;&lt;p:nor&gt;CCOZ1400011V&lt;/p:nor&gt;&lt;p:nor&gt;EFIM1400000D&lt;/p:nor&gt;&lt;/p:chercherDossierRequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;chercherDossierResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot; xmlns:ns2=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/actes&quot; xmlns:ns3=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/solon-commons&quot; xmlns:ns4=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/ar&quot;&gt;&lt;statut&gt;OK&lt;/statut&gt;&lt;jeton&gt;-1&lt;/jeton&gt;&lt;dernier_envoi&gt;true&lt;/dernier_envoi&gt;&lt;dossier&gt;&lt;ns3:DossierEpg&gt;&lt;ns3:decret_ce_art_37&gt;&lt;ns2:statut_acte&gt;INITIE&lt;/ns2:statut_acte&gt;&lt;ns2:type_acte&gt;DECRET_CE_ART_37&lt;/ns2:type_acte&gt;&lt;ns2:nor&gt;EFIM1400000D&lt;/ns2:nor&gt;&lt;ns2:titre_acte&gt;Titre acte 7&lt;/ns2:titre_acte&gt;&lt;ns2:entite_responsable&gt;Min. Economie, finances et industrie&lt;/ns2:entite_responsable&gt;&lt;ns2:direction_responsable&gt;DAJ (Economie)&lt;/ns2:direction_responsable&gt;&lt;ns2:ministere_rattachement&gt;Min. Economie, finances et industrie&lt;/ns2:ministere_rattachement&gt;&lt;ns2:direction_rattachement&gt;DAJ (Economie)&lt;/ns2:direction_rattachement&gt;&lt;ns2:createur&gt;Bdc&lt;/ns2:createur&gt;&lt;ns2:responsable&gt;&lt;ns2:nom_reponsable&gt;DUPONT&lt;/ns2:nom_reponsable&gt;&lt;ns2:prenom_responsable&gt;Jean&lt;/ns2:prenom_responsable&gt;&lt;ns2:qualite_responsable&gt;Mr&lt;/ns2:qualite_responsable&gt;&lt;ns2:telephone_responsable&gt;0238587469&lt;/ns2:telephone_responsable&gt;&lt;/ns2:responsable&gt;&lt;ns2:categorie_acte&gt;REGLEMENTAIRE&lt;/ns2:categorie_acte&gt;&lt;ns2:vecteur_de_publication&gt;Journal Officiel&lt;/ns2:vecteur_de_publication&gt;&lt;ns2:mode_parution&gt;ELECTRONIQUE&lt;/ns2:mode_parution&gt;&lt;ns2:delai_publication&gt;AUCUN&lt;/ns2:delai_publication&gt;&lt;ns2:indexation&gt;</td>
+	<td></td>
+</tr>
+<!-- webservices WS EPG : ChercherDossier : recherche par Jeton -->
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;p:chercherDossierRequest xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot; xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/actes&quot; xmlns:p2=&quot;http://www.dila.premier-ministre.gouv.fr/solon/pg/solon-commons&quot; xmlns:p3=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/ar&quot;&nbsp;&nbsp;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg ../../../../../../../../xsd/solon/epg/WSepg.xsd &quot;&gt;&lt;p:jeton&gt;0&lt;/p:jeton&gt;&lt;/p:chercherDossierRequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;chercherDossierResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot; xmlns:ns2=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/actes&quot; xmlns:ns3=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/solon-commons&quot; xmlns:ns4=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/ar&quot;&gt;&lt;statut&gt;OK&lt;/statut&gt;&lt;jeton&gt;1&lt;/jeton&gt;&lt;dernier_envoi&gt;true&lt;/dernier_envoi&gt;&lt;dossier&gt;&lt;ns3:DossierEpg&gt;&lt;ns3:decret_ce_art_37&gt;&lt;ns2:statut_acte&gt;INITIE&lt;/ns2:statut_acte&gt;&lt;ns2:type_acte&gt;DECRET_CE_ART_37&lt;/ns2:type_acte&gt;&lt;ns2:nor&gt;EFIM1400000D&lt;/ns2:nor&gt;&lt;ns2:titre_acte&gt;Titre acte 7&lt;/ns2:titre_acte&gt;&lt;ns2:entite_responsable&gt;Min. Economie, finances et industrie&lt;/ns2:entite_responsable&gt;&lt;ns2:direction_responsable&gt;DAJ (Economie)&lt;/ns2:direction_responsable&gt;&lt;ns2:ministere_rattachement&gt;Min. Economie, finances et industrie&lt;/ns2:ministere_rattachement&gt;&lt;ns2:direction_rattachement&gt;DAJ (Economie)&lt;/ns2:direction_rattachement&gt;&lt;ns2:createur&gt;Bdc&lt;/ns2:createur&gt;&lt;ns2:responsable&gt;&lt;ns2:nom_reponsable&gt;DUPONT&lt;/ns2:nom_reponsable&gt;&lt;ns2:prenom_responsable&gt;Jean&lt;/ns2:prenom_responsable&gt;&lt;ns2:qualite_responsable&gt;Mr&lt;/ns2:qualite_responsable&gt;&lt;ns2:telephone_responsable&gt;0238587469&lt;/ns2:telephone_responsable&gt;&lt;/ns2:responsable&gt;&lt;ns2:categorie_acte&gt;REGLEMENTAIRE&lt;/ns2:categorie_acte&gt;&lt;ns2:vecteur_de_publication&gt;Journal Officiel&lt;/ns2:vecteur_de_publication&gt;&lt;ns2:mode_parution&gt;ELECTRONIQUE&lt;/ns2:mode_parution&gt;&lt;ns2:delai_publication&gt;AUCUN&lt;/ns2:delai_publication&gt;&lt;ns2:indexation&gt;</td>
+	<td></td>
+</tr>
+<!-- webservices WS EPG : donnerAvisCE-->
+<tr>
+	<td>type</td>
+	<td>id=url</td>
+	<td>../site/solonepg/WSepg/donnerAvisCE</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br />&lt;p:donnerAvisCERequest<br />xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;<br />xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/actes&quot;<br />xmlns:p2=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/solon-commons&quot;<br />xmlns:p3=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/ar&quot; <br />xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;<br />xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg ../../../../../../../../xsd/solon/epg/WSepg.xsd &quot;&gt;<br />&lt;p:nor&gt;EFIM1400000D&lt;/p:nor&gt;<br />&lt;p:type_validation_ce&gt;AVIS_RENDU&lt;/p:type_validation_ce&gt;<br />&lt;p:section_ce&gt;<br />&lt;p1:section_ce&gt;section CE&lt;/p1:section_ce&gt;<br />&lt;p1:rapporteur&gt;rapporteur&lt;/p1:rapporteur&gt;&lt;p1:date_transmission_section_ce&gt;2011-01-01T09:00:00&lt;/p1:date_transmission_section_ce&gt;<br />&lt;p1:date_section_ce&gt;2011-01-01T09:00:00&lt;/p1:date_section_ce&gt;<br />&lt;p1:date_ag_ce&gt;2011-01-01T09:00:00&lt;/p1:date_ag_ce&gt;<br />&lt;p1:numero_isa&gt;numeroISA&lt;/p1:numero_isa&gt;<br />&lt;/p:section_ce&gt;<br />&lt;p:projet_decret&gt;<br />&lt;p2:nom&gt;projet decret&lt;/p2:nom&gt;<br />&lt;p2:mime_type&gt;text/plain&lt;/p2:mime_type&gt;<br />&lt;p2:taille_fichier&gt;123&lt;/p2:taille_fichier&gt;<br />&lt;p2:contenu&gt;SGVsbG8gV29ybGQ=&lt;/p2:contenu&gt;<br />&lt;/p:projet_decret&gt;<br />&lt;p:note_gouvernement&gt;<br />&lt;p2:nom&gt;note au gouvernement&lt;/p2:nom&gt;<br />&lt;p2:mime_type&gt;text/plain&lt;/p2:mime_type&gt;<br />&lt;p2:taille_fichier&gt;345&lt;/p2:taille_fichier&gt;<br />&lt;p2:contenu&gt;SGVsbG8gV29ybGQ=&lt;/p2:contenu&gt;<br />&lt;/p:note_gouvernement&gt;<br />&lt;/p:donnerAvisCERequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;donnerAvisCEResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;&gt;&lt;statut&gt;OK&lt;/statut&gt;&lt;nor&gt;EFIM1400000D&lt;/nor&gt;&lt;/donnerAvisCEResponse&gt;</td>
+	<td></td>
+</tr>
+<!-- webservices WS EPG : donnerAvisCE : verifie que l'on ne peut pas donner plusieurs fois un avis-->
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;donnerAvisCEResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSepg&quot;&gt;&lt;statut&gt;KO&lt;/statut&gt;&lt;nor&gt;EFIM1400000D&lt;/nor&gt;&lt;message_erreur&gt;Le dossier n'est pas à l'étape 'Pour avis CE' ! Il n'est pas possible de donner un avis du conseil d'Etat sur ce dossier !&lt;/message_erreur&gt;&lt;/donnerAvisCEResponse&gt;</td>
+	<td></td>
+</tr>
+<!--connexion avec utilisateut publication-->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/technique/xml_post.html</td>
+	<td></td>
+</tr>
+<!-- webservices WS SPE : envoyerRetourPE : publicationBO (ministere PRM)-->
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>ws_ministere_prm</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>ws_ministere_prm</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=url</td>
+	<td>../site/solonepg/WSspe/envoyerRetourPE</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;p:envoyerRetourPERequest xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe&quot; xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/spe-commons&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe ../../../../../../../xsd/solon/epg/WSspe.xsd &quot;&gt; &lt;p:type&gt;PUBLICATION_BO&lt;/p:type&gt; &lt;p:retourPublicationBo&gt;&nbsp;&nbsp;&lt;p1:gestion&gt;&nbsp;&nbsp;&nbsp;&lt;p1:date_parution&gt;2011-01-01&lt;/p1:date_parution&gt;&nbsp;&nbsp;&lt;/p1:gestion&gt;&nbsp;&nbsp;&lt;p1:acte&gt;&nbsp;&nbsp;&nbsp;&lt;p1:nor&gt;EFIM1400000D&lt;/p1:nor&gt;&nbsp;&nbsp;&nbsp;&lt;p1:numero_texte&gt;100&lt;/p1:numero_texte&gt;&nbsp;&nbsp;&nbsp;&lt;p1:page&gt;20&lt;/p1:page&gt;&nbsp;&nbsp;&lt;/p1:acte&gt;&nbsp;&nbsp;&lt;p1:acte&gt;&nbsp;&nbsp;&nbsp;&lt;p1:nor&gt;EFIM1400000D&lt;/p1:nor&gt;&nbsp;&nbsp;&nbsp;&lt;p1:numero_texte&gt;101&lt;/p1:numero_texte&gt;&nbsp;&nbsp;&nbsp;&lt;p1:page&gt;21&lt;/p1:page&gt;&nbsp;&nbsp;&lt;/p1:acte&gt; &lt;/p:retourPublicationBo&gt; &lt;/p:envoyerRetourPERequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;envoyerRetourPEResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe&quot;&gt;&lt;status&gt;OK&lt;/status&gt;&lt;/envoyerRetourPEResponse&gt;</td>
+	<td></td>
+</tr>
+<!-- webservices WS SPE : envoyerRetourPE : publicationBO : vérification et validation étape-->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/login.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=Submit</td>
+	<td></td>
+</tr>
+<!-- webservices WS SPE : DemandePublicationPE : vérification valeur parution BO-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=EFIM1400000D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Bordereau</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>100</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>20</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>101</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>21</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Verrouiller']</td>
+	<td></td>
+</tr>
+<!--valide l'étape-->
+<tr>
+	<td>click</td>
+	<td>//input[@title='Valider']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Êtes-vous sûr de vouloir valider l'étape de la feuille de route ?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@id='popup_ok']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>a été validé</td>
+	<td></td>
+</tr>
+<!--connexion avec utilisateur publication-->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/technique/xml_post.html</td>
+	<td></td>
+</tr>
+<!-- webservices WS SPE : envoyerRetourPE : publicationJO (ministere PRM)-->
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>ws_ministere_prm</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>ws_ministere_prm</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=url</td>
+	<td>../site/solonepg/WSspe/envoyerRetourPE</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;p:envoyerRetourPERequest xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe&quot; xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/spe-commons&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe ../../../../../../../xsd/solon/epg/WSspe.xsd &quot;&gt; &lt;p:type&gt;PUBLICATION_JO&lt;/p:type&gt; &lt;p:retourPublicationJo&gt;&nbsp;&nbsp;&lt;p1:gestion&gt; &lt;p1:date_parution&gt;2011-01-01&lt;/p1:date_parution&gt; &lt;/p1:gestion&gt; &lt;p1:acte&gt; &lt;p1:nor&gt;EFIM1400000D&lt;/p1:nor&gt; &lt;p1:numero_texte&gt;num_text_100&lt;/p1:numero_texte&gt; &lt;p1:titre_officiel&gt;titre officiel 100&lt;/p1:titre_officiel&gt; &lt;p1:page&gt;100&lt;/p1:page&gt; &lt;/p1:acte&gt; &lt;/p:retourPublicationJo&gt; &lt;/p:envoyerRetourPERequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;envoyerRetourPEResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe&quot;&gt;&lt;status&gt;OK&lt;/status&gt;&lt;/envoyerRetourPEResponse&gt;</td>
+	<td></td>
+</tr>
+<!--connexion avec utilisateur publication-->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/technique/xml_post.html</td>
+	<td></td>
+</tr>
+<!-- webservices WS SPE : envoyerRetourPE : Epreuvage (ministere PRM)-->
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>ws_ministere_prm</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>ws_ministere_prm</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=url</td>
+	<td>../site/solonepg/WSspe/envoyerRetourPE</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=request</td>
+	<td>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;p:envoyerRetourPERequest xmlns:p=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe&quot; xmlns:p1=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/spe-commons&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe ../../../../../../../xsd/solon/epg/WSspe.xsd &quot;&gt; &lt;p:type&gt;EPREUVAGE&lt;/p:type&gt; &lt;p:retourEpreuvage&gt; &lt;p1:nor&gt;EFIM1400000D&lt;/p1:nor&gt; &lt;p1:epreuve&gt; &lt;p1:nom&gt;nom du fichier.txt&lt;/p1:nom&gt; &lt;p1:content&gt;MA==&lt;/p1:content&gt; &lt;/p1:epreuve&gt; &lt;/p:retourEpreuvage&gt; &lt;/p:envoyerRetourPERequest&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresentXML</td>
+	<td>&lt;envoyerRetourPEResponse xmlns=&quot;http://www.dila.premier-ministre.gouv.fr/solon/epg/WSSpe&quot;&gt;&lt;status&gt;OK&lt;/status&gt;&lt;/envoyerRetourPEResponse&gt;</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

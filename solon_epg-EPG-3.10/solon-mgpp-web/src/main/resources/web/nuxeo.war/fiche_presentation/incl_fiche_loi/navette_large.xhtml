@@ -1,0 +1,241 @@
+<f:subview
+    xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+>
+    <nxu:set var="canCurrentUserEdit" value="#{ficheLoiActions.canCurrentUserEdit()}" cache="true">
+        <nxu:set var="navettes" value="#{listeNavettes}" cache="true">
+          <c:forEach var="navette" items="#{navettes}" varStatus="status">
+            <table class="navetteTable #{navette.nav.codeLecture}">
+                <c:choose>                
+                    <c:when test="#{canCurrentUserEdit}">
+                      <h:panelGroup rendered="#{navette.nav.codeLecture == 'CMP'}">
+                          <tr>
+                            <th colspan="4"><h:outputText value="#{vocabulary.getEntryLabel('niveau_lecture', navette.nav.codeLecture)}"/></th>
+                          </tr>
+                          <tr>
+                            <td class="label span25">
+                                <h:outputText value="Navette le"/>
+                            </td>
+                            <td class="field span25">
+                                <nxu:inputDateTime value="#{navette.nav.dateNavette}" format="dd/MM/yyyy HH:mm" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td class="label span25">Commission mixte paritaire du</td>
+                            <td class="field span25">
+                            
+                              <a4j:region renderRegionOnly="true" id="navetteDate#{status.index}_ajax_region">
+                                <nxu:inputDateTime id="navetteDate#{status.index}_input" styleClass="dataInputText" format="dd/MM/yyyy" />
+                                <a4j:commandLink immediate="true" action="#{ficheLoiActions.addNavetteDateCMP(nxu:concat(nxu:concat('navetteDate', status.index), '_input'), navette)}" reRender="navetteDate#{status.index}_input, navetteDate#{status.index}_listRegion">
+                                  <h:graphicImage id="navetteDate#{status.index}_addDate" value="/icons/action_add.gif" styleClass="add_icon"/>
+                                </a4j:commandLink>
+                                
+                                <a4j:outputPanel ajaxRendered="false" id="navetteDate#{status.index}_listRegion">
+                                  <c:forEach var="dateCMP" items="#{navette.getAdapter(Navette).getDateCMP()}">
+                                    <h:panelGroup>
+                                      <h:panelGrid columns="1">
+                                        <h:panelGroup>
+                                          <a4j:commandLink immediate="true" action="#{ficheLoiActions.removeNavetteDateCMP(dateCMP, navette)}" 
+                                              reRender="navetteDate#{status.index}_listRegion">
+                                            <h:graphicImage value="/icons/action_delete.gif" />
+                                          </a4j:commandLink>
+                                          <h:outputText value="#{dateCMP.getTime()}" converter="DateConverter"/> 
+                                        </h:panelGroup>
+                                      </h:panelGrid>
+                                    </h:panelGroup>
+                                  </c:forEach>
+                                </a4j:outputPanel>
+                              </a4j:region>
+                              
+                            </td>
+                            <td class="label span25">Résultat CMP</td>
+                            <td class="field span25">
+                              <h:selectOneMenu value="#{navette.nav.resultatCMP}">
+                                <nxdir:selectItems directoryName="resultat_cmp" var="item" 
+                                    itemValue="#{item.id}" itemLabel="#{item.vocabulary.label}" localize="false" />
+                              </h:selectOneMenu>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="label span25">Date lecture des conclusions de la CMP Assemblée nationale</td>
+                            <td class="field span25">
+                              <nxu:inputDateTime value="#{navette.nav.dateAdoptionAN}" format="dd/MM/yyyy HH:mm" />
+                            </td>
+                            <td class="label span25">Sort adoption Assemblée Nationale</td>
+                            <td class="field span25">
+                              <h:selectOneMenu value="#{navette.nav.sortAdoptionAN}">
+                                <nxdir:selectItems directoryName="sort_adoption" var="item" 
+                                    itemValue="#{item.id}" itemLabel="#{item.vocabulary.label}" localize="false" />
+                              </h:selectOneMenu>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="label span25">Date lecture des conclusions de la CMP Sénat</td>
+                            <td class="field span25">
+                              <nxu:inputDateTime value="#{navette.nav.dateAdoptionSE}" format="dd/MM/yyyy HH:mm" />
+                            </td>
+                            <td class="label span25">Sort adoption Sénat</td>
+                            <td class="field span25">
+                              <h:selectOneMenu value="#{navette.nav.sortAdoptionSE}">
+                                <nxdir:selectItems directoryName="sort_adoption" var="item" 
+                                    itemValue="#{item.id}" itemLabel="#{item.vocabulary.label}" localize="false" />
+                              </h:selectOneMenu>
+                            </td>    
+                          </tr>
+                      </h:panelGroup>
+                      <h:panelGroup rendered="#{navette.nav.codeLecture != 'CMP'}">
+                            <tr>
+                              <th colspan="4">
+                                <h:outputText value="#{vocabulary.getEntryLabel('niveau_lecture', navette.nav.codeLecture)}"/>
+                              </th>
+                            </tr>
+                            <tr>
+                              <td class="label span50">
+                                <h:outputText value="Navette le"/>
+                              </td>
+                              <td class="field span50">
+                                <nxu:inputDateTime value="#{navette.nav.dateNavette}" format="dd/MM/yyyy HH:mm" />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="label span50">
+                                <h:outputText value="Transmis le"/>
+                              </td>
+                              <td class="field span50">
+                                <nxu:inputDateTime value="#{navette.nav.dateTransmission}" format="dd/MM/yyyy HH:mm" />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="label span50">
+                                <h:selectOneMenu value="#{navette.nav.sortAdoption}">
+                                  <nxdir:selectItems directoryName="sort_adoption" var="item" 
+                                      itemValue="#{item.id}" itemLabel="#{item.vocabulary.label}" localize="false" />
+                                </h:selectOneMenu> le
+                              </td>
+                              <td class="field span50">
+                                <nxu:inputDateTime value="#{navette.nav.dateAdoption}" format="dd/MM/yyyy" />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="label span50">Texte</td>
+                              <td class="field span50">
+                                <h:inputText value="#{navette.nav.numeroTexte}"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="label span50">URL</td>
+                              <td class="field span50">
+                                <h:inputText value="#{navette.nav.url}"/>
+                              </td>
+                            </tr>
+                      </h:panelGroup>
+                    </c:when>
+                    <c:otherwise>
+                        <h:panelGroup rendered="#{navette.nav.codeLecture == 'CMP'}">
+                            <tr>
+                            <th colspan="4"><h:outputText value="#{vocabulary.getEntryLabel('niveau_lecture', navette.nav.codeLecture)}"/></th>
+                          </tr>
+						  <tr>
+                            <td class="label span25">
+                                <h:outputText value="Navette le"/>
+                            </td>
+                            <td class="field span25">
+                                <h:outputText value="#{navette.nav.dateNavette}" converter="DateTimeConverter" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td class="label span25">Commission mixte paritaire du</td>
+                            <td class="field span25">
+                              <c:forEach var="dateCMP" items="#{navette.nav.dateCMP}" varStatus="status">
+                                <h:outputText value="#{dateCMP}" converter="DateConverter"/>
+                                <h:outputText value=", " rendered="#{(status.index + 1) lt fn:length(navette.nav.dateCMP)}"/>
+                              </c:forEach>
+                            </td>
+                            <td class="label span25">Résultat CMP</td>
+                            <td class="field span25"><h:outputText value="#{vocabulary.getEntryLabel('resultat_cmp', navette.nav.resultatCMP)}"/></td>
+                          </tr>
+                          <tr>
+                            <td class="label span25">Date lecture des conclusions de la CMP Assemblée nationale</td>
+                            <td class="field span25">
+                              <h:outputText value="#{navette.nav.dateAdoptionAN}" converter="DateConverter"/>
+                            </td>
+                            <td class="label span25">Sort adoption Assemblée Nationale</td>
+                            <td class="field span25">
+                              <h:outputText value="#{vocabulary.getEntryLabel('sort_adoption', navette.nav.sortAdoptionAN)}"/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="label span25">Date lecture des conclusions de la CMP Sénat</td>
+                            <td class="field span25">
+                              <h:outputText value="#{navette.nav.dateAdoptionSE}" converter="DateConverter"/>
+                            </td>
+                            <td class="label span25">Sort adoption Sénat</td>
+                            <td class="field span25">
+                              <h:outputText value="#{vocabulary.getEntryLabel('sort_adoption', navette.nav.sortAdoptionSE)}"/>
+                            </td>
+                          </tr>
+                      </h:panelGroup>
+                      <h:panelGroup rendered="#{navette.nav.codeLecture != 'CMP'}">
+                          <tr>
+                              <th colspan="4">
+                                <h:outputText value="#{navette.nav.niveauLecture}"/>
+                                <h:outputText rendered="#{navette.nav.niveauLecture == 1}" value="ère lecture "/>
+                                <h:outputText rendered="#{navette.nav.niveauLecture > 1}" value="ème lecture "/>
+                                <h:outputText value="#{vocabulary.getEntryLabel('niveau_lecture', navette.nav.codeLecture)}"/>
+                              </th>
+                            </tr>
+                            <tr>
+                              <td class="label span50">
+                                <h:outputText value="Navette le"/>
+                              </td>
+                              <td class="field span50">
+                                <h:outputText value="#{navette.nav.dateNavette}" converter="DateTimeConverter"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="label span50">
+                                <h:outputText value="Transmis le"/>
+                              </td>
+                              <td class="field span50">
+                                <h:outputText value="#{navette.nav.dateTransmission}" converter="DateTimeConverter"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="label span50">
+                                <h:outputText value="#{vocabulary.getEntryLabel('sort_adoption', navette.nav.sortAdoption)}"/> le
+                              </td>
+                              <td class="field span50">
+                                <h:outputText value="#{navette.nav.dateAdoption}" converter="DateConverter"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="label span50">
+                                <h:panelGroup rendered="#{not empty navette.nav.url}">
+                                  <h:outputLink value="#{navette.nav.url}" target="_blank">Texte</h:outputLink>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{empty navette.nav.url}">Texte</h:panelGroup>
+                              </td>
+                              <td class="field span50">
+                                <h:outputText value="#{navette.nav.numeroTexte}"/>
+                              </td>
+                            </tr>            
+                      </h:panelGroup>
+                    </c:otherwise>
+                </c:choose>
+            </table>
+          </c:forEach>
+          <div style="clear: both;"></div>
+        </nxu:set>
+    </nxu:set>
+</f:subview>

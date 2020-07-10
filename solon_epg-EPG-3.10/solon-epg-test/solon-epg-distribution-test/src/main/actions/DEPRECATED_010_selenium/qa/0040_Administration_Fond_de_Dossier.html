@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Administration Fond de Dossier</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Administration Fond de Dossier</td></tr>
+</thead><tbody>
+
+<!--Connexion bdc (admin. ministériel) :  on vérifie que lon ne peut pas accéder à l'administration des fonds de dossier-->
+<tr>
+	<td>setTimeout</td>
+	<td>120000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/login.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>bdc</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>bdc</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Mon identifiant dans S.O.L.O.N. : bdc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>Fond de dossier</td>
+	<td></td>
+</tr>
+<!--Connexion adminsgg (admin. fonctionnel)-->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/solon-epg/login.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>adminsgg</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Mon identifiant dans S.O.L.O.N. : adminsgg</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Fond de dossier</td>
+	<td></td>
+</tr>
+<!-- Tests et vérifications sur les formats de fichiers autorisés par défaut dans l'administration des fonds de dossier -->
+<!-- On vérifie la liste des format de fichiers autorisés par défaut dans l'administration des fonds de dossier -->
+<tr>
+	<td>waitForTextPresent</td>
+	<td>doc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>odg</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>odi</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>jpg</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>png</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>pdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>rtf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>odt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>doc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>docx</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>ods</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>xls</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>xlsx</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>odp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>ppt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>pptx</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>odc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>vsd</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>zip</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>odi</td>
+	<td></td>
+</tr>
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<!-- On vérifie la suppression d'un type de format de fichier autorisé -->
+<tr>
+	<td>click</td>
+	<td>//a[@id='fond_dossier_model_properties:nxl_fond_dossier_modele_racine:nxw_format_autorise_fdd_model_list:0:nxw_format_autorise_fdd_model_delete']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>odg</td>
+	<td></td>
+</tr>
+<!-- On vérifie l'ajout d'un type de format de fichier -->
+<!-- On tape la première lettre du format de fichier -->
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>typeKeys</td>
+	<td>fond_dossier_model_properties:nxl_fond_dossier_modele_racine:nxw_format_autorise_fdd_model_motsCleLabel</td>
+	<td>odg</td>
+</tr>
+<!-- Ajout du format de fichier -->
+<tr>
+	<td>click</td>
+	<td>//a[@id='fond_dossier_model_properties:nxl_fond_dossier_modele_racine:nxw_format_autorise_fdd_model_add_file']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- On vérifie l'ajout du type de format de fichier -->
+<tr>
+	<td>assertTextPresent</td>
+	<td>odg</td>
+	<td></td>
+</tr>
+<!-- Tests et vérifications sur les arborescences pour les modéles de fond de dossier dans l'administration des fonds de dossier -->
+<!-- On vérifie les répertoires créé par défaut -->
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<!-- On tape les 3 premières lettres du type d'acte -->
+<tr>
+	<td>typeKeys</td>
+	<td>fond_dossier_model_properties:nxl_fond_dossier_modele:nxw_type_acte_fdd_model_motsCleLabel</td>
+	<td>amn</td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- Selection du type d'acte -->
+<tr>
+	<td>click</td>
+	<td>//td[text()='Amnistie']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- récupération de l'arborescence du répertoire lié au type d'acte -->
+<tr>
+	<td>click</td>
+	<td>fond_dossier_model_properties:nxl_fond_dossier_modele:editerModelefondDossierWidget</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- On vérifie l'arborescence de répertoire créé par défaut -->
+<tr>
+	<td>assertTextPresent</td>
+	<td>Répertoire réservé au ministère porteur</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Répertoire réservé au SGG</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Répertoire réservé au ministère porteur et au SGG</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Répertoire accessible à tous les utilisateurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Epreuves</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Documentation jointe</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Annexes non publiées</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Note pour le ministère</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Rapport de présentation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Lettres d'accord</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Lettre de saisine du Conseil d'Etat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Avis divers</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Textes de références</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Etude d'impact</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Divers</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Etude d'impact</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Textes consolidés</td>
+	<td></td>
+</tr>
+<!-- On vérifie l'arborescence de répertoire créé par défaut pour un type d'acte non etendu -->
+<tr>
+	<td>watchA4jRequests</td>
+	<td></td>
+	<td></td>
+</tr>
+<!-- On vide l'input -->
+<tr>
+	<td>type</td>
+	<td>fond_dossier_model_properties:nxl_fond_dossier_modele:nxw_type_acte_fdd_model_motsCleLabel</td>
+	<td></td>
+</tr>
+<!-- On tape les 3 premières lettres du type d'acte -->
+<tr>
+	<td>typeKeys</td>
+	<td>fond_dossier_model_properties:nxl_fond_dossier_modele:nxw_type_acte_fdd_model_motsCleLabel</td>
+	<td>ave</td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- Selection du type d'acte -->
+<tr>
+	<td>click</td>
+	<td>//td[text()='Avenant']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- récupération de l'arborescence du répertoire lié au type d'acte -->
+<tr>
+	<td>click</td>
+	<td>fond_dossier_model_properties:nxl_fond_dossier_modele:editerModelefondDossierWidget</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- On vérifie l'arborescence de répertoire créé par défaut -->
+<tr>
+	<td>assertTextPresent</td>
+	<td>Répertoire réservé au ministère porteur</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Répertoire réservé au SGG</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Répertoire réservé au ministère porteur et au SGG</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Répertoire accessible à tous les utilisateurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Epreuves</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Documentation jointe</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Annexes non publiées</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Note pour le ministère</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Rapport de présentation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>Lettres d'accord</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>Lettre de saisine du Conseil d'Etat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Avis divers</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Textes de références</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Etude d'impact</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Divers</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Textes consolidés</td>
+	<td></td>
+</tr>
+<!-- On vérifie les actions proposés dans l'arborescene par défaut -->
+<!-- 1)création d'un répertoire dans un des répertoires racine-->
+<!-- appel au menu contextuel (clic droit) -->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Répertoire réservé au ministère porteur']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[text()='Ajouter dedans']</td>
+	<td></td>
+</tr>
+<!-- on vérifie que le répertoire a bien été créé -->
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Nouveau répertoire</td>
+	<td></td>
+</tr>
+<!-- 2)création d'un répertoire dans le répertoire venant d'être créé-->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Nouveau répertoire']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[text()='Ajouter dedans']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- on vérifie que le répertoire a bien été créé -->
+<tr>
+	<td>click</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelSubview:fondDeDossierModelTree:1:1::nomRepertoireDeletable</td>
+	<td></td>
+</tr>
+<!-- 3)création d'un répertoire avant le répertoire sélectionné-->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Annexes non publiées']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[text()='Ajouter avant']</td>
+	<td></td>
+</tr>
+<!-- on vérifie que le répertoire a bien été créé -->
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelSubview:fondDeDossierModelTree:4:2:1::nomRepertoireDeletable</td>
+	<td>Nouveau répertoire</td>
+</tr>
+<!-- 4)création d'un répertoire après le répertoire sélectionné-->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Annexes non publiées']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[text()='Ajouter après']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- on vérifie que le répertoire a bien été créé -->
+<tr>
+	<td>assertText</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelSubview:fondDeDossierModelTree:4:2:3::nomRepertoireDeletable</td>
+	<td>Nouveau répertoire</td>
+</tr>
+<!-- 5.1) édition document puis annulation -->
+<tr>
+	<td>click</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelSubview:fondDeDossierModelTree:4:2:2::nomRepertoireDeletable</td>
+	<td></td>
+</tr>
+<!-- clic action éditer -->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Editer']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- édition du nom du répertoire -->
+<tr>
+	<td>type</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelFolderSubview:nxl_fond_dossier_modele_repertoire_formulaire:nxw_title</td>
+	<td>Nouvelles Annexes</td>
+</tr>
+<!-- clic bouton Annuler -->
+<tr>
+	<td>click</td>
+	<td>//input[@id='fond_dossier_model_properties:treeFondDossierModelFolderSubview:annulerModelefonDossier']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- on vérifie que la suppression n'a pas été effectue -->
+<tr>
+	<td>assertTextPresent</td>
+	<td>Annexes non publiées</td>
+	<td></td>
+</tr>
+<!-- 5.2) édition document puis annulation -->
+<tr>
+	<td>click</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelSubview:fondDeDossierModelTree:4:2:2::nomRepertoireDeletable</td>
+	<td></td>
+</tr>
+<!-- clic action éditer -->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Editer']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- édition du nom du répertoire -->
+<tr>
+	<td>type</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelFolderSubview:nxl_fond_dossier_modele_repertoire_formulaire:nxw_title</td>
+	<td>Nouvelles Annexes</td>
+</tr>
+<!-- clic bouton Annuler -->
+<tr>
+	<td>click</td>
+	<td>//input[@value='Valider']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<!-- on vérifie que la suppression n'a pas été effectue -->
+<tr>
+	<td>assertText</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelSubview:fondDeDossierModelTree:4:2:2::nomRepertoireDeletable</td>
+	<td>Nouvelles Annexes</td>
+</tr>
+<tr>
+	<td>assertNotText</td>
+	<td>fond_dossier_model_properties:treeFondDossierModelSubview:fondDeDossierModelTree:4:2:2::nomRepertoireDeletable</td>
+	<td>Annexes non publiées</td>
+</tr>
+<!-- 6.1) popup suppression puis annulation -->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Nouvelles Annexes']</td>
+	<td></td>
+</tr>
+<!-- clic action supprimer -->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Supprimer']</td>
+	<td></td>
+</tr>
+<!-- clic bouton Annuler dans la popup -->
+<tr>
+	<td>click</td>
+	<td>deleteFondDeDossierForm:annulerSuppressionText</td>
+	<td></td>
+</tr>
+<!-- on vérifie que la suppression n'a pas été effectue -->
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Nouvelles Annexes</td>
+	<td></td>
+</tr>
+<!-- 6.2) popup suppression puis confirmation de la suppresssion -->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Nouvelles Annexes']</td>
+	<td></td>
+</tr>
+<!-- clic action supprimer -->
+<tr>
+	<td>click</td>
+	<td>//span[text()='Supprimer']</td>
+	<td></td>
+</tr>
+<!-- clic bouton Annuler dans la popup -->
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>deleteFondDeDossierForm:validerSuppressionText</td>
+	<td></td>
+</tr>
+<!-- on vérifie que l'on bien supprimé le répertoire sélectionné et ses répertoires fils -->
+<tr>
+	<td>waitForA4jRequest</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>Nouvelles Annexes</td>
+	<td></td>
+</tr>
+<!-- Déconnexion -->
+<tr>
+	<td>open</td>
+	<td>/solon-epg/logout</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

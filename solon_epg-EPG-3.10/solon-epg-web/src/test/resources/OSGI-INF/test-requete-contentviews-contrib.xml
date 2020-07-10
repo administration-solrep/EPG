@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.vocabulary.tests.contentviews">
+
+  <extension target="org.nuxeo.ecm.platform.ui.web.ContentViewService" point="contentViews">
+    
+    <!-- Content View permettant d'afficher la liste des dossiers issue du requêteur de dossier simple -->
+    <contentView name="requeteur_dossier_simple">
+     <genericPageProvider class="fr.dila.st.web.contentview.PaginatedPageDocumentProvider">
+        <property name="coreSession">#{documentManager}</property>
+        <pattern quoteParameters="false" escapeParameters="false">
+            ? 
+        </pattern>
+        <parameter>#{requeteurDossierSimpleActions.getCurrentRequetePattern()}</parameter>
+        <pageSizeBinding>#{parametrageApplicationActions.getDossierDefaultPageSize()}</pageSizeBinding>
+        <pageSize>30</pageSize>
+      </genericPageProvider>
+      <useGlobalPageSize>true</useGlobalPageSize>
+      <refresh>
+        <event>documentChanged</event>
+        <event>documentChildrenChanged</event>
+      </refresh>
+      <cacheKey>recherche_requeteur_dossier_simple</cacheKey>
+      <cacheSize>20</cacheSize>
+
+      <resultLayouts>
+        <layout name="recherche_dossier_listing" title="document_listing"
+          translateTitle="true" iconPath="/icons/document_listing_icon.png" />
+      </resultLayouts>
+
+      <selectionList>CURRENT_SELECTION_REQUETEUR_DOSSIER_SIMPLE</selectionList>
+      <actions category="CURRENT_SELECTION_LIST" />
+    </contentView>
+    
+  </extension>
+</component>
+
+

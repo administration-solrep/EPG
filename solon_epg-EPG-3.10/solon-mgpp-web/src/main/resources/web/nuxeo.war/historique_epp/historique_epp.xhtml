@@ -1,0 +1,63 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich">
+  
+  <h:form id="historique_epp" enctype="multipart/form-data">
+        <div style="clear: both;"></div>
+
+        <div class="foldableBox">
+          <h3 class="folded">
+            <a href="#nologo" onclick="return toggleBox(this)">
+              <h:outputText value="Historique dossier" />
+            </a>
+          </h3>
+          <div class="boxBody">
+          
+          #{historiqueEppTree.reset()}
+          
+            <rich:tree id="historiqueTree"
+                style="width:100%" switchType="ajax"
+                iconExpanded="/icons/toggle_minus.png"
+                iconCollapsed="/icons/toggle_plus.png"
+                ajaxSingle="true"
+                eventsQueue="ajax_events_queue"
+                toggleOnClick="false"
+                adviseNodeOpened="#{historiqueEppTree.adviseNodeOpened}"
+                changeExpandListener="#{historiqueEppTree.changeExpandListener}">
+                
+                <rich:recursiveTreeNodesAdaptor roots="#{historiqueEppTree.historiqueTree}" var="item" nodes="#{item.children}">
+                   <rich:treeNode rendered="#{item.children.isEmpty()}"
+                        icon="/img/icons/message_mailbox.png"
+                        iconLeaf="/img/icons/message_mailbox.png">
+                      <h:commandLink id="histoDossierNodeCmd" action="#{historiqueEppTree.navigateTo(item)}" >
+                        <h:outputText value="#{item.label}" style="#{item.evenementCourant ? 'font-weight:bold' : ''}" />
+                      </h:commandLink>
+                    </rich:treeNode>
+                    
+                    <rich:treeNode rendered="#{!item.children.isEmpty()}"
+                        icon="/img/icons/message.png"
+                        iconLeaf="/img/icons/message.png">
+                      <h:commandLink id="histoDossierNodeCmd2" action="#{historiqueEppTree.navigateTo(item)}" >
+                        <h:outputText value="#{item.label}" style="#{item.evenementCourant ? 'font-weight:bold' : ''}" />
+                      </h:commandLink>
+                    </rich:treeNode>
+                    
+                </rich:recursiveTreeNodesAdaptor>
+              </rich:tree>
+             <br/>
+             
+             <h:outputText value="#{historiqueEppTree.messageErreur}" />
+             
+          </div>
+        </div>
+  </h:form>
+  
+    
+</div>

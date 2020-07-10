@@ -1,0 +1,76 @@
+<f:subview id="#{widget.id}" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<style>
+		.dr-mpnl-pnl-b {
+			padding: 0px;
+		}
+		
+		.add_icon {
+			padding-left: 3px;
+		}
+	</style> 
+
+	<c:if test="#{widget.mode == 'view'}">
+		<h:outputText value="#{field_0}" />
+	</c:if> 
+	<c:if test="#{widget.mode == 'edit' or widget.mode == 'create' }">
+		<a4j:region id="#{widget.id}_ajax_region">
+			<h:panelGrid id="#{widget.id}_panel" columns="2">
+				<h:panelGroup>
+					<h:inputText id="#{widget.id}_input" validator="#{alertActions.validateExternalRecipient}" />
+						
+					<a4j:commandLink immediate="true" id="freeInputAddBtn">
+						<a4j:support event="onclick" eventsQueue="ajax_events_queue"
+							bypassUpdates="true"
+							reRender="#{widget.id}_listRegion, #{widget.id}_node, #{widget.id}_input, #{widget.id}_message_ext_rec"
+							id="#{widget.id}_listRegion_select">
+							<nxu:actionListenerMethod
+								value="#{alertActions.addExternalRecipient}" />
+							<f:param name="inputList"
+								value="#{widget.id}_list" />
+							<f:param name="inputText" value="#{widget.id}_input" />
+						</a4j:support>
+						<h:graphicImage id="#{widget.id}_add_icon"
+							value="/icons/action_add.gif" styleClass="add_icon" />
+					</a4j:commandLink>
+				</h:panelGroup>
+				<a4j:outputPanel ajaxRendered="false" id="#{widget.id}_listRegion">
+					<nxu:inputList id="#{widget.id}_list" value="#{field_0}"
+						model="model" required="#{widget.required}">
+						<h:panelGroup id="#{widget.id}_listItem">
+							<h:panelGrid columns="1">
+								<h:panelGroup>
+									<a4j:commandLink immediate="true"
+										actionListener="#{editableListBean.performAction}"
+										id="#{widget.id}_delete" reRender="#{widget.id}_listRegion"
+										bypassUpdates="true">
+										<h:graphicImage value="/icons/action_delete.gif" />
+										<f:param name="for" value="#{widget.id}_list" />
+										<f:param name="index" value="#{model.rowIndex}" />
+										<f:param name="type" value="remove" />
+									</a4j:commandLink>
+
+									<c:set var="modelRowData" value="#{model.rowData}" cache="true" />
+									<h:graphicImage
+										value="/img/icons/mail.png"
+										alt="mail.png" />
+									<h:outputText id="#{widget.id}_node" value="#{modelRowData}" />
+								</h:panelGroup>
+							</h:panelGrid>
+						</h:panelGroup>
+					</nxu:inputList>
+					<h:message styleClass="errorMessage" for="#{widget.id}_input"
+						id="#{widget.id}_message_ext_rec" />
+				</a4j:outputPanel>
+			</h:panelGrid>
+		</a4j:region>
+	</c:if>
+</f:subview>

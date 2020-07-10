@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Cet composant contribue les types de documents de l'application SOLON 
+	EPG. -->
+<component name="fr.dila.solonepg.core.type">
+	<require>org.nuxeo.ecm.core.CoreExtensions</require> 
+	<require>fr.dila.ecm.platform.routing.CoreExtensions</require>
+	<!-- <require>org.nuxeo.ecm.platform.userworkspace.coreTypes</require> -->
+	<require>fr.dila.solonepg.core.schema</require>
+	
+	<extension target="org.nuxeo.ecm.core.schema.TypeService"
+      point="configuration">
+      <configuration>
+        <prefetch>common.icon, dc:title, dc:modified, dc:creator</prefetch>
+      </configuration>
+    </extension>
+	
+
+	<extension target="org.nuxeo.ecm.core.schema.TypeService"
+		point="doctype">
+
+		<!-- *********************************************************************** 
+			Types de documents du dossier SOLON EPG *********************************************************************** -->
+
+		<!-- Dossier SOLON EPG -->
+		<doctype name="Dossier" extends="Case" coretype="Dossier">
+			<schema name="dossier_solon_epg" />
+			<schema name="note" />
+			<schema name="conseil_etat" />
+			<schema name="retour_dila" />
+			<schema name="traitement_papier" />
+			<facet name="Routable" />
+			<prefetch>dossier_solon_epg.numeroNor</prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : Parapheur <schema name="parapheur_solon_epg" /> -->
+		<doctype name="Parapheur" extends="CaseItem">
+			<facet name="Folderish" />
+			<facet name="Orderable" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : fond de dossier -->
+		<doctype name="FondDeDossier" extends="CaseItem">
+			<schema name="fond_dossier_solon_epg" />
+			<facet name="Folderish" />
+			<facet name="Orderable" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : répertoire fond de dossier -->
+		<doctype name="FondDeDossierFolder" extends="OrderedFolder">
+			<schema name="fond_dossier_folder_solon_epg" />
+			<subtypes>
+				<type>FondDeDossierFolder</type>
+				<type>FileSolonEpg</type>
+			</subtypes>
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Fichier SOLON EPG -->
+		<doctype name="FileSolonEpg" extends="File">
+			<schema name="file_solon_epg" />
+			<!-- Opti recherche fulltext desactivée -->
+			<!-- <schema name="versions" /> -->
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : fichier fond de dossier -->
+		<doctype name="FondDeDossierFichier" extends="FileSolonEpg">
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : répertoire Parapheur -->
+		<doctype name="ParapheurFolder" extends="OrderedFolder">
+			<schema name="parapheur_folder_solon_epg" />
+			<subtypes>
+				<type>ParapheurFolder</type>
+				<type>FileSolonEpg</type>
+				<type>Folder</type>
+			</subtypes>
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : fichier Parapheur -->
+		<doctype name="ParapheurFichier" extends="FileSolonEpg">
+			<prefetch></prefetch>
+		</doctype>
+
+
+		<!-- Dossier SOLON EPG : Ampliation -->
+		<doctype name="Ampliation" extends="CaseItem">
+			<facet name="Folderish" />
+			<facet name="Orderable" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : répertoire Ampliation -->
+		<doctype name="AmpliationFolder" extends="OrderedFolder">
+			<schema name="fond_dossier_folder_solon_epg" />
+			<subtypes>
+				<type>AmpliationFichier</type>
+				<type>Folder</type>
+			</subtypes>
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : fichier Ampliation -->
+		<doctype name="AmpliationFichier" extends="File">
+			<schema name="file_solon_epg" />
+			<prefetch></prefetch>
+		</doctype>
+
+
+		<!-- repertoire qui contient le fichier resultat birt -->
+		<doctype name="BirtResultatRoot" extends="Folder" />
+
+
+		<!-- fichier resultat birt -->
+		<doctype name="BirtResultatFichier" extends="Document">
+			<schema name="birt_resultat_fichier" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- repertoire qui contient le fichier refresh birt -->
+		<doctype name="BirtRefreshRoot" extends="Folder" />
+
+		<!-- repertoire qui contient les export pan stats -->
+		<doctype name="ExportPANStatRoot" extends="ExportFolderRoot" />
+
+
+		<!-- fichier resultat birt -->
+		<doctype name="BirtRefreshFichier" extends="Document">
+			<schema name="birt_refresh_fichier" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- export pan stat type -->
+		<doctype name="ExportPANStat" extends="Document">
+			<schema name="export_pan_stat" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- *********************************************************************** 
+			Types de documents de la distribution *********************************************************************** -->
+		<!-- Dossier SOLON EPG -->
+		<doctype name="DossierLink" extends="CaseLink" coretype="DossierLink">
+			<schema name="actionnable_case_link" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Dossier SOLON EPG : Ampliation Fichier -->
+		<doctype name="AmpliationFichier" extends="File">
+			<schema name="file_solon_epg" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- *********************************************************************** 
+			Types de documents divers SOLON EPG *********************************************************************** -->
+
+		<!-- Dossier signale -->
+		<doctype name="DossierSignale" extends="Document" />
+
+		<!-- Profil utilisateur -->
+		<doctype name="ProfilUtilisateur" extends="Document">
+			<schema name="dublincore" />
+			<schema name="profil_utilisateur_solon_epg" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<!-- Parametrage application -->
+		<doctype name="ParametrageApplication" extends="Document">
+			<schema name="dublincore" />
+			<schema name="parametrage_application" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+		
+		<!-- Parametrage adamant -->
+		<doctype name="ParametrageAdamant" extends="Document">
+			<schema name="dublincore" />
+			<schema name="parametrage_adamant" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+		
+		<!-- Parametrage Elastic Search -->
+		<doctype name="ParametreESFolder" extends="OrderedFolder"
+			coreType="ParametreESFolder" />
+
+		<doctype name="ParametreES" extends="Parametre" coreType="ParametreES">
+			<schema name="dublincore" />
+			<schema name="parametre" />
+			<prefetch>
+				parametre.value
+			</prefetch>
+		</doctype>
+
+		<!-- Liste (Traitement Papier) -->
+		<doctype name="ListeTraitementPapier" extends="Document">
+			<schema name="dublincore" />
+			<schema name="liste_traitement_papier_solon_epg" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<doctype name="ListeTraitementPapierRoot" extends="Folder" />
+
+		<!-- *********************************************************************** 
+			Types de documents des espaces collaboratifs *********************************************************************** -->
+		<!-- Modèle de fond de dossier -->
+		<doctype name="AdminWorkspace" extends="Workspace">
+			<facet name="Folderish" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- *********************************************************************** 
+			Types de documents de l'espace d'administration SOLON EPG *********************************************************************** -->
+		<!-- Racine des modèles de feuilles de route -->
+		<doctype name="FeuilleRouteModelFolder" extends="Folder"
+			coretype="FeuilleRouteModelFolder" />
+			
+		<!-- Racine des squelettes de feuilles de route -->
+		<doctype name="FeuilleRouteSqueletteFolder" extends="Folder"
+			coretype="FeuilleRouteModelFolder" />
+
+		<!-- Racine des modèles de parapheur -->
+		<doctype name="ParapheurModelRoot" extends="Folder"
+			coretype="ParapheurModelRoot" />
+
+		<!-- Racine des modèles de fond de dossier -->
+		<doctype name="FondDossierModelRoot" extends="Folder"
+			coretype="FondDossierModelRoot">
+			<schema name="modele_fond_dossier_racine_solon_epg" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Modèle Paramétrage Activité Normative -->
+		<doctype name="ParametrageAnModel" extends="Document">
+			<schema name="activite_normative_parametrage" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Modèle de fond de dossier -->
+		<doctype name="ModeleFondDeDossier" extends="OrderedFolder"
+			coretype="ModeleFondDeDossier">
+			<schema name="modele_fond_dossier_solon_epg" />
+			<subtypes>
+				<type>FondDeDossierFolder</type>
+			</subtypes>
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Modèle de parapheur -->
+		<doctype name="ModeleParapheur" extends="OrderedFolder"
+			coretype="ModeleParapheur">
+			<schema name="modele_parapheur_solon_epg" />
+			<subtypes>
+				<type>ParapheurFolder</type>
+			</subtypes>
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Tables de reference -->
+		<doctype name="TableReference" extends="Document">
+			<schema name="dublincore" />
+			<schema name="table_reference" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<doctype name="ModeParution" extends="Document">
+			<schema name="mode_parution" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<doctype name="TableReferenceRoot" extends="Folder" />
+
+		<!-- Bulletin Officiel -->
+		<doctype name="BulletinOfficiel" extends="Document">
+			<schema name="dublincore" />
+			<schema name="bulletin_officiel" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<doctype name="BulletinOfficielRoot" extends="Folder" />
+
+		<!-- Vecteur Publication -->
+		<doctype name="VecteurPublication" extends="Document">
+			<schema name="vecteur_publication" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<doctype name="VecteurPublicationRoot" extends="Folder" />
+
+		<!-- Gestion de l'indexation -->
+		<doctype name="IndexationRubrique" extends="Document">
+			<schema name="dublincore" />
+			<schema name="indexation_rubrique_solon_epg" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<doctype name="IndexationMotCle" extends="Document">
+			<schema name="dublincore" />
+			<schema name="indexation_mot_cle_solon_epg" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<doctype name="IndexationRoot" extends="Folder" />
+
+
+		<!-- *********************************************************************** 
+			Types de documents de la recherche *********************************************************************** -->
+		<!-- Racine des critères / résultats de recherche d'un utilisateur -->
+		<doctype name="EspaceRechercheRoot" extends="Folder" />
+
+		<!-- Derniers résultats consultés -->
+		<doctype name="ResultatConsulte" extends="Document">
+			<schema name="dublincore" />
+			<schema name="resultat_consulte" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<!-- Favoris de consultation -->
+		<doctype name="FavorisConsultation" extends="Document">
+			<schema name="dublincore" />
+			<schema name="favoris_consultation" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<!-- Dossiers Signales -->
+		<doctype name="DossiersSignales" extends="Document">
+			<schema name="dublincore" />
+			<schema name="dossiers_signales" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<!-- Favoris de recherche -->
+		<doctype name="FavorisRecherche" extends="Document">
+			<schema name="dublincore" />
+			<schema name="favoris_recherche" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<doctype name="TableauDynamique" extends="Document">
+			<schema name="dublincore" />
+			<schema name="tableau_dynamique" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<doctype name="TableauDynamiqueRoot" extends="Folder" />
+
+
+		<doctype name="InfoUtilisateurConnectionRoot" extends="Folder" />
+
+
+
+		<!-- *********************************************************************** 
+			Types de documents de la feuille de route *********************************************************************** -->
+		<!-- Feuille de route -->
+		<doctype name="FeuilleRoute" extends="DocumentRoute">
+			<schema name="feuille_route" />
+			<prefetch></prefetch>
+		</doctype>
+		
+		<!-- Squelette de feuille de route -->
+		<doctype name="FeuilleRouteSquelette" extends="FeuilleRoute">
+		</doctype>
+
+		<!-- Tâche de distribution vers une Mailbox générique -->
+		<doctype name="RouteStep" extends="DocumentRouteStep">
+			<schema name="routing_task" />
+			<facet name="RouteStep" />
+			<facet name="Commentable" />
+			<prefetch></prefetch>
+		</doctype>
+		
+		<!-- Tâche de distribution vers une Mailbox générique pour les squelettes de Fdr -->
+		<doctype name="RouteStepSquelette" extends="RouteStep">
+		</doctype>
+
+		<!-- *********************************************************************** 
+			Types de documents des Mailbox *********************************************************************** -->
+
+		<!-- Mailbox Solon EPG -->
+		<doctype name="SolonEpgMailbox" extends="Document">
+			<schema name="common" />
+			<schema name="dublincore" />
+			<schema name="distribution" />
+			<schema name="mailbox" />
+			<schema name="mailbox_solon_epg" />
+			<facet name="Folderish" />
+			<facet name="Mailbox" />
+		</doctype>
+
+		<!-- *********************************************************************** 
+			Types de documents des demandes de publications webservice *********************************************************************** -->
+		<doctype name="WsSpeRoot" extends="Folder" />
+
+		<doctype name="WsSpe" extends="Document" coretype="WsSpe">
+			<schema name="dublincore" />
+			<schema name="wsSpe" />
+			<prefetch>dc:title, dc:creator, dc:modified</prefetch>
+		</doctype>
+
+		<!-- *********************************************************************** 
+			Types de documents de la Recherche *********************************************************************** -->
+
+		<doctype name="RequeteDossier" extends="Document">
+			<schema name="common" />
+			<schema name="dublincore" />
+			<schema name="requete_dossier" />
+		</doctype>
+
+		<doctype name="RequeteDossierSimple" extends="RequeteDossier">
+			<schema name="common" />
+			<schema name="dublincore" />
+			<schema name="requete_dossier_simple_criteres_principaux" />
+			<schema name="requete_dossier_simple_criteres_secondaires" />
+			<schema name="requete_dossier_simple_criteres_etapes" />
+			<schema name="requete_dossier_simple_texte_integral" />
+		</doctype>
+
+
+		<!-- *********************************************************************** 
+			Types de dossiers signales *********************************************************************** -->
+
+		<!-- répertoire contenant les informations de l'espace collaboratif d'un 
+			utilisateur -->
+		<doctype name="UserWorkspace" extends="Folder" />
+
+		<!-- Le répertoire racine des DossiersSignales -->
+		<doctype name="DossiersSignalesRoot" extends="Folder">
+			<subtypes>
+				<type>DossierSignale</type>
+			</subtypes>
+		</doctype>
+		<!-- Répertoire racine des alertes de l'utilisateur -->
+		<doctype name="AlertRoot" extends="Folder">
+			<subtypes>
+				<type>Alert</type>
+			</subtypes>
+		</doctype>
+
+		<!-- Répertoire racine des requêtes de l'utilisateur -->
+		<doctype name="RequeteRoot" extends="Folder">
+			<subtypes>
+				<type>SmartFolder</type>
+			</subtypes>
+		</doctype>
+
+		<!-- *********************************************************************** 
+			Activité Normative *********************************************************************** -->
+		<doctype name="ActiviteNormativeRoot" extends="Folder" />
+
+		<!-- Mesures de l'activite normative -->
+
+		<doctype name="ActiviteNormative" extends="Document">
+			<schema name="activite_normative" />
+			<schema name="texte_maitre" />
+			<schema name="activite_normative_programmation" />
+			<facet name="Folderish" />
+			<prefetch></prefetch>
+		</doctype>
+		<doctype name="LigneProgrammation" extends="Document">
+			<schema name="ligneProgrammation" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- Mises à jour ministérielles -->
+		<doctype name="MajMinRoot" extends="Folder" />
+
+		<doctype name="MajMinSet" extends="Folder" />
+
+		<doctype name="MajMin" extends="Document">
+			<schema name="maj_ministerielle" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- *********************************************************************** 
+			TexteSignale *********************************************************************** -->
+
+		<doctype name="TexteSignaleRoot" extends="Folder" />
+
+		<!-- Mesures de l'activite normative -->
+		<doctype name="TexteSignale" extends="Document">
+			<schema name="texte_signale" />
+			<prefetch></prefetch>
+		</doctype>
+
+
+		<doctype name="InfoUtilisateurConnection" extends="Document">
+			<schema name="info_utilisateur_connection" />
+			<prefetch></prefetch>
+		</doctype>
+
+		<!-- *********************************************************************** 
+			Racine trash *********************************************************************** -->
+		<doctype name="TrashRoot" extends="Folder" />
+
+
+		<!-- Date effet texte entreprise -->
+		<doctype name="DateEffet" extends="Document">
+			<schema name="dateEffet" />
+			<prefetch></prefetch>
+		</doctype>
+
+	</extension>
+
+
+
+</component>

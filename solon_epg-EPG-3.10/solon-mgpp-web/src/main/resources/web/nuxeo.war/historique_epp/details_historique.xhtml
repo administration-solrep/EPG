@@ -1,0 +1,92 @@
+  <div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich">
+  
+  <nxu:set var="currentEvenement" value="#{historiqueEppTree.selectedEvenement}" cache="true">
+    <c:if test="#{currentEvenement != null}">
+      <div>
+        <h:commandButton class="button" value="#{messages['label.mgpp.close']}" action="#{historiqueEppTree.setSelectedEvenement(null)}"/>
+      </div>
+      <div class="subbodyContainer" style="padding: 5px;">
+        <div class="foldableBox" > 
+          <h3 class="folded">
+            <a href="#nologo" onclick="return toggleBox(this)">Détails historique : #{historiqueEppTree.currentItem.label}</a>
+          </h3>
+          <div class="boxBody">
+            <table width="100%" style="border-collapse: collapse;">
+              <tr>
+                <td style="width: 80%;">
+                  <!-- layout de metadonnées -->
+                    <nxl:layout value="#{currentEvenement}" mode="view" name="historique_metadonnees_evenement" />
+                  <!-- Pieces jointe -->
+                  <table class="dataInput">
+                    <tbody>
+                      <nxu:set var="typeList" value="#{pieceJointeActions.getListTypePieceJointe(currentEvenement)}" cache="true">
+                        <c:forEach var="pieceJointeType" items="#{typeList}">
+                          <tr>
+                            <td class="labelColumn">
+                              <h:outputText value="#{pieceJointeActions.getPieceJointeType(pieceJointeType)}" />
+                            </td>
+                            <td>
+                              <ui:include src="/widgets/listing/metadonnees/piece_jointe_widget_template.xhtml" />
+                            </td>
+                          </tr>
+                        </c:forEach>
+                      </nxu:set>
+                    </tbody>
+                  </table>
+                </td>
+                <td style="width: 20%; vertical-align: top; border-left: 1px solid #F2F2DD; padding-left: 10px;">
+                  <div style="border: 1px solid #F2F2DD; width: 50px;">
+                    <nxu:set var="versionDisponible" value="#{currentEvenement.versionDisponible}" cache="true">
+                      <c:forEach var="version" items="#{versionDisponible}" varStatus="status">
+                        <nxu:set var="dateAr" value="#{metadonneesActions.formatDate(version.dateAr)}">
+                          <nxu:set var="etat" value="#{version.etat}">
+                            <c:set var="divClass" value="#{nxu:test(nxu:concat(nxu:concat(version.majeur, '.'),version.mineur) eq nxu:concat(nxu:concat(currentEvenement.versionCourante.majeur, '.'),currentEvenement.versionCourante.mineur), 'dataRowSelected', '')}" />
+                            <div class="#{divClass}" style="padding-left: 5px;padding-right: 10px;">
+                              <table>
+                                <tr>
+                                  <td>
+                                    <c:choose>
+                                      <c:when test="#{etat == 'REJETE'}">
+                                          <s>
+                                            <h:commandLink action="#{corbeilleActions.setCurrentVersion(version.majeur, version.mineur)}" immediate="true"
+                                              value="#{nxu:concat(nxu:concat(version.majeur, '.'),version.mineur)}" id="version_metadonnees_#{status.index}"/>
+                                          </s>
+                                      </c:when>
+                                      <c:otherwise>
+                                            <h:commandLink action="#{corbeilleActions.setCurrentVersion(version.majeur, version.mineur)}" immediate="true"
+                                              value="#{nxu:concat(nxu:concat(version.majeur, '.'),version.mineur)}" id="version_metadonnees_#{status.index}"/>
+                                      </c:otherwise>
+                                     </c:choose>
+                                  </td>
+                                  <td>
+                                    <c:if test="#{not empty dateAr}">
+                                      <h:graphicImage value="/icons/task.png" alt="#{dateAr}" title="#{dateAr}" />
+                                    </c:if>
+                                  </td>
+                                 </tr>
+                               </table>
+                            </div>
+                          </nxu:set>
+                        </nxu:set>
+                      </c:forEach>
+                    </nxu:set>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+       </div>
+     </c:if>
+   </nxu:set>
+  </div>
+  

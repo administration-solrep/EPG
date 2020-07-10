@@ -1,0 +1,49 @@
+<f:subview
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  id="#{layout.id}">
+
+  <c:set var="isEditMode" value="#{nxl:isBoundToEditMode(layout.mode)}" />
+  <style>
+  	.simpleLayout {
+  		width : 100%;
+  	} 
+  </style>
+
+  <table class="simpleLayout">
+    <tbody>
+
+      <nxl:layoutRow>
+        <tr>
+          <nxl:layoutRowWidget>
+          	<c:if test="#{not empty widget.label}">
+	            <c:choose>
+	              <c:when test="#{widget.translated}">
+	                <td class="labelColumn">
+	                  <h:outputText value="#{messages[widget.label]}"
+	                    styleClass="#{nxu:test(widget.required and isEditMode, 'required', '')}" />
+	                </td>
+	              </c:when>
+	              <c:otherwise>
+	                <td class="labelColumn">
+	                  <h:outputText value="#{widget.label}"
+	                    styleClass="#{nxu:test(widget.required and isEditMode, 'required', '')}" />
+	                </td>
+	              </c:otherwise>
+	            </c:choose>
+            </c:if>
+            <td class="fieldColumn">
+              <nxl:widget widget="#{widget}" value="#{value}" />
+            </td>
+          </nxl:layoutRowWidget>
+        </tr>
+      </nxl:layoutRow>
+
+    </tbody>
+  </table>
+
+</f:subview>

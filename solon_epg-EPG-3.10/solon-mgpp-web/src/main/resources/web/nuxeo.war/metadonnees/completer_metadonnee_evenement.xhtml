@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory">
+
+  <ui:define name="page title">
+    <h:outputText value="Complétion communication" />
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:include src="/incl/message_banner.xhtml" />
+    <div>
+      <h:form id="evenement_metadonnees" enctype="multipart/form-data">
+        <a4j:region id="documentViewRegion">
+    
+          <a4j:outputPanel id="documentViewPanel">
+            <div style="clear: both;"></div>
+    
+            <div class="foldableBox">
+              <h3 class="folded">
+                <a href="#nologo" onclick="return toggleBox(this)">
+                  <h:outputText value="Complétion communication : #{evenementCreationActions.getCurrentTypeLibelle()}" />
+                </a>
+              </h3>
+              <div class="boxBody">
+                <table width="100%" style="border-collapse: collapse;">
+                  <tr>
+                    <td style="width: 80%;">
+                      <!-- layout de metadonnées -->
+                       <nxu:set var="currentEvenement" value="#{navigationContext.currentEvenement}" cache="true">
+                          <nxl:layout value="#{currentEvenement}" mode="edit" name="metadonnees_evenement" />
+                          <a4j:outputPanel id="pieceJointePanel" ajaxRendered="false" >
+                            <!-- Pieces jointe -->
+                            <table class="dataInput">
+                              <tbody>
+                                 <nxu:set var="typeList" value="#{pieceJointeActions.getListTypePieceJointe()}" cache="true">
+                                  <c:forEach var="pieceJointeType" items="#{typeList}">
+                                    <nxu:set var="descriptor" value="#{evenementCreationActions.getDescriptor(pieceJointeType)}" cache="true">
+                                      <tr>
+                                        <td class="labelColumn">
+                                          <h:outputText value="#{pieceJointeActions.getPieceJointeType(pieceJointeType)}" styleClass="#{nxu:test(descriptor.isObligatoire(), 'required', '')}"/>
+                                        </td>
+                                        <td>
+                                          <ui:include src="/metadonnees/completer_piece_jointe.xhtml" />
+                                        </td>
+                                      </tr>
+                                    </nxu:set>
+                                  </c:forEach>
+                                </nxu:set>
+                              </tbody>
+                            </table>
+                          </a4j:outputPanel>
+                      </nxu:set>
+                    </td>
+                  </tr>
+                </table>
+                <div class="menuContextuelStyle">
+                   <!-- Menu pour télécharger une piece jointe -->                    
+                   <rich:contextMenu attached="false" id="menuPieceJointe" submitMode="ajax">
+                       <rich:menuItem ajaxSingle="true" immediate="true" target="_blank" submitMode="server" value="#{messages['menu.telecharger.fichier']}" onmouseover="selected(this);" action="#{pieceJointeActions.getFile()}">
+                            <a4j:actionparam assignTo="#{pieceJointeActions.indexFichier}"  name="indexFichier" value="{indexFichier}"/>
+                            <a4j:actionparam assignTo="#{pieceJointeActions.indexPJ}"  name="indexPJ" value="{indexPJ}"/>
+                            <a4j:actionparam assignTo="#{pieceJointeActions.typePJ}"  name="typePJ" value="{typePJ}"/>
+                       </rich:menuItem>
+                   </rich:contextMenu>
+                 </div>
+              </div>
+              <h:outputText value=" " />
+              <h:commandButton class="button" value="#{messages['label.completer.evenement.publier']}" action="#{evenementCreationActions.saveCompleterEvenement(true)}" >
+                <a4j:support event="onclick" eventsQueue="ajax_events_queue" > 
+                  <a4j:actionparam name="publier" value="true" assignTo="#{evenementCreationActions.publier}"/>
+                </a4j:support>
+              </h:commandButton>
+              <h:outputText value=" " />
+              <h:commandButton class="button" value="#{messages['label.completer.evenement.enregistrer']}" action="#{evenementCreationActions.saveCompleterEvenement(false)}" >
+                <a4j:support event="onclick" eventsQueue="ajax_events_queue" >
+                  <a4j:actionparam name="publier" value="false" assignTo="#{evenementCreationActions.publier}"/>
+                </a4j:support>
+              </h:commandButton>
+              <h:outputText value=" " />
+              <h:commandButton class="button" value="#{messages['label.completer.evenement.annuler']}" action="#{evenementCreationActions.cancelCompleterEvenement()}"  onclick="return confirmCancel(event);" bypassUpdates="true" immediate="true"/>
+            </div>
+    
+          </a4j:outputPanel>
+        </a4j:region>
+      </h:form>
+      <ui:include src="/metadonnees/edit_piece_jointe_fichier.xhtml" />
+      <ui:include src="/metadonnees/edit_piece_jointe_fichier_fdd.xhtml" />
+      <ui:include src="/metadonnees/edit_piece_jointe_fichier_parapheur.xhtml" />
+    </div>
+  </ui:define>
+</nxthemes:composition>

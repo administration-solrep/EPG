@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:rich="http://richfaces.org/rich">
+
+
+	<ui:define name="page title">
+		<c:choose>
+			<c:when test="#{archivageActions.isAccessAdamantAuthorized()}">
+				<h:outputText value="#{messages['message.archivage.adamant.title']}" />
+			</c:when>
+			<c:otherwise>
+				<h:outputText
+					value="#{nuxeoApplicationName} - #{messages['command.espaceNonAutorise']}" />
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="body">
+
+			<c:if test="#{archivageActions.isAccessAdamantAuthorized()}">
+				<ui:include src="/incl/message_banner.xhtml" />
+				<h3>
+					<h:outputText styleClass="label"
+						value="#{messages['message.archivage.adamant.title']}" />
+				</h3>
+
+				<div id="upperContentView">
+					<div id="content">
+						<a4j:outputPanel id="archivageAdamantPanel">
+						<div id="archivageAdamantContent">
+
+							<nxl:layout value="#{archivageActions}" mode="view"
+								name="info_eligibilite_adamant" />
+
+							<a4j:region id="archivageAdamantMainRegion">
+								<h:form id="eligibilite_adamant_form"
+									enctype="multipart/form-data" class="form">
+
+									<nxl:layout value="#{archivageActions}" mode="create"
+										name="eligibilite_adamant" />
+
+									<nxu:set var="startDate" value="#{archivageActions.startDate}">
+										<nxu:set var="endDate" value="#{archivageActions.endDate}">
+											<a4j:commandButton styleClass="button" id="button_extraction"
+												value="#{messages['label.archivage.adamant.extraire.btn']}"
+												action="true"
+												oncomplete="if(#{not empty startDate and not empty endDate}) Richfaces.showModalPanel('validationPourExtractionModalPanel');"
+												reRender="archivageAdamantPanel" />
+										</nxu:set>
+									</nxu:set>
+									<a4j:status for="archivageAdamantMainRegion">
+										<f:facet name="start">
+											<h:graphicImage value="/img/standart_waiter.gif"
+												style="position: absolute;" />
+										</f:facet>
+									</a4j:status>
+
+								</h:form>
+
+							</a4j:region>
+
+							<a4j:outputPanel id="ValidationPourExtractionA4JPanel">
+								<ui:include
+									src="/admin/archivage/view_validation_pour_extraction_adamant.xhtml" />
+							</a4j:outputPanel>
+
+						</div>
+					</a4j:outputPanel>
+					</div>
+				</div>
+			</c:if>
+	</ui:define>
+</nxthemes:composition>

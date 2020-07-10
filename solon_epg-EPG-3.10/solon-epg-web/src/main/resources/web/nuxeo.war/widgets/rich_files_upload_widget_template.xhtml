@@ -1,0 +1,87 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich" 
+  xmlns:a4j="http://richfaces.org/a4j"
+  id="#{widget.id}">
+  
+  
+  <c:if test="#{widget.mode == 'edit'}">
+
+  <c:set var="maxFilesQuantity" value="#{nxu:test(!empty widget.properties.maxFilesQuantity, widget.properties.maxFilesQuantity, '100')}" />
+  <c:set var="listHeight" value="#{nxu:test(!empty widget.properties.listHeight, widget.properties.listHeight, '60')}" />
+  <c:set var="listWidth" value="#{nxu:test(!empty widget.properties.listWidth, widget.properties.listWidth, '300')}" />
+  
+  <!-- libellés du composant fileUpload -->
+  <c:set var="doneLabel" value="#{nxu:test(!empty widget.properties.doneLabel, widget.properties.doneLabel, 'Téléchargement effectué')}" />
+  <c:set var="addControlLabel" value="#{nxu:test(!empty widget.properties.addControlLabel, widget.properties.addControlLabel, 'Ajouter Fichier')}" />
+  <c:set var="clearAllControlLabel" value="#{nxu:test(!empty widget.properties.clearAllControlLabel, widget.properties.clearAllControlLabel, 'Supprimer')}" />
+  <c:set var="clearControlLabel" value="#{nxu:test(!empty widget.properties.clearControlLabel, widget.properties.clearControlLabel, 'Supprimer')}" />
+  
+  <h:outputText value="Feuilles de styles temporaire"/>
+  
+  <div>
+			<!-- liste permettant d'uploader de nouveau fichiers -->
+			<rich:fileUpload  id="uploadFeuilleStyle"
+				fileUploadListener="#{parapheurModelManagerActions.fileUploadListener}"
+				maxFilesQuantity="#{maxFilesQuantity}"
+				listHeight="#{listHeight}" listWidth="#{listWidth}"
+				doneLabel="#{doneLabel}" addControlLabel="#{addControlLabel}" 
+				clearAllControlLabel="#{clearAllControlLabel}" clearControlLabel="#{clearControlLabel}"
+				immediateUpload="true" eventsQueue="editParapheurQueue">
+            <a4j:support event="onclear" reRender="errorName"  eventsQueue="editParapheurQueue">
+               <a4j:actionparam  name="fname" noEscape="true" value="(event.memo.entry)?event.memo.entry.fileName:'' "
+                   assignTo="#{parapheurModelManagerActions.currentFileName}"
+                   actionListener="#{parapheurModelManagerActions.clearUploadData}"  />
+            </a4j:support>
+            <a4j:support event="onuploadcomplete" reRender="errorName" eventsQueue="editParapheurQueue" />
+			</rich:fileUpload>
+	</div>
+	
+	<!-- error message -->
+	<div >
+		<h:outputText class="msgError" id="errorName" value="#{parapheurModelManagerActions.errorName}" />
+	</div>
+				
+	<!-- liste affichant les fichiers déjà téléchargé avec possibilité de supression  -->
+ <a4j:outputPanel id="filesListPanel">
+ <!-- on affiche ce champ uniquement si un modèle est sélectionné -->
+ <f:subview  rendered="#{parapheurModelManagerActions.currentModelRepository.parapheur_folder_solon_epg.feuilleStyleFiles != null and parapheurModelManagerActions.currentModelRepository.parapheur_folder_solon_epg.feuilleStyleFiles.size() >0}">
+
+	 	<h:outputText value="Feuilles de styles enregistrées"/>
+	 	 <div style="height: 140px; width: 250px; overflow: auto;">
+     	
+     		<!-- listes des fichiers  -->
+         <nxu:inputList id="#{widget.id}_list" value="#{parapheurModelManagerActions.currentModelRepository.parapheur_folder_solon_epg.feuilleStyleFiles}" model="model"
+           required="#{widget.required}">
+           <h:panelGroup id="#{widget.id}_listItem">
+             <h:panelGrid columns="2">
+             <h:panelGroup>
+             	<!-- bouton de supression -->
+               <a4j:commandLink
+                 actionListener="#{parapheurModelManagerActions.deleteCurrentModelFichier(model.rowData)}" eventsQueue="editParapheurQueue"
+                 id="#{widget.id}_delete" reRender="filesListPanel"
+                 >
+                 <h:graphicImage value="/icons/action_delete.gif" />
+                 <f:param name="for" value="#{widget.id}_list" />
+                 <f:param name="index" value="#{model.rowIndex}" />
+               </a4j:commandLink>
+               </h:panelGroup>
+               <h:panelGroup>
+              <!-- lien vers le fichier  -->
+					   	<nxh:outputLink value="#{nxd:complexFileUrl('downloadFile', parapheurModelManagerActions.currentModelRepository,'parapheur_folder_solon_epg:feuilleStyleFiles',model.rowIndex,'file', parapheurModelManagerActions.currentModelRepository.parapheur_folder_solon_epg.feuilleStyleFiles[model.rowIndex].filename)}">
+	              <nxh:outputText value="#{parapheurModelManagerActions.displayFileName(parapheurModelManagerActions.currentModelRepository.parapheur_folder_solon_epg.feuilleStyleFiles[model.rowIndex].filename)}" />
+	            </nxh:outputLink>
+             </h:panelGroup>
+            </h:panelGrid>
+           </h:panelGroup>
+         	</nxu:inputList>
+         <h:message styleClass="errorMessage" for="#{widget.id}_list"
+           id="#{widget.id}_message" />
+       </div>
+			</f:subview>
+		</a4j:outputPanel>
+	</c:if>
+</f:subview>

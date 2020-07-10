@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} - #{messages['title.search.results']}"/>
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:include src="/incl/message_banner.xhtml"/>
+
+    <div id="content">
+      <div id="upperContentView">
+        <nxu:set var="contentViewName" value="recherche_modele_feuille_route_resultat">
+          <nxu:set var="contentView" value="#{contentViewActions.getContentViewWithProvider('recherche_modele_feuille_route_resultat')}" cache="true">
+            <h:form id="smartSearchResultsActions">
+              <table width="100%">
+                <tr>
+                  <td>
+                    <h:commandButton id="edit_search"
+                      value="#{messages['command.editSmartSearch']}"
+                      action="view_espace_recherche_fdr"
+                      immediate="true"
+                      styleClass="button" />
+                  </td>
+                  <td style="padding-left:40px;" width="100%">
+                    <h4>#{messages['label.smart.search.results']} "#{rechercheModeleFeuilleRouteActions.searchQueryStringForDisplay}"</h4>            
+                  </td>
+                </tr>
+              </table>
+            </h:form>
+            <ui:decorate template="/incl/content_view.xhtml">
+              <ui:define name="content_view_header_before_selector" />
+            </ui:decorate>
+          </nxu:set>
+        </nxu:set>
+      </div>
+    </div>
+    <ui:include src="/recherche/fdr_upper_panel_toggle.xhtml" />
+  </ui:define>
+  
+  <ui:define name="subbody">
+    <c:if test="#{currentDocument != null and currentDocument.getType() == 'FeuilleRoute'}">
+      <div class="subbodyContainer">
+        <h:panelGroup>
+          <h1>
+            <h:outputText value="#{nxd:titleOrId(currentDocument)}"/>
+          </h1>
+        </h:panelGroup>
+        
+        <div style="clear:both"></div>
+        
+        <ui:include src="/feuilleroute/view_modele_feuille_route_body.xhtml" />
+      </div>
+    </c:if>
+  </ui:define>
+</nxthemes:composition>

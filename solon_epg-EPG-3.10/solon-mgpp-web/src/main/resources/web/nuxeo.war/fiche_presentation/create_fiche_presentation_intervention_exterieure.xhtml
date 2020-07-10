@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory">
+
+  <ui:define name="page title">
+    <h:outputText value="Création fiche présentation de l'intervention extérieure" />
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:include src="/incl/message_banner.xhtml" />
+    <div> 
+      <h:form id="create_fpie" enctype="multipart/form-data">
+      
+        <a4j:region id="documentViewRegion">
+          <nxu:set var="fichePresentationDoc" value="#{fichePresentationIEActions.ficheIECreation}" cache="true">
+            <h3>Fiche présentation de l'intervention extérieure</h3>
+            <nxl:layout value="#{fichePresentationDoc}" mode="edit" name="fiche_presentation_intervention_exterieure" />
+            <h:commandButton class="button" value="#{messages['label.fiche.dossier.save']}"  action="#{fichePresentationIEActions.saveCreationIE()}" />
+            <h:outputText value=" " />
+            <h:commandButton class="button" value="#{messages['label.fiche.dossier.cancel']}"  action="#{fichePresentationIEActions.cancelCreationIE()}" immediate="true" onclick="return confirmCancel(event);"/>
+            <h:outputText value=" " />
+         </nxu:set>
+        </a4j:region>
+      </h:form>
+    </div>
+ </ui:define>
+</nxthemes:composition>

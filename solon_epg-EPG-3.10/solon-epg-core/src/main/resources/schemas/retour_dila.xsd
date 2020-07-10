@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://dila.fr/solon/schemas/retour_dila/"
+	xmlns:retdila="http://dila.fr/solon/schemas/retour_dila/">
+
+	<!-- on inclut le schema contenant la definition de xs:stringList -->
+	<xs:include schemaLocation="base.xsd" />
+
+	<!-- *********************************************************************** 
+		Info Retour Dila *********************************************************************** -->
+
+	<!-- Champ technique pour savoir si la première demande "Pour Epreuvage 
+		/ Pour Publication" a déjà été envoyée -->
+	<xs:element name="isPublicationEpreuvageDemandeSuivante"
+		type="xs:boolean" default="0" />
+
+	<!-- Date de Promulgation -->
+	<xs:element name="datePromulgation" type="xs:date" />
+
+	<!-- Titre Officiel -->
+	<xs:element name="titreOfficiel" type="xs:string" />
+
+	<!-- Legislature de publication -->
+	<xs:element name="legislaturePublication" type="xs:string" />
+
+	<!-- date Parution Journal officiel republique francaise (JORF): -->
+	<xs:element name="dateParutionJorf" type="xs:dateTime" />
+
+	<!-- numero texte parution JORF -->
+	<xs:element name="numeroTexteParutionJorf" type="xs:string" />
+
+	<!-- page parution JORF -->
+	<xs:element name="pageParutionJorf" type="xs:int" />
+
+	<!-- mode Parution : champ obligatoire : Electronique / Mixte / Papier -->
+	<xs:element name="modeParution" type="xs:string" />
+
+	<!-- champ parution BO -->
+	<xs:element name="parutionBo" type="retdila:parutionBoList" />
+
+	<!-- définition du Champ complexe : directives Europeennes -->
+	<xs:complexType name="parutionBoList">
+		<xs:sequence>
+			<xs:element name="parutionBo" type="retdila:parutionBo"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- type champ parution BO -->
+	<xs:complexType name="parutionBo">
+		<xs:sequence>
+			<xs:element name="dateParutionBo" type="xs:dateTime" />
+			<xs:element name="numeroTexteParutionBo" type="xs:string" />
+			<xs:element name="pageParutionBo" type="xs:int" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

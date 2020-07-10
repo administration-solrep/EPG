@@ -1,0 +1,3 @@
+ALTER TABLE "FICHE_PRESENTATION_DR" ADD rapportParlement NVARCHAR2(2000);
+
+commit;

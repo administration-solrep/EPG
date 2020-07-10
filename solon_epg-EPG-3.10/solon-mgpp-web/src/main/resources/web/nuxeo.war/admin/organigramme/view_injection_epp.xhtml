@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxdir="http://nuxeo.org/nxdirectory"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	<ui:define name="page title">
+		<h:outputText value="#{nuxeoApplicationName}" />
+	</ui:define>
+
+	<ui:define name="body">
+
+		<h1>
+			<h:outputText
+				value="#{messages['ss.organigramme.injection.apercu.title']}" />
+		</h1>
+		<br />
+
+		<style>
+.change {
+	color: red;
+	text-align: center;
+}
+
+.modification {
+	color: red;
+}
+</style>
+		<ui:include src="/incl/message_banner.xhtml" />
+
+		<a4j:outputPanel id="injection_outputPanel">
+			<c:choose>
+				<c:when test="#{organigrammeInjectionActions.checkInjection()}">
+					
+					<c:choose>
+						<c:when test="#{organigrammeInjectionActions.hasInjectionEventError()}">
+									
+							<h:form>
+								<h:outputText value="#{messages['ss.organigramme.injection.ajout.echec']} "
+									style="font-weight:bold;color:#ff0000" /><br/>
+								<h:outputText value="Raison : "/>
+								<h:outputText value="#{organigrammeInjectionActions.getInjectionErrorMessage()}"/><br/><br/>
+								<nxh:commandButton action="#{organigrammeInjectionActions.cancelInjection}" value="retour" styleClass="button"/>
+									
+							</h:form>
+						</c:when>
+						<c:otherwise>
+							<h:graphicImage value="/img/big_loading.gif"
+								title="#{messages['wait.injectiong.epp']}"
+								alt="#{messages['wait.injectiong.epp']}"
+								longdesc="#{messages['wait.injectiong.epp']}" />
+							<br />
+							<h:outputText value="#{messages['wait.injectiong.epp']} "
+								style="font-weight:bold;color:#2f57b1" />
+						</c:otherwise>
+					</c:choose>
+					
+					<h:form>
+						<a4j:poll id="refreshInjection_poll" interval="1000"
+							limitToList="true" enabled="#{not organigrammeInjectionActions.hasInjectionEventError()}"
+							reRender="refreshInjection_poll,injection_outputPanel" />
+					</h:form>
+				</c:when>
+				<c:otherwise>
+					<br />
+					<span
+						onmouseover="tooltip.show('Les éléments sont présentés selon le modèle ci-dessous :&lt;br /&gt;Libellé court (Ordre protocolaire Solon) [Ordre protocolaire Reponses]&lt;br /&gt;Libellé long&lt;br /&gt;Formules entête&lt;br /&gt;Civilité Prénom Nom&lt;br /&gt;Date de début - Date de fin', 300);"
+						onmouseout="tooltip.hide();"> <h:graphicImage
+							value="/icons/lightbulb.png" />
+					</span>
+					<h:form id="viewInjectionForm">
+						<div id="containerTabDiv"
+							style="overflow-x: auto; overflow-y: hidden;">
+
+							<!-- Affichage pour le gouvernement -->
+							<h:dataTable var="currentGouv"
+								value="#{organigrammeInjectionActions.getNewGovernment()}"
+								class="dataOutput" rowClasses="dataRowEven,dataRowOdd">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Nom du nouveau Gouvernement" />
+									</f:facet>
+									<h:outputText value="#{currentGouv.libelleLong}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Date de début du gouvernement" />
+									</f:facet>
+									<h:outputText value="#{currentGouv.dateDeDebut}"
+										converter="DateConverter" />
+								</h:column>
+							</h:dataTable>
+
+							<!-- Affichage pour les ministères -->
+							<h:dataTable var="currentComparaison"
+								value="#{organigrammeInjectionActions.getListComparedWithoutGovernment()}"
+								class="dataOutput" rowClasses="dataRowEven,dataRowOdd">
+
+								<!-- Données actuelles -->
+								<h:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['ss.organigramme.injection.organigramme.modifie']}" />
+									</f:facet>
+									<h:outputText
+										value="#{currentComparaison.baseGvt.nor} (#{currentComparaison.baseGvt.ordreProtocolaireSolon}) [#{currentComparaison.baseGvt.ordreProtocolaireReponses}]"
+										rendered="#{not empty currentComparaison.baseGvt.nor}" />
+									<br />
+									<h:outputText
+										value="#{currentComparaison.baseGvt.libelleCourt}" />
+									<h:outputText value=" - "
+										rendered="#{not empty currentComparaison.baseGvt.libelleCourt}" />
+									<h:outputText value="#{currentComparaison.baseGvt.libelleLong}" />
+									<br />
+									<h:outputText value="#{currentComparaison.baseGvt.formule}" />
+									<br />
+									<h:outputText value="#{currentComparaison.baseGvt.prenomNom}" />
+									<br />
+									<h:outputText value="#{currentComparaison.baseGvt.dateDeDebut}"
+										converter="DateConverter" />
+									<h:outputText value=" - "
+										rendered="#{not empty currentComparaison.baseGvt.dateDeDebut}" />
+									<h:outputText value="#{currentComparaison.baseGvt.dateDeFin}"
+										converter="DateConverter" />
+									<br />
+								</h:column>
+
+								<!-- Comparaison -->
+								<h:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['ss.organigramme.injection.organigramme.type']}" />
+									</f:facet>
+									<h:outputText styleClass="modification"
+										value="#{currentComparaison.modification}" />
+								</h:column>
+
+								<!-- Nouvelles données -->
+								<h:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['ss.organigramme.injection.organigramme.modifie.ministere']}" />
+									</f:facet>
+									<h:outputText
+										value="#{currentComparaison.importedGvt.libelleLong}"
+										rendered="#{currentComparaison.hasNewMinistere()}" />
+									<br />
+									<h:outputText value="#{currentComparaison.importedGvt.formule}"
+										rendered="#{currentComparaison.hasNewMinistere()}" />
+									<br />
+									<h:outputText
+										value="#{currentComparaison.importedGvt.libelleCourt} - #{currentComparaison.importedGvt.libelleLong}"
+										rendered="#{currentComparaison.hasNewMinistere()}" />
+									<br />
+									<h:outputText
+										value="#{currentComparaison.importedGvt.dateDeDebut}"
+										converter="DateConverter"
+										rendered="#{currentComparaison.hasNewMinistere()}" />
+									<br />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['ss.organigramme.injection.organigramme.modifie.mandat']}" />
+									</f:facet>
+									<h:outputText
+										value="#{currentComparaison.importedGvt.libelleLong}"
+										rendered="#{currentComparaison.hasNewMandat()}" />
+									<br />
+									<h:outputText
+										value="#{organigrammeInjectionActions.getMandatType(currentComparaison.importedGvt)}"
+										rendered="#{currentComparaison.hasNewMandat()}" />
+									<br />
+									<h:outputText
+										value="#{currentComparaison.importedGvt.dateDeDebut}"
+										converter="DateConverter"
+										rendered="#{currentComparaison.hasNewMandat()}" />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{messages['ss.organigramme.injection.organigramme.modifie.identite']}" />
+									</f:facet>
+									<h:outputText
+										value="#{currentComparaison.importedGvt.civilite}"
+										rendered="#{currentComparaison.hasNewIdentite()}" />
+									<br />
+									<h:outputText
+										value="#{currentComparaison.importedGvt.prenomNom}"
+										rendered="#{currentComparaison.hasNewIdentite()}" />
+									<br />
+									<h:outputText
+										value="#{currentComparaison.importedGvt.dateDeDebut}"
+										converter="DateConverter"
+										rendered="#{currentComparaison.hasNewIdentite()}" />
+								</h:column>
+
+							</h:dataTable>
+							<script>
+								resize();
+							</script>
+						</div>
+
+						<nxh:commandButton
+							action="#{organigrammeInjectionActions.executeInjectionEPP}"
+							value="#{messages['command.global.validate']}"
+							styleClass="button"
+							onclick="return confirm('Êtes-vous sûr de vouloir faire les ajouts ?');" />
+						<nxh:commandButton
+							action="#{organigrammeInjectionActions.cancelInjection}"
+							value="#{messages['command.global.cancel']}" styleClass="button" />
+					</h:form>
+
+					<script>
+						var j = jQuery.noConflict();
+						j(document).ready(function() {
+							window.onresize = resize;
+							resize();
+						});
+					</script>
+				</c:otherwise>
+			</c:choose>
+		</a4j:outputPanel>
+
+	</ui:define>
+</nxthemes:composition>

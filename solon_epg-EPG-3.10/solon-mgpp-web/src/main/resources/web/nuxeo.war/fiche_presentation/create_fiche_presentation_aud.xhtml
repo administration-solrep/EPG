@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory">
+
+  <ui:define name="page title">
+    <h:outputText value="Création fiche demande d'audition" />
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:include src="/incl/message_banner.xhtml" />
+    <style>
+        .errorMessage{
+          width:150px !important;
+        }
+    </style>
+    <div> 
+      <h:form id="create_fpaud" enctype="multipart/form-data">
+      
+          <nxu:set var="layoutMode" value="edit'" cache="true">
+            <nxu:set var="fichePresentationDoc" value="#{fichePresentationAUDActions.fiche}" cache="true">
+              <h3>Fiche organisme demande d'audition</h3>
+              <nxl:layout value="#{fichePresentationDoc}" mode="#{layoutMode}" name="fiche_presentation_aud" />
+              
+              <h3>Liste des personnes à auditionner</h3>
+              <a4j:outputPanel id="personneA4J" >
+                <nxu:set var="personnes" value="#{fichePresentationAUDActions.fetchPersonnesAUD()}" cache="true">
+                  <table class="dataOutput">
+                    <thead>
+                      <tr>
+                        <th><h:outputText value="#{messages['label.mgpp.audition']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.audition.fonction']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.audition.dateDebut']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.audition.dateFin']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.audition.dateAuditionAN']}"/></th>
+                        <th><h:outputText value="#{messages['label.mgpp.audition.dateAuditionSE']}"/></th>
+                        <th><h:outputText value=" "/></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <c:forEach var="personne" items="#{personnes}" varStatus="status">
+                        <nxl:layout value="#{personne}" mode="#{layoutMode}" name="personne_AUD" />
+                      </c:forEach>
+                    </tbody>
+                   </table>
+                   <table>
+                     <tbody>
+                      <tr>
+                        <td>
+                          <h:outputText value="#{personnes.size} #{messages['label.mgpp.audition']}" 
+                            style="color:#757575;font-size: 13px; font-weight: bold;vertical-align=top;" rendered="#{personnes.size lt 2}"/>
+                          <h:outputText value="#{personnes.size} #{messages['label.mgpp.audition']}s" 
+                            style="color:#757575;font-size: 13px; font-weight: bold;vertical-align=top;" rendered="#{personnes.size gt 1}"/>
+                        </td>
+                       <td>
+                        <a4j:commandButton reRender="personneA4J" eventsQueue="ajax_events_queue" styleClass="button" value="#{messages['label.fiche.dossier.addPersonne']}" 
+                          action="#{fichePresentationAUDActions.ajouterNouvellePersonne()}" immediate="true"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </nxu:set>
+              </a4j:outputPanel>
+              
+              <h:commandButton class="button" value="#{messages['label.fiche.dossier.save']}"  action="#{fichePresentationAUDActions.saveCreationAUD()}" />
+              <h:outputText value=" " />
+              <h:commandButton class="button" value="#{messages['label.fiche.dossier.cancel']}"  action="#{fichePresentationAUDActions.cancelCreationAUD()}" immediate="true" onclick="return confirmCancel(event);"/>
+              <h:outputText value=" " />
+           </nxu:set>
+         </nxu:set>
+      </h:form>
+    </div>
+ </ui:define>
+</nxthemes:composition>

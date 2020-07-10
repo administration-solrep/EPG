@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.elastic.batch.IndexationSchedulerRegistryService">
+
+  <documentation>
+     Dérivé de la définition nxscheduler-service.xml ; on exploite les mêmes tables, une
+     instance différence du scheduler.
+
+     Nécessaire pour s'assurer qu'une seule instance du job tourne sur le cluster.
+  </documentation>
+
+
+  <service>
+    <provide interface="fr.dila.solonepg.elastic.batch.IndexationSchedulerRegistry" />
+  </service>
+
+  <implementation class="fr.dila.solonepg.elastic.batch.IndexationSchedulerRegistryService" />
+
+  <extension-point name="schedule">
+
+    <object class="org.nuxeo.ecm.platform.scheduler.core.service.ScheduleImpl"/>
+
+  </extension-point>
+
+</component>

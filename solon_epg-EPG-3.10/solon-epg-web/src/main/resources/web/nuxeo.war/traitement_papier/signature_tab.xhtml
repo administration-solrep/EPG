@@ -1,0 +1,129 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout">
+	 
+  <div style="clear:both;"></div>
+  
+  <h:form id="papierForm" enctype="multipart/form-data">
+    <h:commandButton id="idSavePapierButton" value="Enregistrer" style="visibility: hidden;"
+          	action="#{papierActions.saveTraitementPapier(currentDocument)}" />
+         
+    <nxu:set var="layoutMode" value="#{lockActions.getCanUnlockDoc(currentDocument)  and papierActions.canCurrentUserWrite()  ?'edit':'view'}">
+     	<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_signature_chemin_croix_part" />
+		</div>  
+	   <c:if test="#{papierActions.isDipslayEditerCheminCroix()}"> 
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_signature_destinataireSGG_part" />
+		</div>
+  		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_signature_destinataireCPM_part" />
+		</div>
+		<h:commandButton 
+			action="#{papierActions.imprimerCheminDeCroix(currentDocument)}"
+			immediate="true"
+			class="button"
+			value="#{messages['label.epg.papier.editer.chemin.croix']}" />
+		
+	</c:if>
+     <c:if test="#{papierActions.isSignatairePMSelected(currentDocument)}">     
+     <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.signature.PM']}" /></a></h3>
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_signature_pm_part" />
+		</div>
+	  </div>
+	  </c:if>
+	  <c:if test="#{papierActions.isSignataireSGGSelected(currentDocument)}"> 
+	  <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.signature.SGG']}" /></a></h3>
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_signature_sgg_part" />
+		</div>
+	  </div>
+	  </c:if>
+	  <c:if test="#{papierActions.isSignatairePRSelected(currentDocument)}"> 
+	  <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.signature.PR']}" /></a></h3>
+		<div class="boxBody">
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_signature_pr_part" />
+		</div>
+	  </div>
+	  </c:if>
+      
+
+	
+	</nxu:set>
+
+
+ 
+ <nxu:set var="liste" value="#{papierActions.getListeTraitementPapierMiseEnSinature(currentDocument)}">
+
+             <c:if test="#{liste !=null and liste.size >0}"> 
+
+  	<table width='100%'>
+  	<tr>
+  	<td width='50%'>
+  	<div class="foldableBox">
+  	<h:dataTable var="row" value="#{liste}" styleClass="dataOutput">
+            <h:column>
+              <f:facet name="header">
+                <h:outputText value="#{messages['label.epg.papier.publication.liste.date']}" />
+              </f:facet>
+              <h:outputText value="#{row.lis.dateGenerationListe}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+            </h:column>
+            <h:column>
+              <f:facet name="header">
+                <h:outputText value="#{messages['label.epg.papier.publication.liste.numero']}" />
+              </f:facet>
+              <h:outputText value="#{row.lis.numeroListe}" />
+            </h:column>
+           
+          </h:dataTable>
+
+		</div>
+		</td>
+		<td width='50%'>
+		</td>
+		
+</tr>
+		
+		</table>
+		 </c:if>
+		 </nxu:set> 
+	    
+
+		
+   
+  </h:form>	 
+	<!-- mise a jour de la variable globlae si modification d'un champ pour eviter la perte de données -->
+	<script>
+	   	  var j = jQuery.noConflict();
+		  j(document).ready(function() {
+	
+		    j('.tabsContent input').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent textarea').change(function() {
+		    	isDossierModified = true;
+		    });
+		    
+		    j('.tabsContent select').change(function() {
+		    	isDossierModified = true;
+		    });
+		    
+	  });
+</script>
+
+
+</div>

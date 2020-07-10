@@ -1,0 +1,2 @@
+/* Ajout de la colonne PAPIERARCHIVE de type xs:boolean */
+ALTER TABLE TRAITEMENT_PAPIER ADD PAPIERARCHIVE NUMBER(1,0);

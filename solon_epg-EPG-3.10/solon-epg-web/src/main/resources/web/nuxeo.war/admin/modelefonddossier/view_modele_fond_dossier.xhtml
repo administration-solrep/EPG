@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:nxdir="http://nuxeo.org/nxdirectory"
+  >
+  <ui:define name="page title">
+    <c:choose>
+  		<c:when test="#{fondDeDossierModelManagerActions.isAccessAuthorized()}">
+    		<h:outputText value="#{nuxeoApplicationName} - Administration des fonds de dossier"/>
+    	</c:when>
+    	<c:otherwise>
+    		<h:outputText value="#{nuxeoApplicationName} - Accès non autorisé"/>
+    	</c:otherwise>
+    </c:choose>
+  </ui:define>
+
+  <ui:define name="body">
+  	<c:if test="#{fondDeDossierModelManagerActions.isAccessAuthorized()}">
+	    <div class="adminModel">
+	 				<h:form id="fond_dossier_model_properties" enctype="multipart/form-data">
+						<a4j:region id="fondDossierModelViewRegion"  >
+							<a4j:outputPanel id="fondDossierModelViewPanel" >
+							
+							<!-- affichage des informations concernant le modèle de fond de dossier et l'information commune à tous les modèles de fond de dossier  -->
+							<div class="ModelFddZone">
+					      <h:panelGroup >
+					        <h3 class="summaryTitle">
+					          <h:outputText value="Administration des fonds de dossier"/>
+					        </h3>
+					      </h:panelGroup>
+					      
+					      <ui:include src="/incl/message_banner.xhtml"/>
+					
+					      <div style="clear:both"></div>
+	
+								<!-- layout de la racine des modèles de fond de dossier et du modèle courant de fond de dossier -->
+								<div class="fullWidthLayout" >
+									<nxl:layout value="#{fondDeDossierModelManagerActions.fondDossierModelRoot}" mode="edit" name="fond_dossier_modele_racine" />
+									<nxl:layout value="#{fondDeDossierModelManagerActions.currentFondDossierModel}" mode="edit" name="fond_dossier_modele" />
+								</div>
+							</div>
+							
+							<!-- affichage de l'arborescence de répertoire du modèle de fond de dossier et du formulaire associé au répertoire sélectionné  -->
+							<div class="ModelTreeZone">	
+								<div class="fullWidthLayout">
+									<h3 class="summaryTitle"/>
+								</div>
+								<div class="treeModelTitle">
+								  <h2>
+						         <h:outputText value="Répertoires : "/>
+						         <!-- on précise le type d'acte sélectionné -->
+						         <h:outputText value="#{fondDeDossierModelManagerActions.getCurrentTypeActeLabel()}"/>
+						      </h2>
+					      </div>
+					      
+					     <!-- on affiche ce champ uniquement si un modèle est sélectionné -->
+							 <f:subview id="treeFondDossierModelSubview" rendered="#{fondDeDossierModelManagerActions.isFondDossierModelEditable}">
+								
+								<!-- arborescence du modèle de fond de dossier -->
+									<div class="administrationFondDossierTreeWidth" >
+										<rich:tree id="fondDeDossierModelTree" 
+											reRender="selectedNode" ajaxSubmitSelection="true"
+											switchType="client" value="#{fondDeDossierModelTree.fondDeDossierModele}"
+											var="item" nodeFace="#{item.typeValue}"
+											adviseNodeOpened="#{fondDeDossierModelTree.adviseNodeOpened}" ajaxKeys="#{null}">
+											
+											<rich:treeNode id="fondDeDossierFolderUndeletableRoot" type="FondDeDossierFolderUndeletableRoot"
+												iconLeaf="/img/icons/folder_explore.png"
+												icon="/img/icons/folder_explore.png"
+												nodeClass="fddTreeNodeSelectedClass"
+												highlightedClass="fddTreeNodeHighlightedClass" 
+												>
+												<a4j:outputPanel id="nomRepertoireUndeletableRoot">
+													<!-- show contextMenu menuFondDeDossierFichier when le-click in treenode -->
+													<rich:componentControl for="menuFondDeDossierFolderUndeletableRoot" operation="show" event="onclick">
+														<f:param value="#{item.id}" name="id" />
+												  </rich:componentControl>
+												<h:outputText value="#{item.name}" />
+												</a4j:outputPanel>
+											</rich:treeNode>
+											
+											<rich:treeNode id="fondDeDossierFolderUndeletable" type="FondDeDossierFolderUndeletable"
+												iconLeaf="/img/icons/folder_explore.png"
+												icon="/img/icons/folder_explore.png"
+												nodeClass="fddTreeNodeSelectedClass"
+												highlightedClass="fddTreeNodeHighlightedClass" 
+												>
+												<a4j:outputPanel id="nomRepertoireUndeletable">
+													<!-- show contextMenu menuFondDeDossierFichier when le-click in treenode -->
+													<rich:componentControl for="menuFondDeDossierFolderUndeletable" operation="show" event="onclick">
+														<f:param value="#{item.id}" name="id" />
+												  </rich:componentControl>
+												<h:outputText value="#{item.name}" />
+												</a4j:outputPanel>
+											</rich:treeNode>
+											
+											<!-- show contextMenu menuFondDeDossierFichier when right-click in treenode -->
+											<rich:treeNode id="fondDeDossierFolderDeletable" type="FondDeDossierFolderDeletable"
+												nodeClass="fddTreeNodeSelectedClass"
+												highlightedClass="fddTreeNodeHighlightedClass"
+												iconLeaf="/img/icons/folder_explore.png"
+												icon="/img/icons/folder_explore.png"
+												>
+												<a4j:outputPanel id="nomRepertoireDeletable">
+													<rich:componentControl for="menuFondDeDossierFolderDeletable" operation="show" event="onclick">
+														<f:param value="#{item.id}" name="id" />
+												  </rich:componentControl>
+												<h:outputText value="#{item.name}" />
+												</a4j:outputPanel>
+											</rich:treeNode>
+										</rich:tree>
+										
+										<div class="menuContextuelStyle">
+										
+											<!-- Modele FondDeDossier Folder Root menu -->
+											<rich:contextMenu attached="false" id="menuFondDeDossierFolderUndeletableRoot" submitMode="ajax">
+												<!--  action ajouter dedans -->
+												<rich:menuItem ajaxSingle="true"
+													oncomplete="#{fondDeDossierModelManagerActions.createNewFolderNodeInto()}"
+													onmouseover="selected(this);" icon="/icons/add.png"
+													reRender="fondDossierModelViewPanel"><h:outputText value="Ajouter dedans" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeId}"
+														name="SelectedNodeId" value="{id}"/>
+												</rich:menuItem>
+											</rich:contextMenu>
+		
+											<!-- Modele FondDeDossier fondDeDossierFolderUnDeletable menu -->
+											<rich:contextMenu attached="false" id="menuFondDeDossierFolderUndeletable" submitMode="ajax">
+													<!--  action Ajouter avant -->
+												<rich:menuItem ajaxSingle="true" icon="/icons/add.png"
+													oncomplete="#{fondDeDossierModelManagerActions.createNewFolderNodeBefore()}"
+													onmouseover="selected(this);" 
+													reRender="fondDossierModelViewPanel"><h:outputText value="Ajouter avant" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeId}"
+														name="SelectedNodeId" value="{id}" />
+												</rich:menuItem>
+												<!--  action Ajouter après -->
+												<rich:menuItem ajaxSingle="true" icon="/icons/add.png"
+													oncomplete="#{fondDeDossierModelManagerActions.createNewFolderNodeAfter()}"
+													onmouseover="selected(this);" 
+													reRender="fondDossierModelViewPanel"><h:outputText value="Ajouter après" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeId}"
+														name="SelectedNodeId" value="{id}" />
+												</rich:menuItem>
+												<!--  action Ajouter dedans -->
+												<rich:menuItem ajaxSingle="true" icon="/icons/add.png"
+													oncomplete="#{fondDeDossierModelManagerActions.createNewFolderNodeInto()}"
+													onmouseover="selected(this);" 
+													reRender="fondDossierModelViewPanel"><h:outputText value="Ajouter dedans" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeId}"
+														name="SelectedNodeId" value="{id}" />
+												</rich:menuItem>
+											</rich:contextMenu>
+											
+											<!-- Modele FondDeDossier fondDeDossierFolderDeletable menu -->
+											<rich:contextMenu attached="false" id="menuFondDeDossierFolderDeletable" submitMode="ajax">
+												<!-- action Editer -->
+												<rich:menuItem ajaxSingle="true" 
+													oncomplete="#{fondDeDossierModelManagerActions.editFolder()}"
+													onmouseover="selected(this);" icon="/icons/modify.png"
+													reRender="fondDossierModelViewPanel"><h:outputText value="Editer" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeId}"
+														name="SelectedNodeId" value="{id}" />
+												</rich:menuItem>
+												<!--  action Ajouter avant -->
+												<rich:menuItem ajaxSingle="true" icon="/icons/add.png"
+													oncomplete="#{fondDeDossierModelManagerActions.createNewFolderNodeBefore()}"
+													onmouseover="selected(this);" 
+													reRender="fondDossierModelViewPanel"><h:outputText value="Ajouter avant" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeId}"
+														name="SelectedNodeId" value="{id}" />
+												</rich:menuItem>
+												<!--  action Ajouter après -->
+												<rich:menuItem ajaxSingle="true" icon="/icons/add.png"
+													oncomplete="#{fondDeDossierModelManagerActions.createNewFolderNodeAfter()}"
+													onmouseover="selected(this);" 
+													reRender="fondDossierModelViewPanel"><h:outputText value="Ajouter après" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeId}"
+														name="SelectedNodeId" value="{id}" />
+												</rich:menuItem>
+												<!--  action Ajouter dedans -->
+												<rich:menuItem ajaxSingle="true" icon="/icons/add.png"
+													oncomplete="#{fondDeDossierModelManagerActions.createNewFolderNodeInto()}"
+													onmouseover="selected(this);" 
+													reRender="fondDossierModelViewPanel"><h:outputText value="Ajouter dedans" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeId}"
+														name="SelectedNodeId" value="{id}" />
+												</rich:menuItem>
+												<!--  action Supprimer : lancer une popup -->
+												<rich:menuItem ajaxSingle="true" icon="/icons/delete.png"
+													oncomplete="Richfaces.showModalPanel('deleteFondDeDossierModelFolderPanel')"
+													onmouseover="selected(this);" 
+													reRender="deleteFondDeDossierModelFolderPanel"><h:outputText value="Supprimer" />
+													<a4j:actionparam
+														assignTo="#{fondDeDossierModelManagerActions.selectedNodeIdPopupDelete}"
+														name="SelectedNodeIdPopupDelete" value="{id}" />
+												</rich:menuItem>
+											</rich:contextMenu>					
+										</div>
+									</div>
+									</f:subview>
+									
+									<!-- champ d'édition des répertoires du fond de dossier -->
+									<div class="formulaireFondDossierFolderModel">
+									
+									<!-- on affiche ce champ uniquement si un repertoire est sélectionné -->
+									<f:subview id="treeFondDossierModelFolderSubview" rendered="#{fondDeDossierModelManagerActions.isFondDossierModelRepositoryEditable}">
+										<div class="formFolderModelField">
+											<nxl:layout value="#{fondDeDossierModelManagerActions.currentFondDeDossierModelRepository}" mode="edit" name="fond_dossier_modele_repertoire_formulaire" />
+										</div>
+										<div class="formFolderModelButtons">
+											<!-- bouton d'action permettant  d'enregistrer les modifications apportées dans les propriétés d’un répertoire du fond de dossier -->
+											<a4j:commandButton value="Valider"
+												action="#{fondDeDossierModelManagerActions.validerFondDeDossierModelRepository()}"
+												id="validerModelefonDossier" reRender="fondDossierModelViewPanel" styleClass="firstButton" >
+											</a4j:commandButton>
+											<!-- bouton d'action permettant d’annuler les modifications apportées dans les propriétés d’un répertoire du dossier -->
+											<a4j:commandButton value="Annuler"
+												action="#{fondDeDossierModelManagerActions.annulerFondDeDossierModelRepository()}"
+												id="annulerModelefonDossier" ajaxSingle="true" reRender="fondDossierModelViewPanel" styleClass="button" >
+											</a4j:commandButton>
+											</div>
+											</f:subview>
+								</div>
+							</div>
+	      		<div style="clear:both"></div>
+	      	</a4j:outputPanel>
+				</a4j:region>
+			 </h:form>
+			 <script language="javascript">
+				 //on utilise cette fonctions pour faire l'effet de selection d'action (on ne passe pas par l'attribut css :hover car non compatible IE6)
+				 function selected(element)
+				 {
+				     element.style.backgroundColor = "#774743";
+				 }
+			 </script>	
+	    </div>
+	    <ui:include src="/admin/modelefonddossier/delete_fdd_model_folder_confirm.xhtml" />
+	 </c:if>
+  </ui:define>
+</nxthemes:composition>

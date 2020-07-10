@@ -1,0 +1,569 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les layouts + widgets nécessaires à l'espace suivi
+-->
+<component name="fr.dila.solonepg.web.layout.espacesuivi">
+  <require>fr.dila.solonepg.web.widget.dossierlisting</require>
+  <require>com.nuxeo.document.routing.table.widget</require>
+  <require>com.nuxeo.cm.table.layout</require>
+  <!-- TODO delete -->
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+    <layout name="espace_suivi_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_and_hidden_column_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="pdf">/layouts/layout_listing_pdf_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" alwaysSelected="true">
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>
+        
+        <!-- Colonne NOR -->
+        <column name="colonneNOR" alwaysSelected="true">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.dc:title</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>espace_suivi_dossier_titre</widget>
+        </column>
+        
+        <!-- Colonne Intitulé du texte -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>espace_suivi_dossier_texte</widget>
+        </column>
+        
+        <!-- Colonne Date de création -->
+        <column name="colonneDateCreation" alwaysSelected="true">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.dc:created</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>espace_suivi_dossier_date</widget>
+        </column>
+        
+        <!-- Colonne Dernier contributeur -->
+        <column name="colonneDernierContributeur" alwaysSelected="true">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.dc:lastContributor</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>dossier_listing_dernier_contributeur</widget>
+        </column>
+        
+       <!-- suite des colonnes du profil utilisateur -->
+        
+        <!-- Colonne creePar -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">idCreateurDossier</property>
+          </properties>
+          <widget>dossier_listing_creePar</widget>
+        </column>
+      
+        <!-- Colonne urgence -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">isUrgent</property>
+          </properties>
+          <widget>dossier_listing_urgence</widget>
+        </column>
+             
+        <!-- Colonne statut -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">statut</property>
+          </properties>
+          <widget>dossier_listing_statut</widget>
+        </column>
+      
+        <!-- Colonne typeActe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">typeActe</property>
+          </properties>
+          <widget>dossier_listing_typeActe</widget>
+        </column>
+      
+        <!-- Colonne ministereResp -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">ministereResp</property>
+          </properties>
+          <widget>dossier_listing_ministereResp</widget>
+        </column>
+      
+        <!-- Colonne directionResp -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">directionResp</property>
+          </properties>
+          <widget>dossier_listing_directionResp</widget>
+        </column>
+      
+        <!-- Colonne ministereAttache -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">ministereAttache</property>
+          </properties>
+          <widget>dossier_listing_ministereAttache</widget>
+        </column>
+      
+        <!-- Colonne directionAttache -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">directionAttache</property>
+          </properties>
+          <widget>dossier_listing_directionAttache</widget>
+        </column>
+      
+        <!-- Colonne nomRespDossier -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">nomRespDossier</property>
+          </properties>
+          <widget>dossier_listing_nomRespDossier</widget>
+        </column>
+      
+        <!-- Colonne prenomRespDossier -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">prenomRespDossier</property>
+          </properties>
+          <widget>dossier_listing_prenomRespDossier</widget>
+        </column>
+      
+        <!-- Colonne qualiteRespDossier -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">qualiteRespDossier</property>
+          </properties>
+          <widget>dossier_listing_qualiteRespDossier</widget>
+        </column>
+      
+        <!-- Colonne telRespDossier -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">telRespDossier</property>
+          </properties>
+          <widget>dossier_listing_telRespDossier</widget>
+        </column>
+      
+        <!-- Colonne mailRespDossier -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">mailRespDossier</property>
+          </properties>
+          <widget>dossier_listing_mailRespDossier</widget>
+        </column>
+      
+        <!-- Colonne categorieActe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">categorieActe</property>
+          </properties>
+          <widget>dossier_listing_categorieActe</widget>
+        </column>
+      
+        <!-- Colonne baseLegaleActe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">baseLegaleActe</property>
+          </properties>
+          <widget>dossier_listing_baseLegaleActe</widget>
+        </column>
+      
+        <!-- Colonne datePublication -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">datePublication</property>
+          </properties>
+          <widget>dossier_listing_datePublication</widget>
+        </column>
+      
+        <!-- Colonne publicationRapportPresentation -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">publicationRapportPresentation</property>
+          </properties>
+          <widget>dossier_listing_publicationRapportPresentation</widget>
+        </column>
+      
+        <!-- Colonne sectionCe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">sectionCe</property>
+          </properties>
+          <widget>dossier_listing_sectionCe</widget>
+        </column>
+      
+        <!-- Colonne rapporteurCe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">rapporteurCe</property>
+          </properties>
+          <widget>dossier_listing_rapporteurCe</widget>
+        </column>
+      
+        <!-- Colonne dateTransmissionSectionCe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">dateTransmissionSectionCe</property>
+          </properties>
+          <widget>dossier_listing_dateTransmissionSectionCe</widget>
+        </column>
+      
+        <!-- Colonne dateSectionCe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">dateSectionCe</property>
+          </properties>
+          <widget>dossier_listing_dateSectionCe</widget>
+        </column>
+      
+        <!-- Colonne dateAgCe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">dateAgCe</property>
+          </properties>
+          <widget>dossier_listing_dateAgCe</widget>
+        </column>
+      
+        <!-- Colonne numeroISA -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">numeroISA</property>
+          </properties>
+          <widget>dossier_listing_numeroISA</widget>
+        </column>
+      
+        <!-- Colonne nomCompletChargesMissions -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">nomCompletChargesMissions</property>
+          </properties>
+          <widget>dossier_listing_nomCompletChargesMissions</widget>
+        </column>
+      
+        <!-- Colonne nomCompletConseillersPms -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">nomCompletConseillersPms</property>
+          </properties>
+          <widget>dossier_listing_nomCompletConseillersPms</widget>
+        </column>
+      
+        <!-- Colonne dateSignature -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">dateSignature</property>
+          </properties>
+          <widget>dossier_listing_dateSignature</widget>
+        </column>
+      
+        <!-- Colonne pourFournitureEpreuve -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">pourFournitureEpreuve</property>
+          </properties>
+          <widget>dossier_listing_pourFournitureEpreuve</widget>
+        </column>
+      
+        <!-- Colonne vecteurPublication -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">vecteurPublication</property>
+          </properties>
+          <widget>dossier_listing_vecteurPublication</widget>
+        </column>
+      
+        <!-- Colonne publicationConjointe -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">publicationsConjointes</property>
+          </properties>
+          <widget>dossier_listing_publicationConjointe</widget>
+        </column>
+      
+        <!-- Colonne publicationIntegraleOuExtrait -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">publicationIntegraleOuExtrait</property>
+          </properties>
+          <widget>dossier_listing_publicationIntegraleOuExtrait</widget>
+        </column>
+      
+        <!-- Colonne decretNumerote -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">decretNumerote</property>
+          </properties>
+          <widget>dossier_listing_decretNumerote</widget>
+        </column>
+      
+        <!-- Colonne modeParution -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">modeParution</property>
+          </properties>
+          <widget>dossier_listing_modeParution</widget>
+        </column>
+      
+        <!-- Colonne delaiPublication -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">delaiPublication</property>
+          </properties>
+          <widget>dossier_listing_delaiPublication</widget>
+        </column>
+      
+        <!-- Colonne datePreciseePublication -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">datePreciseePublication</property>
+          </properties>
+          <widget>dossier_listing_datePreciseePublication</widget>
+        </column>
+      
+        <!-- Colonne dateParutionJorf -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">dateParutionJorf</property>
+          </properties>
+          <widget>dossier_listing_dateParutionJorf</widget>
+        </column>
+      
+        <!-- Colonne numeroTexteParutionJorf -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">numeroTexteParutionJorf</property>
+          </properties>
+          <widget>dossier_listing_numeroTexteParutionJorf</widget>
+        </column>
+      
+        <!-- Colonne pageParutionJorf -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">pageParutionJorf</property>
+          </properties>
+          <widget>dossier_listing_pageParutionJorf</widget>
+        </column>
+      
+        <!-- Colonne parutionBo -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">parutionBo</property>
+          </properties>
+          <widget>dossier_listing_parutionBo</widget>
+        </column>
+      
+        <!-- Colonne zoneComSggDila -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">zoneComSggDila</property>
+          </properties>
+          <widget>dossier_listing_zoneComSggDila</widget>
+        </column>
+      
+        <!-- Colonne rubrique -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">rubriques</property>
+          </properties>
+          <widget>dossier_listing_rubrique</widget>
+        </column>
+      
+        <!-- Colonne motsCles -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">motscles</property>
+          </properties>
+          <widget>dossier_listing_motsCles</widget>
+        </column>
+      
+        <!-- Colonne champLibre -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">libre</property>
+          </properties>
+          <widget>dossier_listing_champLibre</widget>
+        </column>
+
+        <!-- Colonne loisAppliquees (référence) -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">applicationLoi</property>
+          </properties>
+          <widget>dossier_listing_loisAppliquees</widget>
+        </column>
+      
+        <!-- Colonne ordonnances (référence) -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">transpositionOrdonnance</property>
+          </properties>
+          <widget>dossier_listing_ordonnances</widget>
+        </column>
+      
+        <!-- Colonne directivesEuropeennes (référence) -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">transpositionDirective</property>
+          </properties>
+          <widget>dossier_listing_directivesEuropeennes</widget>
+        </column>
+      
+        <!-- Colonne habilitations (référence) -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">habilitationRefLoi</property>
+          </properties>
+          <widget>dossier_listing_habilitations_ref</widget>
+        </column>
+
+        <!-- Colonne habilitations (numéro article) -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">habilitationNumeroArticles</property>
+          </properties>
+          <widget>dossier_listing_habilitations_numero</widget>
+        </column>
+        
+        <!-- Colonne habilitations (commentaire) -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">habilitationCommentaire</property>
+          </properties>
+          <widget>dossier_listing_habilitations_commentaire</widget>
+        </column>
+        
+        <!-- fin des colonnes du profil utilisateur -->
+        
+        <!-- Colonne Verrou -->
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dossier_listing_lock</widget>
+        </column>
+      </columns>
+    </layout>
+  </extension>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+
+    <widget name="espace_suivi_dossier_date" type="datetime">
+      <labels>
+        <label mode="any">Date de création</label>
+      </labels>
+      <translated>false</translated>
+      <fields>
+        <field>data.dublincore.created</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+      </properties>
+    </widget>
+    
+    
+  </extension>
+</component>

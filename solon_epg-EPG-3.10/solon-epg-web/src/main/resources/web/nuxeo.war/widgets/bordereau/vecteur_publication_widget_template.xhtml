@@ -1,0 +1,38 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout">
+  <c:if test="#{widget.mode == 'edit'}">
+    <a4j:region renderRegionOnly="true" id="#{widget.id}_ajax_region">
+      <a4j:outputPanel id="#{widget.id}_vecteurPanel" ajaxRendered="false">
+        <nxu:set var="vecteurs" value="#{bordereauActions.getVecteurPublicationList(value)}" cache="true">
+        <h:selectOneMenu id="#{widget.id}_selectVecteurs" value="#{bordereauActions.currentVecteur}">
+        	<f:selectItem itemLabel="#{messages['label.selectOneMenu.default']}" itemValue="" />
+    	      <c:forEach var="vecteur" items="#{vecteurs}" varStatus="status">
+    	        <f:selectItem itemLabel="#{vecteur.getIntitule()}" itemValue="#{vecteur.getId()}" />
+    	      </c:forEach>
+    	    </h:selectOneMenu>
+          </nxu:set>
+  	    <a4j:commandLink action="#{bordereauActions.addVecteurPublication(value)}" reRender="#{widget.id}_vecteurPanel">
+          <h:graphicImage value="/icons/action_add.gif" id="#{widget.id}_addVecteurImage" />
+        </a4j:commandLink>
+        
+  	    <br />
+  	    <nxu:set var="vecteurs" value="#{bordereauActions.getVecteurPublicationDossier(value)}" cache="true">
+    	    <c:forEach var="vecteur" items="#{vecteurs}" varStatus="status">
+    	      <h:outputText value="#{vecteur.getIntitule()}" />
+    	      <a4j:commandLink action="#{bordereauActions.removeVecteurPublication(value, vecteur.getId())}" reRender="#{widget.id}_vecteurPanel">
+              <h:graphicImage value="/icons/action_delete_mini.gif" />
+            </a4j:commandLink>
+            <br />
+    	    </c:forEach>
+        </nxu:set>
+  	  </a4j:outputPanel>
+  	</a4j:region>
+  </c:if>
+  <c:if test="#{widget.mode == 'view'}">
+    <h:outputText value="#{nxu:joinCollection(bordereauActions.getVecteurPublicationDossier(value), ', ')}" />
+  </c:if>
+</div>

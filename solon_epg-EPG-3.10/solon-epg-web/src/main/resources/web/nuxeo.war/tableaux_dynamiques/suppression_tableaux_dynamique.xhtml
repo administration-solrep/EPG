@@ -1,0 +1,47 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+	
+	
+   <a4j:region id="tableauDynamiquesPopupViewRegion">
+    <a4j:outputPanel id="tableauDynamiquesPopup" >
+     <f:subview id="displayedTableauDynamiquesPopup">
+		<rich:modalPanel id="tableauDynamiquesPanel" autosized="true">
+			<div>
+				<f:facet name="header">
+					<h:outputText value="#{messages['tableau.dynamique.suppression.titre']}"/>
+				</f:facet>
+			</div>
+			<div style="padding:10px">
+				<h:form id="tableauDynamiquesPanelForm" enctype="multipart/form-data">
+					<div class="tableauDynamiquesPanel" reRender="boutonsReplaceTableauDynamique">
+						<h:outputText style="font-weight: bold;" value="#{messages['tableau.dynamique.suppression.description']}"/>
+						<nxl:layout value="#{tableauDynamiqueActions}" mode="edit" name="mes_tableaux_dynamiques_layout"/>
+					</div>
+					<h:panelGroup id="boutonsReplaceTableauDynamique">
+						<div style="subbodyContainer">
+			                <nxh:commandLink action="#{tableauDynamiqueActions.deleteTableauDynamiqueAndSave()}" 
+			                	oncomplete="Richfaces.hideModalPanel('tableauDynamiquesPanel')" disabled="#{tableauDynamiqueActions.displaySupprimerTableauDynamique()}">
+			                  <h:graphicImage value="/img/icons/check.png" title="#{messages['tableau.dynamique.suppression.valider']}"/>
+			                  <h:outputText value="#{messages['tableau.dynamique.suppression.valider']}"/>
+			                </nxh:commandLink>
+			                <nxh:commandLink oncomplete="Richfaces.hideModalPanel('tableauDynamiquesPanel')">
+			                  <h:graphicImage value="/img/icons/delete.png" title="#{messages['tableau.dynamique.suppression.annuler']}"/>
+			                  <h:outputText value="#{messages['tableau.dynamique.suppression.annuler']}"/>
+			                </nxh:commandLink>
+						</div>
+					</h:panelGroup>
+				</h:form>
+			</div>
+		</rich:modalPanel>
+   	</f:subview>
+   </a4j:outputPanel>
+  </a4j:region>
+</div>

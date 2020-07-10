@@ -1,0 +1,26 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:h="http://java.sun.com/jsf/html" id="#{widget.id}"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf">
+
+	<c:choose>
+	    <c:when test="#{widget.mode == 'pdf'}">
+	     	<nxp:html><h:outputText value="#{field_0}" converter="DateConverter" style="font-size:8px;"/></nxp:html>
+	    </c:when>
+	    <c:when test="#{widget.mode == 'view'}">
+	     	<h:outputText value="#{field_0}" converter="DateConverter" />
+	     	<h:graphicImage value="/img/icons/lock_16.png" rendered="#{field_1}"/>
+	    </c:when>
+	    <c:otherwise>
+			<div style="vertical-align: middle;">
+				<nxu:inputDateTime value="#{field_0}" id="#{widget.id}_edittime"
+					styleClass="#{widget.properties['styleClass']}"
+					showsTime="true" format="#{widget.properties.format}" required="#{widget.required}"/>
+				<h:selectBooleanCheckbox id="#{widget.id}_check" value="#{field_1}" />
+			</div>
+			<h:message id="#{widget.id}_edittim" for="#{widget.id}_edittime" styleClass="errorMessage errorMessage310" />
+	    </c:otherwise>
+    </c:choose>
+
+</f:subview>

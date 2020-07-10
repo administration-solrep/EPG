@@ -1,0 +1,29 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
+	logicalFilePath="ddl-dev-epg-sequences">
+
+	<changeSet id="nor-sequences" author="system" context="(dev or qa) and oracle">
+		<preConditions onFail="MARK_RAN">
+			<tableIsEmpty tableName="HIERARCHY" />
+		</preConditions>
+		<!-- reset de tous les sequenceurs si on travaille sur une base vide oracle -->
+		<sql splitStatements="false">
+DECLARE
+  s_val NUMBER;
+  c_incr NUMBER;
+BEGIN
+  FOR seq IN (SELECT * FROM user_sequences WHERE sequence_name LIKE 'SOLON_EPG_%') LOOP
+    EXECUTE IMMEDIATE 'SELECT '  || seq.sequence_name || '.nextval FROM dual' into s_val;
+    EXECUTE IMMEDIATE 'ALTER SEQUENCE ' || seq.sequence_name || ' INCREMENT BY ' || (seq.min_value - s_val - seq.increment_by);
+    EXECUTE IMMEDIATE 'ALTER SEQUENCE ' || seq.sequence_name || ' MINVALUE ' || (seq.min_value - seq.increment_by);
+    EXECUTE IMMEDIATE 'SELECT '  || seq.sequence_name || '.nextval FROM DUAL' into s_val;
+    EXECUTE IMMEDIATE 'ALTER SEQUENCE ' || seq.sequence_name || ' INCREMENT BY ' || seq.increment_by;
+  END LOOP;
+END;
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>
+

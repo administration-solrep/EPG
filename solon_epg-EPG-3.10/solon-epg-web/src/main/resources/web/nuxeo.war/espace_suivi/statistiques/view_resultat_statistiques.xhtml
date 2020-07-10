@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+<h:outputText value="#{messages[statistiquesAction.getStatistiqueCourante().getLabel()]}"/>
+ </ui:define>
+
+  <ui:define name="bookmark">
+    <link rel="bookmark" href="#{navigationContext.currentDocumentFullUrl}"/>
+  </ui:define>
+
+  <ui:define name="body">
+
+	<div id="upperContentView">
+      <h2 style="line-height: 1.25em">
+        <h:outputText value="#{messages[statistiquesAction.getStatistiqueCourante().getLabel()]}"/>
+      </h2>
+    </div>
+    <div id="BackToHome" style="border-bottom: solid 1px black;">
+		<table  width="100%">
+    		<tr>
+    			<td>
+			    	<h:form>
+						<h:commandLink
+							immediate="true" 
+							value="#{messages['espace.suivi.statistique.retour.page.acceuil']}"
+						    action="#{statistiquesAction.navigateToStatisticMainPageDestination()}" />
+					</h:form>      			
+    			</td>
+    			<td width ='30'  align="right">
+    				<h:form>		
+						<h:commandLink target="_blank" 
+							action="#{statistiquesAction.genererStatistiquesExcel()}"
+							rendered="#{statistiquesAction.canGenerateExcel()}"
+							immediate="true" 
+							id="genererExcel">
+							<h:graphicImage url="/img/icons/csv_export.png" />
+						</h:commandLink>
+					</h:form>  
+    			</td>
+
+    			<td width ='30' align="right">
+    				<h:form>		
+						<h:commandLink target="_blank" 
+							action="#{statistiquesAction.genererStatistiquesPdf()}"
+							immediate="true" 
+							id="imprimerSortie">
+							<h:graphicImage url="/img/icons/printer.png" />
+						</h:commandLink>
+					</h:form>  
+    			</td>
+    		</tr>
+    	</table>
+
+
+    </div>  
+	<iframe src="#{statistiquesAction.getUrlView('view_resultat_statistiques_content.faces')}"  height="600px" width="100%" scrolling="auto" />
+
+  </ui:define>
+</nxthemes:composition>
+

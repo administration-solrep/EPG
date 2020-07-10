@@ -1,0 +1,7 @@
+  CREATE TABLE "FPDOC_COMMISSIONS" 
+   (	
+   	"ID"  VARCHAR2(36 BYTE),
+    "POS" NUMBER(10,0),
+    "ITEM" NVARCHAR2(2000)
+   ) ;
+   

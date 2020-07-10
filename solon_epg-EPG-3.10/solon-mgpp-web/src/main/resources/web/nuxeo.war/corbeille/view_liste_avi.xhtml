@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  <ui:define name="page title">
+    <h:outputText value="#{nuxeoApplicationName} -  #{messages[navigationWebActions.currentSecondMenuAction.label]}"/>
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:include src="/select_document_type.xhtml"/>
+    <ui:include src="/incl/message_banner.xhtml"/>
+
+    <div id="upperContentView">
+      <div class="mailboxContent">
+        <c:if test="#{corbeilleTree.currentItem != null}">
+          <h3>#{corbeilleTree.currentItem.name}</h3>
+            <nxu:set var="contentViewName" value="fiche_presentation_avi_list" cache="true">
+              <nxu:set var="filtrable" value="true">
+                <nxu:set var="listingDecorator" value="#{fichePresentationAVIActions}" cache="true">
+                  <ui:decorate template="/incl/content_view.xhtml">
+                    <ui:define name="content_view_header_before_selector" />
+                  </ui:decorate>
+                 </nxu:set>
+               </nxu:set>
+               
+               <c:if test="#{fichePresentationAVIActions.getFicheAVI().getType() == 'FichePresentationAVI'}">
+                 <div style="text-align: center; margin: 5px; margin-bottom: 20px;">
+                   <h:form>
+                     <h:commandLink action="#{corbeilleActions.navigateToPreviousDossier(contentViewName)}">#{messages['label.epg.dossier.precedent']}</h:commandLink>
+                     <h:commandLink action="#{corbeilleActions.navigateToNextDossier(contentViewName)}">#{messages['label.epg.dossier.suivant']}</h:commandLink>
+                   </h:form>
+                 </div>
+               </c:if>
+               
+            </nxu:set>
+          </c:if>
+      </div>
+    </div>
+	
+    <h:form id="mainForm">
+			<nxh:commandButton styleClass="button"
+				action="#{pdfPrintActions.doRenderViewList('/corbeille/pdf/view_pdf_liste.faces', 'Liste des organismes')}"
+				value="Export PDF" />
+			<nxh:commandButton styleClass="button"
+				action="#{csvPrintActions.doRenderViewList('/incl/export/content_view_csv.faces', 'Liste des organismes')}"
+				value="Export Excel" />
+	</h:form>
+    <ui:include src="/incl/upper_panel_toggle.xhtml" />
+  </ui:define>
+  
+  <ui:define name="subbody">
+   <script type="text/javascript">
+    var j = jQuery.noConflict();
+    var isDossierModified = false;
+
+    function dossierModifiedHref(element) {
+      if(isDossierModified) {
+          return displayConfirmDossierModified(event, "#{messages['action.tab.change.confirm']}");
+      }else{
+        return true;
+      }
+    }
+
+    function dossierModifiedLock() {
+      if(isDossierModified) {
+       return displayConfirmDossierModified(event, "#{messages['action.unlock.confirm']}");
+      }else{
+        return true;
+      }
+    }
+  //<![CDATA[
+
+    function displayConfirmDossierModified(event, msg){
+      if(event == null || msg == null){
+        return confirm(event);
+      }
+      if(event.altKey && event.ctrlKey){
+          return true;
+      }else{
+        var srcElt = event.srcElement;
+        jConfirm(msg, 'Confirmation', function(r) {
+            if(r){
+              // set back value of isDossierModified to false when confirmed
+               isDossierModified = false;
+               if (event.initMouseEvent) {     // all browsers except IE before version 9
+                     var clickEvent = document.createEvent("MouseEvent");
+                     clickEvent.initMouseEvent("click", true, true, window, 0, 
+                                  event.screenX, event.screenY, event.clientX, event.clientY, 
+                                                true, true, event.shiftKey, event.metaKey, 
+                                                0, null);
+                     event.target.dispatchEvent(clickEvent);
+                 } else {
+                     if (document.createEventObject) {   // IE before version 9
+                         var clickEvent = document.createEventObject(event);
+                         clickEvent.altKey = true;
+                         clickEvent.ctrlKey = true;
+                         clickEvent.srcElement = srcElt;
+                         srcElt.fireEvent("onclick", clickEvent);
+                     }
+                 }
+            }
+          });
+        return false;
+      }
+      }
+
+  //]]>
+    </script>
+   <style>
+    .tabsContent {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+  </style>
+    <c:if test="#{currentDocument.getType() == 'Dossier'}">
+       <div class="subbodyContainer" style="padding: 5px; margin-bottom: 40px;">
+         <h:panelGroup rendered="#{! currentDocument.version}">
+           <ui:include src="/incl/current_document_title.xhtml" />
+         </h:panelGroup>
+  
+         <p class="currentDocumentDescription float">
+           <h:outputText value="#{currentDocument.dublincore.description}"/>
+         </p>
+       
+        <ui:include src="/corbeille/solon_epg_toolbar.xhtml" />
+       </div>
+     </c:if>
+     <c:if test="#{navigationContext.currentMessage != null}">
+         <div class="subbodyContainer" style="padding: 5px;">
+         <table>
+          <tr>
+            <td>
+              <nxu:set var="field_0" value="#{navigationContext.currentMessage.etatMessage}" cache="true">
+                <ui:include src="/widgets/listing/etat_message_widget.xhtml" />
+              </nxu:set>
+            </td>
+            <td>
+              <nxu:set var="field_0" value="#{navigationContext.currentMessage.etatEvenement}" cache="true">
+                <ui:include src="/widgets/listing/etat_message_widget.xhtml" />
+              </nxu:set>
+            </td>
+            <td>
+              <h3>#{navigationContext.currentMessage}</h3>
+            </td>
+          </tr>
+          </table>
+        </div>
+      </c:if>
+    <c:if test="#{fichePresentationAVIActions.getFicheAVI().getType() == 'FichePresentationAVI'}">
+      <div class="subbodyContainer">
+        <h:panelGroup id="case_content">
+           <ui:insert name="case_content">
+             <div class="tabsBar">
+               <h:form>
+                 <nxu:dataList layout="unorderedList" var="tab" value="#{tabsActionsList}"
+                   itemStyleClass="#{nxu:test(webActions.currentTabAction == tab, 'selected', '')}">
+                   <h:commandLink id="corbeilleNodeCmd" action="#{webActions.setCurrentTabAction(tab)}" rerender="facesStatusMessagePanel"  onclick="#{action.confirm}">
+                     <h:outputText value="#{messages[tab.label]}" />
+                   </h:commandLink>
+                 </nxu:dataList>
+               </h:form>
+             </div>
+             <div style="clear:both" />
+             <div class="tabsContent">
+               <ui:include src="#{webActions.currentTabAction.link}" />
+             </div>
+           </ui:insert>
+        </h:panelGroup>
+      </div>
+    </c:if>
+     <c:if test="#{navigationContext.currentEvenement != null}">
+        <div class="subbodyContainer" style="padding: 5px;">
+          <ui:include src="/metadonnees/metadonnees_evenement.xhtml" />
+        </div>
+      </c:if>
+  </ui:define>
+</nxthemes:composition>

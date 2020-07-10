@@ -1,0 +1,70 @@
+<f:subview id="#{widget.id}" 
+  xmlns:h="http://java.sun.com/jsf/html" 
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:c="http://java.sun.com/jstl/core">  
+  
+  <table>
+    <tr>
+      <td><b><i>Par Mois:</i></b></td>
+      <td>
+      	 <h:selectBooleanCheckbox value="#{field_0}" onchange="hideTrMois(this.checked);" />
+	  </td>
+    </tr>
+    <tr id="#{widget.id}_tr_mois">
+      <td><b><i>Mois:</i></b></td>
+      <td>
+			      <h:selectOneMenu id="#{widget.id}_select_mois_menu" value="#{field_1}">
+			        <f:selectItem itemLabel="Janvier" itemValue="1"  />
+			        <f:selectItem itemLabel="Février" itemValue="2"  />
+			        <f:selectItem itemLabel="Mars" itemValue="3"  />
+			        <f:selectItem itemLabel="Avril" itemValue="4"  />
+			        <f:selectItem itemLabel="Mai" itemValue="5"  />
+			        <f:selectItem itemLabel="Juin" itemValue="6"  />
+			        <f:selectItem itemLabel="Juillet" itemValue="7"  />
+			        <f:selectItem itemLabel="Août" itemValue="8"  />
+			        <f:selectItem itemLabel="Septembre" itemValue="9"  />
+			        <f:selectItem itemLabel="Octobre" itemValue="10"  />
+			        <f:selectItem itemLabel="Novembre" itemValue="11"  />
+			        <f:selectItem itemLabel="Décembre" itemValue="12"  />
+			      </h:selectOneMenu>
+      </td>
+    </tr>
+    <tr id="#{widget.id}_tr_annee">
+      <td><b><i>Année:</i></b></td>
+      <td>
+			      <h:selectOneMenu id="#{widget.id}_select_annee_menu" value="#{field_2}">
+					<c:forEach var="annee" begin="${activiteNormativeStatsActions.getAnneeDeDepart()}" end="#{activiteNormativeStatsActions.getAnneeCourant()}" step="1" varStatus ="status">
+						<f:selectItem itemLabel="${status.index}" itemValue="${status.index}"  />	 
+					</c:forEach>
+			      </h:selectOneMenu>
+      </td>
+    </tr>
+  </table>
+  <script>
+	var j = jQuery.noConflict();
+	
+	function hideTrMois(hideValue)
+	{
+		if(hideValue)
+		{
+			j("#" + "#{widget.id}_tr_mois").show();
+		}else
+		{
+			j("#" + "#{widget.id}_tr_mois").hide();
+		}
+	}
+
+	j(document).ready(function() {
+		if(#{field_0})
+		{
+			j("#" + "#{widget.id}_tr_mois").show();
+		}else
+		{
+			j("#" + "#{widget.id}_tr_mois").hide();
+		}
+		
+	});
+  </script>
+      
+</f:subview>

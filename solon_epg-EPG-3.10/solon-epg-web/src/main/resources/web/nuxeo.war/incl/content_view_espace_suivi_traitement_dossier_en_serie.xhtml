@@ -1,0 +1,144 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxu="http://nuxeo.org/nxweb/util">
+
+<c:if test="false">
+ Template rendering a content view defined on a document
+
+ Parameters:
+ - contentViewName: the content view name, mandatory
+ - contentViewId: a marker to generate unique ids
+   when iterating over a list of content views, optional
+   when only one content view is displayed in the page.
+ - contentViewDocument
+ - contentViewSortInfos
+ - selectedResultLayoutColumns: list of result layout columns selected
+</c:if>
+
+  <nxu:set var="contentView"
+    value="#{contentViewActions.getContentViewWithProvider(contentViewName, contentViewDocument, nxu:test(empty contentViewSortInfos, null, contentViewSortInfos), -1, -1)}"
+    cache="true">
+  <nxu:set var="selectedResultLayoutColumns"
+    value="#{nxu:test(selectedResultLayoutColumns == null, contentView.resultLayoutColumns, selectedResultLayoutColumns)}"
+    cache="true">
+
+    <c:if test="#{contentView != null}">
+    <a4j:region id="contentViewAjaxRegion_#{contentViewId}">
+
+	  <ui:insert name="content_view_pre_area"/>
+
+      <nxu:set var="provider" value="#{contentView.currentPageProvider}"
+        cache="true">
+        #{provider.setSelectedEntries(documentsListsManager.getWorkingList(contentView.selectionListName))}
+
+        <c:set var="title"
+          value="#{nxu:test(contentView.translateTitle, messages[contentView.title], contentView.title)}" />
+
+
+        <ui:decorate template="/incl/documents_layout_table_no_pagination_no_count.xhtml">
+          <ui:param name="documents" value="#{provider.currentSelectPage}" />
+          <ui:param name="listName" value="#{contentView.selectionListName}" />
+          <ui:param name="layoutName" value="#{contentView.currentResultLayout.name}" />
+          
+          <ui:define name="empty_folder_label">
+            <ui:insert name="content_view_no_data"/>
+          </ui:define>
+        
+          <ui:define name="error_message">
+            <c:if test="#{provider.hasError()}">
+              #{provider.errorMessage}
+            </c:if>
+          </ui:define>
+ 
+            <ui:define name="buttons">
+                <div id="selection_buttons">
+                  <table>
+                    <tbody>
+                      <tr>
+						<td>
+						      <input 
+						      		type="button"
+									value="#{messages['espace.suivi.button.imprimer']}" 
+									onclick="openLinkInNewWindow('#mainForm\\:imprimer');" 
+									class="button" />
+						</td>
+						<td> 
+	            <c:if test="#{documents.rowCount != 0}">
+	              <a4j:outputPanel id="ajax_selection_buttons" ajaxRendered="false">
+	                  <table>
+	                    <tbody>
+	                      <tr>
+							<td>                                               
+	                            <a4j:commandButton
+	                           		rendered="#{espaceSuiviInfocentreSggActionsBean.isButtonToDisplay()}"                                                                                                
+	                             	styleClass="button"
+	                            	oncomplete="traiterEnSeriePopup()"                                  
+	                             	id="clipboardActionsButton_ShowTraitementSerie" 
+	                              value="#{messages['espace.suivi.button.traiter']}"                                   
+	                              reRender="traiterEnSeriePanel">
+	                            </a4j:commandButton>
+                            </td><td>
+	                            <a4j:commandButton
+	                           		rendered="#{espaceSuiviInfocentreSggActionsBean.isDeleteButtonToDisplay()}"                                                                                                
+	                             	styleClass="button"
+	                            	action="#{espaceSuiviInfocentreSggActionsBean.supprimerDossiersDeLaliste()}"                                 
+	                              value="#{messages['espace.suivi.button.supprimer']}">
+	                            </a4j:commandButton>
+				            </td>
+	                        <td rowSpan="#{contentView.actionsCategories.size}" valign="middle">
+	                          <a4j:status>
+	                            <f:facet name="start">
+	                              <h:graphicImage value="/img/standart_waiter.gif" />
+	                            </f:facet>
+	                          </a4j:status>
+	                        </td>
+	                      </tr>
+	                    </tbody>
+	                  </table>
+			              </a4j:outputPanel>
+			            </c:if>
+           			</td> 
+		               </tr>
+		             </tbody>
+		           </table>
+		         </div>
+		   </ui:define>
+
+
+        </ui:decorate>
+     <ui:insert name="content_view_header_before_selector">
+          <c:if test="#{!empty title}">
+            <div class="action_bar">
+              <h3>
+                <c:if test="#{!empty contentView.iconPath}">
+                  <nxu:graphicImage value="#{contentView.iconPath}" title="#{title}" />
+                </c:if>
+                #{title}
+              </h3>
+            </div>
+          </c:if>
+        </ui:insert>
+
+        <ui:insert name="content_view_header_after_selector">
+          <c:if test="#{!empty title}">
+            <h3>
+              <c:if test="#{!empty contentView.iconPath}">
+                <nxu:graphicImage value="#{contentView.iconPath}" title="#{title}" />
+              </c:if>
+              #{title}
+            </h3>
+          </c:if>
+        </ui:insert>
+      </nxu:set>
+
+    </a4j:region>
+    </c:if>
+  </nxu:set>
+  </nxu:set>
+
+</div>

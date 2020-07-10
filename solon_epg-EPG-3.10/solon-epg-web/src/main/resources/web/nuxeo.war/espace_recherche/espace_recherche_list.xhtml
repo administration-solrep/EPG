@@ -1,0 +1,77 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core" class="menu"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxd="http://nuxeo.org/nxweb/document"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<h:panelGroup>
+	<style>
+		.rich-tree-node-highlighted {
+	      text-decoration: none;
+	    }
+	</style>
+
+<h:form id="form_espace_recherche" rendered="#{!currentUser.anonymous}" >
+<ui:decorate template="/incl/menu_arrondi.xhtml">
+<ui:define name="reponsesClipboard_panel">
+		<div class="userMailboxes">
+		<div class="userMailboxesContent">
+		
+		  	<h4><h:outputText value="Recherche" />
+	        </h4>
+	    <div  id="uMContent" style="overflow-x: auto; overflow-y: hidden;" class="userLeftMenuContent">
+		  
+            <a4j:status for="espaceSuiviRegion">
+              <f:facet name="start">
+                <h:graphicImage value="/img/standart_waiter.gif" style="position: absolute;" />
+              </f:facet>
+            </a4j:status>
+            <a4j:region id="espaceSuiviRegion">
+	            
+	         <rich:tree id="espaceRechercheTree"  
+		            style="white-space: nowrap;"
+		            switchType="ajax" ajaxSingle="true"
+		            eventsQueue="ajax_events_queue"
+		            iconExpanded="/icons/toggle_minus.png"
+		            iconCollapsed="/icons/toggle_plus.png"
+		            changeExpandListener="#{espaceRechercheTree.changeExpandListener}"
+		            adviseNodeOpened="#{espaceRechercheTree.adviseNodeOpened}">
+            
+		            <rich:recursiveTreeNodesAdaptor id="node" var="item" roots="#{espaceRechercheTree.espaceRecherche}" nodes="#{item.children}">
+		            
+							<rich:treeNode id="base" rendered="#{item.type == 'BASE'}"
+							  icon="#{item.img}"
+							  conLeaf="#{item.img}">                 
+							  <h:outputText id="feuilleNodeLabel" value="#{messages[item.label]}" style="font-weight: bold; white-space: nowrap;" />
+							</rich:treeNode>
+							
+							<rich:treeNode id="base" rendered="#{item.type == 'BASE_CLICK' || item.type == 'OTHER'}"
+							  icon="#{item.img}"
+							  iconLeaf="#{item.img}">                  
+							  <h:commandLink action="#{espaceRechercheTree.setElement(item)}" >
+									<h:outputText id="feuilleNodeLabel_BC" value="#{messages[item.label]}" style="font-weight: bold; white-space: nowrap;"  rendered="#{item.type == 'BASE_CLICK'}"/>
+									<h:outputText id="feuilleNodeLabel_O" value="#{messages[item.label]}" style="white-space: nowrap;"  rendered="#{item.type == 'OTHER'}"/>
+					          </h:commandLink>
+							</rich:treeNode>
+							
+						</rich:recursiveTreeNodesAdaptor>
+		             </rich:tree>
+	            </a4j:region>
+		
+		</div>
+	</div>
+	<!-- Bottom of the rounded box -->
+	<p class="nobottomgap"></p>
+	</div>
+
+	<div class="bottom-left"></div>
+	<div class="bottom-right"></div>
+</ui:define>
+</ui:decorate>
+</h:form>
+	</h:panelGroup>
+</div>

@@ -1,0 +1,61 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	>
+	<a4j:region id="renameFolderRegion">
+		<rich:modalPanel id="renameFolderPanel" autosized="true">
+			<div><f:facet name="header">
+				<h:outputText value="Renommage du document" />
+			</f:facet></div>
+			<h:form id="renameFolderForm">
+				<div id="renameFolderDiv">
+					<!-- fileInput -->
+					<div class="popupTabbedDiv">
+						<h:panelGrid id="fileVersionListpanelGrid" columnClasses="popupMediumDiv" columns="2" >
+							<h:panelGroup>
+								<h:outputText value="Nom :" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<h:inputText id="fileName" value="#{fondDeDossierManagerActions.selectedNodeTitle}" valueChangeListener="#{fondDeDossierManagerActions.nameChangeListener}">
+					 				<a4j:support event="onblur" ajaxSingle="true" eventsQueue="ajax_events_queue" />
+								</h:inputText>
+							</h:panelGroup>
+						</h:panelGrid>
+					</div>
+					<!-- bouton pour renommage le répertoire -->
+					<div class="popupDiv">
+						 <a4j:commandLink
+							action="#{fondDeDossierManagerActions.renameFolder()}"
+							id="validerRennomage"
+							oncomplete="if (!#{fondDeDossierManagerActions.isErrorOccurred}) {Richfaces.hideModalPanel('renameFolderPanel');}"
+							reRender="fddDocumentViewPanel,errorName,facesStatusMessagePanel" ajaxSingle="true">
+							<h:graphicImage height="24" width="24" url="/img/icons/check.png" />
+							<h:outputText value="Valider" />
+						</a4j:commandLink>
+					</div>
+					<!-- bouton pour quitter la popup et ne pas effectuer le renommage -->
+					<div class="popupDiv">
+						<a4j:commandLink
+							action="#{fondDeDossierManagerActions.resetProperties()}"
+							id="annulerRennomage"
+							oncomplete="Richfaces.hideModalPanel('renameFolderPanel')"
+							reRender="fddDocumentViewPanel" ajaxSingle="true">
+							<h:graphicImage height="24" width="24" url="/img/icons/delete.png" />
+							<h:outputText value="Annuler" />
+						</a4j:commandLink>
+					</div>
+					<!-- error message -->
+		              <div class="popupDiv">
+		    			<h:outputText class="msgError" id="errorName" value="#{fondDeDossierManagerActions.errorName}" />
+		              </div>   
+				</div>
+			</h:form>
+		</rich:modalPanel>
+	</a4j:region>
+</div>

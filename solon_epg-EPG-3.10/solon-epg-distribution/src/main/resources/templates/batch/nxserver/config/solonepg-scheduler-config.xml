@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<!-- Ce composant lance les batchs de de solon epg. /!\ Attention à la syntaxe 
+	non standard de l'expression cron. Voir http://www.jarvana.com/jarvana/view/opensymphony/quartz/1.6.1/quartz-1.6.1-javadoc.jar!/org/quartz/CronExpression.html -->
+<component name="fr.dila.solonepg.distribution.scheduler">
+	<require>org.nuxeo.runtime.started</require>
+	<extension
+		target="org.nuxeo.ecm.platform.scheduler.core.service.SchedulerRegistryService"
+		point="schedule">
+
+		<!-- Lancement de tous les batchs -->
+		<schedule id="lanceurGeneralBatchEvent">
+			<username>${nuxeo.batch.user}</username>
+			<password>${nuxeo.batch.password}</password>
+			<eventId>lanceurGeneralBatchEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			<!-- Tous les jours à 22H par défaut -->
+			<cronExpression>${nuxeo.batch.lanceurGeneralEvent}</cronExpression>
+		</schedule>
+
+		<!-- Lancement du batch horaire de notification -->
+		<schedule id="wsNotificationEvent">
+			<username>${nuxeo.batch.user}</username>
+			<password>${nuxeo.batch.password}</password>
+			<eventId>wsNotificationEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			<!-- Toutes les heures par défaut -->
+			<cronExpression>${nuxeo.batch.wsNotificationEvent}</cronExpression>
+		</schedule>
+		
+		<!-- Lancement du batch d'extraction Adamant -->
+		<schedule id="extractionAdamantBatchEvent">
+			<username>${nuxeo.batch.user}</username>
+			<password>${nuxeo.batch.password}</password>
+			<eventId>extractionAdamantBatchEvent</eventId>
+			<eventCategory>default</eventCategory>
+			<cronExpression>${nuxeo.batch.extractionAdamantBatchEvent}</cronExpression>
+		</schedule>
+
+		<!-- Lancement du batch de génération des statistiques -->
+		<schedule id="statsGenerationResultatBatch">
+			<username>${nuxeo.batch.user}</username>
+			<password>${nuxeo.batch.password}</password>
+			<eventId>statsGenerationResultatBatch</eventId>
+			<eventCategory>cmf</eventCategory>
+			<cronExpression>${nuxeo.batch.statsGenerationResultatBatch}</cronExpression>
+		</schedule>
+
+	</extension>
+</component>

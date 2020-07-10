@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!-- Cet composant contribue les calculateurs de groupes et la chaîne de 
+	calcul de l'application SOLON EPG. -->
+<component name="fr.dila.solonepg.core.computedgroups.contrib">
+
+	<require>fr.dila.ss.core.computedgroups.contrib</require>
+
+	<!-- Calculateurs de groupes -->
+	<extension
+		target="org.nuxeo.ecm.platform.computedgroups.ComputedGroupsServiceImpl"
+		point="computer">
+		<!-- Calculateur des groupes spécifiques à SOLON EPG -->
+		<groupComputer name="solonEpgGroupComputer">
+			<computer>fr.dila.solonepg.core.groupcomputer.SolonEpgGroupComputer</computer>
+		</groupComputer>
+	</extension>
+
+	<!-- Chaîne de calcul de groupes -->
+	<extension
+		target="org.nuxeo.ecm.platform.computedgroups.ComputedGroupsServiceImpl"
+		point="computerChain">
+		<groupComputerChain>
+			<computers>
+				<computer>baseFunctionGroupComputer</computer>
+				<computer>personalMailboxGroupComputer</computer>
+				<computer>posteMailboxGroupComputer</computer>
+				<computer>ministereGroupComputer</computer>
+				<computer>solonEpgGroupComputer</computer>
+			</computers>
+		</groupComputerChain>
+	</extension>
+</component>

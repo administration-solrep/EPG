@@ -1,0 +1,329 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+	<nxu:set var="exportDefaultVal"
+		value="#{exportActiviteNormativeStatsActions.exportDefaultParam}"
+		cache="true">
+		<a4j:region id="exportReportsParametersPopupViewRegion">
+			<a4j:outputPanel id="exportReportsParametersPopup">
+				<f:subview id="displayedExportReportParametersPopup">
+
+					<rich:modalPanel id="configureReportsParametersPanel"
+						autosized="true"
+						style="width:auto; height:450px; overflow: auto; overflow-x: hidden;">
+						<div>
+							<f:facet name="header">
+								<h:outputText value="Paramètres d'export" />
+							</f:facet>
+						</div>
+						<h:form id="configureReportsParametersForm">
+							<div>
+								<div
+									style="width: 600px; padding: 0 0 0 10px; margin: 0 0 0 10px">
+
+									<h:outputText
+										value="${messages['activite.normative.export.legislature']}"
+										style="padding-left:0em;font-weight: bold;font-size: small" />
+									<hr />
+
+									<div>
+										<ui:param name="idDivToToggle" value="divLegislatures" />
+										<c:choose>
+											<c:when
+												test="#{exportActiviteNormativeStatsActions.getLegislatureCount() ge 6}">
+												<div style="margin: 0 15px 0 0">
+													<ui:include src="/incl/hide_content_toggle.xhtml" />
+													<div id="toggleContentViewFormPopup">
+														<div id="openContentViewButtonPopup"
+															class="upperCollasiblePanelPopup">
+															<h:commandLink id="openContentViewButtonIdPopup"
+																styleClass="x-tool x-tool-toggle x-tool-collapse-south"
+																onclick="openUpperContentView();"
+																action="#{navigationWebActions.setPanelState('divLegislatures',true)}"
+																immediate="true" />
+														</div>
+														<div id="closeContentViewButtonPopup"
+															class="upperCollasiblePanelPopup">
+															<h:commandLink id="closeContentViewButtonIdPopup"
+																styleClass="x-tool x-tool-toggle x-tool-collapse-north"
+																onclick="closeUpperContentView();"
+																action="#{navigationWebActions.setPanelState('divLegislatures',false)}"
+																immediate="true" />
+														</div>
+													</div>
+
+
+													<div id="content">
+														<div id="divLegislatures">
+															<nxl:layout
+																value="#{exportActiviteNormativeStatsActions}"
+																mode="edit" name="exportLegislatures" />
+														</div>
+													</div>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<nxl:layout value="#{exportActiviteNormativeStatsActions}"
+													mode="edit" name="exportLegislatures" />
+											</c:otherwise>
+										</c:choose>
+										<!--  -->
+										<hr color="white" />
+									</div>
+
+									<h:outputText value="Bilan semestriel lois"
+										style="padding-left:0em;font-weight: bold;font-size: small" />
+									<hr />
+
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_bilanSemestriel_promulgation" />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_bilanSemestriel_publication" />
+									<div>
+
+										<div
+											style="font-style: italic; float: left; left: 15px; width: 550px">
+
+											<h:outputText value="Utilisé pour les rapports:"
+												style="padding-left:2em;font-style:italic" />
+											<br />
+											<h:outputText
+												value="  Tableau-maître (Ministères)/ Bilan semestriel par ministère"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="  Bilan Semestriel/ Par loi"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="  Bilan Semestriel/ Par ministère"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="  Bilan Semestriel/ Par nature de texte"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="  Bilan Semestriel/ Par procédure de vote"
+												style="padding-left:4em;" />
+											<br />
+										</div>
+									</div>
+									<br />
+									<h:outputText value="Bilan semestriel ordonnances"
+										style="padding-left:0em;font-weight: bold;font-size: small;white-space: nowrap;" />
+									<hr />
+
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_bilanSemestriel_date_publication_ordonnance" />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_bilanSemestriel_publication_decret_ordonnance" />
+									<div>
+
+										<div
+											style="font-style: italic; float: left; left: 15px; width: 550px">
+
+											<h:outputText value="Utilisé pour les rapports:"
+												style="padding-left:2em;font-style:italic" />
+											<br />
+											<h:outputText
+												value="  Tableau-maître (Ministères)/ Bilan semestriel par ministère"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="  Bilan Semestriel/ Par ordonnance"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="  Bilan Semestriel/ Par ministère"
+												style="padding-left:4em;" />
+											<br />
+										</div>
+									</div>
+									<br />
+
+									<h:outputText value="Taux d'exécution des lois"
+										style="padding-left:0em;font-weight: bold;font-size: small;white-space: nowrap;" />
+									<hr />
+
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_taux_legislature_promulgation" />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_taux_legislature_publication" />
+									
+									<div>
+										<div
+											style="font-style: italic; float: left; left: 15px; width: 550px">
+											<h:outputText value="Utilisé pour les rapports:"
+												style="padding-left:2em;font-style:italic" />
+											<br />
+											<h:outputText
+												value="Tableau-maître (Ministères)/ Taux d'exécution des lois promulguées"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText
+												value="Indicateurs LOLF/ Taux d'exécution des lois"
+												style="padding-left:4em;" />
+										</div>
+									</div>
+									<br />
+									
+									<h:outputText value="Taux d'exécution des ordonnances"
+										style="padding-left:0em;font-weight: bold;font-size: small;white-space: nowrap;" />
+									<hr />
+
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_taux_legis_promulgation_ordos" />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_taux_legis_publication_decrets_ordos" />
+
+
+									<div>
+										<div
+											style="font-style: italic; float: left; left: 15px; width: 550px">
+											<h:outputText value="Utilisé pour les rapports:"
+												style="padding-left:2em;font-style:italic" />
+											<br />
+											<h:outputText
+												value="Tableau-maître (Ministères)/ Taux d'exécution des ordonnances"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText
+												value="Indicateurs / Taux d'exécution des ordonnances"
+												style="padding-left:4em;" />
+										</div>
+									</div>
+
+
+									<br />
+									<h:outputText
+										value="Taux d'application au fil de l'eau | Délais moyens"
+										style="padding-left:0em;font-weight: bold;font-size: small;white-space: nowrap;" />
+									<hr />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_date_debut_legislature" />
+									<br />
+
+									<div>
+										<div
+											style="font-style: italic; float: left; left: 15px; width: 550px">
+											<h:outputText value="Utilisé pour les rapports:"
+												style="padding-left:2em;font-style:italic" />
+											<br />
+											<h:outputText
+												value="Tableau-maître (Ministères)/ Taux d'application au fil de l'eau par ministère"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText
+												value="Taux d'application au fil de l'eau/ Global "
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText
+												value="Taux d'application au fil de l'eau/ Par loi"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText
+												value="Taux d'application au fil de l'eau/ Par ordonnance"
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText
+												value="Taux d'application au fil de l'eau/ Par ministère "
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText
+												value="Taux d'application au fil de l'eau/ Par nature de texte "
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText
+												value="Taux d'application au fil de l'eau/ Par procédure de vote "
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="Délais moyens/ Par loi "
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="Délais moyens/ Par ordonnance "
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="Délais moyens/ Par ministère "
+												style="padding-left:4em;" />
+											<br />
+											<h:outputText value="Délais moyens/ Par nature de texte"
+												style="padding-left:4em;" />
+											<br />
+										</div>
+									</div>
+
+
+									<h:outputText value="Indicateurs LOLF"
+										style="padding-left:0em;font-weight: bold;font-size: small" />
+									<hr />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_taux_parlementaire_promulgation" />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_taux_parlementaire_publication" />
+									<div>
+										<div
+											style="font-style: italic; float: left; left: 15px; width: 550px">
+											<h:outputText value="Utilisé pour le rapport:"
+												style="padding-left:2em;font-style:italic" />
+											<br />
+											<h:outputText
+												value="Indicateurs LOLF/ Taux d'exécution des lois promulguées au cours de la dernière session parlementaire"
+												style="padding-left:3em;" />
+											<br />
+											<h:outputText
+												value="Indicateurs LOLF/ Délai de mise en application des lois"
+												style="padding-left:3em;" />
+										</div>
+									</div>
+									<br />
+									
+									<h:outputText value="Indicateurs Ordonnances"
+										style="padding-left:0em;font-weight: bold;font-size: small" />
+									<hr />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_taux_SP_promulgation_ordos" />
+									<nxl:layout value="#{exportDefaultVal}" mode="edit"
+										name="an_intervalle_taux_SP_publication_decrets_ordos" />
+										
+									<div>
+
+										<div
+											style="font-style: italic; float: left; left: 15px; width: 550px">
+											<h:outputText value="Utilisé pour le rapport:"
+												style="padding-left:2em;font-style:italic" />
+											<br />
+											<h:outputText
+												value="Indicateurs / Taux d'exécution des ordonnances publiées au cours de la dernière session parlementaire"
+												style="padding-left:3em;" />
+											<br />
+											<h:outputText
+												value="Indicateurs / Délai de mise en application des ordonnances"
+												style="padding-left:3em;" />
+										</div>
+									</div>
+								</div>
+
+								<div style="margin-left: 300px;">
+									<a4j:commandButton value="Valider"
+										action="#{exportActiviteNormativeStatsActions.exportPanStats()}"
+										oncomplete="Richfaces.hideModalPanel('configureReportsParametersPanel')"
+										id="lancerExport" reRender="form_espace_activite_normative"
+										styleClass="firstButton">
+									</a4j:commandButton>
+									<a4j:commandButton value="Annuler "
+										oncomplete="Richfaces.hideModalPanel('configureReportsParametersPanel')"
+										id="annulerParms" styleClass="button">
+									</a4j:commandButton>
+								</div>
+
+							</div>
+						</h:form>
+					</rich:modalPanel>
+				</f:subview>
+			</a4j:outputPanel>
+		</a4j:region>
+	</nxu:set>
+</div>

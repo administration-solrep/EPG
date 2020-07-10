@@ -1,0 +1,53 @@
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxp="http://nuxeo.org/nxweb/pdf"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:nxdir="http://nuxeo.org/nxdirectory">
+<c:choose>
+   <c:when test="#{widget.mode == 'pdf'}">
+     	<nxp:html><h:outputText value="#{field_0}" style="font-size:8px;" converter="#{organigrammeManagerActions.getIdMinistereToNorConverter()}" /></nxp:html>
+     	<nxp:html><h:outputText value="#{field_2}" style="font-size:8px;" converter="#{organigrammeManagerActions.getIdDirectionConverter()}" /></nxp:html>
+    </c:when>
+    <c:when test="#{widget.mode == 'view'}">
+     	<h:outputText value="#{field_0}" converter="#{organigrammeManagerActions.getIdMinistereToNorConverter()}"  />
+     	<h:graphicImage value="/img/icons/lock_16.png" rendered="#{field_1}"/>
+     	<h:outputText value="#{field_2}" converter="#{organigrammeManagerActions.getIdDirectionConverter()}"  />
+     	<h:graphicImage value="/img/icons/lock_16.png" rendered="#{field_3}"/>
+    </c:when>
+   <c:otherwise>  
+			<div style="vertical-align: middle;"
+				  xmlns:h="http://java.sun.com/jsf/html"
+				  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+				  xmlns:nxu="http://nuxeo.org/nxweb/util"
+				  xmlns:nxl="http://nuxeo.org/nxforms/layout" >
+				  
+				      <h:selectOneMenu id="#{widget.id}_select_nor_menu" value="#{field_0}" required="#{widget.required}">
+				     		<f:selectItem itemLabel="Sélectionnez une valeur." itemValue=""  />
+				            <nxu:selectItems
+				              var="item" 
+				              value="#{organigrammeManagerActions.getListNor()}"
+				              itemValue="#{item.id}"
+				              itemLabel="#{item.norMinistere}" caseSensitive="true"/>
+				              <a4j:support event="onchange" reRender="#{widget.id}_select_dir_menu" eventsQueue="ajax_events_queue" />
+				      </h:selectOneMenu>
+				      <h:outputText value=" "  />
+				      <h:selectBooleanCheckbox id="#{widget.id}_min_check" value="#{field_1}" />
+				      <h:message id="#{widget.id}_selNor" for="#{widget.id}_select_nor_menu" styleClass="errorMessage errorMessage310" />
+				  	  <h:outputText value=" / "  />
+				  	  <h:selectOneMenu id="#{widget.id}_select_dir_menu" value="#{field_2}" required="#{widget.required}">
+				  		<f:selectItem itemLabel="Sélectionnez une valeur." itemValue=""  />
+					     <nxu:selectItems
+					              var="item" 
+					              value="#{organigrammeManagerActions.getDirectionFromNorMinistere(field_0)}"
+					              itemValue="#{item.id}"
+					              itemLabel="#{item.label}" 
+					              ordering="label" caseSensitive="true"/>
+					      </h:selectOneMenu>
+				      <h:outputText value=" "  />
+				      <h:selectBooleanCheckbox id="#{widget.id}_dir_check" value="#{field_3}" />
+				      <h:message id="#{widget.id}_selDir" for="#{widget.id}_select_dir_menu" styleClass="errorMessage errorMessage310" />
+			</div>
+	</c:otherwise>
+</c:choose>
+
+</f:subview>

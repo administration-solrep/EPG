@@ -1,0 +1,520 @@
+<?xml version="1.0"?>
+
+<component name="fr.dila.solonepg.web.layout.espcase.suivi.statistique">
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+    point="layouts">
+
+    <layout name="statistique_arrivee_sgg">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statistique_date_de_debut</widget>
+        </row>
+        <row>
+          <widget>statistique_date_de_fin</widget>
+        </row>
+      </rows>
+    </layout>
+    <layout name="statistique_utilisateur_duree">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statistique_date</widget>
+        </row>
+      </rows>
+    </layout>
+    <layout name="statistique_texte_trouvant_poste">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statistique_poste</widget>
+        </row>
+      </rows>
+    </layout>
+
+    <layout name="statistique_nombre_acte_ministere_periode">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statistique_ministere</widget>
+        </row>
+        <row>
+          <widget>statistique_date_de_debut</widget>
+        </row>
+        <row>
+          <widget>statistique_date_de_fin</widget>
+        </row>
+        <row>
+          <widget>statistique_periode</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="statistique_nombre_acte_direction_periode">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statistique_direction</widget>
+        </row>
+        <row>
+          <widget>statistique_date_de_debut</widget>
+        </row>
+        <row>
+          <widget>statistique_date_de_fin</widget>
+        </row>
+        <row>
+          <widget>statistique_periode</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="statistique_nombre_acte_poste_periode">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statistique_poste</widget>
+        </row>
+        <row>
+          <widget>statistique_date_de_debut</widget>
+        </row>
+        <row>
+          <widget>statistique_date_de_fin</widget>
+        </row>
+        <row>
+          <widget>statistique_periode</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="statistique_taux_indexation_texte">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statistique_rubrique</widget>
+        </row>
+        <row>
+          <widget>statistique_motCles</widget>
+        </row>
+        <row>
+          <widget>statistique_champsLibre</widget>
+        </row>
+      </rows>
+    </layout>
+
+    <layout name="statistique_vecteur_publication">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>statistique_vecteur_publication</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="statistique_vecteur_date">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>      	
+        <row>
+          <widget>statistique_vecteur_publication</widget>
+        </row>
+        <row>
+          <widget>statistique_date</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="statistique_dossier_archivage">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>      	
+        <row>
+          <widget>statistique_dossier_archivage_dateDebut</widget>
+          <widget>statistique_dossier_archivage_dateFin</widget>
+        </row>
+        <row>
+          <widget>statistique_dossier_archivage_statut</widget>
+        </row>
+      </rows>
+    </layout>
+
+	<layout name="dossier_archivage_listing_dto">
+		<templates>
+			<template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml
+			</template>
+		</templates>
+		<properties mode="any">
+			<property name="showListingHeader">true</property>
+			<property name="showRowEvenOddClass">true</property>
+		</properties>
+		<columns>
+			<!-- Colonne selection -->
+			<column name="selection" alwaysSelected="true">
+				<properties mode="any">
+					<property name="isListingSelectionBox">true</property>
+					<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					<property name="columnStyleClass">iconColumn</property>
+				</properties>
+				<properties mode="csv">
+					<property name="isHidden">true</property>
+				</properties>
+				<widget>listing_ajax_checkbox_dto</widget>
+			</column>
+			
+			<!-- Colonne nor -->
+			<column>
+				<properties mode="any">
+					<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					<property name="sortPropertyName">nor</property>
+				</properties>
+				<widget>dossier_archivage_nor</widget>
+			</column>
+
+			<!-- Colonne titre acte -->
+			<column>
+				<properties mode="any">
+					<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					<property name="sortPropertyName">titreActe</property>
+				</properties>
+				<widget>dossier_archivage_titre</widget>
+			</column>
+			
+			<!-- Colonne statut archivage période -->
+			<column>
+				<properties mode="any">
+					<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					<property name="sortPropertyName">statutPeriode</property>
+				</properties>
+				<widget>dossier_archivage_statut_periode</widget>
+			</column>
+			
+			<!-- Colonne date changement statut -->
+			<column>
+				<properties mode="any">
+					<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					<property name="sortPropertyName">dateExt</property>
+				</properties>
+				<widget>dossier_archivage_date</widget>
+			</column>
+			
+			<!-- Colonne statut archivage en cours -->
+			<column>
+				<properties mode="any">
+					<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					<property name="sortPropertyName">statut</property>
+				</properties>
+				<widget>dossier_archivage_statut</widget>
+			</column>
+			
+			<!-- Colonne message erreur -->
+			<column>
+				<properties mode="any">
+					<property name="useFirstWidgetLabelAsColumnHeader">true</property>
+					<property name="sortPropertyName">erreur</property>
+				</properties>
+				<widget>dossier_archivage_erreur</widget>
+			</column>
+		</columns>
+	</layout>
+
+  </extension>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
+    point="widgets">
+
+
+    <widget name="statistique_date_de_debut" type="datetime">
+      <labels>
+        <label mode="any">espace.suivi.statistique.datedebut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDeDebut</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="styleClass">width:90px</property>
+        <property name="required">true</property>
+      </properties>
+    </widget>
+
+    <widget name="statistique_date_de_fin" type="datetime">
+      <labels>
+        <label mode="any">espace.suivi.statistique.datefin</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDeFin</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="styleClass">width:90px</property>
+        <property name="required">true</property>
+      </properties>
+    </widget>
+
+    <widget name="statistique_date" type="datetime">
+      <labels>
+        <label mode="any">espace.suivi.statistique.date</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>dateDeDebut</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="pattern">dd/MM/yyyy</property>
+        <property name="format">dd/MM/yyyy</property>
+        <property name="styleClass">width:90px</property>
+        <property name="required">true</property>
+      </properties>
+    </widget> 
+
+    <widget name="statistique_poste " type="orga">
+      <labels>
+        <label mode="any">espace.suivi.statistique.corbeille</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>posteId</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="organigrammeSelectionType">POSTE_TYPE</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>
+        <property name="required">true</property>
+      </properties>
+    </widget>
+    
+      <widget name="statistique_ministere" type="orga">
+       <labels>
+         <label mode="any">espace.suivi.statistique.ministere</label>
+       </labels>
+       <translated>true</translated>
+        <fields>
+          <field>ministereId</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+      
+    <widget name="statistique_direction" type="orga">
+      <labels>
+        <label mode="any">espace.suivi.statistique.direction</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>directionId</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="organigrammeSelectionType">DIR_TYPE</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>
+        <property name="required">true</property>
+      </properties>
+    </widget>
+
+    <widget name="statistique_periode" type="template">
+      <labels>
+        <label mode="any">espace.suivi.statistique.periode</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>periodeType</field>
+        <field>periodeValue</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/espace_suivi_statistique_periode_widget_template.xhtml</property>
+      </properties>
+    </widget>
+    
+    <widget name="statistique_rubrique" type="template">
+      <labels>
+        <label mode="any">label.indexation.rubrique</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>rubrique</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/espace_suivi_statistique_indexation_list_widget_template.xhtml</property>
+        <property name="indexationType">rubriques</property>
+      </properties>
+    </widget>
+    
+    <widget name="statistique_motCles" type="template">
+      <labels>
+        <label mode="any">label.indexation.motscles</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>motsCles</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/espace_suivi_statistique_indexation_input_widget_template.xhtml</property>
+        <property name="maxCharacters">50</property>
+      </properties>
+    </widget>
+    
+    <widget name="statistique_champsLibre" type="template">
+      <labels>
+        <label mode="any">label.indexation.libre</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>champsLibre</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/espace_suivi_statistique_indexation_input_widget_template.xhtml</property>
+        <property name="maxCharacters">100</property>
+      </properties>
+    </widget>
+    
+    <widget name="statistique_vecteur_publication" type="template">
+	    <labels>
+	      <label mode="any">label.epg.dossier.vecteurPublication</label>
+	    </labels>
+	    <translated>true</translated>
+	    <fields>
+	      <field>vecteurPublication</field>
+	    </fields>
+	    <properties widgetMode="any">
+	      <property name="template">/widgets/espace_suivi_statistique_vec_pub_widget_template.xhtml</property>
+	    </properties>
+    </widget>
+
+	<widget name="statistique_dossier_archivage_dateDebut" type="datetime">
+		<labels>
+			<label mode="any">espace.suivi.statistique.datedebut</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>dateDebutArchivage</field>
+		</fields>
+		<properties widgetMode="any">
+			<property name="required">true</property>
+		</properties>
+	</widget>
+
+	<widget name="statistique_dossier_archivage_dateFin" type="datetime">
+		<labels>
+			<label mode="any">espace.suivi.statistique.datefin</label>
+		</labels>
+		<translated>true</translated>
+		<fields>
+			<field>dateFinArchivage</field>
+		</fields>
+		<properties widgetMode="any">
+			<property name="required">true</property>
+		</properties>
+	</widget>
+
+	<widget name="statistique_dossier_archivage_statut" type="selectOneDirectory">
+		<labels>
+			<label mode="any">espace.suivi.statistique.statut.archivage</label>
+		</labels>
+		<fields>
+			<field>statutArchivage</field>
+		</fields>
+		<properties mode="any">
+			<property name="directoryName">status_archivage</property>
+			<property name="required">true</property>
+		</properties>
+	</widget>
+	
+	<widget name="dossier_archivage_nor" type="template">
+		<labels>
+			<label mode="any">espace.suivi.statistique.nor</label>
+		</labels>
+		<fields>
+			<field>data.nor</field>
+		</fields>
+		<properties mode="any">
+			<property name="template">/widgets/espace_suivi_statistique_dossier_archivage_widget_template.xhtml</property>
+		</properties>
+	</widget>
+
+	<widget name="dossier_archivage_titre" type="text">
+		<labels>
+			<label mode="any">espace.suivi.statistique.titreActe</label>
+		</labels>
+		<fields>
+			<field>data.titreActe</field>
+		</fields>
+	</widget>
+
+	<widget name="dossier_archivage_statut_periode" type="template">
+		<labels>
+			<label mode="any">espace.suivi.statistique.statutArchivageAfter</label>
+		</labels>
+		<fields>
+			<field>data.statutPeriode</field>
+		</fields>
+		<properties widgetMode="any">
+			<property name="template">/widgets/espace_suivi_statistique_libelle_statutArchivage.xhtml</property>
+		</properties>
+	</widget>
+	
+	<widget name="dossier_archivage_date" type="text">
+		<labels>
+			<label mode="any">espace.suivi.statistique.dateChangementStatut</label>
+		</labels>
+		<fields>
+			<field>data.date</field>
+		</fields>
+	</widget>
+	
+	<widget name="dossier_archivage_statut" type="template">
+		<labels>
+			<label mode="any">espace.suivi.statistique.statutArchivage</label>
+		</labels>
+		<fields>
+			<field>data.statut</field>
+		</fields>
+		<properties widgetMode="any">
+			<property name="template">/widgets/espace_suivi_statistique_libelle_statutArchivage.xhtml</property>
+		</properties>
+	</widget>
+	
+	<widget name="dossier_archivage_erreur" type="text">
+		<labels>
+			<label mode="any">espace.suivi.statistique.messageErreur</label>
+		</labels>
+		<fields>
+			<field>data.erreur</field>
+		</fields>
+	</widget>
+
+  </extension>
+
+</component>

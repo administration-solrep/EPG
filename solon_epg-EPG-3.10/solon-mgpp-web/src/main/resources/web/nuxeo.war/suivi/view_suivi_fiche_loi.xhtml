@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+
+  <ui:define name="page title">
+  	<h:outputText value="Fiche de loi"/>
+  </ui:define>
+
+  <ui:define name="bookmark">
+    <link rel="bookmark" href="#{navigationContext.currentDocumentFullUrl}"/>
+  </ui:define>
+
+	<ui:define name="body">
+	<script>document.getElementById("collapsiblePanelIdOpened").style.display="none";</script>
+			<table  width="100%">
+	    		<tr>
+	    			<td style="border-bottom: solid 1px black;">
+						<h:form>
+		    				<h:commandLink
+		    					action="view_suivi"
+								id="goToCalendrierParlementaire">
+									<c:choose>
+										<c:when test="${suiviActions.isInCalendrierParlementaire()}" >
+											<h:outputText value="Retour vers calendrier parlementaire"/>
+										</c:when>
+										<c:when test="${suiviActions.isInEcheancierDePromulgation()}" >
+											<h:outputText value="Retour vers echéancier de promulgation"/>
+										</c:when>
+										<c:when test="${suiviActions.isInSuiviDesEcheances()}" >
+											<h:outputText value="Retour vers suivi des échéances (rapports)"/>
+										</c:when>
+										<c:otherwise>
+											<h:outputText value="Retour vers suivi"/>
+										</c:otherwise>
+									</c:choose>
+							</h:commandLink>     			
+		    			</h:form>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td align="left">
+						<ui:include src="/fiche_presentation/fiche_loi.xhtml"/> 
+	    			</td>	    			
+	    		</tr>
+	    	</table>
+	</ui:define>
+</nxthemes:composition>

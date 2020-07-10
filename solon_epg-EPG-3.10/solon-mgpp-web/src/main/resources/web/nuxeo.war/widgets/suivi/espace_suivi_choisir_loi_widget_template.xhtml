@@ -1,0 +1,25 @@
+<f:subview id="#{widget.id}" 
+  xmlns:h="http://java.sun.com/jsf/html" 
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:c="http://java.sun.com/jstl/core">  
+  
+    <c:set var="required" value="#{widget.properties.required}" />
+    
+      <h:selectOneMenu 
+      	class="dataInputText" 
+      	id="#{widget.id}_select_index_menu" 
+      	value="#{field_0}"
+      	required="true">
+      	<h:message styleClass="errorMessage" for="#{widget.id}_select_index_menu" />
+        <f:selectItem itemLabel="" itemValue=""  />
+        	<c:forEach var="entry" items="#{calendrierParlementaireActions.getListeDesLois()}" >
+        		<c:if test="#{empty entry.value}">
+	        		<f:selectItem itemValue = "#{entry.key}" itemLabel = "Loi sans titre"/>
+        		</c:if>
+        		<c:if test="#{!empty entry.value}">
+        			<f:selectItem itemValue = "#{entry.key}" itemLabel = "#{entry.value}"/>        		
+        		</c:if>
+        	</c:forEach>
+      </h:selectOneMenu>
+</f:subview>

@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://dila.fr/solon/schemas/texte_maitre_epg/"
+	xmlns:texm="http://dila.fr/solon/schemas/texte_maitre_epg/">
+
+	<xs:include schemaLocation="base.xsd" />
+
+	<!-- Verouillage du document -->
+	<xs:element name="docLockUser" type="xs:string" />
+	<xs:element name="docLockDate" type="xs:date" />
+
+	<!-- Attributs -->
+	<!-- Note importante : Certaines informations peuvent être extraite pour 
+		alimenter la contribution du requeteur de l'activité normative. -->
+	<!-- Ces éléments peuvent être identifié par un outil python. Ils portent 
+		des commentaires commençant par 'AE:' -->
+	<!-- Merci de laisser ces commentaires pour faciliter la maintenance de 
+		la recherche AN -->
+
+	<xs:element name="titreActe" type="xs:string" /><!-- AE:applicationLoi -->
+	<xs:element name="ministerePilote" type="xs:string" /><!-- AE:applicationLoi,transposition,ordonnance,traite,mesure -->
+	<xs:element name="numeroInterne" type="xs:string" /><!-- AE:applicationLoi,ordonnance -->
+	<xs:element name="motCle" type="xs:string" /><!-- AE:applicationLoi,ordonnance38C -->
+	<xs:element name="dateEntreeEnVigueur" type="xs:date" /><!-- 
+		AE:applicationLoi,traite,mesure -->
+	<xs:element name="observation" type="xs:string" /><!-- AE:applicationLoi,transposition,ordonnance38C,ordonnance,traite,mesure --> <!-- LargeTexte -->
+	<xs:element name="champLibre" type="xs:string" /><!-- AE:applicationLoi,transposition --> <!-- LargeTexte -->
+	<xs:element name="applicationDirecte" type="xs:boolean"
+		default="false" /><!-- AE:applicationLoi -->
+	<xs:element name="datePublication" type="xs:date" /><!-- AE:applicationLoi,ordonnance38C,ordonnance,decret -->
+	<xs:element name="datePromulgation" type="xs:date" /><!-- AE:applicationLoi,ordonnance38C -->
+	<xs:element name="titreOfficiel" type="xs:string" /><!-- AE:decret -->
+	<xs:element name="legislaturePublication" type="xs:string" />
+	<xs:element name="communicationMinisterielle" type="xs:string" /><!-- 
+		AE:applicationLoi,ordonnance38C -->
+	<xs:element name="objet" type="xs:string" />
+	<xs:element name="dispositionHabilitation" type="xs:boolean"
+		default="false" /><!-- AE:ordonnance -->
+	<xs:element name="numero" type="xs:string" /><!--AE:applicationLoi,transposition,ordonnance38C,ordonnance -->
+	<xs:element name="renvoiDecret" type="xs:boolean" default="false" /><!--AE:ordonnance -->
+	<xs:element name="numeroOrdre" type="xs:string" nillable="false" /><!--AE:mesure -->
+	<xs:element name="article" type="xs:string" /><!--AE:mesure -->
+	<xs:element name="objetRIM" type="xs:string" /><!--AE:mesure -->
+	<xs:element name="typeHabilitation" type="xs:string" />
+	<xs:element name="convention" type="xs:string" />
+	<xs:element name="dateTerme" type="xs:date" />
+	<xs:element name="conventionDepot" type="xs:string" />
+	<xs:element name="datePrevisionnelleSaisineCE" type="xs:date" /><!--AE:mesure -->
+	<xs:element name="datePrevisionnelleCM" type="xs:date" />
+	<xs:element name="legislature" type="xs:string" />
+	<xs:element name="codification" type="xs:boolean" default="false" />
+	<xs:element name="typeActe" type="xs:string" /><!--AE:decret -->
+	<xs:element name="sectionCE" type="xs:string" /><!--AE:decret -->
+	<xs:element name="dateSectionCE" type="xs:date" /><!-- AE:decret -->
+	<xs:element name="dateSortieCE" type="xs:date" /><!-- AE:decret -->
+	<xs:element name="rapporteurCE" type="xs:string" /><!-- AE:decret -->
+	<xs:element name="receptionAvisCE" type="xs:string" />
+	<xs:element name="numeroJOPublication" type="xs:string" /><!-- 
+		AE:decret -->
+	<xs:element name="numeroPage" type="xs:long" /><!-- AE:decret -->
+	<xs:element name="delaiPublication" type="xs:string" /><!--AE:decret -->
+	<xs:element name="referenceDispositionRatification" type="xs:string" /><!--AE:decret -->
+	<xs:element name="codeModifie" type="xs:string" /><!--AE:mesure -->
+	<xs:element name="baseLegale" type="xs:string" /><!--AE:mesure -->
+	<xs:element name="typeMesure" type="xs:string" /><!--AE:mesure -->
+	<xs:element name="directionResponsable" type="xs:string" /><!-- 
+		AE:transposition,mesure -->
+	<xs:element name="dateDisponibiliteAvantProjet" type="xs:date" /><!--AE:mesure -->
+	<xs:element name="consultationsHCE" type="xs:string" /><!--AE:mesure -->
+	<xs:element name="calendrierConsultationsHCE" type="xs:string" /><!--AE:mesure -->
+	<xs:element name="dateObjectifPublication" type="xs:date" /><!--AE:mesure -->
+	<xs:element name="fromAmendement" type="xs:boolean" default="false" /><!--AE:mesure -->
+	<xs:element name="applicationLoi" type="xs:boolean" default="false" />
+	<xs:element name="poleChargeMission" type="xs:string" /><!-- 
+		AE:mesure -->
+	<xs:element name="datePassageCM" type="xs:date" /><!-- AE:mesure -->
+	<xs:element name="differe" type="xs:boolean" default="false" /><!-- 
+		AE:mesure -->
+	<xs:element name="applicationRecu" type="xs:boolean"
+		default="false" /><!-- AE:mesure -->
+	<xs:element name="numeroQuestion" type="xs:string" /><!-- AE:mesure -->
+	<xs:element name="amendement" type="xs:boolean" default="false" /><!-- 
+		AE:mesure -->
+	<xs:element name="responsableAmendement" type="xs:string" /><!--AE:mesure -->
+	<xs:element name="mesureApplication" type="xs:boolean"
+		default="false" />
+	<xs:element name="dateReunionProgrammation" type="xs:date" /><!-- 
+		AE:applicationLoi -->
+	<xs:element name="dateCirculationCompteRendu" type="xs:date" /><!-- 
+		AE:applicationLoi -->
+	<xs:element name="dateSaisineCE" type="xs:date" /><!-- AE:decret -->
+	<xs:element name="termeDepot" type="xs:string" />
+	<xs:element name="dateLimiteDepot" type="xs:date" />
+	<xs:element name="dateLimitePublication" type="xs:date" />
+	<xs:element name="dateExamenCE" type="xs:date" />
+	<xs:element name="dateExamenCM" type="xs:date" />
+	<xs:element name="chambreDepot" type="xs:string" />
+	<xs:element name="dateDepot" type="xs:date" />
+	<xs:element name="numeroDepot" type="xs:string" />
+	<xs:element name="intitule" type="xs:string" /><!-- AE:applicationLoi,traite -->
+	<xs:element name="etapeSolon" type="xs:string" />
+	<xs:element name="numeroTextePublie" type="xs:string" />
+	<xs:element name="titreTextePublie" type="xs:string" />
+	<xs:element name="dateDirective" type="xs:date" /><!-- AE:transposition -->
+	<xs:element name="titre" type="xs:string" /><!-- AE:applicationLoi,transposition,ordonnance38C,ordonnance -->
+	<xs:element name="dateEcheance" type="xs:date" /><!-- AE:transposition -->
+	<xs:element name="tabAffichageMarcheInt" type="xs:boolean"
+		default="false" /><!-- AE:transposition -->
+	<xs:element name="dateProchainTabAffichage" type="xs:date" /><!-- 
+		AE:transposition -->
+	<xs:element name="achevee" type="xs:boolean" default="false" /><!-- 
+		AE:transposition -->
+	<xs:element name="numeroNor" type="xs:string" nillable="false" /><!-- 
+		AE:applicationLoi,ordonnance38C,ordonnance,decret -->
+	<xs:element name="ratifie" type="xs:boolean" default="false" /><!-- 
+		AE:ordonnance -->
+	<xs:element name="categorie" type="xs:string" /><!-- AE:traite -->
+	<xs:element name="organisation" type="xs:string" /><!-- AE:traite -->
+	<xs:element name="thematique" type="xs:string" /><!-- AE:traite -->
+	<xs:element name="autorisationRatification" type="xs:boolean"
+		default="false" /><!-- AE:traite -->
+	<xs:element name="publication" type="xs:boolean" default="false" /><!-- 
+		AE:traite -->
+	<xs:element name="norDecret" type="xs:string" />
+	<xs:element name="degrePriorite" type="xs:string" /><!-- AE:traite -->
+	<xs:element name="datePJL" type="xs:date" /><!--AE:traite -->
+	<xs:element name="etudeImpact" type="xs:boolean" default="false" /><!-- 
+		AE:traite -->
+	<xs:element name="dispoEtudeImpact" type="xs:boolean"
+		default="false" /><!-- AE:traite -->
+	<xs:element name="norLoiRatification" type="xs:string" />
+	<xs:element name="dateDepotRatification" type="xs:date" /><!-- 
+		AE:traite -->
+	<xs:element name="dateCreation" type="xs:date" />
+	<xs:element name="dateTranspositionEffective" type="xs:date" /><!-- 
+		AE:transposition -->
+	<xs:element name="directiveEtat" type="xs:string" /><!-- AE:transposition -->
+	<xs:element name="dateMiseApplication" type="xs:date" /><!-- 
+		AE:mesure -->
+	<xs:element name="dateModification" type="xs:date" /><!-- 
+		AE:applicationLoi -->
+	<xs:element name="dateInjection" type="xs:date" /><!-- 
+		AE:applicationLoi -->
+
+	<!-- Retour DILA -->
+	<xs:element name="referenceAvisCE" type="xs:string" /><!-- AE:decret -->
+	<xs:element name="numerosTextes" type="xs:string" />
+	<xs:element name="dateSignature" type="xs:date" /><!-- AE:traite,decret -->
+
+	<!-- Interaction MGPP -->
+	<xs:element name="natureTexte" type="xs:string" /><!-- AE:applicationLoi -->
+	<xs:element name="procedureVote" type="xs:string" /><!-- AE:applicationLoi -->
+	<xs:element name="commissionAssNationale" type="xs:string" /><!-- 
+		AE:applicationLoi -->
+	<xs:element name="commissionSenat" type="xs:string" /><!-- AE:applicationLoi -->
+
+	<!-- ref sur le dossier -->
+	<xs:element name="idDossier" type="xs:string" />
+
+	<!-- ref des ordonnances -->
+	<xs:element name="ordonnanceIds" type="texm:stringList" />
+
+	<!-- ref sur les mesures -->
+	<xs:element name="mesureIds" type="texm:stringList" />
+
+	<!-- True si l'utilisateur a valide les mofications auto -->
+	<xs:element name="hasvalidation" type="xs:boolean" default="false" />
+
+	<!-- ref des Decrets (tous) -->
+	<xs:element name="decretIds" type="texm:stringList" />
+
+	<!-- ref des Decrets non validés -->
+	<xs:element name="idsInvalidated" type="texm:stringList" />
+
+	<!-- ref des transpositionDirective -->
+	<xs:element name="transpositionIds" type="texm:stringList" />
+
+	<!-- Nor des dossiers appliquant la directive -->
+	<xs:element name="dossiersNor" type="texm:stringList" />
+
+	<!-- Mesures Applicatives -->
+	<xs:element name="mesuresApplicativesIds" type="texm:stringList" />
+
+	<!-- Projet de lois de ratification -->
+	<xs:element name="loiRatificationIds" type="texm:stringList" />
+
+	<!-- Habilitation -->
+	<xs:element name="habilitationIds" type="texm:stringList" />
+
+
+	<!-- Locks sur les attributs -->
+	<xs:element name="titreActeLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="ministerePiloteLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="numeroInterneLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="dateEntreeEnVigueurLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="champLibreLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="applicationDirecteLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="datePublicationLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="datePromulgationLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="titreOfficielLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="legislaturePublicationLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="natureTexteLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="procedureVoteLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="commissionAssNationaleLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="commissionSenatLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="numeroLocked" type="xs:boolean" default="false" />
+	<xs:element name="objetLocked" type="xs:boolean" default="false" />
+	<xs:element name="dateSaisineCELocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="datePassageCMLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="dateSectionCELocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="dateSortieCELocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="numeroJOPublicationLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="numeroPageLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="rapporteurCELocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="sectionCELocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="typeActeLocked" type="xs:boolean" default="false" />
+	<xs:element name="dateExamenCELocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="chambreDepotLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="dateDepotLocked" type="xs:boolean"
+		default="false" />
+	<xs:element name="numeroDepotLocked" type="xs:boolean"
+		default="false" />
+
+</xs:schema>

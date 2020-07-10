@@ -1,0 +1,405 @@
+<div xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:t="http://myfaces.apache.org/tomahawk">
+  
+  <h:form id="document_propertiesFDD" enctype="multipart/form-data">
+    <a4j:region id="documentViewRegion">
+      <a4j:outputPanel id="fddDocumentViewPanel" ajaxRendered="true">
+      	<nxu:set var="isFddUpdatable" value="#{!dossierCreationActions.isInViewRectificatif() and !espaceTraitementActions.isInCorbeilleIndexation() and isFondDossierUpdatable ?'true':'false'}" cache="true">
+        <div class="treeFile">
+             <div style="clear: both;"></div>
+             <table>
+              <tr>
+                <td>
+                  <h3>Fond de Dossier</h3>
+                </td>
+                <td>
+                  <nxh:commandLink action="#{fondDeDossierTree.reloadFondDeDossierTree()}" immediate="true">
+                    <h:graphicImage value="/img/refresh.png" alt="Recharger"  title="Recharger" id="rechargerFDD"/>
+                  </nxh:commandLink> 
+                </td>
+              </tr>
+             </table>
+             <br />
+             <h:outputText>
+              <table style="border-collapse:collapse;width: 100%;table-layout: fixed;" class="fakeTable">
+                <thead style="margin:0px;border-collapse:collapse;" >
+                  <tr  >
+                    <th style="text-align:center;" >
+                      <h:outputText value="Fichiers" />
+                    </th>
+                    <th style="width: 100px;padding:3px 1px 3px 1px;text-align:center;">
+                      <h:outputText value="Auteur" />
+                    </th>
+                    <th style="width: 100px;padding:3px 1px 3px 1px;text-align:center;">
+                      <h:outputText value="Entité" />
+                    </th>              
+                    <th style="width: 75px;padding:3px 1px 3px 1px;text-align:center;">
+                     <h:outputText value="Date" />
+                    </th>
+                    <th style="width: 75px;padding:3px 1px 3px 1px;text-align:center;">
+                     <h:outputText value="Version" />
+                    </th>
+                    <th style="width: 20px;text-align:center;">
+                     <h:outputText value="" />
+                    </th>
+                  </tr>
+                </thead>
+                <!-- note : attributs id and class are used by the style css -->
+                <tbody id="fddTreeStyle" class="treeStyle" style="margin:0px;border-collapse:collapse;">
+                    <tr>
+                      <td colspan="6" class="treeTableMainTd">
+                        <!-- Fond de Dossier Tree -->                    
+                        <rich:tree id="fondDeDossierTree" value="#{fondDeDossierTree.fondDeDossier}" var="item" 
+                            switchType="client" adviseNodeOpened="#{fondDeDossierTree.adviseNodeOpened}" nodeFace="#{item.type}">
+                            
+                            <!-- répertoire root-->
+                            <rich:treeNode id="fondDeDossierRootFolder" iconLeaf="/img/icons/trait_transparent.png"
+                              icon="/img/icons/trait_transparent.png" nodeClass="fddTreeNodeSelectedClass"
+                              highlightedClass="fddTreeNodeHighlightedClass" type="FondDeDossierFolder" 
+                              rendered="#{item.type== 'FondDeDossierFolder' and !item.isDeletable() and item.name!='Répertoire accessible à tous les utilisateurs'}">
+                              <div id="docRefTarget:#{item.id}"  class="#{nxu:test(isFddUpdatable, 'nxDropTarget','')}">
+                              <table style="width: 100%;table-layout: fixed;" >
+                                  <tr >
+                                    <td >
+                                        <h:graphicImage height="16" width="#{(item.getDepth())*16}" url="/img/icons/trait_transparent.png"/>
+                                        <h:graphicImage height="16" width="16" url="/img/icons/folder.png" rendered="#{!item.isEmpty()}"/>
+                                        <h:graphicImage height="16" width="16" url="/img/icons/folder_gris.png" rendered="#{item.isEmpty()}"/>
+                                        <h:outputText value="#{item.title}" />
+                                        <rich:componentControl for="menuFondDeDossierRootFolder" operation="show" event="onclick" rendered="#{isFddUpdatable}">
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.id)}" name="id" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.type)}" name="type" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.name)}" name="name" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.title)}" name="title" />
+                                        </rich:componentControl>
+                                    </td>
+                                  </tr>
+                              </table>
+                              </div>
+                            </rich:treeNode>
+                            
+                            <!-- répertoire root document interdit -->
+                            <rich:treeNode id="fondDeDossierRootSansDocFolder" iconLeaf="/img/icons/trait_transparent.png"
+                              icon="/img/icons/trait_transparent.png" nodeClass="fddTreeNodeSelectedClass"
+                              highlightedClass="fddTreeNodeHighlightedClass" type="FondDeDossierFolder" 
+                              rendered="#{item.type== 'FondDeDossierFolder' and !item.isDeletable() and item.name=='Répertoire accessible à tous les utilisateurs'}">
+                              <div id="docRefTarget:#{item.id}"  class="">
+                              <table style="width: 100%;table-layout: fixed;" >
+                                  <tr >
+                                    <td >
+                                        <h:graphicImage height="16" width="#{(item.getDepth())*16}" url="/img/icons/trait_transparent.png"/>
+                                        <h:graphicImage height="16" width="16" url="/img/icons/folder.png" rendered="#{!item.isEmpty()}"/>
+                                        <h:graphicImage height="16" width="16" url="/img/icons/folder_gris.png" rendered="#{item.isEmpty()}"/>
+                                        <h:outputText value="#{item.title}" />
+                                        <rich:componentControl for="menuFondDeDossierRootSansDocFolder" operation="show" event="onclick" rendered="#{isFddUpdatable}">
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.id)}" name="id" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.type)}" name="type" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.name)}" name="name" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.title)}" name="title" />
+                                        </rich:componentControl>
+                                    </td>
+                                  </tr>
+                              </table>
+                              </div>
+                            </rich:treeNode>
+                            
+                            <!-- répertoire utilisateurs -->
+                            <rich:treeNode id="fondDeDossierDeletableFolder" iconLeaf="/img/icons/trait_transparent.png"
+                              icon="/img/icons/trait_transparent.png" nodeClass="fddTreeNodeSelectedClass"
+                              highlightedClass="fddTreeNodeHighlightedClass" type="FondDeDossierFolder" rendered="#{item.type== 'FondDeDossierFolder' and item.isDeletable() }">
+                              <div id="docRefTarget:#{item.id}"  class="nxDropTarget">
+                              <table style="width: 100%;table-layout: fixed;" >
+                                  <tr>
+                                    <td>
+                                      <h:graphicImage height="16" width="#{(item.getDepth())*16}" url="/img/icons/trait_transparent.png"/>
+                                      <h:graphicImage height="16" width="16" url="/img/icons/folder.png" rendered="#{!item.isEmpty()}"/>
+                                      <h:graphicImage height="16" width="16" url="/img/icons/folder_gris.png" rendered="#{item.isEmpty()}"/>
+                                      <h:outputText value="#{item.title}" />
+                                      <rich:componentControl for="menuFondDeDossierDeletableFolder" operation="show" event="onclick" rendered="#{isFddUpdatable and fondDeDossierTree.isEpreuveAndUnauthorized(item)}">
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.id)}" name="id" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.type)}" name="type" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.name)}" name="name" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.title)}" name="title" />
+                                      </rich:componentControl>                                          
+                                    </td>
+                                  </tr>
+                              </table>
+                              </div>
+                            </rich:treeNode>
+                            
+                            <!-- Fichier  -->
+                            <rich:treeNode id="fondDeDossierFichier" type="FileSolonEpg"
+	                            highlightedClass="fddTreeNodeHighlightedClass"
+	                            icon="/img/icons/trait_transparent.png"
+	                            iconLeaf="/img/icons/trait_transparent.png">
+                              <!-- add document model in node -->
+                                <table style="width: 100%;table-layout: fixed;">
+                                  <tr>
+                                    <td>
+                                    <div class="treeLinkSizeLimit">
+                                    <h:graphicImage height="16" width="#{item.depth*16}" url="/img/icons/trait_transparent.png"/>
+                                      <a4j:outputPanel id="filesPanel">
+                                      	<div style="background-color:pink; width:10px;display:inline;margin-right:5px;">
+                                        <h:outputText value="#{fondDeDossierTree.getNumeroDeRosePourSaisineRectificative(item)}"/>
+                                        </div>
+		                                <div id="docRefTarget:#{item.id}"  class="#{nxu:test(isFddUpdatable, 'nxDropTarget cell popupTarget nxDraggable','')}"> 
+		                                  <div id="docRef:#{item.id}"  class="#{nxu:test(isFddUpdatable, 'cell popupTarget nxDraggable','')}" docRef="#{item.id}" rendered="#{isFddUpdatable}">                                        
+	                                        <nxh:graphicImage value="#{nxd:fileIconPath(blobHolderGenerator.getBlobHolder(item.document).blob)}" />
+			                              </div> 
+		                                 </div>                                        
+                                        <h:outputText value=" #{fondDeDossierTree.getPrefixFichierIfATransmettreSaisineOuPieceComplementaire(item)}" />
+                                        <h:outputText value=" #{item.title}" />
+                                     
+                                        <rich:componentControl event="onclick" for="menuFondDeDossierFichier"  operation="show">
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.id)}" name="id" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.type)}" name="type" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.name)}" name="name" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.title)}" name="title" />
+                                          <f:param value="#{fondDeDossierTree.escapeQuotes(item.majorVersion)}" name="numeroVersion" />
+                                          <f:param value="#{nxd:fileUrl('downloadFile', item.document, 'file:content', fondDeDossierTree.escapeQuotes(item.title))}" name="downloadFileLink" />
+                                        </rich:componentControl>
+                                      </a4j:outputPanel>
+                                      <!-- live edit -->
+                                      <nxu:methodResult name="isLiveEditable" value="#{liveEditHelper.isLiveEditable(blobHolderGenerator.getBlobHolder(item.document).blob)}">
+                                        <h:panelGroup rendered="#{isLiveEditable and isFddUpdatable}">
+                                           <h:outputText value=" | " />
+                                           <h:outputLink onclick="alertLiveEdit()"
+                                               value="#{nxd:liveEditUrl(item.document, 'file', 'content', 'filename')}">
+                                             <h:outputText value="#{messages['label.document.directEdit']}" />
+                                           </h:outputLink> 
+                                       </h:panelGroup>
+                                      </nxu:methodResult>
+                                    </div>
+                                    </td>
+                                    <td style="width:100px;text-align:center;word-wrap: break-word;" >
+                                      <h:outputText value="p n##{item.lastContributor}" converter="OrganigrammeUserIdToLabelConverter" />
+                                    </td>
+                                    <td style="width:100px;text-align:center;">
+                                      <h:outputText value="#{item.entite}" />
+                                    </td>
+                                    
+                                    <td style="width:75px;text-align:center;">
+                                        <h:outputText value="#{item.modifiedDate.getTime()}" converter="DateTimeConverter" />
+                                    </td>
+                                    <td style="width:75px;text-align:center;" >
+                                      <h:outputText value="#{item.majorVersion}" />
+                                    </td>
+                                    <td style="width: 20px;" >
+                                    </td>
+                                  </tr>
+                                </table>
+                            </rich:treeNode>
+                             
+                        </rich:tree>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </h:outputText>
+            <div class="menuContextuelStyle" >
+              <rich:contextMenu attached="false" id="menuFondDeDossierRootFolder" submitMode="ajax">                                  
+                   <!-- Ajout document -->
+                  <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('createFileFddPanel')"
+                      reRender="fddDocumentViewPanel,createFileFddOutPutPanel" 
+                      onmouseover="selected(this);">
+                      <h:graphicImage value="/icons/add.png"/>
+                      <h:outputText value="Ajouter document" />
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}" 
+                        name="SelectedNodeId" value="{id}" />
+                  </rich:menuItem>
+                  
+                  <!-- Création répertoire -->
+                    <!-- Dedans -->
+                  <rich:menuItem ajaxSingle="true" action="#{fondDeDossierManagerActions.createFolder()}" reRender="fddDocumentViewPanel">
+                    <h:graphicImage value="/icons/add.png"/>
+                    <h:outputText value="Ajouter répertoire" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}" 
+                      name="SelectedNodeId" value="{id}" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeType}"
+                      name="SelectedNodeType" value="{type}" />
+                  </rich:menuItem>
+              </rich:contextMenu>
+              
+              <rich:contextMenu attached="false" id="menuFondDeDossierRootSansDocFolder" submitMode="ajax">                                  
+                  <!-- Création répertoire -->
+                    <!-- Dedans -->
+                  <rich:menuItem ajaxSingle="true" action="#{fondDeDossierManagerActions.createFolder()}" reRender="fddDocumentViewPanel">
+                    <h:graphicImage value="/icons/add.png"/>
+                    <h:outputText value="Ajouter répertoire" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}" 
+                      name="SelectedNodeId" value="{id}" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeType}"
+                      name="SelectedNodeType" value="{type}" />
+                  </rich:menuItem>
+              </rich:contextMenu>
+              
+              <rich:contextMenu attached="false" id="menuFondDeDossierDeletableFolder" submitMode="ajax">                                  
+                   <!-- Ajout document -->
+                  <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('createFileFddPanel')"
+                      reRender="fddDocumentViewPanel,createFileFddOutPutPanel"
+                      onmouseover="selected(this);">
+                      <h:graphicImage value="/icons/add.png"/>
+                      <h:outputText value="Ajouter document" />
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}" 
+                        name="SelectedNodeId" value="{id}" />
+                  </rich:menuItem>
+                  
+                  <!-- Création répertoire -->
+                    <!-- Dedans -->
+                  <rich:menuItem ajaxSingle="true" action="#{fondDeDossierManagerActions.createFolder()}" reRender="fddDocumentViewPanel">
+                    <h:graphicImage value="/icons/add.png"/>
+                    <h:outputText value="Ajouter répertoire" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}" 
+                      name="SelectedNodeId" value="{id}" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeType}"
+                      name="SelectedNodeType" value="{type}" />
+                  </rich:menuItem>
+                  
+                   <!-- Avant -->
+                  <rich:menuItem ajaxSingle="true" action="#{fondDeDossierManagerActions.createFolderBefore()}" reRender="fddDocumentViewPanel">
+                    <h:graphicImage value="/icons/add.png"/>
+                    <h:outputText value="Ajouter avant" />                    
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}" 
+                      name="SelectedNodeId" value="{id}" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeType}"
+                      name="SelectedNodeType" value="{type}" />
+                  </rich:menuItem>
+                  
+                    <!-- Après -->
+                  <rich:menuItem ajaxSingle="true" action="#{fondDeDossierManagerActions.createFolderAfter()}" reRender="fddDocumentViewPanel">
+                    <h:graphicImage value="/icons/add.png"/>
+                    <h:outputText value="Ajouter après" />                    
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}" 
+                      name="SelectedNodeId" value="{id}" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeType}"
+                      name="SelectedNodeType" value="{type}" />
+                  </rich:menuItem>
+                  
+                  <!-- action Renommer  : lance une popup -->
+                  <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('renameFolderPanel')"
+                      onmouseover="selected(this);" reRender="renameFolderPanel">
+                    <h:graphicImage value="/icons/modify.png"/>
+                    <h:outputText value="Renommer" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}"
+                        name="SelectedNodeId" value="{id}" />
+                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeTitle}"
+                        name="SelectedNodeTitle" value="{title}" />
+                  </rich:menuItem>
+                  
+                  <!-- action supprimer : lance une popup de confirmation -->
+                  <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('deleteFddNodePanel')"
+                      onmouseover="selected(this);" reRender="deleteFddNodePanel">
+                      <h:graphicImage value="/icons/delete.png"/>
+                      <h:outputText value="Supprimer" />
+                      
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}"
+                        name="SelectedNodeId" value="{id}" />
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeTitle}"
+                        name="SelectedNodeIdTitle" value="{title}" />                      
+                  </rich:menuItem>                  
+              </rich:contextMenu>
+              
+              <rich:contextMenu attached="false" id="menuFondDeDossierFichier" submitMode="ajax">
+                    <!-- action Télécharger le fichier -->
+                    <rich:menuItem ajaxSingle="true" reRender="fddDocumentViewPanel,createFileFddOutPutPanel"
+                      onmouseover="selected(this);" >
+                      
+                      <a href="{downloadFileLink}">
+                      <h:graphicImage value="/img/icons/document_down_blue.png"/>Téléchargement fichier</a>
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}"
+                        name="SelectedNodeId" value="{id}" />
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeType}"
+                        name="SelectedNodeType" value="{type}" />
+                    
+                    </rich:menuItem>
+                    
+                    
+                    <!-- action Renommer  : lance une popup -->
+	                <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('renameFileFDDPanel')"
+	                      onmouseover="selected(this);" reRender="renameFileFDDPanel">
+	                    <h:graphicImage value="/icons/modify.png"/>
+	                    <h:outputText value="Renommer" />
+	                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}"
+	                        name="SelectedNodeId" value="{id}" />
+	                    <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeTitle}"
+	                        name="SelectedNodeTitle" value="{title}" />
+	                </rich:menuItem>
+                  
+                    
+                    <!-- action Mettre à jour le fichier -->
+                    <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('editFileFddPanel')"
+                      reRender="fddDocumentViewPanel,editFileFddOutPutPanel"
+                      onmouseover="selected(this);" 
+                      rendered="#{isFddUpdatable}">
+                      
+                      <h:graphicImage value="/icons/add.png"/>
+                      <h:outputText value="Nouvelle version" />
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}" name="SelectedNodeId" value="{id}" />
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeName}" name="SelectedNodeName" value="{name}" />
+                    
+                    </rich:menuItem>
+                    <!-- action consulter les versions du fichier -->
+                    <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('fddFileVersionListPanel')"
+                      reRender="fddDocumentViewPanel,fddFileVersionListOutPutPanel" onmouseover="selected(this);">
+                      
+                      <h:graphicImage value="/icons/add.png"/>
+                      <h:outputText value="Gestionnaire de version" />
+                      <a4j:actionparam assignTo="#{fondDeDossierManagerActions.selectedNodeId}"
+                        name="SelectedNodeId" value="{id}" />
+                    
+                    </rich:menuItem>
+                    <!-- action Supprimer : lance une popup -->
+                    <rich:menuItem ajaxSingle="true" oncomplete="Richfaces.showModalPanel('deleteFondDeDossierFilePanel')"
+                      onmouseover="selected(this);" 
+                      reRender="deleteFondDeDossierFilePanel" rendered="#{isFddUpdatable}">
+                      <h:graphicImage value="/icons/delete.png"/>
+                      <h:outputText value="Supprimer" />
+                      
+                      <a4j:actionparam
+                          assignTo="#{fondDeDossierManagerActions.selectedNodeId}"
+                          name="SelectedNodeId" value="{id}" />
+                      <a4j:actionparam
+                          assignTo="#{fondDeDossierManagerActions.numeroVersion}"
+                          name="NumeroVersion" value="{numeroVersion}" />
+                      <a4j:actionparam
+                          assignTo="#{fondDeDossierManagerActions.selectedNodeTitle}"
+                          name="SelectedNodeTitle" value="{title}" />
+                    
+                    </rich:menuItem>
+                
+              </rich:contextMenu>
+              
+            </div>
+        </div>
+        </nxu:set>
+      </a4j:outputPanel>
+    </a4j:region>
+  </h:form>
+
+ <script language="javascript">
+   //on utilise cette fonctions pour faire l'effet de selection d'action (on ne passe pas par l'attribut css :hover car non compatible IE6)
+   function selected(element) {
+       element.style.backgroundColor = "#774743";
+   }
+   function alertLiveEdit() {
+	  var menu = '#{navigationWebActions.currentMainMenuAction}'; 
+	  if(menu == 'espace_recherche' || menu == 'espace_suivi') {
+	  	alert("Merci d'enregistrer le document régulièrement sans quoi les modifications seront perdues.");
+	  }
+   }
+ </script>
+ <ui:include src="/casemanagement/caseitem/fondDeDossier/delete_folder_fdd.xhtml" />   
+ <ui:include src="/casemanagement/caseitem/fondDeDossier/rename_folder.xhtml" />
+ <ui:include src="/casemanagement/caseitem/fondDeDossier/rename_file.xhtml" />
+ <ui:include src="/casemanagement/caseitem/fondDeDossier/fileFdd_version_list.xhtml" />
+ <ui:include src="/casemanagement/caseitem/fondDeDossier/create_file_fdd.xhtml" />
+ <ui:include src="/casemanagement/caseitem/fondDeDossier/update_file_fdd.xhtml" />
+ <ui:include src="/casemanagement/caseitem/fondDeDossier/delete_file_fdd.xhtml" />
+</div>

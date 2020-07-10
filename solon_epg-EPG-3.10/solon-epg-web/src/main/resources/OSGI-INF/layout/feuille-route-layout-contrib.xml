@@ -1,0 +1,1499 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les layouts + widgets nécessaires à la gestion
+  des modèles de feuille de route.
+-->
+<component name="fr.dila.solonepg.web.layout.feuilleRoute">
+
+  <require>com.nuxeo.document.routing.table.widget</require>
+  <require>com.nuxeo.cm.table.layout</require>
+  <require>fr.dila.st.web.widgettype.feuilleRoute</require>
+  <require>fr.dila.st.web.widget.feuilleRoute</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+  
+    <!-- Layout de la liste des modèles de feuilles de route dans l'espace d'administration -->
+    <layout name="feuille_route_model_listing_dto">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+		<template mode="edit">/layouts/layout_filter_modeles_fdr_ajax_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+        <column name="selection" alwaysSelected="true">
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_checkbox_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.ecm:currentLifeCycleState, f.fdr:demandeValidation</property>
+          </properties>
+          <widget>feuille_route_etat_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.dc:title</property>
+          </properties>
+          <widget>feuille_route_title_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.fdr:numero</property>
+          </properties>
+          <widget>feuille_route_numero_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.fdr:ministere</property>
+          </properties>
+          <widget>feuille_route_ministere_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.dc:creator</property>
+          </properties>
+          <widget>feuille_route_auteur_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.dc:modified</property>
+          </properties>
+          <widget>feuille_route_dateModification_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+          </properties>
+          <widget>feuille_route_isDefault_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+          </properties>
+          <widget>feuille_route_lockInfo_dto</widget>
+        </column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">f.dc:title</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>feuille_route_title_filter</widget>
+		</column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">f.fdr:numero</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>feuille_route_numero_filter</widget>
+		</column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">f.fdr:typeActe</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>feuille_route_type_acte_filter</widget>
+		</column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">f.fdr:ministere</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>feuille_route_ministere_filter</widget>
+		</column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">f.fdr:direction</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>feuille_route_direction_filter</widget>
+		</column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">f.ecm:currentLifeCycleState</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>feuille_route_validee_filter</widget>
+		</column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">s.rtsk:type</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>route_step_type_filter</widget>
+		</column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">s.rtsk:distributionMailboxId</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>route_step_destination_filter</widget>
+		</column>
+		<column>
+			<properties mode="any">
+				<property name="filterPropertyName">f.fdr:feuilleRouteDefaut</property>
+				<property name="isHidden">true</property>
+			</properties>
+			<widget>feuille_route_defaut_filter</widget>
+		</column>
+      </columns>
+    </layout>
+    
+    <!-- Layout de la liste des squelettes de feuilles de route dans l'espace d'administration -->
+    <layout name="feuille_route_squelette_listing_dto">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+        <column name="selection" alwaysSelected="true">
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_checkbox_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.ecm:currentLifeCycleState, f.fdr:demandeValidation</property>
+          </properties>
+          <widget>feuille_route_etat_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.dc:title</property>
+          </properties>
+          <widget>feuille_route_title_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>feuille_route_typeActe_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.dc:creator</property>
+          </properties>
+          <widget>feuille_route_auteur_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">f.dc:modified</property>
+          </properties>
+          <widget>feuille_route_dateModification_dto</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+          </properties>
+          <widget>feuille_route_lockInfo_dto</widget>
+        </column>
+      </columns>
+    </layout>
+    
+    <!-- Layout du détail de la feuille de route -->
+    <layout name="feuille_route_detail">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>feuille_route_numero</widget>
+        </row>
+        <row>
+          <widget>feuille_route_intitule</widget>
+        </row>
+        <row>
+          <widget>feuille_route_ministere</widget>
+        </row>
+        <row>
+          <widget>feuille_route_direction</widget>
+        </row>
+        <row>
+          <widget>feuille_route_type_acte</widget>
+        </row>
+        <row>
+          <widget>feuille_route_defaut</widget>
+        </row>
+        <row>
+          <widget>description</widget>
+        </row>
+      </rows>
+    </layout>
+    
+        <!-- Layout du détail de la feuille de route -->
+    <layout name="feuille_route_detail_edit">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>feuille_route_numero</widget>
+        </row>
+        <row>
+          <widget>feuille_route_intitule_fixe</widget>
+        </row>
+        <row>
+          <widget>feuille_route_intitule_libre</widget>
+        </row>
+        <row>
+          <widget>feuille_route_ministere</widget>
+        </row>
+        <row>
+          <widget>feuille_route_direction</widget>
+        </row>
+        <row>
+          <widget>feuille_route_type_acte</widget>
+        </row>
+        <row>
+          <widget>feuille_route_defaut</widget>
+        </row>
+        <row>
+          <widget>description</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <!-- Layout du détail de la feuille de route -->
+    <layout name="feuille_route_squelette_detail">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>feuille_route_intitule</widget>
+        </row>
+        <row>
+          <widget>squelette_type_acte</widget>
+        </row>
+        <row>
+          <widget>description</widget>
+        </row>
+      </rows>
+    </layout>
+
+    <!-- Layout du détail de la feuille de route -->
+    <layout name="feuille_route_modele_mass_create">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>feuille_route_mass_create_ministere</widget>
+        </row>
+        <row>
+          <widget>feuille_route_mass_create_bureau_cabinet</widget>
+        </row>
+        <row>
+          <widget>feuille_route_mass_create_charge_mission</widget>
+        </row>
+        <row>
+          <widget>feuille_route_mass_create_secretariat_charge_mission</widget>
+        </row>
+        <row>
+          <widget>feuille_route_mass_create_conseiller_pm</widget>
+        </row>
+      </rows>
+      
+          <widget name="feuille_route_mass_create_ministere" type="template">
+        <labels>
+          <label mode="any">label.epg.feuilleRoute.modele.create.mass.ministere</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>ministereId</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">MIN_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+    
+      <widget name="feuille_route_mass_create_bureau_cabinet" type="template">
+        <labels>
+          <label mode="any">label.epg.feuilleRoute.modele.create.mass.bdc</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>bureauCabinetId</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+    
+      <widget name="feuille_route_mass_create_charge_mission" type="template">
+        <labels>
+          <label mode="any">label.epg.feuilleRoute.modele.create.mass.cdm</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>chargeMissionId</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+      
+      <widget name="feuille_route_mass_create_secretariat_charge_mission" type="template">
+        <labels>
+          <label mode="any">label.epg.feuilleRoute.modele.create.mass.scdm</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>secretariatChargeMissionId</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+      
+      <widget name="feuille_route_mass_create_conseiller_pm" type="template">
+        <labels>
+          <label mode="any">label.epg.feuilleRoute.modele.create.mass.cpm</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>conseillerPmId</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+      
+    </layout>
+    
+    <!-- Layout de la liste des étapes de feuille de route -->
+    <layout name="document_routing_route_content">
+      <templates>
+        <template mode="any">/layouts/layout_route_listing_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+        <property name="showCheckboxes">true</property>
+        <property name="listName">CURRENT_SELECTION</property>
+      </properties>
+      <columns>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dr_listing_document_route_folder_element_type</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_ministere_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_poste_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_type_action</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_obligatoire_icon</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dr_listing_step_actions</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="isListingSelectionBoxWithCurrentDocument">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>routing_task_ajax_selection_box_with_current_document</widget>
+        </column>
+      </columns>
+    </layout>
+    
+    <!-- Layout de la liste des étapes du squelette de feuille de route -->
+    <layout name="document_routing_route_squelette_content">
+      <templates>
+        <template mode="any">/layouts/layout_route_listing_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+        <property name="showCheckboxes">true</property>
+        <property name="listName">CURRENT_SELECTION</property>
+      </properties>
+      <columns>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dr_listing_document_route_folder_element_type</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>squelette_task_list_type_destinataire</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_ministere_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>squelette_task_list_poste_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_type_action</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_obligatoire_icon</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dr_listing_step_actions</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="isListingSelectionBoxWithCurrentDocument">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>routing_task_ajax_selection_box_with_current_document</widget>
+        </column>
+      </columns>
+    </layout>
+
+    <!-- Layout de la tâche de distribution de feuille de route -->
+    <layout name="routing_task_detail">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>routing_task_type</widget>
+        </row>
+        <row>
+          <widget>routing_task_distribution_mailbox</widget>
+        </row>
+        <row>
+          <widget>routing_task_deadline</widget>
+        </row>
+        <row>
+          <widget>routing_task_automatic_validation</widget>
+        </row>
+        <row>
+          <widget>routing_task_obligatoire_sgg</widget>
+        </row>
+        <row>
+          <widget>routing_task_obligatoire_ministere</widget>
+        </row>
+      </rows>
+      <widget name="routing_task_type" type="routing_task_type">
+        <fields>
+          <field>rtsk:type</field>
+        </fields>
+        <labels>
+          <label mode="any">label.casemanagement.routing.task.type</label>
+        </labels>
+        <translated>true</translated>
+        <properties widgetMode="any">
+          <property name="directoryName">cm_routing_task_type</property>
+          <property name="localize">true</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="notDisplayDefaultOption">true</property>
+          <property name="ordering">label</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+    </layout>
+    
+    <!-- Layout de la tâche de distribution de squelette de feuille de route -->
+    <layout name="squelette_routing_task_detail">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>routing_task_type</widget>
+        </row>
+        <row>
+          <widget>squelette_routing_task_distribution_mailbox</widget>
+        </row>
+        <row>
+          <widget>routing_task_deadline</widget>
+        </row>
+        <row>
+          <widget>routing_task_automatic_validation</widget>
+        </row>
+        <row>
+          <widget>routing_task_obligatoire_sgg</widget>
+        </row>
+        <row>
+          <widget>routing_task_obligatoire_ministere</widget>
+        </row>
+      </rows>
+      <widget name="routing_task_type" type="routing_task_type">
+        <fields>
+          <field>rtsk:type</field>
+        </fields>
+        <labels>
+          <label mode="any">label.casemanagement.routing.task.type</label>
+        </labels>
+        <translated>true</translated>
+        <properties widgetMode="any">
+          <property name="directoryName">cm_routing_task_type</property>
+          <property name="localize">true</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="notDisplayDefaultOption">true</property>
+          <property name="ordering">label</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+    </layout>
+
+    <!-- Layout de la liste des étapes d'une instance de feuille de route -->
+    <layout name="feuille_route_instance_listing">
+      <templates>
+        <template mode="any">/layouts/layout_route_listing_with_hidden_column_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dr_listing_document_route_folder_element_type</widget>
+          <property name="isHidden">etape</property>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+          </properties>
+          <widget>dr_listing_step_actions</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">typeAction</property>
+          </properties>
+          <widget>routing_task_list_type_action</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">ministere</property>
+          </properties>
+          <widget>routing_task_instance_list_ministere_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">poste</property>
+          </properties>
+          <widget>routing_task_instance_list_poste_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">numeroVersion</property>
+          </properties>
+          <widget>routing_task_list_numero_version</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">etat</property>
+          </properties>
+          <widget>routing_task_list_element_state</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">note</property>
+          </properties>
+          <widget>route_step_list_note</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">obligatoire</property>
+          </properties>
+          <widget>routing_task_list_obligatoire_icon</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">auteur</property>
+          </properties>
+          <widget>routing_task_instance_validation_user_label</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">echeance</property>
+          </properties>
+          <widget>cm_listing_routing_task_due_date</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">dateTraitement</property>
+          </properties>
+          <widget>cm_listing_routing_task_date_fin</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="isListingSelectionBoxWithCurrentDocument">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>routing_task_ajax_selection_box_with_current_document</widget>
+        </column>
+      </columns>
+    </layout>
+    
+    <!-- Layout utilisé pour afficher le pdf de la liste des étapes d'une instance de feuille de route -->
+    <layout name="pdf_fdr_content">
+      <templates>
+        <template mode="any">/layouts/pdf_layout_listing_fdr_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>pdf_dr_listing_document_route_folder_element_type</widget>
+          <property name="isHidden">etape</property>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">typeAction</property>
+          </properties>
+          <widget>pdf_routing_task_list_type_action</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">ministere</property>
+          </properties>
+          <widget>pdf_routing_task_instance_list_ministere_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">poste</property>
+          </properties>
+          <widget>pdf_routing_task_instance_list_poste_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">numeroVersion</property>
+          </properties>
+          <widget>pdf_routing_task_list_numero_version</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">etat</property>
+          </properties>
+          <widget>pdf_routing_task_list_element_state</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">obligatoire</property>
+          </properties>
+          <widget>pdf_routing_task_list_obligatoire_icon</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">auteur</property>
+          </properties>
+          <widget>pdf_routing_task_instance_validation_user_label</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">echeance</property>
+          </properties>
+          <widget>pdf_cm_listing_routing_task_due_date</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">dateTraitement</property>
+          </properties>
+          <widget>pdf_cm_listing_routing_task_date_fin</widget>
+        </column>
+      </columns>
+    </layout>    
+    
+    <layout name="feuille_route_model_select_listing">
+      <templates>
+        <template mode="any">
+          /layouts/layout_listing_ajax_template.xhtml
+        </template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">dc:title</property>
+          </properties>
+          <widget>listing_selection_link</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">fdr:numero</property>
+          </properties>
+          <widget>feuille_route_list_numero</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">dc:creator</property>
+          </properties>
+          <widget>listing_author</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">dc:modified</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>listing_modification_date</widget>
+        </column>
+      </columns>
+    </layout>
+    
+    <!-- Layout pour l'écran de creation d'etapes de feuilles de routes en masse -->
+    <layout name="routing_task_detail_listing">
+      <templates>
+        <template mode="any">
+          /layouts/layout_listing_ajax_template.xhtml
+        </template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+         <column name="typeEtape">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">typeEtape</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_type_dto</widget>
+        </column>
+        <column name="DistributionMailboxId">
+            <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">distributionMailboxId</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_distribution_mailbox_dto</widget>
+        </column>
+        <column name="deadline">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">deadline</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_deadline_dto</widget>
+        </column>
+        <column name="validationAutomatique">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">validationAutomatique</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_validation_automatique_dto</widget>
+        </column>
+        <column name="obligatoireSGG">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">obligatoireSGG</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_obligatoire_sgg_dto</widget>
+        </column>
+        <column name="obligatoireMinistere">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">obligatoireMinistere</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_obligatoire_ministere_dto</widget>
+        </column>
+	    <column name="remove">
+	      <widget>etape_feuille_de_route_mass_widget_remove</widget>
+        </column>
+      </columns>
+    </layout>
+    
+     <!-- Layout pour l'écran de creation d'etapes de squelettes de feuilles de routes en masse -->
+    <layout name="squelette_routing_task_detail_listing">
+      <templates>
+        <template mode="any">
+          /layouts/layout_listing_ajax_template.xhtml
+        </template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+         <column name="typeEtape">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">typeEtape</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_type_dto</widget>
+        </column>
+        <column name="DistributionMailboxId">
+            <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">distributionMailboxId</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>squelette_routing_task_distribution_mailbox_dto</widget>
+        </column>
+        <column name="deadline">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">deadline</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_deadline_dto</widget>
+        </column>
+        <column name="validationAutomatique">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">validationAutomatique</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_validation_automatique_dto</widget>
+        </column>
+        <column name="obligatoireSGG">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">obligatoireSGG</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_obligatoire_sgg_dto</widget>
+        </column>
+        <column name="obligatoireMinistere">
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">obligatoireMinistere</property>
+            <property name="defaultSortAscending">false</property>
+          </properties>
+          <widget>routing_task_obligatoire_ministere_dto</widget>
+        </column>
+	    <column name="remove">
+	      <widget>etape_feuille_de_route_mass_widget_remove</widget>
+        </column>
+      </columns>
+      </layout>
+    
+    <layout name="feuille_route_model_select_step_listing">
+      <templates>
+        <template mode="any">/layouts/layout_route_listing_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>dr_listing_document_route_folder_element_type</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_ministere_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_poste_name</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_type_action</widget>
+        </column>
+        <column>
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>routing_task_list_obligatoire_icon</widget>
+        </column>
+        
+      </columns>
+    </layout>
+    
+    <layout name="copier_fdr_layout">
+		<templates>
+			<template mode="any">/layouts/layout_default_template.xhtml
+			</template>
+		</templates>
+		<rows>
+			<row>
+				<widget>copier_fdr_widget</widget>
+			</row>
+		</rows>
+	
+		<widget name="copier_fdr_widget" type="text">
+			<labels>
+				<label mode="any">label.epg.dossier.copier.fdr</label>
+			</labels>
+			<fields>
+				<field>norDossierCopieFdr</field>
+			</fields>
+		</widget>
+	</layout>
+    
+    <!-- Layout de l'écran de substitution de poste dans les modèles de feuille de route -->
+    <layout name="feuille_route_model_poste_substitution">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>substitution_poste_ancien_poste</widget>
+        </row>
+        <row>
+          <widget>substitution_poste_nouveau_poste</widget>
+        </row>
+        <row>
+          <widget>substitution_poste_vider_liste</widget>
+        </row>
+      </rows>
+
+      <!-- Ancien poste -->
+      <widget name="substitution_poste_ancien_poste" type="template">
+        <labels>
+          <label mode="any">epg.modeleFeuilleRoute.substituerPoste.ancienPoste</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>substitutionAncienPoste</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+
+      <!-- Nouveau poste -->
+      <widget name="substitution_poste_nouveau_poste" type="template">
+        <labels>
+          <label mode="any">epg.modeleFeuilleRoute.substituerPoste.nouveauPoste</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>substitutionNouveauPoste</field>
+        </fields>
+        <properties widgetMode="any">
+          <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+          <property name="organigrammeSelectionType">POSTE_TYPE</property>
+          <property name="organigrammeSelectionMode">SINGLE</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+
+      <!-- Vide la liste de sélection -->
+      <widget name="substitution_poste_vider_liste" type="checkbox">
+        <labels>
+          <label mode="any">epg.modeleFeuilleRoute.substituerPoste.viderListe</label>
+        </labels>
+        <translated>true</translated>
+        <fields>
+          <field>substitutionViderListe</field>
+        </fields>
+      </widget>
+    </layout>
+    
+    <layout name="epreuve_initialize_postes_elements">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>epreuve_poste_bdc_field</widget>
+        </row>
+        <row>
+          <widget>epreuve_poste_publication_field</widget>
+        </row>
+        <row>
+          <widget>epreuve_poste_dan_field</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="squelette_epreuve_initialize_postes_elements">
+      <templates>
+        <template mode="any">/layouts/layout_dossier_creation_100_template.xhtml</template>
+      </templates>
+      <rows>
+        <row>
+          <widget>epreuve_poste_publication_field</widget>
+        </row>
+        <row>
+          <widget>epreuve_poste_dan_field</widget>
+        </row>
+      </rows>
+    </layout>
+    
+  </extension>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgets">
+    <!-- ***********************************************************************
+         Widgets de la liste des feuilles de route
+         *********************************************************************** -->
+    <!-- Numéro de la feuille de route -->
+    <widget name="feuille_route_list_numero" type="text">
+      <labels>
+        <label mode="any">label.epg.feuilleRoute.liste.numero</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.fdr.numero</field>
+      </fields>
+    </widget>
+     
+    <widget name="listing_selection_link" type="feuille_route_listing_selection_link">
+       <labels>
+        <label mode="any">label.feuilleRoute.liste.selection</label>
+      </labels>
+      <translated>true</translated>
+       <fields>
+        <field>data.id</field>
+        <field>data.dc.title</field>
+      </fields>
+    </widget>
+
+    <!-- ***********************************************************************
+         Widgets du détail de la feuille de route
+         *********************************************************************** -->
+    <!-- Numéro de la feuille de route -->
+    <widget name="feuille_route_numero" type="text">
+      <labels>
+        <label mode="any">label.epg.feuilleRoute.detail.numero</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fdr:numero</field>
+      </fields>
+      <widgetModes>
+        <mode value="create">hidden</mode>
+        <mode value="edit">view</mode>
+      </widgetModes>
+    </widget>
+    
+    <widget name="feuille_route_intitule_fixe" type="template">
+    <labels>
+        <label mode="any">Intitulé : </label>
+    </labels>
+    <translated>true</translated>
+    <properties widgetMode="any">
+        <property name="template">/widgets/feuille_route_intitule_fixe.xhtml</property>
+    </properties>
+    </widget>
+    
+    <widget name="feuille_route_intitule_libre" type="template">
+    <labels>
+        <label mode="any">label.epg.feuilleRoute.detail.intitule.libre</label>
+    </labels>
+    <translated>true</translated>
+    <properties widgetMode="any">
+        <property name="template">/widgets/feuille_route_intitule_libre.xhtml</property>
+        <property name="required">true</property>
+    </properties>
+    <widgetModes>
+        <mode value="edit">#{nxu:test(modeleFeuilleRouteActions.isFeuilleRouteDefautGlobal(), 'view', 'edit')}</mode>
+    </widgetModes>
+    </widget>
+    
+    <widget name="feuille_route_ministere" type="template">
+      <labels>
+        <label mode="any">st.feuilleRoute.detail.ministere</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fdr:ministere</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+        <property name="organigrammeSelectionType">MIN_TYPE</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>
+        <property name="organigrammeNodeFilter">null</property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="required">#{nxu:test(modeleFeuilleRouteActions.isAdminFonctionnel(), 'false', 'true')}</property>
+      </properties>
+      <widgetModes>
+        <mode value="edit">#{nxu:test(modeleFeuilleRouteActions.isFeuilleRouteDefautGlobal(), 'view', 'edit')}</mode>
+      </widgetModes>
+    </widget>
+      
+    <!-- Direction -->
+    <widget name="feuille_route_direction" type="template">
+      <labels>
+        <label mode="any">label.epg.feuilleRoute.detail.direction</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fdr:direction</field>
+        <field>fdr:ministere</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="template">/widgets/organigramme_select_node_widget.xhtml</property>
+        <property name="organigrammeSelectionType">DIR_TYPE</property>
+        <property name="organigrammeSelectionMode">SINGLE</property>
+        <property name="organigrammeFilterMode">true</property>
+      </properties>
+      <widgetModes>
+        <mode value="edit">#{nxu:test(modeleFeuilleRouteActions.isFeuilleRouteDefautGlobal(), 'view', 'edit')}</mode>
+      </widgetModes>
+    </widget>
+    
+    <!-- Type d'acte -->
+    <widget name="feuille_route_type_acte" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.epg.feuilleRoute.detail.typeActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fdr:typeActe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">type_acte</property>
+        <property name="ordering">label</property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="required">#{nxu:test(modeleFeuilleRouteActions.isAdminFonctionnel(), 'false', 'true')}</property>
+      </properties>
+      <widgetModes>
+        <mode value="edit">#{nxu:test(modeleFeuilleRouteActions.isFeuilleRouteDefautGlobal(), 'view', 'edit')}</mode>
+      </widgetModes>
+    </widget>
+    
+    <!-- Type d'acte obligatoire pour un squelette -->
+    <widget name="squelette_type_acte" type="selectOneDirectory">
+      <labels>
+        <label mode="any">label.epg.feuilleRoute.detail.typeActe</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fdr:typeActe</field>
+      </fields>
+      <properties widgetMode="any">
+        <property name="directoryName">type_acte</property>
+        <property name="ordering">label</property>
+      </properties>
+      <properties widgetMode="edit">
+        <property name="required">true</property>
+      </properties>
+      <widgetModes>
+        <mode value="edit">#{nxu:test(modeleFeuilleRouteActions.isFeuilleRouteDefautGlobal(), 'view', 'edit')}</mode>
+      </widgetModes>
+    </widget>
+
+    <!-- Feuille de route par défaut -->
+    <widget name="feuille_route_defaut" type="checkbox">
+      <labels>
+        <label mode="any">st.feuilleRoute.detail.feuilleRouteDefaut</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>fdr:feuilleRouteDefaut</field>
+      </fields>
+      <widgetModes>
+        <mode value="edit">#{nxu:test(modeleFeuilleRouteActions.isFeuilleRouteDefautGlobal(), 'view', 'edit')}</mode>
+      </widgetModes>
+    </widget>
+    
+    <!-- ***********************************************************************
+         Widgets de la liste des étapes d'une instance de feuille de route
+         *********************************************************************** -->
+    
+    <!-- Widget indiquant les ministères destinataires de l'étape de la feuille de route -->
+    <widget name="routing_task_instance_list_ministere_name" type="routing_task_instance_list_ministere_name">
+      <labels>
+        <label mode="any">st.feuilleRoute.etape.list.ministere</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.document.rtsk.distributionMailboxId</field>
+        <field>data.document.hasFacet('RouteStep')</field>
+        <field>data.document.rtsk.ministereLabel</field>
+      </fields>
+    </widget>
+
+    <!-- Widget indiquant le poste destinataire de l'étape de la feuille de route -->
+    <widget name="routing_task_instance_list_poste_name" type="routing_task_instance_list_poste_name">
+      <labels>
+        <label mode="any">st.feuilleRoute.etape.list.poste</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.document.rtsk.distributionMailboxId</field>
+        <field>data.document.hasFacet('RouteStep')</field>
+        <field>data.document.rtsk.posteLabel</field>
+      </fields>
+    </widget>
+
+    <!-- Widget indiquant le numéro de version de l'étape de la feuille de route -->
+    <widget name="routing_task_list_numero_version" type="listing_cm_routing_doc_properties">
+      <labels>
+        <label mode="any">label.casemanagement.routing.task.numeroVersion</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.document.rtsk.numeroVersion</field>
+        <field>data.document.hasFacet('RouteStep')</field>
+      </fields>
+    </widget>
+ 
+     <!-- Widget indiquant l'auteur ayant validé l'étape de la feuille de route -->
+    <widget name="routing_task_instance_validation_user_label" type="text">
+      <labels>
+        <label mode="any">label.casemanagement.routing.task.auteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.document.rtsk.validationUserLabel</field>
+      </fields>
+    </widget>
+    
+    <!--  -->
+    <widget name="routing_task_type_dto" type="routing_task_type">
+        <fields>
+          <field>data.type</field>
+        </fields>
+        <labels>
+          <label mode="any">label.casemanagement.routing.task.type.mandatory</label>
+        </labels>
+        <translated>true</translated>
+        <properties widgetMode="any">
+          <property name="directoryName">cm_routing_task_type</property>
+          <property name="localize">true</property>
+        </properties>
+        <properties widgetMode="edit">
+          <property name="notDisplayDefaultOption">true</property>
+          <property name="ordering">label</property>
+          <property name="required">true</property>
+        </properties>
+      </widget>
+    
+     <!-- ***********************************************************************
+         Widgets de la liste des étapes d'une instance de feuille de route : utilise pour l'impression pdf
+         *********************************************************************** -->
+ 
+     <!-- Widget indiquant les ministères destinataires de l'étape de la feuille de route : utilise pour l'impression pdf -->
+    <widget name="pdf_routing_task_instance_list_ministere_name" type="pdf_routing_task_instance_list_ministere_name">
+      <labels>
+        <label mode="any">st.feuilleRoute.etape.list.ministere</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.document.rtsk.distributionMailboxId</field>
+        <field>data.document.hasFacet('RouteStep')</field>
+        <field>data.document.rtsk.ministereLabel</field>
+      </fields>
+    </widget>
+
+    <!-- Widget indiquant le poste destinataire de l'étape de la feuille de route : utilise pour l'impression pdf -->
+    <widget name="pdf_routing_task_instance_list_poste_name" type="pdf_routing_task_instance_list_poste_name">
+      <labels>
+        <label mode="any">st.feuilleRoute.etape.list.poste</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.document.rtsk.distributionMailboxId</field>
+        <field>data.document.hasFacet('RouteStep')</field>
+        <field>data.document.rtsk.posteLabel</field>
+      </fields>
+    </widget>
+       
+    <!-- Widget indiquant le numéro de version de l'étape de la feuille de route : utilise pour l'impression pdf -->
+    <widget name="pdf_routing_task_list_numero_version" type="pdf_listing_cm_routing_doc_properties">
+      <labels>
+        <label mode="any">label.casemanagement.routing.task.numeroVersion</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.document.rtsk.numeroVersion</field>
+        <field>data.document.hasFacet('RouteStep')</field>
+      </fields>
+    </widget>
+    
+    <!-- Widget indiquant l'auteur ayant validé l'étape de la feuille de route : utilise pour l'impression pdf -->
+    <widget name="pdf_routing_task_instance_validation_user_label" type="pdf_text">
+      <labels>
+        <label mode="any">label.casemanagement.routing.task.auteur</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>data.document.rtsk.validationUserLabel</field>
+      </fields>
+    </widget>
+  </extension>
+  
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="widgettypes">
+    <!-- Widget permettant de sélectionner un élément d'une liste (comme selectOneDirectory),
+      avec en plus un filtre de certains éléments. -->
+    <widgetType name="select_one_directory">
+      <documentation>
+        The selectOneDirectory widget displays a selection of directory entries
+        in create or edit mode, with additional message tag for errors, and the
+        directory entry label in other modes.
+
+        Widgets using this type can provide properties accepted on a
+        &lt;nxd:selectOneListbox /&gt; tag in create or edit mode, and
+        properties accepted on a &lt;nxd:directoryEntryOutput /&gt; tag in other
+        modes.
+      </documentation>
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">/widgets/feuilleroute/routing_task_type_widget_template.xhtml</property>
+    </widgetType>
+
+    <!-- ***********************************************************************
+         Types de widgets de la liste des étapes d'une instance de feuille de route
+         *********************************************************************** -->
+    <!-- Ce type de widget permet d'afficher le nom des ministères destinataires d'une étape de la feuille de route -->
+    <widgetType name="routing_task_instance_list_ministere_name">
+     <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+        /widgets/listing/feuilleroute/listing_instance_mailbox_ministere_name_widget_template.xhtml
+      </property>
+    </widgetType>
+
+    <!-- Ce type de widget permet d'afficher le nom du poste destinataire d'une étape de la feuille de route -->
+    <widgetType name="routing_task_instance_list_poste_name">
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+        /widgets/listing/feuilleroute/listing_instance_mailbox_poste_name_widget_template.xhtml
+      </property>
+    </widgetType>
+        
+    <!-- ***********************************************************************
+         Types de widgets de la liste des étapes d'une instance de feuille de route : utilise pour l'impression pdf
+         *********************************************************************** -->
+    <!-- Ce type de widget permet d'afficher le nom des ministères destinataires d'une étape de la feuille de route : utilise pour l'impression pdf -->
+    <widgetType name="pdf_routing_task_instance_list_ministere_name">
+     <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+        /widgets/listing/feuilleroute/pdf_listing_instance_mailbox_ministere_name_widget_template.xhtml
+      </property>
+    </widgetType>
+
+    <!-- Ce type de widget permet d'afficher le nom du poste destinataire d'une étape de la feuille de route : utilise pour l'impression pdf -->
+    <widgetType name="pdf_routing_task_instance_list_poste_name">
+      <handler-class>
+        org.nuxeo.ecm.platform.forms.layout.facelets.plugins.TemplateWidgetTypeHandler
+      </handler-class>
+      <property name="template">
+        /widgets/listing/feuilleroute/pdf_listing_instance_mailbox_poste_name_widget_template.xhtml
+      </property>      
+    </widgetType>  
+  </extension>
+
+</component>

@@ -1,0 +1,55 @@
+<f:subview id="#{widget.id}" xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
+
+	<c:choose>
+		<c:when test="#{widget.mode != 'edit'}">
+			<c:choose>
+				<c:when test="#{field_0}">
+					<h:graphicImage value="/icons/task.png" alt="Oui" title="Oui" />
+				</c:when>
+				<c:when test="#{empty field_0}">
+					<h:graphicImage value="/img/icons/empty_task.png" alt="Indéterminé"
+						title="Indéterminé" />
+				</c:when>
+				<c:otherwise>
+					<h:graphicImage value="/img/icons/cross_task.png" alt="Non"
+						title="Non" />
+				</c:otherwise>
+			</c:choose>
+		</c:when>
+		<c:otherwise>
+			<a4j:outputPanel id="#{widget.id}_panel" ajaxRendered="true">
+				<c:choose>
+					<c:when test="#{field_0}">
+						<h:graphicImage value="/icons/task.png" alt="Oui" title="Oui">
+							<a4j:support event="onclick" reRender="#{widget.id}_panel"
+								eventsQueue="ajax_events_queue">
+								<a4j:actionparam value="#{false}" assignTo="#{field_0}" />
+							</a4j:support>
+						</h:graphicImage>
+					</c:when>
+					<c:when test="#{empty field_0}">
+						<h:graphicImage value="/img/icons/empty_task.png"
+							alt="Indéterminé" title="Indéterminé">
+							<a4j:support event="onclick" reRender="#{widget.id}_panel"
+								eventsQueue="ajax_events_queue">
+								<a4j:actionparam value="#{true}" assignTo="#{field_0}" />
+							</a4j:support>
+						</h:graphicImage>
+					</c:when>
+					<c:otherwise>
+						<h:graphicImage value="/img/icons/cross_task.png" alt="Non"
+							title="Non">
+							<a4j:support event="onclick" reRender="#{widget.id}_panel"
+								eventsQueue="ajax_events_queue">
+								<a4j:actionparam value="#{null}" assignTo="#{field_0}" />
+							</a4j:support>
+						</h:graphicImage>
+					</c:otherwise>
+				</c:choose>
+			</a4j:outputPanel>
+		</c:otherwise>
+	</c:choose>
+</f:subview>

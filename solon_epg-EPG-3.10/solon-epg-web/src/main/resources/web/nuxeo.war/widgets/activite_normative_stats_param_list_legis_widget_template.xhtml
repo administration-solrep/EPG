@@ -1,0 +1,98 @@
+<div xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"	
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:nxthemes="http://nuxeo.org/nxthemes">
+	
+	<c:if test="#{widget.mode == 'edit'}">
+		<h:form id="document_properties" enctype="multipart/form-data">
+		<a4j:region renderRegionOnly="true" id="#{widget.id}_ajax_region">
+			<a4j:outputPanel id="#{widget.id}_pubPanel" ajaxRendered="false">
+				<h:inputText id="#{widget.id}_inputPub"
+					value="#{paramStatsActiviteNormativeStatsActions.legislatureInput}" />
+				<a4j:commandLink id="#{widget.id}_addButton"
+					action="#{paramStatsActiviteNormativeStatsActions.addLegislature(value)}"
+					reRender="#{widget.id}_pubPanel,facesStatusMessagePanel">
+					<h:graphicImage value="/icons/action_add.gif"
+						id="#{widget.id}_addPubImage" />
+				</a4j:commandLink>
+
+				<br />
+
+				<nxu:set var="publications"	value="#{field_0}" cache="true">
+					<c:forEach var="publication" items="#{publications}" varStatus="status">
+						<h:outputText value="#{publication}" />
+						<a4j:commandLink id="#{widget.id}_indexLabel_#{status.index}" onclick="Richfaces.showModalPanel('updateValueLegislaturePanel')"
+							reRender="#{widget.id}_pubPanel">
+							<h:graphicImage value="/img/icons/document_edit_16.png" />
+                    		<a4j:actionparam assignTo="#{paramStatsActiviteNormativeStatsActions.selectedLegislatureValue}"
+                        		name="SelectedLegislatureValue" value="#{publication}" />
+						</a4j:commandLink>
+						<br />
+					</c:forEach>
+				</nxu:set>
+			</a4j:outputPanel>
+		</a4j:region>
+		</h:form>
+	</c:if>
+	<c:if test="#{widget.mode == 'view'}">
+		<h:outputText
+			value="#{nxu:joinCollection(paramStatsActiviteNormativeStatsActions.getLegislatures(value), ', ')}" />
+	</c:if>
+	
+	
+	<a4j:region id="updateValueLegislatureRegion">
+		<rich:modalPanel id="updateValueLegislaturePanel" autosized="true">
+			<div>
+				<f:facet name="header">
+					<h:outputText value="Modification du paramètre" />
+				</f:facet>
+			</div>
+			<h:form id="updateValueLegislatureForm">
+				<div id="updateValueLegislatureDiv">
+					<div class="popupTabbedDiv">
+						<h:panelGrid id="updateValueLegislaturePanelGrid" columnClasses="popupMediumDiv" columns="2" >
+							<h:panelGroup>
+								<h:outputText value="Valeur :" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<h:inputText id="updateValueLegislatureInput" value="#{paramStatsActiviteNormativeStatsActions.selectedLegislatureValue}" 
+									valueChangeListener="#{paramStatsActiviteNormativeStatsActions.updateLegislatureListener}" >
+					 				<a4j:support event="onblur" ajaxSingle="true" eventsQueue="ajax_events_queue" />
+								</h:inputText>
+							</h:panelGroup>
+						</h:panelGrid>
+					</div>
+					<!-- bouton pour valider la modification -->
+					<div class="popupDiv">
+						 <a4j:commandLink
+							action="#{paramStatsActiviteNormativeStatsActions.modifLegislature()}"
+							id="updateValueLegislatureValidation"
+							oncomplete="Richfaces.hideModalPanel('updateValueLegislaturePanel');"
+							reRender="#{widget.id}_pubPanel,facesStatusMessagePanel,updateValueLegislatureInput" ajaxSingle="true">
+							<h:graphicImage height="24" width="24" url="/img/icons/check.png" />
+							<h:outputText value="Valider" />
+						</a4j:commandLink>
+					</div>
+					<!-- bouton pour quitter la popup et ne pas effectuer de modification -->
+					<div class="popupDiv">
+						<a4j:commandLink
+							action="#{paramStatsActiviteNormativeStatsActions.resetProperties()}"
+							id="updateValueLegislatureCancellation"
+							oncomplete="Richfaces.hideModalPanel('updateValueLegislaturePanel')"
+							reRender="#{widget.id}_pubPanel,updateValueLegislatureInput" ajaxSingle="true">
+							<h:graphicImage height="24" width="24" url="/img/icons/delete.png" />
+							<h:outputText value="Annuler" />
+						</a4j:commandLink>
+					</div>
+				</div>
+			</h:form>
+		</rich:modalPanel>
+	</a4j:region>
+	
+	
+	
+</div>

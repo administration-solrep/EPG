@@ -1,0 +1,180 @@
+<f:subview xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets" 
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html" 
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:p="http://jboss.com/products/seam/pdf">
+    
+    		<p:paragraph>
+	        <p:font size="18" style="bold" >
+		          <p:text value="Données principales" />
+	 				</p:font>
+ 				</p:paragraph>
+ 				
+        <p:paragraph spacingBefore="30">
+          <p:font size="14" style="bold" >
+	          	<p:text value="Information sur l'acte" />
+         	</p:font>
+					<p:table  columns="1" widthPercentage="90" headerRows="0">
+             <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+             </p:cell>
+   				</p:table>
+          <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_donnees_principales" />
+          
+          <p:font size="14" style="bold" >
+          	<p:text value="Responsable de l'acte" />
+          </p:font>
+          <p:table  columns="1" widthPercentage="90" headerRows="0">
+             <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+             </p:cell>
+   				</p:table>
+          <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_responsable_acte" />
+
+          <c:if test="#{!typeActeFilter.isRapportAuParlement()}">
+            <p:font size="14" style="bold" >
+            	<p:text value="Publication" />
+            <p:table  columns="1" widthPercentage="90" headerRows="0">
+               <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+               </p:cell>
+     				</p:table>
+            </p:font>
+            <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_date_publication" />
+          </c:if>
+          
+          <c:if test="#{bordereauActions.isVisibleCE(currentDocument)}">
+            <p:font size="14" style="bold" >
+            	<p:text value="CE" />
+            </p:font>
+            <p:table  columns="1" widthPercentage="90" headerRows="0">
+             <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+             </p:cell>
+   					</p:table>
+            <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_ce" />
+          </c:if>
+          
+          <c:if test="#{!typeActeFilter.isRapportAuParlement()}">
+            <p:font size="14" style="bold" >
+            	<p:text value="Signature" />
+  					</p:font>
+  					<p:table  columns="1" widthPercentage="90" headerRows="0">
+               <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+               </p:cell>
+     			</p:table>
+            <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_date_signature" />
+          
+            <p:font size="14" style="bold" >
+            	<p:text value="Parution" />
+            </p:font>
+            <p:table  columns="1" widthPercentage="90" headerRows="0">
+               <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+               </p:cell>
+     		</p:table>
+          	<nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_parution" />
+          
+            <p:font size="14" style="bold" >
+            	<p:text value="Parution JORF" />
+            </p:font>
+            <p:table  columns="1" widthPercentage="90" headerRows="0">
+               <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+               </p:cell>
+     				</p:table>
+            <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_jorf" />
+            
+            <p:font size="14" style="bold" >
+            	<p:text value="Parution BO" />
+            </p:font>
+            <p:table  columns="1" widthPercentage="90" headerRows="0">
+               <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+               </p:cell>
+     				</p:table>
+            <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_bo" />
+
+            <p:font size="14" style="bold" >
+            	<p:text value="SGG-DILA" />
+            </p:font>
+            <p:table  columns="1" widthPercentage="90" headerRows="0">
+               <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+               </p:cell>
+     				</p:table>
+            <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_sgg_dila" />
+          </c:if>
+          
+          <p:font size="14" style="bold" >
+          	<p:text value="Base légale" />
+          </p:font>
+         <p:table  columns="1" widthPercentage="90" headerRows="0">
+             <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+             </p:cell>
+   				</p:table>
+          <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_base_legale" />
+          
+         <c:if test="#{typeActeFilter.isRapportAuParlement()}">
+           <p:text value="Périodicité du rapport" />
+            </p:font>
+           <p:table  columns="1" widthPercentage="90" headerRows="0">
+               <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+               </p:cell>
+            </p:table>
+            <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_periodicite_rapport" />
+         </c:if>
+        </p:paragraph>
+      
+      <p:newPage/>
+      
+      <c:if test="#{!typeActeFilter.isRapportAuParlement()}">
+        <p:paragraph spacingBefore="20">
+  	      <p:font size="18" style="bold" >
+  	          <p:text value="Données d'indexation" />
+  	      </p:font>
+  	       <nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_indexation" />
+        </p:paragraph>
+      </c:if>
+    
+    <c:if test="#{!typeActeFilter.isRapportAuParlement()}">
+      <c:if test="#{bordereauActions.isVisibleApplicationLoi(currentDocument) or bordereauActions.isVisibleTranspositionOrdonnance(currentDocument) or bordereauActions.isVisibleTranspositionDirective(currentDocument)}">
+        <p:newPage/>
+        <p:paragraph spacingBefore="20">
+      		<p:font size="14" style="bold" >
+            <p:text value="Transposition et application" />
+    			</p:font>
+    			
+            <c:if test="#{bordereauActions.isVisibleApplicationLoi(currentDocument)}">
+          		<p:font size="14" style="bold" >
+              	<p:text value="Application des lois" />
+              </p:font>
+             	<p:table  columns="1" widthPercentage="90" headerRows="0">
+             		<p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+             		</p:cell>
+   						</p:table>
+              	<nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_application_lois" />
+            </c:if>
+            
+            <c:if test="#{bordereauActions.isVisibleTranspositionOrdonnance(currentDocument)}">
+              <p:font size="14" style="bold" >
+              	<p:text value="Application des ordonnances" />
+              </p:font>
+     					<p:table  columns="1" widthPercentage="90" headerRows="0">
+             		<p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+             		</p:cell>
+   						</p:table>
+              	<nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_application_ordonnances" />
+            </c:if>
+            
+            <c:if test="#{bordereauActions.isVisibleTranspositionDirective(currentDocument)}">
+              <p:font size="14" style="bold" >
+              	<p:text value="Transposition des directives" />
+              </p:font>
+              <p:table  columns="1" widthPercentage="90" headerRows="0">
+           		  <p:cell borderWidthTop="1" borderWidthRight="0" borderWidthBottom="0" borderWidthLeft="0" >
+           		  </p:cell>
+ 							</p:table>
+              	<nxl:layout value="#{currentDocument}" mode="view" name="pdf_bordereau_transposition_directive" />
+            </c:if>
+        </p:paragraph>
+      </c:if>
+    </c:if>
+    
+</f:subview>

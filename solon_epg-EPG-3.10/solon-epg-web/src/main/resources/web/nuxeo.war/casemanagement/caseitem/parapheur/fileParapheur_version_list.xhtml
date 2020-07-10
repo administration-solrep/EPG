@@ -1,0 +1,75 @@
+<div xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxh="http://nuxeo.org/nxweb/html">
+  
+  <a4j:region id="parapheurFileVersionListRegion">
+    <a4j:outputPanel id="parapheurFileVersionListOutPutPanel">
+      <rich:modalPanel id="parapheurFileVersionListPanel" autosized="true">
+        <div>
+          <f:facet name="header">
+            <h:outputText value="Gestion des versions" />
+          </f:facet>
+         </div>
+        <h:form id="parapheurFileVersionListForm">
+          <a4j:queue requestDelay="500" sizeExceededBehavior="dropNew"
+            ignoreDupResponses="true" size="10" id="parapheurFileVersionListQueue"
+            name="parapheurFileVersionListQueue" timeout="10000" />
+          <!-- affichage de la liste des versions -->
+          <nxu:set var="parapheurFileVersionList" value="#{parapheurManagerActions.getFileVersionList()}" cache="true"> 
+            <c:set var="height" value="#{100 + parapheurManagerActions.getFileVersionList().size() * 10}" />
+            <c:set var="height" value="#{(height > 250 ? 250 : height)}" />
+            <div class="largePopupTd" style="overflow:auto; width: 500px; height: #{nxu:concat(height, 'px')}; ">
+              <table class="dataOutput">
+                <thead>
+                  <tr>
+                    <th>Numéro version</th>
+                    <th>Fichier</th>
+                    <th>Date</th>
+                    <th>Auteur</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <c:forEach var="parapheurFileVersion" items="#{parapheurFileVersionList}" varStatus="status">
+                  <tr class="#{nxu:test(status.index % 2 == 1, 'dataRowOdd', 'dataRowEven')}" >
+                    <td>
+                      <h:outputText value="#{parapheurFileVersion.uid.major_version}" />
+                    </td>
+                    <td>
+                      <!-- fichier versionné -->
+                      <nxh:outputLink class="treeLinkBoldLabel" value="#{nxd:fileUrl('downloadFile', parapheurFileVersion, 'file:content', parapheurFileVersion.file.filename)}">
+                        <nxh:graphicImage value="#{nxd:fileIconPath(blobHolderGenerator.getBlobHolder(parapheurFileVersion).blob)}" />
+                        <h:outputText value="#{parapheurFileVersion.title}" />
+                      </nxh:outputLink>
+                    </td>
+                    <td>
+                      <!--  date de dernière modification de la version -->
+                      <h:outputText value="#{parapheurFileVersion.dublincore.modified.getTime()}" converter="DateTimeConverter" />
+                    </td>
+                    <td>
+                      <!--  auteur -->
+                      <h:outputText value="p n##{parapheurFileVersion.dublincore.lastContributor}" converter="OrganigrammeUserIdToLabelConverter" />
+                    </td>
+                  </tr>
+                  </c:forEach>
+                </tbody>
+              </table>
+            </div>
+          </nxu:set>
+  
+          <!-- bouton permettant de quiter la popup -->
+          <div class="popupMediumDiv" align="center" >
+            <a4j:commandButton styleClass="button" value="Fermer" oncomplete="Richfaces.hideModalPanel('parapheurFileVersionListPanel')" 
+              id="quitterparapheurFileVersionListText" eventsQueue="parapheurFileVersionListQueue" reRender="documentViewPanel" ajaxSingle="true">
+            </a4j:commandButton>
+          </div>
+        </h:form>
+      </rich:modalPanel>
+    </a4j:outputPanel>
+  </a4j:region>
+</div>

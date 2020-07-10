@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<nxthemes:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxthemes="http://nuxeo.org/nxthemes"
+  xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+  xmlns:nxd="http://nuxeo.org/nxweb/document"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:rich="http://richfaces.org/rich"  >
+	
+  <ui:define name="page title">
+    <c:set var="mainTab" value="#{navigationWebActions.getCurrentMainMenuAction()}"/>
+    <c:choose>
+	    <c:when test="#{! empty currentDocument}">
+	    	<h:outputText value="#{nxd:titleOrId(currentDocument)}" />
+	    </c:when>
+	    <c:when test="#{mainTab == 'espace_creation' }">
+	    	<h:outputText value="#{nuxeoApplicationName} - Espace de création"/>
+	    </c:when>
+	    <c:when test="#{mainTab == 'SHOW_REPOSITORY' }">
+	    	<h:outputText value="#{nuxeoApplicationName} - Espace de traitement"/>
+	    </c:when>
+	    <c:when test="#{mainTab == 'espace_suivi' }">
+	    	<h:outputText value="#{nuxeoApplicationName} - Espace de suivi"/>
+	    </c:when>
+	    <c:when test="#{mainTab == 'espace_recherche' }">
+	    	<h:outputText value="#{messages['label.requeteur.dossier']}" />
+	    </c:when>
+	    <c:when test="#{mainTab == 'espace_parlementaire' }">
+	    	<h:outputText value="#{nuxeoApplicationName} - Espace Parlementaire"/>
+	    </c:when>
+	    <c:when test="#{mainTab == 'espace_activite_normative' }">
+	    	<h:outputText value="#{nuxeoApplicationName} - Pilotage de l'activité normative"/>
+	    </c:when>
+	    <c:when test="#{mainTab == 'espace_administration' }">
+	    	<h:outputText value="#{nuxeoApplicationName} - Espace d'administration"/>
+	    </c:when>
+	    <c:otherwise>
+	    	 <h:outputText value="#{nuxeoApplicationName}" />
+	    </c:otherwise>
+    </c:choose>
+  </ui:define>
+
+  <ui:define name="bookmark">
+    <link rel="bookmark" href="#{navigationContext.currentDocumentFullUrl}" />
+  </ui:define>
+  
+	 <ui:define name="body">
+	 </ui:define>
+
+	  <ui:define name="subbody">
+	  <c:choose>
+ 				<c:when test="#{! empty currentDocument}">
+		    <div class="subbodyContainer">
+			  <ui:include src="/reponses_infobar.xhtml"/>
+		      <h:panelGroup rendered="#{currentDocument.version}">
+		      <h1>
+		      <h:outputText value="#{nxd:titleOrId(versionedActions.sourceDocument)}"/>
+		      (
+		      <h:outputText value="#{messages['label.version']}" />
+		      <h:outputText value=" #{currentDocument.uid.major_version}"/>.
+		      <h:outputText value="#{currentDocument.uid.minor_version}"/>)
+		      </h1>  	
+		      
+		    </h:panelGroup>
+		    <h:panelGroup rendered="#{! currentDocument.version}">
+		      <ui:include src="/incl/current_document_title.xhtml" />
+		    </h:panelGroup>
+		
+		      <ui:include src="/incl/message_banner.xhtml"/>
+		      
+		        
+		      <p class="currentDocumentDescription float">
+		        <h:outputText value="#{currentDocument.dublincore.description}"/>
+		      </p>
+		    
+			 <ui:include src="/select_document_type.xhtml" />
+			 <ui:decorate template="view_cm_case_template.xhtml">
+		      <ui:define name="case_body">
+		        <h:panelGroup id="case_content">
+		          <ui:insert name="case_content">
+		           <ui:include src="/solon_epg_toolbar.xhtml" />  
+		            <ui:include src="cm_case_actions_tabs.xhtml" />
+		            <div style="clear: both">  
+		            </div>
+		            <div class="tabsContent">
+		              <ui:include src="#{webActions.currentTabAction.link}" />
+		            </div>
+		          </ui:insert>
+		        </h:panelGroup>
+		      </ui:define>
+		    </ui:decorate>
+		    </div>
+	     </c:when>
+	  	 <c:otherwise>
+	     </c:otherwise>
+      </c:choose>
+	  </ui:define>
+
+</nxthemes:composition>

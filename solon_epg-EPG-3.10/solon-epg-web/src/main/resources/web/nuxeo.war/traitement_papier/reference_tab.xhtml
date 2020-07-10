@@ -1,0 +1,65 @@
+<div xmlns:h="http://java.sun.com/jsf/html" 
+     xmlns:c="http://java.sun.com/jstl/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets" 
+     xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:nxl="http://nuxeo.org/nxforms/layout" 
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:nxh="http://nuxeo.org/nxweb/html" 
+     xmlns:nxu="http://nuxeo.org/nxweb/util">
+
+  
+  <div style="clear:both;"></div>
+    
+  <div class="foldableBox">
+	<h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+	<h:outputText value="#{messages['label.epg.papier.reference.subtitle.bordereau']}" /></a></h3>
+	<div class="boxBody">	    
+	  <h3 class="summaryTitle"><h:outputText value="#{messages['label.epg.papier.reference.subtitle.info_acte']}" /></h3>
+	  <nxl:layout value="#{currentDocument}" mode="view" name="papier_reference_bordereau_part_acte" />
+	  <h3 class="summaryTitle"><h:outputText value="#{messages['label.epg.papier.reference.subtitle.resp_acte']}" /></h3>
+	  <nxl:layout value="#{currentDocument}" mode="view" name="papier_reference_bordereau_part_resp" />
+	  <c:if test="${not typeActeFilter.isRapportAuParlement() and not typeActeFilter.isActeTexteNonPublie()}">
+	    <h3 class="summaryTitle"><h:outputText value="#{messages['label.epg.papier.reference.subtitle.publication']}" /></h3>
+	    <nxl:layout value="#{currentDocument}" mode="view" name="papier_reference_bordereau_part_pub" />
+	  </c:if>
+	</div>
+  </div>
+  
+  <h:form id="papierForm" enctype="multipart/form-data">
+    <h:commandButton id="idSavePapierButton" value="Enregistrer" style="visibility: hidden;"
+          	action="#{papierActions.saveTraitementPapier(currentDocument)}" />
+    
+    <nxu:set var="layoutMode" value="#{lockActions.getCanUnlockDoc(currentDocument) and papierActions.canCurrentUserWrite() ?'edit':'view'}">
+    
+	  <div class="foldableBox">
+	    <h3 class="folded"><a href="#nologo" onclick="return toggleBox(this)">
+		<h:outputText value="#{messages['label.epg.papier.reference.subtitle.complements']}" /></a></h3>
+		<div class="boxBody">
+		  <h3 class="summaryTitle"><h:outputText value="#{messages['label.epg.papier.reference.subtitle.reference']}" /></h3>
+		  <nxl:layout value="#{currentDocument}" mode="#{layoutMode}" name="papier_reference_ref_part" />
+		</div>
+	  </div>
+    
+    </nxu:set>
+  </h:form>
+  
+  <!-- mise a jour de la variable globlae si modification d'un champ pour eviter la perte de données -->
+  <script>
+	   	  var j = jQuery.noConflict();
+		  j(document).ready(function() {
+	
+		    j('.tabsContent input').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent textarea').change(function() {
+		    	isDossierModified = true;
+		    });
+
+		    j('.tabsContent select').change(function() {
+		    	isDossierModified = true;
+		    });
+		  });
+  </script>
+  
+</div>

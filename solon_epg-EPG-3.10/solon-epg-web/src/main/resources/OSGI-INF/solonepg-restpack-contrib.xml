@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<component name="fr.dila.solonepg.web.restpack.contrib">
+
+  <extension target="org.nuxeo.ecm.platform.ui.web.restAPI.service.PluggableRestletService"
+    point="restlets">
+    <require>org.nuxeo.ecm.platform.ui.web.restAPI.contrib</require>
+    <require>org.nuxeo.ecm.platform.restpack.contrib</require>
+    
+    <!-- désactivation des services rest inutilisé qui font appel à des classes non utilise qui vont à leur tour déclencher une ClassNotFoundException lorsque on utilise Liveedit
+      note : il faut changer le nom de la classe et mettre un nom de classe valise car nuxeo charge la classe même si enabled est à false. 
+    -->
+
+    <documentation>GET /nuxeo/restAPI/workflowTasks/default/</documentation>
+    <restletPlugin name="workflowTaskRestlet"
+      class="org.nuxeo.ecm.platform.ui.web.restAPI.BaseNuxeoRestlet"
+      enabled="false" useSeam="false" useConversation="false">
+      <urlPatterns>
+        <urlPattern>/workflowTasks/{repo}</urlPattern>
+        <urlPattern>/workflowTasks/{repo}/</urlPattern>
+        <urlPattern>/workflowTasks/</urlPattern>
+        <urlPattern>/workflowTasks</urlPattern>
+        <!-- <urlPattern>/workflowTasks/{repo}/{username}</urlPattern> -->
+      </urlPatterns>
+    </restletPlugin>
+
+  </extension>
+
+</component>

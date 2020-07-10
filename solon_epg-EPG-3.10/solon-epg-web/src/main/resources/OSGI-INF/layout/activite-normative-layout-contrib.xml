@@ -1,0 +1,2953 @@
+<?xml version="1.0"?>
+
+<!--
+  Ce composant contribue les layouts de l'activite normative.
+-->
+<component name="fr.dila.solonepg.web.layout.tactivitenormativelisting">
+  <require>fr.dila.solonepg.web.widget.dossierlisting</require>
+
+  <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager" point="layouts">
+    
+    <layout name="tableau_maitre_application_lois_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" >
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>        
+        
+        <!-- Colonne Ministere Resp -->
+        <column name="colonneMinistereResp" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:ministerePilote</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_ministereResp_simple_2_lines</widget>
+        </column>
+        
+        <!-- Colonne NOR -->
+        <column name="colonneNOR" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numeroNor</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>dossier_listing_link_an_numeroNor</widget>
+        </column>
+        
+         <!-- Colonne Numero Interne -->
+        <column name="colonneNumeroInterne" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numero</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_numero</widget>
+        </column>
+        
+		<!-- Titre de la loi -->
+        <column name="colonnetitreOfficiel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:titreOfficiel</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_titreOfficiel_dos_listing</widget>
+        </column>
+		
+        <!-- Colonne Mot Cle -->
+        <column name="colonneMotCle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:motCle</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_motCle</widget>
+        </column>
+        
+        <!-- Colonne date de promulgation -->
+        <column name="colonneDatePromulgation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePromulgation</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePromulgation</widget>
+        </column>
+        
+         <!-- Colonne applicationDirecte -->
+        <column name="colonneapplicationDirecte" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:applicationDirecte</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_applicationDirecte_2_lines</widget>
+        </column>
+        
+         <!-- Colonne natureTexte -->
+        <column name="colonnenatureTexte" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:natureTexte</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_natureTexte</widget>
+        </column>
+        
+        
+        <!-- Colonne de suppression -->
+        <column name="colonneSuppression" >
+          <widget>activite_normative_widget_remove</widget>
+        </column>
+        
+      </columns>
+      </layout>
+      
+      <layout name="tableau_maitre_ordonnances_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" >
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>
+        
+        <!-- Colonne Titre Officiel -->
+        <column name="colonneTitreOfficiel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:titreOfficiel</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_titreOfficiel_dos_listing</widget>
+        </column>
+
+        <!-- Colonne NOR -->
+        <column name="colonneNOR" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numeroNor</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>dossier_listing_link_an_numeroNor</widget>
+        </column>
+        
+        <!-- Colonne Ministere Resp -->
+        <column name="colonneMinistereResp" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:ministerePilote</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_ministereResp</widget>
+        </column>
+        
+        <!-- Colonne Numero Interne -->
+        <column name="colonneNumeroInterne" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numero</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_numero</widget>
+        </column>
+        
+        <!-- Colonne Date Publication -->
+        <column name="colonneDatePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePublication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePublication_dos_listing</widget>
+        </column>
+        
+        <!-- Colonne Titre acte -->
+        <column name="colonneTitreActe" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:titreActe</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_link_titreActe</widget>
+        </column>
+        
+        <!-- Colonne Fondement constitutionnel -->
+        <column name="colonneFondementConstitutionnel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:dispositionHabilitation</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_fondementConstitutionnel_dos_listing</widget>
+        </column>
+        
+        <!-- Colonne de suppression -->
+        <column name="colonneSuppression" >
+          <widget>activite_normative_widget_remove</widget>
+        </column>
+        
+      </columns>
+      </layout>
+      
+      <layout name="tableau_maitre_ordonnances38C_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" >
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>
+        
+        <!-- Colonne Ministere Resp -->
+        <column name="colonneMinistereResp" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:ministerePilote</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_ministereResp</widget>
+        </column>
+        
+        <!-- Colonne NOR -->
+        <column name="colonneNOR" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numeroNor</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>dossier_listing_link_an_numeroNor</widget>
+        </column>
+        
+        <!-- Colonne Titre Officiel -->
+        <column name="colonneTitreOfficiel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:titreOfficiel</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_titreOfficiel_dos_listing</widget>
+        </column>
+        
+        <!-- Colonne Numero Interne -->
+        <column name="colonneNumeroInterne" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numero</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_numero</widget>
+        </column>
+        
+          <!-- Colonne Mot Cle -->
+        <column name="colonneMotCle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:motCle</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_motCle</widget>
+        </column>
+        
+        <!-- Colonne date de promulgation -->
+        <column name="colonneDatePromulgation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePromulgation</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePromulgation</widget>
+        </column>
+        
+        <!-- Colonne Date Publication -->
+        <column name="colonneDatePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePublication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePublication_dos_listing</widget>
+        </column>
+        
+        <!-- Colonne Legislature de Publication -->
+        <column name="colonneLegislature" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:legislaturePublication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_legislaturePublication</widget>
+        </column>
+        
+        <!-- Colonne de suppression -->
+        <column name="colonneSuppression" >
+          <widget>activite_normative_widget_remove</widget>
+        </column>
+        
+      </columns>
+      </layout>
+      
+     <layout name="tableau_maitre_traites_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" >
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>
+        <!-- Colonne categorie -->
+        <column name="colonneCategorie" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:categorie</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_categorie</widget>
+        </column>
+        <!-- Colonne organisation -->
+        <column name="colonneorganisation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:organisation</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_organisation</widget>
+        </column>
+        <!-- Colonne thematique -->
+        <column name="colonnethematique" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:thematique</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_thematique</widget>
+        </column>
+        <!-- Colonne Titre acte -->
+        <column name="colonneTitreActe" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:titreActe</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_link_titreActe</widget>
+        </column>
+        <!-- Colonne dateSignature -->
+        <column name="colonnedateSignature" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:dateSignature</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_dateSignature</widget>
+        </column>
+        <!-- Colonne dateEntreeEnVigueur -->
+        <column name="colonnedateEntreeEnVigueur" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:dateEntreeEnVigueur</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_dateEntreeEnVigueur</widget>
+        </column>
+        <!-- Colonne autorisationRatification -->
+        <column name="colonneautorisationRatification" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:autorisationRatification</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_autorisationRatification</widget>
+        </column>
+        <!-- Colonne publication -->
+        <column name="colonnepublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:publication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_publication</widget>
+        </column>
+        <!-- Colonne observation -->
+        <column name="colonneobservation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_observation</widget>
+        </column>
+        
+        
+        
+        <!-- Colonne de suppression -->
+        <column name="colonneSuppression" >
+          <widget>activite_normative_widget_remove</widget>
+        </column>
+        
+      </columns>
+      </layout>
+      
+      <layout name="tableau_maitre_transpositions_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" >
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>
+        
+        <!-- Colonne NOR -->
+        <column name="colonneNOR" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">t.texm:numero</property>
+          </properties>
+          <widget>tdeu_listing_link_an_numero</widget>
+        </column>
+        
+        <!-- Colonne date -->
+        <column name="colonneDate" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">t.texm:dateDirective</property>
+          </properties>
+          <widget>tdeu_listing_an_dateDirective</widget>
+        </column>
+        
+        <!-- Colonne ministerePilote -->
+        <column name="colonneMinisterePilote" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">t.texm:ministerePilote</property>
+          </properties>
+          <widget>tdeu_listing_an_ministerePilote</widget>
+        </column>
+        
+        <!-- Colonne titre -->
+        <column name="colonneTitre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">t.texm:titre</property>
+          </properties>
+          <widget>tdeu_listing_an_titre</widget>
+        </column>
+        
+        <!-- Colonne dateEcheance -->
+        <column name="colonneDateEcheance" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">t.texm:dateEcheance</property>
+          </properties>
+          <widget>tdeu_listing_an_dateEcheance</widget>
+        </column>
+        
+        <!-- Colonne tabAffichageMarcheInt -->
+        <column name="colonnetabAffichageMarcheInt" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">t.texm:tabAffichageMarcheInt</property>
+          </properties>
+          <widget>tdeu_listing_an_tabAffichageMarcheInt</widget>
+        </column>
+        
+        <!-- Colonne dateProchainTabAffichage -->
+        <column name="colonneDateProchainTabAffichage" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">t.texm:dateProchainTabAffichage</property>
+          </properties>
+          <widget>tdeu_listing_an_dateProchainTabAffichage</widget>
+        </column>
+        
+        <!-- Colonne achevee -->
+        <column name="colonneAchevee" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">t.texm:achevee</property>
+          </properties>
+          <widget>tdeu_listing_an_achevee</widget>
+        </column>
+        
+        <!-- Colonne observation -->
+        <column name="colonneObservation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>tdeu_listing_an_observation</widget>
+        </column>
+
+        <!-- Colonne de suppression -->
+        <column name="colonneSuppression" >
+          <widget>activite_normative_widget_remove</widget>
+        </column>
+        
+      </columns>
+      </layout>
+      
+	<layout name="transposition_directive">
+		<templates>
+			<template mode="any">/layouts/layout_default_template.xhtml
+			</template>
+		</templates>
+		<rows>
+			<row>
+				<widget>tdeu_an_numero</widget>
+			</row>
+			<row>
+				<widget>tdeu_an_dateDirective</widget>
+			</row>
+			<row>
+				<widget>tdeu_an_ministerePilote</widget>
+			</row>
+            <row>
+              <widget>tdeu_an_directionResponsable</widget>
+            </row>
+			<row>
+				<widget>tdeu_an_titre</widget>
+			</row>
+			<row>
+				<widget>tdeu_an_dateEcheance</widget>
+			</row>
+			<row>
+				<widget>tdeu_an_tabAffichageMarcheInt</widget>
+			</row>
+			<row>
+				<widget>tdeu_an_dateProchainTabAffichage</widget>
+			</row>
+			<row>
+				<widget>tdeu_an_achevee</widget>
+			</row>
+            <row>
+              <widget>tdeu_an_dateTranspositionEffective</widget>
+            </row>
+			<row>
+				<widget>tdeu_an_observation</widget>
+			</row>
+            <row>
+              <widget>tdeu_an_champLibre</widget>
+            </row>
+            <row>
+              <widget>tdeu_an_etat</widget>
+            </row>
+		</rows>
+	</layout>
+    
+      
+      <layout name="texte_maitre">
+       <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>activite_normative_widget_motCle_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_numeroInterne_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_numero_lock_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_numero_nor_field_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_titre_acte_field_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_ministereResp_dos</widget>
+          <widget>activite_normative_widget_ministereResp_lock_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_natureTexte_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_procedureVote_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_dateEntreeEnVigueur_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_commissionSenat_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_commissionAssNationale_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_titreOfficiel_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_datePromulgation_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_datePublication_lock_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_select_legislaturePublication_dos</widget>   
+        </row>
+        <row>
+          <widget>activite_normative_widget_applicationDirecte_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_observation_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_champLibre_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_dispositionHabilitation_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_dateReunionProgrammation_dos</widget>
+        </row>
+        <row>
+          <widget>activite_normative_widget_dateCirculationCompteRendu_dos</widget>
+        </row>
+      </rows>
+    </layout>
+    
+    <layout name="texte_maitre_mesures_listing">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+     	<!-- Colonne decret -->
+        <column name="colonneDecret" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_show_decret</widget>
+        </column>
+        <!-- Colonne edition -->
+        <column name="colonneEdit" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_edit</widget>
+        </column>
+        <!-- Colonne remove -->
+        <column name="colonneRemove" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_remove</widget>
+        </column>
+        <!-- Colonne mesure ayant reçu application readOnly-->
+        <column name="colonneApplicationRecu" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_applicationRecu_readOnly</widget>
+        </column>
+        <!-- Colonne date de mise en application -->
+        <column name="colonneDateMiseApplication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_dateMiseApplication</widget>
+        </column>
+        <!-- Colonne numero ordre -->
+        <column name="colonneNumeroOrdre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">numeroOrdre</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_numeroOrdre</widget>
+        </column>
+        <!-- Colonne article -->
+        <column name="colonneArticle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_article</widget>
+        </column>
+        <!-- Colonne codeModifie -->
+        <column name="colonneCodeModifie" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_codeModifie</widget>
+        </column>
+        <!-- Colonne baseLegale -->
+        <column name="colonneBaseLegale" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_baseLegale</widget>
+        </column>
+        <!-- Colonne objetRIM -->
+        <column name="colonneObjetRIM" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_objetRIM</widget>
+        </column>
+		 <!-- Colonne ministere pilote -->
+        <column name="colonneMinisterePilote" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_data_ministerePilote</widget>
+        </column>
+		 <!-- Colonne direction responsable -->
+        <column name="directionResponsable" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_directionResponsable</widget>
+        </column>
+         <!-- Colonne Consultations obligatoires hors CE -->
+        <column name="colonneConsultationsHCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_consultationsHCE</widget>
+        </column>
+         <!-- Colonne Calendrier Consultations obligatoires hors CE -->
+        <column name="colonneCalendrierCOHCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_calendrierConsultationsHCE</widget>
+        </column>
+        <!-- Colonne datePrevisionnelleSaisineCE -->
+        <column name="colonneDatePrevisionnelleSaisineCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_datePrevisionnelleSaisineCE</widget>
+        </column>
+        <!-- Colonne date objectifs de publication -->
+        <column name="colonneDateObjectifPublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_dateObjectifPublication</widget>
+        </column>
+        <!-- Colonne Observations -->
+        <column name="colonneObservation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_observation</widget>
+        </column>
+        <!-- Colonne typeMesure -->
+        <column name="colonneTypeMesure" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_typeMesure</widget>
+        </column>
+        <!-- Colonne mesure ayant reçu application -->
+        <column name="colonneApplicationRecu" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_applicationRecu</widget>
+        </column>
+        <!-- Colonne dateEntreeEnVigueur -->
+        <column name="colonneDateEntreeEnVigueur" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_dateEntreeEnVigueur</widget>
+        </column>
+        <!-- Colonne dateLimite -->
+        <column name="colonneDateLimite" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_dateLimite</widget>
+        </column>
+        <!-- Colonne pôle chargé de mission (SGG) -->
+        <column name="colonnePoleChargeMission" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_poleChargeMission</widget>
+        </column>
+        <!-- Colonne amendement -->
+        <column name="colonneAmendement" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_amendement</widget>
+        </column>
+        <!-- Colonne date passage en CM -->
+        <column name="colonneDatePassageCM" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_datePassageCM</widget>
+        </column>
+        <!-- Colonne responsableAmendement -->
+        <column name="colonneResponsableAmendement" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_responsableAmendement</widget>
+        </column>
+        <!-- Colonne numeroQuestion -->
+        <column name="colonneNumeroQuestion" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_numeroQuestion</widget>
+        </column>
+        <!-- Colonne Champ libre -->
+        <column name="colonneChampLibre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_data_champLibre</widget>
+        </column>
+        <!-- Colonne Communication ministérielle -->
+        <column name="colonneCommunicationMinisterielle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_communication_ministerielle</widget>
+        </column>
+      </columns>
+      </layout>
+      
+      
+      <layout name="texte_maitre_decret_listing">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+      	<!-- Colonne remove -->
+        <column name="colonneRemove" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_remove</widget>
+        </column>
+        <!-- Colonne validation -->
+        <column name="colonneValidation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+          </properties>
+          <widget>activite_normative_widget_validation</widget>
+        </column>
+        <!-- Colonne Nor -->
+        <column name="colonneNor" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_numeroNor_lock</widget>
+        </column>
+        <column name="colonneNor" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_numeroNor_link</widget>
+        </column>
+        <!-- Colonne Titre du decret -->
+        <column name="colonneTitreActe" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_titreDecret</widget>
+        </column>
+        <!-- Colonne Type Acte -->
+        <column name="colonneTypeActe" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_typeActe</widget>
+        </column>
+         <!-- Colonne Section du conseil d'etat -->
+        <column name="colonneSectionCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_sectionCE_lock</widget>
+        </column>        
+        <!-- Colonne Date saisine du conseil d'etat -->
+        <column name="colonneDateSaisineCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_dateSaisineCE_lock</widget>
+        </column>
+         <!-- Colonne Date examen en conseil d'etat -->
+        <column name="colonneDateExamenCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_dateExamenCE</widget>
+        </column>
+         <!-- Colonne Rapporteur conseil d'etat -->
+        <column name="colonneRapporteurCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_rapporteurCE</widget>
+        </column>
+         <!-- Colonne Référence avis conseil d'etat -->
+        <column name="colonneReferenceAvisCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_referenceAvisCE</widget>
+        </column>
+         <!-- Colonne Numeros textes -->
+        <column name="colonneNumerosTextes" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_numerosTextes</widget>
+        </column>
+         <!-- Colonne Date signature decret -->
+        <column name="colonneDateSignature" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_dateSignature</widget>
+        </column>
+         <!-- Colonne Date publication decret -->
+        <column name="colonneDatePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_data_datePublication_and_lock</widget>
+        </column>
+         <!-- Colonne Délai publication decret -->
+        <column name="colonneDelaiPublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_delaiPublication</widget>
+        </column>
+         <!-- Colonne numéro Journal Officiel de publication -->
+        <column name="colonneNumerosJOPublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_numeroJOPublication</widget>
+        </column>
+         <!-- Colonne numéros page -->
+        <column name="colonneNumerosJOPublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_numeroPage</widget>
+        </column>
+      </columns>
+      </layout>
+      
+      <layout name="texte_maitre_traites">
+	      <templates>
+	        <template mode="any">/layouts/layout_default_template.xhtml
+	        </template>
+	       </templates>
+	      <rows>
+	        <row>
+	          <widget>activite_normative_widget_categorie_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_organisation_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_thematique_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_titreActe_req_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_dateSignature_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_dateEntreeEnVigueur_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_autorisationRatification_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_publication_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_observation_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_ministereResp_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_degrePriorite_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_datePJL_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_etudeImpact_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_dispoEtudeImpact_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_dateDepotRatification_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_observation_dos</widget>
+	        </row>
+	      </rows>
+      </layout>
+      
+      <layout name="ratification_traites">
+	      <templates>
+	        <template mode="any">/layouts/layout_default_template.xhtml
+	        </template>
+	       </templates>
+	      <rows>
+	        <row>
+	          <widget>activite_normative_widget_numeroNor_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_etapeSolon_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_numero_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_dateCreation_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_titre_Officiel_loi_ratification</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_dateSaisineCE_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_datePublication_dos</widget>
+	        </row>
+	      </rows>
+      </layout>
+      
+      <layout name="decret_traites">
+	      <templates>
+	        <template mode="any">/layouts/layout_default_template.xhtml
+	        </template>
+	       </templates>
+	      <rows>
+	        <row>
+	          <widget>activite_normative_widget_numeroNor_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_etapeSolon_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_numero_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_datePublication_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_titre_officiel_decret</widget>
+	        </row>
+	      </rows>
+      </layout>
+      
+     <layout name="loi_habilitation">
+	      <templates>
+	        <template mode="any">/layouts/layout_default_template.xhtml
+	        </template>
+	       </templates>
+	      <rows>
+	        <row>
+	          <widget>activite_normative_widget_numero_nor_field_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_titreOfficiel_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_numero_lock_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_datePromulgation_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_datePublication_lock_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_select_legislaturePublication_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_motCle_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_observation_dos</widget>
+	        </row>
+	      </rows>
+    </layout>
+    
+    <layout name="ordonnance">
+	      <templates>
+	        <template mode="any">/layouts/layout_default_template.xhtml
+	        </template>
+	       </templates>
+	      <rows>
+	        <row>
+	          <widget>activite_normative_widget_fondementConstitutionnel_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_numero_nor_field_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_ministereResp_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_numeroInterne_dos</widget>
+	        </row>
+        	<row>
+          	  <widget>activite_normative_widget_numero_lock_dos</widget>
+        	</row>
+	        <row>
+	          <widget>activite_normative_widget_datePublication_lock_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_titreOfficiel_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_ordonnance_observation</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_renvoiDecret_dos</widget>
+	        </row>
+	        <row>
+	          <widget>activite_normative_widget_ratifie_dos</widget>
+	        </row>
+	      </rows>
+    </layout>
+      
+    <layout name="ordonnance_loi_ratification_listing">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+         <!-- Colonne validation -->
+        <column name="colonneValidation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+          </properties>
+          <widget>activite_normative_widget_validation</widget>
+        </column>
+        <!-- Colonne date limite de depot -->
+        <column name="colonneDateLimiteDepot" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_dateLimiteDepot</widget>
+        </column>
+        <!-- Colonne date limite de publication -->
+        <column name="colonneDateLimitePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="isHidden">false</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_dateLimitePublication</widget>
+        </column>
+        <!-- Colonne numeroNor -->
+        <column name="colonneNumeroNor" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_numeroNor_lock</widget>
+        </column>
+        <!-- Colonne numeroNor lien Legifrance -->
+        <column name="colonneNumeroNor" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_numeroNor_link</widget>
+        </column>
+        <!-- Colonne titreActe -->
+        <column name="colonnetitreActe" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_titreActe</widget>
+        </column>
+        <!-- Colonne dateSaisineCE -->
+        <column name="colonnedateSaisineCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_dateSaisineCE_lock</widget>
+        </column>
+        <!-- Colonne dateExamenCE -->
+        <column name="colonnedateExamenCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_dateExamenCE</widget>
+        </column>
+        <!-- Colonne sectionCE -->
+        <column name="colonnesectionCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_sectionCE_lock</widget>
+        </column>
+        <!-- Colonne dateExamenCM -->
+        <column name="colonnedateExamenCM" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_dateExamenCM</widget>
+        </column>
+        <!-- Colonne chambreDepot -->
+        <column name="colonnechambreDepot" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_chambreDepot</widget>
+        </column>
+        <!-- Colonne dateDepot -->
+        <column name="colonnedateDepot" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_dateDepot</widget>
+        </column>
+        <!-- Colonne numeroDepot -->
+        <column name="colonnenumeroDepot" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_numeroDepot</widget>
+        </column>
+        <!-- Colonne titreOfficiel -->
+        <column name="colonnetitreOfficiel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_titreOfficiel</widget>
+        </column>
+        <!-- Colonne datePublication -->
+        <column name="colonnedatePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_data_datePublication_and_lock</widget>
+        </column>        
+        <!-- Colonne remove -->
+        <column name="colonneRemove" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_loi_ratification_remove</widget>
+        </column>
+      </columns>
+      </layout>
+      
+      <layout name="texte_maitre_decret_application_listing">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+      	 <!-- Colonne validation -->
+        <column name="colonneValidation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+          </properties>
+          <widget>activite_normative_widget_validation</widget>
+        </column>      	
+        <!-- Colonne Nor -->
+        <column name="colonneNor" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_numeroNor_lock</widget>
+        </column>
+        <column name="colonneNor" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_numeroNor_link</widget>
+        </column>
+        <!-- Colonne Titre du decret -->
+        <column name="colonneTitreActe" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_titreDecret</widget>
+        </column>
+        <!-- Colonne reference de la disposition ratification -->
+        <column name="colonneReferenceDispositionRatification" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_referenceDispositionRatification</widget>
+        </column>
+         <!-- Colonne Date publication decret -->
+        <column name="colonneDatePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_data_datePublication_and_lock</widget>
+        </column>
+        <!-- Colonne remove -->
+        <column name="colonneRemove" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_decret_application_remove</widget>
+        </column>
+      </columns>
+      </layout>
+      
+      <layout name="transposition_texte_listing">
+	      <templates>
+	        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+	      </templates>
+	      <properties mode="any">
+	        <property name="showListingHeader">true</property>
+	        <property name="showRowEvenOddClass">true</property>
+	      </properties>
+	    <columns>
+        <!-- Colonne Validation -->
+          <column name="colonneValidation" >
+            <properties mode="any">
+              <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+            </properties>
+            <widget>activite_normative_widget_validation</widget>
+          </column>
+			<!-- Colonne Nature du texte -->
+	        <column name="colonneNaturetl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>ttr_an_widget_nature</widget>
+	        </column>
+			<!-- Colonne Nor -->
+	        <column name="colonneNortl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>ttr_an_widget_numeroNor</widget>
+	        </column>
+			<!-- Colonne intitule -->
+	        <column name="colonneIntituletl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>ttr_an_widget_intitule</widget>
+	        </column>
+			<!-- Colonne ministerePilote -->
+	        <column name="colonneMinisterePilotetl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_ministerePilote</widget>
+	        </column>
+			<!-- Colonne etapeSolon -->
+	        <column name="colonneEtapeSolontl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>ttr_an_widget_etapeSolon</widget>
+	        </column>
+			<!-- Colonne datePublication -->
+	        <column name="colonneDatePublicationtl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>ttr_an_widget_datePublication</widget>
+	        </column>
+			<!-- Colonne numeroTextePublie -->
+	        <column name="colonneNumeroTextePublietl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_numeroTextePublie</widget>
+	        </column>
+			<!-- Colonne titreTextePublie -->
+	        <column name="colonneTitreTextePublietl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_titreTextePublie</widget>
+	        </column>
+			<!-- Colonne remove -->
+	        <column name="colonneRemoveTextetl" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>ttr_an_widget_remove</widget>
+	        </column>
+	     </columns>
+	  </layout>   
+	  
+	  <layout name="an_habilitation_listing">
+	      <templates>
+	        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+	      </templates>
+	      <properties mode="any">
+	        <property name="showListingHeader">true</property>
+	        <property name="showRowEvenOddClass">true</property>
+	      </properties>
+	    <columns>
+			<!-- Colonne details des ordonnances -->
+	        <column name="colonneShowOrdo" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_show_ordonnance</widget>
+	        </column>
+	        <!-- Colonne validation -->
+	        <column name="colonneValidation" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+	          </properties>
+	          <widget>activite_normative_widget_validation</widget>
+	        </column>
+			<!-- Colonne numeroOrdre -->
+	        <column name="colonnenumeroOrdre" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_mesure_numeroOrdre</widget>
+	        </column>
+			<!-- Colonne article -->
+	        <column name="colonnearticle" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_mesure_article</widget>
+	        </column>
+			<!-- Colonne objetRIM -->
+	        <column name="colonneobjetRIM" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_mesure_objetRIM</widget>
+	        </column>
+			<!-- Colonne typeHabilitation -->
+	        <column name="colonnetypeHabilitation" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_typeHabilitation</widget>
+	        </column>
+			<!-- Colonne ministerePilote -->
+	        <column name="colonneministerePilote" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_ministerePilote</widget>
+	        </column>
+			<!-- Colonne convention -->
+	        <column name="colonneconvention" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_convention</widget>
+	        </column>
+			<!-- Colonne dateTerme -->
+	        <column name="colonnedateTerme" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_dateTerme</widget>
+	        </column>
+			<!-- Colonne conventionDepot -->
+	        <column name="colonneconventionDepot" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_conventionDepot</widget>
+	        </column>
+			<!-- Colonne datePrevisionnelleSaisineCE -->
+	        <column name="colonnedatePrevisionnelleSaisineCE" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_mesure_datePrevisionnelleSaisineCE</widget>
+	        </column>
+			<!-- Colonne datePrevisionnelleCM -->
+	        <column name="colonnedatePrevisionnelleCM" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_datePrevisionnelleCM</widget>
+	        </column>
+			<!-- Colonne observation -->
+	        <column name="colonnedateobservation" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_mesure_observation</widget>
+	        </column>
+			<!-- Colonne legislaturePublication -->
+	        <column name="colonnedlegislaturePublication" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_legislaturePublication</widget>
+	        </column>
+			<!-- Colonne codification -->
+	        <column name="colonnedlegislaturePublication" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_codification</widget>
+	        </column>
+			<!-- Colonne remove -->
+	        <column name="colonneRemovehab" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_remove</widget>
+	        </column>
+	     </columns>
+	  </layout>   
+	  
+	  <layout name="ordonnance_habilitation_listing">
+	      <templates>
+	        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+	      </templates>
+	      <properties mode="any">
+	        <property name="showListingHeader">true</property>
+	        <property name="showRowEvenOddClass">true</property>
+	      </properties>
+	    <columns>
+	        <!-- Colonne validation -->
+	        <column name="colonneValidation" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">false</property>
+	          </properties>
+	          <widget>activite_normative_widget_validation</widget>
+	        </column>
+			<!-- Colonne Nor and Lock -->
+	        <column name="colonneNor" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>ttr_an_widget_numeroNor</widget>
+	        </column>
+			<!-- Colonne Objet -->
+	        <column name="colonneObjet" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_objet_and_lock</widget>
+	        </column>
+			<!-- Colonne ministerePilote -->
+	        <column name="colonneministerePilote" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_ministerePilote</widget>
+	          <widget>activite_normative_widget_data_ministerePilote_lock</widget>
+	        </column>
+			<!-- Colonne legislaturePublication -->
+	        <column name="colonnelegislaturePublication" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_legislaturePublication</widget>
+	        </column>
+			<!-- Colonne DateSaisineCE -->
+	        <column name="colonneDateSaisineCE" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_dateSaisineCE_lock</widget>
+	        </column>
+			<!-- Colonne DatePassageCM -->
+	        <column name="colonneDatePassageCM" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_datePassageCM_and_lock</widget>
+	        </column>
+			<!-- Colonne DatePublication -->
+	        <column name="colonneDatePublication" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_datePublication_and_lock</widget>
+	        </column>
+			<!-- Colonne titreOfficiel -->
+	        <column name="colonnetitreOfficiel" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_loi_ratification_titreOfficiel</widget>
+	        </column>
+			<!-- Colonne numero -->
+	        <column name="colonnenumero" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_data_numero_and_lock</widget>
+	        </column>
+			<!-- Colonne conventionDepot -->
+	        <column name="colonneconventionDepot" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>hab_an_widget_conventionDepot</widget>
+	        </column>
+			<!-- Colonne dateLimiteDepot -->
+	        <column name="colonnedateLimiteDepot" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>activite_normative_widget_loi_ratification_dateLimiteDepot</widget>
+	        </column>
+			<!-- Colonne remove -->
+	        <column name="colonneRemoveOrdo" >
+	          <properties mode="any">
+	            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	          </properties>
+	          <widget>ordo_hab_an_widget_remove</widget>
+	        </column>
+	     </columns>
+	  </layout>   
+	  
+	  <layout name="tableau_lois_application_lois_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" >
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>
+        <column name="colonneNOR" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numeroNor</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>dossier_listing_link_an_numeroNor</widget>
+        </column>
+        <column name="colonnetitreOfficiel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:titreOfficiel</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_titreOfficiel_dos_listing</widget>
+        </column>
+        <column name="colonnenumero" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numero</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_numero</widget>
+        </column>
+        <column name="colonneministerePilote" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:ministerePilote</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_ministereResp</widget>
+        </column>
+        <column name="colonnedatePromulgation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePromulgation</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePromulgation</widget>
+        </column>
+        <column name="colonnedatePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePublication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePublication_dos_listing</widget>
+        </column>
+        <column name="colonneprocedureVote" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:procedureVote</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_procedureVote</widget>
+        </column>
+        <column name="colonnenatureTexte" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:natureTexte</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_natureTexte</widget>
+        </column>
+        <column name="colonnelegislaturePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:legislaturePublication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_legislaturePublication</widget>
+        </column>
+        <column name="colonnecommissionAssNationale" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:commissionAssNationale</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_commissionAssNationale</widget>
+        </column>
+        <column name="colonnecommissionSenat" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:commissionSenat</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_commissionSenat</widget>
+        </column>
+        <column name="colonnenumeroInterne" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numeroInterne</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_numeroInterne</widget>
+        </column>
+        <column name="colonnemotCle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:motCle</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_motCle</widget>
+        </column>
+        <column name="colonneapplicationDirecte" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:applicationDirecte</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_applicationDirecte</widget>
+        </column>
+        <column name="colonnechampLibre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:champLibre</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_champLibre</widget>
+        </column>
+        
+      </columns>
+    </layout>
+	  
+    <layout name="texte_maitre_mesure">
+      <templates>
+        <template mode="any">/layouts/layout_default_template.xhtml
+        </template>
+      </templates>
+      <rows>
+    	<row>
+    	  <widget>activite_normative_widget_validation_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_numeroOrdre_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_article_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_codeModifie_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_baseLegale_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_objetRIM_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_data_ministerePilote_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_directionResponsable_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_consultationsHCE_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_calendrierConsultationsHCE_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_datePrevisionnelleSaisineCE_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_dateObjectifPublication_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_observation_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_typeMesure_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_differe_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_applicationRecu_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_dateMiseApplication_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_dateEntreeEnVigueur_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_dateLimite_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_poleChargeMission_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_amendement_row</widget>
+    	</row>
+        <row>
+          <widget>activite_normative_widget_mesure_datePassageCM_row</widget>
+        </row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_responsableAmendement_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_numeroQuestion_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_data_champLibre_row</widget>
+    	</row>
+    	<row>
+    	  <widget>activite_normative_widget_mesure_communication_ministerielle_row</widget>
+    	</row>   	
+      </rows>
+    </layout>
+
+   <layout name="texte_maitre_mesures_listing">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <columns>
+     	<!-- Colonne decret -->
+        <column name="colonneDecret" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_show_decret</widget>
+        </column>
+        <!-- Colonne edition -->
+        <column name="colonneEdit" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_edit</widget>
+        </column>
+        <!-- Colonne remove -->
+        <column name="colonneRemove" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_remove</widget>
+        </column>
+        <!-- Colonne mesure ayant reçu application readOnly-->
+        <column name="colonneApplicationRecu" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_applicationRecu_readOnly</widget>
+        </column>
+        <!-- Colonne numero ordre -->
+        <column name="colonneNumeroOrdre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_numeroOrdre</widget>
+        </column>
+        <!-- Colonne article -->
+        <column name="colonneArticle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_article</widget>
+        </column>
+        <!-- Colonne codeModifie -->
+        <column name="colonneCodeModifie" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_codeModifie</widget>
+        </column>
+        <!-- Colonne baseLegale -->
+        <column name="colonneBaseLegale" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_baseLegale</widget>
+        </column>
+        <!-- Colonne objetRIM -->
+        <column name="colonneObjetRIM" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_objetRIM</widget>
+        </column>
+		 <!-- Colonne ministere pilote -->
+        <column name="colonneMinisterePilote" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_data_ministerePilote</widget>
+        </column>
+		 <!-- Colonne direction responsable -->
+        <column name="directionResponsable" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_directionResponsable</widget>
+        </column>
+         <!-- Colonne Consultations obligatoires hors CE -->
+        <column name="colonneConsultationsHCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_consultationsHCE</widget>
+        </column>
+         <!-- Colonne Calendrier Consultations obligatoires hors CE -->
+        <column name="colonneCalendrierCOHCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_calendrierConsultationsHCE</widget>
+        </column>
+        <!-- Colonne datePrevisionnelleSaisineCE -->
+        <column name="colonneDatePrevisionnelleSaisineCE" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_datePrevisionnelleSaisineCE</widget>
+        </column>
+        <!-- Colonne date objectifs de publication -->
+        <column name="colonneDateObjectifPublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_dateObjectifPublication</widget>
+        </column>
+        <!-- Colonne Observations -->
+        <column name="colonneObservation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_observation</widget>
+        </column>
+        <!-- Colonne typeMesure -->
+        <column name="colonneTypeMesure" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_typeMesure</widget>
+        </column>
+        <!-- Colonne mesure ayant reçu application -->
+        <column name="colonneApplicationRecu" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_applicationRecu</widget>
+        </column>
+        <!-- Colonne dateMiseApplication -->
+        <column name="colonneDateMiseApplication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_dateMiseApplication</widget>
+        </column>
+        <!-- Colonne dateEntreeEnVigueur -->
+        <column name="colonneDateEntreeEnVigueur" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_dateEntreeEnVigueur</widget>
+        </column>
+        <!-- Colonne dateLimite -->
+        <column name="colonneDateLimite" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_dateLimite</widget>
+        </column>
+        <!-- Colonne pôle chargé de mission (SGG) -->
+        <column name="colonnePoleChargeMission" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_poleChargeMission</widget>
+        </column>
+        <!-- Colonne amendement -->
+        <column name="colonneAmendement" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_amendement</widget>
+        </column>
+        <!-- Colonne date passage en CM -->
+        <column name="colonneDatePassageCM" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_datePassageCM</widget>
+        </column>
+        <!-- Colonne responsableAmendement -->
+        <column name="colonneResponsableAmendement" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_responsableAmendement</widget>
+        </column>
+        <!-- Colonne numeroQuestion -->
+        <column name="colonneNumeroQuestion" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_numeroQuestion</widget>
+        </column>
+        <!-- Colonne Champ libre -->
+        <column name="colonneChampLibre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_data_champLibre</widget>
+        </column>
+        <!-- Colonne Communication ministérielle -->
+        <column name="colonneCommunicationMinisterielle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>activite_normative_widget_mesure_communication_ministerielle</widget>
+        </column>
+      </columns>
+      </layout>
+      
+     <layout name="majmin_activite_normative_layout_listing">
+      <templates>
+        <template mode="any">/layouts/layout_contentview_listing_ajax_template_dto.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+        <property name="isListingSelectionBox"> true</property>
+      </properties>
+      <columns>
+      	<column name="majMinSelection">
+      	  <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>maj_min_selection</widget>
+      	</column>
+      	<column name="majMinDateCreation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>maj_min_dateCreation</widget>
+        </column>
+        <column name="majMinModification" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>maj_min_modification</widget>
+        </column>
+        <column name="majMinNor" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>maj_min_nor</widget>
+        </column>
+        <column name="majMinRef" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>maj_min_ref</widget>
+        </column>
+        <column name="majMinTitre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>maj_min_titre</widget>
+        </column>
+        <column name="majMinNumArticles" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>maj_min_numArticles</widget>
+        </column>
+        <column name="majMinNumOrdre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+	        <property name="isHidden">numOrdre</property>
+          </properties>
+          <widget>maj_min_numOrdre</widget>
+        </column>
+        <column name="majMinCommentaire" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+          </properties>
+          <widget>maj_min_commentaire</widget>
+        </column>
+        
+      </columns>
+      </layout>
+      
+      <layout name="anLegislationSelector">
+      	<templates>
+        	<template mode="any">/layouts/layout_default_template.xhtml</template>
+      	</templates>
+      	<rows>
+        	<row>
+      			<widget>activite_normative_widget_select_legislaturePublication_simple</widget>
+      		</row>
+      	</rows>      	
+      </layout>
+      
+      <layout name="tableau_maitre_application_ordonnances_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" >
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>        
+        
+        <!-- Colonne Ministere Resp -->
+        <column name="colonneMinistereResp" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:ministerePilote</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_ministereResp_simple_2_lines</widget>
+        </column>
+        
+        <!-- Colonne NOR -->
+        <column name="colonneNOR" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numeroNor</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>dossier_listing_link_an_numeroNor</widget>
+        </column>
+        
+         <!-- Colonne Numero Interne -->
+        <column name="colonneNumeroInterne" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numero</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_numero</widget>
+        </column>
+        
+		<!-- Titre de la loi -->
+        <column name="colonnetitreOfficiel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:titreOfficiel</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_titreOfficiel_dos_listing</widget>
+        </column>
+		
+        <!-- Colonne Mot Cle -->
+        <column name="colonneMotCle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:motCle</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_motCle</widget>
+        </column>
+        
+        <!-- Colonne date de publication -->
+        <column name="colonneDatePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePublication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePublication_dos_listing</widget>
+        </column>
+        
+         <!-- Colonne applicationDirecte -->
+        <column name="colonneapplicationDirecte" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:applicationDirecte</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_applicationDirecte_2_lines</widget>
+        </column>
+        
+         <!-- Colonne Fondement constitutionnel -->
+        <column name="colonneFondementConstitutionnel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:dispositionHabilitation</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>fondement_constitutionnel_ordo_widget_listing</widget>
+        </column>
+        
+        
+        <!-- Colonne de suppression -->
+        <column name="colonneSuppression" >
+          <widget>activite_normative_widget_remove</widget>
+        </column>
+        
+      </columns>
+      </layout>
+      
+      <layout name="tableau_ordonnances_application_ordonnances_listing">
+      <templates>
+        <template mode="any">/layouts/layout_listing_ajax_template.xhtml</template>
+        <template mode="edit">/layouts/layout_filter_ajax_template.xhtml</template>
+        <template mode="edit_columns">/layouts/layout_column_selection_template.xhtml</template>
+        <template mode="edit_sort_infos">/layouts/layout_sort_infos_template.xhtml</template>
+        <template mode="edit_sort_infos_map">/layouts/layout_sort_infos_template.xhtml</template>
+      </templates>
+      <properties mode="any">
+        <property name="showListingHeader">true</property>
+        <property name="showRowEvenOddClass">true</property>
+      </properties>
+      <properties mode="edit_columns">
+        <property name="availableElementsLabel">label.selection.availableColumns</property>
+        <property name="selectedElementsLabel">label.selection.selectedColumns</property>
+        <property name="selectedElementsHelp"></property>
+        <property name="selectSize">20</property>
+        <property name="columnSelectionRequired">false</property>
+        <property name="displayAlwaysSelectedColumns">false</property>
+      </properties>
+      <properties mode="edit_sort_infos">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfo}</property>
+        <property name="required">false</property>
+      </properties>
+      <properties mode="edit_sort_infos_map">
+        <property name="newSortInfoTemplate">#{documentSearchActions.newSortInfoMap}</property>
+        <property name="required">false</property>
+      </properties>
+      <columns>
+        <!-- Colonne selection -->
+        <column name="selection" >
+          <properties mode="any">
+            <property name="isListingSelectionBox">true</property>
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="columnStyleClass">iconColumn</property>
+          </properties>
+          <widget>listing_ajax_selection_box</widget>
+        </column>
+        <column name="colonneNOR" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numeroNor</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>dossier_listing_link_an_numeroNor</widget>
+        </column>
+        <column name="colonnetitreOfficiel" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:titreOfficiel</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_titreOfficiel_dos_listing</widget>
+        </column>
+        <column name="colonnenumero" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numero</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_numero</widget>
+        </column>
+        <column name="colonneministerePilote" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:ministerePilote</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_ministereResp</widget>
+        </column>
+        <column name="colonnedatePromulgation" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePromulgation</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePromulgation</widget>
+        </column>
+        <column name="colonnedatePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:datePublication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_datePublication_dos_listing</widget>
+        </column>
+        <column name="colonneprocedureVote" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:procedureVote</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_procedureVote</widget>
+        </column>
+        <column name="colonnenatureTexte" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:natureTexte</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_natureTexte</widget>
+        </column>
+        <column name="colonnelegislaturePublication" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:legislaturePublication</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_legislaturePublication</widget>
+        </column>
+        <column name="colonnecommissionAssNationale" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:commissionAssNationale</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_commissionAssNationale</widget>
+        </column>
+        <column name="colonnecommissionSenat" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:commissionSenat</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_commissionSenat</widget>
+        </column>
+        <column name="colonnenumeroInterne" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:numeroInterne</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_numeroInterne</widget>
+        </column>
+        <column name="colonnemotCle" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:motCle</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_motCle</widget>
+        </column>
+        <column name="colonneapplicationDirecte" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:applicationDirecte</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_applicationDirecte</widget>
+        </column>
+        <column name="colonnechampLibre" >
+          <properties mode="any">
+            <property name="useFirstWidgetLabelAsColumnHeader">true</property>
+            <property name="sortPropertyName">d.texm:champLibre</property>
+          </properties>
+          <properties mode="edit_sort_infos">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <properties mode="edit_sort_infos_map">
+            <property name="showInSortInfoSelection">true</property>
+          </properties>
+          <widget>activite_normative_widget_champLibre</widget>
+        </column>
+        
+      </columns>
+    </layout>
+      
+  </extension>
+
+</component>
