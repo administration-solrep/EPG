@@ -1,0 +1,46 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page abandon dossier', title=${titre}+ ' | '+ ${resultList.nbTotal})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-dossier-a-abandonner')"></div>
+
+        <h1 class="base-title base-title--lvl-1" th:text="#{admin.abandon.dossier.title}">
+            Résultat(s) de recherche
+        </h1>
+        <div class="page-usersearch__results-subtitle">
+            <div class="search-table__heading">
+                <h3
+                    class="m-t-6 m-b-6 base-title base-title--lvl-3 base-title--is-underlined"
+                    th:text="#{admin.delete.dossier.nbResults(${resultList.nbTotal})}"
+                ></h3>
+                <button
+                    th:if="${nbResults > 0}"
+                    type="button"
+                    class="js-tooltip base-btn base-btn--button base-btn--default base-btn--secondary base-btn--min base-btn--rounded"
+                    th:data-tippy-content="#{admin.delete.dossier.export}"
+                    onclick="exportDossierAbandon()"
+                >
+                    <span aria-hidden="true" class="icon icon--download icon--big"></span>
+                    <span class="sr-only" th:text="#{admin.delete.dossier.export}">Export</span>
+                </button>
+            </div>
+        </div>
+
+        <th:block th:unless="${#lists.isEmpty(resultList.liste)}">
+            <div th:replace="fragments/components/rapid-filtre :: rapidSearch('abandon-dossier')"></div>
+        </th:block>
+
+        <th:block
+            th:if="${not #lists.isEmpty(resultList.liste)}"
+            th:with="tableCaption=${resultList.titre}+' - '+#{label.dossier.nombre(${resultList.nbTotal})}"
+        >
+            <div th:replace="fragments/table/tableDossiers :: searchResults"></div>
+        </th:block>
+
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-dossier-a-abandonner')"></div>
+    </main>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="tableau-maitre-ministeres"
+            class="tableForm"
+            th:id="'d_'+ ${currentPanTab} + '_tableau-maitre-ministeres_content'"
+            th:with="tableCaption=${tableCaption} ?: #{pan.application.lois.table.lois.caption}"
+        >
+            <div id="panOrganigrammeTree" style="position: relative;">
+                <div
+                    th:replace="fragments/pan/components/panOrganigrammeArbre :: panOrganigrammeArbre(${organigrammeTree}, 1, panOrganigramme, true)"
+                ></div>
+            </div>
+        </div>
+    </body>
+</html>

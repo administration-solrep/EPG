@@ -1,0 +1,52 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="signature-chemin-croix(dto)">
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="refTablesTitleCheminCroix"
+                th:text="#{admin.table.reference.signature.chemin.croix.title}"
+            >
+                Signature : Chemin de Croix
+            </h2>
+
+            <div role="group" aria-labelledby="refTablesTitleCheminCroix">
+                <div class="grid__row">
+                    <div class="relative grid__col grid__col--middle m-b-6">
+                        <th:block
+                            th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+                                'admin.table.reference.cabinet.pm',
+                                false,
+                                'cabinetPmSignature',
+                                'cabinetPmSignature',
+                                'USR', 
+                                '',
+                                false,
+                                true,
+                                ${dto.mapCheminCroixSignatureCPM},
+                                false)"
+                        ></th:block>
+                    </div>
+                </div>
+                <div class="grid__row">
+                    <div class="relative grid__col grid__col--middle m-b-6">
+                        <th:block
+                            th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+                                'admin.table.reference.sgg',
+                                false,
+                                'sgg',
+                                'sgg',
+                                'USR', 
+                                '',
+                                false,
+                                true,
+                                ${dto.mapCheminCroixSignatureSgg},
+                                false)"
+                        ></th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="bloc-fiche-signaletique">
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__fiche_mesures"
+                    aria-expanded="true"
+                    id="accordion__header__fiche_mesures"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.application.fiche.mesures}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__fiche_mesures"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                    role="region"
+                    aria-labelledby="accordion__header__fiche_mesures"
+                >
+                    <fieldset>
+                        <legend class="sr-only" th:text="#{pan.application.fiche.mesures}"></legend>
+                        <div class="table-wrapper">
+                            <table role="presentation" class="folder-detail__table">
+                                <caption class="sr-only" th:text="#{pan.application.fiche.mesures}">
+                                    Mesures d'application
+                                </caption>
+                                <tbody>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.fiche.header.label.nbMesuresAnalysees}"
+                                        >
+                                            Nombre de mesures analysées comme appelant l'intervention d'un décret
+                                            d'application
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${fiche.mapMesures.get('activite.normative.fiche.signaletique.Active')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.fiche.header.label.nbTotal.mesuresEventuelles}"
+                                        >
+                                            Nombre total de mesures éventuelles
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${fiche.mapMesures.get('activite.normative.fiche.signaletique.Éventuelle')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.fiche.header.label.nbTotal.mesuresDifferees}"
+                                        >
+                                            Nombre total de mesures différées
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${fiche.mapMesures.get('activite.normative.fiche.signaletique.Différée')}"
+                                        ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__fiche_observation"
+                    aria-expanded="true"
+                    id="accordion__header__fiche_observation"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.application.fiche.observation}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__fiche_observation"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                    aria-labelledby="accordion__header__fiche_observation"
+                    role="region"
+                >
+                    <fieldset>
+                        <legend class="sr-only" th:text="#{pan.application.fiche.observation}"></legend>
+                        <div class="table-wrapper">
+                            <table role="presentation" class="folder-detail__table">
+                                <caption class="sr-only" th:text="#{pan.application.fiche.observation}">
+                                    Observation
+                                </caption>
+                                <tbody>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.observation}"
+                                        >
+                                            Observation
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${fiche.observation}"
+                                        ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__fiche_repartition-ministere"
+                    aria-expanded="true"
+                    id="accordion__header__fiche_repartition-ministere"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.application.fiche.repartition}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__fiche_repartition-ministere"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                    role="region"
+                    aria-labelledby="accordion__header__fiche_repartition-ministere"
+                >
+                    <table role="presentation" class="folder-detail__table">
+                        <caption class="sr-only" th:text="#{pan.application.fiche.repartition}">
+                            Répartition par ministère
+                        </caption>
+                        <tbody>
+                            <tr th:each="item : ${fiche.repartititionMinisteres}" class="folder-detail__table-line">
+                                <td
+                                    scope="col"
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="${item.key}"
+                                >
+                                    Clé
+                                </td>
+                                <td
+                                    scope="col"
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${item.value}"
+                                ></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__fiche_delai-application"
+                    aria-expanded="true"
+                    id="accordion__header__fiche_delai-application"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.application.fiche.delai.loi}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__fiche_delai-application"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                    role="region"
+                    aria-labelledby="accordion__header__fiche_delai-application"
+                >
+                    <table role="presentation" class="folder-detail__table">
+                        <caption class="sr-only" th:text="#{pan.application.fiche.delai.loi}">
+                            Délai d'application de la loi
+                        </caption>
+                        <tbody>
+                            <tr th:each="item : ${fiche.delaiPublication}" class="folder-detail__table-line">
+                                <td
+                                    scope="col"
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="${item.key}"
+                                >
+                                    Clé
+                                </td>
+                                <td
+                                    scope="col"
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${item.value}"
+                                ></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

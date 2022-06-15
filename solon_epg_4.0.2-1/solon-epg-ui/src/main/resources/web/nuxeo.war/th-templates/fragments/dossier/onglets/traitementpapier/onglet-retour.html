@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ongletRetour" id="ongletRetour_content" class="page-epg-bordereau">
+            <!-- mode Consultation -->
+            <th:block th:unless="${isEditable}">
+                <div class="folder-detail">
+                    <!---->
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <!-- Retour à -->
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(
+                                    #{dossier.traitement.papier.retour.a}, 
+                                    ${retourDTO.retourA})"
+                            ></tr>
+                            <!-- Date -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.retour.date}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${#calendars.format(retourDTO.date,'dd/MM/yyyy')}"
+                                ></td>
+                            </tr>
+                            <!-- Motif -->
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(
+                                    #{dossier.traitement.papier.retour.motif}, 
+                                    ${retourDTO.motif})"
+                            ></tr>
+                            <!-- Signataire -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.signataire}"
+                                >
+                                    Signataire
+                                </td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${retourDTO.nomsSignataires}"
+                                ></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <!-- mode Création -->
+            <th:block th:if="${isEditable}">
+                <form id="ongletRetourForm">
+                    <!-- Retour à -->
+                    <div class="form-input--full m-b-4 form-input">
+                        <div
+                            th:replace="fragments/components/formblocks/textarea-input :: textArea(
+                                'dossier.traitement.papier.retour.a', 
+                                'retourA', 
+                                '', 
+                                ${retourDTO.retourA}, 
+                                false, 
+                                '')"
+                        ></div>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="m-t-6 m-b-4 form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="date"
+                                    id="date_label"
+                                    class="form-label"
+                                    th:text="#{dossier.traitement.papier.retour.date}"
+                                ></label>
+                            </div>
+                        </div>
+                        <div
+                            th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                'datepicker_date', 
+                                'date', 
+                                'date', 
+                                false, 
+                                ${#calendars.format(retourDTO.date,'dd/MM/yyyy')}, 
+                                false)"
+                        ></div>
+                        <div id="date_description" class="form-input__footer"></div>
+                    </div>
+
+                    <!-- Motif -->
+                    <div class="form-input--full m-b-4 form-input">
+                        <div
+                            th:replace="fragments/components/formblocks/textarea-input :: textArea(
+                                'dossier.traitement.papier.retour.motif', 
+                                'motif', 
+                                '', 
+                                ${retourDTO.motif}, 
+                                false, 
+                                '')"
+                        ></div>
+                    </div>
+
+                    <!-- Signataire -->
+                    <div class="m-b-4">
+                        <div
+                            th:replace="fragments/dossier/onglets/traitementpapier/select-signataire :: selectSignataire(
+                                ${signataires}, 
+                                ${retourDTO.signataire},
+                                ${isSignataireParametre},
+                                'retour')"
+                        ></div>
+                    </div>
+
+                    <!-- Bouton Éditer bordereau de retour -->
+                    <div class="flex justify-end">
+                        <input
+                            id="editer-bordereau-retour"
+                            type="button"
+                            class="base-btn base-btn--button base-btn--default"
+                            th:value="#{dossier.traitement.papier.retour.editer.borderau}"
+                            onclick="editerBordereauRetour()"
+                        />
+                    </div>
+                </form>
+            </th:block>
+        </div>
+    </body>
+</html>

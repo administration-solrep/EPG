@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="applicationTexteMaitre">
+            <h2
+                class="m-t-10 m-b-6 base-title base-title--lvl-2"
+                th:text="#{suiviLibre.__${typeApplication}__.table1.titre}"
+            >
+                Présentation par loi, appelant des décrets d'application
+            </h2>
+            <div class="flexible-table table-elm">
+                <a
+                    href="#skip_link_table-elm_prev"
+                    id="skip_link_table-elm_next"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{suiviLibre.__${typeApplication}__.table1.titre})}"
+                >
+                    Passer le tableau pour arriver après</a
+                >
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <caption class="sr-only" th:text="#{suiviLibre.__${typeApplication}__.table1.titre}">
+                            Présentation par loi, appelant des décrets d’application
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th scope="col" class="table-header__cell">
+                                    <span th:text="#{suiviLibre.__${typeApplication}__.table1.header.elements}"
+                                        >Eléments de suivi des elm</span
+                                    >
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="table-header__cell table-header__cell--small table-header__cell--right"
+                                >
+                                    <span
+                                        ><span
+                                            class="text-no-wrap"
+                                            th:text="#{suiviLibre.__${typeApplication}__.table1.header.publiee}"
+                                            >Loi publiée</span
+                                        ></span
+                                    >
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body custom-table__body">
+                            <tr class="table-line custom-table__table-line" th:each="elm : ${texteMaitre.liste}">
+                                <td class="table-line__cell">
+                                    <a
+                                        th:href="@{|/suiviLibre/${typeApplication}/details/${elm.getId()}?legislatureEnCours=${legislatureEnCours}|}"
+                                        class="link"
+                                        th:text="${elm.titreOfficiel}"
+                                    >
+                                        LOI n° 2020-760 du 22 juin 2020 tendant à sécuriser l’organisation du second
+                                        tour des élections municipales et communautaires de juin 2020 et à reporter les
+                                        élections consulaires (1)
+                                    </a>
+                                </td>
+                                <td
+                                    class="table-line__cell table-line__cell--small table-line__cell--right"
+                                    th:with="label=#{suiviLibre.__${typeApplication}__.table1.acceder(${elm.titreOfficiel})}"
+                                >
+                                    <div th:data-tippy-content="${label}" tabindex="0" class="base-tooltip js-tooltip">
+                                        <span class="sr-only" th:text="${label}">Accéder à la loi publiée</span
+                                        ><a th:href="${elm.lienJORFLegifrance}" class="link"
+                                            ><span class="sr-only" th:text="${label}">Accéder à la loi publiée</span
+                                            ><span
+                                                aria-hidden="true"
+                                                class="icon icon--external link__icon link__icon--append link__icon--large"
+                                            ></span
+                                        ></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a
+                    href="#skip_link_table-elm_next"
+                    id="skip_link_table-elm_prev"
+                    class="skip-link"
+                    th:text="#{skip.link.table.next(#{suiviLibre.__${typeApplication}__.table1.titre})}"
+                >
+                    Passer le tableau pour arriver avant</a
+                >
+            </div>
+            <p
+                class="m-b-10 base-title base-title--lvl-5"
+                th:if="${dateActualisation}"
+                th:text="#{suiviLibre.tableau.actualise(${dateActualisation})}"
+            >
+                Tableau actualisé le 14/11/2020 03:18
+            </p>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='favoris des modèles de feuilles de route', title=#{rechercher.favoris.fdr.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div
+            th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-recherche-favoris-feuilles-de-route')"
+        ></div>
+
+        <h1 class="base-title base-title--lvl-1" th:text="#{rechercher.favoris.fdr.title}">
+            Résultat(s) de recherche
+        </h1>
+        <div class="page-usersearch__results-subtitle">
+            <div class="search-table__heading">
+                <h3
+                    class="m-t-6 m-b-6 base-title base-title--lvl-3 base-title--is-underlined"
+                    th:text="#{rechercher.fdr.nbResults(${resultList.nbTotal})}"
+                ></h3>
+            </div>
+        </div>
+
+        <th:block
+            th:if="${not #lists.isEmpty(resultList.liste)}"
+            th:with="tableCaption=${resultList.titre}+' - '+${resultList.sousTitre}"
+        >
+            <div th:replace="fragments/table/tableModelesFDR :: searchResults(${tableCaption})"></div>
+        </th:block>
+
+        <div
+            th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-recherche-favoris-feuilles-de-route')"
+        ></div>
+    </main>
+</html>

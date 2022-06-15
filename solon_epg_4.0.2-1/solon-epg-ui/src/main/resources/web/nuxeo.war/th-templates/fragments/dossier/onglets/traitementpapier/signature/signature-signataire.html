@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="signatureSignataire(dto, signataire, isEditable)" class="accordion m-t-6">
+            <input type="hidden" id="signataire" th:value="${signataire}" />
+            <button
+                type="button"
+                aria-controls="accordion__content__epgSignature"
+                aria-expanded="true"
+                id="accordion__header__epgSignature"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+                class="accordion__header js-toggle accordion__header--default"
+            >
+                [[${#messages.msgWithParams('dossier.traitement.papier.signature', #strings.toUpperCase(signataire))}]]
+                <span aria-hidden="true" class="icon icon--substract accordion__icon accordion__icon--default"></span>
+            </button>
+            <div
+                aria-hidden="false"
+                id="accordion__content__epgSignature"
+                class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+            >
+                <div class="folder-detail">
+                    <!-- mode Consultation -->
+                    <th:block th:unless="${isEditable}">
+                        <table role="presentation" class="folder-detail__table">
+                            <tbody>
+                                <!-- Date d'envoi -->
+                                <tr class="folder-detail__table-line">
+                                    <td
+                                        class="folder-detail__table-cell folder-detail__table-cell--label"
+                                        th:text="#{dossier.traitement.papier.signature.date.envoi}"
+                                    ></td>
+                                    <td
+                                        class="folder-detail__table-cell folder-detail__table-cell--value"
+                                        th:text="${#calendars.format(dto.dateEnvoi, 'dd/MM/yyyy')}"
+                                    ></td>
+                                </tr>
+                                <!-- Date de retour -->
+                                <tr class="folder-detail__table-line">
+                                    <td
+                                        class="folder-detail__table-cell folder-detail__table-cell--label"
+                                        th:text="#{dossier.traitement.papier.signature.date.retour}"
+                                    ></td>
+                                    <td
+                                        class="folder-detail__table-cell folder-detail__table-cell--value"
+                                        th:text="${#calendars.format(dto.dateRetour, 'dd/MM/yyyy')}"
+                                    ></td>
+                                </tr>
+                                <!-- Commentaire -->
+                                <tr
+                                    th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.signature.commentaire}, ${dto.commentaire})"
+                                ></tr>
+                            </tbody>
+                        </table>
+                    </th:block>
+                    <!-- mode Création -->
+                    <th:block th:if="${isEditable}">
+                        <form id="signature-signataire-form">
+                            <fieldset>
+                                <legend class="sr-only" th:text="#{dossier.traitement.papier.signature.signataire}">
+                                    Signature du signataire
+                                </legend>
+                                <!-- Date d'envoi -->
+                                <div class="m-t-6 m-b-4 form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                for="dateEnvoi"
+                                                id="dateEnvoi_label"
+                                                class="form-label"
+                                                th:text="#{dossier.traitement.papier.signature.date.envoi}"
+                                            ></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                            'datepicker_dateEnvoi', 
+                                            'dateEnvoi', 
+                                            'dateEnvoi', 
+                                            false, 
+                                            ${#calendars.format(dto.dateEnvoi,'dd/MM/yyyy')}, 
+                                            false)"
+                                    ></div>
+                                    <div id="dateEnvoi_description" class="form-input__footer">
+                                        <!---->
+                                    </div>
+                                </div>
+                                <!-- Date de retour -->
+                                <div class="m-t-6 m-b-4 form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                for="dateRetour"
+                                                id="dateRetour_label"
+                                                class="form-label"
+                                                th:text="#{dossier.traitement.papier.signature.date.retour}"
+                                            ></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                            'datepicker_dateRetour', 
+                                            'dateRetour', 
+                                            'dateRetour', 
+                                            false, 
+                                            ${#calendars.format(dto.dateRetour,'dd/MM/yyyy')}, 
+                                            false)"
+                                    ></div>
+                                    <div id="dateRetour_description" class="form-input__footer">
+                                        <!---->
+                                    </div>
+                                </div>
+                                <!-- Commentaires -->
+                                <div class="form-input--full m-b-4 form-input">
+                                    <div
+                                        th:replace="fragments/components/formblocks/textarea-input :: textArea('dossier.traitement.papier.signature.commentaire', 'commentaire', '', ${dto.commentaire}, false, '')"
+                                    ></div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

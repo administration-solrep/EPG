@@ -1,0 +1,23 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Pilotage de l\'activité normative (Journal Technique)', title=#{pan.journal.technique.title.breadcrumb})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <h1 class="m-b-10 base-title base-title--lvl-1 base-title--is-underlined" th:text="#{menu.suivi.pan.title}">
+            Pilotage de l'activité normative
+        </h1>
+        <h2
+            class="m-t-6 m-b-6 base-title base-title--lvl-2 base-title--is-underlined"
+            th:text="#{journal.technique.titre}"
+        >
+            Journal technique
+        </h2>
+        <div th:replace="fragments/journal/journal-technique-recherche ::journal-technique-recherche"></div>
+        <div id="resultList" th:with="nestingLevel=2">
+            <div th:replace="fragments/table/tableJournalTechnique :: searchResults"></div>
+        </div>
+    </main>
+</html>

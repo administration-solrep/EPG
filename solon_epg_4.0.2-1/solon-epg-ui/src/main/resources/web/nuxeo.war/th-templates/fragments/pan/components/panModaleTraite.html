@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="panModaleTraite"
+            th:with="id='panModaleTraite'"
+            th:id="${id}"
+            class="interstitial-overlay__content"
+        >
+            <div role="dialog" th:aria-labelledby="|dialogTitle-${id}|" class="interstitial interstitial--tall">
+                <div class="interstitial__header">
+                    <h1 th:id="|dialogTitle-${id}|" class="interstitial__title"></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{modal.close}">Fermer la fenêtre de dialogue</span>
+                    </button>
+                </div>
+                <div class="interstitial__content m-b-6">
+                    <form id="panModaleTraiteForm" action="" class="grid" th:with="isNarrow=true">
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'intitule', 'pan.traites.titre', true, false, 'text')"
+                        ></div>
+
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField(false, null, 'publicationJORF', 'pan.traites.publication', true, false, 'inputOuiNon')"
+                        ></div>
+
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'dateSignature', 'pan.traites.dateSignature', true, false, 'date-picker')"
+                        ></div>
+                    </form>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        type="button"
+                        th:id="|btn-confirm-${id}|"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--center"
+                        th:text="#{button.confirmer}"
+                        onclick="ajouterTraite()"
+                    >
+                        Confirmer
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+    </body>
+</html>

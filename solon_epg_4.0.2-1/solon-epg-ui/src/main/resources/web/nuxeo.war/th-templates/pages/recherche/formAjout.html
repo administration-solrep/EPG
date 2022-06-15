@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Page dajout recherche favoris', title=#{recherche.favoris.ajouter})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <input type="hidden" id="typeFavori" name="typeFavori" th:value="${type}" />
+
+        <div>
+            <th:block
+                th:replace="fragments/components/formAjoutFavoriRechercheButton ::form-ajout-favori-recherche-button"
+            ></th:block>
+
+            <h1
+                class="base-title base-title--lvl-1 p-b-3 m-b-6 base-title--is-underlined"
+                th:text="#{recherche.favoris.ajouter}"
+            ></h1>
+
+            <form id="formAjoutFavori">
+                <div class="form-input m-b-6">
+                    <div class="form-input__header">
+                        <div class="form-input__header-top">
+                            <label aria-disabled="false" for="intitule" id="intitule_label" class="form-label">
+                                <span th:text="#{label.mgpp.evenement.intitule}"></span>
+                                <span class="form-label__required-text" th:text="#{form.input.required}"></span>
+                            </label>
+                            <div class="form-input__icon-group"></div>
+                        </div>
+                    </div>
+                    <div class="form-input__container">
+                        <input
+                            type="text"
+                            name="intitule"
+                            id="intitule"
+                            data-validation="required"
+                            class="form-input__field form-input__field--type-text"
+                        />
+                    </div>
+                    <div id="intitule_description" class="form-input__footer"></div>
+                </div>
+
+                <div class="form-input m-b-6">
+                    <!-- Poste(s) rattaché(s) -->
+                    <div class="grid__col">
+                        <th:block
+                            th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+                     'label.mgpp.fichedossier.diffusion',
+                     false,
+                     'postes',
+                     'postes',
+                     'PST', 
+                     'postes',
+                     false,
+                     true,
+                     null,
+                     false)"
+                        ></th:block>
+                    </div>
+                </div>
+            </form>
+            <th:block
+                th:replace="fragments/components/formAjoutFavoriRechercheButton ::form-ajout-favori-recherche-button"
+            ></th:block>
+        </div>
+    </main>
+</html>

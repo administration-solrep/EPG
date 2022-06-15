@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panEditTexteTransposition(item)" id="content-panModaleEdit">
+            <form action="" class="grid m-t-2">
+                <input type="hidden" name="idPremierTableau" th:value="${item.getId()}" />
+                <input type="hidden" name="idContextuel" th:value="${idContextuel}" />
+
+                <th:block th:with="fieldOptions=${typeActesList}">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.natureTexte}, null, 'nature', 'pan.directives.textes.table.header.label.nature', false, false, 'select')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.numeroNor}, null, 'numeroNor', 'pan.directives.textes.table.header.label.numeroNor', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.intitule}, null, 'intitule', 'pan.directives.textes.table.header.label.intitule', false, false, 'text')"
+                ></div>
+
+                <div class="grid__row m-t-4">
+                    <div class="grid__col">
+                        <div
+                            th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete('pan.directives.textes.table.header.label.ministerePilote', false, 'ministerePiloteTranspo', 'ministerePilote', 'MIN', 'ministere', true, false, ${mapMinisterePilote}, false)"
+                        ></div>
+                    </div>
+                </div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.etapeSolon != null} ? #{${item.etapeSolon}} : null, null, 'etapeSolon', 'pan.directives.textes.table.header.label.etapeSolon', false, true, 'text')"
+                ></div>
+
+                <th:block th:with="isNarrow=true">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.datePublication}, null, 'datePublication', 'pan.directives.textes.table.header.label.datePublication', false, false, 'date-picker')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.numeroTextePublie}, null, 'numeroTextePublie', 'pan.directives.textes.table.header.label.numeroTextePublie', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.titreOfficiel}, null, 'titreOfficiel', 'pan.directives.textes.table.header.label.titreTextePublie', false, false, 'text-area')"
+                ></div>
+            </form>
+        </div>
+    </body>
+</html>

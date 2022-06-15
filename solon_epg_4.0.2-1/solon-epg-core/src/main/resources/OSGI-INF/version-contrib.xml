@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<component name="fr.dila.solonepg.core.versioning.contrib">
+
+    <require>org.nuxeo.ecm.core.versioning.default-policies</require>
+
+	<extension point="policies" target="org.nuxeo.ecm.core.api.versioning.VersioningService">
+
+        <!-- désactiver le policy collaborative-save -->
+        <policy id="collaborative-save" increment="NONE" order="100" />
+	
+		<policy id="FondDeDossierFichierPolicy" order="1" increment="NONE">
+			<initialState major="0" minor="0" />
+			<filter-id>FondDeDossierFichier-filter</filter-id>
+		</policy>
+	
+		<policy id="ParapheurFichierPolicy" order="2" increment="NONE">
+			<initialState major="0" minor="0" />
+			<filter-id>ParapheurFichier-filter</filter-id>
+		</policy>
+	
+		<policy id="FileSolonEpgPolicy" order="3" increment="NONE">
+			<initialState major="0" minor="0" />
+			<filter-id>FileSolonEpg-filter</filter-id>
+		</policy>
+	
+	</extension>
+
+	<extension point="filters" target="org.nuxeo.ecm.core.api.versioning.VersioningService">
+
+		<filter id="FondDeDossierFichier-filter">
+			<type>FondDeDossierFichier</type>
+			<condition>#{currentDocument.currentLifeCycleState == running} </condition>
+		</filter>
+
+		<filter id="ParapheurFichier-filter">
+			<type>ParapheurFichier</type>
+			<condition>#{currentDocument.currentLifeCycleState == running} </condition>
+		</filter>
+
+		<filter id="FileSolonEpg-filter">
+			<type>FileSolonEpg</type>
+			<condition>#{currentDocument.currentLifeCycleState == running} </condition>
+		</filter>
+
+	</extension>
+
+<!-- 
+	<extension target="org.nuxeo.ecm.core.versioning.VersioningService"
+		point="versioningRules">
+
+		<versioningRule typeName="FondDeDossierFichier"
+			enabled="true">
+			<initialState major="0" minor="0" />
+			<options lifeCycleState="running">
+				<none default="true" />
+				<minor />
+				<major />
+			</options>
+		</versioningRule>
+
+		<versioningRule typeName="ParapheurFichier" enabled="true">
+			<initialState major="0" minor="0" />
+			<options lifeCycleState="running">
+				<none default="true" />
+				<minor />
+				<major />
+			</options>
+		</versioningRule>
+
+
+		<versioningRule typeName="FileSolonEpg" enabled="true">
+			<initialState major="0" minor="0" />
+			<options lifeCycleState="running">
+				<none default="true" />
+				<minor />
+				<major />
+			</options>
+		</versioningRule>
+
+	</extension>
+ -->
+
+</component>

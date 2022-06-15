@@ -1,0 +1,2863 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<component name="fr.dila.solonpan.ui.action">
+
+	<require>fr.dila.ecm.platform.routing.actions</require>
+	<require>fr.dila.ss.ui.actions</require>
+
+	<extension point="actions" target="org.nuxeo.ecm.platform.actions.ActionService">
+		<!-- complete le menu du PAN -->
+		<action
+            id="APPLICATION_LOIS"
+            label="menu.suivi.pan.lois.title"
+            order="10"
+            link="/suivi/pan/lois/tableau-maitre#main_content"
+            type="link"
+        >
+			<category>SUIVI_MENU_PAN</category>
+			<filter-id>accessApplicationLois</filter-id>
+		</action>
+		<action
+            id="APPLICATION_ORDONNANCES"
+            label="menu.suivi.pan.ordonnances.title"
+            order="20"
+            link="/suivi/pan/ordonnances/tableau-maitre#main_content"
+            type="link"
+        >
+			<category>SUIVI_MENU_PAN</category>
+			<filter-id>accessApplicationOrdonnances</filter-id>
+		</action>
+		<action
+            id="TRANSPOSITION_DIRECTIVES"
+            label="menu.suivi.pan.directives.title"
+            order="30"
+            link="/suivi/pan/directives/tableau-maitre#main_content"
+            type="link"
+        >
+			<category>SUIVI_MENU_PAN</category>
+			<filter-id>accessTranspositionDirectives</filter-id>
+		</action>
+		<action
+            id="SUIVI_HABILITATIONS"
+            label="menu.suivi.pan.habilitations.title"
+            order="40"
+            link="/suivi/pan/habilitations/tableau-maitre#main_content"
+            type="link"
+        >
+			<category>SUIVI_MENU_PAN</category>
+			<filter-id>accessSuiviHabilitations</filter-id>
+		</action>
+		<action
+            id="RATIFICATION_ORDONNANCES"
+            label="menu.suivi.pan.ratification.title"
+            order="50"
+            link="/suivi/pan/ratification/tableau-maitre#main_content"
+            type="link"
+        >
+			<category>SUIVI_MENU_PAN</category>
+			<filter-id>accessRatificationOrdonnances</filter-id>
+		</action>
+		<action
+            id="TRAITES_ACCORDS"
+            label="menu.suivi.pan.traites.title"
+            order="60"
+            link="/suivi/pan/traites/tableau-maitre#main_content"
+            type="link"
+        >
+			<category>SUIVI_MENU_PAN</category>
+			<filter-id>accessTraitesAccords</filter-id>
+		</action>
+
+		<!-- menu paramétrage -->
+		<action
+            id="EXPORTS_ET_PUBLICATION"
+            label="menu.suivi.pan.export.title"
+            order="70"
+            link="/suivi/pan/stats/exports#main_content"
+            type="link"
+        >
+			<category>SUIVI_MENU_PAN</category>
+			<filter-id>canExportGlobalPAN</filter-id>
+		</action>
+		<action
+            id="JOURNAL_TECHNIQUE_PAN"
+            label="menu.suivi.pan.journal.title"
+            order="110"
+            link="/suivi/pan/journal/technique#main_content"
+            type="link"
+        >
+			<category>SUIVI_MENU_PAN</category>
+			<filter-id>accessAdminJournal</filter-id>
+		</action>
+
+		<!-- administration -->
+		<action
+            id="PARAMETRAGE_STATISTIQUES"
+            label="menu.suivi.pan.parametrage.title"
+            order="40"
+            link="/admin/param/pan#main_content"
+            type="link"
+        >
+			<category>ADMIN_MENU_PARAM</category>
+			<filter-id>canEditParametrageStatistiquesPAN</filter-id>
+		</action>
+
+		<!-- *********************************************************************** 
+			****** Tableau maitre ***************************************************
+			******************************************************************** -->
+		<action id="TAB_TABLEAU_MAITRE" label="pan.onglet.tableauMaitre" order="10" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/tableau-maitre
+				</property>
+				<property name="fragmentName">tableau-maitre</property>
+				<property name="name">tableau-maitre</property>
+				<property name="script">chargeOngletPan('tableau-maitre', '', this)
+				</property>
+			</properties>
+			<filter-id>isNotTraitesEtAccords</filter-id>
+		</action>
+
+		<action id="TAB_TABLEAU_MAITRE_TRAITES" label="pan.onglet.tableauMaitre" order="10" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/tableau-maitre
+				</property>
+				<property name="fragmentName">tableau-maitre</property>
+				<property name="name">tableau-maitre</property>
+				<property name="script">chargeOngletPan('tableau-maitre', '', this)
+				</property>
+			</properties>
+			<filter-id>isTraitesEtAccords</filter-id>
+		</action>
+
+		<action id="SUBTAB_TEXTE_MAITRE" label="pan.sous.onglet.texteMaitre" order="10" type="menuSection">
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/texte-maitre
+				</property>
+				<property name="fragmentName">texte-maitre</property>
+				<property name="name">texte-maitre</property>
+				<property name="script">chargeOngletContextuelPan('texte-maitre',this)
+				</property>
+			</properties>
+		</action>
+
+		<action id="SUBTAB_FICHE_SIGNALETIQUE" label="pan.sous.onglet.ficheSignaletique" order="20" type="menuSection">
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/##{currentSection}/fiche-signaletique
+				</property>
+				<property name="fragmentName">fiche-signaletique</property>
+				<property name="name">fiche-signaletique</property>
+				<property name="script">chargeOngletContextuelPan('fiche-signaletique',this)
+				</property>
+			</properties>
+			<filter-id>hasFicheSignaletique</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<action id="SUBTAB_TABLEAU_PROGRAMMATION" label="pan.sous.onglet.tableauProgrammation" order="30" type="menuSection">
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/tableau-programmation
+				</property>
+				<property name="fragmentName">tableau-programmation</property>
+				<property name="name">tableau-programmation</property>
+				<property name="script">chargeOngletContextuelPan('tableau-programmation',this)
+				</property>
+			</properties>
+			<filter-id>hasTableauProgrammationEtSuivi</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+
+		<action id="SUBTAB_TABLEAU_SUIVI" label="pan.sous.onglet.tableauSuivi" order="40" type="menuSection">
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/tableau-suivi
+				</property>
+				<property name="fragmentName">tableau-suivi</property>
+				<property name="name">tableau-suivi</property>
+				<property name="script">chargeOngletContextuelPan('tableau-suivi',this)
+				</property>
+			</properties>
+			<filter-id>hasTableauProgrammationEtSuivi</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!--Sous-onglets contexte dossier - Application des lois -->
+
+		<action
+            id="SUBTAB_MESURES_APPLICATION_LOIS"
+            label="pan.sous.onglet.applicationLois.texteMaitre.mesuresApplication"
+            order="50"
+            type="menuSection"
+        >
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-application</property>
+				<property name="script">chargeOngletContextuelPan('mesures-application',this)
+				</property>
+				<property name="idBirtReport">pan_stat86</property>
+				<property name="altIdBirtReport">pan_stat87</property>
+				<property name="switchLabel">mesures</property>
+			</properties>
+			<filter-id>isApplicationLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_LOIS"
+            label="pan.sous.onglet.applicationLois.texteMaitre.bilanSemestriel"
+            order="60"
+            type="menuSection"
+        >
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel</property>
+				<property name="script">chargeOngletContextuelPan('bilan-semestriel',this)
+				</property>
+				<property name="idBirtReport">pan_stat03</property>
+			</properties>
+			<filter-id>isApplicationLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_APPLICATION_PAR_LOIS"
+            label="pan.sous.onglet.applicationLois.texteMaitre.tauxApplicationPar"
+            order="70"
+            type="menuSection"
+        >
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-par</property>
+				<property name="script">chargeOngletContextuelPan('taux-application-par',this)
+				</property>
+				<property name="idBirtReport">pan_stat04</property>
+			</properties>
+			<filter-id>isApplicationLois</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Sous-onglets contexte dossier - Application des lois -->
+
+		<action
+            id="SUBTAB_MESURES_APPLICATION_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.texteMaitre.mesuresApplication"
+            order="50"
+            type="menuSection"
+        >
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-application</property>
+				<property name="script">chargeOngletContextuelPan('mesures-application',this)
+				</property>
+				<property name="idBirtReport">pan_stat31</property>
+				<property name="altIdBirtReport">pan_stat32</property>
+				<property name="switchLabel">mesures</property>
+			</properties>
+			<filter-id>isApplicationOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.texteMaitre.bilanSemestriel"
+            order="60"
+            type="menuSection"
+        >
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel</property>
+				<property name="script">chargeOngletContextuelPan('bilan-semestriel',this)
+				</property>
+				<property name="idBirtReport">pan_stat33</property>
+			</properties>
+			<filter-id>isApplicationOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_APPLICATION_PAR_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.texteMaitre.tauxApplicationPar"
+            order="70"
+            type="menuSection"
+        >
+			<category>TEXTEM_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-par</property>
+				<property name="script">chargeOngletContextuelPan('taux-application-par',this)
+				</property>
+				<property name="idBirtReport">pan_stat34</property>
+			</properties>
+			<filter-id>isApplicationOrdonnances</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- ******************************************************************** 
+			********************* Tableau maitre (Ministères) *********************** 
+			********************************************************************* -->
+		<action id="TAB_TABLEAU_MAITRE_MINISTERES" label="pan.onglet.tableauMaitre.ministeres" order="20" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/tableau-maitre-ministeres
+				</property>
+				<property name="fragmentName">tableau-maitre-ministeres</property>
+				<property name="name">tableau-maitre-ministeres</property>
+				<property name="script">chargeOngletPan('tableau-maitre-ministeres',
+					'', this)
+				</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Sous-onglets contexte ministere - Application des lois -->
+		<action
+            id="SUBTAB_MESURES_APPLICATION_MINISTERES_LOIS"
+            label="pan.sous.onglet.applicationLois.ministeres.mesuresApplication.parMinistere"
+            order="10"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-application-ministeres</property>
+				<property name="script">chargeOngletContextuelPan('mesures-application-ministeres',this)
+				</property>
+				<property name="idBirtReport">pan_stat06</property>
+				<property name="altIdBirtReport">pan_stat05</property>
+				<property name="switchLabel">mesures</property>
+			</properties>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_EXECUTION_LOIS"
+            label="pan.sous.onglet.applicationLois.ministeres.tauxExecution"
+            order="20"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-execution</property>
+				<property name="script">chargeOngletContextuelPan('taux-execution',this)
+				</property>
+				<property name="idBirtReport">pan_stat07</property>
+			</properties>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_MINISTERES_LOIS"
+            label="pan.sous.onglet.applicationLois.ministeres.bilanSemestriel.parMinistere"
+            order="30"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel-ministeres</property>
+				<property name="script">chargeOngletContextuelPan('bilan-semestriel-ministeres',this)
+				</property>
+				<property name="idBirtReport">pan_stat08</property>
+			</properties>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_APPLICATION_MINISTERES_LOIS"
+            label="pan.sous.onglet.applicationLois.ministeres.tauxApplication.parMinistere"
+            order="40"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-ministeres</property>
+				<property name="script">chargeOngletContextuelPan('taux-application-ministeres',this)
+				</property>
+				<property name="idBirtReport">pan_stat09</property>
+			</properties>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<!-- Sous-onglets contexte ministere - Application des ordonnances -->
+		<action
+            id="SUBTAB_MESURES_APPLICATION_MINISTERES_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.ministeres.mesuresApplication.parMinistere"
+            order="10"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-application-ministeres</property>
+				<property name="script">chargeOngletContextuelPan('mesures-application-ministeres',this)
+				</property>
+				<property name="idBirtReport">pan_stat35</property>
+				<property name="altIdBirtReport">pan_stat36</property>
+				<property name="switchLabel">mesures</property>
+			</properties>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_EXECUTION_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.ministeres.tauxExecution"
+            order="20"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-execution</property>
+				<property name="script">chargeOngletContextuelPan('taux-execution',this)
+				</property>
+				<property name="idBirtReport">pan_stat37</property>
+			</properties>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_MINISTERES_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.ministeres.bilanSemestriel.parMinistere"
+            order="30"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel-ministeres</property>
+				<property name="script">chargeOngletContextuelPan('bilan-semestriel-ministeres',this)
+				</property>
+				<property name="idBirtReport">pan_stat38</property>
+			</properties>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_APPLICATION_MINISTERES_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.ministeres.tauxApplication.parMinistere"
+            order="40"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-ministeres</property>
+				<property name="script">chargeOngletContextuelPan('taux-application-ministeres',this)
+				</property>
+				<property name="idBirtReport">pan_stat39</property>
+			</properties>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<!-- Sous-onglets contexte ministere - Transposition des directives -->
+		<action
+            id="SUBTAB_TRANSPOSITION_CHARGE_MINISTERES_DIRECTIVES"
+            label="pan.sous.onglet.transpositionDirectives.ministeres.suiviMinisteres"
+            order="10"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">transposition-a-charge</property>
+				<property name="script">chargeOngletContextuelPan('transposition-a-charge',this)
+				</property>
+				<property name="idBirtReport">pan_stat56</property>
+			</properties>
+			<filter-id>isTranspositionDirectives</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TRANSPOSITION_ACHEVEE_MINISTERES_DIRECTIVES"
+            label="pan.sous.onglet.transpositionDirectives.ministeres.directives.transposition.achevee.parMinistere"
+            order="20"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">transposition-achevee</property>
+				<property name="script">chargeOngletContextuelPan('transposition-achevee',this)
+				</property>
+				<property name="idBirtReport">pan_stat57</property>
+			</properties>
+			<filter-id>isTranspositionDirectives</filter-id>
+		</action>
+
+		<!-- Sous-onglets contexte ministere - Suivi des habilitations -->
+		<action
+            id="SUBTAB_HABILITATIONS_MINISTERES_LEGISLATURE_EN_COURS"
+            label="pan.sous.onglet.suiviHabilitations.ministeres.suivi.parMinistere.legislatureEnCours"
+            order="10"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">habilitations-en-cours</property>
+				<property name="script">chargeOngletContextuelPan('habilitations-en-cours',this)
+				</property>
+				<property name="idBirtReport">pan_stat65</property>
+				<property name="altIdBirtReport">pan_stat66</property>
+				<property name="switchLabel">habilitations</property>
+			</properties>
+			<filter-id>isSuiviHabilitations</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_HABILITATIONS_MINISTERES"
+            label="pan.sous.onglet.suiviHabilitations.ministeres.suivi.parMinistere"
+            order="20"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">habilitations</property>
+				<property name="script">chargeOngletContextuelPan('habilitations',this)
+				</property>
+				<property name="idBirtReport">pan_stat67</property>
+				<property name="altIdBirtReport">pan_stat68</property>
+				<property name="switchLabel">habilitations</property>
+			</properties>
+			<filter-id>isSuiviHabilitations</filter-id>
+		</action>
+
+		<!-- Sous-onglets contexte ministere - Ratification des ordonnances -->
+		<action
+            id="SUBTAB_RATIFICATION_MINISTERES_ORDONNANCES_ARTICLE_38C"
+            label="pan.sous.onglet.ratificationOrdonnances.ministeres.suivi.parMinistere.38C"
+            order="20"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">ratification-ordonnances-38-c</property>
+				<property name="script">chargeOngletContextuelPan('ratification-ordonnances-38-c',this)
+				</property>
+				<property name="idBirtReport">pan_stat72</property>
+				<property name="altIdBirtReport">pan_stat71</property>
+				<property name="switchLabel">ratifications.abouties</property>
+			</properties>
+			<filter-id>isRatificationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_RATIFICATION_MINISTERES_ORDONNANCES_ARTICLE_741"
+            label="pan.sous.onglet.ratificationOrdonnances.ministeres.suivi.parMinistere.741"
+            order="20"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">ratification-ordonnances-74-1</property>
+				<property name="script">chargeOngletContextuelPan('ratification-ordonnances-74-1',this)
+				</property>
+				<property name="idBirtReport">pan_stat73</property>
+				<property name="altIdBirtReport">pan_stat74</property>
+				<property name="switchLabel">ratifications.abouties</property>
+			</properties>
+			<filter-id>isRatificationOrdonnances</filter-id>
+		</action>
+
+		<!-- Sous-onglets contexte ministere - Traités et accords -->
+		<action
+            id="SUBTAB_TRAITES_ACCORDS_MINISTERES_PUBLICATION_A_INTERVENIR"
+            label="pan.sous.onglet.traitesAccords.ministeres.tableauxMinisteriels"
+            order="10"
+            type="menuSection"
+        >
+			<category>MINISTERE_TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">traites-accords-publication-a-intervenir</property>
+				<property name="script">chargeOngletContextuelPan('traites-accords-publication-a-intervenir',this)
+				</property>
+				<property name="idBirtReport">pan_stat81</property>
+			</properties>
+			<filter-id>isTraitesEtAccords</filter-id>
+		</action>
+
+		<!-- ******************************************************************** 
+			************************** Tableaux de bord ***************************** 
+			********************************************************************* -->
+		<action id="TAB_TABLEAUX_BORD" label="pan.onglet.tableauxBord" order="30" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">tableaux-bord</property>
+				<property name="script">chargeOngletPan('tableaux-bord',
+					'mesures-decret', this)
+				</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationLoisOuOrdonnances</filter-id>
+		</action>
+
+		<!-- Application des lois > Tableaux de bord > Sous-onglets -->
+		<action
+            id="SUBTAB_MESURES_DECRET_LOIS"
+            label="pan.sous.onglet.applicationLois.tableauxBord.mesures.appelantDecret"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-decret</property>
+				<property name="script">chargeSousOngletPan('mesures-decret',this)
+				</property>
+				<property name="idBirtReport">pan_stat10</property>
+				<property name="altIdBirtReport">pan_stat11</property>
+				<property name="switchLabel">mesures</property>
+			</properties>
+			<filter-id>isTabTableauxBord</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_MESURES_DATE_DEPASSEE_LOIS"
+            label="pan.sous.onglet.applicationLois.tableauxBord.mesures.datePublicationDepassee"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-date-depassee</property>
+				<property name="script">chargeSousOngletPan('mesures-date-depassee',this)
+				</property>
+				<property name="idBirtReport">pan_stat12</property>
+				<property name="altIdBirtReport">pan_stat13</property>
+				<property name="switchLabel">mesures</property>
+			</properties>
+			<filter-id>isTabTableauxBord</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_MESURES_DIFFEREE_LOIS"
+            label="pan.sous.onglet.applicationLois.tableauxBord.mesures.differee"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-differee</property>
+				<property name="script">chargeSousOngletPan('mesures-differee',this)
+				</property>
+				<property name="idBirtReport">pan_stat14</property>
+			</properties>
+			<filter-id>isTabTableauxBord</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<!-- Application des ordonnances > Tableaux de bord > Sous-onglets -->
+		<action
+            id="SUBTAB_MESURES_DECRET_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.tableauxBord.mesures.appelantDecret"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-decret</property>
+				<property name="script">chargeSousOngletPan('mesures-decret',this)
+				</property>
+				<property name="idBirtReport">pan_stat40</property>
+				<property name="altIdBirtReport">pan_stat41</property>
+				<property name="switchLabel">mesures</property>
+			</properties>
+			<filter-id>isTabTableauxBord</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_MESURES_DATE_DEPASSEE_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.tableauxBord.mesures.datePublicationDepassee"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-date-depassee</property>
+				<property name="script">chargeSousOngletPan('mesures-date-depassee',this)
+				</property>
+				<property name="idBirtReport">pan_stat42</property>
+				<property name="altIdBirtReport">pan_stat43</property>
+				<property name="switchLabel">mesures</property>
+			</properties>
+			<filter-id>isTabTableauxBord</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_MESURES_DIFFEREE_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.tableauxBord.mesures.differee"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-differee</property>
+				<property name="script">chargeSousOngletPan('mesures-differee',this)
+				</property>
+				<property name="idBirtReport">pan_stat44</property>
+			</properties>
+			<filter-id>isTabTableauxBord</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<!-- Transposition des directives > Tableaux de bord > Sous-onglets -->
+		<action id="TAB_TABLEAUX_BORD_DIRECTIVES" label="pan.onglet.tableauxBord" order="30" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">tableaux-bord</property>
+				<property name="script">chargeOngletPan('tableaux-bord',
+					'mesures-transposition-achevee', this)
+				</property>
+			</properties>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isTranspositionDirectives</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_DIRECTIVES_ACHEVEE"
+            label="pan.sous.onglet.transpositionDirectives.tableauxBord.directives.transposition.achevee"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-transposition-achevee</property>
+				<property name="script">chargeSousOngletPan('mesures-transposition-achevee',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat58</property>
+			</properties>
+			<filter-id>isTabTableauxBord</filter-id>
+			<filter-id>isTranspositionDirectives</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_DIRECTIVES_EN_COURS"
+            label="pan.sous.onglet.transpositionDirectives.tableauxBord.directives.transposition.enCours"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">mesures-transposition-en-cours</property>
+				<property name="script">chargeSousOngletPan('mesures-transposition-en-cours',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat60</property>
+			</properties>
+			<filter-id>isTabTableauxBord</filter-id>
+			<filter-id>isTranspositionDirectives</filter-id>
+		</action>
+
+		<!-- Suivi des habilitations > Tableaux de bord > Sous-onglets -->
+
+		<action id="TAB_TABLEAUX_BORD_SUIVI" label="pan.onglet.tableauxBord" order="30" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">tableaux-bord</property>
+				<property name="script">chargeOngletPan('tableaux-bord', 'suivi-global',
+					this)
+				</property>
+			</properties>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isSuiviHabilitations</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_SUIVI_GLOBAL"
+            label="pan.sous.onglet.suiviHabilitations.tableauxBord.suivi.global"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">suivi-global</property>
+				<property name="script">chargeSousOngletPan('suivi-global',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat69</property>
+				<property name="altIdBirtReport">pan_stat70</property>
+				<property name="switchLabel">habilitations</property>
+			</properties>
+			<filter-id>isSuiviHabilitations</filter-id>
+			<filter-id>isTabTableauxBord</filter-id>
+		</action>
+		<!-- Ratification des ordonnances > Tableaux de bord > Sous-onglets -->
+
+		<action id="TAB_TABLEAUX_BORD_RATIFICATION" label="pan.onglet.tableauxBord" order="30" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">tableaux-bord</property>
+				<property name="script">chargeOngletPan('tableaux-bord', 'ordonnance-article-38-c',
+					this)
+				</property>
+			</properties>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isRatificationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_RATIFICATION_ORDONNANCES_ARTICLE_38C"
+            label="pan.sous.onglet.ratificationOrdonnances.tableauxBord.38C.projetNonDepose"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">ordonnance-article-38-c</property>
+				<property name="script">chargeSousOngletPan('ordonnances-article-38-c',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat75</property>
+			</properties>
+			<filter-id>isRatificationOrdonnances</filter-id>
+			<filter-id>isTabTableauxBord</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_RATIFICATION_SUIVI_ARTICLE_38C"
+            label="pan.sous.onglet.ratificationOrdonnances.tableauxBord.suivi.global.38C"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">suivi-global-38-c</property>
+				<property name="script">chargeSousOngletPan('suivi-global-38-c',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat76</property>
+				<property name="altIdBirtReport">pan_stat77</property>
+				<property name="switchLabel">ratifications.abouties</property>
+			</properties>
+			<filter-id>isRatificationOrdonnances</filter-id>
+			<filter-id>isTabTableauxBord</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_RATIFICATION_SUIVI_ARTICLE_74_1"
+            label="pan.sous.onglet.ratificationOrdonnances.tableauxBord.suivi.global.741"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">suivi-global-74-1</property>
+				<property name="script">chargeSousOngletPan('suivi-global-74-1',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat78</property>
+				<property name="altIdBirtReport">pan_stat79</property>
+				<property name="switchLabel">ratifications.abouties</property>
+			</properties>
+			<filter-id>isRatificationOrdonnances</filter-id>
+			<filter-id>isTabTableauxBord</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_RATIFICATION_SUIVI_DEC_APP_ORDO"
+            label="pan.sous.onglet.ratificationOrdonnances.tableauxBord.suivi.decrets"
+            order="40"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">suivi-decrets-application-ordonnances</property>
+				<property name="script">chargeSousOngletPan('suivi-decrets-application-ordonnances',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat80</property>
+			</properties>
+			<filter-id>isRatificationOrdonnances</filter-id>
+			<filter-id>isTabTableauxBord</filter-id>
+		</action>
+
+		<!-- Traités et accords > Tableaux de bord > Sous-onglets -->
+
+		<action id="TAB_TABLEAUX_BORD_TRAITES" label="pan.onglet.tableauxBord" order="30" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">tableaux-bord</property>
+				<property name="script">chargeOngletPan('tableaux-bord', 'publication-intervenue',
+					this)
+				</property>
+			</properties>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isTraitesEtAccords</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_TRAITES_PUBLICATION_INTERVENUE"
+            label="pan.sous.onglet.traitesAccords.tableauxBord.publication.intervenue"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">publication-intervenue</property>
+				<property name="script">chargeSousOngletPan('publication-intervenue',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat82</property>
+			</properties>
+			<filter-id>isTraitesEtAccords</filter-id>
+			<filter-id>isTabTableauxBord</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TABLEAUX_BORD_TRAITES_PUBLICATION_A_INTERVENIR"
+            label="pan.sous.onglet.traitesAccords.tableauxBord.publication.aIntervenir"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">publication-a-intervenir</property>
+				<property name="script">chargeSousOngletPan('publication-a-intervenir',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat83</property>
+			</properties>
+			<filter-id>isTraitesEtAccords</filter-id>
+			<filter-id>isTabTableauxBord</filter-id>
+		</action>
+
+		<!-- ********************************************************************
+			**************************** Statistiques ******************************* 
+			********************************************************************* -->
+		<action id="TAB_STATISTIQUES" label="pan.onglet.statistiques" order="40" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">statistiques</property>
+				<property name="script">chargeOngletPan('statistiques',
+					'mesures-decret', this)
+				</property>
+			</properties>
+			<filter-id>hasStatistiques</filter-id>
+			<filter-id>isApplicationLoisOuOrdonnances</filter-id>
+		</action>
+
+		<!-- ******************************************************************** 
+			********************** Statistiques publication ************************* 
+			********************************************************************* -->
+
+		<action id="TAB_STATISTIQUES_PUBLICATION_LOIS" label="pan.onglet.statistiquesPublication" order="80" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/lois/statistiques-publication</property>
+				<property name="fragmentName">statistiques-publication</property>
+				<property name="name">statistiques-publication</property>
+				<property name="script">chargeOngletPan('statistiques-publication',
+					'', this)
+				</property>
+				<property name="idBirtReport">pan_stat30</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="TAB_STATISTIQUES_PUBLICATION_ORDOS"
+            label="pan.onglet.statistiquesPublication"
+            order="80"
+            type="menuSection"
+        >
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/ordonnances/statistiques-publication</property>
+				<property name="fragmentName">statistiques-publication</property>
+				<property name="name">statistiques-publication</property>
+				<property name="script">chargeOngletPan('statistiques-publication',
+					'', this)
+				</property>
+				<property name="idBirtReport">pan_stat55</property>
+			</properties>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<!-- Transposition des directives -> Onglet Statistiques -->
+
+		<action id="TAB_TRANSPOSITION_DIRECTIVES_STATISTIQUES" label="pan.onglet.statistiques" order="40" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">statistiques</property>
+				<property name="script">chargeOngletPan('statistiques',
+					'indicateurs-transposition', this)
+				</property>
+			</properties>
+			<filter-id>isTranspositionDirectives</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TRANSPOSITION_DIRECTIVES_STATISTIQUES_INDICATEURS"
+            label="pan.sous.onglet.transpositionDirectives.statistiques.indicateurs"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">indicateurs-transposition</property>
+				<property name="script">chargeSousOngletPan('indicateurs-transposition'
+					, this)
+				</property>
+				<property name="idBirtReport">pan_stat62</property>
+			</properties>
+			<filter-id>isTranspositionDirectives</filter-id>
+			<filter-id>isTabStatistiques</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TRANSPOSITION_DIRECTIVES_STATISTIQUES_RETARDS"
+            label="pan.sous.onglet.transpositionDirectives.statistiques.retardsMoyens"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">retards-moyens-transposition</property>
+				<property name="script">chargeSousOngletPan('retards-moyens-transposition'
+					, this)
+				</property>
+				<property name="idBirtReport">pan_stat63</property>
+			</properties>
+			<filter-id>isTranspositionDirectives</filter-id>
+			<filter-id>isTabStatistiques</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TRANSPOSITION_DIRECTIVES_STATISTIQUES_REPARTITION"
+            label="pan.sous.onglet.transpositionDirectives.statistiques.repartitionTextesRestant"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">repartition-textes-a-prendre</property>
+				<property name="script">chargeSousOngletPan('repartition-textes-a-prendre'
+					, this)
+				</property>
+				<property name="idBirtReport">pan_stat64</property>
+			</properties>
+			<filter-id>isTranspositionDirectives</filter-id>
+			<filter-id>isTabStatistiques</filter-id>
+		</action>
+
+		<!-- Traités et accords -> Onglet Statistiques -->
+
+		<action id="TAB_TRAITES_ACCORDS_STATISTIQUES" label="pan.onglet.statistiques" order="40" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">statistiques</property>
+				<property name="script">chargeOngletPan('statistiques',
+					'indicateurs-ministeriels-confection-etudes-impact', this)
+				</property>
+			</properties>
+			<filter-id>isTraitesEtAccords</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TRAITES_ACCORDS_STATISTIQUES_INDICATEURS_MINISTERIELS"
+            label="pan.sous.onglet.traitesAccords.statistiques.indicateurs"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">indicateurs-ministeriels-confection-etudes-impact</property>
+				<property name="script">chargeSousOngletPan('indicateurs-ministeriels-confection-etudes-impact'
+					, this)
+				</property>
+				<property name="idBirtReport">pan_stat84</property>
+			</properties>
+			<filter-id>isTraitesEtAccords</filter-id>
+			<filter-id>isTabStatistiques</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TRAITES_ACCORDS_STATISTIQUES_REPARTITION"
+            label="pan.sous.onglet.traitesAccords.statistiques.repartitions"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">repartition-accords-signes</property>
+				<property name="script">chargeSousOngletPan('repartition-accords-signes'
+					, this)
+				</property>
+				<property name="idBirtReport">pan_stat85</property>
+			</properties>
+			<filter-id>isTraitesEtAccords</filter-id>
+			<filter-id>isTabStatistiques</filter-id>
+		</action>
+
+		<!-- ********************************************************************
+			************************** Indicateurs LOLF ***************************** 
+			********************************************************************* -->
+		<action id="TAB_INDICATEURS_LOLF" label="pan.onglet.indicateursLOLF" order="40" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">indicateurs-lolf</property>
+				<property name="script">chargeOngletPan('indicateurs-lolf',
+					'indicateurs-taux-execution', this)
+				</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action id="TAB_INDICATEURS" label="pan.onglet.indicateurs" order="40" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">indicateurs-lolf</property>
+				<property name="script">chargeOngletPan('indicateurs-lolf',
+					'indicateurs-taux-execution', this)
+				</property>
+			</properties>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationOrdonnances </filter-id>
+		</action>
+
+		<!--- Application des lois > Indicateurs LOLF > Sous-onglets -->
+		<action
+            id="SUBTAB_INDICATEURS_TAUX_EXECUTION_LOIS"
+            label="pan.sous.onglet.applicationLois.indicateursLOLF.tauxExecution"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">indicateurs-taux-execution</property>
+				<property name="script">chargeSousOngletPan('indicateurs-taux-execution',this)
+				</property>
+				<property name="idBirtReport">pan_stat15</property>
+			</properties>
+			<filter-id>isTabIndicateursLOLF</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_DELAI_MISE_APPLICATION_LOIS"
+            label="pan.sous.onglet.applicationLois.indicateursLOLF.delaiMiseApplication"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">delai-mise-application</property>
+				<property name="script">chargeSousOngletPan('delai-mise-application',this)
+				</property>
+				<property name="idBirtReport">pan_stat16</property>
+			</properties>
+			<filter-id>isTabIndicateursLOLF</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_EXECUTION_DERNIERE_SESSION_LOIS"
+            label="pan.sous.onglet.applicationLois.indicateursLOLF.tauxExecution.derniereSession"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-execution-derniere-session</property>
+				<property name="script">chargeSousOngletPan('taux-execution-derniere-session',this)
+				</property>
+				<property name="idBirtReport">pan_stat17</property>
+			</properties>
+			<filter-id>isTabIndicateursLOLF</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<!--- Application des ordonnances > Indicateurs > Sous-onglets -->
+		<action
+            id="SUBTAB_INDICATEURS_TAUX_EXECUTION_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.indicateursLOLF.tauxExecution"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">indicateurs-taux-execution</property>
+				<property name="script">chargeSousOngletPan('indicateurs-taux-execution',this)
+				</property>
+				<property name="idBirtReport">pan_stat45</property>
+			</properties>
+			<filter-id>isTabIndicateursLOLF</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_DELAI_MISE_APPLICATION_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.indicateursLOLF.delaiMiseApplication"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">delai-mise-application</property>
+				<property name="script">chargeSousOngletPan('delai-mise-application',this)
+				</property>
+				<property name="idBirtReport">pan_stat46</property>
+			</properties>
+			<filter-id>isTabIndicateursLOLF</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_EXECUTION_DERNIERE_SESSION_ORDONNANCES"
+            label="pan.sous.onglet.applicationOrdonnances.indicateursLOLF.tauxExecution.derniereSession"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-execution-derniere-session</property>
+				<property name="script">chargeSousOngletPan('taux-execution-derniere-session',this)
+				</property>
+				<property name="idBirtReport">pan_stat47</property>
+			</properties>
+			<filter-id>isTabIndicateursLOLF</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<!-- ******************************************************************** 
+			************************** Bilan semestriel ***************************** 
+			********************************************************************* -->
+		<action id="TAB_BILAN_SEMESTRIEL" label="pan.onglet.bilanSemestriel" order="50" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">bilan-semestriel</property>
+				<property name="script">chargeOngletPan('bilan-semestriel',
+					'bilan-semestriel-par-##{currentSection == 'lois' ? 'loi' :
+					'ordonnance'}',
+					this)
+				</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationLoisOuOrdonnances </filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_PAR_LOI"
+            label="pan.sous.onglet.applicationLois.bilanSemestriel.parLoi"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel-par-loi</property>
+				<property name="script">chargeSousOngletPan('bilan-semestriel-par-loi',this)
+				</property>
+				<property name="idBirtReport">pan_stat18</property>
+
+			</properties>
+			<filter-id>isTabBilanSemestriel</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_PAR_MINISTERE_LOIS"
+            label="pan.sous.onglet.applicationLois.bilanSemestriel.parMinistere"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel-par-ministere</property>
+				<property name="script">chargeSousOngletPan('bilan-semestriel-par-ministere',this)
+				</property>
+				<property name="idBirtReport">pan_stat19</property>
+
+			</properties>
+			<filter-id>isTabBilanSemestriel</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_PAR_NATURE_DE_TEXTE"
+            label="pan.sous.onglet.applicationLois.bilanSemestriel.parNatureDeTexte"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel-par-nature-de-texte
+				</property>
+				<property name="script">chargeSousOngletPan('bilan-semestriel-par-nature-de-texte',this)
+				</property>
+				<property name="idBirtReport">pan_stat20</property>
+
+			</properties>
+			<filter-id>isTabBilanSemestriel</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_PAR_PROCEDURE_DE_VOTE"
+            label="pan.sous.onglet.applicationLois.bilanSemestriel.parProcedureDeVote"
+            order="40"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel-par-procedure-de-vote
+				</property>
+				<property name="script">chargeSousOngletPan('bilan-semestriel-par-procedure-de-vote',this)
+				</property>
+				<property name="idBirtReport">pan_stat21</property>
+
+			</properties>
+			<filter-id>isTabBilanSemestriel</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_PAR_MINISTERE_ORDO"
+            label="pan.sous.onglet.applicationOrdonnances.bilanSemestriel.parMinistere"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel-par-ministere</property>
+				<property name="script">chargeSousOngletPan('bilan-semestriel-par-ministere',this)
+				</property>
+				<property name="idBirtReport">pan_stat48</property>
+
+			</properties>
+			<filter-id>isTabBilanSemestriel</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_BILAN_SEMESTRIEL_PAR_ORDONNANCE"
+            label="pan.sous.onglet.applicationOrdonnances.bilanSemestriel.parOrdonnance"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">bilan-semestriel-par-ordonnance</property>
+				<property name="script">chargeSousOngletPan('bilan-semestriel-par-ordonnance',this)
+				</property>
+				<property name="idBirtReport">pan_stat49</property>
+
+			</properties>
+			<filter-id>isTabBilanSemestriel</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+		<!-- ********************************************************************
+			************************* Taux d'application **************************** 
+			********************************************************************* -->
+		<action id="TAB_TAUX_DAPPLICATION" label="pan.onglet.tauxApplication" order="60" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">taux-application</property>
+				<property name="script">chargeOngletPan('taux-application',
+					'taux-application-global', this)
+				</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationLoisOuOrdonnances </filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_DAPPLICATION_GLOBAL_LOIS"
+            label="pan.sous.onglet.applicationLois.tauxApplication.global"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-global</property>
+				<property name="script">chargeSousOngletPan('taux-application-global',this)
+				</property>
+				<property name="idBirtReport">pan_stat22</property>
+			</properties>
+			<filter-id>isTabTauxApplication</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_DAPPLICATION_PAR_LOI"
+            label="pan.sous.onglet.applicationLois.tauxApplication.parLoi"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-par-loi</property>
+				<property name="script">chargeSousOngletPan('taux-application-par-loi',this)
+				</property>
+				<property name="idBirtReport">pan_stat23</property>
+			</properties>
+			<filter-id>isTabTauxApplication</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_DAPPLICATION_PAR_MINISTERE_LOIS"
+            label="pan.sous.onglet.applicationLois.tauxApplication.parMinistere"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-par-ministere</property>
+				<property name="script">chargeSousOngletPan('taux-application-par-ministere',this)
+				</property>
+				<property name="idBirtReport">pan_stat24</property>
+			</properties>
+			<filter-id>isTabTauxApplication</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_DAPPLICATION_PAR_NATURE_DE_TEXTE"
+            label="pan.sous.onglet.applicationLois.tauxApplication.parNatureDeTexte"
+            order="40"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-par-nature-de-texte
+				</property>
+				<property name="script">chargeSousOngletPan('taux-application-par-nature-de-texte',this)
+				</property>
+				<property name="idBirtReport">pan_stat25</property>
+			</properties>
+			<filter-id>isTabTauxApplication</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_DAPPLICATION_PAR_PROCEDURE_DE_VOTE"
+            label="pan.sous.onglet.applicationLois.tauxApplication.parProcedureDeVote"
+            order="50"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-par-procedure-de-vote
+				</property>
+				<property name="script">chargeSousOngletPan('taux-application-par-procedure-de-vote',this)
+				</property>
+				<property name="idBirtReport">pan_stat26</property>
+			</properties>
+			<filter-id>isTabTauxApplication</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_DAPPLICATION_GLOBAL_ORDO"
+            label="pan.sous.onglet.applicationOrdonnances.tauxApplication.global"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-global</property>
+				<property name="script">chargeSousOngletPan('taux-application-global',this)
+				</property>
+				<property name="idBirtReport">pan_stat50</property>
+			</properties>
+			<filter-id>isTabTauxApplication</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_DAPPLICATION_PAR_ORDO"
+            label="pan.sous.onglet.applicationOrdonnances.tauxApplication.parOrdonnance"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-par-ordonnance</property>
+				<property name="script">chargeSousOngletPan('taux-application-par-ordonnance',this)
+				</property>
+				<property name="idBirtReport">pan_stat51</property>
+			</properties>
+			<filter-id>isTabTauxApplication</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_TAUX_DAPPLICATION_PAR_MINISTERE_ORDOS"
+            label="pan.sous.onglet.applicationOrdonnances.tauxApplication.parMinistere"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">taux-application-par-ministere</property>
+				<property name="script">chargeSousOngletPan('taux-application-par-ministere',this)
+				</property>
+				<property name="idBirtReport">pan_stat52</property>
+			</properties>
+			<filter-id>isTabTauxApplication</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<!-- ********************************************************************
+			*************************** Délais moyens ****************************** 
+			********************************************************************* -->
+		<action id="TAB_DELAIS_MOYENS" label="pan.onglet.delaisMoyens" order="70" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panTabWithSubtabs</property>
+				<property name="fragmentName">panTabWithSubtabs</property>
+				<property name="name">delais-moyens</property>
+				<property name="script">chargeOngletPan('delais-moyens',
+					'delais-moyens-par-##{currentSection == 'lois' ? 'loi' :
+					'ordonnance'}',
+					this)
+				</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationLoisOuOrdonnances </filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_DELAIS_MOYENS_PAR_LOI"
+            label="pan.sous.onglet.applicationLois.delaisMoyens.parLoi"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">delais-moyens-par-loi</property>
+				<property name="script">chargeSousOngletPan('delais-moyens-par-loi',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat27</property>
+			</properties>
+			<filter-id>isTabDelaisMoyens</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_DELAIS_MOYENS_PAR_MINISTERE_LOIS"
+            label="pan.sous.onglet.applicationLois.delaisMoyens.parMinistere"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">delais-moyens-par-ministere</property>
+				<property name="script">chargeSousOngletPan('delais-moyens-par-ministere',this)
+				</property>
+				<property name="idBirtReport">pan_stat28</property>
+			</properties>
+			<filter-id>isTabDelaisMoyens</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_DELAIS_MOYENS_PAR_NATURE_DE_TEXTE"
+            label="pan.sous.onglet.applicationLois.delaisMoyens.parNatureDeTexte"
+            order="30"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">delais-moyens-par-nature-de-texte</property>
+				<property name="script">chargeSousOngletPan('delais-moyens-par-nature-de-texte',this)
+				</property>
+				<property name="idBirtReport">pan_stat29</property>
+			</properties>
+			<filter-id>isTabDelaisMoyens</filter-id>
+			<filter-id>isApplicationLois</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_DELAIS_MOYENS_PAR_ORDONNANCE"
+            label="pan.sous.onglet.applicationOrdonnances.delaisMoyens.parOrdonnance"
+            order="10"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">delais-moyens-par-ordonnance</property>
+				<property name="script">chargeSousOngletPan('delais-moyens-par-ordonnance',
+					this)
+				</property>
+				<property name="idBirtReport">pan_stat54</property>
+			</properties>
+			<filter-id>isTabDelaisMoyens</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="SUBTAB_DELAIS_MOYENS_PAR_MINISTERE_ORDO"
+            label="pan.sous.onglet.applicationOrdonnances.delaisMoyens.parMinistere"
+            order="20"
+            type="menuSection"
+        >
+			<category>SUBTAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/panBirtSubtab</property>
+				<property name="fragmentName">panBirtSubtab</property>
+				<property name="name">delais-moyens-par-ministere</property>
+				<property name="script">chargeSousOngletPan('delais-moyens-par-ministere',this)
+				</property>
+				<property name="idBirtReport">pan_stat53</property>
+			</properties>
+			<filter-id>isTabDelaisMoyens</filter-id>
+			<filter-id>isApplicationOrdonnances</filter-id>
+		</action>
+
+		<!-- ********************************************************************
+			**************************** Tableau des ******************************** 
+			********************************************************************* -->
+		<action id="TAB_TABLEAU_LOIS" label="pan.onglet.tableau.lois" order="90" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/lois/tableau-lois
+				</property>
+				<property name="fragmentName">tableau-lois</property>
+				<property name="name">tableau-lois</property>
+				<property name="script">chargeOngletPan('tableau-lois', '', this)
+				</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isApplicationLois </filter-id>
+		</action>
+
+        <action id="TAB_TABLEAU_ORDONNANCES" label="pan.onglet.tableau.ordonnances" order="90" type="menuSection">
+            <category>TAB</category>
+            <properties>
+                <property name="fragmentFile">fragments/pan/ordonnances/tableau-ordonnances
+                </property>
+                <property name="fragmentName">tableau-ordonnances</property>
+                <property name="name">tableau-ordonnances</property>
+                <property name="script">chargeOngletPan('tableau-ordonnances', '', this)
+                </property>
+            </properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+            <filter-id>isApplicationOrdonnances </filter-id>
+        </action>
+		<!-- ******************************************************************** 
+			********************* Historique màj ministerielles ********************* 
+			********************************************************************* -->
+		<action id="TAB_HISTORIQUE_MAJ_MINISTERIELLES" label="pan.onglet.historiqueMaj" order="100" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/historique-maj
+				</property>
+				<property name="fragmentName">historique-maj</property>
+				<property name="name">historique-maj</property>
+				<property name="script">chargeOngletPan('historique-maj', '', this)
+				</property>
+			</properties>
+			<filter-id>isNotTraitesEtAccords</filter-id>
+			<filter-id>isHistoriqueMajMinisterielReader</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- ******************************************************************** 
+			**************************** Recherche AN ****************************** 
+			********************************************************************* -->
+		<action id="TAB_RECHERCHE_ACTIVITE_NORMATIVE" label="pan.onglet.rechercheAN" order="110" type="menuSection">
+			<category>TAB</category>
+			<properties>
+				<property name="fragmentFile">fragments/pan/recherche-an
+				</property>
+				<property name="fragmentName">recherche-an</property>
+				<property name="name">recherche-an</property>
+				<property name="script">chargeOngletPan('recherche-an', '', this)
+				</property>
+			</properties>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+        <!-- ********************************************************************
+            ************************** Actions PAN  *****************************
+            ********************************************************************* -->
+
+        <action
+            id="TEXTE_MAITRE_ADD"
+            link="javascript:ajouterTexteMaitre()"
+            label="pan.action.ajouter"
+            icon="icon--add-without-background"
+            order="0"
+        >
+			<category>TEXTE_MAITRE_ADD</category>
+            <properties>
+                <property name="positionIcon">gauche</property>
+                <property name="specificClass">base-btn--transparent base-btn--uppercase base-btn--light</property>
+            </properties>
+            <filter-id>genericUpdateRights</filter-id>
+            <filter-id>isNotTraitesEtAccords</filter-id>
+        </action>
+
+		<action
+            id="TABLEAU_MAITRE_ADD_TRAITE"
+            link="javascript:ajouterTraite()"
+            label="pan.traites.ajouter"
+            icon="icon--add-without-background"
+            order="0"
+        >
+			<category>TEXTE_MAITRE_ADD</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">panModaleTraite</property>
+				<property name="title">pan.traites.ajouter</property>
+				<property name="specificClass">base-btn--uppercase</property>
+			</properties>
+			<filter-id>genericUpdateRights</filter-id>
+			<filter-id>isTraitesEtAccords</filter-id>
+		</action>
+
+       <action
+            id="TEXTE_MAITRE_DELETE"
+            link="javascript:void(0)"
+            enabled="true"
+            order="3"
+            label="pan.action.supprimer"
+            icon="icon--times-circle"
+        >
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">pan.application.modale.supprimer.textem.titre.label</property>
+				<property name="titleParam">item.titreActe</property>
+                <property name="buttonTitle">pan.action.supprimer.textem.buttonTitle</property> 
+                <property name="message">pan.application.modale.supprimer.textem.message.label</property>
+                <property name="function">supprimerTexteMaitre(this)</property>
+                <property name="parameters">|supprEltTableauMaitreId=${itemId}|</property>            
+            </properties>
+            <filter-id>genericUpdateRights</filter-id>
+        </action>
+
+		<action
+            id="TEXTE_MAITRE_DELETE_RECHERCHE_AN"
+            link="javascript:void(0)"
+            enabled="true"
+            order="3"
+            label="pan.action.supprimer"
+            icon="icon--times-circle"
+        >
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">pan.application.modale.supprimer.textem.titre.label</property>
+				<property name="titleParam">item.numeroNor</property>
+				<property name="buttonTitle">pan.action.supprimer.textem.buttonTitle</property>
+				<property name="message">pan.application.modale.supprimer.textem.message.label</property>
+				<property name="function">supprimerTexteMaitreRechercheAn(this)</property>
+				<property name="parameters">|supprEltTableauMaitreId=${itemId}|</property>
+			</properties>
+			<filter-id>espace_activite_normative_updater_grid</filter-id>
+		</action>
+
+        <action
+            id="TEXTE_MAITRE_LOCK"
+            link="javascript:verrouillerTexteMaitre(); return false;"
+            enabled="true"
+            order="20"
+            label="epg.dossier.lock.action.lock"
+            icon="icon--lock"
+        >
+            <category>TEXTEM_ACTIONS_LOCK</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>isTexteMaitreNotLocked</filter-id>
+        </action>
+
+        <action
+            id="TEXTE_MAITRE_UNLOCK"
+            link="javascript:deverrouillerTexteMaitre(); return false;"
+            enabled="true"
+            order="20"
+            label="epg.dossier.lock.action.unlock"
+            icon="icon--lock-bubble-times"
+        >
+            <category>TEXTEM_ACTIONS_LOCK</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>isTexteMaitreLocked</filter-id>
+            <properties />
+        </action>
+
+        <action
+            id="TEXTE_MAITRE_SAVE"
+            link="javascript:enregistrerTexteMaitre(this)"
+            enabled="true"
+            order="20"
+            label="button.label.save"
+            icon="icon--save"
+        >
+            <category>SUBTAB_TOOLBAR_LEFT</category>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+            <properties />
+        </action>
+
+        <action
+            id="TEXTE_MAITRE_REFRESH"
+            link="javascript:rafraichirTexteMaitre(this)"
+            enabled="true"
+            order="20"
+            label="pan.action.actualiser"
+            icon="icon--refresh"
+        >
+            <category>SUBTAB_TOOLBAR_LEFTTT</category>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <properties />
+        </action>
+
+        <!-- Export XLS/CSV texte-maitre / tableau programmation / tableau suivi -->
+        <action
+            id="EXPORT_TEXTEM_CONTEXT"
+            link="|/suivi/pan/${currentSection}/${currentPanTab}/textemaitre/${idContextuel}/${currentPanSubtab}/exporter|"
+            enabled="true"
+            order="20"
+            label="pan.action.exporter.excel"
+            icon="icon--download"
+        >
+            <category>SUBTAB_TOOLBAR_RIGHT</category>
+            <filter-id>hasExportContextuelLink</filter-id>
+            <properties />
+        </action>
+
+
+        <!-- Export XLS tableau des lois / tableau des ordonnances-->
+        <!-- Le double /exporter dans le path est normal; l'url est consommé par deux endpoints successif -->
+        <action
+            id="EXPORT_TABLEAU_DES"
+            link="|/suivi/pan/${currentSection}/${currentPanTab}/exporter/exporter|"
+            enabled="true"
+            order="20"
+            label="pan.action.exporter.excel"
+            icon="icon--download"
+        >
+            <category>TAB_TOOLBAR_RIGHT</category>
+            <filter-id>isTableauLoisOuOrdonnances</filter-id>
+            <properties />
+        </action>
+
+        <!-- ***********************************************************************
+            Espace de pilotage de l'activité normative Tableau de programmation
+            *********************************************************************** -->
+
+        <!-- Refresh d'un tableau de programmation -->
+        <action
+            id="REFRESH_TABLEAU_PROGRAMMATION_ACTIVITE_NORMATIVE"
+            link="javascript:window.location.reload()"
+            order="1"
+            label="pan.action.actualiser"
+            icon="icon--refresh"
+        >
+            <category>SUBTAB_TOOLBAR_LEFT</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>hasTableauProgrammationEtSuivi</filter-id>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTableauProgrammation</filter-id>
+            <filter-id>isTableauProgrammationLockable</filter-id>
+            <properties />
+        </action>
+
+        <!-- Verrouillage d'un tableau de programmation -->
+        <action
+            id="LOCK_TABLEAU_PROGRAMMATION_ACTIVITE_NORMATIVE"
+            link="javascript:figerTableauProgrammation(this)"
+            order="10"
+            label="pan.action.tableau.programmation.figer"
+            icon="icon--pen-bubble-times"
+        >
+            <category>SUBTAB_TOOLBAR_LEFT</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>hasTableauProgrammationEtSuivi</filter-id>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTableauProgrammation</filter-id>
+            <filter-id>isTableauProgrammationLockable</filter-id>
+            <properties />
+        </action>
+
+        <!-- Déverrouillage d''un tableau de programmation -->
+        <action
+            id="UNLOCK_TABLEAU_PROGRAMMATION_ACTIVITE_NORMATIVE"
+            link="javascript:defigerTableauProgrammation(this)"
+            order="10"
+            label="pan.action.tableau.programmation.defiger"
+            icon="icon--pen"
+        >
+            <category>SUBTAB_TOOLBAR_LEFT</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>hasTableauProgrammationEtSuivi</filter-id>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTableauProgrammation</filter-id>
+            <filter-id>isTableauProgrammationUnLockable</filter-id>
+            <properties />
+        </action>
+
+        <!-- export csv d'un tableau de programmation -->
+        <action
+            id="TABLEAU_PROGRAMMATION_AN_EXPORT_CSV"
+            link="|/suivi/pan/${currentSection}/${currentPanTab}/textemaitre/${idContextuel}/${currentPanSubtab}/exporter|"
+            order="10"
+            label="pan.action.exporter.csv"
+            icon="icon--download"
+        >
+            <category>SUBTAB_TOOLBAR_RIGHTTT</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>isSubtabTableauProgrammation</filter-id>
+            <properties />
+        </action>
+
+        <!-- ***********************************************************************
+            Espace de pilotage de l'activité normative Tableau de suivi
+            *********************************************************************** -->
+        <!-- Refresh d'un tableau de programmation -->
+        <action
+            id="REFRESH_TABLEAU_SUIVI_ACTIVITE_NORMATIVE"
+            link="javascript:window.location.reload()"
+            order="10"
+            label="pan.action.actualiser"
+            icon="icon--refresh"
+        >
+            <category>SUBTAB_TOOLBAR_LEFT</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>hasTableauProgrammationEtSuivi</filter-id>
+            <filter-id>isSubtabTableauSuivi</filter-id>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <properties />
+        </action>
+
+        <!-- Verrouillage d'un tableau de programmation -->
+        <action
+            id="PUBLIER_TABLEAU_SUIVI_ACTIVITE_NORMATIVE"
+            link="javascript:publierTableauSuivi(this)"
+            order="20"
+            label="pan.action.tableau.suivi.publier"
+            icon="icon--note-bubble-share"
+        >
+            <category>SUBTAB_TOOLBAR_LEFT</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>hasTableauProgrammationEtSuivi</filter-id>
+            <filter-id>isSubtabTableauSuivi</filter-id>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <properties />
+        </action>
+
+        <!-- Sauvegarder le tableau de programmation -->
+        <action
+            id="SAUVEGARDER_TABLEAU_SUIVI_ACTIVITE_NORMATIVE"
+            link="javascript:sauvegarderTableauSuivi(this)"
+            order="30"
+            label="button.label.save"
+            icon="icon--save"
+        >
+            <category>SUBTAB_TOOLBAR_LEFT</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>hasTableauProgrammationEtSuivi</filter-id>
+            <filter-id>isSubtabTableauSuivi</filter-id>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isApplicationLoisOuOrdonnances</filter-id>
+            <properties />
+        </action>
+
+        <!-- export csv d'un tableau de suivi -->
+        <action
+            id="TABLEAU_SUIVI_AN_EXPORT_CSV"
+            link="#{activiteNormativeActionDTO.genererCsv}"
+            order="10"
+            label="pan.action.exporter.csv"
+            icon="icon--download"
+        >
+            <category>SUBTAB_TOOLBAR_RIGHTTT</category>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+            <filter-id>isSubtabTableauSuivi</filter-id>
+            <filter-id>isInTableauSuivi</filter-id>
+            <properties />
+        </action>
+
+
+		<action id="HISTORIQUE_DELETE" label="pan.action.supprimer.ligne.historique" icon="icon--bin">
+			<properties>
+	                <property name="actionType">modal</property>
+	                <property name="dataControls">validation-dialog-modal</property>
+	                <property name="title">pan.historique.delete.title</property>
+	                <property name="message">pan.historique.delete.message</property>
+	                <property name="function">supprimerLignesHistorique()</property>
+	                <property name="specificClass">action-table-selection</property>
+	                <property name="btnConfirmLabel">button.label.supprimer</property>
+	            </properties>
+		</action> 
+		
+		<!--  ===================================================================== -->
+
+		<!-- ********************************************************************
+			**************************** Actions mesures ******************************
+			********************************************************************* -->
+
+		<action
+            id="ADD_ELT_PREMIER_TABLEAU"
+            label="|pan.action.ajouter.${firstTableType}|"
+            link="javascript:void(0)"
+            icon="icon--plus actions-bar__icon"
+            order="0"
+        >
+			<category>FIRST_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">panModaleEdit</property>
+				<property name="initJs">creerElementPremierTableau</property>
+                <property
+                    name="title"
+                >|pan.application.modale.${firstTableType}.titre.creer.label|</property>               
+				<property name="function">editerElementPremierTableau()</property>
+			</properties>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+			<filter-id>isNotTranspositionDirectives</filter-id>
+			<filter-id>isNotRatificationOrdonnances</filter-id>
+		</action>
+
+		<action
+            id="ADD_ELT_PREMIER_TABLEAU_NOR"
+            label="pan.action.ajouter"
+            link="javascript:ajouterElementPremierTableauParNor(this)"
+            icon="icon--add-without-background"
+            order="0"
+        >
+			<properties>
+				<property name="positionIcon">gauche</property>
+				<property name="specificClass">base-btn--transparent base-btn--uppercase base-btn--light</property>
+			</properties>
+			<filter-id>canEditTexteMaitre</filter-id>
+			<filter-id>isSubtabTexteMaitre</filter-id>
+			<filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<action
+            id="HIDE_COLUMNS_MESURES"
+            label="pan.action.afficher.colonnes"
+            link="javascript:afficherMasquerColonnesMesures($(this))"
+            icon="icon--columns-2 actions-bar__icon"
+            order="20"
+        >
+            <properties>
+				<property name="specificClass">isHidden</property>
+			</properties>
+		</action>
+
+		<action
+            id="VIEW_ELT_PREMIER_TABLEAU"
+            label="|pan.action.detail.${firstTableType}|"
+            link="javascript:chargerDetails(this); return false;"
+            order="0"
+            icon="base-btn__icon icon--eye-circle"
+        >
+            <category>FIRST_TABLE_LINE_ACTIONS</category>
+			<properties>
+				<property
+                    name="specificClass"
+                >base-btn--with-icon base-btn--light base-btn--transparent table-line__action-button</property>
+				<property name="buttonType">nospace</property>
+                <property name="titleParam">item.numeroOrdre</property>   
+                <property name="title">|pan.action.detail.${firstTableType}|</property> 
+                <property name="buttonTitle">|pan.action.detail.${firstTableType}.buttonTitle|</property> 
+			</properties>
+            <filter-id>hasTableauProgrammationEtSuivi</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+		</action>
+
+		<action
+            id="EDIT_ELT_PREMIER_TABLEAU"
+            label="|pan.action.editer.${firstTableType}|"
+            link="javascript:void(0)"
+            order="10"
+            icon="icon--edit base-btn__icon"
+        >
+            <category>FIRST_TABLE_LINE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">panModaleEdit</property>
+				<property name="initJs">chargerElementPremierTableau</property>
+				<property name="paramInitJs">${itemId}</property>
+				<property name="title">|pan.application.modale.${firstTableType}.titre.label|</property>
+				<property name="titleParam">item.numeroOrdre != null ? item.numeroOrdre : item.numeroNor</property>
+                <property name="buttonTitle">|pan.action.editer.${firstTableType}.buttonTitle|</property> 
+				<property name="function">editerElementPremierTableau()</property>
+				<property
+                    name="specificClass"
+                >base-btn--with-icon base-btn--light base-btn--transparent table-line__action-button</property>
+				<property name="buttonType">nospace</property>
+			</properties>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>espace_activite_normative_updater_grid</filter-id>
+		</action>
+
+		<action
+            id="DELETE_ELT_PREMIER_TABLEAU"
+            label="|pan.action.supprimer.${firstTableType}|"
+            link="javascript:void(0)"
+            order="20"
+            icon="icon--times-circle base-btn__icon"
+        >
+            <category>FIRST_TABLE_LINE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+                <property name="title">|pan.application.modale.supprimer.${firstTableType}.titre.label|</property>				
+				<property name="titleParam">item.numeroOrdre != null ? item.numeroOrdre : item.numeroNor</property>
+                <property name="buttonTitle">|pan.action.supprimer.${firstTableType}.buttonTitle|</property> 
+                <property
+                    name="message"
+                >|pan.application.modale.supprimer.${firstTableType}.message.label|</property>               				
+				<property name="function">supprimerElementPremierTableau()</property>
+				<property name="parameters">|supprEltPremierTableauId=${itemId}|</property>
+				<property
+                    name="specificClass"
+                >base-btn--with-icon base-btn--light base-btn--transparent table-line__action-button</property>
+				<property name="buttonType">nospace</property>
+			</properties>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!--  ======================================================================================== -->
+
+		<!-- ********************************************************************
+			**************************** Actions décrets ******************************
+			********************************************************************* -->
+		<action
+            id="RELOAD_DECRETS"
+            label="|pan.action.recharger.${secondTableType}|"
+            link="javascript:void(0)"
+            icon="icon--refresh"
+            order="0"
+        >
+			<category>SECOND_TABLE_ACTIONS</category>
+			<!-- <filter-id></filter-id> -->
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+                <property name="title">|pan.application.modale.recharger.${secondTableType}.titre.label|</property>
+                <property name="message">|pan.application.modale.recharger.${secondTableType}.message.label|</property>
+				<property name="function">rechargerSecondTableau()</property>
+			</properties>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+		
+		<action id="VALIDATE_DECRETS" label="pan.action.valider.decrets" link="javascript:void(0)" icon="icon--check" order="0">
+            <category>SECOND_TABLE_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">pan.application.modale.valider.decrets.titre.label</property>
+                <property name="message">pan.application.modale.valider.decrets.message.label</property>
+                <property name="function">validerDecrets()</property>
+            </properties>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+            <filter-id>isApplicationLoisOuOrdonnances</filter-id>
+			<filter-id>hasSurbrillance</filter-id>
+        </action>
+
+		<action
+            id="ADD_SECOND_ELT_NOR"
+            label="pan.action.ajouter"
+            link="javascript:ajouterElementSecondTableauParNor(this)"
+            icon="icon--add-without-background"
+            order="0"
+        >
+			<properties>
+				<property name="positionIcon">gauche</property>
+				<property name="specificClass">base-btn--transparent base-btn--uppercase base-btn--light</property>
+			</properties>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<action
+            id="EDIT_ELT_SECOND_TABLEAU"
+            label="|pan.action.editer.${secondTableType}|"
+            link="javascript:void(0);"
+            icon="icon--edit base-btn__icon"
+            order="0"
+        >
+			<category>SECOND_TABLE_LINE_ACTIONS</category>
+			<!-- <filter-id></filter-id> -->
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">panModaleEdit</property>
+				<property name="initJs">chargerElementSecondTableau</property>
+				<property name="paramInitJs">${itemId}</property>
+                <property name="title">|pan.application.modale.${secondTableType}.titre.label|</property>				
+				<property name="titleParam">item.numeroNor</property>
+                <property name="buttonTitle">|pan.action.editer.${secondTableType}.buttonTitle|</property> 
+				<property name="function">editerElementSecondTableau()</property>
+                <property
+                    name="specificClass"
+                >table-line__action-button base-btn--light base-btn--transparent</property>
+                <property name="buttonType">nospace</property>
+			</properties>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<action
+            id="DELETE_ELT_SECOND_TABLEAU"
+            label="|pan.action.supprimer.${secondTableType}|"
+            link="javascript:void(0)"
+            icon="icon--times-circle base-btn__icon"
+            order="10"
+        >
+            <category>SECOND_TABLE_LINE_ACTIONS</category>
+			<!-- <filter-id></filter-id> -->
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+                <property name="title">|pan.application.modale.supprimer.${secondTableType}.titre.label|</property>
+				<property name="titleParam">item.numeroNor</property>
+                <property name="buttonTitle">|pan.action.supprimer.${secondTableType}.buttonTitle|</property> 
+                <property name="message">|pan.application.modale.supprimer.${secondTableType}.message.label|</property>
+				<property name="function">supprimerElementSecondTableau()</property>
+				<property name="specificClass">table-line__action-button base-btn--light base-btn--transparent</property>
+                <property name="buttonType">nospace</property>
+				<property name="parameters">|supprEltSecondTableauId=${itemId}|</property>
+        	</properties>
+            <filter-id>canEditTexteMaitre</filter-id>
+            <filter-id>isSubtabTexteMaitre</filter-id>
+            <filter-id>isNotOnlyProfilMinistere</filter-id>
+		</action>
+
+		<!-- Actions de téléchargement sur les statistiques PAN -->
+		<action
+            id="DOWNLOAD_PAN_PDF_STAT"
+            link="javascript:downloadPanStatPDF(this)"
+            enabled="true"
+            order="10"
+            label="pan.stats.actions.exporter.pdf.label"
+            icon=""
+        >
+			<category>BIRT_PAN_DOWNLOAD_ACTIONS</category>
+			<category>BIRT_PAN_DOWNLOAD_GRAPH_ACTIONS</category>
+		</action>
+
+		<action
+            id="DOWNLOAD_PAN_EXCEL_STAT"
+            link="javascript:downloadPanStatExcel(this)"
+            enabled="true"
+            order="30"
+            label="pan.stats.actions.exporter.xls.label"
+            icon=""
+        >
+			<category>BIRT_PAN_DOWNLOAD_ACTIONS</category>
+		</action>
+
+		<action
+            id="EXPORT_GLOBAL_LEGISLATURE_EN_COURS"
+            link="javascript:panExportGlobal(this)"
+            label="pan.stats.exports.publication.action.exporter.label"
+            order="30"
+        >
+			<category>EXPORT_ACTIONS</category>
+			<properties>
+				<property name="specificClass">base-btn--padded-lr
+				</property>
+			</properties>
+			<filter-id>canExportGlobalPAN</filter-id>
+		</action>
+
+		<action
+            id="EXPORT_GLOBAL_LEGISLATURE_PRECEDENTE"
+            link="javascript:panExportLegisPrec(this)"
+            label="pan.stats.exports.publication.action.exporter.precedente.label"
+            order="20"
+        >
+			<category>EXPORT_ACTIONS</category>
+			<properties>
+				<property name="specificClass">base-btn--secondary base-btn--padded-lr
+				</property>
+			</properties>
+			<filter-id>canExportGlobalPAN</filter-id>
+		</action>
+
+		<action
+            id="PUBLIER_LEGISLATURE_PRECEDENTE"
+            link="javascript:panPublierLegisPrec(this)"
+            label="pan.stats.exports.publication.action.publier.precedente.label"
+            order="10"
+        >
+			<category>EXPORT_ACTIONS</category>
+			<properties>
+				<property name="specificClass">base-btn--secondary base-btn--padded-lr
+				</property>
+			</properties>
+			<filter-id>canExportGlobalPAN</filter-id>
+		</action>
+
+		<action
+            id="PAN_BIRT_REFRESH"
+            link="javascript:rafraichirPanBirtReport(this)"
+            label="pan.stats.actions.rafraichir.label"
+            icon="icon--refresh"
+        >
+			<properties>
+				<property name="specificClass">base-btn--min</property>
+			</properties>
+		</action>
+
+		<action
+            id="PAN_BIRT_PUBLISH"
+            link="javascript:publierPanBirtReport(this)"
+            label="pan.stats.actions.publier.label"
+            icon="icon--folder-bubble-plus"
+        >
+			<properties>
+				<property name="specificClass">base-btn--min</property>
+			</properties>
+			<filter-id>genericUpdateRights</filter-id>
+		</action>
+
+    </extension>
+
+	<extension target="org.nuxeo.ecm.platform.actions.ActionService" point="filters">
+
+		<filter id="isApplicationLoisOuOrdonnances">
+			<rule grant="true">
+				<condition>#{(currentSection == 'lois') || (currentSection ==
+					'ordonnances') }
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isApplicationLois">
+			<rule grant="true">
+				<condition>#{currentSection == 'lois'}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isApplicationOrdonnances">
+			<rule grant="true">
+				<condition>#{currentSection == 'ordonnances'}
+				</condition>
+			</rule>
+		</filter>
+
+        <filter id="isTranspositionDirectives">
+            <rule grant="true">
+                <condition>#{currentSection == 'directives'}
+                </condition>
+            </rule>
+        </filter>
+
+		<filter id="isNotTranspositionDirectives">
+			<rule grant="false">
+				<condition>#{currentSection == 'directives'}
+				</condition>
+			</rule>
+		</filter>
+
+        <filter id="isRatificationOrdonnances">
+            <rule grant="true">
+                <condition>#{currentSection == 'ratification'}
+                </condition>
+            </rule>
+        </filter>
+
+		<filter id="isNotRatificationOrdonnances">
+			<rule grant="false">
+				<condition>#{currentSection == 'ratification'}
+				</condition>
+			</rule>
+		</filter>
+        
+        <filter id="isSuiviHabilitations">
+            <rule grant="true">
+                <condition>#{currentSection == 'habilitations'}
+                </condition>
+            </rule>
+        </filter>
+  
+        <filter id="isTraitesEtAccords">
+            <rule grant="true">
+                <condition>#{currentSection == 'traites'}
+                </condition>
+            </rule>
+        </filter>
+        
+        <filter id="isNotTraitesEtAccords">
+            <rule grant="false">
+                <condition>#{currentSection == 'traites'}
+                </condition>
+            </rule>
+        </filter>
+        
+        <filter id="hasExportContextuelLink">
+            <rule grant="true">
+                <condition>#{(currentPanSubtab == 'texte-maitre')
+                &amp;&amp; (currentSection != 'directives')
+                &amp;&amp; (currentSection != 'habilitations')
+                &amp;&amp; (currentSection != 'ratification')
+                &amp;&amp; (currentSection != 'traites')}
+				</condition>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentPanSubtab == 'tableau-programmation'}</condition>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentPanSubtab == 'tableau-suivi'}</condition>
+            </rule>
+        </filter>
+
+		<filter id="hasFicheSignaletique">
+			<rule grant="true">
+				<condition>#{(currentSection == 'lois') || (currentSection ==
+					'ordonnances')}
+				</condition>
+			</rule>
+		</filter>
+		
+		<filter id="hasTableauProgrammationEtSuivi">
+			<rule grant="true">
+				<condition>#{(currentSection == 'lois') || (currentSection ==
+					'ordonnances') || (currentSection == 'habilitations') }
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="isDossierContexte">
+			<rule grant="true">
+				<condition>#{panContext == 'dossier'}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isMinistereContexte">
+			<rule grant="true">
+				<condition>#{panContext == 'ministere'}</condition>
+			</rule>
+		</filter>
+
+        <filter id="isTableauLoisOuOrdonnances">
+            <rule grant="true">
+                <condition>#{currentPanTab == 'tableau-lois'}</condition>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentPanTab == 'tableau-ordonnances'}</condition>
+            </rule>
+        </filter>
+        
+        <filter id="isTabTableauxBord">
+            <rule grant="true">
+                <condition>#{currentPanTab == 'tableaux-bord'}</condition>
+            </rule>
+        </filter>
+
+		<filter id="isTabIndicateursLOLF">
+			<rule grant="true">
+				<condition>#{currentPanTab == 'indicateurs-lolf'}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTabBilanSemestriel">
+			<rule grant="true">
+				<condition>#{currentPanTab == 'bilan-semestriel'}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTabTauxApplication">
+			<rule grant="true">
+				<condition>#{currentPanTab == 'taux-application'}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTabDelaisMoyens">
+			<rule grant="true">
+				<condition>#{currentPanTab == 'delais-moyens'}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isTabStatistiques">
+			<rule grant="true">
+				<condition>#{currentPanTab == 'statistiques'}</condition>
+			</rule>
+		</filter>
+
+        <filter id="isSubtabTableauProgrammation">
+            <rule grant="true">
+                <condition>#{currentPanSubtab == 'tableau-programmation'}</condition>
+            </rule>
+        </filter>
+
+        <filter id="isSubtabTableauSuivi">
+            <rule grant="true">
+                <condition>#{currentPanSubtab == 'tableau-suivi'}</condition>
+            </rule>
+        </filter>
+
+        <filter id="isSubtabTexteMaitre">
+            <rule grant="true">
+                <condition>#{currentPanSubtab == 'texte-maitre'}</condition>
+            </rule>
+        </filter>
+                       
+		<filter id="hasStatistiques">
+			<rule grant="true">
+				<condition>#{(currentSection == 'directives') || (currentSection ==
+					'ratification') || (currentSection == 'traites')}
+				</condition>
+			</rule>
+		</filter>
+
+		<filter id="hasHistoriqueMaj">
+			<rule grant="false">
+				<condition>#{currentSection == 'traites'}</condition>
+			</rule>
+		</filter>
+		
+        <!-- Retourne vrai si l'utilisateur courant n'est pas un utilisateur qui a des droits seulement de type ministère -->
+        <filter id="isNotOnlyProfilMinistere">
+            <rule grant="false">
+                <condition>#{panActionDTO.isOnlyUtilisateurMinistereLoiOrOrdonnance}</condition>
+            </rule>
+        </filter>
+
+		<filter id="accessApplicationLois">
+			<rule grant="true">
+				<group>EspaceActiviteNormativeAppLoisReader</group>
+				<group>EspaceActiviteNormativeMinistereApplicationLoi</group>
+			</rule>
+		</filter>
+
+		<filter id="accessApplicationOrdonnances">
+			<rule grant="true">
+				<group>EspaceActiviteNormativeAppOrdoReader</group>
+				<group>EspaceActiviteNormativeMinistereApplicationOrdonnance</group>
+			</rule>
+		</filter>
+
+		<filter id="accessTranspositionDirectives">
+			<rule grant="true">
+				<group>EspaceActiviteNormativeTranspositionReader</group>
+			</rule>
+		</filter>
+
+		<filter id="accessSuiviHabilitations">
+			<rule grant="true">
+				<group>EspaceActiviteNormativeSuivHabReader</group>
+			</rule>
+		</filter>
+
+		<filter id="accessRatificationOrdonnances">
+			<rule grant="true">
+				<group>EspaceActiviteNormativeRatOrdoReader</group>
+			</rule>
+		</filter>
+
+		<filter id="accessTraitesAccords">
+			<rule grant="true">
+				<group>EspaceActiviteNormativeTraitAccReader</group>
+			</rule>
+		</filter>
+
+        <!-- Retourne vrai si l'utilisateur peut mettre a jour dans l'espace activite
+            Normative -->
+        <filter id="espace_activite_normative_updater_grid">
+            <rule grant="true">
+                <group>administrators</group>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentSection == 'lois'}
+                </condition>
+                <group>EspaceActiviteNormativeAppLoisUpdater</group>
+                <group>EspaceActiviteNormativeMinistereApplicationLoi</group>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentSection == 'ratification'}</condition>
+                <group>EspaceActiviteNormativeRatOrdoUpdater</group>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentSection == 'habilitations'}
+                </condition>
+                <group>EspaceActiviteNormativeSuivHabUpdater</group>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentSection == 'traites'}
+                </condition>
+                <group>EspaceActiviteNormativeTraitAccUpdater</group>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentSection == 'directives'}
+                </condition>
+                <group>EspaceActiviteNormativeTranspositionUpdater</group>
+            </rule>
+            <rule grant="true">
+                <condition>#{currentSection == 'ordonnances'}
+                </condition>
+                <group>EspaceActiviteNormativeAppOrdoUpdater</group>
+                <group>EspaceActiviteNormativeMinistereApplicationOrdonnance</group>
+            </rule>
+        </filter>
+
+		<filter id="genericUpdateRights">
+			<rule grant="true">
+				<group>administrators</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{currentSection == 'lois'}
+				</condition>
+				<group>EspaceActiviteNormativeAppLoisUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{currentSection == 'ratification'}</condition>
+				<group>EspaceActiviteNormativeRatOrdoUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{currentSection == 'habilitations'}
+				</condition>
+				<group>EspaceActiviteNormativeSuivHabUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{currentSection == 'traites'}
+				</condition>
+				<group>EspaceActiviteNormativeTraitAccUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{currentSection == 'directives'}
+				</condition>
+				<group>EspaceActiviteNormativeTranspositionUpdater</group>
+			</rule>
+			<rule grant="true">
+				<condition>#{currentSection == 'ordonnances'}
+				</condition>
+				<group>EspaceActiviteNormativeAppOrdoUpdater</group>
+			</rule>
+		</filter>
+
+		<filter id="isHistoriqueMajMinisterielReader">
+			<rule grant="true">
+				<group>HistoriqueMajMinisterielReader</group>
+			</rule>
+		</filter>
+
+
+        <!-- Retourne vrai si le texteMaitre est editable ie verrouillé par l'utilisateur
+            courant -->
+        <filter id="canEditTexteMaitre">
+            <rule grant="true">
+                <condition>#{consultTexteMaitreDto.canEditTexteMaitre}</condition>
+            </rule>
+        </filter>
+
+		<!-- Retourne vrai si l'utilisateur peut exporter les données du PAN -->
+		<filter id="canExportGlobalPAN">
+			<rule grant="true">
+				<group>EspaceActiviteNormativeExportDataUpdater</group>
+			</rule>
+		</filter>
+
+		<!-- Retourne vrai si l'utilisateur peut modifier le paramétrage des statistiques du PAN -->
+		<filter id="canEditParametrageStatistiquesPAN">
+			<rule grant="true">
+				<group>EspaceActiviteNormativeParamLegisUpdater</group>
+			</rule>
+		</filter>
+
+        <!-- Retourne faux si le texteMaitre est verrouillé -->
+        <filter id="isTexteMaitreNotLocked">
+            <rule grant="false">
+                <condition>#{consultTexteMaitreDto.texteMaitreIsLocked}
+                </condition>
+            </rule>
+        </filter>
+
+        <!-- Retourne vrai si le texteMaitre est verrouillé -->
+        <filter id="isTexteMaitreLocked">
+            <rule grant="true">
+                <condition>#{consultTexteMaitreDto.texteMaitreIsLocked}
+                </condition>
+            </rule>
+        </filter>
+
+        <filter id="isTableauProgrammationLockable">
+            <rule grant="true">
+                <condition>#{consultTexteMaitreDto.tableauProgrammationIsLocked}
+                </condition>
+            </rule>
+        </filter>
+
+        <filter id="isTableauProgrammationUnLockable">
+            <rule grant="false">
+                <condition>#{consultTexteMaitreDto.tableauProgrammationIsLocked}
+                </condition>
+            </rule>
+        </filter>
+        
+        <filter id="hasSurbrillance">
+            <rule grant="true">
+                <condition>#{hasSurbrillance}
+                </condition>
+            </rule>
+        </filter>
+
+	</extension>
+
+</component>

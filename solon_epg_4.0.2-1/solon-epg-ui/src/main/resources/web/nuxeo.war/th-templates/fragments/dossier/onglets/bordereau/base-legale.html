@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="baseLegale(bordereauDto)" th:with="dto=${bordereauDto.baseLegale}">
+    <th:block th:unless="${bordereauDto.isEdit && !isNorAttribue}">
+        <div class="folder-detail">
+            <table role="presentation" class="folder-detail__table">
+                <tbody>
+                <tr
+                        th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.base.legale},${dto.baseLegale},${bordereauDto.isCopy},'dos:baseLegaleActe')"
+                ></tr>
+                <th:block th:if="${bordereauDto.acteVisibility['PERIODICITE_RAPPORT']}">
+                    <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.base.legale.nature.texte},${dto.natureTexteLibelle})"
+                    ></tr>
+                    <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.base.legale.numero.texte},${dto.numeroTexte})"
+                    ></tr>
+                    <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.base.legale.date},${#calendars.format(dto.dateBaseLegale,'dd/MM/yyyy')})"
+                    ></tr>
+
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+    <th:block th:if="${bordereauDto.isEdit && !isNorAttribue}">
+        <div role="group" aria-labelledby="accordion__header__epgBordereauBaseLegale">
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="form-input--full grid__col grid__col--full-width form-input">
+                    <div
+                            th:replace="fragments/components/formblocks/textarea-input :: textArea('dossier.bordereau.base.legale', 'baseLegale', '', ${dto.baseLegale}, false, '')"
+                    ></div>
+                </div>
+            </div>
+            <th:block th:if="${bordereauDto.acteVisibility['PERIODICITE_RAPPORT']}">
+                <div class="grid__row p-t-3 p-b-3">
+                    <div class="grid__col grid__col--middle form-input">
+                        <div class="form-input" th:with="selectIsRequired=true">
+                            <div
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect('dossier.bordereau.base.legale.nature.texte', 'natureTexte', '', ${natureTexteOptions}, ${dto.natureTexte}, 'false', null)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__col grid__col--middle form-input">
+                        <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.base.legale.numero.texte}, true, '', 'numeroTexte', 'numeroTexte', ${dto.numeroTexte}, false)"
+                        ></div>
+                    </div>
+                </div>
+                <!-- Enlever le th:text qui contennait par defaut le nom de la date
+                appeler la proprieté sauvegardée et rajouter le span (avant il n'y avait que le th) -->
+
+                <div class="grid__row p-t-3 p-b-3">
+                    <div class="grid__col grid__col--middle form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top" >
+                                <label
+                                        for="dateBaseLegale"
+                                        id="dateBaseLegale_label"
+                                        class="form-label"
+                                >
+                                    [[#{dossier.bordereau.base.legale.date}]]
+                                    <span class="form-label__required-text" th:text="#{form.input.required}">(requis)</span>
+                                </label>
+
+                            </div>
+                        </div>
+                        <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_dateBaseLegale', 'dateBaseLegale', 'dateBaseLegale', true, ${#calendars.format(dto.dateBaseLegale,'dd/MM/yyyy')}, false)"
+                        ></div>
+                        <div id="dateBaseLegale_description" class="form-input__footer">
+
+
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </th:block>
+</th:block>
+</body>
+</html>

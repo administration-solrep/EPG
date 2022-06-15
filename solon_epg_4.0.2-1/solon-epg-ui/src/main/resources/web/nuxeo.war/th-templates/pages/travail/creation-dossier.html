@@ -1,0 +1,46 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page créer un dossier', title=#{epg.dossier.creation.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+
+        <h1 class="heading-complex__title base-title base-title--lvl-1" th:text="#{epg.dossier.creation.title}">
+            Créer un dossier
+        </h1>
+
+        <!-- fragment Type d'acte -->
+        <div th:replace="fragments/travail/creation-dossier-type-acte :: creation-dossier-type-acte('')"></div>
+
+        <!-- Ajax content load -->
+        <div id="dynamic-type-acte-content"></div>
+
+        <!-- Boutons Annuler et Créer le dossier -->
+        <div class="flex justify-between">
+            <button
+                type="button"
+                class="m-r-2 base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered"
+                th:text="#{button.label.cancel}"
+                onclick="goPreviousPage()"
+            >
+                Annuler
+            </button>
+            <button
+                type="button"
+                class="base-btn base-btn--button base-btn--default base-btn--center"
+                id="btn-create-dossier"
+                th:text="#{epg.dossier.creation.btn}"
+                onclick="createFolder()"
+                disabled="disabled"
+            >
+                Créer le dossier
+            </button>
+        </div>
+
+        <!-- Modale de choix du poste -->
+        <div th:replace="fragments/travail/modal-choix-poste :: modal-choix-poste"></div>
+    </main>
+</html>

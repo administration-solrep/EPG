@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-texte(item, lineActions)">
+            <tr
+                class="table-line"
+                th:classappend="${item.getId() == idContextuel ? 'table-line--selected' : ''}"
+                th:with="itemId=${item.getId()}"
+                th:data-id="${itemId}"
+            >
+                <td class="table-line__cell sticky-col">
+                    <div class="table-line__action-buttons flex justify-start items-center">
+                        <th:block th:each="action : ${lineActions}">
+                            <div
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                            ></div>
+                        </th:block>
+                    </div>
+                </td>
+                <td class="table-line__cell" th:text="${item.natureTexteLabel}"></td>
+                <td class="table-line__cell" th:text="${item.numeroNor}"></td>
+                <td class="table-line__cell" th:text="${item.intitule}"></td>
+                <td class="table-line__cell" th:text="${item.ministerePiloteLabel}"></td>
+                <td
+                    class="table-line__cell"
+                    th:text="${item.etapeSolon==null || #messages.msgOrNull(item.etapeSolon)== null ? item.etapeSolon : #messages.msg(item.etapeSolon)}"
+                ></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.datePublication,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.numeroTextePublie}"></td>
+                <td class="table-line__cell" th:text="${item.titreOfficiel}"></td>
+            </tr>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!-- Ce composant contribue le service d'organigramme du socle transverse. -->
+<component name="fr.dila.solonepg.core.hibernate.contrib">
+	<require>org.nuxeo.ecm.core.persistence.PersistenceComponent</require>
+
+	<extension target="org.nuxeo.ecm.core.persistence.PersistenceComponent" point="hibernate">
+
+		<hibernateConfiguration name="organigramme-provider">
+			<datasource>organigramme-provider</datasource>
+			<classes>
+				<class>fr.dila.st.core.organigramme.OrganigrammeNodeImpl</class>
+				<class>fr.dila.st.core.organigramme.EntiteNodeImpl</class>
+				<class>fr.dila.st.core.organigramme.InstitutionNodeImpl</class>
+				<class>fr.dila.st.core.organigramme.GouvernementNodeImpl</class>
+				<class>fr.dila.st.core.organigramme.UniteStructurelleNodeImpl</class>
+				<class>fr.dila.st.core.organigramme.PosteNodeImpl</class>
+			</classes>
+		</hibernateConfiguration>
+
+		<hibernateConfiguration name="SWMIGRATIONLOGGER">
+			<datasource>sword-provider</datasource>
+			<classes>
+				<class>fr.dila.solonepg.core.migration.MigrationLoggerModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.MigrationDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.BulletinDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.ClosDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.CreatorDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.LancerDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.MailBoxDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.ModeleFDRDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.MotsClesDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.StepDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.TableRefDetailModelImpl</class>
+				<class>fr.dila.solonepg.core.migration.TableDossierSupprime</class>
+			</classes>
+			<properties>
+				<property name="hibernate.hbm2ddl.auto">update</property>
+			</properties>
+		</hibernateConfiguration>
+
+	</extension>
+
+</component>

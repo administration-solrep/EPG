@@ -1,0 +1,37 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page de la liste des dossiers de suivi', title=${title})}"
+>
+    <main
+        role="main"
+        id="main_content"
+        class="page-layout__content"
+        th:with="listeTitle=${#messages.msgOrNull(title) == null ? title : #messages.msg(title)},
+                 listeNbDossiers=#{label.dossier.nombre(${nbResults})},
+                 tableCaption=${listeTitle}"
+    >
+        <h1 class="base-title base-title--lvl-1" th:text="#{suivi.title}">
+            Suivi
+        </h1>
+        <div class="page-reponses__table">
+            <div class="page-reponses__table-heading">
+                <h2
+                    class="page-reponses__table-heading__base-title base-title base-title--lvl-2"
+                    th:remove="${title==null}?all"
+                >
+                    [[ ${listeTitle} ]] -
+                    <span class="base-paragraph page-reponses__folders-number" th:text="${listeNbDossiers}"> </span>
+                </h2>
+            </div>
+
+            <th:block th:unless="${#lists.isEmpty(resultList.liste)}">
+                <div th:replace="fragments/components/rapid-filtre :: rapidSearch('dossiers-suivi')"></div>
+            </th:block>
+
+            <div th:if="${nbResults > 0}" th:replace="fragments/table/tableDossiers :: searchResults"></div>
+        </div>
+    </main>
+</html>

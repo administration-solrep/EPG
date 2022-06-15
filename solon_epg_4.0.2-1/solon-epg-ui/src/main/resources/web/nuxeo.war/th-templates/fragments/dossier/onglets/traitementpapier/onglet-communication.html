@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ongletCommunication" id="ongletCommunication_content" class="page-epg-bordereau">
+            <!-- Cabinet du PM -->
+            <div>
+                <div class="overlay" id="result_overlay_cabinetPM" aria-live="polite">
+                    <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+                </div>
+                <div id="cabinetPM">
+                    <div
+                        th:replace="fragments/dossier/onglets/traitementpapier/communication/table-destinataire :: tableDestinataire(
+                            'cabinetPM', 
+                            'dossier.traitement.papier.communication.cabinet.pm', 
+                            ${isEditable},
+                            ${destinatairesCabinetPM}, 
+                            ${sensAvis},
+                            ${communicationDTO.cabinetPM},
+                            ${addActionCabinetPM},
+                            ${tableActionCabinetPM})"
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Chargé de mission -->
+            <div>
+                <div class="overlay" id="result_overlay_chargeMission" aria-live="polite">
+                    <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+                </div>
+                <div id="chargeMission">
+                    <div
+                        th:replace="fragments/dossier/onglets/traitementpapier/communication/table-destinataire :: tableDestinataire(
+                            'chargeMission', 
+                            'dossier.traitement.papier.communication.charge.mission', 
+                            ${isEditable},
+                            ${destinatairesChargeMission}, 
+                            ${sensAvis},
+                            ${communicationDTO.chargeMission},
+                            ${addActionChargeMission},
+                            ${tableActionChargeMission})"
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Autres -->
+            <div>
+                <div class="overlay" id="result_overlay_autres" aria-live="polite">
+                    <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+                </div>
+                <div id="autres">
+                    <div
+                        th:replace="fragments/dossier/onglets/traitementpapier/communication/table-destinataire :: tableDestinataire(
+                            'autres', 
+                            'dossier.traitement.papier.communication.autres', 
+                            ${isEditable},
+                            ${destinatairesAutres}, 
+                            ${sensAvis},
+                            ${communicationDTO.autresDestinataires},
+                            ${addActionAutres},
+                            ${tableActionAutres})"
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Cabinet du Secrétaire général -->
+            <th:block th:if="${tableActionCabinetSGVisible}">
+                <div>
+                    <div class="overlay" id="result_overlay_cabinetSG" aria-live="polite">
+                        <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+                    </div>
+                    <div id="cabinetSG">
+                        <div
+                            th:replace="fragments/dossier/onglets/traitementpapier/communication/table-destinataire :: tableDestinataire(
+                                'cabinetSG', 
+                                'dossier.traitement.papier.communication.cabinet.sg', 
+                                ${isEditable},
+                                ${destinatairesCabinetSG}, 
+                                ${sensAvis},
+                                ${communicationDTO.cabinetSg},
+                                ${addActionCabinetSG},
+                                ${tableActionCabinetSG})"
+                        ></div>
+                    </div>
+                </div>
+            </th:block>
+
+            <!-- Priorité & signataires & liste des personnes nommées dans le même texte -->
+            <th:block th:if="${communicationComplementVisible}">
+                <div
+                    th:replace="fragments/dossier/onglets/traitementpapier/communication/communication-form :: communicationForm(${communicationDTO}, ${tableActionCabinetSGVisible})"
+                ></div>
+            </th:block>
+        </div>
+    </body>
+</html>

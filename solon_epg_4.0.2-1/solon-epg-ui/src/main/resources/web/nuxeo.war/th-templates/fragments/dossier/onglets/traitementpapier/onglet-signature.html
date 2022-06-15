@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ongletSignature" id="ongletSignature_content" class="page-epg-bordereau">
+            <div
+                th:replace="fragments/dossier/onglets/traitementpapier/signature/signature-form :: signatureForm(${signatureDTO}, ${isVisible})"
+            ></div>
+            <th:block
+                th:if="${#strings.equalsIgnoreCase(signataire, 'PM') 
+                    or #strings.equalsIgnoreCase(signataire, 'SGG') 
+                    or #strings.equalsIgnoreCase(signataire, 'PR')}"
+            >
+                <div
+                    th:replace="fragments/dossier/onglets/traitementpapier/signature/signature-signataire :: signatureSignataire(
+                        ${donneesSignatureDTO}, 
+                        ${signataire}, 
+                        ${isEditable})"
+                ></div>
+            </th:block>
+            <div class="m-t-6 m-b-4">
+                <th:block th:unless="${#lists.isEmpty(signatureDTO.listes)}">
+                    <div
+                        th:replace="fragments/dossier/onglets/traitementpapier/signature/table-signature :: tableSignature(${signatureDTO.listes})"
+                    ></div>
+                </th:block>
+            </div>
+        </div>
+    </body>
+</html>

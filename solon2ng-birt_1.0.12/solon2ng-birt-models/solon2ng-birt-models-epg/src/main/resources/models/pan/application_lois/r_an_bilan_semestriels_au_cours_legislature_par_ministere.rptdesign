@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[importPackage( Packages.java.text );
+//var Formatter = new SimpleDateFormat("dd/MM/yyyy", reportContext.getLocale());
+
+/*var date_01_01 = new Date(new Date().getFullYear(), 0, 1);
+var date_30_06 = new Date(new Date().getFullYear(), 5, 30);
+var date_01_07 = new Date(new Date().getFullYear(), 6, 1);
+var date_31_12 = new Date(new Date().getFullYear(), 11, 31);*/
+
+var dateDebutLoi = params["DEBUT_INTERVALLE1_PARAM"];
+var dateFinLoi = params["FIN_INTERVALLE1_PARAM"];
+var dateDebutDec = params["DEBUT_INTERVALLE2_PARAM"];
+var dateFinDec = params["FIN_INTERVALLE2_PARAM"];
+
+var dt = dateDebutLoi.split("/");
+if(dt[0].length==1)dt[0] = '0' + dt[0];
+if(dt[1].length==1)dt[1] = '0' + dt[1];
+dateDebutLoi = dt.join("/");
+
+var dt1 = dateFinLoi.split("/");
+if(dt1[0].length==1)dt1[0] = '0' + dt1[0];
+if(dt1[1].length==1)dt1[1] = '0' + dt1[1];
+dateFinLoi = dt1.join("/");
+
+var dt2 = dateDebutDec.split("/");
+if(dt2[0].length==1)dt2[0] = '0' + dt2[0];
+if(dt2[1].length==1)dt2[1] = '0' + dt2[1];
+dateDebutDec = dt2.join("/");
+
+var dt3 = dateFinDec.split("/");
+if(dt3[0].length==1)dt3[0] = '0' + dt3[0];
+if(dt3[1].length==1)dt3[1] = '0' + dt3[1];
+dateFinDec = dt3.join("/");
+
+/*if((dateFinLoi >= date_01_01) &amp;&amp; (dateFinLoi <= date_30_06))
+{*/
+	vars["DEBUT_INTERVALLE1_VAR"] = dateDebutLoi;
+	vars["FIN_INTERVALLE1_VAR"] = dateFinLoi;
+	vars["DEBUT_INTERVALLE2_VAR"] = dateDebutDec;
+	vars["FIN_INTERVALLE2_VAR"] = dateFinDec;//'30/06/' + new Date().getFullYear();
+/*}else if((new Date() >= date_01_07) &amp;&amp; (new Date() <= date_31_12))
+{
+	vars["DEBUT_INTERVALLE1_VAR"] = dateDebutLoi;
+	vars["FIN_INTERVALLE1_VAR"] = dateFinLoi;
+	vars["DEBUT_INTERVALLE2_VAR"] = dateDebutDec;
+	vars["FIN_INTERVALLE2_VAR"] = dateFinDec;
+}*/
+
+function toddMMyyyy(madate){
+   	if (madate)
+   	{
+   		var day = madate.getDate();
+		var month = madate.getMonth()+1;
+		if (day < 10) day = "0" + day ;
+		if (month < 10) month = "0" + month ;
+		return day + "/" + month  + "/" + madate.getFullYear();
+	}
+	else return " ";
+}
+reportContext.setPersistentGlobalVariable("toddMMyyyy", toddMMyyyy);]]></method>
+    <method name="beforeFactory"><![CDATA[var DEBUTLOI_PARAM = ((params["DEBUT_INTERVALLE1_PARAM"] + "") == "null" ? "" : BirtStr.trim((params["DEBUT_INTERVALLE1_PARAM"] + "")));
+var FINLOI_PARAM = ((params["FIN_INTERVALLE1_PARAM"] + "") == "null" ? "" : BirtStr.trim((params["FIN_INTERVALLE1_PARAM"] + "")));
+var DEBUTDEC_PARAM = ((params["DEBUT_INTERVALLE2_PARAM"] + "") == "null" ? "" : BirtStr.trim((params["DEBUT_INTERVALLE2_PARAM"] + "")));
+var FINDEC_PARAM = ((params["FIN_INTERVALLE2_PARAM"] + "") == "null" ? "" : BirtStr.trim((params["FIN_INTERVALLE2_PARAM"] + "")));
+var ERR_PARAM = ((params["ERR_PARAM"] + "") == "null" ? "" : BirtStr.trim((params["ERR_PARAM"] + "")));
+params["ERR_PARAM"] = (ERR_PARAM.length > 0 ? ERR_PARAM: "Une erreur est survenue lors de la génération du rapport BIRT, Verifier le paramétrage technique...");
+
+var isValid = true;
+
+if(DEBUTLOI_PARAM.length > 0 &amp;&amp; FINLOI_PARAM.length > 0 &amp;&amp; DEBUTDEC_PARAM.length > 0 &amp;&amp; FINDEC_PARAM.length > 0)
+{
+	Date.format = 'dd/MM/yyyy'; 
+	DEBUTLOI_PARAM =  new Date(DEBUTLOI_PARAM); 
+	FINLOI_PARAM =  new Date(FINLOI_PARAM); 
+	DEBUTDEC_PARAM =  new Date(DEBUTDEC_PARAM); 
+	FINDEC_PARAM =  new Date(FINDEC_PARAM); 
+	
+	if( isNaN(DEBUTLOI_PARAM.getTime()) || isNaN(FINLOI_PARAM.getTime()) 
+	|| isNaN(DEBUTDEC_PARAM.getTime()) || isNaN(FINDEC_PARAM.getTime()))
+	{
+		isValid = false;
+	}
+}else
+{
+	isValid = false;
+}
+
+if(isValid)
+{
+	reportContext.getReportRunnable().designHandle.getDesignHandle().findElement("ELEMENT_ERR").drop();
+}else
+{
+	reportContext.getReportRunnable().designHandle.getDesignHandle().findElement("ELEMENT_OUT").drop();
+}]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="MINISTERES_PARAM" id="320">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="MINISTEREPILOTE_PARAM" id="413">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ERR_PARAM" id="454">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DEBUT_INTERVALLE1_PARAM" id="458">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="FIN_INTERVALLE1_PARAM" id="459">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DEBUT_INTERVALLE2_PARAM" id="460">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="FIN_INTERVALLE2_PARAM" id="461">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_INTE</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfSU5URQ==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="GLOBAL" id="65">
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">DEBUT_INTERVALLE1_1</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue" type="javascript">vars["DEBUT_INTERVALLE1_VAR"]</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">FIN_INTERVALLE1_1</property>
+                    <property name="dataType">string</property>
+                    <property name="position">2</property>
+                    <expression name="defaultValue" type="javascript">vars["FIN_INTERVALLE1_VAR"]</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">MINISTEREPILOTE_PARAM_1</property>
+                    <property name="paramName">MINISTEREPILOTE_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">3</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">DEBUT_INTERVALLE1_2</property>
+                    <property name="dataType">string</property>
+                    <property name="position">4</property>
+                    <expression name="defaultValue" type="javascript">vars["DEBUT_INTERVALLE1_VAR"]</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">FIN_INTERVALLE1_2</property>
+                    <property name="dataType">string</property>
+                    <property name="position">5</property>
+                    <expression name="defaultValue" type="javascript">vars["FIN_INTERVALLE1_VAR"]</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">DEBUT_INTERVALLE2_1</property>
+                    <property name="dataType">string</property>
+                    <property name="position">6</property>
+                    <expression name="defaultValue" type="javascript">vars["DEBUT_INTERVALLE2_VAR"]</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">FIN_INTERVALLE2_1</property>
+                    <property name="dataType">string</property>
+                    <property name="position">7</property>
+                    <expression name="defaultValue" type="javascript">vars["FIN_INTERVALLE2_VAR"]</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">MINISTEREPILOTE_PARAM_2</property>
+                    <property name="paramName">MINISTEREPILOTE_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">8</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">DEBUT_INTERVALLE1_3</property>
+                    <property name="dataType">string</property>
+                    <property name="position">9</property>
+                    <expression name="defaultValue" type="javascript">vars["DEBUT_INTERVALLE1_VAR"]</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">FIN_INTERVALLE1_3</property>
+                    <property name="dataType">string</property>
+                    <property name="position">10</property>
+                    <expression name="defaultValue" type="javascript">vars["FIN_INTERVALLE1_VAR"]</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">MINISTEREPILOTE_PARAM_3</property>
+                    <property name="paramName">MINISTEREPILOTE_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">11</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData"/>
+            <property name="dataSource">nuxeo</property>
+            <xml-property name="queryText"><![CDATA[SELECT A.MESURE_MINISTEREPILOTE AS MINISTEREPILOTE, 
+        nvl(A.NBR_MESURES_APPELANT_DECRETS, 0) AS NBR_MESURES_APPELANT_DECRETS, 
+        nvl(B.NBR_MESURES_RECU_APPLICATION, 0) AS NBR_MESURES_RECU_APPLICATION,
+        --nvl(C.NBR_MESURES_ATTENTE_DECRETS, 0) AS NBR_MESURES_ATTENTE_DECRETS
+        (nvl(A.NBR_MESURES_APPELANT_DECRETS, 0) - nvl(B.NBR_MESURES_RECU_APPLICATION, 0)) AS NBR_MESURES_ATTENTE_DECRETS
+FROM
+(
+SELECT V_1.MESURE_MINISTEREPILOTE, COUNT(DISTINCT V_1.MESURE_ID) NBR_MESURES_APPELANT_DECRETS
+FROM
+V_AN_MESURES_APPELANT_DECRET V_1
+WHERE V_1.LOI_DATEPROMULGATION BETWEEN TO_DATE (?, 'DD/MM/YYYY HH24:MI') AND TO_DATE (?, 'DD/MM/YYYY HH24:MI')
+AND V_1.MESURE_MINISTEREPILOTE = ?
+GROUP BY V_1.MESURE_MINISTEREPILOTE
+) A,
+(
+SELECT V_1.MESURE_MINISTEREPILOTE, COUNT(DISTINCT V_1.MESURE_ID) NBR_MESURES_RECU_APPLICATION
+FROM
+V_AN_MESURES_RECU_APPLICATION V_1
+WHERE V_1.LOI_DATEPROMULGATION BETWEEN TO_DATE (?, 'DD/MM/YYYY HH24:MI') AND TO_DATE (?, 'DD/MM/YYYY HH24:MI')
+AND   V_1.DECRET_DATEPUBLICATION BETWEEN TO_DATE (?, 'DD/MM/YYYY HH24:MI') AND  TO_DATE (?, 'DD/MM/YYYY HH24:MI')
+AND V_1.MESURE_MINISTEREPILOTE = ?
+GROUP BY V_1.MESURE_MINISTEREPILOTE
+) B,
+(
+SELECT V_1.MESURE_MINISTEREPILOTE, COUNT(DISTINCT V_1.MESURE_ID) NBR_MESURES_ATTENTE_DECRETS
+FROM
+V_AN_MESURES_ATTENTE_DECRET V_1
+WHERE V_1.LOI_DATEPROMULGATION BETWEEN TO_DATE (?, 'DD/MM/YYYY HH24:MI') AND TO_DATE (?, 'DD/MM/YYYY HH24:MI')
+AND V_1.MESURE_MINISTEREPILOTE = ?
+GROUP BY V_1.MESURE_MINISTEREPILOTE
+)C
+WHERE A.MESURE_MINISTEREPILOTE = B.MESURE_MINISTEREPILOTE (+)
+AND   A.MESURE_MINISTEREPILOTE = C.MESURE_MINISTEREPILOTE (+)]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>ID</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>36</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ID</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ID</design:label>
+            <design:formattingHints>
+              <design:displaySize>36</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_APPELANT_DECRETS</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_APPELANT_DECRETS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_APPELANT_DECRETS</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_RECU_APPLICATION</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_RECU_APPLICATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_RECU_APPLICATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_ATTENTE_DECRETS</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_ATTENTE_DECRETS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_ATTENTE_DECRETS</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="percent" id="456">
+            <structure name="numberFormat">
+                <property name="category">Custom</property>
+                <property name="pattern">0.##%</property>
+                <property name="locale">fr</property>
+            </structure>
+        </style>
+        <style name="total" id="457">
+            <structure name="numberFormat">
+                <property name="category">Custom</property>
+                <property name="pattern">#,##0</property>
+                <property name="locale">fr</property>
+            </structure>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <grid name="ELEMENT_OUT" id="95">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">MINISTER_LABEL</property>
+                    <text-property name="displayName">MINISTER_LABEL</text-property>
+                    <expression name="expression" type="javascript">var messageToDisplay = 'Lois présentées au Parlement';&#13;
+&#13;
+var MINISTEREPILOTE_PARAM = params["MINISTEREPILOTE_PARAM"] + "";&#13;
+MINISTEREPILOTE_PARAM = (MINISTEREPILOTE_PARAM == "null" ? "" : MINISTEREPILOTE_PARAM);&#13;
+var MINISTERES_PARAM = params["MINISTERES_PARAM"] + "";&#13;
+MINISTERES_PARAM = (MINISTERES_PARAM == "null" ? "" : MINISTERES_PARAM);&#13;
+var SEPARATEURS = "&amp;";&#13;
+var KEY_ID = "$id$=";&#13;
+var KEY_LABEL = "$label$=";&#13;
+var KEY_ORDRE = "$ordre$=";&#13;
+var KEY_LIMIT = ";;";&#13;
+var MINISTERES = MINISTERES_PARAM.split(SEPARATEURS);&#13;
+&#13;
+if(MINISTEREPILOTE_PARAM != "null")&#13;
+{&#13;
+	for(i = 0; i &lt; (MINISTERES.length  - 1); i++)&#13;
+	{&#13;
+		var MINISTERE = MINISTERES[i].split(KEY_LIMIT);&#13;
+		var MINISTERE_ID = "";&#13;
+		var MINISTERE_LABEL = "";&#13;
+		var MINISTERE_ORDRE = "";&#13;
+	&#13;
+		for(j = 0; j &lt; (MINISTERE.length  - 1); j++)&#13;
+		{&#13;
+			if(MINISTERE[j].indexOf(KEY_ID) == 0)&#13;
+			{&#13;
+				MINISTERE_ID = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_ID) + KEY_ID.length);&#13;
+			}else if(MINISTERE[j].indexOf(KEY_LABEL) == 0)&#13;
+			{&#13;
+				MINISTERE_LABEL = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_LABEL) + KEY_LABEL.length);&#13;
+			}else if(MINISTERE[j].indexOf(KEY_ORDRE) == 0)&#13;
+			{&#13;
+				MINISTERE_ORDRE = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_ORDRE) + KEY_ORDRE.length);&#13;
+			}&#13;
+		}&#13;
+	&#13;
+		if(BirtStr.toUpper(MINISTERE_ID) == BirtStr.toUpper(MINISTEREPILOTE_PARAM))&#13;
+		{&#13;
+			messageToDisplay = messageToDisplay + ' par: \"' + MINISTERE_LABEL + '\"'; &#13;
+			break;&#13;
+		}&#13;
+	}&#13;
+}&#13;
+&#13;
+messageToDisplay;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MINISTERE_LIBELLEE</property>
+                    <text-property name="displayName">MINISTERE_LIBELLEE</text-property>
+                    <expression name="expression" type="javascript">var messageToDisplay = '';&#13;
+var MINISTEREPILOTE_PARAM = params["MINISTEREPILOTE_PARAM"] + "";&#13;
+MINISTEREPILOTE_PARAM = (MINISTEREPILOTE_PARAM == "null" ? "" : MINISTEREPILOTE_PARAM);&#13;
+messageToDisplay = MINISTEREPILOTE_PARAM;&#13;
+&#13;
+var MINISTERES_PARAM = params["MINISTERES_PARAM"] + "";&#13;
+MINISTERES_PARAM = (MINISTERES_PARAM == "null" ? "" : MINISTERES_PARAM);&#13;
+var SEPARATEURS = "&amp;";&#13;
+var KEY_ID = "$id$=";&#13;
+var KEY_LABEL = "$label$=";&#13;
+var KEY_ORDRE = "$ordre$=";&#13;
+var KEY_LIMIT = ";;";&#13;
+var MINISTERES = MINISTERES_PARAM.split(SEPARATEURS);&#13;
+&#13;
+if(MINISTEREPILOTE_PARAM != "null")&#13;
+{&#13;
+	for(i = 0; i &lt; (MINISTERES.length  - 1); i++)&#13;
+	{&#13;
+		var MINISTERE = MINISTERES[i].split(KEY_LIMIT);&#13;
+		var MINISTERE_ID = "";&#13;
+		var MINISTERE_LABEL = "";&#13;
+		var MINISTERE_ORDRE = "";&#13;
+	&#13;
+		for(j = 0; j &lt; (MINISTERE.length  - 1); j++)&#13;
+		{&#13;
+			if(MINISTERE[j].indexOf(KEY_ID) == 0)&#13;
+			{&#13;
+				MINISTERE_ID = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_ID) + KEY_ID.length);&#13;
+			}else if(MINISTERE[j].indexOf(KEY_LABEL) == 0)&#13;
+			{&#13;
+				MINISTERE_LABEL = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_LABEL) + KEY_LABEL.length);&#13;
+			}else if(MINISTERE[j].indexOf(KEY_ORDRE) == 0)&#13;
+			{&#13;
+				MINISTERE_ORDRE = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_ORDRE) + KEY_ORDRE.length);&#13;
+			}&#13;
+		}&#13;
+	&#13;
+		if(BirtStr.toUpper(MINISTERE_ID) == BirtStr.toUpper(MINISTEREPILOTE_PARAM))&#13;
+		{&#13;
+			messageToDisplay = MINISTERE_LABEL;&#13;
+			break;&#13;
+		}&#13;
+	}&#13;
+}&#13;
+&#13;
+messageToDisplay;</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CURRENT_DATE</property>
+                    <text-property name="displayName">CURRENT_DATE</text-property>
+                    <expression name="expression" type="javascript">importPackage( Packages.java.text );&#13;
+var Formatter = new SimpleDateFormat("dd/MM/yyyy", reportContext.getLocale());&#13;
+Formatter.format( new Date() );</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">INTERVALLE</property>
+                    <text-property name="displayName">INTERVALLE</text-property>
+                    <expression name="expression" type="javascript">'pour les lois promulguées entre le ' + vars["DEBUT_INTERVALLE1_VAR"] + ' et le ' + vars["FIN_INTERVALLE1_VAR"] + ', et les mesures ayant reçu application entre le ' + vars["DEBUT_INTERVALLE2_VAR"] + ' et le ' + vars["FIN_INTERVALLE2_VAR"] + '.'</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="96"/>
+            <row id="103">
+                <cell id="104">
+                    <text-data id="462">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <expression name="valueExpr">var madate = new Date()
+"Bilan semestriel au cours d’une législature à la date du " + toddMMyyyy(madate);</expression>
+                        <property name="contentType">html</property>
+                    </text-data>
+                </cell>
+            </row>
+            <row id="431">
+                <cell id="432">
+                    <data id="453">
+                        <property name="fontSize">8pt</property>
+                        <property name="textAlign">center</property>
+                        <property name="resultSetColumn">INTERVALLE</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="429">
+                <cell id="430">
+                    <data id="437">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <property name="resultSetColumn">MINISTERE_LIBELLEE</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="105">
+                <cell id="106">
+                    <text id="108">
+                        <property name="fontSize">12pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[ ]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="111">
+                <cell id="112">
+                    <grid id="154">
+                        <column id="155"/>
+                        <row id="156">
+                            <cell id="157">
+                                <text id="158">
+                                    <property name="fontWeight">bold</property>
+                                    <property name="fontStyle">italic</property>
+                                    <property name="contentType">auto</property>
+                                    <text-property name="content"><![CDATA[Taux global :]]></text-property>
+                                </text>
+                            </cell>
+                        </row>
+                        <row id="159">
+                            <cell id="160">
+                                <text id="161">
+                                    <property name="fontSize">5pt</property>
+                                    <property name="contentType">auto</property>
+                                    <text-property name="content"><![CDATA[ ]]></text-property>
+                                </text>
+                            </cell>
+                        </row>
+                        <row id="162">
+                            <cell id="163">
+                                <table id="197">
+                                    <property name="dataSet">GLOBAL</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">NBR_MESURES_APPELANT_DECRETS</property>
+                                            <text-property name="displayName">NBR_MESURES_APPELANT_DECRETS</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NBR_MESURES_APPELANT_DECRETS"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">NBR_MESURES_RECU_APPLICATION</property>
+                                            <text-property name="displayName">NBR_MESURES_RECU_APPLICATION</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NBR_MESURES_RECU_APPLICATION"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">NBR_MESURES_ATTENTE_DECRETS</property>
+                                            <text-property name="displayName">NBR_MESURES_ATTENTE_DECRETS</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NBR_MESURES_ATTENTE_DECRETS"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">TAUX_DAPPLICATION</property>
+                                            <text-property name="displayName">TAUX_DAPPLICATION</text-property>
+                                            <expression name="expression" type="javascript">var nbrMesure = parseInt(dataSetRow["NBR_MESURES_APPELANT_DECRETS"]);&#13;
+if(nbrMesure>0){&#13;
+  var ratio = dataSetRow["NBR_MESURES_RECU_APPLICATION"]/ nbrMesure*100;&#13;
+  if( parseInt(ratio) == parseFloat(ratio) ){&#13;
+   (ratio +"%")&#13;
+  } else {&#13;
+    importPackage( Packages.java.text );&#13;
+    var sdf = new DecimalFormat("###,##0.00");&#13;
+    var roundedRatio = BirtMath.round(ratio,2)&#13;
+    var myRatio = sdf.format( roundedRatio );&#13;
+    var indexOfDot = myRatio.toString().indexOf(".");&#13;
+    if(indexOfDot != -1){//eliminer ".00" si existe&#13;
+  		if( myRatio.toString().substr((indexOfDot+1),2) == "00" ){&#13;
+  			myRatio = myRatio.toString().substr(0,indexOfDot);&#13;
+  		} &#13;
+ 	}&#13;
+ 	(myRatio+"%")&#13;
+  }&#13;
+}</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <column id="221"/>
+                                    <column id="222"/>
+                                    <column id="223"/>
+                                    <column id="224"/>
+                                    <header>
+                                        <row id="198">
+                                            <property name="textAlign">center</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <cell id="201">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <label id="202">
+                                                    <text-property name="text">Nombre de mesures appelant un décret d’application</text-property>
+                                                </label>
+                                            </cell>
+                                            <cell id="203">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <label id="204">
+                                                    <text-property name="text">Nombre de mesures ayant reçu application</text-property>
+                                                </label>
+                                            </cell>
+                                            <cell id="205">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <text id="206">
+                                                    <property name="contentType">auto</property>
+                                                    <text-property name="content"><![CDATA[Taux d’application]]></text-property>
+                                                </text>
+                                            </cell>
+                                            <cell id="207">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <label id="208">
+                                                    <text-property name="text">Nombre de mesures en attente de décret d‘application</text-property>
+                                                </label>
+                                            </cell>
+                                        </row>
+                                    </header>
+                                    <detail>
+                                        <row id="209">
+                                            <property name="textAlign">center</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <cell id="212">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <data id="226">
+                                                    <property name="style">total</property>
+                                                    <property name="whiteSpace">nowrap</property>
+                                                    <property name="resultSetColumn">NBR_MESURES_APPELANT_DECRETS</property>
+                                                </data>
+                                            </cell>
+                                            <cell id="214">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <data id="227">
+                                                    <property name="style">total</property>
+                                                    <property name="whiteSpace">nowrap</property>
+                                                    <property name="resultSetColumn">NBR_MESURES_RECU_APPLICATION</property>
+                                                </data>
+                                            </cell>
+                                            <cell id="216">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <data id="229">
+                                                    <property name="style">percent</property>
+                                                    <property name="resultSetColumn">TAUX_DAPPLICATION</property>
+                                                </data>
+                                            </cell>
+                                            <cell id="218">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <data id="228">
+                                                    <property name="style">total</property>
+                                                    <property name="whiteSpace">nowrap</property>
+                                                    <property name="resultSetColumn">NBR_MESURES_ATTENTE_DECRETS</property>
+                                                </data>
+                                            </cell>
+                                        </row>
+                                    </detail>
+                                </table>
+                            </cell>
+                        </row>
+                    </grid>
+                </cell>
+            </row>
+            <row id="327">
+                <cell id="328">
+                    <text id="335">
+                        <property name="fontSize">12pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[ ]]></text-property>
+                    </text>
+                </cell>
+            </row>
+        </grid>
+        <data name="ELEMENT_ERR" id="455">
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">ERR_PARAM</property>
+                    <expression name="expression" type="javascript">params["ERR_PARAM"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">ERR_PARAM</property>
+        </data>
+    </body>
+    <property name="pageVariables">
+        <variable-element name="DEBUT_INTERVALLE1_VAR">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="FIN_INTERVALLE1_VAR">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="DEBUT_INTERVALLE2_VAR">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="FIN_INTERVALLE2_VAR">
+            <property name="type">report</property>
+        </variable-element>
+    </property>
+</report>

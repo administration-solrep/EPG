@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="modal-ajout-attente-signature"
+            id="modal-ajout-attente-signature"
+            class="interstitial-overlay__content"
+        >
+            <div
+                class="interstitial"
+                role="dialog"
+                th:aria-labelledby="#{action.add.attente.signature}"
+                style="position: relative;"
+            >
+                <div class="interstitial__header">
+                    <h1 class="interstitial__title" th:text="#{action.add.attente.signature}"></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span>
+                        <span class="sr-only" th:text="#{validation.popup.close.label}">
+                            Fermer la fenêtre de dialogue
+                        </span>
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <div class="form-select form-select--simple">
+                        <div class="form-input">
+                            <div class="form-input__container">
+                                <div class="form-select__field-wrapper">
+                                    <div class="form-select-input">
+                                        <select
+                                            name="form-select-type-attente-signature"
+                                            id="form-select-type-attente-signature"
+                                            class="form-select-input__field form-select-input__field--simple"
+                                        >
+                                            <option value="LOIS" th:text="#{label.attente.signature.lois}"></option>
+                                            <option value="AUTRES" th:text="#{label.attente.signature.autres}"></option>
+                                        </select>
+                                        <span aria-hidden="true" tabindex="-1">
+                                            <span
+                                                aria-hidden="true"
+                                                class="icon icon--arrow-bottom form-select-input__arrow"
+                                            >
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        th:text="#{button.label.cancel}"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        type="button"
+                        id="btn-valider-retour-modif"
+                        th:text="#{pieceJointe.label.ajouter}"
+                        class="base-btn base-btn--button base-btn--default base-btn--center interstitial__close"
+                        onclick="addDossierAttenteSignatureWithType()"
+                    >
+                        Ajouter
+                    </button>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

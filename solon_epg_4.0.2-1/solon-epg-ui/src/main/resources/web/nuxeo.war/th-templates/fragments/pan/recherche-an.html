@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="recherche-an"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="recherche_experte_pan"
+        >
+            <h1 class="base-title base-title--lvl-1" th:text="#{recherche.experte.title}">Recherche experte</h1>
+
+            <div class="alert alert--info">
+                <div class="alerts--flex">
+                    <span
+                        aria-hidden="true"
+                        class="icon icon--lightbulb bubble-icon alert__icon alert__icon--info"
+                    ></span
+                    ><span class="sr-only" th:text="#{suivi.information}">Information</span>
+                    <p class="alert__content" th:text="#{label.smart.query.build.help}">
+                        Sélectionnez les critères de la requête et ajoutez-les à la requête finale
+                    </p>
+                </div>
+            </div>
+
+            <h2 class="base-title base-title--lvl-2 m-t-6" th:text="#{label.requeteur.titre.boite}">
+                Paramétrer une requête
+            </h2>
+
+            <input
+                type="hidden"
+                id="requete-url-ajax"
+                th:value="@{|/ajax/suivi/pan/${currentSection}/recherche/experte|}"
+            />
+
+            <input type="hidden" id="sessionDtoKey" th:value="${rechercheSessionKey}" />
+
+            <th:block
+                th:replace="fragments/components/requete-experte/requete-experte :: requete-experte(${requeteExperteDTO})"
+            ></th:block>
+
+            <div class="flex-row-actions m-t-6">
+                <div class="flex-row-actions__left">
+                    <button
+                        type="button"
+                        id="reinit-requete-button"
+                        class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered"
+                        onclick="reinitRequete()"
+                        th:text="#{requete.experte.reinitialiser.label}"
+                    >
+                        Réinitialiser
+                    </button>
+                </div>
+                <div class="flex-row-actions__right">
+                    <th:block th:each="act : ${action}">
+                        <button
+                            th:replace="fragments/components/label-action-button :: label-action-button(${act}, ${#lists.isEmpty(requeteExperteDTO.requetes)}, '')"
+                        ></button>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="page-reponses-search__results m-t-6" id="resultList">
+                <th:block th:replace="fragments/pan/recherche-result-list :: resultList"></th:block>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page recherche rapide',title=${resultList.titre})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <h1 class="m-b-10 base-title base-title--lvl-1">[[${resultList.titre}]]</h1>
+
+        <form id="searchForm">
+            <input type="hidden" name="idDossierParlementaire" th:value="${dossiersParlementairesSelected}" />
+            <input type="hidden" name="numeroNor" th:value="${rechercheRapideForm.numeroNor}" />
+            <input type="hidden" name="objet" th:value="${rechercheRapideForm.objet}" />
+            <input type="hidden" name="idDossier" th:value="${rechercheRapideForm.idDossier}" />
+            <input type="hidden" name="titreActe" th:value="${rechercheRapideForm.titreActe}" />
+            <input type="hidden" name="nomOrganisme" th:value="${rechercheRapideForm.nomOrganisme}" />
+        </form>
+
+        <div th:replace="fragments/table/tableCommunications :: searchResults(${corbeille})"></div>
+    </main>
+</html>

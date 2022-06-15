@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="saisine-button-row(actions)" class="row-actions">
+            <div class="row-actions__left">
+                <button
+                    type="button"
+                    class="js-tooltip base-btn base-btn--button base-btn--default base-btn--bordered base-btn--light"
+                    th:attr="onclick=|goToDossier('${idDossier}')|"
+                >
+                    <span th:text="#{button.label.back}">Retour</span>
+                </button>
+            </div>
+            <div class="row-actions__right">
+                <th:block th:each="action : ${actions}">
+                    <div
+                        th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, __${action.properties.isDisabled}__ , '')"
+                    ></div>
+                </th:block>
+            </div>
+        </div>
+    </body>
+</html>

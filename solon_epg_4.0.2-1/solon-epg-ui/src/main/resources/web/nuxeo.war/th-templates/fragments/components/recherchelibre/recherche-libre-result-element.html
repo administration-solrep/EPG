@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="rechercheLibreResultElement(results)" id="listeSearchResult">
+            <img
+                width="29px"
+                height="29px"
+                class="overlay"
+                id="result_overlay"
+                th:src="@{/img/loader.svg}"
+                alt=""
+                style="background: grey;"
+            />
+            <div th:each="result: ${results}">
+                <div class="r-search-element">
+                    <div class="r-search-element__header">
+                        <div class="r-search-element__header-line">
+                            <h3
+                                class="r-search-element__header-title base-title base-title--lvl-2 base-title--important"
+                                th:utext="${result.titre}"
+                            ></h3>
+                        </div>
+                        <div class="r-search-element__header-line">
+                            <th:block
+                                th:if="${result.caseLinkIdsLabels==null || #lists.size(result.caseLinkIdsLabels) <= 1}"
+                            >
+                                <th:block
+                                    th:replace="fragments/components/idComponent :: id('recherche-libre_link-copy__link', ${result.nor}, 'NOR', @{|/dossier/${result.dossierId}/document#main_content|}, false, true)"
+                                ></th:block>
+                            </th:block>
+                            <th:block
+                                th:if="${result.caseLinkIdsLabels!=null && #lists.size(result.caseLinkIdsLabels) > 1}"
+                                th:with="jscopyPrefix='recherche-libre_link-copy__link-', jscopyId='recherche-libre_link-copy\_\_link-'+${#strings.replace(result.nor, ' ', '_')} + '_' + ${result.dossierId}"
+                            >
+                                <div
+                                    th:replace="fragments/components/textualDropDown :: dropdown (${#strings.toUpperCase(result.nor)}, ${result.dossierId} , ${result.caseLinkIdsLabels})"
+                                ></div>
+                                <th:block
+                                    th:replace="fragments/components/copy-nor-button :: copy-nor-button(${jscopyId}, 'NOR', false)"
+                                ></th:block>
+                            </th:block>
+
+                            <span
+                                class="r-search-element__header-dates"
+                                th:text="#{recherche.libre.result.label.date.creation(${#calendars.format(result.dateCreation, 'dd/MM/yyyy')})}"
+                            >
+                                Créé le : 15/12/2014
+                            </span>
+
+                            <th:block th:if="${result.datePublication}">
+                                <span
+                                    class="r-search-element__header-dates"
+                                    th:text="#{recherche.libre.result.label.date.publication(${#calendars.format(result.datePublication, 'dd/MM/yyyy')})}"
+                                >
+                                    - Publié le : 10/01/2015
+                                </span>
+                            </th:block>
+
+                            <a
+                                class="r-search-element__header-link link"
+                                href="javascript:void(0)"
+                                th:classappend="${result.isInSelectionTool} ? '' : 'hide-element'"
+                                th:id="|tool-selection-remove-${result.dossierId}|"
+                                th:onclick="|rechercheLibreToggleSelectionTool(true, '__${result.dossierId}__')|"
+                            >
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--clipboard-bubble-times link__icon link__icon--prepend link__icon--large"
+                                >
+                                </span>
+                                <th:block th:text="#{recherche.libre.link.retirer.outil.selection}"></th:block>
+                            </a>
+                            <a
+                                class="r-search-element__header-link link"
+                                href="javascript:void(0)"
+                                th:classappend="${result.isInSelectionTool} ? 'hide-element' : ''"
+                                th:id="|tool-selection-add-${result.dossierId}|"
+                                th:onclick="|rechercheLibreToggleSelectionTool(false, '__${result.dossierId}__')|"
+                            >
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--clipboard-bubble-plus link__icon link__icon--prepend link__icon--large"
+                                >
+                                </span>
+                                <th:block th:text="#{recherche.libre.link.ajouter.outil.selection}"></th:block>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="r-search-element__body">
+                        <div class="r-search-element__body-head">
+                            <p class="search-characteristic">
+                                <span class="search-characteristic__label">
+                                    [[#{recherche.libre.result.label.responsable}]]
+                                </span>
+                                <span th:text="${result.ministereResponsable}">Ministère responsable</span>
+                            </p>
+                            <p class="search-characteristic">
+                                <span class="search-characteristic__label">
+                                    [[#{recherche.libre.result.label.etat}]]
+                                </span>
+                                <span th:text="${result.statut}">Publié</span>
+                            </p>
+                        </div>
+                        <div class="r-search-element__body-body" th:unless="${#lists.isEmpty(result.lstDocuments)}">
+                            <div class="r-search-element__body-body-line">
+                                <p class="r-search-element__documents">
+                                    [[#{recherche.libre.result.label.documents.concernes}]]
+                                </p>
+                                <!---->
+                                <th:block th:each="item : ${result.lstDocuments}" th:if="${itemStat.index lt 1}">
+                                    <div
+                                        th:replace="fragments/components/recherchelibre/liste-documents :: listeDocuments(${item})"
+                                    ></div>
+                                </th:block>
+                                <!---->
+                                <th:block
+                                    th:if="${#lists.size(result.lstDocuments) > 1 and #lists.size(result.lstDocuments) gte 1}"
+                                >
+                                    <div class="see-more">
+                                        <div class="see-more__content">
+                                            <th:block
+                                                th:each="item : ${result.lstDocuments}"
+                                                th:if="${itemStat.index gte 1}"
+                                            >
+                                                <div
+                                                    th:replace="fragments/components/recherchelibre/liste-documents :: listeDocuments(${item})"
+                                                ></div>
+                                            </th:block>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            class="see-more__toggler base-btn base-btn--button base-btn--default base-btn--discret"
+                                            th:aria-label="#{recherche.libre.label.see.more.document}"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                            th:data-label-more="#{recherche.libre.label.see.more.document}"
+                                            th:data-label-less="#{recherche.libre.label.see.less.document}"
+                                        >
+                                            [[#{recherche.libre.link.voir.plus.document}]]
+                                        </button>
+                                    </div>
+                                </th:block>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

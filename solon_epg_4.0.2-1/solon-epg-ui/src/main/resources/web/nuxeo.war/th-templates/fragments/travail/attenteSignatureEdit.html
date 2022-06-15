@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="attenteSignatureEdit(item)" id="content-attenteSignatureModaleEdit">
+            <form action="">
+                <input type="hidden" name="dossierId" th:value="${item.dossierId}" />
+                <div class="m-b-4">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{attente.signature.label.header.titre}, false, '', 'titre', 'titre', ${item.titre}, true)"
+                    ></div>
+                </div>
+                <div class="m-b-4">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{attente.signature.label.header.nor}, false, '', 'nor', 'nor', ${item.nor}, true)"
+                    ></div>
+                </div>
+                <div class="form-input">
+                    <div class="form-input__header">
+                        <div class="form-input__header-top">
+                            <label
+                                for="dateDemandePublicationTS"
+                                id="dateDemandePublicationTS-label"
+                                class="form-label"
+                                th:text="#{attente.signature.label.header.publication.demandee}"
+                            >
+                            </label>
+                        </div>
+                    </div>
+                    <div
+                        th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_dateDemandePublicationTS', 'dateDemandePublicationTS', 'dateDemandePublicationTS', false, ${#dates.format(item.dateDemandePublicationTS, 'dd/MM/yyyy')}, false)"
+                    ></div>
+                </div>
+                <div class="m-b-4">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-select :: simpleSelect('', 'vecteurPublicationTS', null, ${vecteursPublicationList}, ${item.vecteurPublicationTS}, 'false', 'selection.valeur.vide.label')"
+                    ></div>
+                </div>
+                <div class="form-choice-input">
+                    <input
+                        type="checkbox"
+                        disabled="disabled"
+                        id="arriveeSolon"
+                        name="arriveeSolon"
+                        class="form-choice-input__input"
+                        th:checked="${item.arriveeSolon}"
+                        autocomplete="off"
+                    />
+                    <label
+                        for="arriveeSolon"
+                        id="arriveeSolon_label"
+                        class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                        th:text="#{attente.signature.label.header.arrivee.solon}"
+                    ></label>
+                </div>
+                <div class="form-choice-input">
+                    <input
+                        type="checkbox"
+                        disabled="disabled"
+                        id="accordPM"
+                        name="accordPM"
+                        class="form-choice-input__input"
+                        th:checked="${item.accordPM}"
+                        autocomplete="off"
+                    />
+                    <label
+                        for="accordPM"
+                        id="accordPM_label"
+                        class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                        th:text="#{attente.signature.label.header.accord.pm}"
+                    ></label>
+                </div>
+                <div class="form-choice-input">
+                    <input
+                        type="checkbox"
+                        disabled="disabled"
+                        id="accordSGG"
+                        name="accordSGG"
+                        class="form-choice-input__input"
+                        th:checked="${item.accordSGG}"
+                        autocomplete="off"
+                    />
+                    <label
+                        for="accordSGG"
+                        id="accordSGG_label"
+                        class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                        th:text="#{attente.signature.label.header.accord.sgg}"
+                    ></label>
+                </div>
+                <th:block th:if="${currentTab == 'LOIS'}">
+                    <div class="form-choice-input">
+                        <input
+                            type="checkbox"
+                            disabled="disabled"
+                            id="arriveeOriginale"
+                            name="arriveeOriginale"
+                            class="form-choice-input__input"
+                            th:checked="${item.arriveeOriginale}"
+                            autocomplete="off"
+                        />
+                        <label
+                            for="arriveeOriginale"
+                            id="arriveeOriginale_label"
+                            class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                            th:text="#{attente.signature.label.header.arrivee.originale}"
+                        ></label>
+                    </div>
+                    <div class="form-choice-input">
+                        <input
+                            type="checkbox"
+                            disabled="disabled"
+                            id="miseEnSignature"
+                            name="miseEnSignature"
+                            class="form-choice-input__input"
+                            th:checked="${item.miseEnSignature}"
+                            autocomplete="off"
+                        />
+                        <label
+                            for="miseEnSignature"
+                            id="miseEnSignature_label"
+                            class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                            th:text="#{attente.signature.label.header.mise.en.signature}"
+                        ></label>
+                    </div>
+                    <div class="form-choice-input">
+                        <input
+                            type="checkbox"
+                            disabled="disabled"
+                            id="retourSignature"
+                            name="retourSignature"
+                            class="form-choice-input__input"
+                            th:checked="${item.retourSignature}"
+                            autocomplete="off"
+                        />
+                        <label
+                            for="retourSignature"
+                            id="retourSignature_label"
+                            class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                            th:text="#{attente.signature.label.header.retour.signature}"
+                        ></label>
+                    </div>
+                    <div class="form-choice-input">
+                        <input
+                            type="checkbox"
+                            disabled="disabled"
+                            id="decretPr"
+                            name="decretPr"
+                            class="form-choice-input__input"
+                            th:checked="${item.decretPr}"
+                            autocomplete="off"
+                        />
+                        <label
+                            for="decretPr"
+                            id="decretPr_label"
+                            class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                            th:text="#{attente.signature.label.header.decret.pr}"
+                        ></label>
+                    </div>
+                    <div class="form-choice-input">
+                        <input
+                            type="checkbox"
+                            disabled="disabled"
+                            id="envoiPr"
+                            name="envoiPr"
+                            class="form-choice-input__input"
+                            th:checked="${item.envoiPr}"
+                            autocomplete="off"
+                        />
+                        <label
+                            for="envoiPr"
+                            id="envoiPr_label"
+                            class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                            th:text="#{attente.signature.label.header.envoi.pr}"
+                        ></label>
+                    </div>
+                    <div class="form-choice-input">
+                        <input
+                            type="checkbox"
+                            disabled="disabled"
+                            id="retourPr"
+                            name="retourPr"
+                            class="form-choice-input__input"
+                            th:checked="${item.retourPr}"
+                            autocomplete="off"
+                        />
+                        <label
+                            for="retourPr"
+                            id="retourPr_label"
+                            class="form-label form-label--disabled form-choice-input__label form-choice-input__label--checkbox"
+                            th:text="#{attente.signature.label.header.retour.pr}"
+                        ></label>
+                    </div>
+                </th:block>
+                <div class="m-b-4 form-input">
+                    <div class="form-input__header">
+                        <div class="form-input__header-top">
+                            <label
+                                for="dateJo"
+                                id="dateJo-label"
+                                class="form-label"
+                                th:text="#{attente.signature.label.header.date.jo}"
+                            >
+                            </label>
+                        </div>
+                    </div>
+                    <div
+                        th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_dateJo', 'dateJo', 'dateJo', false, ${#dates.format(item.dateJo, 'dd/MM/yyyy')}, true)"
+                    ></div>
+                </div>
+                <div class="m-b-4 form-input">
+                    <div class="form-input__header">
+                        <div class="form-input__header-top">
+                            <label
+                                for="datePublication"
+                                id="datePublication-label"
+                                class="form-label"
+                                th:text="#{attente.signature.label.header.delai.publication}"
+                            >
+                            </label>
+                        </div>
+                    </div>
+                    <div
+                        th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_datePublication', 'datePublication', 'datePublication', false, ${#dates.format(item.datePublication, 'dd/MM/yyyy')}, true)"
+                    ></div>
+                </div>
+                <div
+                    th:replace="fragments/components/formblocks/textarea-input :: textArea('attente.signature.label.header.observation', 'observation', '', ${item.observation}, false, null)"
+                ></div>
+            </form>
+        </div>
+    </body>
+</html>

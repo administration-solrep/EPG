@@ -1,0 +1,210 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='Consultation de statistique', title=${birtReport.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div id="overlay_statistiques" class="overlay" aria-live="polite">
+            <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+        </div>
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <input type="hidden" id="idStat" name="idStat" th:value="${idStat}" />
+        <div class="page-layout__content-nav">
+            <button
+                type="button"
+                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered"
+                onclick="goPreviousPage()"
+                th:text="#{button.label.back}"
+            >
+                Retour
+            </button>
+        </div>
+
+        <div id="birt-title">
+            <div class="heading-complex">
+                <div class="heading-complex__main" id="statTitle" tabindex="-1">
+                    <h1 class="base-title base-title--lvl-1" th:text="${birtReport.title}"></h1>
+                </div>
+            </div>
+        </div>
+
+        <div th:remove="${!hasParams} ?all " class="bloc-search-left-inline">
+            <form id="birtReportForm" class="m-t-6">
+                <!-- Selection d'un ministère -->
+                <th:block th:if="${displayOrganigrammeSelectMin}">
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--middle" th:with="filterCE=true">
+                            <th:block
+                                th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+						              'label.birt.select.ministere',
+						              true,
+						              'ministereId-key',
+						              'ministereId-key',
+						              'MIN', 
+						              ${resultForm.ministereId}, 
+						              false,
+						              false,
+						              null,
+						              false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Direction/Unité structurelle -->
+                <th:block th:if="${displayOrganigrammeSelectDir}">
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--middle">
+                            <th:block
+                                th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+						              'organigramme.unite.structurelle.us.rattachement.label',
+						              true,
+						              'uniteId-key',
+						              'uniteId-key',
+						              'DIR_UST', 
+						              'unitesStructurelles', 
+						              false,
+						              false,
+						              null,
+						              false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Selection Poste -->
+                <th:block th:if="${displayOrganigrammeSelectPoste}">
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--middle" th:with="filterCE=true">
+                            <div
+                                th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete('label.stat.select.poste',true,'posteId-key','posteId-key','PST','',false,false,null, false)"
+                            ></div>
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Bloc Période -->
+                <th:block th:if="${displayDatePeriode}">
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--middle">
+                            <div
+                                th:replace="fragments/components/formblocks/date-picker-range :: datepickerRange(
+	                            'stats.label.periode', 
+	                            'periode', 
+	                            ${#calendars.format(resultForm.periodeDebut,'dd/MM/yyyy')}, 
+	                            ${#calendars.format(resultForm.periodeFin,'dd/MM/yyyy')}, 
+	                            true, 
+	                            false)"
+                            ></div>
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Vecteur de publication -->
+                <th:block th:if="${displayVecteurPublication}">
+                    <div class="grid__row m-b-6">
+                        <div
+                            class="grid__col grid__col--middle form-select form-select--simple"
+                            th:with="selectIsRequired=true,selectDataValidation=required"
+                        >
+                            <div
+                                th:replace="fragments/components/formblocks/simple-select ::simpleSelect('stats.label.vecteur.pulication','vecteurPublication','',${vecteurs}, ${resultForm.vecteurPublication},'',null)"
+                            ></div>
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Date -->
+                <th:block th:if="${displayDate}">
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label for="dateValue" id="dateValue_label" class="form-label">
+                                        <span th:text="#{stats.label.date}">Label</span>
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"
+                                            >(requis)</span
+                                        >
+                                        <!---->
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                                <div class="form-input__header-bottom"></div>
+                            </div>
+                            <div class="form-input__container">
+                                <div
+                                    th:replace="fragments/components/input-date-picker :: inputDatePicker(
+	                                'datepicker_description_form_input_date', 
+	                                'dateValue', 
+	                                'dateValue', 
+	                                true, 
+	                                ${#calendars.format(resultForm.date,'dd/MM/yyyy')}, 
+	                                false)"
+                                ></div>
+                            </div>
+                            <div id="dateDebut_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Période avec mois/jour/heure et champs number -->
+                <th:block th:if="${displayBlocPeriode}">
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--middle form-select form-select--simple">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-select ::simpleSelect('stats.label.periode','periodeType','',${periodesType}, ${resultForm.periodeType},'',null)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle">
+                            <input
+                                type="number"
+                                name="periodeValue"
+                                id="periodeValue"
+                                class="form-input__field form-input__field--type-number"
+                                th:value="|${resultForm.periodeValue ? resultForm.periodeValue: '1'}|"
+                            />
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Rubriques -->
+                <th:block th:if="${displayRubriques}">
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--middle form-select form-select--simple">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-select ::simpleSelect('stats.label.rubriques','rubriques','',${rubriques}, ${resultForm.rubrique},'','stats.select.value')"
+                            ></div>
+                        </div>
+                    </div>
+                </th:block>
+                <!-- Mots-clés et champs libres -->
+                <th:block th:if="${displayMotClesChampsLibres}">
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--middle">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{stats.label.mots.cles}, false, '', 'motsCles', 'motsCles', ${resultForm.motsCles}, false)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{stats.label.champs.libre}, false, '', 'champLibre', 'champLibre', ${resultForm.champLibre}, false)"
+                            ></div>
+                        </div>
+                    </div>
+                </th:block>
+                <div class="flex-row-actions__right">
+                    <button
+                        type="button"
+                        onclick="genererRapportBirt()"
+                        id="btn-generate-stat"
+                        class="base-btn base-btn--submit base-btn--default base-btn--primary base-btn--center"
+                        th:text="#{label.birt.button.afficher}"
+                    >
+                        Afficher la statistique
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="birt-fragment">
+            <div th:replace="fragments/statistiques/statDetail :: statDetail"></div>
+        </div>
+    </main>
+</html>

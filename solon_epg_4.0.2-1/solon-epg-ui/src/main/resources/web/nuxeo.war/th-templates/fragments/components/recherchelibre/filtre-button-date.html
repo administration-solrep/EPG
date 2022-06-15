@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="filtreButtonDate(id, startDate, endDate, typeCritere)">
+            <th:block th:if="${startDate != null && endDate != null}">
+                <button
+                    type="button"
+                    th:id="|btn-filter-date-${id}|"
+                    th:aria-label="#{recherche.libre.label.supprimer.filtre(${id})}"
+                    class="search-tags__tag"
+                    onclick="removeFilter(this)"
+                    th:text="#{recherche.libre.btn.date.interval(${typeCritere}, ${#calendars.format(startDate,'dd/MM/yyyy')},
+                    ${#calendars.format(endDate,'dd/MM/yyyy')})}"
+                >
+                    Label
+                </button>
+            </th:block>
+            <th:block th:if="${startDate != null && endDate == null}">
+                <button
+                    type="button"
+                    th:id="|btn-filter-date-${id}|"
+                    th:aria-label="#{recherche.libre.label.supprimer.filtre(${id})}"
+                    class="search-tags__tag"
+                    onclick="removeFilter(this)"
+                    th:text="#{recherche.libre.btn.date.apres(${typeCritere}, ${#calendars.format(startDate,'dd/MM/yyyy')})}"
+                >
+                    Label
+                </button>
+            </th:block>
+            <th:block th:if="${startDate == null && endDate != null}">
+                <button
+                    type="button"
+                    th:id="|btn-filter-date-${id}|"
+                    th:aria-label="#{recherche.libre.label.supprimer.filtre(${id})}"
+                    class="search-tags__tag"
+                    onclick="removeFilter(this)"
+                    th:text="#{recherche.libre.btn.date.avant(${typeCritere}, ${#calendars.format(endDate,'dd/MM/yyyy')})}"
+                >
+                    Label
+                </button>
+            </th:block>
+        </div>
+    </body>
+</html>

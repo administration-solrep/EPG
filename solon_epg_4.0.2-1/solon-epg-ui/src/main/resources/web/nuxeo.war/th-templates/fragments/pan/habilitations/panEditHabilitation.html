@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panEditHabilitation(item)" id="content-panModaleEdit">
+            <form action="" class="grid m-t-2">
+                <input type="hidden" name="idPremierTableau" th:value="${item.getId()}" />
+                <input type="hidden" name="idContextuel" th:value="${idContextuel}" />
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.numeroOrdre}, null, 'numeroOrdre', 'pan.habilitations.numeroOrdre', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.article}, null, 'article', 'pan.habilitations.article', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.objetRIM}, null, 'objet', 'pan.habilitations.objetRIM', false, false, 'text-area')"
+                ></div>
+
+                <th:block th:with="fieldOptions=${typeHabilitationsList}">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.typeHabilitation}, null, 'typeHabilitation', 'pan.habilitations.typeHabilitation', false, false, 'select')"
+                    ></div>
+                </th:block>
+
+                <div class="grid__row m-t-4">
+                    <div class="grid__col">
+                        <div
+                            th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete('pan.habilitations.ministerePilote', false, 'ministerePiloteHabilitation', 'ministerePilote', 'MIN', 'ministere', true, false, ${mapMinisterePilote}, false)"
+                        ></div>
+                    </div>
+                </div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.convention}, null, 'termeHabilitation', 'pan.habilitations.termeHabilitation', false, false, 'text')"
+                ></div>
+
+                <th:block th:with="isNarrow=true">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.dateTerme}, null, 'dateTerme', 'pan.habilitations.dateTerme', false, false, 'date-picker')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.conventionDepot}, null, 'depotRatification', 'pan.habilitations.depotRatification', false, false, 'text')"
+                ></div>
+
+                <th:block th:with="isNarrow=true">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.datePrevisionnelleSaisineCE}, null, 'datePrevisionnelleSaisineCE', 'pan.habilitations.datePreviSaisineCE', false, false, 'date-picker')"
+                    ></div>
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.datePrevisionnelleCM}, null, 'datePrevisionnelleCM', 'pan.habilitations.datePreviCM', false, false, 'date-picker')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.observation}, null, 'observation', 'pan.habilitations.observations', false, false, 'text-area')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.legislature}, null, 'legislature', 'pan.habilitations.legislature', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.codification}, null, 'codification', 'pan.habilitations.codification', false, false, 'inputOuiNon')"
+                ></div>
+            </form>
+        </div>
+    </body>
+</html>

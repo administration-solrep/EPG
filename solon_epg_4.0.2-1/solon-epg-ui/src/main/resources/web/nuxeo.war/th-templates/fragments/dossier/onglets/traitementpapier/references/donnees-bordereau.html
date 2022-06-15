@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block
+            th:fragment="donneesBordereau(bordereauDto, referencesPublicationVisible)"
+            th:with="informationsActe=${bordereauDto.informationsActe},responsablesActe=${bordereauDto.responsablesActe},parution=${bordereauDto.parution}"
+        >
+            <div class="folder-detail m-y-3">
+                <h3 class="folder-detail__title-label" th:text="#{dossier.traitement.papier.information.acte}">
+                    Information sur l'acte
+                </h3>
+                <table role="presentation" class="folder-detail__table">
+                    <tbody>
+                        <!-- NOR -->
+                        <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.nor}, ${informationsActe.nor})"
+                        ></tr>
+                        <!-- Titre de l'acte -->
+                        <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.titre.acte}, ${informationsActe.titreActe})"
+                        ></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="folder-detail m-y-3">
+                <h3 class="folder-detail__title-label" th:text="#{dossier.traitement.papier.responsable.acte}">
+                    Responsable de l'acte
+                </h3>
+                <table role="presentation" class="folder-detail__table">
+                    <tbody>
+                        <!-- Ministère resp. -->
+                        <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.ministere.responsable}, ${responsablesActe.intituleMinistereResp})"
+                        ></tr>
+                        <!-- Direction resp. -->
+                        <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.direction.responsable}, ${responsablesActe.intituleDirectionResp})"
+                        ></tr>
+                        <!-- Nom du responsable du dossier -->
+                        <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.nom.responsable.dossier}, ${responsablesActe.nomResponsable})"
+                        ></tr>
+                        <!-- Prénom resp. dossier -->
+                        <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.prenom.responsable.dossier}, ${responsablesActe.prenomResponsable})"
+                        ></tr>
+                        <!-- Qualité resp. dossier -->
+                        <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.qualite.responsable.dossier}, ${responsablesActe.qualiteResponsable})"
+                        ></tr>
+                        <!-- Tel resp. dossier -->
+                        <tr
+                            th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.telephone.responsable.dossier}, ${responsablesActe.telResponsable})"
+                        ></tr>
+                    </tbody>
+                </table>
+            </div>
+            <th:block th:if="${referencesPublicationVisible}">
+                <div class="folder-detail m-y-3">
+                    <h3 class="folder-detail__title-label" th:text="#{dossier.traitement.papier.publication}">
+                        Publication
+                    </h3>
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <!-- Publication conjointe -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.publication.conjointe}"
+                                ></td>
+                                <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                    <th:block
+                                        th:each="publicationConjointe, iterStat : ${parution.publicationsConjointes}"
+                                    >
+                                        <th:block
+                                            th:unless="${iterStat.first}"
+                                            th:text="#{dossier.traitement.papier.publication.conjointe.separator}"
+                                        >
+                                        </th:block>
+                                        <span th:text="${publicationConjointe}"></span>
+                                    </th:block>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

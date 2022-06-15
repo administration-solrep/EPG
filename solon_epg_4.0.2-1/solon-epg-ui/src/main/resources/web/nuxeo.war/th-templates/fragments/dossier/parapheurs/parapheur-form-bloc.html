@@ -1,0 +1,105 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="parapheur-form-bloc(repertoire)" th:with="id=${repertoire.parapheurFolderId}">
+            <div class="accordion">
+                <button
+                    type="button"
+                    th:aria-controls="|accordion__content__${id}|"
+                    aria-expanded="false"
+                    th:id="|accordion__header__${id}|"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[${repertoire.parapheurFolderLabel}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--add"></span>
+                </button>
+                <div
+                    aria-hidden="true"
+                    th:id="|accordion__content__${id}|"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-closed"
+                >
+                    <div
+                        role="group"
+                        th:aria-labelledby="|accordion__header__${id}|"
+                        class="page-layout__content--dark p-a-5"
+                    >
+                        <fieldset th:id="|form_parapheur_element_${id}|" class="application-item parapheur-item">
+                            <legend
+                                class="sr-only"
+                                th:text="#{admin.parapheur.repertoire.def(${repertoire.parapheurFolderLabel})}"
+                            ></legend>
+                            <input
+                                type="hidden"
+                                name="parapheurFolderType"
+                                th:id="|parapheurFolderType_${id}|"
+                                th:value="${repertoire.parapheurFolderId}"
+                            />
+                            <div class="m-b-6">
+                                <div class="form-optin" name="paraph_pieces_etat" th:with="required=true">
+                                    <div
+                                        th:replace="fragments/components/formblocks/input-optin :: optin(label='admin.parapheurs.form.etat.initial.label', id=|etatInitial_${id}|, name=|estNonVide_${id}|, options=${etatOptions}, value=${repertoire.estNonVide}, disabled=false, onchange=null)"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div class="m-b-6">
+                                <div class="grid__col grid__col--middle form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                th:for="|paraph_pieces_number_docs_${id}|"
+                                                th:id="|paraph_pieces_number_docs_${id}_label|"
+                                                class="form-label"
+                                            >
+                                                <span th:text="#{admin.parapheurs.form.nb.max.docs.label}"
+                                                    >Nombre maximum de documents
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-input__container">
+                                        <input
+                                            type="number"
+                                            name="nbDocAccepteMax"
+                                            th:id="|paraph_pieces_number_docs_${id}|"
+                                            th:value="${repertoire.nbDocAccepteMax}"
+                                            data-validation="integer, min(0)"
+                                            class="form-input__field form-input__field--type-number"
+                                        />
+                                    </div>
+                                    <div
+                                        th:id="|paraph_pieces_number_docs_${id}_description|"
+                                        class="form-input__footer"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div class="m-b-6">
+                                <div class="grid__col grid__col--middle">
+                                    <div
+                                        th:replace="fragments/components/formblocks/file-input:: 
+                                    fileInput(label='admin.parapheurs.form.feuilles.style.label', id=|styleFile_${id}|, name=|${id}-file|, isMulti=true, acceptedFileTypes=null, required=false)"
+                                    ></div>
+
+                                    <div
+                                        th:replace="fragments/dossier/parapheurs/parapheur-files-content :: parapheur-files-content(${repertoire.feuilleStyleFiles})"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div class="grid__row m-t-6">
+                                <div class="grid__col">
+                                    <div
+                                        th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(label='admin.parapheurs.form.format.label', id=|formatAccepte_${id}|, name='formatsAutorises[]', description='', options=${ {} }, values=${repertoire.formatsAutorises}, disabled='false', urlautocomplete=null, minLength='0', queryparam='input', keymapping='', labelmapping='', required=false, multiple=true, customTags=true)"
+                                    ></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panEditOrdonnanceHabilitation(secondElement)" id="content-panModaleEdit">
+            <form action="" class="grid m-t-2">
+                <input type="hidden" name="idSecondTableau" th:value="${secondElement.getId()}" />
+                <input type="hidden" name="idContextuel" th:value="${idContextuel}" />
+                <input type="hidden" name="idPremierTableau" th:value="${idFirstTable}" />
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.numeroNor}, null, 'numeroNor', 'pan.habilitations.numeroNor', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.objetRIM}, null, 'objet', 'pan.habilitations.objetRIM', false, false, 'text')"
+                ></div>
+
+                <div class="grid__row m-t-4">
+                    <div class="grid__col">
+                        <div
+                            th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete('pan.habilitations.ministerePilote', false, 'ministerePiloteOrdonnanceHabilitation', 'ministerePilote', 'MIN', 'ministere', true, false, ${mapMinisterePilote}, false)"
+                        ></div>
+                    </div>
+                </div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.legislature}, null, 'legislature', 'pan.habilitations.legislature', false, false, 'text')"
+                ></div>
+
+                <th:block th:with="isNarrow=true">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.dateSaisineCE}, null, 'dateSaisineCE', 'pan.habilitations.dateSaisineCE', false, false, 'date-picker')"
+                    ></div>
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.datePassageCM}, null, 'datePassageCM', 'pan.habilitations.datePassageCM', false, false, 'date-picker')"
+                    ></div>
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.datePublication}, null, 'datePublication', 'pan.habilitations.datePublication', false, false, 'date-picker')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.titreOfficiel}, null, 'titreOfficiel', 'pan.habilitations.titreOfficiel', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.numero}, null, 'numero', 'pan.habilitations.numero', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.conventionDepot}, null, 'depotRatification', 'pan.habilitations.depotRatification', false, false, 'text')"
+                ></div>
+
+                <th:block th:with="isNarrow=true">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${secondElement.dateLimiteDepot}, null, 'dateLimiteDepot', 'pan.habilitations.dateLimiteDepot', false, false, 'date-picker')"
+                    ></div>
+                </th:block>
+            </form>
+        </div>
+    </body>
+</html>

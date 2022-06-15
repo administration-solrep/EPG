@@ -1,0 +1,73 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page modèles courrier', title=${modeleCourrierForm.modeleName})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-edit-courrier')"></div>
+        <h1
+            class="m-t-6 m-b-6 p-b-3 base-title base-title--lvl-1 base-title--is-underlined"
+            th:text="${modeleCourrierForm.modeleName}"
+        ></h1>
+
+        <div class="table-wrapper">
+            <table class="folder-detail__table" role="presentation">
+                <tbody>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{admin.modele.courrier.name}"
+                        >
+                            Nom du modèle
+                        </td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${modeleCourrierForm.modeleName}"
+                        >
+                            valeur modèle
+                        </td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{admin.modele.courrier.file}"
+                        >
+                            Fichier
+                        </td>
+                        <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                            <a class="link" th:href="@{|/${modeleCourrierForm.piecesJointes.link}|}">
+                                [[|${modeleCourrierForm.piecesJointes.nom}|]][[|${modeleCourrierForm.piecesJointes.extension}|]]
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--download link__icon link__icon--prepend"
+                                ></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{admin.modele.courrier.communications}"
+                        >
+                            Communications associées
+                        </td>
+                        <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                            <p th:each="communication : ${modeleCourrierForm.typesCommunication}">
+                                [[${communication}]]
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <form
+            id="modele-courrier-form"
+            th:data-id="${modeleCourrierForm ? modeleCourrierForm.id : null}"
+            th:data-name="${modeleCourrierForm ? modeleCourrierForm.modeleName : null}"
+        >
+            <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-edit-courrier')"></div>
+        </form>
+    </main>
+</html>

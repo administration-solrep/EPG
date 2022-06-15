@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="tableSuiviEcheances"
+            class="tableForm relative"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="listeSuiviEcheances"
+            th:with="tableCaption=${tableCaption}?:#{menu.mgpp.calendrier.suivi.echeance}"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'ecp_nbresult_page')"
+                ></div>
+            </th:block>
+            <a
+                href="#skip_link_action-table_prev"
+                id="skip_link_action-table_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(${tableCaption})}"
+                >Fin du tableau</a
+            >
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div th:replace="fragments/table/toolbar :: toolbar('action_impression_haut', false)"></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'ecp_haut',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="custom-table">
+                    <caption class="sr-only" th:text="${tableCaption}">
+                        Tableau Suivi des échéances
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th:block th:each="colonne : ${resultList.getListeColonnes()}">
+                                <th:block th:if="${colonne.visible && colonne.sortable}">
+                                    <th
+                                        th:aria-sort="${colonne.sortValue == 'asc' ? 'ascending' : (colonne.sortValue== 'desc' ? 'descending' : '')}"
+                                        scope="col"
+                                        class="table-header__cell table-header__cell--with-filter-action"
+                                        th:with="order=${colonne.sortOrder}"
+                                    >
+                                        <button
+                                            th:replace="fragments/table/sortableHeader :: sortableHeader (#{__${colonne.label}__},${colonne.sortValue},${colonne.sortName},${colonne.sortId},${colonne.inverseSort})"
+                                        ></button>
+                                    </th>
+                                </th:block>
+
+                                <th:block th:if="${colonne.visible && !colonne.sortable}">
+                                    <th scope="col" class="table-header__cell">
+                                        <span
+                                            th:if="${colonne.isLabelVisible}"
+                                            class="table-header__cell-inner"
+                                            th:text="${colonne.label !=null? #messages.msg(colonne.label) : ''}"
+                                        >
+                                            &nbsp;
+                                        </span>
+                                        <span th:unless="${colonne.isLabelVisible}" class="table-header__cell-inner">
+                                            <span class="sr-only">[[ #{__${colonne.label}__} ]]</span>
+                                        </span>
+                                    </th>
+                                </th:block>
+                            </th:block>
+                        </tr>
+                    </thead>
+                    <tbody class="custom-table__body">
+                        <th:block th:if="${resultList.liste.size > 0}">
+                            <tr
+                                class="custom-table__table-line table-line table-line--with-action-column table-line--complex-line"
+                                th:each="item, nb : ${resultList.liste}"
+                            >
+                                <td class="table-line__cell-content">
+                                    <a
+                                        th:href="@{|/mgpp/dossierSimple/${item.ficheId}/fiche|}"
+                                        th:text="${item.nor}"
+                                        class="link"
+                                    ></a>
+                                </td>
+                                <td class="table-line__cell">
+                                    <div
+                                        th:replace="fragments/components/longText :: ellipser(${item.objet}, ${nb.index})"
+                                    ></div>
+                                </td>
+                                <td
+                                    class="table-line__cell-content"
+                                    th:text="${#calendars.format(item.dateDepotEffectif, 'dd/MM/yyyy')}"
+                                ></td>
+                                <td class="table-line__cell-content" th:text="${item.destinataire1Rapport}"></td>
+                            </tr>
+                        </th:block>
+                        <th:block th:unless="${resultList.liste.size > 0}">
+                            <td colspan="5" th:text="#{label.dossier.nombre(0)}">aucun élément trouvé</td>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div th:replace="fragments/table/toolbar :: toolbar('action_impression_bas', false)"></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'ecp_bas',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                </div>
+            </div>
+            <a
+                href="#skip_link_action-table_next"
+                id="skip_link_action-table_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(${tableCaption})}"
+                >Début du tableau</a
+            >
+        </div>
+    </body>
+</html>

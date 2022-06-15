@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="blocParametrageStatistiques(legisStat)" th:with="libelle=${legisStat.libelle}">
+            <h3
+                class="m-t-8 base-title base-title--lvl-3 base-title--important"
+                th:text="#{pan.stats.parametrage.legislature__${libelle}__.label}"
+            >
+                Législature en cours
+            </h3>
+            <fieldset class="m-b-4">
+                <legend class="sr-only" th:text="#{pan.stats.parametrage.borne.legislature__${libelle}__.label}">
+                    Borne de la législature
+                </legend>
+                <th:block
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${legisStat.debutLegislature}, null, 'debutLegislature'+${libelle}, 'pan.stats.form.debut.legislature.label', true, false, 'date-picker')"
+                ></th:block>
+
+                <h4
+                    class="m-t-8 base-title base-title--lvl-4"
+                    th:text="#{pan.stats.parametrage.bilan.semestriel.lois.label}"
+                >
+                    Bilan semestriel lois
+                </h4>
+                <fieldset>
+                    <legend class="sr-only" th:text="#{pan.stats.parametrage.bilan.semestriel.lois.label}">
+                        Bilan semestriel lois
+                    </legend>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.promulgationLoisBS.left}, valueending=${legisStat.promulgationLoisBS.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'promulgationLoisBSLegis'+${libelle}, 'pan.stats.form.intervalle.promulgation.lois.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.publicationDecretsLoisBS.left}, valueending=${legisStat.publicationDecretsLoisBS.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'publicationDecretsLoisBSLegis'+${libelle}, 'pan.stats.form.intervalle.publication.decrets.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                </fieldset>
+
+                <h4
+                    class="m-t-8 base-title base-title--lvl-4"
+                    th:text="#{pan.stats.parametrage.bilan.semestriel.ordonnances.label}"
+                ></h4>
+                <fieldset>
+                    <legend class="sr-only" th:text="#{pan.stats.parametrage.bilan.semestriel.ordonnances.label}">
+                        Bilan semestriel ordonnances
+                    </legend>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.promulgationOrdonnancesBS.left}, valueending=${legisStat.promulgationOrdonnancesBS.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'promulgationOrdonnancesBSLegis'+${libelle}, 'pan.stats.form.intervalle.promulgation.ordonnances.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.publicationDecretsOrdonnancesBS.left}, valueending=${legisStat.publicationDecretsOrdonnancesBS.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'publicationDecretsOrdonnancesBSLegis'+${libelle}, 'pan.stats.form.intervalle.publication.decrets.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                </fieldset>
+
+                <h4
+                    class="m-t-8 base-title base-title--lvl-4"
+                    th:text="#{pan.stats.parametrage.taux.execution.lois.session.label}"
+                ></h4>
+                <fieldset>
+                    <legend class="sr-only" th:text="#{pan.stats.parametrage.taux.execution.lois.session.label}">
+                        Taux d'exécution des lois (au cours de la dernière session parlementaire)
+                    </legend>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.promulgationLoisTXD.left}, valueending=${legisStat.promulgationLoisTXD.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'promulgationLoisTXDLegis'+${libelle}, 'pan.stats.form.intervalle.promulgation.lois.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.publicationDecretsLoisTXD.left}, valueending=${legisStat.publicationDecretsLoisTXD.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'publicationDecretsLoisTXDLegis'+${libelle}, 'pan.stats.form.intervalle.publication.decrets.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                </fieldset>
+
+                <h4
+                    class="m-t-8 base-title base-title--lvl-4"
+                    th:text="#{pan.stats.parametrage.taux.execution.lois.label}"
+                ></h4>
+                <fieldset>
+                    <legend class="sr-only" th:text="#{pan.stats.parametrage.taux.execution.lois.label}">
+                        Taux d'exécution des lois (depuis le début de la législature)
+                    </legend>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.promulgationLoisTX.left}, valueending=${legisStat.promulgationLoisTX.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'promulgationLoisTXLegis'+${libelle}, 'pan.stats.form.intervalle.promulgation.lois.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.publicationDecretsLoisTX.left}, valueending=${legisStat.publicationDecretsLoisTX.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'publicationDecretsLoisTXLegis'+${libelle}, 'pan.stats.form.intervalle.publication.decrets.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                </fieldset>
+
+                <h4
+                    class="m-t-8 base-title base-title--lvl-4"
+                    th:text="#{pan.stats.parametrage.taux.execution.ordonnances.session.label}"
+                ></h4>
+                <fieldset>
+                    <legend class="sr-only" th:text="#{pan.stats.parametrage.taux.execution.ordonnances.session.label}">
+                        Taux d'exécution des ordonnances (au cours de la dernière session parlementaire)
+                    </legend>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.promulgationOrdonnancesTXD.left}, valueending=${legisStat.promulgationOrdonnancesTXD.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'promulgationOrdonnancesTXDLegis'+${libelle}, 'pan.stats.form.intervalle.promulgation.ordonnances.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.publicationDecretsOrdonnancesTXD.left}, valueending=${legisStat.publicationDecretsOrdonnancesTXD.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'publicationDecretsOrdonnancesTXDLegis'+${libelle}, 'pan.stats.form.intervalle.publication.decrets.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                </fieldset>
+
+                <h4
+                    class="m-t-8 base-title base-title--lvl-4"
+                    th:text="#{pan.stats.parametrage.taux.execution.ordonnances.label}"
+                ></h4>
+                <fieldset>
+                    <legend class="sr-only" th:text="#{pan.stats.parametrage.taux.execution.ordonnances.label}">
+                        Taux d'exécution des ordonnances (depuis le début de la législature)
+                    </legend>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.promulgationOrdonnancesTX.left}, valueending=${legisStat.promulgationOrdonnancesTX.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'promulgationOrdonnancesTXLegis'+${libelle}, 'pan.stats.form.intervalle.promulgation.ordonnances.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                    <th:block
+                        th:with="valuebeginning=${legisStat.publicationDecretsOrdonnancesTX.left}, valueending=${legisStat.publicationDecretsOrdonnancesTX.right}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'publicationDecretsOrdonnancesTXLegis'+${libelle}, 'pan.stats.form.intervalle.publication.decrets.label', true, false, 'date-range')"
+                        ></th:block>
+                    </th:block>
+                </fieldset>
+            </fieldset>
+        </th:block>
+    </body>
+</html>

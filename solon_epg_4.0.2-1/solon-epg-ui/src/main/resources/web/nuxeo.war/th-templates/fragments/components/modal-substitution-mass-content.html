@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="modal-substitution-mass-content">
+            <div class="interstitial__content">
+                <th:block th:if="${#lists.isEmpty(ignoredDossiers) && not #lists.isEmpty(substituableDossiers)}">
+                    <p
+                        id="message-modal-substitution-mass"
+                        class="base-paragraph"
+                        th:text="#{menu.outilSelection.action.mass.substitution.message.modal.all.dossier}"
+                    ></p>
+                </th:block>
+                <th:block th:if="${not #lists.isEmpty(ignoredDossiers) && #lists.isEmpty(substituableDossiers)}">
+                    <p
+                        id="message-modal-substitution-mass"
+                        class="base-paragraph"
+                        th:text="#{menu.outilSelection.action.mass.substitution.message.modal.aucun.dossier}"
+                    ></p>
+                </th:block>
+                <th:block th:if="${not #lists.isEmpty(ignoredDossiers) && not #lists.isEmpty(substituableDossiers)}">
+                    <div class="m-b-8">
+                        <div
+                            th:if="${ignoredDossiers != null && !#lists.isEmpty(ignoredDossiers)}"
+                            class="alert-modal alert--warning"
+                        >
+                            <div role="alert" class="alerts--flex">
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--information bubble-icon alert__icon alert__icon--warning"
+                                ></span>
+                                <span class="sr-only" th:text="#{corbeille.communication.alerte}">Alerte</span>
+                                <div>
+                                    <p
+                                        th:text="#{menu.outilSelection.action.mass.substitution.message.info.ignored.dossier}"
+                                    >
+                                        Les dossiers suivants ne peuvent être substituer, ils seront ignorés :
+                                    </p>
+                                    <ul>
+                                        <li th:each="dossier : ${ignoredDossiers}">
+                                            <th:block
+                                                th:replace="fragments/components/idComponent :: id('ignored-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                            ></th:block>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            th:if="${substituableDossiers != null && not #lists.isEmpty(substituableDossiers)}"
+                            class="m-t-6"
+                        >
+                            <p th:text="#{menu.outilSelection.action.mass.substitution.message.modal.not.all.dossier}">
+                                Lors des étapes suivantes, ces dossiers seront pris en compte par la substitution :
+                            </p>
+                            <ul>
+                                <li th:each="dossier : ${substituableDossiers}">
+                                    <th:block
+                                        th:replace="fragments/components/idComponent :: id('deletable-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                    ></th:block>
+                                    <em th:text="${dossier.label != null} ? ${dossier.label}">(Titre de l'acte)</em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+            <div class="interstitial__footer">
+                <button
+                    type="button"
+                    class="interstitial__button interstitial__close base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                    th:text="#{button.label.cancel}"
+                >
+                    Annuler
+                </button>
+                <a
+                    th:if="${not #lists.isEmpty(substituableDossiers)}"
+                    th:href="@{/selection/substitution/liste#main_content}"
+                    class="base-btn base-btn--button base-btn--default base-btn--center"
+                    th:text="#{outilSelection.action.substituer.button}"
+                >
+                    Substituer
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

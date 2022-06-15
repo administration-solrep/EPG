@@ -1,0 +1,35 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="conseil-etat(dto)">
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="refTablesTitleConseilEtat"
+                th:text="#{admin.table.reference.conseil.etat.title}"
+            >
+                Conseil d'Etat
+            </h2>
+
+            <div role="group" aria-labelledby="refTablesTitleConseilEtat">
+                <div class="grid__row">
+                    <div class="relative grid__col grid__col--middle m-b-6">
+                        <th:block
+                            th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+                                'admin.table.reference.conseil.etat',
+                                false,
+                                'conseilEtat',
+                                'conseilEtat',
+                                'MIN', 
+                                '',
+                                false,
+                                false,
+                                ${dto.mapConseilEtat},
+                                false)"
+                        ></th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

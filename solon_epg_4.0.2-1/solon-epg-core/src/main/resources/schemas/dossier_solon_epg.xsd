@@ -1,0 +1,330 @@
+<?xml version="1.0" ?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://dila.fr/solon/schemas/dossier_solon_epg/"
+    xmlns:dos="http://dila.fr/solon/schemas/dossier_solon_epg/"
+>
+
+	<!-- on inclut le schema contenant la definition de xs:stringList -->
+	<xs:include schemaLocation="base.xsd" />
+
+	<!-- Date de création dupliquée dublincore -->
+	<xs:element name="created" type="xs:date" />
+
+	<!-- *********************************************************************** 
+		Données communes au socle transverse. *********************************************************************** -->
+
+	<!-- Dernière feuille de route lancée sur le dossier -->
+	<xs:element name="lastDocumentRoute" type="xs:string" />
+
+	<!-- *********************************************************************** 
+		Données du parapheur. *********************************************************************** -->
+
+	<!-- id du document fond de dossier contenant les attachements -->
+	<xs:element name="idDocumentFDD" type="xs:string" />
+
+	<!-- id du document parapheur contenant les attachements -->
+	<xs:element name="idDocumentParapheur" type="xs:string" />
+
+	<!-- *********************************************************************** 
+		Info generales dossier. *********************************************************************** -->
+
+	<!-- nor : numéro nor unique du dossier : voir http://fr.wikipedia.org/wiki/Syst%C3%A8me_NOR -->
+	<xs:element name="numeroNor" type="xs:string" />
+
+	<!-- nombre de dossier Rectifié existant pour ce dossier -->
+	<xs:element name="nbDossierRectifie" type="xs:int" default="0" />
+
+	<!-- type d'acte : (au moins 34 type d'actes posssible : amnsitie, arrêté, 
+		ordonnace) -->
+	<xs:element name="typeActe" type="xs:string" />
+
+	<xs:element name="typeActeLabel" type="xs:string" />
+
+	<xs:element name="statut" type="xs:string" default="1" />
+
+	<xs:element name="statutLabel" type="xs:string" />
+
+	<xs:element name="candidat" type="xs:string" default="1" />
+
+	<!-- date de candidature -->
+	<xs:element name="dateCandidature" type="xs:date" />
+
+	<!-- statut d'archivage du dossier -->
+	<xs:element name="statutArchivage" type="xs:string" default="1" />
+
+	<!-- date De la maintien du dossier Dans La base de Production -->
+	<xs:element name="dateDeMaintienEnProduction" type="xs:date" />
+
+	<!-- date Du versement dans la base d'archivage intermediaire -->
+	<xs:element name="dateVersementArchivageIntermediaire" type="xs:date" />
+
+	<!-- flag si le dossier est issu de l'injection : champ technique -->
+	<xs:element name="isDossierIssuInjection" type="xs:boolean" default="0" />
+
+	<!-- niveau de priorité : flag si le dossier est urgent -->
+	<xs:element name="isUrgent" type="xs:boolean" default="0" />
+
+	<!-- titre de l'acte : remplit automatiquement à partir du fichier de l'acte -->
+	<xs:element name="titreActe" type="xs:string" />
+
+	<!-- flag si le parapheur est complet (les dossiers marqués "non vides" 
+		son remplis) -->
+	<xs:element name="isParapheurComplet" type="xs:boolean" default="0" />
+
+	<!-- flag si l'on a pas pu récupérer les informations du dernier fichier 
+		uploadé dans le parapheur : cad si les données titre de l'acte et date de 
+		signature du fichier n'ont pas pu être récupérées -->
+	<xs:element name="isParapheurFichierInfoNonRecupere" type="xs:boolean" default="0" />
+
+	<!-- flag si un changement de la nature du type d'acte a été effectué -->
+	<xs:element name="isParapheurTypeActeUpdated" type="xs:boolean" default="0" />
+
+	<!-- Mesure nominative -->
+	<xs:element name="mesureNominative" type="xs:boolean" default="0" />
+
+	<!-- numéro de version de l'acte ou de l'extrait contenu dans le parapheur -->
+	<xs:element name="numeroVersionActeOuExtrait" type="xs:int" />
+
+	<!-- détermine quel fichier ( acte ou extrait) est pris en compte pour le 
+		numéro de version. Par défaut, l'extrait est le répertoire de référence -->
+	<xs:element name="isActeReferenceForNumeroVersion" type="xs:boolean" default="0" />
+
+	<!-- *********************************************************************** 
+		Info responsables dossier. *********************************************************************** -->
+
+	<!-- note : le ministère responsable correspond au ministère à l'origine 
+		de l'acte : lié au lettre du nor cf RG-DOS-TRT-17 -->
+	<!-- ministere responsable de l'acte -->
+	<xs:element name="ministereResp" type="xs:string" />
+
+	<!-- direction responsable de l'acte -->
+	<xs:element name="directionResp" type="xs:string" />
+
+	<!-- ministere attaché à l'acte -->
+	<xs:element name="ministereAttache" type="xs:string" />
+
+	<!-- ministere attaché à l'acte -->
+	<xs:element name="directionAttache" type="xs:string" />
+
+	<!-- nom responsable dossier -->
+	<xs:element name="nomRespDossier" type="xs:string" />
+
+	<!-- prenom responsable dossier -->
+	<xs:element name="prenomRespDossier" type="xs:string" />
+
+	<!-- nom complet responsable dossier -->
+	<xs:element name="nomCompletRespDossier" type="xs:string" />
+
+	<!-- qualite responsable dossier -->
+	<xs:element name="qualiteRespDossier" type="xs:string" />
+
+	<!-- telephone responsable dossier -->
+	<xs:element name="telRespDossier" type="xs:string" />
+
+	<!-- mail responsable dossier -->
+	<xs:element name="mailRespDossier" type="xs:string" />
+
+	<!-- id createur du dossier -->
+	<xs:element name="idCreateurDossier" type="xs:string" />
+
+	<!-- *********************************************************************** 
+		info diverses 1. *********************************************************************** -->
+
+	<!-- categorie de l'acte : réglementaire ou non réglementaire -->
+	<xs:element name="categorieActe" type="xs:string" />
+	
+	<xs:element name="categorieActeLabel" type="xs:string" />
+
+	<!-- base légale de l'acte : ... -->
+	<xs:element name="baseLegaleActe" type="xs:string" />
+	<xs:element name="baseLegaleNatureTexte" type="xs:string" />
+	<xs:element name="baseLegaleNumeroTexte" type="xs:string" />
+	<xs:element name="baseLegaleDate" type="xs:date" />
+
+	<!-- date de publication souhaitée -->
+	<xs:element name="datePublication" type="xs:date" />
+
+	<!-- publication du rapport de presentation : -->
+	<xs:element name="publicationRapportPresentation" type="xs:boolean" default="0" />
+
+	<!-- Texte entreprise : Oui ou Non -->
+	<xs:element name="texteEntreprise" type="xs:boolean" default="0" />
+	
+	<!-- type complexe list de String -->
+	<xs:complexType name="dateListType">
+		<xs:sequence>
+			<xs:element name="item" type="xs:dateTime" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Texte entreprise date effet  -->
+	<xs:element name="dateEffet" type="dos:dateListType" />		
+	<!-- *********************************************************************** 
+		Validation et signature. *********************************************************************** -->
+
+	<!-- Nom complet (civilité,nom,prénom) des chargés de mission ayant validé 
+		le dossier -->
+	<xs:element name="nomCompletChargesMissions" type="dos:stringList" />
+
+	<!-- Nom complet (civilité,nom,prénom) des conseillers PM ayant validé le 
+		dossier -->
+	<xs:element name="nomCompletConseillersPms" type="dos:stringList" />
+
+	<!-- date de signature alimenté automatiquement par exploitation de la feuille 
+		de style de l’acte -->
+	<xs:element name="dateSignature" type="xs:dateTime" />
+
+	<!-- *********************************************************************** 
+		Publication. *********************************************************************** -->
+
+	<!-- Pour Fourniture Epreuve facultatif -->
+	<xs:element name="pourFournitureEpreuve" type="xs:dateTime" />
+
+	<!-- vecteur publication -->
+	<xs:element name="vecteurPublication" type="dos:stringList" />
+
+	<!-- publicationConjointe : référence des textes à publier coinjointement -->
+	<xs:element name="publicationsConjointes" type="dos:stringList" />
+
+	<!-- publicationIntegraleOuExtrait : "Intégrale" ou "Extrait" -->
+	<xs:element name="publicationIntegraleOuExtrait" type="xs:string" />
+	
+	<xs:element name="publicationIntegraleOuExtraitLabel" type="xs:string" />
+
+	<!-- decret Numerote -->
+	<xs:element name="decretNumerote" type="xs:boolean" default="0" />
+
+	<!-- delai Publication : A date précisée / Aucun / De rigueur / Urgent / 
+		Sans tarder/ Sous embargo -->
+	<xs:element name="delaiPublication" type="xs:string" />
+	
+	<xs:element name="delaiPublicationLabel" type="xs:string" />
+
+	<!-- Publication à date précisée -->
+	<xs:element name="datePreciseePublication" type="xs:dateTime" />
+
+	<!-- zone commentaire SGG-DILA : -->
+	<xs:element name="zoneComSggDila" type="xs:string" />
+
+	<!-- *********************************************************************** 
+		Indexation. *********************************************************************** -->
+
+	<!-- rubrique : indexation de premier niveau -->
+	<xs:element name="rubriques" type="dos:stringList" />
+
+	<!-- motsCles : indexation de deuxième niveau -->
+	<xs:element name="motscles" type="dos:stringList" />
+
+	<!-- champ libre : indexation de troisième niveau -->
+	<xs:element name="libre" type="dos:stringList" />
+
+	<!-- Visibilité dans les corbeilles d'indexation -->
+	<xs:element name="indexationSgg" type="xs:boolean" default="0" />
+	<xs:element name="indexationSggPub" type="xs:boolean" default="0" />
+	<xs:element name="indexationMin" type="xs:boolean" default="0" />
+	<xs:element name="indexationMinPub" type="xs:boolean" default="0" />
+	<xs:element name="indexationDir" type="xs:boolean" default="0" />
+	<xs:element name="indexationDirPub" type="xs:boolean" default="0" />
+
+	<!-- *********************************************************************** 
+		Transposition et application. *********************************************************************** -->
+
+	<!-- Lois Appliquees -->
+	<xs:element name="applicationLoi" type="dos:applicationLoi" />
+
+	<!-- définition du Champ complexe : Lois Appliquees -->
+	<xs:complexType name="applicationLoi">
+		<xs:sequence>
+			<xs:element name="tranposition" type="dos:tranposition" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ordonnances -->
+	<xs:element name="transpositionOrdonnance" type="dos:transpositionOrdonnance" />
+
+	<!-- définition du Champ complexe : ordonnances -->
+	<xs:complexType name="transpositionOrdonnance">
+		<xs:sequence>
+			<xs:element name="tranposition" type="dos:tranposition" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- application loi refs -->
+	<xs:element name="applicationLoiRefs" type="dos:stringList" />
+
+	<!-- ordonnance refs -->
+	<xs:element name="transpositionOrdoRefs" type="dos:stringList" />
+
+	<!-- directives europeennes -->
+	<xs:element name="transpositionDirectiveNumero" type="dos:stringList" />
+
+	<xs:element name="transpositionDirective" type="dos:transpositionDirective" />
+
+	<!-- définition du Champ complexe : directives Europeennes -->
+	<xs:complexType name="transpositionDirective">
+		<xs:sequence>
+			<xs:element name="tranposition" type="dos:tranposition" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<!-- définition du type complexe utilisée dans la saisie du dossier -->
+	<xs:complexType name="tranposition">
+		<xs:sequence>
+			<xs:element name="ref" type="xs:string" />
+			<xs:element name="titre" type="xs:string" />
+			<xs:element name="numeroArticles" type="xs:string" />
+			<xs:element name="refMesure" type="xs:string" />
+			<xs:element name="commentaire" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- définition des champs Habilitation -->
+	<!-- Article 38 ou Article 74-1 : champ non affiché dans le bordereau -->
+	<xs:element name="dispositionHabilitation" type="xs:boolean" default="false" />
+	<!-- Si Article 38 -->
+	<xs:element name="habilitationRefLoi" type="xs:string" />
+	<xs:element name="habilitationNumeroArticles" type="xs:string" />
+	<xs:element name="habilitationCommentaire" type="xs:string" />
+	<xs:element name="habilitationNumeroOrdre" type="xs:string" />
+	<xs:element name="habilitationDateTerme" type="xs:date" />
+	<xs:element name="habilitationTerme" type="xs:string" />
+
+
+	<!-- texte signale -->
+	<xs:element name="dateVersementTS" type="xs:date" />
+	<xs:element name="arriveeSolonTS" type="xs:boolean" default="0" />
+	<xs:element name="dateEnvoiJoTS" type="xs:date" />
+
+	<!-- Poste createur du dossier -->
+	<xs:element name="posteCreator" type="xs:string" />
+
+	<!-- Interaction EPP/MGPP/EPG -->
+	<xs:element name="idDossier" type="xs:string" />
+
+	<!-- denormalisation de statut et statuArchivage -->
+	<xs:element name="norAttribue" type="xs:boolean" default="0" />
+	<xs:element name="publie" type="xs:boolean" default="0" />
+	<xs:element name="archive" type="xs:boolean" default="0" />
+
+	<!-- Rapport au parlement -->
+	<xs:element name="periodiciteRapport" type="xs:string" />
+	<xs:element name="periodicite" type="xs:string" />
+
+	<!-- isAfterDemandePublication -->
+	<xs:element name="isAfterDemandePublication" type="xs:boolean" default="0" />
+
+	<xs:element name="adoption" type="xs:boolean" default="0" />
+	<xs:element name="deleted" type="xs:boolean" default="0" />
+
+	<!-- Informations Parlementaires -->
+	<xs:element name="emetteur" type="xs:string" />
+	<xs:element name="rubrique" type="xs:string" />
+	<xs:element name="commentaire" type="xs:string" />
+	<xs:element name="idEvenement" type="xs:string" />
+	
+	<!-- Extraction Adamant -->
+	<xs:element name="id_extraction_lot" type="xs:string" />
+
+</xs:schema>

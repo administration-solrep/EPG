@@ -1,0 +1,37 @@
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page table reference EPP', title=#{admin.param.tableRefEPP.title})}"
+>
+    <body>
+        <main role="main" id="main_content" class="page-layout__content">
+            <div class="flex justify-end m-t-6 m-b-6">
+                <button
+                    class="base-btn base-btn--submit base-btn--default base-btn--center"
+                    th:onclick="|window.location.href = '@{/admin/mgpp/referenceEPP/gouvernement/creation#main_content}'|"
+                    type="button"
+                    th:text="#{command.admin.param.tableRefEPP.ajouter.gouvernement}"
+                ></button>
+            </div>
+            <h1
+                class="m-t-6 m-b-6 p-b-3 base-title base-title--lvl-1 base-title--is-underlined"
+                th:text="#{admin.param.tableRefEPP.title}"
+            ></h1>
+
+            <div id="tableReferenceTree" style="position: relative;">
+                <div
+                    th:replace="fragments/components/table-reference-arbre :: tableReferenceArbre(${tree}, 1, 'tableReferenceEPP', true)"
+                ></div>
+            </div>
+
+            <div class="flex justify-end m-t-6 m-b-6">
+                <button
+                    class="base-btn base-btn--submit base-btn--default base-btn--center"
+                    th:onclick="|window.location.href = '@{/admin/mgpp/referenceEPP/gouvernement/creation#main_content}'|"
+                    type="button"
+                    th:text="#{command.admin.param.tableRefEPP.ajouter.gouvernement}"
+                ></button>
+            </div>
+        </main>
+    </body>
+</html>

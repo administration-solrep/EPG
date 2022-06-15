@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panActionToolbar(leftActions, rightActions)" th:remove="tag">
+            <div class="m-t-1 flex justify-between items-center">
+                <div class="actions-bar">
+                    <div class="actions-bar__group">
+                        <th:block th:each="action : ${leftActions}">
+                            <div
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                            ></div>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="actions-bar">
+                    <div class="actions-bar__group">
+                        <th:block th:each="action : ${rightActions}">
+                            <div
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, 'default base-btn--secondary base-btn--min a--rounded')"
+                            ></div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

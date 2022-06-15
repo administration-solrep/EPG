@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="organigrammeSelectRestrictionNoteEtape(noteDto)">
+            <div class="grid__row m-b-6">
+                <div class="grid__col grid__col--middle align-flex-start" th:with="filterCE=true">
+                    <th:block
+                        th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+                        label='fdr.step.add.note.restriction.select',
+                        labelRequired=false,
+                        myID='addNoteRestrictionValue',
+                        myName='addNoteRestrictionValue-key',
+                        typeSelection=${noteDto.typeRestriction}, 
+                        idSelection=${noteDto.idNode}, 
+                        activatePosteFilter=false,
+                        isMulti=false,
+                        listItems=${noteDto.mapIdNode},
+                        disabled=false)"
+                    ></th:block>
+                </div>
+            </div>
+        </th:block>
+    </body>
+</html>

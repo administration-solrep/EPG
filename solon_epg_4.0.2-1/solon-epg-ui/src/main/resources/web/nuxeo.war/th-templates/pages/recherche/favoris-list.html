@@ -1,0 +1,24 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='liste des favoris de recherche', title=#{recherche.favoris.liste.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <h1 class="base-title base-title--lvl-1" th:text="#{recherche.menu.favoris.recherche}"></h1>
+        <div class="page-reponses__table">
+            <div class="page-reponses__table-heading m-b-6">
+                <h2 class="page-reponses__table-heading__base-title base-title base-title--lvl-2">
+                    <th:block th:text="${title}">Liste des favoris de recherche</th:block>
+                    <span
+                        class="base-paragraph page-reponses__folders-number"
+                        th:text="| - #{recherche.favoris.liste.nombre(${nbResults})}|"
+                    ></span>
+                </h2>
+            </div>
+
+            <div th:replace="fragments/table/tableFavorisRecherche :: favorisRecherche"></div>
+        </div>
+    </main>
+</html>

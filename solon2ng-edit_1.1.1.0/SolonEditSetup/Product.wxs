@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product
+		Id="51d0514a-2df0-4d77-9fc7-868eb1dcdc29"
+		Name="SOLON_EDIT" Language="1033" Version="1.1.1.0"
+		Manufacturer="SOLON"
+		UpgradeCode="23817d10-3353-4ef4-8711-e46b45a4bc33"
+		>
+
+		<Package InstallerVersion="200" Compressed="yes" />
+		<Property Id="ARPPRODUCTICON" Value="Icon.exe" />
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+		<CustomAction Id="DisplayWarningIfUnderWin10" Script="vbscript">
+			<![CDATA[
+			Set SystemSet = GetObject("winmgmts:").InstancesOf ("Win32_OperatingSystem")
+			for each System in SystemSet
+				Dim i
+				i = InStr(System.Version,".")-1
+				Dim version
+				version = CInt(Mid(System.Version, 1, i))
+				If version < 10  THEN
+					msgbox "SOLON-Edit est recommandé pour un usage sous Windows 10." ,48, "Information"
+				End If
+			next 
+			  ]]>
+		</CustomAction>
+
+		<Feature Id="ProductFeature" Title="SolonEditSetup" Level="1">
+
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="ProductResources" />
+		</Feature>
+		<Property Id="WixAppFolder" Value="WixPerUserFolder" />
+		<WixVariable Id="WixUISupportPerUser" Value="1" Overridable="yes" />
+		<WixVariable Id="WixUISupportPerMachine" Value="1" Overridable="yes" />
+		<UI>
+			<UIRef Id="WixUI_InstallDir" />
+			<DialogRef Id="ErrorDlg" />
+			<DialogRef Id="FatalError" />
+			<DialogRef Id="FilesInUse" />
+			<DialogRef Id="MsiRMFilesInUse" />
+			<DialogRef Id="PrepareDlg" />
+			<DialogRef Id="ProgressDlg" />
+			<DialogRef Id="ResumeDlg" />
+			<DialogRef Id="UserExit" />
+
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallScopeDlg" Order="2">1</Publish>
+			<Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="InstallScopeDlg" Order="2">1</Publish>
+
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="WixAppFolder" Value="WixPerUserFolder" Order="1">!(wix.WixUISupportPerUser) AND NOT Privileged</Publish>
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="ALLUSERS" Value="{}" Order="2">WixAppFolder = "WixPerUserFolder"</Publish>
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="ALLUSERS" Value="1" Order="3">WixAppFolder = "WixPerMachineFolder"</Publish>
+			
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="MSIUSEREALADMINDETECTION" Value="{}" Order="2">WixAppFolder = "WixPerUserFolder"</Publish>
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="ARPNOMODIFY" Value="1" Order="2">WixAppFolder = "WixPerUserFolder"</Publish>
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="WixUI_Mode" Value="1" Order="2">WixAppFolder = "WixPerUserFolder"</Publish>
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="MSIUSEREALADMINDETECTION" Value="1" Order="3">WixAppFolder = "WixPerMachineFolder"</Publish>
+			
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="APPLICATIONFOLDER" Value="[WixPerUserFolder]" Order="4">WixAppFolder = "WixPerUserFolder"</Publish>
+			<Publish Dialog="InstallScopeDlg" Control="Next" Property="APPLICATIONFOLDER" Value="[WixPerMachineFolder]" Order="5">WixAppFolder = "WixPerMachineFolder"</Publish>
+			<Publish Dialog="InstallScopeDlg" Control="Next" Event="NewDialog" Value="PrepareDlg" Order="6">WixAppFolder = "WixPerUserFolder"</Publish>
+			<Publish Dialog="InstallScopeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="7">WixAppFolder = "WixPerMachineFolder"</Publish>
+
+			<Publish Dialog="InstallScopeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+			<UIRef Id="WixUI_Common" />
+
+		</UI>
+		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
+
+
+		<WixVariable Id="WixUIBannerBmp" Value="$(sys.CURRENTDIR)images\bannerSetup.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="$(sys.CURRENTDIR)images\DialogSetup.bmp" />
+
+
+		<Icon Id="Icon.exe" SourceFile="$(sys.CURRENTDIR)images\marianne.ico"/>
+
+		<Property Id="CAN_IMPERSONATE">
+			<RegistrySearch 
+				Id="flag"
+				Root="HKCU"
+				Key="SOFTWARE\SolonEditFlag\perUser"
+				Name="SET"
+				Type="raw" />
+		</Property>
+		<InstallUISequence>
+			<Custom Action="DisplayWarningIfUnderWin10" Sequence="1" />
+		</InstallUISequence>
+		<InstallExecuteSequence>
+			<Custom Action="WixSetDefaultPerUserFolder1" Before="CostFinalize" />
+			<Custom Action="WixSetDefaultPerMachineFolder1" After="WixSetDefaultPerUserFolder1" />
+			<Custom Action="WixSetPerUserFolder1" After="WixSetDefaultPerMachineFolder1">ACTION="INSTALL" AND APPLICATIONFOLDER="" AND (ALLUSERS="" OR (ALLUSERS=2 AND (NOT Privileged)))</Custom>
+			<Custom Action="WixSetPerMachineFolder1" After="WixSetPerUserFolder1">ACTION="INSTALL" AND APPLICATIONFOLDER="" AND (ALLUSERS=1 OR (ALLUSERS=2 AND Privileged))</Custom>
+			<Custom Action="WritePerUserRegistry" After="PublishProduct">(ALLUSERS="" OR (ALLUSERS=2 AND (NOT Privileged))) </Custom>
+			<Custom Action="WritePerMachineRegistry" After="WritePerUserRegistry">(ALLUSERS=1 OR (ALLUSERS=2 AND Privileged)) </Custom>
+			<Custom Action="DeleteRegistry" Before="InstallFinalize" ><![CDATA[REMOVE="ALL" AND CAN_IMPERSONATE <> "1"]]> </Custom>
+			<Custom Action="DeleteRegistryImpersonated" Before="InstallFinalize" ><![CDATA[REMOVE="ALL" AND CAN_IMPERSONATE="1"]]></Custom>
+			
+			<Custom Action="SetWritePerUserRegistry" Before="WritePerUserRegistry">1</Custom>
+			<Custom Action="SetWritePerMachineRegistry" Before="WritePerUserRegistry">1</Custom>
+		</InstallExecuteSequence>
+		<InstallUISequence>
+			<Custom Action="WixSetDefaultPerUserFolder1" Before="CostFinalize" />
+			<Custom Action="WixSetDefaultPerMachineFolder1" After="WixSetDefaultPerUserFolder1" />
+			<Custom Action="WixSetPerUserFolder1" After="WixSetDefaultPerMachineFolder1">ACTION="INSTALL" AND APPLICATIONFOLDER="" AND (ALLUSERS="" OR (ALLUSERS=2 AND (NOT Privileged)))</Custom>
+			<Custom Action="WixSetPerMachineFolder1" After="WixSetPerUserFolder1">ACTION="INSTALL" AND APPLICATIONFOLDER="" AND (ALLUSERS=1 OR (ALLUSERS=2 AND Privileged))</Custom>
+		</InstallUISequence>
+
+	</Product>
+	<Fragment>
+		
+		
+		<Property Id="WritePerUserRegistry"/>
+		<Property Id="WritePerMachineRegistry" />
+		<Property Id="APPLICATION_FOLDER" Value="[APPLICATIONFOLDER]"/>
+		<Property Id="Target_File_Name" Value="$(var.solonng_launcher.TargetName)"/>
+
+		<Binary Id="WriteToRegistryCustomActionsBinary" SourceFile="$(var.WixCustomActions.TargetDir)$(var.WixCustomActions.TargetName).CA.dll" />
+		
+		<CustomAction Id="WritePerUserRegistry" Impersonate="yes" BinaryKey="WriteToRegistryCustomActionsBinary" DllEntry="WritePerUserRegistry" Return="check"  Execute="deferred"/>
+		<CustomAction Id="WritePerMachineRegistry" Impersonate="no" BinaryKey="WriteToRegistryCustomActionsBinary" DllEntry="WritePerMachineRegistry" Return="check" Execute="deferred" />
+		<CustomAction Id="DeleteRegistryImpersonated" Impersonate="yes" BinaryKey="WriteToRegistryCustomActionsBinary" DllEntry="DeleteRegistry" Return="check" Execute="deferred" />
+		<CustomAction Id="DeleteRegistry" Impersonate="no" BinaryKey="WriteToRegistryCustomActionsBinary" DllEntry="DeleteRegistry" Return="check" Execute="deferred" />
+		
+		<CustomAction Id="SetWritePerUserRegistry" Property="WritePerMachineRegistry" Value="APPLICATION_FOLDER=[APPLICATIONFOLDER];Target_File_Name=$(var.solonng_launcher.TargetName)"/>
+		<CustomAction Id="SetWritePerMachineRegistry" Property="WritePerUserRegistry" Value="APPLICATION_FOLDER=[APPLICATIONFOLDER];Target_File_Name=$(var.solonng_launcher.TargetName)"/>
+	</Fragment>
+	<Fragment>
+		<Property Id="ApplicationFolderName" Value="Solon Edit" />
+
+		<CustomAction Id="WixSetDefaultPerUserFolder1" Property="WixPerUserFolder" Value="[AppDataFolder][ApplicationFolderName]" Execute="immediate" />
+		<CustomAction Id="WixSetDefaultPerMachineFolder1" Property="WixPerMachineFolder" Value="[ProgramFilesFolder][ApplicationFolderName]" Execute="immediate" />
+		<CustomAction Id="WixSetPerUserFolder1" Property="APPLICATIONFOLDER" Value="[WixPerUserFolder]" Execute="immediate" />
+		<CustomAction Id="WixSetPerMachineFolder1" Property="APPLICATIONFOLDER" Value="[WixPerMachineFolder]" Execute="immediate" />
+		
+		<!--<CustomAction Id="ForcePerMachine" Property="MSIUSEREALADMINDETECTION" Value="1" Execute="immediate" />
+		<CustomAction Id="ForcePerUser" Property="APPLICATIONFOLDER" Value="0" Execute="immediate" />-->
+
+
+	</Fragment>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="APPLICATIONFOLDER" Name="Solon Edit">
+				<Directory Id="RESOURCESDIR" Name="Resources" >
+					<Directory Id="IMAGESSDIR" Name="images" >
+					</Directory>
+				</Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="ProductResources" Directory="IMAGESSDIR">
+			<Component Id="ProductResourcesComponent" Guid="05dc1967-2e5e-4863-897d-ca79334265ce">
+				<File Source="$(var.solonng_launcher.TargetDir)Resources/images/folder.png" Name="folder.png" />
+				<File Source="$(var.solonng_launcher.TargetDir)Resources/images/loading.gif" Name="loading.gif" />
+				<File Source="$(var.solonng_launcher.TargetDir)Resources/images/trash.png" Name="trash.png" />
+				<File Source="$(var.solonng_launcher.TargetDir)Resources/images/warning.png" Name="warning.png" />
+				<File Source="$(var.solonng_launcher.TargetDir)Resources/images/file_edit.png" Name="file_edit.png" />
+
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+
+		<ComponentGroup Id="ProductComponents" Directory="APPLICATIONFOLDER">
+			<Component Id="ProductComponent" Guid="faef71b7-5c49-484e-859d-bff9294ad905">
+
+				<File Source="$(var.solonng_launcher.TargetPath)" Name="$(var.solonng_launcher.TargetFileName)" />
+
+				<File Source="$(var.solonng_launcher.TargetDir)solonng_launcher.exe.config" Name="solonng_launcher.exe.config" />
+				<File Source="$(var.solonng_launcher.TargetDir)log4net.dll" Name="log4net.dll" />
+				<File Source="$(var.solonng_launcher.TargetDir)RestSharp.dll" Name="RestSharp.dll" />
+				<File Source="$(var.solonng_launcher.TargetDir)log4net.config" Name="log4net.config" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+
+</Wix>

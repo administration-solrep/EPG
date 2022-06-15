@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ongletBordereauxCourriers" id="ongletBordereauxCourriers_content" class="page-epg-bordereau">
+            <!-- mode Consultation -->
+            <th:block th:unless="${isEditable}">
+                <div class="folder-detail m-y-3">
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <!-- Auteur -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.bordereau.auteur}"
+                                ></td>
+                                <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                    <span th:text="${form.auteur}"></span>
+                                </td>
+                            </tr>
+
+                            <!-- Co-auteurs -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.bordereau.co.auteur}"
+                                ></td>
+                                <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                    <ol class="base-list base-list--ordered">
+                                        <th:block th:each="coAuteur, iterStat : ${form.coAuteur}">
+                                            <li class="list-item list-item--ordered" th:text="${coAuteur}"></li>
+                                        </th:block>
+                                    </ol>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <!-- mode Création -->
+            <th:block th:if="${isEditable}">
+                <form
+                    id="bordereau-courrier-form"
+                    method="GET"
+                    th:action="@{/dossier/{id}/traitement/papier/bordereau/telecharger(id=${currentID})}"
+                >
+                    <input type="hidden" name="dossierId" th:value="${currentID}" />
+                    <legend class="sr-only" th:text="#{dossier.traitement.papier.bordereau.modele.courrier.legend}">
+                        Rechercher un modèle de courrier à télécharger
+                    </legend>
+                    <!-- Auteur -->
+                    <div class="grid__row">
+                        <div class="grid__col grid__col--middle form-select form-select--simple">
+                            <th:block th:with="selectIsRequired=true,selectDataValidation=required">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+                                        'dossier.traitement.papier.bordereau.auteur', 
+                                        'auteur', 
+                                        '', 
+                                        ${lstMin}, 
+                                        ${form.auteur}, 
+                                        'false', 
+                                        'label.default.choice')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                    <!-- Co-auteur -->
+                    <div class="grid__row">
+                        <div class="grid__col grid__col--middle relative">
+                            <div class="form-input m-t-6">
+                                <th:block
+                                    th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(
+                                        'dossier.traitement.papier.bordereau.co.auteur', 
+                                        'coAuteur', 
+                                        'coAuteur', 
+                                        'form.description.nocharlimit', 
+                                        ${lstMin}, 
+                                        ${form.coAuteur},
+                                        'false', 
+                                        'false', 
+                                        '0', 
+                                        '', 
+                                        '', 
+                                        '', 
+                                        false, 
+                                        true, 
+                                        false)"
+                                ></th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modèle de courrier -->
+                    <div class="grid__row">
+                        <div class="grid__col grid__col--middle m-t-6 m-b-6 form-select form-select--simple">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+                                    'dossier.traitement.papier.bordereau.modele.courrier', 
+                                    'modeleCourrier', 
+                                    '', 
+                                    ${courrierSelect}, 
+                                    '', 
+                                    'false', 
+                                    'label.default.choice')"
+                            ></div>
+                        </div>
+                    </div>
+                    <!-- Bouton Télécharger -->
+                    <!--  onclick="downloadModeleCourrier()" -->
+                    <div class="flex justify-end">
+                        <input
+                            id="telecharger-button"
+                            type="submit"
+                            class="base-btn base-btn--button base-btn--default"
+                            th:value="#{dossier.traitement.papier.bordereau.telecharger}"
+                        />
+                    </div>
+                </form>
+            </th:block>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="tableau-lois"
+            class="tableForm"
+            th:data-url="@{${urlContextualTab}}"
+            th:data-ajaxurl="@{${ajaxUrlContextualTab}}"
+            id="d_tableau-lois_content"
+            th:with="tableCaption=${tableCaption} ?: #{pan.application.lois.table.lois.caption}"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'dossier_haut')"
+                ></div>
+            </th:block>
+            <div
+                th:replace="fragments/pan/components/panActionToolbar :: panActionToolbar(${subtabLeftActions}, ${subtabRightActions})"
+            ></div>
+
+            <div class="table-action m-t-6">
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <div
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_haut',${resultList.nbTotal})"
+                        ></div>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                        <div th:replace="fragments/table/multipleSortIcon :: multipleSortIcon()"></div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div
+                th:replace="fragments/pan/components/panTable :: panTable(${resultList}, ${tableCaption}, 'tableau-lois', ${currentSection}, 'ligne-tableau-lois', 'application', null)"
+            ></div>
+            <p class="table-row-count m-t-6" th:text="#{pan.nb.dossiers(${resultList.nbTotal})} "></p>
+
+            <div class="table-action m-b-0">
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <div
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_haut',${resultList.nbTotal})"
+                        ></div>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                        <div th:replace="fragments/table/multipleSortIcon :: multipleSortIcon()"></div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page ajout des documents du dossier', title=#{pieceJointe.label.ajoutDocumentsDuDossier})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" name="pieceId" id="pieceId" th:value="${pieceId}" />
+        <input type="hidden" name="dossierId" id="dossierId" th:value="${dossierId}" />
+
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-docs')"></div>
+
+        <h1 class="m-b-6 base-title base-title--lvl-1" th:text="#{pieceJointe.label.ajoutDocumentsDuDossier}">
+            Ajout des documents du dossier
+        </h1>
+
+        <div th:replace="pages/mgpp/listeDocuments :: document"></div>
+
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-docs')"></div>
+    </main>
+</html>

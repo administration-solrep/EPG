@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="archivage-retirer-modal" id="archivage-retirer-modal" class="interstitial-overlay__content">
+            <div
+                class="interstitial"
+                role="dialog"
+                th:aria-labelledby="title-archivage-retirer-modal"
+                style="position: relative;"
+            >
+                <div class="interstitial__header">
+                    <h1
+                        id="title-archivage-retirer-modal"
+                        th:text="#{admin.archivage.dossier.retirer.modal.title}"
+                        class="interstitial__title"
+                    ></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{validation.popup.close.label}"
+                            >Fermer la fenêtre de dialogue</span
+                        >
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <form id="archivage-retirer-modal-form">
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <p th:text="#{admin.archivage.dossier.retirer.modal.question}"></p>
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="form_dossier_delais"
+                                        id="form_dossier_delais_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{admin.archivage.dossier.retirer.modal.label}"></span>
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="number"
+                                    id="form_dossier_delais"
+                                    data-validation="required, integer, min(0)"
+                                    class="form-input__field form-input__field--type-number"
+                                    required
+                                />
+                            </div>
+                            <div id="form_dossier_delais_description" class="form-input__footer"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="base-btn base-btn--button base-btn--default base-btn--center"
+                        th:text="#{button.label.valider}"
+                        onclick="archivageRetirerList()"
+                    >
+                        Valider
+                    </button>
+                </div>
+                <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+            </div>
+        </div>
+    </body>
+</html>

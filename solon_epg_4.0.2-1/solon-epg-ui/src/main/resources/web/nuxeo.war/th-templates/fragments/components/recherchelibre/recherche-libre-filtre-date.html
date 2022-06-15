@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="rechercheLibreFiltreDate(id, btnText, dateSpanText, dateStartSpanId, dateEndSpanId, dateInputId, dateStartValue, dateEndValue)"
+            class="accordion"
+        >
+            <button
+                type="button"
+                th:aria-controls="|content-${id}|"
+                th:aria-expanded="${#strings.isEmpty(dateStartValue) ? false : true}"
+                id="accordion__header__filters-accordion-publish"
+                th:id="|btn-${id}|"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+                class="accordion__header js-toggle accordion__header--default"
+            >
+                <span th:text="${#messages.msg(btnText)}"></span>
+                <span
+                    aria-hidden="true"
+                    class="icon accordion__icon accordion__icon--default"
+                    th:classappend="${#strings.isEmpty(dateStartValue) ? 'icon--add' : 'icon--substract'}"
+                >
+                </span>
+            </button>
+            <!---->
+            <div
+                aria-hidden="true"
+                th:id="|content-${id}|"
+                class="accordion__content accordion__content--accordion--default"
+                th:classappend="${not #strings.isEmpty(dateStartValue) ? 'accordion__content--is-opened' : ''}"
+            >
+                <div
+                    th:replace="fragments/components/date-picker-top-bottom :: datePickerTopBottom(
+                        ${dateSpanText},
+                        ${dateStartSpanId},
+                        ${dateEndSpanId},
+                        ${dateInputId},
+                        ${#calendars.format(dateStartValue, 'dd/MM/yyyy')},
+                        ${#calendars.format(dateEndValue, 'dd/MM/yyyy')})"
+                ></div>
+            </div>
+            <!---->
+        </div>
+    </body>
+</html>

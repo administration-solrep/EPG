@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!--
+  Ce composant contribue le service des corbeilles de l'application SOLON MGPP.
+-->
+<component name="fr.dila.solonmgpp.core.service.CorbeilleService">
+  <implementation class="fr.dila.solonmgpp.core.service.CorbeilleServiceImpl" />
+
+  <service>
+    <provide interface="fr.dila.solonmgpp.api.service.CorbeilleService" />
+  </service>
+  
+  <extension-point name="corbeille">
+    <documentation>
+      Cette extension permet de déclarer les schemas des corbeilles.
+      
+      Exemple de déclaration:
+      
+      <code>  
+        <corbeille name="SECTION_GOUVERNEMENT_PROCEDURE_LEGISLATIVE" action="mgpp_procedureLegislative">
+            <corbeilleNode
+                        type="CORBEILLE"
+                        name="CORBEILLE_GOUVERNEMET_PROC_LEG_HISTORIQUE"
+                        label="Historique"
+                        description="Regroupe les messages des évènements reçus ou émis, à l'état traité depuis moins d'un temps configurable"
+                    />
+        </corbeille>
+      </code>
+    </documentation>
+
+    <object class="fr.dila.solonmgpp.core.descriptor.CorbeilleDescriptor" />
+  </extension-point>
+</component>

@@ -1,0 +1,44 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='page-solon-pan-master-table', description='Pilotage de lactivité normative', title=#{menu.suivi.pan.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content" th:with="tableCaption=${titre}">
+        <h1 class="m-b-10 base-title base-title--lvl-1" th:text="#{menu.suivi.pan.title}">
+            Pilotage de l'activité normative
+        </h1>
+
+        <div class="heading-complex">
+            <div class="heading-complex__main">
+                <h2
+                    class="heading-complex__title base-title base-title--lvl-2"
+                    th:text="|${#messages.msgOrNull('menu.suivi.pan.'+currentSection+'.title') != null ? #messages.msg('menu.suivi.pan.'+currentSection+'.title'):#messages.msg('menu.suivi.pan.title')}|"
+                >
+                    Application des lois
+                </h2>
+            </div>
+        </div>
+
+        <div id="pan-content" th:with="tooltipPlacement='right'">
+            <input type="hidden" id="currentSection" th:value="${currentSection}" />
+            <input type="hidden" id="currentPanTab" th:value="${currentPanTab}" />
+            <input type="hidden" id="panContext" th:value="${panContext}" />
+            <input type="hidden" id="idContextuel" th:value="${idContextuel}" />
+
+            <div class="m-t-5">
+                <div th:replace="fragments/pan/panTabs :: panTabs(${myPanTabs},'pan-onglet', null)"></div>
+            </div>
+
+            <div id="blocContextuel">
+                <th:block th:unless="${panContext=='dossier'}">
+                    <div th:replace="fragments/pan/panContextualBlock :: panContextualBlock"></div>
+                </th:block>
+                <th:block th:if="${panContext=='dossier'}">
+                    <div th:replace="fragments/dossier/consult-content :: consult-content"></div>
+                </th:block>
+            </div>
+        </div>
+    </main>
+</html>

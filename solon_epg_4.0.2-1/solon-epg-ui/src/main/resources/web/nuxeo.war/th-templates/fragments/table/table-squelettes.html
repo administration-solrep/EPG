@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="table-squelettes()"
+            class="tableForm"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="listeSquelettes"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">[[#{layout.loading}]]</div>
+
+            <h2 class="m-t-8 m-b-6 base-title base-title--lvl-2" th:text="#{admin.squelettes.caption}"></h2>
+
+            <th:block th:if="${#lists.isEmpty(resultList.listeSquelettes)}">
+                <br />
+                <h2
+                    class="search-result-form__subtitle base-title base-title--lvl-3"
+                    th:text="#{admin.squelettes.aucun}"
+                >
+                    Aucun squelette à afficher
+                </h2>
+            </th:block>
+
+            <h3
+                th:unless="${#lists.isEmpty(resultList.listeSquelettes)}"
+                class="m-y-6 p-b-2 base-title base-title--lvl-3 base-title--is-underlined"
+                th:text="#{admin.squelette.resultats.nombre(${nbResults})}"
+            ></h3>
+
+            <th:block th:unless="${!resultList.hasPagination || resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'squelettes_haut')"
+                ></div>
+            </th:block>
+
+            <th:block th:unless="${#lists.isEmpty(resultList.listeSquelettes)}">
+                <a href="#skip_link_action-table_prev" id="skip_link_action-table_next" class="skip-link"
+                    >[[ #{skip.link.table.prev(#{admin.squelettes.caption})} ]]</a
+                >
+                <div class="table-action">
+                    <div class="table-action__action-container table-action__action-container--right">
+                        <th:block
+                            th:unless="${!resultList.hasPagination || resultList.listeSquelettes.size == resultList.nbTotal}"
+                        >
+                            <div
+                                th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page}, 'squelettes_haut', ${resultList.nbTotal})"
+                            ></div>
+                        </th:block>
+                        <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                            <div th:replace="fragments/table/multipleSortIcon :: multipleSortIcon()"></div>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <caption class="sr-only" th:text="#{admin.squelettes.table.caption}">
+                            Tableau des squelettes de feuilles de route
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th:block th:each="colonne : ${lstColonnes}">
+                                    <th:block th:if="${colonne.visible && colonne.sortable}">
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell table-header__cell--with-filter-action"
+                                            th:aria-sort="${colonne.sortValue == 'asc' ? 'ascending' : (colonne.sortValue== 'desc' ? 'descending' : '')}"
+                                            th:with="order=${colonne.sortOrder}"
+                                        >
+                                            <button
+                                                th:replace="fragments/table/sortableHeader :: sortableHeader (#{__${colonne.label}__},${colonne.sortValue},${colonne.sortName},${colonne.sortId},${colonne.inverseSort})"
+                                            ></button>
+                                        </th>
+                                    </th:block>
+
+                                    <th:block th:if="${colonne.visible && !colonne.sortable}">
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell"
+                                            th:if="${colonne.isLabelVisible}"
+                                            th:text="${colonne.label !=null? #messages.msg(colonne.label) : ''}"
+                                        >
+                                            Label
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell"
+                                            th:unless="${colonne.isLabelVisible}"
+                                        >
+                                            <span class="sr-only" th:text="#{__${colonne.label}__}">Label</span>
+                                        </th>
+                                    </th:block>
+                                </th:block>
+                            </tr>
+                        </thead>
+                        <tbody class="custom-table__body">
+                            <th:block th:unless="${#lists.isEmpty(resultList.listeSquelettes)}">
+                                <tr
+                                    class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                                    th:each="item, nb : ${resultList.listeSquelettes}"
+                                    th:data-id="${item.id}"
+                                >
+                                    <th:block th:each="colonne : ${lstColonnes}">
+                                        <td
+                                            th:if="${#strings.equals('modeleFDR.content.header.etat', colonne.label)}"
+                                            class="table-line__cell"
+                                        >
+                                            <th:block th:each="statut : ${statutSquelette}">
+                                                <div
+                                                    th:if="${item.etat eq statut.name}"
+                                                    th:data-tippy-content="#{${statut.value}}"
+                                                    tabindex="0"
+                                                    class="base-tooltip js-tooltip"
+                                                >
+                                                    <span
+                                                        aria-hidden="true"
+                                                        class="table-line__icon icon icon--v-align base-btn--icon-action-blue"
+                                                        th:classappend="${statut.icon}"
+                                                    ></span>
+                                                    <span class="sr-only" th:text="#{${statut.value}}">Statut</span>
+                                                </div>
+                                            </th:block>
+                                        </td>
+                                        <td
+                                            th:if="${#strings.equals('modeleFDR.content.header.intitule', colonne.label)}"
+                                            class="table-line__cell"
+                                        >
+                                            <a
+                                                th:href="@{|/admin/fdr/squelette/modification?id=${item.id}#main_content|}"
+                                                class="link"
+                                                th:text="${item.intitule}"
+                                                >intitule</a
+                                            >
+                                        </td>
+                                        <td
+                                            class="table-line__cell"
+                                            th:if="${#strings.equals('modeleFDR.content.header.typeActe', colonne.label)}"
+                                            th:text="${item.typeActe}"
+                                        ></td>
+                                        <td
+                                            th:if="${#strings.equals('modeleFDR.content.header.auteur', colonne.label)}"
+                                            class="table-line__cell"
+                                            th:text="${item.auteur}"
+                                        ></td>
+                                        <td
+                                            th:if="${#strings.equals('modeleFDR.content.header.derniereModif', colonne.label)}"
+                                            class="table-line__cell"
+                                            th:text="${item.derniereModif}"
+                                        ></td>
+                                        <td
+                                            th:if="${#strings.equals('header.label.actions', colonne.label)}"
+                                            class="table-line__cell"
+                                        >
+                                            <div class="table-line__action-column-container">
+                                                <th:block
+                                                    th:if="${not #lists.isEmpty(item.actions)}"
+                                                    th:with="dropdownRight=true"
+                                                >
+                                                    <div
+                                                        th:replace="fragments/components/dropdown-action :: dropdown-action(
+                                                            'squelettes-action',
+                                                            ${item.actions},
+                                                            'icon--ellipsis',
+                                                            false,
+                                                            'dossier.divers.dropdown.tooltip',
+                                                            'base-btn--transparent base-btn--light base-btn--md-icon',
+                                                            false,
+                                                            'base-drop-down--light'
+                                                            )"
+                                                    ></div>
+                                                </th:block>
+                                            </div>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${#lists.isEmpty(resultList.listeSquelettes)}">
+                                <td colspan="5" th:text="#{label.fdr.nombre(0)}">Aucun résultat</td>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-action">
+                    <div class="table-action__action-container table-action__action-container--right">
+                        <th:block
+                            th:unless="${!resultList.hasPagination || resultList.listeSquelettes.size == resultList.nbTotal}"
+                        >
+                            <div
+                                th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page}, 'squelettes_bas', ${resultList.nbTotal})"
+                            ></div>
+                        </th:block>
+                        <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                            <div th:replace="fragments/table/multipleSortIcon :: multipleSortIcon()"></div>
+                        </th:block>
+                    </div>
+                </div>
+                <a href="#skip_link_action-table_next" id="skip_link_action-table_prev" class="skip-link"
+                    >[[ #{skip.link.table.next(#{admin.squelettes.caption})} ]]</a
+                >
+            </th:block>
+
+            <!-- Modale tri multiple-->
+            <div
+                th:replace="fragments/table/multipleSort :: multipleSort(${lstSortedColonnes}, ${lstSortableColonnes})"
+            ></div>
+        </div>
+    </body>
+</html>

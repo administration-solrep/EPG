@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="datePickerTopBottom(spanText, startSpanId, endSpanId, inputId, startValue, endValue)"
+            th:with="dateDebutId='dateDebut-' + ${inputId}, dateFinId='dateFin-' + ${inputId}"
+            class="form-input form-date-interval"
+        >
+            <div class="form-input__header">
+                <div class="form-input__header-top">
+                    <label th:for="|${inputId}-debut|" th:id="|${inputId}_label|" class="form-label">
+                        <span th:text="${#messages.msg(spanText)}">Texte lu par le lecteur d'écran</span>
+                        <!---->
+                    </label>
+                    <div class="form-input__icon-group"></div>
+                </div>
+                <div class="form-input__header-bottom"></div>
+            </div>
+            <fieldset class="form-date-interval__fieldset">
+                <legend class="sr-only" th:text="#{label.datepicker.sronly}"></legend>
+                <div class="form-input__container">
+                    <div
+                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+	                        ${startSpanId},
+	                        ${dateDebutId},
+	                        ${dateDebutId},
+	                        false,
+	                        ${startValue},
+	                        false)"
+                    ></div>
+                </div>
+                <div class="form-input__container">
+                    <div
+                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+	                        spanId=${endSpanId},
+	                        inputName=${dateFinId},
+	                        inputId=${dateFinId},
+	                        required=true,
+	                        value=${endValue},
+	                        disabled=false,
+	                        additionalValidation=|, date_inferior_to(${dateDebutId})|)"
+                    ></div>
+                </div>
+            </fieldset>
+            <div th:id="|date-${inputId}_description|" class="form-input__footer">
+                <!---->
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='favoris de recherche', title=${favoriRecherche.intitule} + ' - ' + #{recherche.favoris.resultats.nombre(${nbResults})})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div class="page-layout__content-nav is-below">
+            <a
+                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered"
+                th:text="#{button.label.back}"
+                th:href="@{|/recherche/favoris/liste#main_content|}"
+            >
+                Retour
+            </a>
+        </div>
+        <div class="page-reponses__table">
+            <div class="page-reponses__table-heading m-b-6">
+                <h1 class="page-reponses__table-heading__base-title base-title base-title--lvl-1">
+                    <th:block th:text="${favoriRecherche.intitule}"></th:block>
+                    <span
+                        class="base-paragraph page-reponses__folders-number"
+                        th:text="| - #{recherche.favoris.resultats.nombre(${nbResults})}|"
+                        >20 résultat(s) trouvé(s)</span
+                    >
+                </h1>
+            </div>
+        </div>
+        <th:block th:if="${estDossier}">
+            <div th:replace="fragments/table/tableDossiers :: searchResults"></div>
+        </th:block>
+        <th:block
+            th:if="${estMfdr}"
+            th:with="tableCaption=#{admin.modele.rechercher.resultats.title}+' - '+#{admin.modele.rechercher.resultats.nombre(${nbResults})}"
+        >
+            <div th:replace="fragments/table/tableModelesFDR :: searchResults(${tableCaption})"></div>
+        </th:block>
+        <th:block
+            th:if="${estUtilisateur}"
+            th:with="tableCaption=#{admin.modele.rechercher.resultats.title}+' - '+#{admin.modele.rechercher.resultats.nombre(${nbResults})}"
+        >
+            <div th:replace="fragments/table/tableUsers :: searchResults (true, false)"></div>
+        </th:block>
+        <th:block th:unless="${estDossier or estMfdr or estUtilisateur}">
+            <div th:replace="fragments/components/favoriInconnu :: favoriInconu"></div>
+        </th:block>
+        <div class="page-layout__content-nav is-below m-t-6">
+            <a
+                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered"
+                th:text="#{button.label.back}"
+                th:href="@{|/recherche/favoris/liste#main_content|}"
+            >
+                Retour
+            </a>
+        </div>
+    </main>
+</html>

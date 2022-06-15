@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="fileInput(label, id, name, isMulti, acceptedFileTypes, required, fileName)">
+            <!--/* composant multi file en mode modification */-->
+            <p class="form-label">
+                <th:block th:text="#{dossier.traitement.papier.ampliation.ajouter}"></th:block>
+                <span class="form-label__required-text" th:text="#{form.input.required}">(requis)</span>
+            </p>
+            <div class="blcPjViergeAdd">
+                <div class="form-input labellised-list__description">
+                    <a
+                        class="base-drop-down__link link js-interstitial-trigger"
+                        aria-haspopup="dialog"
+                        th:data-controls="modal-ampliation"
+                        href="#"
+                    >
+                        <span class="base-drop-down__link-icon icon icon--add" aria-hidden="true"></span>
+                        <th:block th:text="#{pieceJointe.label.ajoutFichier}">Ajouter fichier</th:block>
+                    </a>
+                    <ul class="list-item-file-ampliation">
+                        <th:block th:if="${fileName != null}">
+                            <li>
+                                <a onclick="downloadAmpliationFile()" th:download="${fileName}" th:text="${fileName}"
+                                    >file name</a
+                                >
+                                <button
+                                    type="button"
+                                    th:attr="onclick=|$(this).closest('li').remove()|"
+                                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent btnAddPieceJointe"
+                                    th:aria-label="|#{pieceJointe.tooltip.supprimer.fichier} ${fileName}|"
+                                    th:data-tippy-content="|#{pieceJointe.tooltip.supprimer.fichier} ${fileName}|"
+                                >
+                                    <span
+                                        aria-hidden="true"
+                                        class="icon icon--bin link__icon link__icon--append"
+                                    ></span>
+                                </button>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </th:block>
+    </body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block
+            th:fragment="transpositionApplication(bordereauDto)"
+            th:with="dto=${bordereauDto.transpositionApplication}"
+        >
+            <th:block th:unless="${bordereauDto.isEdit && !isNorAttribue}">
+                <div class="folder-detail m-t-3" th:if="${bordereauDto.acteVisibility['TranspositionDirective']}">
+                    <h3 class="folder-detail__title-label" th:text="#{dossier.bordereau.application.directives}">
+                        Application des directives
+                    </h3>
+                    <table
+                        role="presentation"
+                        class="folder-detail__table"
+                        th:each="directive : ${dto.transpositionDirectives}"
+                    >
+                        <tbody>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.annee}, ${directive.annee})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.reference}, ${directive.reference})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.titre}, ${directive.titre})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.article}, ${directive.numeroArticle})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.commentaire}, ${directive.commentaire})"
+                            ></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div
+                    class="folder-detail m-t-6"
+                    th:if="${bordereauDto.acteVisibility['ApplicationLoi'] or bordereauDto.acteVisibility['TranspositionOrdonnance']}"
+                >
+                    <h3 class="folder-detail__title-label" th:text="#{dossier.bordereau.application.lois.ordonnances}">
+                        Application des lois ou ordonnance
+                    </h3>
+                    <table
+                        role="presentation"
+                        class="folder-detail__table"
+                        th:each="loiOrdonnance : ${dto.applicationLoisOrdonnances}"
+                    >
+                        <tbody>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.reference}, ${loiOrdonnance.reference})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.titre}, ${loiOrdonnance.titre})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.ordre}, ${loiOrdonnance.numeroOrdre})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.article}, ${loiOrdonnance.numeroArticle})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.commentaire}, ${loiOrdonnance.commentaire})"
+                            ></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="folder-detail m-t-6" th:if="${bordereauDto.acteVisibility['Habilitation']}">
+                    <h3 class="folder-detail__title-label" th:text="#{dossier.bordereau.disposition.habilitation}">
+                        Disposition d'habilitation
+                    </h3>
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.reference.loi}, ${dto.referenceLoiHabilitation})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.article}, ${dto.numeroArticleHabilitation})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.commentaire}, ${dto.commentaireHabilitation})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.ordre}, ${dto.numeroOrdreHabilitation})"
+                            ></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <th:block th:if="${bordereauDto.isEdit && !isNorAttribue}">
+                <div role="group" aria-labelledby="accordion__header__epgBordereauTranspositionApplication">
+                    <th:block th:if="${bordereauDto.acteVisibility['TranspositionDirective']}">
+                        <div class="grid__row p-t-6">
+                            <p
+                                class="base-subtitle base-subtitle--secondary"
+                                id="epgBordereauTranspositionApplication__titleDir"
+                                th:text="#{dossier.bordereau.application.directives}"
+                            >
+                                Application des directives
+                            </p>
+                        </div>
+                        <div
+                            role="group"
+                            class="add-directive"
+                            id="add-directive"
+                            aria-labelledby="epgBordereauTranspositionApplication__titleDir"
+                        >
+                            <div
+                                th:replace="fragments/dossier/onglets/bordereau/application-directive :: applicationDirective(${new fr.dila.solonepg.ui.bean.dossier.bordereau.TranspositionApplicationDetailDTO()}, 'ajout')"
+                            ></div>
+                            <div class="grid_row">
+                                <button
+                                    type="button"
+                                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--uppercased"
+                                    onclick="addTranspositionDirective()"
+                                    id="transposition-directive-add-button"
+                                >
+                                    <span
+                                        aria-hidden="true"
+                                        class="base-btn__icon base-btn__icon--vertical-center base-btn__icon--left icon icon--plus"
+                                    ></span>
+                                    [[#{dossier.bordereau.ajouter.directive}]]
+                                </button>
+                            </div>
+                        </div>
+                        <th:block th:each="directive, status : ${dto.transpositionDirectives}">
+                            <div
+                                th:replace="fragments/dossier/onglets/bordereau/application-directive-element :: applicationDirectiveElement(${directive}, ${status.index})"
+                            ></div>
+                        </th:block>
+                    </th:block>
+
+                    <th:block
+                        th:if="${bordereauDto.acteVisibility['ApplicationLoi'] or bordereauDto.acteVisibility['TranspositionOrdonnance']}"
+                    >
+                        <div class="grid__row p-t-6">
+                            <p
+                                class="base-subtitle base-subtitle--secondary"
+                                id="epgBordereauTranspositionApplication__titleLaw"
+                                th:text="#{dossier.bordereau.application.lois.ordonnances}"
+                            >
+                                Application des lois ou ordonnance
+                            </p>
+                        </div>
+                        <div
+                            role="group"
+                            id="add-loi-ordonnance"
+                            aria-labelledby="epgBordereauTranspositionApplication__titleLaw"
+                        >
+                            <div
+                                th:replace="fragments/dossier/onglets/bordereau/application-loi-ordonnance :: applicationLoiOrdonnance(${new fr.dila.solonepg.ui.bean.dossier.bordereau.TranspositionApplicationDetailDTO()}, 'ajout')"
+                            ></div>
+                            <div class="grid_row">
+                                <button
+                                    type="button"
+                                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--uppercased"
+                                    onclick="addApplicationLoiOrdonnance()"
+                                    id="transposition-loi-ordonnance-add-button"
+                                >
+                                    <span
+                                        aria-hidden="true"
+                                        class="base-btn__icon base-btn__icon--vertical-center base-btn__icon--left icon icon--plus"
+                                    ></span>
+                                    [[#{dossier.bordereau.ajouter.loi.ordonnance}]]
+                                </button>
+                            </div>
+                        </div>
+                        <th:block th:each="loiOrdonnance, status : ${dto.applicationLoisOrdonnances}">
+                            <div
+                                th:replace="fragments/dossier/onglets/bordereau/application-loi-ordonnance-element :: applicationLoiOrdonnanceElement(${loiOrdonnance}, ${status.index})"
+                            ></div>
+                        </th:block>
+                    </th:block>
+
+                    <th:block th:if="${bordereauDto.acteVisibility['Habilitation']}">
+                        <fieldset class="bordereauFieldset">
+                            <div class="grid__row p-t-6">
+                                <p
+                                    class="base-subtitle base-subtitle--secondary"
+                                    id="epgBordereauTranspositionApplication__titleHabilitation"
+                                    th:text="#{dossier.bordereau.disposition.habilitation}"
+                                >
+                                    Disposition d'habilitation
+                                </p>
+                            </div>
+                            <div class="grid__row p-t-3 p-b-3">
+                                <div class="grid__col grid__col--middle form-input">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.reference.loi}, false, '', 'referenceLoiHabilitation', 'referenceLoiHabilitation', ${dto.referenceLoiHabilitation}, false)"
+                                    ></div>
+                                </div>
+                                <div class="grid__col grid__col--middle form-input">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.article}, false, '', 'numeroArticleHabilitation', 'numeroArticleHabilitation', ${dto.numeroArticleHabilitation}, false)"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div class="grid__row p-t-3 p-b-3">
+                                <div class="grid__col grid__col--middle form-input">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.commentaire}, false, '', 'commentaireHabilitation', 'commentaireHabilitation', ${dto.commentaireHabilitation}, false)"
+                                    ></div>
+                                </div>
+                                <div class="grid__col grid__col--middle form-input" th:with="validation ='integer'">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.ordre}, false, '', 'numeroOrdreHabilitation', 'numeroOrdreHabilitation', ${dto.numeroOrdreHabilitation}, false)"
+                                    ></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </th:block>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

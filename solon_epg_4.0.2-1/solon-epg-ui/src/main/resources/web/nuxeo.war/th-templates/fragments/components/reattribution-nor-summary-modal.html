@@ -1,0 +1,130 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="reattribution-nor-summary-modal" class="interstitial-overlay__content">
+            <div
+                class="interstitial"
+                role="dialog"
+                th:aria-labelledby="#{outilSelection.action.reattribution.dossier}"
+                style="position: relative;"
+            >
+                <div class="interstitial__header">
+                    <h1
+                        class="interstitial__title"
+                        th:text="|#{outilSelection.action.reattribution.dossier} #{outilSelection.modal.summary.step}|"
+                    ></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{validation.popup.close.label}"
+                            >Fermer la fenêtre de dialogue</span
+                        >
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <input type="hidden" id="ministere-reattribution" th:value="${ministere}" />
+                    <input type="hidden" id="direction-reattribution" th:value="${direction}" />
+                    <div
+                        class="m-b-8"
+                        th:unless="${reattributionList.hasNoError}"
+                        th:with="nonReattribuables=${reattributionList.nonReattribuables}, rectificatifs=${reattributionList.rectificatifs}, reattribuables=${reattributionList.reattribuables}"
+                    >
+                        <div
+                            th:if="${nonReattribuables != null && !#lists.isEmpty(nonReattribuables)}"
+                            class="alert-modal alert--warning"
+                        >
+                            <div role="alert" class="alerts--flex">
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--information bubble-icon alert__icon alert__icon--warning"
+                                ></span>
+                                <span class="sr-only" th:text="#{corbeille.communication.alerte}">Alerte</span>
+                                <div>
+                                    <p th:text="#{outilSelection.reattribution.ignored}">
+                                        Les dossiers suivants ne peuvent être réattribués, ils seront ignorés :
+                                    </p>
+                                    <ul>
+                                        <li th:each="dossier : ${nonReattribuables}">
+                                            <strong>
+                                                <th:block
+                                                    th:replace="fragments/components/idComponent :: id('non-reattribuable-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                                ></th:block>
+                                            </strong>
+                                            <em th:if="${dossier.label}" th:text="|(${dossier.label})|">(Raison)</em>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${rectificatifs != null && !#lists.isEmpty(rectificatifs)}" class="m-t-6 text-red">
+                            <p>
+                                <strong th:text="#{outilSelection.reattribution.rectificatifs}"
+                                    >Les dossiers suivants sont des rectificatifs, ils seront réattribués à l'étape
+                                    suivante
+                                </strong>
+                            </p>
+                            <ul>
+                                <li th:each="dossier : ${rectificatifs}">
+                                    <strong>
+                                        <th:block
+                                            th:replace="fragments/components/idComponent :: id('rectificatifs-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                        ></th:block>
+                                    </strong>
+                                    <em th:if="${dossier.label}" th:text="|(${dossier.label})|">(Titre de l'acte)</em>
+                                </li>
+                            </ul>
+                        </div>
+                        <div
+                            th:if="${reattribuables != null && !#lists.isEmpty(reattribuables)}"
+                            class="m-t-6 text-red"
+                        >
+                            <p>
+                                <strong th:text="#{outilSelection.reattribution.modal.warn}"
+                                    >Après l'étape suivante, ces dossiers seront réattribués :
+                                </strong>
+                            </p>
+                            <ul>
+                                <li th:each="dossier : ${reattribuables}">
+                                    <strong>
+                                        <th:block
+                                            th:replace="fragments/components/idComponent :: id('reattribuable-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                        ></th:block>
+                                    </strong>
+                                    <em th:if="${dossier.label}" th:text="|(${dossier.label})|">(Titre de l'acte)</em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="m-b-8"
+                        th:if="${reattributionList.hasNoError}"
+                        th:text="#{outilSelection.reattribation.modal.confirm}"
+                    >
+                        Etes-vous sûr de vouloir réattribuer tous les dossiers sélectionnés ?
+                    </div>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        th:text="#{button.label.cancel}"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        onclick="closeReattributionModal(event)"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        type="button"
+                        id="btn-valider-reattribution-nor"
+                        th:text="#{outilSelection.action.reattribuer.button}"
+                        class="base-btn base-btn--button base-btn--default base-btn--center interstitial__close"
+                        onclick="doReattributionDossiers()"
+                    >
+                        Réattribuer
+                    </button>
+                </div>
+            </div>
+            <div tabindex="0" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

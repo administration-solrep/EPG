@@ -1,0 +1,118 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Page de paramètres d\'indexation', title=#{param.indexation.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <!-- Modal de confirmation de suppression document -->
+        <div th:replace="fragments/components/modal-ajout-liste-mots-cles :: modal-ajout-liste-mots-cles"></div>
+
+        <form>
+            <h1 class="m-b-6 base-title base-title--lvl-1" th:text="#{param.indexation.title}">
+                Paramètres de l'indexation
+            </h1>
+            <th:block th:if="${isAdminFonctionnel}">
+                <h2
+                    class="m-b-6 base-title base-title--lvl-2"
+                    id="form-subtitle"
+                    th:text="#{param.indexation.rubriques}"
+                >
+                    Rubriques
+                </h2>
+                <div role="group" aria-labelledby="form-subtitle" class="grid__row">
+                    <div class="grid__col m-b-6">
+                        <th:block
+                            th:replace="fragments/components/input-list :: input-list('param.indexation.rubriques', 'rubriques', 'param.indexation.rubriques.ajouter', ${rubriquesList}, ${addAction})"
+                        ></th:block>
+                    </div>
+                </div>
+            </th:block>
+            <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{param.indexation.motsCles}">Mots clés</h2>
+            <div class="flexible-table">
+                <a
+                    data-v-3e3eb98d=""
+                    href="#skip_link_flexible-table_prev"
+                    id="skip_link_flexible-table_next"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{param.indexation.motsCles.table})}"
+                >
+                    Passer le tableau pour arriver après</a
+                >
+                <div class="table-action m-b-4">
+                    <div class="table-action__action-container">
+                        <div class="table-action__group">
+                            <button
+                                th:replace="fragments/components/action-button-fixed  :: action-button-fixed(${createListAction}, false, '')"
+                            ></button>
+                        </div>
+                    </div>
+                </div>
+                <th:block th:if="${#lists.isEmpty(motsClesList)}">
+                    <p th:text="#{param.indexation.motsCles.liste.empty}">Aucune liste</p>
+                </th:block>
+                <th:block th:if="${not #lists.isEmpty(motsClesList)}">
+                    <div class="table-wrapper">
+                        <table class="custom-table">
+                            <caption class="sr-only" th:text="#{param.indexation.motsCles}">
+                                Mots-clés
+                            </caption>
+                            <thead class="table-header custom-table__header">
+                                <tr class="table-header__line">
+                                    <th scope="col" class="table-header__cell">
+                                        <span th:text="#{param.indexation.motsCles.liste}">Liste</span>
+                                    </th>
+                                    <th scope="col" class="table-header__cell table-header__cell--small">
+                                        <span class="sr-only" th:text="#{header.label.actions}">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body custom-table__body">
+                                <tr class="table-line custom-table__table-line" th:each="item : ${motsClesList}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content">
+                                            <a
+                                                class="link"
+                                                th:href="@{|/admin/param/indexation/liste/${item.id}#main_content|}"
+                                                th:text="${item.label}"
+                                            >
+                                                Liste
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td class="table-line__cell table-line__cell--small">
+                                        <span class="text-no-wrap">
+                                            <th:block th:each="action : ${item.generalesActions}">
+                                                <div
+                                                    th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                                                ></div>
+                                            </th:block>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </th:block>
+                <div class="table-action m-b-4">
+                    <div class="table-action__action-container">
+                        <div class="table-action__group">
+                            <button
+                                th:replace="fragments/components/action-button-fixed  :: action-button-fixed(${createListAction}, false, '')"
+                            ></button>
+                        </div>
+                    </div>
+                </div>
+                <a
+                    href="#skip_link_flexible-table_next"
+                    id="skip_link_flexible-table_prev"
+                    class="skip-link"
+                    th:text="#{skip.link.table.next(#{param.indexation.motsCles.table})}"
+                >
+                    Passer le tableau pour arriver avant</a
+                >
+            </div>
+        </form>
+    </main>
+</html>

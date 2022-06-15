@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="applicationDirective(directive, index)">
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="grid__col grid__col--middle form-input" th:with="validation ='date_year_format(yyyy)'">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.annee}, true, #{dossier.bordereau.annee.tip}, 'annee-directive_' + ${index}, 'annee', ${directive.annee}, false)"
+                    ></div>
+                </div>
+                <div class="grid__col grid__col--middle form-input" th:with="validation ='integer'">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.reference}, true, #{dossier.bordereau.reference.directive.tip}, 'reference-directive_' + ${index}, 'reference', ${directive.reference}, false)"
+                    ></div>
+                </div>
+            </div>
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="grid__col grid__col--full-width form-input">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.titre}, false, '', 'titre-directive_' + ${index}, 'titre', ${directive.titre}, false)"
+                    ></div>
+                </div>
+            </div>
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="grid__col grid__col--middle form-input">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.article}, false, '', 'numeroArticle-directive_' + ${index}, 'numeroArticle', ${directive.numeroArticle}, false)"
+                    ></div>
+                </div>
+                <div class="grid__col grid__col--middle form-input">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.commentaire}, false, '', 'commentaire-directive_' + ${index}, 'commentaire', ${directive.commentaire}, false)"
+                    ></div>
+                </div>
+            </div>
+            <input type="hidden" name="type" value="DIR" />
+        </th:block>
+    </body>
+</html>

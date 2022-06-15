@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="table-consult-traitement-papier-liste(isChecked)">
+            <div class="table-wrapper">
+                <input type="hidden" id="idListeTraitementListe" th:value="${resultList.idListe}" />
+                <table class="tableForm custom-table" id="tableListeSignatureModal">
+                    <caption class="sr-only" th:text="${caption}">
+                        Tableau des listes
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th scope="col" class="table-header__cell table-header__cell--check">
+                                <div class="form-choice-input">
+                                    <input
+                                        type="checkbox"
+                                        id="table-consult-traitement-papier-liste-selectAllDossier"
+                                        name="table-consult-traitement-papier-liste-selectAllDossier"
+                                        th:onclick="${isChecked} ? 'selectAllCheckBoxWithoutAction(this);' : 'selectAllCheckBox(this);'"
+                                        class="form-choice-input__input js-custom-table-header-check"
+                                        th:attrappend="checked=${isChecked} ? checked"
+                                        autocomplete="off"
+                                    />
+                                    <label
+                                        id="table-consult-traitement-papier-liste-selectAllDossier_label"
+                                        for="table-consult-traitement-papier-liste-selectAllDossier"
+                                        th:data-select-label="#{liste.dossier.selectAll}"
+                                        th:data-deselect-label="#{liste.dossier.deselectAll}"
+                                        class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        th:title="#{liste.dossier.selectAll}"
+                                    >
+                                        <span>[[#{liste.dossier.selectAll}]]</span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th:block th:each="colonne : ${resultList.getListeColonnes()}">
+                                <th scope="col" class="table-header__cell">
+                                    <span th:text="#{__${colonne.label}__}"></span>
+                                </th>
+                            </th:block>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body custom-table__body">
+                        <th:block th:if="${resultList.liste.size > 0}">
+                            <tr
+                                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                                th:each="item : ${resultList.liste}"
+                                th:data-id="${item.id}"
+                            >
+                                <td class="table-line__cell table-line__cell--check">
+                                    <div class="form-choice-input">
+                                        <input
+                                            type="checkbox"
+                                            th:id="|table-consult-traitement-papier-liste-select-${item.id}|"
+                                            th:name="|table-consult-traitement-papier-liste-select-${item.id}|"
+                                            th:onclick="${isChecked} ? 'selectTableCheckboxWithoutAction(this)' : 'selectTableCheckbox(this)'"
+                                            class="form-choice-input__input js-custom-table-line-check"
+                                            th:attrappend="checked=${isChecked} ? checked"
+                                            autocomplete="off"
+                                        />
+                                        <label
+                                            th:for="|table-consult-traitement-papier-liste-select-${item.id}|"
+                                            th:title="#{traitement.papier.liste.selectOne(${item.nor})}"
+                                            th:data-select-label="#{traitement.papier.liste.selectOne(${item.nor})}"
+                                            th:data-deselect-label="#{traitement.papier.liste.deselectOne(${item.nor})}"
+                                            class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        >
+                                            <span th:text="#{traitement.papier.liste.selectOne(${item.nor})}"
+                                                >Sélectionner</span
+                                            >
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="table-line__cell" th:text="${item.intituleMin}"></td>
+                                <td class="table-line__cell">
+                                    <th:block th:if="${isChecked}">
+                                        <div
+                                            th:replace="fragments/components/idComponent :: id('btn-copy', ${item.nor}, 'numéro', null, true, true)"
+                                        ></div>
+                                    </th:block>
+
+                                    <th:block th:unless="${isChecked}">
+                                        <div
+                                            th:replace="fragments/components/idComponent :: id('btn-copy', ${item.nor}, 'NOR', @{|/dossier/${item.id}/document#main_content|}, false, true)"
+                                        ></div>
+                                    </th:block>
+                                </td>
+                                <td class="table-line__cell" th:text="${item.titreText}"></td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

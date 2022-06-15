@@ -1,0 +1,97 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Consultation d\'un squelette de feuille de route', title=${squeletteForm.intitule})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <input type="hidden" id="idSquelette" name="idSquelette" th:value="${squeletteForm.id}" />
+
+        <h1 class="base-title base-title--lvl-1 base-title--is-underlined" th:text="${squeletteForm.intitule}">
+            titre
+        </h1>
+
+        <div class="m-t-6">
+            <div class="row-actions__left">
+                <th:block th:each="action : ${modeleLeftActions}">
+                    <button
+                        th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, 'base-btn--bordered base-btn--light')"
+                    ></button>
+                </th:block>
+            </div>
+            <div class="row-actions__right">
+                <th:block th:each="action : ${modeleRightActions}">
+                    <button
+                        th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, ${action.type == 'secondary'?'base-btn--center base-btn--secondary':'base-btn--center'})"
+                    ></button>
+                </th:block>
+            </div>
+        </div>
+
+        <div class="m-t-6">
+            <table
+                role="presentation"
+                class="folder-detail__table"
+                th:unless="${squeletteForm.etat == 'BROUILLON' and squeletteForm.isLockByCurrentUser}"
+            >
+                <tbody>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.intitule}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${squeletteForm.intitule}"
+                        ></td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.typeActe}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${squeletteForm.typeActeLibelle}"
+                        ></td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.description}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${squeletteForm.description}"
+                        ></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="roadmap-table tableForm">
+            <div
+                th:unless="${#lists.isEmpty(squeletteForm.squeletteDto)}"
+                th:replace="fragments/fdr/tableFdr :: tableFdr(${squeletteForm.squeletteDto})"
+            ></div>
+        </div>
+        <div class="m-t-6">
+            <div class="row-actions__left" th:unless="${#lists.isEmpty(modeleLeftActions)}">
+                <th:block th:each="action : ${modeleLeftActions}">
+                    <button
+                        th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, 'base-btn--bordered base-btn--light')"
+                    ></button>
+                </th:block>
+            </div>
+            <div class="row-actions__right" th:unless="${#lists.isEmpty(modeleRightActions)}">
+                <th:block th:each="action : ${modeleRightActions}">
+                    <button
+                        th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, ${action.type == 'secondary'?'base-btn--center base-btn--secondary':'base-btn--center'})"
+                    ></button>
+                </th:block>
+            </div>
+        </div>
+    </main>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Création en masse des modèles', title=#{menu.admin.modele.creer.masse.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+
+        <h1
+            class="base-title base-title--lvl-1 base-title--is-underlined"
+            th:text="#{menu.admin.modele.creer.masse.title}"
+        >
+            titre
+        </h1>
+
+        <div class="m-t-6">
+            <form
+                id="createMassModeleForm"
+                th:action="@{/admin/fdr/modele/masse/creer}"
+                th:object="${createMassModeleForm}"
+                method="POST"
+                onsubmit="showLoaderOnFormSubmit(this)"
+            >
+                <div class="row-actions grid__row">
+                    <div class="row-actions__left">
+                        <button
+                            type="button"
+                            class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--bordered base-btn--light"
+                            onclick="reinitCreationMasseModelesForm()"
+                            th:text="#{admin.modele.masse.create.action.reinit}"
+                        >
+                            Réinitialiser
+                        </button>
+                    </div>
+                    <div class="row-actions__left">
+                        <input
+                            type="submit"
+                            class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--center"
+                            th:value="#{admin.modele.masse.create.action.creer}"
+                        />
+                    </div>
+                </div>
+
+                <input type="hidden" name="csrf-token" th:value="${csrftoken}" />
+                <div class="grid__row row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input" th:with="treeIconClass='epg'">
+                            <th:block
+                                th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+						           'admin.modele.masse.form.libelle.ministere',
+						           true,
+						           'ministere',
+						           'ministere',
+						           'MIN',
+						           ${createMassModeleForm.ministere},
+						           false,
+						           false,
+						           null,
+						           false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input" th:with="treeIconClass='epg'">
+                            <th:block
+                                th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+						           'admin.modele.masse.form.libelle.bdc',
+						           true,
+						           'bdc',
+						           'bdc',
+						           'PST',
+						           ${createMassModeleForm.bdc},
+						           false,
+						           false,
+						           null,
+						           false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input" th:with="treeIconClass='epg'">
+                            <th:block
+                                th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+						           'admin.modele.masse.form.libelle.charge.mission',
+						           true,
+						           'chargeMission',
+						           'chargeMission',
+						           'PST',
+						           ${createMassModeleForm.chargeMission},
+						           false,
+						           false,
+						           null,
+						           false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input" th:with="treeIconClass='epg'">
+                            <th:block
+                                th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+						           'admin.modele.masse.form.libelle.secretariat.cm',
+						           true,
+						           'secretariatCM',
+						           'secretariatCM',
+						           'PST',
+						           ${createMassModeleForm.secretariatCM},
+						           false,
+						           false,
+						           null,
+						           false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input" th:with="treeIconClass='epg'">
+                            <th:block
+                                th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+						           'admin.modele.masse.form.libelle.conseiller.pm',
+						           true,
+						           'conseillerPM',
+						           'conseillerPM',
+						           'PST',
+						           ${createMassModeleForm.conseillerPM},
+						           false,
+						           false,
+						           null,
+						           false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-actions grid__row">
+                    <div class="row-actions__left">
+                        <button
+                            type="button"
+                            class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--bordered base-btn--light"
+                            onclick="reinitCreationMasseModelesForm()"
+                            th:text="#{admin.modele.masse.create.action.reinit}"
+                        >
+                            Réinitialiser
+                        </button>
+                    </div>
+                    <div class="row-actions__left">
+                        <input
+                            type="submit"
+                            class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--center"
+                            th:value="#{admin.modele.masse.create.action.creer}"
+                        />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</html>

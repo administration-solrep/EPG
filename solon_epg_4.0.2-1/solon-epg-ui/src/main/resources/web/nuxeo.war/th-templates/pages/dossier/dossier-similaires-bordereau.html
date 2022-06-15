@@ -1,0 +1,27 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page des dossiers similaires', title=#{dossier.similaire.bordereau.titre})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <h1 class="m-b-10 base-title base-title--lvl-1" th:text="#{dossier.similaire.bordereau.titre}">
+            Dossier similaire
+        </h1>
+        <div class="page-layout__content-nav m-t-6">
+            <div
+                th:replace="fragments/components/bordereau-dossier-similaire-buttons :: bordereau-dossier-similaire-buttons('boutons-bordereau-dossier-similaire')"
+            ></div>
+            <input type="hidden" id="dossierSourceId" name="dossierSourceId" th:value="${dossierSourceId}" />
+
+            <div id="contentBordereauSimilaire">
+                <div th:replace="fragments/dossier/onglets/bordereau :: bordereau"></div>
+            </div>
+            <div
+                th:replace="fragments/components/bordereau-dossier-similaire-buttons :: bordereau-dossier-similaire-buttons('boutons-bordereau-dossier-similaire')"
+            ></div>
+        </div>
+    </main>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="corbeille()" id="leftMenuDossiersParlementaires" class="notif-reloadCache">
+            <div class="overlay" id="overlay_dossiersParlementaires" aria-live="polite">
+                <img width="29px" height="29px" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <div class="m-y-7">
+                <div class="m-b-5 form-select form-select--simple">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="dossiersParlementaires"
+                                    class="form-label"
+                                    label-as-id="true"
+                                    th:text="#{leftBLocks.corbeille.menu.select.title}"
+                                ></label>
+                            </div>
+                            <div class="form-input__header-bottom"></div>
+                        </div>
+                        <div class="form-input__container">
+                            <div class="form-select__field-wrapper">
+                                <div class="form-select-input">
+                                    <select
+                                        name="select-dossiers-parlementaires"
+                                        id="dossiersParlementaires"
+                                        class="form-select-input__field form-select-input__field--simple"
+                                    >
+                                        <th:block th:each="dosParl : ${dossiersParlementaires}">
+                                            <option
+                                                th:if="${dosParl.id}"
+                                                th:value="${dosParl.id}"
+                                                th:text="#{${dosParl.label}}"
+                                                th:selected="${dossiersParlementairesSelected} == ${dosParl.id}"
+                                            ></option>
+                                            <optgroup th:unless="${dosParl.id}" th:label="#{${dosParl.label}}">
+                                                <th:block th:each="subDosParl : ${dosParl.selectValues}">
+                                                    <option
+                                                        th:value="${subDosParl.id}"
+                                                        th:text="#{${subDosParl.label}}"
+                                                        th:selected="${dossiersParlementairesSelected} == ${subDosParl.id}"
+                                                    ></option>
+                                                </th:block>
+                                            </optgroup>
+                                        </th:block> </select
+                                    ><span aria-hidden="true" tabindex="-1"
+                                        ><span
+                                            aria-hidden="true"
+                                            class="form-select-input__arrow icon icon--arrow-bottom"
+                                        ></span
+                                    ></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dossiers_parlementaires_description" class="form-input__footer"></div>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    onclick="refreshCorbeille()"
+                    class="base-btn base-btn--button base-btn--default base-btn--center base-btn--full"
+                    th:text="#{button.label.valider}"
+                ></button>
+            </div>
+            <div class="m-b-7 accordion accordion--aside">
+                <div class="accordion__header accordion__header--action accordion__header--aside">
+                    <h2
+                        class="accordion-title-lvl-2 js-toggle-zerog"
+                        data-simulate="toggleMenuCorbeille"
+                        th:text="#{leftBLocks.corbeille.menu.title}"
+                    ></h2>
+                    <button
+                        class="js-toggle accordion__toggle"
+                        id="toggleMenuCorbeille"
+                        aria-expanded="true"
+                        aria-controls="accordion__content__trash"
+                        aria-label="Corbeilles"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract-without-background"
+                        data-icon-closed="add-without-background"
+                    >
+                        <span
+                            class="icon icon--substract-without-background bubble-icon bubble-icon--neutral accordion__icon accordion__icon--aside"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+                </div>
+
+                <div
+                    class="accordion__content accordion__content--aside accordion__content--is-opened accordion__content--has-background"
+                    id="accordion__content__trash"
+                    aria-hidden="false"
+                >
+                    <div class="m-x-4">
+                        <th:block
+                            th:replace="fragments/components/mgpp-corbeille-arbre :: mgpp-corbeilleArbre (${corbeilles})"
+                        ></th:block>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-b-7 accordion accordion--aside">
+                <div class="accordion__header accordion__header--action accordion__header--aside">
+                    <h2
+                        class="accordion-title-lvl-2 js-toggle-zerog"
+                        data-simulate="btnHeaderSearch"
+                        th:text="#{label.quickSearchTitle}"
+                    ></h2>
+                    <button
+                        class="js-toggle accordion__header__button"
+                        id="btnHeaderSearch"
+                        aria-expanded="true"
+                        aria-controls="contentRechercheDynamique"
+                        type="button"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract-without-background"
+                        data-icon-closed="add-without-background"
+                        th:data-title-opened="#{leftBlocks.recherche.label.reduire}"
+                        th:data-title-closed="#{leftBlocks.recherche.label.agrandir}"
+                    >
+                        <span
+                            class="icon icon--substract-without-background bubble-icon bubble-icon--neutral accordion__icon accordion__icon--aside"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+                </div>
+                <div
+                    class="accordion__content accordion__content--aside accordion__content--is-opened accordion__content--has-background"
+                    id="contentRechercheDynamique"
+                    aria-hidden="false"
+                >
+                    <div class="m-x-4">
+                        <div class="m-b-5 text-right">
+                            <a
+                                class="link"
+                                th:href="@{|/mgpp/recherche/${dossiersParlementairesSelected}|}"
+                                th:text="#{label.action.recherche.avancee}"
+                            ></a>
+                        </div>
+                        <form method="POST" th:action="@{/mgpp/recherche/rapide/rechercher}" id="rechercheRapideForm">
+                            <input type="hidden" name="csrf-token" th:value="${csrftoken}" />
+                            <input
+                                name="idDossierParlementaire"
+                                th:value="${dossiersParlementairesSelected}"
+                                type="hidden"
+                            />
+                            <th:block th:each="critere : ${criteresRecherche}">
+                                <div class="m-b-5 form-input" th:if="${critere.visible}">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                class="form-label"
+                                                th:id="|${critere.name}_label|"
+                                                th:for="${critere.name}"
+                                                th:text="#{${critere.label}}"
+                                            >
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-input__container">
+                                        <input
+                                            th:name="${critere.name}"
+                                            class="form-input__field form-input__field--type-text"
+                                            th:id="${critere.name}"
+                                            type="text"
+                                        />
+                                    </div>
+                                </div>
+                            </th:block>
+                            <button
+                                class="m-b-4 base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--full base-btn--bordered"
+                                type="button"
+                                onclick="effacerRechercheRapide()"
+                                th:text="#{label.action.recherche.effacer}"
+                            ></button>
+                            <button
+                                class="base-btn base-btn--button base-btn--default base-btn--center base-btn--full"
+                                type="submit"
+                                th:text="#{label.action.recherche.search}"
+                            ></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-b-7 accordion accordion--aside">
+                <div class="accordion__header accordion__header--action accordion__header--aside">
+                    <h2
+                        class="accordion-title-lvl-2 js-toggle-zerog"
+                        data-simulate="accordion__header__creation"
+                        th:text="#{leftBlocks.creation.label}"
+                    ></h2>
+                    <button
+                        aria-controls="accordion__content__creation"
+                        aria-expanded="true"
+                        id="accordion__header__creation"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract-without-background"
+                        data-icon-closed="add-without-background"
+                        th:data-title-opened="#{leftBlocks.creation.label.reduire}"
+                        th:data-title-closed="#{leftBlocks.creation.label.agrandir}"
+                        class="js-toggle accordion__header__button"
+                    >
+                        <span class="sr-only" th:text="#{leftBlocks.creation.label.reduire}"></span
+                        ><span
+                            aria-hidden="true"
+                            class="icon icon--substract-without-background bubble-icon bubble-icon--neutral accordion__icon accordion__icon--aside"
+                        ></span>
+                    </button>
+                </div>
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__creation"
+                    class="accordion__content accordion__content--aside accordion__content--is-opened accordion__content--has-background"
+                >
+                    <div class="m-x-4">
+                        <div class="m-b-5 form-select form-select--simple">
+                            <div class="form-input">
+                                <div class="form-input__header">
+                                    <div class="form-input__header-top">
+                                        <label
+                                            for="communication-type"
+                                            class="form-label"
+                                            label-as-id="true"
+                                            th:text="#{leftBlocks.creation.label.typeCommunication}"
+                                        >
+                                        </label>
+                                    </div>
+                                    <div class="form-input__header-bottom"></div>
+                                </div>
+                                <div class="form-input__container">
+                                    <div class="form-select__field-wrapper">
+                                        <div class="form-select-input">
+                                            <select
+                                                name="select-evenement"
+                                                id="communication-type"
+                                                aria-describedby="communication-type_field_description communication-type_description"
+                                                class="form-select-input__field form-select-input__field--simple"
+                                            >
+                                                <th:block th:each="option : ${evenementTypes}">
+                                                    <option
+                                                        th:value="${option.id}"
+                                                        th:text="${option.label}"
+                                                        th:selected="AUD01 == ${option.id}"
+                                                    ></option>
+                                                </th:block> </select
+                                            ><span aria-hidden="true" tabindex="-1"
+                                                ><span
+                                                    aria-hidden="true"
+                                                    class="form-select-input__arrow icon icon--arrow-bottom"
+                                                ></span
+                                            ></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="communication-type_description" class="form-input__footer"></div>
+                            </div>
+                        </div>
+                        <button
+                            type="button"
+                            onclick="goToCreationCommunication()"
+                            id="btnCreateCommunicationCreatrice"
+                            class="m-b-4 base-btn base-btn--button base-btn--default base-btn--center base-btn--full"
+                            th:text="#{leftBlocks.corbeille.menu.button.communication.create}"
+                        ></button>
+                        <th:block th:each="action : ${createDossierMgppActions}">
+                            <button
+                                th:replace="fragments/components/label-action-button :: label-action-button(${action}, false, 'base-btn--center base-btn--full')"
+                            ></button>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

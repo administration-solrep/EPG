@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="modal-history-version-document-content">
+            <table class="custom-table">
+                <thead class="table-header custom-table__header">
+                    <tr class="table-header__line">
+                        <th
+                            scope="col"
+                            class="table-header__cell"
+                            th:text="#{dossier.onglet.document.modal.historique.numero.version}"
+                        >
+                            Numéro de version
+                        </th>
+                        <th
+                            scope="col"
+                            class="table-header__cell"
+                            th:text="#{dossier.onglet.document.modal.historique.fichier}"
+                        >
+                            Fichier
+                        </th>
+                        <th
+                            scope="col"
+                            class="table-header__cell"
+                            th:text="#{dossier.onglet.document.modal.historique.date}"
+                        >
+                            Date
+                        </th>
+                        <th
+                            scope="col"
+                            class="table-header__cell"
+                            th:text="#{dossier.onglet.document.modal.historique.auteur}"
+                        >
+                            Auteur
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="custom-table__body">
+                    <th:block th:unless="${#lists.isEmpty(lstDocuments)}">
+                        <tr class="table-line" th:each="doc : ${lstDocuments}">
+                            <td class="table-line__cell">[[${doc.version}]]</td>
+                            <td class="table-line__cell">
+                                <a
+                                    class="link"
+                                    th:href="@{|/dossier/${repDossierId}/telecharger?fileId=${doc.id}|}"
+                                    target="_blank"
+                                >
+                                    <span
+                                        aria-hidden="true"
+                                        class="icon icon--file link__icon link__icon--prepend link__icon--large"
+                                    >
+                                    </span>
+                                    [[${doc.nom}]] [[${doc.extension}]]
+                                </a>
+                            </td>
+                            <td class="table-line__cell" th:text="${doc.date}"></td>
+                            <td class="table-line__cell" th:text="${doc.auteur}"></td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

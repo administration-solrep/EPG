@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[
+function toddMMyyyy(madate){
+   	if(madate)
+   	{
+   		var day = madate.getDate();
+		var month = madate.getMonth()+1;
+		if (day < 10) day = "0" + day ;
+		if (month < 10) month = "0" + month ;
+		return day + "/" + month  + "/" + madate.getFullYear();
+	}
+	else return " ";
+}
+reportContext.setPersistentGlobalVariable("toddMMyyyy", toddMMyyyy);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="MINISTERES_PARAM" id="320">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_INTE</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfSU5URQ==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="PAR_MINISTERE" id="66">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">MINISTEREPILOTE</property>
+                    <text-property name="displayName">MINISTEREPILOTE</text-property>
+                    <text-property name="heading">MINISTEREPILOTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NOMBRE_TOTAL_ETUDES_PRODUITES</property>
+                    <text-property name="displayName">NOMBRE_TOTAL_ETUDES_PRODUITES</text-property>
+                    <text-property name="heading">NOMBRE_TOTAL_ETUDES_PRODUITES</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NOMBRE_TOTAL_ETUDES_DEMANDEES</property>
+                    <text-property name="displayName">NOMBRE_TOTAL_ETUDES_DEMANDEES</text-property>
+                    <text-property name="heading">NOMBRE_TOTAL_ETUDES_DEMANDEES</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">MINISTEREPILOTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">NOMBRE_TOTAL_ETUDES_PRODUITES</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">NOMBRE_TOTAL_ETUDES_DEMANDEES</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">MINISTEREPILOTE</property>
+                    <property name="nativeName">MINISTEREPILOTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">NOMBRE_TOTAL_ETUDES_PRODUITES</property>
+                    <property name="nativeName">NOMBRE_TOTAL_ETUDES_PRODUITES</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">NOMBRE_TOTAL_ETUDES_DEMANDEES</property>
+                    <property name="nativeName">NOMBRE_TOTAL_ETUDES_DEMANDEES</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT A.MINISTEREPILOTE AS MINISTEREPILOTE, 
+        nvl(A.NOMBRE_TOTAL_ETUDES_PRODUITES, 0) AS NOMBRE_TOTAL_ETUDES_PRODUITES, 
+        nvl(B.NOMBRE_TOTAL_ETUDES_DEMANDEES, 0) AS NOMBRE_TOTAL_ETUDES_DEMANDEES
+FROM
+(
+SELECT
+TRAIT_MINISTEREPILOTE AS MINISTEREPILOTE,
+COUNT(DISTINCT TRAIT_ID) AS NOMBRE_TOTAL_ETUDES_PRODUITES
+FROM V_AN_TRAITE_ACCORD
+WHERE LRAT_DATEPUBLICATION IS NOT NULL
+AND   TRAIT_DISPOETUDEIMPACT = 1
+GROUP BY TRAIT_MINISTEREPILOTE
+) A,
+(
+SELECT
+TRAIT_MINISTEREPILOTE AS MINISTEREPILOTE,
+COUNT(DISTINCT TRAIT_ID) AS NOMBRE_TOTAL_ETUDES_DEMANDEES
+FROM V_AN_TRAITE_ACCORD
+WHERE LRAT_DATEPUBLICATION IS NOT NULL
+AND   TRAIT_ETUDEIMPACT = 1
+GROUP BY TRAIT_MINISTEREPILOTE
+) B
+WHERE A.MINISTEREPILOTE = B.MINISTEREPILOTE(+)
+ORDER BY NOMBRE_TOTAL_ETUDES_PRODUITES / NOMBRE_TOTAL_ETUDES_DEMANDEES
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>MINISTERERESP</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2000</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>MINISTERERESP</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MINISTERERESP</design:label>
+            <design:formattingHints>
+              <design:displaySize>2000</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_APPELANT_DECRETS</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_APPELANT_DECRETS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_APPELANT_DECRETS</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_RECU_APPLICATION</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_RECU_APPLICATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_RECU_APPLICATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_ATTENTE_DECRETS</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_ATTENTE_DECRETS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_ATTENTE_DECRETS</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <grid name="ELEMENT_OUT" id="95">
+            <column id="96"/>
+            <row id="103">
+                <cell id="104">
+                    <text-data id="390">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <expression name="valueExpr">var madate = new Date()
+"Indicateurs ministériels de confection des études d’impact à la date du " + toddMMyyyy(madate);</expression>
+                        <property name="contentType">html</property>
+                    </text-data>
+                </cell>
+            </row>
+            <row id="384">
+                <cell id="385">
+                    <text id="386">
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[  ]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="101">
+                <cell id="102">
+                    <table id="197">
+                        <property name="dataSet">PAR_MINISTERE</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">MINISTEREPILOTE</property>
+                                <text-property name="displayName">MINISTEREPILOTE</text-property>
+                                <expression name="expression" type="javascript">var MINISTEREPILOTE = dataSetRow["MINISTEREPILOTE"];&#13;
+var messageToDisplay = MINISTEREPILOTE;&#13;
+&#13;
+var MINISTERES_PARAM = params["MINISTERES_PARAM"] + "";&#13;
+MINISTERES_PARAM = (MINISTERES_PARAM == "null" ? "" : MINISTERES_PARAM);&#13;
+var SEPARATEURS = "&amp;";&#13;
+var KEY_ID = "$id$=";&#13;
+var KEY_LABEL = "$label$=";&#13;
+var KEY_LIMIT = ";;";&#13;
+var MINISTERES = MINISTERES_PARAM.split(SEPARATEURS);&#13;
+&#13;
+for(i = 0; i &lt; (MINISTERES.length  - 1); i++)&#13;
+{&#13;
+	var MINISTERE = MINISTERES[i].split(KEY_LIMIT);&#13;
+	var MINISTERE_ID = "";&#13;
+	var MINISTERE_LABEL = "";&#13;
+	&#13;
+	for(j = 0; j &lt; (MINISTERE.length  - 1); j++)&#13;
+	{&#13;
+		if(MINISTERE[j].indexOf(KEY_ID) == 0)&#13;
+		{&#13;
+			MINISTERE_ID = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_ID) + KEY_ID.length);&#13;
+		}else if(MINISTERE[j].indexOf(KEY_LABEL) == 0)&#13;
+		{&#13;
+			MINISTERE_LABEL = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_LABEL) + KEY_LABEL.length);&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	if(MINISTERE_ID != "")&#13;
+	{&#13;
+		if(BirtStr.toUpper(MINISTERE_ID) == BirtStr.toUpper(MINISTEREPILOTE))&#13;
+		{&#13;
+			messageToDisplay = MINISTERE_LABEL;&#13;
+			break;&#13;
+		}&#13;
+	}&#13;
+}&#13;
+&#13;
+messageToDisplay;</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NOMBRE_TOTAL_ETUDES_PRODUITES</property>
+                                <text-property name="displayName">NOMBRE_TOTAL_ETUDES_PRODUITES</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NOMBRE_TOTAL_ETUDES_PRODUITES"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">NOMBRE_TOTAL_ETUDES_DEMANDEES</property>
+                                <text-property name="displayName">NOMBRE_TOTAL_ETUDES_DEMANDEES</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["NOMBRE_TOTAL_ETUDES_DEMANDEES"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                        </list-property>
+                        <column id="220"/>
+                        <column id="221"/>
+                        <column id="222"/>
+                        <column id="223"/>
+                        <header>
+                            <row id="198">
+                                <property name="textAlign">center</property>
+                                <property name="verticalAlign">middle</property>
+                                <cell id="199">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="200">
+                                        <text-property name="text">Intitulé du ministère pilote de la négociation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="201">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="202">
+                                        <text-property name="text">Nombre total d’études d’impact produites pour les traités et accords non publiés</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="203">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="204">
+                                        <text-property name="text">Nombre total d’études d’impact demandées pour les traités et accords non publiés</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="205">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <text id="206">
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[Taux de production des études d’impact]]></text-property>
+                                    </text>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="209">
+                                <property name="textAlign">center</property>
+                                <property name="verticalAlign">middle</property>
+                                <cell id="210">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <property name="textAlign">left</property>
+                                    <data id="387">
+                                        <property name="whiteSpace">nowrap</property>
+                                        <property name="resultSetColumn">MINISTEREPILOTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="212">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="388">
+                                        <property name="whiteSpace">nowrap</property>
+                                        <property name="resultSetColumn">NOMBRE_TOTAL_ETUDES_PRODUITES</property>
+                                    </data>
+                                </cell>
+                                <cell id="214">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="389">
+                                        <property name="whiteSpace">nowrap</property>
+                                        <property name="resultSetColumn">NOMBRE_TOTAL_ETUDES_DEMANDEES</property>
+                                    </data>
+                                </cell>
+                                <cell id="216">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="229">
+                                        <property name="dataSet">PAR_MINISTERE</property>
+                                        <list-property name="boundDataColumns">
+                                            <structure>
+                                                <property name="name">MINISTEREPILOTE</property>
+                                                <text-property name="displayName">MINISTEREPILOTE</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["MINISTEREPILOTE"]</expression>
+                                                <property name="dataType">string</property>
+                                            </structure>
+                                            <structure>
+                                                <property name="name">NOMBRE_TOTAL_ETUDES_PRODUITES</property>
+                                                <text-property name="displayName">NOMBRE_TOTAL_ETUDES_PRODUITES</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["NOMBRE_TOTAL_ETUDES_PRODUITES"]</expression>
+                                                <property name="dataType">decimal</property>
+                                            </structure>
+                                            <structure>
+                                                <property name="name">NOMBRE_TOTAL_ETUDES_DEMANDEES</property>
+                                                <text-property name="displayName">NOMBRE_TOTAL_ETUDES_DEMANDEES</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["NOMBRE_TOTAL_ETUDES_DEMANDEES"]</expression>
+                                                <property name="dataType">decimal</property>
+                                            </structure>
+                                            <structure>
+                                                <property name="name">TAUX_PRODUCTION</property>
+                                                <text-property name="displayName">TAUX_PRODUCTION</text-property>
+                                                <expression name="expression" type="javascript">//BirtMath.round((dataSetRow["NOMBRE_TOTAL_ETUDES_PRODUITES"] / dataSetRow["NOMBRE_TOTAL_ETUDES_DEMANDEES"] * 100), 3)  + '%'&#13;
+var nbrMesure = parseInt(dataSetRow["NOMBRE_TOTAL_ETUDES_DEMANDEES"]);&#13;
+if(nbrMesure>0){&#13;
+  var ratio = dataSetRow["NOMBRE_TOTAL_ETUDES_PRODUITES"]/ nbrMesure*100;&#13;
+  if( parseInt(ratio) == parseFloat(ratio) ){&#13;
+   (ratio +"%")&#13;
+  } else {&#13;
+    importPackage( Packages.java.text );&#13;
+    var sdf = new DecimalFormat("###,##0.000");&#13;
+    var roundedRatio = BirtMath.round(ratio,3)&#13;
+    var myRatio = sdf.format( roundedRatio );&#13;
+    var indexOfDot = myRatio.toString().indexOf(".");&#13;
+    if(indexOfDot != -1){//eliminer ".000" si existe&#13;
+  		if( myRatio.toString().substr((indexOfDot+1),3) == "000" ){&#13;
+  			myRatio = myRatio.toString().substr(0,indexOfDot);&#13;
+  		} &#13;
+ 	}&#13;
+    (myRatio+"%")&#13;
+  }&#13;
+}</expression>
+                                                <property name="dataType">string</property>
+                                            </structure>
+                                        </list-property>
+                                        <property name="resultSetColumn">TAUX_PRODUCTION</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

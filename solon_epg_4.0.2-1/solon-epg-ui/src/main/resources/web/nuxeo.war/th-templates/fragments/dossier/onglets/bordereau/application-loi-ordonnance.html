@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="applicationLoiOrdonnance(loiOrdonnance, index)">
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="grid__col grid__col--middle form-input">
+                    <div class="form-optin">
+                        <fieldset class="form-optin__fieldset">
+                            <legend class="form-label">
+                                <th:block th:text="#{dossier.bordereau.type.application}">Type</th:block>
+                                <span class="form-label__required-text" th:text="#{form.input.required}">(requis)</span>
+                            </legend>
+                            <div class="form-optin__optins" th:id="|type_${index}|">
+                                <div class="form-optin__container">
+                                    <input
+                                        type="radio"
+                                        th:id="|type_loi_${index}|"
+                                        value="LOI"
+                                        th:name="|type_${index}|"
+                                        class="form-optin__checkbox"
+                                        th:checked="${loiOrdonnance.type == 'LOI' || loiOrdonnance.type == null}"
+                                        autocomplete="off"
+                                    /><label
+                                        th:for="|type_loi_${index}|"
+                                        th:id="|type_loi_${index}_label|"
+                                        th:text="#{dossier.bordereau.type.application.loi}"
+                                        class="form-optin__label"
+                                    >
+                                        Loi
+                                    </label>
+                                </div>
+                                <div class="form-optin__container">
+                                    <input
+                                        type="radio"
+                                        th:id="|type_ordonnance_${index}|"
+                                        value="ORD"
+                                        th:name="|type_${index}|"
+                                        class="form-optin__checkbox"
+                                        th:checked="${loiOrdonnance.type == 'ORD'}"
+                                        autocomplete="off"
+                                    /><label
+                                        th:for="|type_ordonnance_${index}|"
+                                        th:id="|type_ordonnance_${index}_label|"
+                                        th:text="#{dossier.bordereau.type.application.ordonnance}"
+                                        class="form-optin__label"
+                                    >
+                                        Ordonnance
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="type_description" class="form-input__footer"></div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="grid__col grid__col--middle form-input" th:with="validation ='reference_loi_ordonnance'">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.reference}, true, #{dossier.bordereau.reference.loi.ordonnance.tip}, 'reference-loi-ordonnance_' + ${index}, 'reference', ${loiOrdonnance.reference}, false)"
+                    ></div>
+                </div>
+            </div>
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="grid__col grid__col--full-width form-input">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.titre}, false, '', 'titre-loi-ordonnance_' + ${index}, 'titre', ${loiOrdonnance.titre}, false)"
+                    ></div>
+                </div>
+            </div>
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="grid__col grid__col--middle form-input" th:with="validation ='integer'">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.ordre}, false, #{dossier.bordereau.numero.ordre.tip}, 'numeroOrdre-loi-ordonnance_' + ${index}, 'numeroOrdre', ${loiOrdonnance.numeroOrdre}, false)"
+                    ></div>
+                </div>
+            </div>
+            <div class="grid__row p-t-3 p-b-3">
+                <div class="grid__col grid__col--middle form-input">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.article}, false, '', 'numeroArticle-loi-ordonnance_' + ${index}, 'numeroArticle', ${loiOrdonnance.numeroArticle}, false)"
+                    ></div>
+                </div>
+                <div class="grid__col grid__col--middle form-input">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.commentaire}, false, '', 'commentaire-loi-ordonnance_' + ${index}, 'commentaire', ${loiOrdonnance.commentaire}, false)"
+                    ></div>
+                </div>
+            </div>
+        </th:block>
+    </body>
+</html>

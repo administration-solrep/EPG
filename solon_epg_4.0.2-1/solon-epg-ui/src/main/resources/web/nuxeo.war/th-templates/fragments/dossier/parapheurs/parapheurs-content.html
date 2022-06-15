@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="parapheurs-content(repertoires)">
+            <th:block th:unless="${#lists.isEmpty(repertoires)}">
+                <h2
+                    class="m-y-6 base-title base-title--lvl-2 base-title--is-underlined"
+                    th:text="#{admin.parapheurs.repertoires.title(${typeActe})}"
+                >
+                    Répertoires : Loi
+                </h2>
+                <form id="parapheurs-form">
+                    <input type="hidden" name="typeActe" id="TypeActeSaved" th:value="${typeActe}" />
+                    <th:block th:each="repertoire : ${repertoires}">
+                        <th:block
+                            th:replace="fragments/dossier/parapheurs/parapheur-form-bloc :: parapheur-form-bloc(${repertoire})"
+                        ></th:block>
+                    </th:block>
+                </form>
+            </th:block>
+        </div>
+    </body>
+</html>

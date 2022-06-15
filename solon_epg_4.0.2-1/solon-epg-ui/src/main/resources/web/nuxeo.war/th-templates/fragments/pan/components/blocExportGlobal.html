@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="bloc(statistiques, titre, type, actes, listeReports)" th:remove="tag">
+            <th:block th:each="acte : ${actes}">
+                <h4
+                    class="base-title base-title--lvl-4 m-t-8"
+                    th:text="#{__${titre}__.__${#strings.unCapitalize(acte)}__.label}"
+                >
+                    Bilan semestriel lois
+                </h4>
+
+                <th:block th:if="${type == 'BS' || type == 'TXD' || type == 'TX'}">
+                    <fieldset>
+                        <legend
+                            class="sr-only"
+                            th:text="#{__${titre}__.__${#strings.unCapitalize(acte)}__.label}"
+                        ></legend>
+                        <th:block
+                            th:with="valuebeginning=${statistiques.promulgation__${acte}____${type}__.left} ,valueending=${statistiques.promulgation__${acte}____${type}__.right}"
+                        >
+                            <th:block
+                                th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'promulgation' + ${acte} + ${type} + 'LegisEnCours', 'pan.stats.form.intervalle.promulgation.' + ${#strings.unCapitalize(acte)} + '.label', true, ${exportEnCours}, 'date-range')"
+                            ></th:block>
+                        </th:block>
+                        <th:block
+                            th:with="valuebeginning=${statistiques.publicationDecrets__${acte}____${type}__.left} ,valueending=${statistiques.publicationDecrets__${acte}____${type}__.right}"
+                        >
+                            <th:block
+                                th:replace="fragments/pan/components/panFormField :: panFormField(null, null, 'publicationDecrets' + ${acte} + ${type} + 'LegisEnCours', 'pan.stats.form.intervalle.publication.decrets.label', true, ${exportEnCours}, 'date-range')"
+                            ></th:block>
+                        </th:block>
+                    </fieldset>
+                </th:block>
+                <th:block th:unless="${type == 'BS' || type == 'TXD' || type == 'TX'}">
+                    <th:block
+                        th:replace="fragments/pan/components/panFormField :: panFormField(${statistiques.debutLegislature}, null, 'debutLegislatureEnCours', 'pan.stats.form.debut.legislature.label', true, ${exportEnCours}, 'date-picker')"
+                    ></th:block>
+                </th:block>
+
+                <p class="m-t-8" th:text="#{pan.stats.exports.publication.utilise}">Utilisé pour les rapports :</p>
+                <ul>
+                    <th:block th:each="rapp : ${listeReports.get(type + acte)}">
+                        <li th:text="${rapp}"></li>
+                    </th:block>
+                </ul>
+            </th:block>
+        </div>
+    </body>
+</html>

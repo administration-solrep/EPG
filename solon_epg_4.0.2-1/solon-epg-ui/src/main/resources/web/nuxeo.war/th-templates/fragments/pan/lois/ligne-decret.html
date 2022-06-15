@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-decret(item, lineActions)">
+            <tr
+                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                th:data-id="${item.getId()}"
+                th:with="itemId=${item.getId()}"
+                th:classappend="${not item.hasValidation() or not item.hasValidationLink() ? 'table-line--pan-invalidated' : ''}"
+            >
+                <td class="table-line__cell">
+                    <div class="flex justify-start items-center">
+                        <th:block th:each="action : ${lineActions}">
+                            <div
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                            ></div>
+                        </th:block>
+                        <div
+                            th:if="${mesureApplication}"
+                            th:data-tippy-content="#{pan.application.lois.table.decrets.header.label.applicationRecu}"
+                            tabindex="0"
+                            class="base-tooltip js-tooltip"
+                            th:data-placement="right"
+                        >
+                            <span
+                                class="sr-only"
+                                th:text="#{pan.application.lois.table.decrets.header.label.applicationRecu}"
+                                >Décret ayant reçu application</span
+                            ><span aria-hidden="true" class="table-line__icon icon icon--check-circle"></span>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="table-line__cell" th:text="${item.numeroNor}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.titreOfficiel}, ${item.getId()}+'-titre-officiel')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${item.typeActeLabel}"></td>
+                <td class="table-line__cell" th:text="${item.sectionCE}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateSaisineCE,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateSectionCE,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.rapporteurCE}"></td>
+                <td class="table-line__cell" th:text="${item.referenceAvisCE}"></td>
+                <td class="table-line__cell" th:text="${item.numerosTextes}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateSignature,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.datePublication,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.delaiPublication}"></td>
+                <td class="table-line__cell" th:text="${item.numeroJOPublication}"></td>
+                <td class="table-line__cell" th:text="${item.numeroPage}"></td>
+            </tr>
+        </div>
+    </body>
+</html>

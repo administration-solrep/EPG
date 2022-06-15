@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="modal-traitement-serie-list" class="interstitial-overlay">
+            <div id="modal-traitement-serie-list" class="interstitial-overlay__content">
+                <div role="dialog" class="interstitial">
+                    <div class="interstitial__header">
+                        <h1 class="interstitial__title" th:text="#{suivi.detailListe.modale.traitementSerie.titre}">
+                            Traiter en série
+                        </h1>
+                        <button
+                            type="button"
+                            class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                        >
+                            <span aria-hidden="true" class="icon icon--cross"></span
+                            ><span class="sr-only" th:text="#{validation.popup.close.label}"
+                                >Fermer la fenêtre de dialogue</span
+                            >
+                        </button>
+                    </div>
+                    <div class="interstitial__content">
+                        <form>
+                            <fieldset>
+                                <legend class="sr-only" th:text="#{suivi.detailListe.modale.traitementSerie.titre}">
+                                    Traiter en série
+                                </legend>
+                                <th:block th:each="date : ${datesList}">
+                                    <div class="form-input m-b-6">
+                                        <div class="form-input__header">
+                                            <div class="form-input__header-top">
+                                                <label
+                                                    th:for="${date.type}"
+                                                    th:id="'modal_gestion_listes_'+${date.type}+'_label_'"
+                                                    class="form-label"
+                                                    th:text="#{__${date.label}__}"
+                                                >
+                                                    Date d'envoi PR
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div
+                                            th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                                'datepicker_description_form_input_'+${date.type},
+                                                ${date.type},
+                                                ${date.type},
+                                                false,
+                                                '',
+                                                false)"
+                                        ></div>
+                                        <div
+                                            th:id="|datepicker_description_form_input_${date.type}_description|"
+                                            class="form-input__footer"
+                                        ></div>
+                                    </div>
+                                </th:block>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="interstitial__footer">
+                        <button
+                            type="button"
+                            class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                            th:text="#{button.label.cancel}"
+                        >
+                            Annuler
+                        </button>
+                        <button
+                            type="button"
+                            class="base-btn base-btn--button base-btn--default base-btn--center"
+                            th:text="#{suivi.detailListe.modale.traitementSerie.traiter}"
+                            onclick="doTraitementSerie()"
+                        >
+                            Traiter
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

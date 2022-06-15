@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-tableau-maitre(item, lineActions)">
+            <tr
+                class="table-line"
+                th:classappend="${itemId == idContextuel ? 'table-line--selected' : ''}"
+                th:with="itemId=${item.getId()}"
+                th:data-id="${itemId}"
+            >
+                <td class="table-line__cell">
+                    <div class="table-line__action-buttons flex justify-start items-center">
+                        <th:block th:if="${item.autorisationRatification}">
+                            <div
+                                th:data-tippy-content="#{pan.traites.table.traites.header.label.autorise}"
+                                tabindex="0"
+                                class="base-tooltip js-tooltip"
+                                th:data-placement="right"
+                            >
+                                <span
+                                    class="sr-only"
+                                    th:text="#{pan.traites.table.traites.header.label.autorise}"
+                                ></span
+                                ><span aria-hidden="true" class="table-line__icon icon icon--check-circle"></span>
+                            </div>
+                        </th:block>
+                        <th:block th:if="${item.publication}">
+                            <div
+                                th:data-tippy-content="#{pan.traites.table.traites.header.label.publiee}"
+                                tabindex="0"
+                                class="base-tooltip js-tooltip"
+                                th:data-placement="right"
+                            >
+                                <span class="sr-only" th:text="#{pan.traites.table.traites.header.label.publiee}"></span
+                                ><span
+                                    aria-hidden="true"
+                                    class="table-line__icon icon icon--check-circle icon-traite-published"
+                                ></span>
+                            </div>
+                        </th:block>
+                    </div>
+                </td>
+                <td class="table-line__cell" th:text="${item.categorie}"></td>
+                <td class="table-line__cell" th:text="${item.organisation}"></td>
+                <td class="table-line__cell" th:text="${item.thematique}"></td>
+                <td class="table-line__cell">
+                    <a
+                        class="link"
+                        target="_blank"
+                        th:attr="onclick=|chargerBlocContextuel(this,'${item.uuid}','textemaitre');return false;|"
+                        th:text="${item.titreActe}"
+                        th:href="@{|/suivi/pan/${currentSection}/${currentPanTab}/textemaitre/${itemId}|}"
+                    ></a>
+                </td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateSignature, 'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateEntreeEnVigueur, 'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.observation}"></td>
+                <td>
+                    <th:block th:if="${texteMaitreDeleteAction != null}">
+                        <div
+                            th:replace="fragments/components/action-button-fixed :: action-button-fixed(${texteMaitreDeleteAction}, false, 'base-btn--light base-btn--transparent')"
+                        ></div>
+                    </th:block>
+                </td>
+            </tr>
+        </div>
+    </body>
+</html>

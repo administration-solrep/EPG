@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panEditDecret(secondElement)" id="content-panModaleEdit">
+            <form action="" class="grid" th:with="isNarrow=true">
+                <input type="hidden" name="idSecondTableau" th:value="${secondElement.getId()}" />
+                <input type="hidden" name="idContextuel" th:value="${idContextuel}" />
+                <input type="hidden" name="idPremierTableau" th:value="${idFirstTable}" />
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.numeroNor}, null, 'numeroNor', 'pan.application.lois.table.decrets.header.label.nor', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.titreOfficiel}, null, 'titre', 'pan.application.lois.table.decrets.header.label.titre', false, false, 'text')"
+                ></div>
+
+                <th:block th:with="fieldOptions=${typeActe}">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.typeActe}, null, 'categorie', 'pan.application.lois.table.decrets.header.label.categorie', false, false, 'select')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.sectionCE}, null, 'sectionCE', 'pan.application.lois.table.decrets.header.label.sectionCE', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.dateSaisineCE}, null, 'dateSaisineCE', 'pan.application.lois.table.decrets.header.label.dateSaisineCE', false, false, 'date-picker')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.dateSectionCE}, null, 'dateExamenCE', 'pan.application.lois.table.decrets.header.label.dateExamenCE', false, false, 'date-picker')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.rapporteurCE}, null, 'rapporteurCE', 'pan.application.lois.table.decrets.header.label.rapporteurCE', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.referenceAvisCE}, null, 'referenceAvisCE', 'pan.application.lois.table.decrets.header.label.refAvisCE', false, false, 'text')"
+                ></div>
+                <th:block th:with="dataValidation='numero_texte'">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.numerosTextes}, null, 'numerosTexte', 'pan.application.lois.table.decrets.header.label.numeroTexte', false, false, 'text')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.dateSignature}, null, 'dateSignature', 'pan.application.lois.table.decrets.header.label.dateSignature', true, false, 'date-picker')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.datePublication}, null, 'datePublication', 'pan.application.lois.table.decrets.header.label.datePublication', false, false, 'date-picker')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.delaiPublication}, null, 'delaiPublication', 'pan.application.lois.table.decrets.header.label.delaiPublication', false, true, 'text')"
+                ></div>
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.numeroJOPublication}, null, 'numeroJOPublication', 'pan.application.lois.table.decrets.header.label.numeroJO', false, false, 'text')"
+                ></div>
+
+                <th:block th:with="dataValidation='numeric'">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField(${secondElement.numeroPage}, null, 'numeroPage', 'pan.application.lois.table.decrets.header.label.numeroPage', false, false, 'text')"
+                    ></div>
+                </th:block>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panContextualBlock" th:remove="tag">
+            <div
+                th:if="${myContextualTabs!=null && not #lists.isEmpty(myContextualTabs.onglets)}"
+                th:id="'blocContextuel-'+${currentPanTab}"
+            >
+                <th:block th:if="${panContext=='ministere'}">
+                    <div class="heading-complex m-t-12">
+                        <div class="heading-complex__main">
+                            <h2
+                                class="heading-complex__title base-title base-title--lvl-2"
+                                th:text="${ministerePiloteLabel}"
+                            >
+                                Titre
+                            </h2>
+                        </div>
+                    </div>
+                </th:block>
+
+                <th:block th:if="${consultTexteMaitreDto}">
+                    <div class="heading-complex m-t-12">
+                        <div class="heading-complex__main">
+                            <h2
+                                class="heading-complex__title base-title base-title--lvl-2"
+                                th:text="${consultTexteMaitreDto.titre}"
+                            >
+                                Titre
+                            </h2>
+                            <div
+                                th:unless="${#strings.isEmpty(consultTexteMaitreDto.nor)}"
+                                class="link-copy heading-complex__subtitle base-subtitle"
+                            >
+                                <span> - </span>
+                                <span
+                                    th:id="'link-copy__link-'+${consultTexteMaitreDto.nor}"
+                                    th:text="${consultTexteMaitreDto.nor}"
+                                >
+                                    ID
+                                </span>
+                                <button
+                                    class="js-copy link-copy__button js-tooltip base-btn base-btn--button base-btn--default base-btn--icon-action-blue base-btn--center base-btn--transparent"
+                                    type="button"
+                                    th:data-tippy-content="#{dossier.title.action.copier}"
+                                    th:data-copy="'link-copy__link-'+${consultTexteMaitreDto.nor}"
+                                    th:data-tippy-default-content="#{dossier.title.action.copier}"
+                                    data-tippy-trigger="mouseenter focus click"
+                                >
+                                    <span class="sr-only">[[#{dossier.title.action.copier}]]</span
+                                    ><span class="link-copy__icon icon icon--copy" aria-hidden="true"></span>
+                                </button>
+                                <span class="link-copy__live sr-only" role="status"></span>
+                            </div>
+                        </div>
+                        <div class="heading-complex__options">
+                            <th:block th:each="action : ${texteMaitreLockActions}">
+                                <div
+                                    th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, 'base-btn--icon-action-blue base-btn--transparent')"
+                                ></div>
+                            </th:block>
+                            <p
+                                th:if="${consultTexteMaitreDto.texteMaitreIsLocked}"
+                                th:text="#{dossier.consult.lockinfo(${consultTexteMaitreDto.lockTime},${consultTexteMaitreDto.lockOwner})}"
+                            >
+                                Verrouillé par, le
+                            </p>
+                        </div>
+                    </div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/panTabs :: panTabs(${myContextualTabs},'pan-onglet-contextuel', ${currentPanTab})"
+                ></div>
+            </div>
+        </div>
+    </body>
+</html>

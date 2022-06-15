@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="tableau-maitre"
+            class="tableForm"
+            th:data-url="@{${urlContextualTab}}"
+            th:data-ajaxurl="@{${ajaxUrlContextualTab}}"
+            th:id="'d_'+ ${currentPanTab} + '_tableau-maitre_content'"
+            th:with="tableCaption=${tableCaption} ?: #{pan.application.lois.table.lois.caption}"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'dossier_haut')"
+                ></div>
+            </th:block>
+
+            <div class="table-action m-t-6">
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <div
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_haut',${resultList.nbTotal})"
+                        ></div>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                        <div th:replace="fragments/table/multipleSortIcon :: multipleSortIcon()"></div>
+                    </th:block>
+                </div>
+            </div>
+
+            <th:block th:if="${masquerRatification != null}">
+                <input type="hidden" id="masquerRatification" th:value="${masquerRatification}" />
+                <a
+                    onclick="afficherMasquerRatification()"
+                    th:text="#{pan.ratification.__${masquerRatification ? 'afficher' : 'masquer'}__}"
+                >
+                    Masquer / Afficher
+                </a>
+            </th:block>
+
+            <th:block
+                th:with="afficherColonneAction=${currentSection == 'directives' || currentSection == 'habilitations'  || currentSection == 'ratification' }? null : 'afficherColonneAction'"
+            >
+                <div
+                    th:replace="fragments/pan/components/panTable :: panTable(${resultList}, ${tableCaption}, 'tableau-maitre', ${currentSection}, 'ligne-tableau-maitre',  ${afficherColonneAction}, 'supprimerAction' )"
+                ></div>
+            </th:block>
+
+            <p class="table-row-count m-t-6" th:text="#{pan.nb.dossiers(${resultList.nbTotal})} "></p>
+
+            <div class="m-t-4 m-b-2 justify-between items-end" th:classappend="${texteMaitreAddAction ? 'flex' : ''}">
+                <div id="ajout-textem-form" class="flex items-end" th:if="${texteMaitreAddAction}">
+                    <th:block th:if="${texteMaitreAddAction}">
+                        <th:block th:if="${isTraitesAccords}">
+                            <div th:replace="fragments/pan/components/panModaleTraite :: panModaleTraite"></div>
+                        </th:block>
+                        <th:block th:unless="${isTraitesAccords}">
+                            <div class="grid__row">
+                                <div class="grid__col pan-grid__col">
+                                    <th:block th:if="${typeNorAutoComplete != null}">
+                                        <div
+                                            th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect('pan.action.saisir.nor', 'addTexteMaitreNor', 'addTexteMaitreNor', '', null, null, false, @{/ajax/recherche/suggestions?typeSelection=NOR&selectionFilter=__${typeNorAutoComplete}__}, 3, 'input', 'key', 'label', false, true, false)"
+                                        ></div>
+                                    </th:block>
+
+                                    <th:block th:if="${typeNorAutoComplete == null}">
+                                        <div class="form-input">
+                                            <div class="form-input__header">
+                                                <div
+                                                    class="form-input__header-top"
+                                                    th:with="inputLabel=${isTranspositionDirectives}? #{pan.action.saisir.numDirective}: #{pan.action.saisir.nor} "
+                                                >
+                                                    <label
+                                                        for="addTexteMaitreNor"
+                                                        id="addTexteMaitreNor_label"
+                                                        class="form-label"
+                                                        th:text="${inputLabel}"
+                                                    >
+                                                    </label>
+                                                    <span
+                                                        class="form-label__required-text"
+                                                        th:text="#{form.input.required}"
+                                                        >(requis)</span
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div class="form-input__container">
+                                                <input
+                                                    type="text"
+                                                    name="addTexteMaitreNor"
+                                                    id="addTexteMaitreNor"
+                                                    class="form-input__field form-input__field--type-text"
+                                                />
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </th:block>
+                        <div
+                            th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${texteMaitreAddAction}, false, '')"
+                        ></div>
+                    </th:block>
+                </div>
+                <div class="table-action m-b-0">
+                    <div class="table-action__action-container table-action__action-container--right">
+                        <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                            <div
+                                th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_bas',${resultList.nbTotal})"
+                            ></div>
+                        </th:block>
+                        <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                            <div th:replace="fragments/table/multipleSortIcon :: multipleSortIcon()"></div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+            <th:block th:if="${masquerRatification != null}">
+                <input type="hidden" id="masquerRatification" th:value="${masquerRatification}" />
+                <a
+                    onclick="afficherMasquerRatification()"
+                    th:text="#{pan.ratification.__${masquerRatification ? 'afficher' : 'masquer'}__}"
+                >
+                    Masquer / Afficher
+                </a>
+            </th:block>
+            <!-- Modale tri multiple-->
+            <div
+                th:replace="fragments/table/multipleSort :: multipleSort(${lstSortedColonnes}, ${lstSortableColonnes})"
+            ></div>
+        </div>
+    </body>
+</html>

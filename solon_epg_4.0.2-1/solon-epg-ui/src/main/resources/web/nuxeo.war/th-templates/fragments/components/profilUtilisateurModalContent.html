@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="profilUtilisateurModalContent">
+            <form id="profilUtilisateurForm" class="p-x-9">
+                <!-- Nombre de dossiers par page -->
+                <div class="grid__row m-t-3 m-b-6">
+                    <div
+                        class="grid__col grid__col--middle"
+                        th:with="selectIsRequired=true,selectDataValidation=required"
+                    >
+                        <div
+                            th:replace="fragments/components/formblocks/simple-select :: simpleSelect('label.select.nombre.dossiers.page', 'nbDossierPage', '', ${nbDossierPageOption}, ${nbDossierPage}, 'false', null)"
+                        ></div>
+                    </div>
+                </div>
+                <!-- Poste par defaut -->
+                <div class="grid__row m-t-3 m-b-6">
+                    <div
+                        class="grid__col grid__col--middle"
+                        th:with="selectIsRequired=true,selectDataValidation=required"
+                    >
+                        <div
+                            th:replace="fragments/components/formblocks/simple-select :: simpleSelect('label.select.defeault.poste', 'defaultPoste', '', ${defautPosteOption}, ${defaultPoste}, 'false', 'label.select.default.poste.value')"
+                        ></div>
+                    </div>
+                </div>
+                <!-- Métadonnées affichées dans les listes de dossiers -->
+                <div
+                    th:replace="fragments/components/formblocks/complex-selector :: complexSelector('label.metadata.liste.dossiers','metadatasDossiers', ${metadataValues}, ${profilValues})"
+                ></div>
+
+                <div class="grid__row m-y-6">
+                    <div class="form-optin">
+                        <th:block
+                            th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('label.solonedit.installation', 'solonedit', ${installSolonedit}, false)"
+                        ></th:block>
+                        <div class="m-t-3">
+                            <a class="link" th:href="@{/edit}" th:text="#{label.solonedit.download}"
+                                >Télécharger SOLON-Edit</a
+                            >
+                        </div>
+                        <div class="m-t-3">
+                            <a class="link" th:href="@{/edit/key}" th:text="#{label.soloneditcontrolkey.download}"
+                                >Télécharger la clé de contrôle SOLON-Edit</a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row m-b-6">
+                    <div class="form-optin">
+                        <th:block
+                            th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('label.notification.mail.validation.auto', 'valAutoEtape', ${valAutoEtape}, false)"
+                        ></th:block>
+                    </div>
+                </div>
+                <div class="grid__row m-b-6">
+                    <div class="form-optin">
+                        <th:block
+                            th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('label.notification.mail.maj.conseilEtat', 'majConseilEtat', ${majConseilEtat}, false)"
+                        ></th:block>
+                    </div>
+                </div>
+                <!-- À l’arrivée d’un dossier dans une de ses corbeilles de travail -->
+                <div>
+                    <h2
+                        class="base-title base-title--lvl-2 m-b-6"
+                        th:text="#{label.notification.mail.dossier.corbeille}"
+                    >
+                        Notification par mail à l’arrivée d’un dossier dans une de ses corbeilles de travail
+                    </h2>
+
+                    <div class="grid__row m-b-6">
+                        <div class="form-optin">
+                            <th:block
+                                th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('label.notification.mail.dossier.corbeille.signature', 'surSignature', ${surSignature}, false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                    <div class="grid__row m-b-6">
+                        <div class="form-optin">
+                            <th:block
+                                th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('label.notification.mail.dossier.corbeille.sgg', 'retourSGG', ${retourSGG}, false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                    <div class="grid__row m-b-6">
+                        <div class="form-optin">
+                            <th:block
+                                th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('label.notification.mail.dossier.corbeille.mesures', 'mesuresNominatives', ${mesuresNominatives}, false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                    <div class="grid__row m-y-6">
+                        <div class="grid__col grid__col--middle form-select">
+                            <div
+                                th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(
+                                    'epg.dossier.creation.type.acte.label',
+                                    'typeActe',
+                                    'typeActe',
+                                    'form.description.nocharlimit',
+                                    ${ {} },
+                                    ${typeActeSelected},
+                                    null,
+                                    @{/ajax/profile/suggestions},
+                                    '0',
+                                    'input',
+                                    'key',
+                                    'label',
+                                    false,
+                                    true,
+                                    false)"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

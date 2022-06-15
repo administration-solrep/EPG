@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="rechercheLibreZoneRechercheResultats" id="recherche-libre-resultats">
+            <div class="search-result-form">
+                <div class="search-result-form__header-body">
+                    <h2 class="search-result-form__title base-title base-title--lvl-2">
+                        [[#{table.resultat.recherche}]]
+                    </h2>
+                    <p
+                        class="search-result-form__subtitle base-title base-title--lvl-3"
+                        th:text="#{table.resultat.recherche.retourne(${resultList.nbTotal})}"
+                    >
+                        Votre recherche retourne : 18 237 résultats
+                    </p>
+                </div>
+                <th:block th:unless="${#lists.isEmpty(resultList.liste)}">
+                    <div class="search-result-form__header-footer">
+                        <div class="search-result-form__header-footer-col">
+                            <!-- Options de tri (pertinenc, date, note) -->
+                            <div
+                                th:replace="fragments/components/recherchelibre/select-options :: selectOptions(
+                                    #{recherche.libre.label.tri}, 
+                                    'select-tri',
+                                    ${optionsTri},
+                                    ${resultForm.sort},
+                                    'select-order-by form-select--inline-medium')"
+                            ></div>
+
+                            <!-- Options de résultats par page (10, 20, 30...) -->
+                            <div
+                                th:replace="fragments/components/recherchelibre/select-options :: selectOptions(
+                                    #{recherche.libre.label.resultat.page}, 
+                                    'select-elem-page',
+                                    ${optionsResultatPage},
+                                    ${resultForm.size},
+                                    null)"
+                            ></div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+
+            <th:block th:unless="${#lists.isEmpty(resultList.liste)}">
+                <!-- Liste de résultats -->
+                <div
+                    th:replace="fragments/components/recherchelibre/recherche-libre-result-element :: rechercheLibreResultElement(${resultList.liste})"
+                ></div>
+
+                <!-- Actions (Editer une alerte / Ajouter aux favoris de recherche / Ajouter aux tableaux dynamiques) -->
+                <div
+                    th:replace="fragments/components/recherchelibre/recherche-libre-result-action :: rechercheLibreResultAction"
+                ></div>
+
+                <!-- Pagination -->
+                <div
+                    th:replace="fragments/components/recherchelibre/recherche-libre-pagination :: rechercheLibrePagination(${resultForm}, ${resultForm.page}, ${resultList.nbTotal})"
+                ></div>
+            </th:block>
+        </div>
+    </body>
+</html>

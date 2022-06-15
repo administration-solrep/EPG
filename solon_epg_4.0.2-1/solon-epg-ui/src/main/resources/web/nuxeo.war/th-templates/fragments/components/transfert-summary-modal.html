@@ -1,0 +1,107 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="transfert-summary-modal" class="interstitial-overlay__content">
+            <div
+                class="interstitial"
+                role="dialog"
+                th:aria-labelledby="#{outilSelection.action.transfert.dossier}"
+                style="position: relative;"
+                th:with="transferables=${transfertList.transferableFolders}, ignored=${transfertList.ignoredFolders}"
+            >
+                <div class="interstitial__header">
+                    <h1
+                        class="interstitial__title"
+                        th:text="|#{outilSelection.action.transfert.dossier} #{outilSelection.modal.summary.step}|"
+                    ></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{validation.popup.close.label}"
+                            >Fermer la fenêtre de dialogue</span
+                        >
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <input type="hidden" id="ministere-transfert" th:value="${ministere}" />
+                    <input type="hidden" id="direction-transfert" th:value="${direction}" />
+                    <div
+                        class="m-b-8"
+                        th:unless="${transfertList.ignoredFolders == null || #lists.isEmpty(transfertList.ignoredFolders)}"
+                    >
+                        <div class="alert-modal alert--warning">
+                            <div role="alert" class="alerts--flex">
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--information bubble-icon alert__icon alert__icon--warning"
+                                ></span>
+                                <span class="sr-only" th:text="#{corbeille.communication.alerte}">Alerte</span>
+                                <div>
+                                    <p th:text="#{outilSelection.transfert.ignored}">
+                                        Les dossiers suivants ne peuvent être transférés, ils seront ignorés :
+                                    </p>
+                                    <ul>
+                                        <li th:each="dossier : ${ignored}">
+                                            <strong>
+                                                <th:block
+                                                    th:replace="fragments/components/idComponent :: id('non-transferable-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                                ></th:block>
+                                            </strong>
+                                            <em th:if="${dossier.label}" th:text="|(${dossier.label})|">(Raison)</em>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${transferables != null && !#lists.isEmpty(transferables)}" class="m-t-6 text-red">
+                            <p>
+                                <strong th:text="#{outilSelection.transfert.modal.warn}"
+                                    >Après l'étape suivante, ces dossiers seront transférés :
+                                </strong>
+                            </p>
+                            <ul>
+                                <li th:each="dossier : ${transferables}">
+                                    <strong>
+                                        <th:block
+                                            th:replace="fragments/components/idComponent :: id('transferable-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                        ></th:block>
+                                    </strong>
+                                    <em th:if="${dossier.label}" th:text="|(${dossier.label})|">(Titre de l'acte)</em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="m-b-8"
+                        th:if="${#lists.isEmpty(ignored)}"
+                        th:text="#{outilSelection.transfert.modal.confirm}"
+                    >
+                        Etes-vous sûr de vouloir transférer tous les dossiers sélectionnés ?
+                    </div>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        th:text="#{button.label.cancel}"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        onclick="closeTransfertModal(event)"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        type="button"
+                        id="btn-valider-transfert"
+                        th:text="#{outilSelection.action.transferer.button}"
+                        class="base-btn base-btn--button base-btn--default base-btn--center interstitial__close"
+                        th:disabled="${#lists.isEmpty(transferables) && !#lists.isEmpty(ignored)}"
+                        onclick="doTransfertDossiers()"
+                    >
+                        Transférer
+                    </button>
+                </div>
+            </div>
+            <div tabindex="0" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="folderDetailCheckBoxLine(label, value, hasCheckBox, fieldName)" th:aria-label="${label}">
+            <tr class="folder-detail__table-line">
+                <td class="folder-detail__table-cell folder-detail__table-cell--label" th:text="${label}"></td>
+                <td class="folder-detail__table-cell folder-detail__table-cell--value" th:text="${value}"></td>
+                <th:block th:if="${hasCheckBox} == true">
+                    <td class="folder-detail__table-cell">
+                        <div class="form-choice-input ds-checkbox-right m-r-20">
+                            <input
+                                th:id="|select-field-${fieldName}|"
+                                type="checkbox"
+                                aria-hidden="true"
+                                th:data-name="${fieldName}"
+                                onclick="selectBordereauCheckbox(this)"
+                                class="form-choice-input__input js-custom-table-line-check"
+                                autocomplete="off"
+                            />
+                            <label
+                                th:for="|select-field-${fieldName}|"
+                                th:title="#{dossier.similaire.bordereau.liste.champ.select.one(${label})}"
+                                class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                            >
+                                <span th:text="#{dossier.similaire.bordereau.selectionner}">Sélectionner le champ</span>
+                            </label>
+                        </div>
+                    </td>
+                </th:block>
+            </tr>
+        </div>
+    </body>
+</html>

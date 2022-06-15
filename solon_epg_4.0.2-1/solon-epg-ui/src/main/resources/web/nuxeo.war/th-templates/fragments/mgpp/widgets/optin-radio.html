@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="optinRadio(widget)">
+            <th:block th:if="${typeParlementaire == null}">
+                <div class="labellised-list__label">
+                    [[#{${widget.label}}]]
+                    <span
+                        th:if="${widget.required}"
+                        class="form-label__required-text"
+                        th:text="#{form.input.required}"
+                    ></span>
+                </div>
+
+                <div
+                    class="labellised-list__description"
+                    th:classappend="${widget.modifiedInCurVersion ? 'labellised-list__description--warning' : ''}"
+                >
+                    <fieldset class="form-optin__fieldset">
+                        <legend class="form-label" th:text="#{${widget.label}}">Libellé</legend>
+                        <div class="form-optin__optins">
+                            <div class="form-optin__container">
+                                <input
+                                    type="radio"
+                                    value="true"
+                                    id="optin-communication-oui"
+                                    th:name="${widget.name}"
+                                    class="form-optin__checkbox"
+                                    th:checked="${widget.getValueParamByNameOrNull('valeur')}"
+                                    autocomplete="off"
+                                /><label for="optin-communication-oui" class="form-optin__label" th:text="#{optin.oui}">
+                                </label>
+                            </div>
+                            <div class="form-optin__container">
+                                <input
+                                    type="radio"
+                                    value="false"
+                                    id="optin-communication-non"
+                                    th:name="${widget.name}"
+                                    class="form-optin__checkbox"
+                                    th:checked="${!widget.getValueParamByNameOrNull('valeur')}"
+                                    autocomplete="off"
+                                /><label for="optin-communication-non" class="form-optin__label" th:text="#{optin.non}">
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </th:block>
+            <th:block th:unless="${typeParlementaire == null}">
+                <div class="form-optin">
+                    <fieldset class="form-optin__fieldset">
+                        <legend class="form-label" th:text="#{${widget.label}}">Libellé</legend>
+                        <div class="form-optin__optins">
+                            <div class="form-optin__container">
+                                <input
+                                    type="radio"
+                                    value="true"
+                                    th:id="|optin-${widget.name}-oui|"
+                                    th:name="${widget.name}"
+                                    class="form-optin__checkbox"
+                                    th:attrappend="checked=${widget.getValueParamByNameOrNull('valeur')} ? 'checked'"
+                                    autocomplete="off"
+                                /><label
+                                    th:for="|optin-${widget.name}-oui|"
+                                    class="form-optin__label"
+                                    th:text="#{optin.oui}"
+                                >
+                                </label>
+                            </div>
+                            <div class="form-optin__container">
+                                <input
+                                    type="radio"
+                                    value="false"
+                                    th:id="|optin-${widget.name}-non|"
+                                    th:name="${widget.name}"
+                                    class="form-optin__checkbox"
+                                    th:attrappend="checked=${widget.getValueParamByNameOrNull('valeur')} ? 'checked'"
+                                    autocomplete="off"
+                                /><label
+                                    th:for="|optin-${widget.name}-non|"
+                                    class="form-optin__label"
+                                    th:text="#{optin.non}"
+                                >
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

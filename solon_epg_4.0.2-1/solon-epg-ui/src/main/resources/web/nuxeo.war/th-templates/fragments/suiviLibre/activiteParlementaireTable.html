@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="activiteParlementaireTable"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="activiteParlementaireTable"
+            class="tableForm"
+        >
+            <div class="overlay" th:id="activiteParlementaire_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <a
+                href="#skip_link_table-activite-parlementaire_prev"
+                id="skip_link_table-activite-parlementaire_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(#{suiviLibre.activiteParlementaire.sousTitre})}"
+            >
+                Passer le tableau pour arriver après</a
+            >
+            <div class="table-wrapper">
+                <table class="custom-table">
+                    <caption class="sr-only" th:text="#{suiviLibre.activiteParlementaire.sousTitre}">
+                        Liste des organismes extraparlementaires
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr>
+                            <th:block th:each="colonne : ${resultList.getListeColonnes()}">
+                                <th:block th:if="${colonne.visible && colonne.sortable}">
+                                    <th
+                                        th:aria-sort="${colonne.sortValue == 'asc' ? 'ascending' : (colonne.sortValue== 'desc' ? 'descending' : '')}"
+                                        scope="col"
+                                        class="table-header__cell table-header__cell--with-filter-action"
+                                        th:with="order=${colonne.sortOrder}"
+                                    >
+                                        <button
+                                            th:replace="fragments/table/sortableHeader :: sortableHeader (#{__${colonne.label}__},${colonne.sortValue},${colonne.sortName},${colonne.sortId},${colonne.inverseSort})"
+                                        ></button>
+                                    </th>
+                                </th:block>
+
+                                <th:block th:if="${colonne.visible && !colonne.sortable}">
+                                    <th scope="col" class="table-header__cell">
+                                        <span
+                                            th:if="${colonne.isLabelVisible}"
+                                            class="table-header__cell-inner"
+                                            th:text="${colonne.label !=null? #messages.msg(colonne.label) : ''}"
+                                        >
+                                            &nbsp;
+                                        </span>
+                                        <span th:unless="${colonne.isLabelVisible}" class="table-header__cell-inner">
+                                            <span class="sr-only">[[ #{__${colonne.label}__} ]]</span>
+                                        </span>
+                                    </th>
+                                </th:block>
+                            </th:block>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body custom-table__body">
+                        <tr
+                            class="table-line custom-table__table-line"
+                            th:each="item, index : ${resultList.getListe()}"
+                        >
+                            <td class="table-line__cell">
+                                <a
+                                    th:href="@{|/suiviLibre/activiteParlementaire/${item.id}|}"
+                                    class="link"
+                                    th:text="${item.nom}"
+                                >
+                                    Commission nationale des secteurs sauvegardés
+                                </a>
+                            </td>
+                            <td class="table-line__cell">
+                                <p class="table-line__cell-content" th:text="${item.ministere}">
+                                    Ministère de la culture et de l'organisation
+                                </p>
+                            </td>
+                            <td class="table-line__cell">
+                                <p
+                                    class="table-line__cell-content"
+                                    th:text="${#calendars.format(item.date, 'dd/MM/yyyy')}"
+                                >
+                                    jj/mm/aaaa
+                                </p>
+                            </td>
+                            <td class="table-line__cell table-line__cell--small">
+                                <div class="flex items-center">
+                                    <a
+                                        type="link"
+                                        th:href="@{|/suiviLibre/activiteParlementaire/telecharger?element=${item.id}|}"
+                                        target="_blank"
+                                        class="m-l-4 base-btn base-btn--button base-btn--default base-btn--icon-action-blue base-btn--discret"
+                                        th:data-tippy-content="#{suiviLibre.activiteParlementaire.downloadAction(${item.nom})}"
+                                    >
+                                        <span aria-hidden="true" class="icon icon--download icon--medium"></span
+                                        ><span
+                                            class="sr-only"
+                                            th:text="#{suiviLibre.activiteParlementaire.downloadAction(${item.nom})}"
+                                            >Télécharger le document [Commission nationale des secteurs sauvegardés] en
+                                            PDF</span
+                                        >
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <a
+                href="#skip_link_table-activite-parlementaire_next"
+                id="skip_link_table-activite-parlementaire_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(#{suiviLibre.activiteParlementaire.sousTitre})}"
+            >
+                Passer le tableau pour arriver avant</a
+            >
+        </div>
+    </body>
+</html>

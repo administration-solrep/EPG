@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="modalNouvelleIdentite (idMandat)"
+            id="modal-nouvelle-identite"
+            class="interstitial-overlay__content"
+        >
+            <div
+                class="interstitial interstitial--small"
+                role="dialog"
+                aria-labelledby="dialogTitle-nouvelleIdentite"
+                style="position: relative;"
+            >
+                <div class="interstitial__header">
+                    <h1
+                        id="dialogTitle-nouvelleIdentite"
+                        class="interstitial__title"
+                        th:text="#{command.admin.param.tableRefEPP.ajouter.identite}"
+                    ></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{gouvernement.import.popup.close}"></span>
+                    </button>
+                </div>
+                <form id="formNouvelleIdentite">
+                    <div class="interstitial__content" th:with="validation=required">
+                        <input type="hidden" name="csrf-token" data-isForm="true" th:value="${csrftoken}" />
+                        <input type="hidden" name="idMandat" data-isForm="true" th:value="${idMandat}" />
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="newidIdentite"
+                                        id="newidIdentite_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{command.admin.param.tableRefEPP.identifiant}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="idIdentite"
+                                    id="newidIdentite"
+                                    class="form-input__field form-input__field--type-text"
+                                    disabled
+                                />
+                            </div>
+                            <div id="newidIdentite_description" class="form-input__footer"></div>
+                        </div>
+
+                        <fieldset class="form-optin__fieldset m-b-6">
+                            <legend class="form-optin__legend">
+                                <span th:text="#{command.admin.param.tableRefEPP.civilite}"></span>
+                            </legend>
+                            <div class="form-optin__optins">
+                                <div class="form-optin__container">
+                                    <input
+                                        type="radio"
+                                        id="newelts_madame"
+                                        name="civilite"
+                                        class="form-optin__checkbox"
+                                        value="Madame"
+                                        autocomplete="off"
+                                    />
+                                    <label for="newelts_madame" id="newelts_madame_label" class="form-optin__label">
+                                        <span th:text="#{civilite.madame}"></span>
+                                    </label>
+                                </div>
+                                <div class="form-optin__container">
+                                    <input
+                                        type="radio"
+                                        id="newelts_monsieur"
+                                        name="civilite"
+                                        class="form-optin__checkbox"
+                                        value="Monsieur"
+                                        autocomplete="off"
+                                    />
+                                    <label for="newelts_monsieur" id="newelts_monsieur_label" class="form-optin__label">
+                                        <span th:text="#{civilite.monsieur}"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="newprenom"
+                                        id="newprenom_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{command.admin.param.tableRefEPP.prenom}"></span>
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="prenom"
+                                    id="newprenom"
+                                    data-validation="required"
+                                    class="form-input__field form-input__field--type-text"
+                                />
+                            </div>
+                            <div id="newprenom_description" class="form-input__footer"></div>
+                        </div>
+
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label aria-disabled="false" for="newnom" id="newnom_label" class="form-label">
+                                        <span th:text="#{command.admin.param.tableRefEPP.nom}"></span>
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="nom"
+                                    id="newnom"
+                                    data-validation="required"
+                                    class="form-input__field form-input__field--type-text"
+                                />
+                            </div>
+                            <div id="newnom_description" class="form-input__footer"></div>
+                        </div>
+
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label for="newdateNaissance" id="newdateNaissance_label" class="form-label">
+                                        <span th:text="#{command.admin.param.tableRefEPP.dateNaissance}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                                <div class="form-input__header-bottom"></div>
+                            </div>
+                            <div class="form-input__container">
+                                <div
+                                    th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_date_naissance', 'dateNaissance', 'newdateNaissance', false, null, false)"
+                                ></div>
+                            </div>
+                            <div id="form_input_newdateNaissance_description" class="form-input__footer"></div>
+                        </div>
+
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="newlieuNaissance"
+                                        id="newlieuNaissance_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{command.admin.param.tableRefEPP.lieuNaissance}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="lieuNaissance"
+                                    id="newlieuNaissance"
+                                    class="form-input__field form-input__field--type-text"
+                                />
+                            </div>
+                            <div id="newlieuNaissance_description" class="form-input__footer"></div>
+                        </div>
+
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="newdepartementNaissance"
+                                        id="newdepartementNaissance_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{command.admin.param.tableRefEPP.deptNaissance}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="departementNaissance"
+                                    id="newdepartementNaissance"
+                                    class="form-input__field form-input__field--type-text"
+                                />
+                            </div>
+                            <div id="newdepartementNaissance_description" class="form-input__footer"></div>
+                        </div>
+
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="newpaysNaissance"
+                                        id="newpaysNaissance_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{command.admin.param.tableRefEPP.paysNaissance}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="paysNaissance"
+                                    id="newpaysNaissance"
+                                    class="form-input__field form-input__field--type-text"
+                                />
+                            </div>
+                            <div id="newpaysNaissance_description" class="form-input__footer"></div>
+                        </div>
+
+                        <div class="form-input m-b-6">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="newdateDebutIdentite"
+                                        id="newdateDebutIdentite_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{command.admin.param.tableRefEPP.datedebut}"></span>
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                                <div class="form-input__header-bottom"></div>
+                            </div>
+                            <div class="form-input__container">
+                                <div
+                                    th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_date_debut', 'dateDebutIdentite', 'newdateDebutIdentite', true, ${#dates.format(#dates.createNow(), 'dd/MM/YYYY')}, false)"
+                                ></div>
+                            </div>
+                            <div id="form_input_dateDebutIdentite_description" class="form-input__footer"></div>
+                        </div>
+
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label for="newdateFinIdentite" id="newdateFinIdentite_label" class="form-label">
+                                        <span th:text="#{command.admin.param.tableRefEPP.datefin}"></span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                                <div class="form-input__header-bottom"></div>
+                            </div>
+                            <div class="form-input__container">
+                                <div
+                                    th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_date_fin', 'dateFinIdentite', 'newdateFinIdentite', false, null, false)"
+                                ></div>
+                            </div>
+                            <div id="form_input_newdateFinIdentite_description" class="form-input__footer"></div>
+                        </div>
+                    </div>
+                    <div class="interstitial__footer">
+                        <button
+                            type="button"
+                            class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                            th:text="#{button.label.cancel}"
+                        ></button>
+                        <input
+                            type="button"
+                            class="base-btn base-btn--button base-btn--default base-btn--center"
+                            th:value="#{button.label.valider}"
+                            onclick="doSaveIdentite()"
+                        />
+                    </div>
+                </form>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

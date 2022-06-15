@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="tableStatsGlobale" class="tableForm" id="listeStatsGlobale">
+            <a
+                href="#skip_link_action-table_prev"
+                id="skip_link_action-table_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(#{label.tableau.stats.activite.globale.caption})}"
+            ></a>
+            <div class="table-wrapper">
+                <table class="custom-table">
+                    <caption class="sr-only" th:text="#{label.tableau.stats.activite.globale.caption}">
+                        Tableau des statistiques d'activité globale dans S.O.L.O.N.
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th
+                                scope="col"
+                                class="table-header__cell"
+                                th:text="#{label.tableau.stats.activite.globale}"
+                            >
+                                Statistiques d'activité globale dans S.O.L.O.N.
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="custom-table__body">
+                        <th:block th:if="${not #lists.isEmpty(statsGlobaleList.liste)}">
+                            <tr
+                                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                                th:each="item, nb : ${statsGlobaleList.liste}"
+                                th:data-id="${item.id}"
+                            >
+                                <td class="table-line__cell">
+                                    <th:block th:if="${item.isStatBirt}">
+                                        <a
+                                            th:href="@{|/stats/${item.id}#main_content|}"
+                                            class="link"
+                                            th:text="${item.label}"
+                                            >Stat</a
+                                        >
+                                    </th:block>
+                                    <th:block th:unless="${item.isStatBirt}">
+                                        <a
+                                            th:href="@{|/stats/archivage/dossiers#main_content|}"
+                                            class="link"
+                                            th:text="${item.label}"
+                                            >Stat</a
+                                        >
+                                    </th:block>
+                                </td>
+                            </tr>
+                        </th:block>
+                        <th:block th:unless="${not #lists.isEmpty(statsGlobaleList.liste)}">
+                            <td colspan="5" th:text="#{label.stats.nombre(0)}">Aucun résultat</td>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+
+            <a
+                href="#skip_link_action-table_next"
+                id="skip_link_action-table_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(#{label.tableau.stats.activite.globale.caption})}"
+            ></a>
+        </div>
+    </body>
+</html>

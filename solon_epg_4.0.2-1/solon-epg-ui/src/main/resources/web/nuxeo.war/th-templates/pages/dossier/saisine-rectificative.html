@@ -1,0 +1,40 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page des saisines rectificatives', title=#{saisine.rectificative.titre})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <input type="hidden" id="dossierId" name="dossierId" th:value="${idDossier}" />
+        <div class="page-layout__content-nav m-t-6">
+            <div
+                th:replace="fragments/dossier/saisine-rectificative/saisine-button-row:: saisine-button-row(${saisineActions})"
+            ></div>
+            <h1 class="m-b-6 base-title base-title--lvl-1" th:text="#{saisine.rectificative.titre}">
+                Saisine rectificative
+            </h1>
+            <h2 class="base-title base-title--lvl-2 m-y-6" th:text="#{saisine.rectificative.titre.tableau.saisine}">
+                Liste des documents du répertoire "Saisine rectificative" modifiés depuis le dernier envoi au Conseil
+                d'Etat
+            </h2>
+            <div
+                th:replace="fragments/dossier/saisine-rectificative/saisine-file-table :: saisine-file-table(${saisines})"
+            ></div>
+            <h2
+                class="base-title base-title--lvl-2 m-y-6"
+                th:text="#{saisine.rectificative.titre.tableau.pieces.complementaires}"
+            >
+                Pour information : liste des documents hors du répertoire "Saisine rectificative", à transmettre au
+                Conseil d'Etat
+            </h2>
+            <div
+                th:replace="fragments/dossier/saisine-rectificative/saisine-file-table :: saisine-file-table(${piecesComplementaires})"
+            ></div>
+            <div
+                th:replace="fragments/dossier/saisine-rectificative/saisine-button-row:: saisine-button-row(${saisineActions})"
+            ></div>
+        </div>
+    </main>
+</html>

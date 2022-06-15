@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="conseilEtat(bordereauDto)" th:with="dto=${bordereauDto.conseilEtat}">
+            <th:block th:unless="${bordereauDto.isEdit && !isNorAttribue}">
+                <div class="folder-detail">
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.priorite.ce},${dto.prioriteCELibelle})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.section.ce},${dto.sectionCE})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.rapporteur},${dto.rapporteur})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.date.transmission.section.ce},${#calendars.format(dto.dateTransmissionSectionCE,'dd/MM/yyyy')})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.date.previsionnelle.section.ce},${#calendars.format(dto.datePrevisionnelleSectionCe,'dd/MM/yyyy')})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.date.previsionnelle.ag.ce},${#calendars.format(dto.datePrevisionnelleAgCe,'dd/MM/yyyy')})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.ISA},${dto.numeroISA})"
+                            ></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <th:block th:if="${bordereauDto.isEdit && !isNorAttribue}">
+                <div role="group" aria-labelledby="accordion__header__epgBordereauConseilEtat">
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-select :: simpleSelect('dossier.bordereau.priorite.ce', 'prioriteCE', '', ${prioriteOptions}, ${dto.prioriteCE}, '__${!dto.isEditableCE}__', 'label.default.choice')"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.section.ce}, false, '', 'sectionCE', 'sectionCE', ${dto.sectionCE}, ${!dto.isEditableCe})"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.rapporteur}, false, '', 'rapporteur', 'rapporteur', ${dto.rapporteur}, ${!dto.isEditableCe})"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="dateTransmissionSectionCE"
+                                        id="dateTransmissionSectionCE_label"
+                                        class="form-label"
+                                        th:text="#{dossier.bordereau.date.transmission.section.ce}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_dateTransmissionSectionCE', 'dateTransmissionSectionCE', 'dateTransmissionSectionCE', false, ${#calendars.format(dto.dateTransmissionSectionCE,'dd/MM/yyyy')}, ${!dto.isEditableCe})"
+                            ></div>
+                            <div id="dateTransmissionSectionCE_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="datePrevisionnelleSectionCe"
+                                        id="datePrevisionnelleSectionCe_label"
+                                        class="form-label"
+                                        th:text="#{dossier.bordereau.date.previsionnelle.section.ce}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_datePrevisionnelleSectionCe', 'datePrevisionnelleSectionCe', 'datePrevisionnelleSectionCe', false, ${#calendars.format(dto.datePrevisionnelleSectionCe,'dd/MM/yyyy')}, ${!dto.isEditableCe})"
+                            ></div>
+                            <div id="datePrevisionnelleSectionCe_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="datePrevisionnelleAgCe"
+                                        id="datePrevisionnelleAgCe_label"
+                                        class="form-label"
+                                        th:text="#{dossier.bordereau.date.previsionnelle.ag.ce}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_datePrevisionnelleAgCe', 'datePrevisionnelleAgCe', 'datePrevisionnelleAgCe', false, ${#calendars.format(dto.datePrevisionnelleAgCe,'dd/MM/yyyy')}, ${!dto.isEditableCe})"
+                            ></div>
+                            <div id="datePrevisionnelleAgCe_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.ISA}, false, '', 'numeroISA', 'numeroISA', ${dto.numeroISA}, ${!dto.isEditableCe})"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

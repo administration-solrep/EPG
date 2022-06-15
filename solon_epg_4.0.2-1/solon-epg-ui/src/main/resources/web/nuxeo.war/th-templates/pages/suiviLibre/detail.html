@@ -1,0 +1,78 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/suiviLibreLayout :: layout (template=~{::main},templateClass='', description='page activité parlementaire', title=${titre})}"
+>
+    <main id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <div class="m-y-6 flex flex-row justify-between">
+            <button
+                type="button"
+                onclick="goPreviousPage()"
+                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                th:text="#{button.label.back}"
+            >
+                Retour
+            </button>
+        </div>
+        <h1 class="m-t-6 m-b-6 p-b-3 base-title base-title--lvl-1 base-title--is-underlined" th:text="${titre}">
+            Titre rapport
+        </h1>
+
+        <th:block th:each="report : ${reports}">
+            <h2 class="m-t-6 m-b-6 p-b-3 base-title base-title--lvl-2" th:text="${report.titre}"></h2>
+            <div class="page-reponses-report-birt-open__iframe-wrapper" th:if="${report.available}">
+                <iframe
+                    th:src="@{|/suiviLibre/${typeApplication}/report?filename=${report.link}&legislatureEnCours=${legislatureEnCours}|}"
+                ></iframe>
+            </div>
+            <p th:unless="${report.available}" th:text="#{suiviLibre.tableau.nonPublie}"></p>
+        </th:block>
+
+        <th:block th:each="report, index : ${accordionReports}">
+            <div class="m-y-6 accordion accordion--h2">
+                <h2 class="base-title base-title--lvl-2 base-title--is-underlined p-b-3">
+                    <button
+                        type="button"
+                        th:aria-controls="|accordion__content__lawDetailAccordion${index.index}|"
+                        aria-expanded="false"
+                        th:id="|accordion__header__lawDetailAccordion${index.index}|"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract-without-background"
+                        data-icon-closed="add-without-background"
+                        class="accordion__header js-toggle accordion__header--h2 base-title base-title--lvl-2 p-a-0"
+                    >
+                        [[${report.titre}]]
+                        <span
+                            aria-hidden="true"
+                            class="icon bubble-icon bubble-icon--neutral accordion__icon accordion__icon--h2 icon--add-without-background"
+                        ></span>
+                    </button>
+                </h2>
+                <div
+                    aria-hidden="true"
+                    th:id="|accordion__content__lawDetailAccordion${index.index}|"
+                    class="accordion__content accordion__content--h2"
+                >
+                    <div class="page-reponses-report-birt-open__iframe-wrapper" th:if="${report.available}">
+                        <iframe
+                            th:src="@{|/suiviLibre/${typeApplication}/report?filename=${report.link}&legislatureEnCours=${legislatureEnCours}|}"
+                        ></iframe>
+                    </div>
+                    <p th:unless="${report.available}" th:text="#{suiviLibre.tableau.nonPublie}"></p>
+                </div>
+            </div>
+        </th:block>
+        <div class="m-y-6 flex flex-row justify-between">
+            <button
+                type="button"
+                onclick="goPreviousPage()"
+                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                th:text="#{button.label.back}"
+            >
+                Retour
+            </button>
+        </div>
+    </main>
+</html>

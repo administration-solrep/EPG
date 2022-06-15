@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="applicationMinisteres">
+            <h2 class="m-y-6 base-title base-title--lvl-2" th:text="#{suiviLibre.__${typeApplication}__.table2.titre}">
+                Présentation par ministère
+            </h2>
+            <div class="flexible-table table-ministeres">
+                <a
+                    href="#skip_link_table-ministeres_prev"
+                    id="skip_link_table-ministeres_next"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{suiviLibre.__${typeApplication}__.table2.titre})}"
+                >
+                    Passer le tableau pour arriver après</a
+                >
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <caption class="sr-only" th:text="#{suiviLibre.__${typeApplication}__.table2.titre}">
+                            Présentation par ministère
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th scope="col" class="table-header__cell">
+                                    <span th:text="#{suiviLibre.__${typeApplication}__.table2.header.ministere}"
+                                        >Ministère</span
+                                    >
+                                </th>
+                                <th scope="col" class="table-header__cell table-header__cell--right">
+                                    <span
+                                        ><span
+                                            class="text-no-wrap"
+                                            th:text="#{suiviLibre.__${typeApplication}__.table2.header.action1}"
+                                            >Taux d'application par ministère</span
+                                        ></span
+                                    >
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="table-header__cell table-header__cell--small table-header__cell--right"
+                                >
+                                    <span
+                                        ><span
+                                            class="text-no-wrap"
+                                            th:text="#{suiviLibre.__${typeApplication}__.table2.header.action2}"
+                                            >Mesures en attente de décrets</span
+                                        ></span
+                                    >
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body custom-table__body">
+                            <tr class="table-line custom-table__table-line" th:each="min : ${ministeres}">
+                                <td class="table-line__cell">
+                                    <a
+                                        th:if="${canConsultMin}"
+                                        th:href="@{|/suiviLibre/${typeApplication}/ministere/${min.id}?action=0|}"
+                                        th:text="${min.label}"
+                                    >
+                                        Premier Ministre
+                                    </a>
+                                    <p
+                                        th:unless="${canConsultMin}"
+                                        class="table-line__cell-content"
+                                        th:text="${min.label}"
+                                    >
+                                        Premier Ministre
+                                    </p>
+                                </td>
+                                <td
+                                    class="table-line__cell table-line__cell--right"
+                                    th:with="label=#{suiviLibre.__${typeApplication}__.table2.action1(${min.label})}"
+                                >
+                                    <div th:data-tippy-content="${label}" tabindex="0" class="base-tooltip js-tooltip">
+                                        <span class="sr-only" th:text="${label}"
+                                            >Accéder aux taux d'application par ministère</span
+                                        ><a
+                                            th:href="@{|/suiviLibre/${typeApplication}/ministere/${min.id}?action=1&legislatureEncours=${legislatureEnCours}|}"
+                                            class="link"
+                                            ><span class="sr-only" th:text="${label}"
+                                                >Accéder aux taux d'application par ministère</span
+                                            ><span
+                                                aria-hidden="true"
+                                                class="icon icon--pm-2 link__icon link__icon--append link__icon--large"
+                                            ></span
+                                        ></a>
+                                    </div>
+                                </td>
+                                <td
+                                    class="table-line__cell table-line__cell--small table-line__cell--right"
+                                    th:with="label=#{suiviLibre.__${typeApplication}__.table2.action2(${min.label})}"
+                                >
+                                    <div th:data-tippy-content="${label}" tabindex="0" class="base-tooltip js-tooltip">
+                                        <span class="sr-only" th:text="${label}"
+                                            >Accéder aux taux d'application par ministère</span
+                                        ><a
+                                            th:href="@{|/suiviLibre/${typeApplication}/ministere/${min.id}?action=2&legislatureEncours=${legislatureEnCours}|}"
+                                            class="link"
+                                            ><span class="sr-only" th:text="${label}"
+                                                >Accéder aux taux d'application par ministère</span
+                                            ><span
+                                                aria-hidden="true"
+                                                class="icon icon--clock link__icon link__icon--append link__icon--large"
+                                            ></span
+                                        ></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a
+                    href="#skip_link_table-ministeres_next"
+                    id="skip_link_table-ministeres_prev"
+                    class="skip-link"
+                    th:text="#{skip.link.table.next(#{suiviLibre.__${typeApplication}__.table2.titre})}"
+                >
+                    Passer le tableau pour arriver avant</a
+                >
+            </div>
+        </div>
+    </body>
+</html>

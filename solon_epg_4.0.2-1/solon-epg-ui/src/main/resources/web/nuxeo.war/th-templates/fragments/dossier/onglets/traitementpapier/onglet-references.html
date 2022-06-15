@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ongletReferences" id="ongletReferences_content" class="page-epg-bordereau">
+            <!-- Données du bordereau -->
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__epgReferencesDonneesBordereau"
+                    aria-expanded="true"
+                    id="accordion__header__epgReferencesDonneesBordereau"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{dossier.traitement.papier.donnees.bordereau}]]
+                    <span
+                        aria-hidden="true"
+                        class="icon icon--substract accordion__icon accordion__icon--default"
+                    ></span>
+                </button>
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__epgReferencesDonneesBordereau"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                        th:replace="fragments/dossier/onglets/traitementpapier/references/donnees-bordereau :: donneesBordereau(${bordereauDto}, ${referencesPublicationVisible})"
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Complément -->
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__epgReferencesComplement"
+                    aria-expanded="true"
+                    id="accordion__header__epgReferencesComplement"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{dossier.traitement.papier.complement}]]
+                    <span
+                        aria-hidden="true"
+                        class="icon icon--substract accordion__icon accordion__icon--default"
+                    ></span>
+                </button>
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__epgReferencesComplement"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                        th:replace="fragments/dossier/onglets/traitementpapier/references/complement :: complement(${complementDto}, ${isEditable}, ${referencesPublicationVisible}, ${referencesComplementVisible})"
+                    ></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

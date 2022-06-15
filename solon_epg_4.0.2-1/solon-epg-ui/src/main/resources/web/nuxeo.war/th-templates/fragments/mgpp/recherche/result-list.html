@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+    <body>
+        <th:block th:fragment="resultList" th:if="${displayTable}">
+            <span id="resultList" th:classappend="${titre != null ? '' : 'hide-element'}">
+                <h2 class="search-result-form__title base-title base-title--lvl-2" th:text="${titre}">
+                    Résultat(s) de recherche
+                </h2>
+
+                <h3 class="search-result-form__subtitle base-title base-title--lvl-3" th:text="${sousTitre}">
+                    X résultat(s) trouvé(s)
+                </h3>
+
+                <th:block
+                    th:replace="fragments/table/tableResultatsCorbeille :: searchResults(${corbeille})"
+                ></th:block>
+            </span>
+        </th:block>
+    </body>
+</html>

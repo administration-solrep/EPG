@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="representants(representantsTable)"
+            th:id="|${representantsTable.type}Tableau|"
+            class="m-t-4 accordion"
+        >
+            <button
+                class="accordion__header js-toggle accordion__header--default"
+                th:id="|accordion__header__${representantsTable.nom}|"
+                aria-expanded="true"
+                th:aria-controls="|accordion__content__${representantsTable.nom}|"
+                type="button"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+            >
+                [[#{${representantsTable.titre}}]]
+                <span class="icon icon--substract accordion__icon accordion__icon--default" aria-hidden="true"></span>
+            </button>
+            <div
+                class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                th:id="|accordion__content__${representantsTable.nom}|"
+                aria-hidden="false"
+            >
+                <div class="m-t-4 flex justify-between items-end">
+                    <div class="actions-bar m-t-2">
+                        <div class="actions-bar__group">
+                            <th:block th:each="action : ${representantsTable.tableActions}">
+                                <div
+                                    th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <table class="custom-table">
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th:block th:unless="${#lists.isEmpty(representantsTable.lineActions)}">
+                                <th
+                                    aria-sort="descending"
+                                    scope="col"
+                                    class="table-header__cell table-header__cell--with-filter-action sticky-col"
+                                >
+                                    <span class="table-header__cell-inner"></span>
+                                </th>
+                            </th:block>
+                            <th:block th:each="colonne : ${representantsTable.lstColonnes}">
+                                <th scope="col" class="table-header__cell">
+                                    <span
+                                        class="tabla-header__cell-inner"
+                                        th:text="${colonne !=null? #messages.msg(colonne) : ''}"
+                                    >
+                                        &nbsp;
+                                    </span>
+                                </th>
+                            </th:block>
+                        </tr>
+                    </thead>
+                    <tbody class="custom-table__body">
+                        <th:block th:unless="${#maps.isEmpty(representantsTable.items)}">
+                            <tr
+                                class="custom-table__table-line table-line table-line--with-action-column table-line--complex-line"
+                                th:each="item, nb : ${representantsTable.items}"
+                            >
+                                <td
+                                    th:unless="${#lists.isEmpty(representantsTable.lineActions)}"
+                                    class="table-line__cell sticky-col"
+                                >
+                                    <div class="table-line__action-buttons flex justify-start items-center">
+                                        <th:block th:each="action : ${representantsTable.lineActions}">
+                                            <div
+                                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                                            ></div>
+                                        </th:block>
+                                    </div>
+                                </td>
+                                <th:block th:each="cell :${item.value}">
+                                    <td class="table-line__cell" th:utext="${cell}"></td>
+                                </th:block>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
+                <p
+                    class="table-row-count m-t-6"
+                    th:text="${#messages.msgOrNull('mgpp.nb.'+representantsTable.nom, #maps.isEmpty(representantsTable.items)?0:representantsTable.items.size)}"
+                ></p>
+            </div>
+        </div>
+    </body>
+</html>

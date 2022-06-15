@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="historique-maj"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            class="tableForm"
+            id="d_historique-maj_content"
+            th:with="tableCaption=${tableCaption} ?: #{pan.application.historiqueMaj.caption}"
+        >
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'dossier_haut')"
+                ></div>
+            </th:block>
+            <div class="table-action" th:unless="${resultList.liste.size == resultList.nbTotal}">
+                <div
+                    class="table-action__action-container table-action__action-container--left"
+                    th:unless="${#lists.isEmpty(resultList.liste)}"
+                    th:replace="fragments/components/action-button :: action-button(${deleteHistoriqueAction}, false, '')"
+                ></div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <div
+                        th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'historique_haut',${resultList.nbTotal})"
+                    ></div>
+                </div>
+            </div>
+            <div th:unless="${#lists.isEmpty(resultList.liste)}">
+                <div class="table-wrapper m-t-4">
+                    <div class="table-scroller">
+                        <a
+                            href="#skip_link_historique-maj-table_prev"
+                            id="skip_link_historique-maj-table_next"
+                            class="skip-link"
+                            th:text="#{skip.link.table.prev(${tableCaption})} "
+                        ></a>
+                        <div class="table-master table-wrapper">
+                            <table class="custom-table" id="listeHistoriqueMAJMinisterielles">
+                                <caption class="sr-only" th:text="${tableCaption}">
+                                    Historique des màj ministérielles
+                                </caption>
+                                <thead class="table-header custom-table__header">
+                                    <tr class="table-header__line">
+                                        <th scope="col" class="table-header__cell table-line__cell--check">
+                                            <div class="form-choice-input">
+                                                <input
+                                                    type="checkbox"
+                                                    name="checkboxSelectAllHisto"
+                                                    onclick="selectAllCheckBox(this);"
+                                                    class="form-choice-input__input js-custom-table-header-check"
+                                                    id="selectAllHisto"
+                                                    autocomplete="off"
+                                                />
+                                                <label
+                                                    for="selectAllHisto"
+                                                    th:title="#{pan.historique.selectAll}"
+                                                    th:data-select-label="#{pan.historique.selectAll}"
+                                                    th:data-deselect-label="#{pan.historique.deselectAll}"
+                                                    class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                                >
+                                                    <span th:text="#{pan.historique.selectAll}">Sélectionner tout</span>
+                                                </label>
+                                            </div>
+                                        </th>
+                                        <th:block th:each="colonne : ${lstColonnes}">
+                                            <th scope="col" class="table-header__cell">
+                                                <span
+                                                    class="table-header__cell-inner"
+                                                    th:text="#{__${colonne.label}__}"
+                                                ></span>
+                                            </th>
+                                        </th:block>
+                                    </tr>
+                                </thead>
+                                <tbody class="custom-table__body">
+                                    <th:block th:unless="${#lists.isEmpty(resultList.liste)}">
+                                        <tr
+                                            class="table-line"
+                                            th:each="item, nb : ${resultList.liste}"
+                                            th:data-id="${item.id}"
+                                            th:attr="doc=${item.idDossier}"
+                                        >
+                                            <td class="table-line__cell table-line__cell--check">
+                                                <div class="form-choice-input">
+                                                    <input
+                                                        th:id="|select-${item.id}|"
+                                                        type="checkbox"
+                                                        th:name="${'checkbox-'+nb.count}"
+                                                        onclick="selectTableCheckbox(this)"
+                                                        class="form-choice-input__input js-custom-table-line-check"
+                                                        autocomplete="off"
+                                                    />
+                                                    <label
+                                                        th:for="|select-${item.id}|"
+                                                        th:title="#{recherche.userSearch.selectOne(${nb.index})}"
+                                                        th:data-select-label="#{pan.historique.selectOne(${nb.index})}"
+                                                        th:data-deselect-label="#{pan.historique.deselectOne(${nb.index})}"
+                                                        class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                                    >
+                                                        <span th:text="#{pan.historique.selectOne(${nb.index})}"
+                                                            >Ligne historique</span
+                                                        >
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td
+                                                class="table-line__cell"
+                                                th:text="${#dates.format(item.getDateMaJ(),'dd/MM/yyyy hh:mm')}"
+                                            ></td>
+                                            <td class="table-line__cell" th:text="${item.getEtat()}"></td>
+                                            <td class="table-line__cell">
+                                                <a
+                                                    class="link"
+                                                    th:href="@{/dossier/{dossierId}/parapheur(dossierId=${item.idDossier},dossierLinkId=null)} + '#main_content'"
+                                                    th:text="${item.getNumeroNor()}"
+                                                >
+                                                </a>
+                                            </td>
+                                            <td class="table-line__cell">
+                                                <button
+                                                    class="link"
+                                                    target="_blank"
+                                                    th:attr="onclick=|chargerBlocContextuel(this,'${item.activiteNormativeId}','textemaitre');return false;|"
+                                                    th:text="${item.getReference()}"
+                                                ></button>
+                                            </td>
+                                            <td class="table-line__cell">
+                                                <div
+                                                    th:replace="fragments/components/longText :: ellipser(${item.getTitre()}, 'titre-'+${item.id})"
+                                                ></div>
+                                            </td>
+                                            <td class="table-line__cell" th:text="${item.getNumeroArticles()}"></td>
+                                            <td class="table-line__cell" th:text="${item.getNumeroOrdre()}"></td>
+                                            <td class="table-line__cell" th:text="${item.getCommentaire()}"></td>
+                                        </tr>
+                                    </th:block>
+                                    <th:block th:if="${#lists.isEmpty(resultList.liste)}">
+                                        <td colspan="5" th:text="#{label.fdr.nombre(0)}"></td>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a
+                            href="#skip_link_historique-maj-table_next"
+                            id="skip_link_historique-maj-table_prev"
+                            class="skip-link"
+                            th:text="#{skip.link.table.next(${tableCaption})} "
+                        ></a>
+                    </div>
+                </div>
+                <div class="table-action" th:unless="${resultList.liste.size == resultList.nbTotal}">
+                    <div
+                        class="table-action__action-container table-action__action-container--left"
+                        th:unless="${#lists.isEmpty(resultList.liste)}"
+                        th:replace="fragments/components/action-button :: action-button(${deleteHistoriqueAction}, false, '')"
+                    ></div>
+                    <div class="table-action__action-container table-action__action-container--right">
+                        <div
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'historique_bas',${resultList.nbTotal})"
+                        ></div>
+                    </div>
+                </div>
+                <p class="table-row-count m-t-6" th:text="#{pan.nb.entrees(${nbResults})} "></p>
+            </div>
+        </div>
+    </body>
+</html>

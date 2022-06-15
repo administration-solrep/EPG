@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://dila.fr/solon/schemas/fileSolonEpg/"
+    xmlns:filepg="http://dila.fr/solon/schemas/fileSolonEpg/"
+>
+
+	<!-- on inclut le schema contenant la definition de xs:stringList -->
+	<xs:include schemaLocation="base.xsd" />
+
+	<!-- entité du dernier utilisateur qui a modifié le fichier -->
+	<xs:element name="entite" type="xs:string" />
+
+	<!-- La référence du document auquel ce fichier est lié, utilisé pour retrouver 
+		le dossier à partir du fichier . Dénormalisation pour la recherche -->
+	<xs:element name="relatedDocument" type="xs:string" />
+
+	<!-- Le type sur le fichier est dans cette table plutôt que sur dublincore -->
+	<xs:element name="filetypeId" type="xs:integer" />
+
+    <!-- En cours d'édition -->
+    <xs:element name="editing" type="xs:boolean" />
+
+	<!-- note : on ne mets pas le dernier utilisateur qui a modifié le fichier 
+		ainsi que la dernière date de modification car ces infos sont déjà présente 
+		dans dublincore -->
+
+</xs:schema>

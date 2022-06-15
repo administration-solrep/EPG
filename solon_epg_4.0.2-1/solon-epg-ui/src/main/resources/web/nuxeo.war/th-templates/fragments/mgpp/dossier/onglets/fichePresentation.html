@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="fichePresentation" id="fiche_content">
+            <input type="hidden" id="idMessage" name="idMessage" th:value="${id}" />
+            <input type="hidden" id="ficheId" name="ficheId" th:value="${idFiche}" />
+            <input type="hidden" id="diffuser" name="diffuser" />
+
+            <div th:replace="fragments/table/toolbarMgpp :: toolbar('fichePresentation_toolbar', false)"></div>
+
+            <form id="formEditFiche">
+                <div class="m-t-4 accordion">
+                    <button
+                        class="accordion__header js-toggle accordion__header--default"
+                        id="accordion__header__law-sheet"
+                        aria-expanded="true"
+                        aria-controls="accordion__content__presentation"
+                        type="button"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract"
+                        data-icon-closed="add"
+                    >
+                        [[#{label.mgpp.dossier.onglets.fichePresentation}]]
+                        <span
+                            class="icon icon--substract accordion__icon accordion__icon--default"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+                    <div
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                        id="accordion__content__presentation"
+                        aria-hidden="false"
+                    >
+                        <div
+                            th:replace="fragments/mgpp/dossier/onglets/fichePresentationWidgets :: fichePresentationWidgets(${lstWidgetsPresentation})"
+                        ></div>
+                    </div>
+                </div>
+            </form>
+            <th:block th:unless="${#lists.isEmpty(lstTablesRepresentants)}">
+                <th:block th:each="table : ${lstTablesRepresentants}">
+                    <div
+                        th:replace="fragments/mgpp/dossier/onglets/bloc-representants :: representants(${table})"
+                    ></div>
+                </th:block>
+            </th:block>
+            <div th:replace="fragments/mgpp/components/mgppModaleEdit :: mgppModaleEdit"></div>
+            <th:block th:unless="${#lists.isEmpty(lstWidgetsDetails)}">
+                <div
+                    th:replace="fragments/mgpp/dossier/onglets/bloc-detail :: blocDetail('detail', 'label.mgpp.dossier.onglets.ficheLoi.detail',${lstWidgetsDetails})"
+                ></div>
+            </th:block>
+        </div>
+    </body>
+</html>

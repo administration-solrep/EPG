@@ -1,0 +1,158 @@
+<?xml version="1.0" ?>
+<!-- Cet composant permet de désactiver l'authentification basic pour le 
+	point de visiblité. Permet d'exposer l'application en Extranet avec une authentification 
+	HTTP Basic sur le frontal Apache. -->
+<component name="fr.dila.solonepg.distrib.auth.config">
+
+	<require>org.nuxeo.ecm.platform.ui.web.auth.defaultConfig</require>
+	<require>org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService
+	</require>
+	<require>org.nuxeo.ecm.platform.ui.web.auth.WebEngineConfig</require>
+	<require>com.nuxeo.case-management.usermanager.config</require>
+
+	<extension target="org.nuxeo.ecm.platform.login.LoginPluginRegistry" point="plugin">
+		<LoginPlugin name="SOLON_LM" class="fr.dila.st.ui.core.auth.SolonLoginPluginModule">
+			<enabled>true</enabled>
+		</LoginPlugin>
+	</extension>
+	<extension point="authenticators" target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService">
+		<authenticationPlugin enabled="true" name="FORM_BACKOFFICE_AUTH" class="fr.dila.st.ui.core.auth.SolonWebengineFormAuth">
+			<needStartingURLSaving>true</needStartingURLSaving>
+			<parameters>
+				<parameter name="UsernameKey">username</parameter>
+				<parameter name="PasswordKey">password</parameter>
+			</parameters>
+			<loginModulePlugin>SOLON_LM</loginModulePlugin>
+			<stateful>false</stateful>
+		</authenticationPlugin>
+		<authenticationPlugin enabled="true" name="TOKEN_AUTH" class="fr.dila.st.ui.core.auth.TokenAuthenticator">
+			<loginModulePlugin>Trusting_LM</loginModulePlugin>
+			<stateful>false</stateful>
+		</authenticationPlugin>
+		<authenticationPlugin
+            class="org.nuxeo.ecm.platform.ui.web.auth.plugins.AnonymousAuthenticator"
+            enabled="true"
+            name="BANONYMOUS_AUTH"
+        >
+			<loginModulePlugin>Trusting_LM</loginModulePlugin>
+			<stateful>false</stateful>
+		</authenticationPlugin>
+	</extension>
+
+
+
+	<extension target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService" point="chain">
+
+		<authenticationChain>
+			<plugins>
+				<plugin>FORM_AUTH</plugin>
+				<plugin>EPG_BASIC_AUTH</plugin>
+			</plugins>
+		</authenticationChain>
+	</extension>
+
+	<!-- Specific chain for WebService SolonEpg -->
+	<extension target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService" point="specificChains">
+		<specificAuthenticationChain name="BACK">
+			<urlPatterns>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/site/app-ui/.*</url>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/logout</url>
+			</urlPatterns>
+			<replacementChain>
+				<plugin>FORM_BACKOFFICE_AUTH</plugin>
+			</replacementChain>
+		</specificAuthenticationChain>
+		<specificAuthenticationChain name="EDIT">
+			<urlPatterns>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/site/edit/.*</url>
+			</urlPatterns>
+			<replacementChain>
+				<plugin>TOKEN_AUTH</plugin>
+			</replacementChain>
+		</specificAuthenticationChain>
+		<specificAuthenticationChain name="BACKLOGIN">
+			<urlPatterns>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/site/app-ui/reinitMdp</url>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/site/app-ui/login</url>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/site/app-ui/user/password/reset
+				</url>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/site/app-ui/suiviLibre/.*</url>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/site/app-ui/ajax/suiviLibre/.*</url>
+			</urlPatterns>
+			<replacementChain>
+				<plugin>BANONYMOUS_AUTH</plugin>
+			</replacementChain>
+		</specificAuthenticationChain>
+		<specificAuthenticationChain name="WebServiceEPG">
+			<urlPatterns>
+				<url>(.*)${org.nuxeo.ecm.contextPath}/site/solonepg/.*</url>
+			</urlPatterns>
+
+			<allowedPlugins>
+				<plugin>EPG_BASIC_AUTH</plugin>
+			</allowedPlugins>
+		</specificAuthenticationChain>
+		<!-- WSS -->
+		<specificAuthenticationChain name="WSS">
+			<urlPatterns>
+				<url>(.*)/_vti_.*</url>
+			</urlPatterns>
+			<headers>
+				<header name="User-Agent">MSFrontPage.*</header>
+			</headers>
+
+			<allowedPlugins>
+				<plugin>EPG_BASIC_AUTH</plugin>
+				<plugin>NTLM_AUTH</plugin>
+			</allowedPlugins>
+		</specificAuthenticationChain>
+
+	</extension>
+
+	<!-- Specific Authenticator for WebService EPG -->
+	<extension target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService" point="authenticators">
+
+		<!-- Authenticator epg -->
+		<authenticationPlugin
+            name="EPG_BASIC_AUTH"
+            enabled="true"
+            class="org.nuxeo.ecm.platform.ui.web.auth.plugins.BasicAuthenticator"
+        >
+			<needStartingURLSaving>false</needStartingURLSaving>
+			<stateful>false</stateful>
+			<parameters>
+				<parameter name="RealmName">Dila SolonEpg</parameter>
+				<parameter name="AutoPrompt">true</parameter>
+				<parameter name="ForcePromptURL_WSS">_vti_bin</parameter>
+			</parameters>
+		</authenticationPlugin>
+	</extension>
+
+	<!-- CORS Configuration -->
+	<extension
+        target="org.nuxeo.ecm.platform.web.common.requestcontroller.service.RequestControllerService"
+        point="corsConfig"
+    >
+		<corsConfig
+            name="BACK"
+            allowGenericHttpRequests="true"
+            allowOrigin="${nuxeo.cors.allow.origin}"
+            allowSubdomains="true"
+            supportsCredentials="true"
+            maxAge="3600"
+        >
+			<pattern>${org.nuxeo.ecm.contextPath}/site/app-ui/.*</pattern>
+		</corsConfig>
+	</extension>
+
+  <!-- CSRF Configuration -->
+  <extension target="org.nuxeo.runtime.ConfigurationService" point="configuration">
+    <property name="nuxeo.csrf.token.enabled">true</property>
+    <property name="nuxeo.csrf.token.skip" list="true">/site/automation/.*</property>
+    <property name="nuxeo.csrf.token.skip" list="true">/site/execoperation/.*</property>
+    <property name="nuxeo.csrf.token.skip" list="true">/site/solonepg/.*</property>
+    <property name="nuxeo.csrf.token.skip" list="true">/site/solonmgpp/.*</property>
+    <property name="nuxeo.csrf.token.skip" list="true">/site/edit/.*</property>
+  </extension>
+  
+</component>

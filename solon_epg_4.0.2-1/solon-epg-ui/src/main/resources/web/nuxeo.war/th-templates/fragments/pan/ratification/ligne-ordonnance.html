@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-ordonnance(item, lineActions)">
+            <tr
+                class="table-line"
+                th:classappend="${item.getId() == idContextuel ? 'table-line--selected' : ''}"
+                th:with="itemId=${item.getId()}"
+                th:data-id="${itemId}"
+            >
+                <td class="table-line__cell sticky-col">
+                    <div class="table-line__action-buttons flex justify-start items-center">
+                        <th:block th:each="action : ${lineActions}">
+                            <div
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                            ></div>
+                        </th:block>
+                        <th:block th:if="${item.applicationRecu}">
+                            <div
+                                th:data-tippy-content="#{pan.application.table.mesures.header.label.applicationRecu}"
+                                tabindex="0"
+                                class="base-tooltip js-tooltip"
+                                th:data-placement="right"
+                            >
+                                <span
+                                    class="sr-only"
+                                    th:text="#{pan.application.table.mesures.header.label.applicationRecu}"
+                                ></span
+                                ><span
+                                    aria-hidden="true"
+                                    class="table-line__icon icon icon--check-circle icon-green"
+                                ></span>
+                            </div>
+                        </th:block>
+                    </div>
+                </td>
+                <td class="table-line__cell sticky-col" th:text="${item.numeroOrdre}"></td>
+                <td class="table-line__cell" th:text="${item.article}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.baseLegale}, ${itemId}+'-base-legale')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.objetRIM}, ${itemId}+'-objet')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${item.ministerePiloteLabel}"></td>
+                <td class="table-line__cell" th:text="${item.directionResponsable}"></td>
+                <td class="table-line__cell" th:text="${item.consultationsHCE}"></td>
+                <td class="table-line__cell" th:text="${item.calendrierConsultationsHCE}"></td>
+                <td
+                    class="table-line__cell"
+                    th:text="${#dates.format(item.datePrevisionnelleSaisineCE,'MMM yyyy')}"
+                ></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateObjectifPublication,'MMM yyyy')}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.observation}, ${itemId}+'-observation')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${item.typeMesureLabel}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateMiseApplication,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateEntreeEnVigueur,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateLimite,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell hidden" th:text="${item.codeModifie}"></td>
+                <td class="table-line__cell hidden" th:text="${item.poleChargeMission}"></td>
+                <td class="table-line__cell hidden">
+                    <th:block th:if="${item.amendement == 0}" th:text="#{choix.non}"> </th:block>
+                    <th:block th:if="${item.amendement == 1}" th:text="#{choix.oui}"> </th:block>
+                </td>
+                <td class="table-line__cell hidden" th:text="${#dates.format(item.datePassageCM,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell hidden" th:text="${item.responsableAmendementLabel}"></td>
+                <td class="table-line__cell hidden" th:text="${item.numeroQuestion}"></td>
+                <td class="table-line__cell hidden" th:text="${item.champLibre}"></td>
+                <td class="table-line__cell hidden">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.communicationMinisterielle}, ${mesureId}+'-objet')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" tabindex="-1"></td>
+            </tr>
+        </div>
+    </body>
+</html>

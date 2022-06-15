@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-tableau-programmation(item, tableLineActions)" th:remove="tag">
+            <tr
+                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                th:data-id="${item.uuid}"
+            >
+                <td class="table-line__cell" th:text="${item.numeroOrdre}"></td>
+                <td class="table-line__cell" th:text="${item.article}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.baseLegale}, ${item.id}+'-base-legale')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.objet}, ${item.id}+'-objet')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${item.ministerePilote}"></td>
+                <td class="table-line__cell" th:text="${item.directionResponsable}"></td>
+                <td class="table-line__cell" th:text="${item.categorie}"></td>
+                <td class="table-line__cell" th:text="${item.consultationsHCE}"></td>
+                <td class="table-line__cell" th:text="${item.calendrierConsultationsHCE}"></td>
+                <td
+                    class="table-line__cell"
+                    th:text="${#dates.format(item.datePrevisionnelleSaisineCE,'MMM yyyy')}"
+                ></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateObjectifPublication,'MMM yyyy')}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.observation}, ${item.id}+'-observation')"
+                    ></th:block>
+                </td>
+            </tr>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page de la gestion des listes', title=#{suivi.gestionListes})}"
+>
+    <main id="main_content" class="page-layout__content">
+        <h1 class="m-b-6 base-title base-title--lvl-1" th:text="#{suivi.gestionListes}">Gestion des listes</h1>
+        <form id="gestionListForm">
+            <fieldset class="flex items-end flex-wrap">
+                <legend class="sr-only" th:text="#{suivi.gestionListes.rechercher}">Rechercher des listes</legend>
+                <div class="m-r-2 form-input">
+                    <div class="form-input__header">
+                        <div class="form-input__header-top">
+                            <label for="dateCreation" id="form_listes_date_creation_label" class="form-label">
+                                <th:block th:text="#{suivi.gestionListes.date.creation}"></th:block>
+                                <span class="form-label__required-text" th:text="#{form.input.required}">(requis)</span>
+                            </label>
+                            <div class="form-input__icon-group"></div>
+                        </div>
+                    </div>
+                    <div class="form-input__container">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <div class="form-input__icon-group"></div>
+                            </div>
+                        </div>
+                        <div
+                            th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_date_creation', 'dateCreation', 'dateCreation', true, ${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}, false)"
+                        ></div>
+                    </div>
+                    <div th:id="dateCreation_description" class="form-input__footer"></div>
+                </div>
+                <button
+                    class="base-btn base-btn--submit base-btn--default"
+                    th:text="#{suivi.gestionListes.afficher}"
+                    onclick="doFilterListsByDate(event)"
+                >
+                    Afficher des listes
+                </button>
+            </fieldset>
+        </form>
+
+        <div th:replace="fragments/table/tables-gestion-listes :: tables-gestion-listes()"></div>
+    </main>
+</html>

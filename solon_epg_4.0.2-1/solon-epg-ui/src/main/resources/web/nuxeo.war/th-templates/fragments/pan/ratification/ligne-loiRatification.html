@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-loiRatification(item, lineActions)">
+            <tr
+                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                th:data-id="${item.getId()}"
+                th:with="itemId=${item.getId()}"
+            >
+                <td class="table-line__cell">
+                    <div class="flex justify-start items-center">
+                        <th:block th:each="action : ${lineActions}">
+                            <div
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                            ></div>
+                        </th:block>
+                    </div>
+                </td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateLimiteDepot,'dd/MM/yyyy')}"></td>
+
+                <td class="table-line__cell" th:text="${item.numeroNor}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.titreActe}, ${item.getId()}+'-titre-acte')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateSaisineCE,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateExamenCE,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.sectionCE}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateExamenCM,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.chambreDepot}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateDepot,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.numeroDepot}"></td>
+                <td class="table-line__cell" th:text="${item.titreOfficiel}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.datePublication,'dd/MM/yyyy')}"></td>
+            </tr>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="saisine-file-table(documents)" class="action-table table-wrapper">
+            <table class="simple-table custom-table full-width">
+                <thead class="table-header simple-table__header">
+                    <tr class="table-header__line">
+                        <th scope="col" class="table-header__cell" th:text="#{saisine.rectificative.colonne.fichiers}">
+                            Fichiers
+                        </th>
+                        <th scope="col" class="table-header__cell" th:text="#{saisine.rectificative.colonne.auteur}">
+                            Auteur
+                        </th>
+                        <th scope="col" class="table-header__cell" th:text="#{saisine.rectificative.colonne.version}">
+                            Version
+                        </th>
+                        <th scope="col" class="table-header__cell" th:text="#{saisine.rectificative.colonne.date}">
+                            Date
+                        </th>
+                        <th
+                            scope="col"
+                            class="table-header__cell"
+                            th:text="#{saisine.rectificative.colonne.repertoire}"
+                        >
+                            Répertoire
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="simple-table__body">
+                    <tr class="simple-table__table-line table-line" th:each="document : ${documents}">
+                        <td class="table-line__cell">
+                            <p class="table-line__cell-content" th:text="${document.fichier}">Fichiers</p>
+                        </td>
+                        <td class="table-line__cell">
+                            <p class="table-line__cell-content" th:text="${document.auteur}">Auteur</p>
+                        </td>
+                        <td class="table-line__cell">
+                            <p class="table-line__cell-content" th:text="${document.version}">Version</p>
+                        </td>
+                        <td class="table-line__cell">
+                            <p
+                                class="table-line__cell-content"
+                                th:text="${#calendars.format(document.date,'dd/MM/yyyy HH:mm')}"
+                            >
+                                01/01/2021 12:00
+                            </p>
+                        </td>
+                        <td class="table-line__cell">
+                            <p class="table-line__cell-content" th:text="${document.repertoire}">Répertoire</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

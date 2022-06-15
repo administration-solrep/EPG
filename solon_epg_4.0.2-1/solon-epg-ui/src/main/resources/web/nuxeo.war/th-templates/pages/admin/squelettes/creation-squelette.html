@@ -1,0 +1,136 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Création d\'un squelette de feuille de route', title=#{admin.squelette.creation.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+
+        <h1 class="base-title base-title--lvl-1 base-title--is-underlined" th:text="#{admin.squelette.creation.title}">
+            Créer un squelette de feuille de route
+        </h1>
+
+        <div class="m-t-6">
+            <form
+                id="createSquelette"
+                th:action="@{/admin/fdr/squelette/sauvegarde}"
+                th:object="${squeletteForm}"
+                method="POST"
+                onsubmit="showLoaderOnFormSubmit(this)"
+            >
+                <input type="hidden" name="csrf-token" th:value="${csrftoken}" />
+                <div class="row-actions grid__row">
+                    <div class="row-actions__left">
+                        <a
+                            class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--bordered base-btn--light"
+                            th:value="#{admin.modele.action.cancel}"
+                            th:href="@{/admin/fdr/squelettes#main_content}"
+                        >
+                            [[#{admin.modele.action.cancel}]]
+                        </a>
+                    </div>
+                    <div class="row-actions__left">
+                        <input
+                            type="submit"
+                            class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--center"
+                            th:value="#{action.button.label.enregistrer}"
+                        />
+                    </div>
+                </div>
+                <div class="grid__row">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="intitule"
+                                        id="intitule_label"
+                                        class="form-label form-label--disabled"
+                                    >
+                                        <span th:text="#{modeleFDR.form.libelle.intitule}">Label</span>
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"
+                                            >(requis)</span
+                                        >
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="intitule"
+                                    id="intitule"
+                                    class="form-input__field form-input__field--type-text"
+                                    th:value="${squeletteForm.intitule}"
+                                    data-validation="required"
+                                />
+                            </div>
+                            <div id="intitule_description" class="form-input__footer"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input">
+                            <th:block th:with="selectIsRequired=true,selectDataValidation=required">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect('modeleFDR.form.libelle.typeActe', 'typeActe', '', ${typeActe}, ${squeletteForm.typeActe}, 'false', 'admin.squelette.creation.empty.typeActe')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="description"
+                                        id="description_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{modeleFDR.form.libelle.description}">Label</span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    class="form-input__field form-input__field--type-text"
+                                    th:value="${squeletteForm.description}"
+                                />
+                            </div>
+                            <div id="description_description" class="form-input__footer"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-actions grid__row">
+                    <div class="row-actions__left">
+                        <a
+                            class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--bordered base-btn--light"
+                            th:value="#{admin.modele.action.cancel}"
+                            th:href="@{/admin/fdr/squelettes#main_content}"
+                        >
+                            [[#{admin.modele.action.cancel}]]
+                        </a>
+                    </div>
+                    <div class="row-actions__left">
+                        <input
+                            type="submit"
+                            class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--center"
+                            th:value="#{action.button.label.enregistrer}"
+                        />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</html>

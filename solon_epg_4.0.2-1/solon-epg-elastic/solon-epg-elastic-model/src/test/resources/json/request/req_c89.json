@@ -1,0 +1,76 @@
+{
+  "from" : 0,
+  "size" : 25,
+  "query" : {
+    "bool" : {
+      "must" : [ {
+        "bool" : {
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      }, {
+        "bool" : {
+          "should" : [ {
+            "term" : {
+              "dos:typeActe" : {
+                "value" : "Arrêté ministériel",
+                "boost" : 1.0
+              }
+            }
+          } ],
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      }, {
+        "bool" : {
+          "must" : [ {
+            "range" : {
+              "retdila:dateParutionJorf" : {
+                "from" : "2016-01-01T23:00:00.000Z",
+                "to" : null,
+                "include_lower" : true,
+                "include_upper" : true,
+                "boost" : 1.0
+              }
+            }
+          }, {
+            "range" : {
+              "retdila:dateParutionJorf" : {
+                "from" : null,
+                "to" : "2016-12-31T23:00:00.000Z",
+                "include_lower" : true,
+                "include_upper" : true,
+                "boost" : 1.0
+              }
+            }
+          } ],
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      } ],
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "stored_fields" : "dos:titreActe",
+  "docvalue_fields" : [         {
+    "field": "dos:ministereResp",
+    "format": "use_field_mapping"
+  },
+    {"field": "dos:statut", "format": "use_field_mapping"},
+    {"field": "dos:numeroNor", "format": "use_field_mapping"},
+    {"field": "dos:typeActe", "format": "use_field_mapping"},
+    {"field": "retdila:dateParutionJorf", "format": "use_field_mapping"}
+  ],
+  "highlight" : {
+    "type" : "plain",
+    "require_field_match" : false,
+    "fields" : {
+      "dos:titreActe" : {
+        "fragment_size" : 1500,
+        "number_of_fragments" : 1
+      }
+    }
+  }
+}

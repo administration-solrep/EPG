@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="modal-error-retour-modification"
+            id="modal-error-retour-modification"
+            class="interstitial-overlay__content"
+        >
+            <div
+                class="interstitial"
+                role="dialog"
+                th:aria-labelledby="#{dossier.action.retour.pour.modification}"
+                style="position: relative;"
+            >
+                <div class="interstitial__header">
+                    <h1 class="interstitial__title" th:text="#{dossier.action.retour.pour.modification}"></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{validation.popup.close.label}"
+                            >Fermer la fenêtre de dialogue</span
+                        >
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <p class="base-paragraph" th:utext="#{dossier.valider.retour.modification.error.modal.message}"></p>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        th:text="#{button.label.cancel}"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        type="button"
+                        id="btn-poursuivre-retour-modif"
+                        th:text="#{dossier.action.modal.poursuivre}"
+                        class="base-btn base-btn--button base-btn--default base-btn--center interstitial__close"
+                        onclick="doRetourModification(false)"
+                    >
+                        Poursuivre
+                    </button>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-tableau-programmation(item, lineActions)" th:remove="tag">
+            <tr
+                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                th:data-id="${item.uuid}"
+            >
+                <td class="table-line__cell" th:text="${item.numeroOrdre}"></td>
+                <td class="table-line__cell" th:text="${item.article}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.objetRIM}, ${itemId}+'-objet')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${item.ministerePilote}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.convention}, ${itemId}+'-termeHabilitation')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateTerme,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.conventionDepot}"></td>
+                <td
+                    class="table-line__cell"
+                    th:text="${#dates.format(item.datePrevisionnelleSaisineCE,'MMM yyyy')}"
+                ></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.datePrevisionnelleCM,'MMM yyyy')}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.observation}, ${item.id}+'-observation')"
+                    ></th:block>
+                </td>
+            </tr>
+        </div>
+    </body>
+</html>

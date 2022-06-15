@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="favorisRecherche"
+            class="tableForm relative"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="listeFavorisRecherche"
+            th:with="tableCaption=${tableCaption}?:#{recherche.favoris.liste.table.caption}"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'fav_haut')"
+                ></div>
+            </th:block>
+            <a
+                href="#skip_link_action-table_prev"
+                id="skip_link_action-table_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(${tableCaption})}"
+            ></a>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div th:replace="fragments/table/toolbar :: toolbar('table_fav_action_toolbar', true)"></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.listeFavoris.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'favoris_haut',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="custom-table custom-table--has-check">
+                    <caption class="sr-only" th:text="${tableCaption}">
+                        Tableau des favoris de recherche
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th scope="col" class="table-header__cell table-header__cell--check">
+                                <div class="form-choice-input">
+                                    <input
+                                        type="checkbox"
+                                        name="checkbox"
+                                        onclick="selectAllCheckBox(this);"
+                                        class="form-choice-input__input js-custom-table-header-check"
+                                        id="selectAllFavoris"
+                                        autocomplete="off"
+                                    />
+                                    <label
+                                        id="selectAllFavoris__label"
+                                        for="selectAllFavoris"
+                                        th:data-select-label="#{recherche.favoris.liste.selectAll}"
+                                        th:data-deselect-label="#{recherche.favoris.liste.deselectAll}"
+                                        class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        th:title="#{recherche.favoris.liste.selectAll}"
+                                    >
+                                        <span th:text="#{recherche.favoris.liste.selectAll}"></span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th:block th:each="colonne : ${resultList.getListeColonnes()}">
+                                <th:block th:if="${colonne.visible && colonne.sortable}">
+                                    <th
+                                        th:aria-sort="${colonne.sortValue == 'asc' ? 'ascending' : (colonne.sortValue== 'desc' ? 'descending' : '')}"
+                                        scope="col"
+                                        class="table-header__cell table-header__cell--with-filter-action"
+                                        th:with="order=${colonne.sortOrder}"
+                                    >
+                                        <button
+                                            th:replace="fragments/table/sortableHeader :: sortableHeader (#{__${colonne.label}__},${colonne.sortValue},${colonne.sortName},${colonne.sortId},${colonne.inverseSort})"
+                                        ></button>
+                                    </th>
+                                </th:block>
+
+                                <th:block th:if="${colonne.visible && !colonne.sortable}">
+                                    <th scope="col" class="table-header__cell">
+                                        <span
+                                            th:if="${colonne.isLabelVisible}"
+                                            class="table-header__cell-inner"
+                                            th:text="${colonne.label !=null? #messages.msg(colonne.label) : ''}"
+                                        >
+                                            &nbsp;
+                                        </span>
+                                        <span th:unless="${colonne.isLabelVisible}" class="table-header__cell-inner">
+                                            <span class="sr-only" th:text="#{__${colonne.label}__}"></span>
+                                        </span>
+                                    </th>
+                                </th:block>
+                            </th:block>
+                        </tr>
+                    </thead>
+                    <tbody class="custom-table__body">
+                        <th:block th:if="${resultList.listeFavoris.size > 0}">
+                            <tr
+                                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                                th:each="item, nb : ${resultList.listeFavoris}"
+                                th:data-id="${item.idFavori}"
+                            >
+                                <td class="table-line__cell table-line__cell--check">
+                                    <div class="form-choice-input">
+                                        <input
+                                            th:id="'select-'+${item.idFavori}"
+                                            type="checkbox"
+                                            th:name="${'checkbox-'+nb.count}"
+                                            onclick="selectTableCheckbox(this)"
+                                            class="form-choice-input__input js-custom-table-line-check"
+                                            autocomplete="off"
+                                        />
+                                        <label
+                                            th:for="'select-'+${item.idFavori}"
+                                            th:title="#{recherche.favoris.liste.selectOne(${item.intitule})}"
+                                            th:data-select-label="#{recherche.favoris.liste.selectOne(${item.intitule})}"
+                                            th:data-deselect-label="#{recherche.favoris.liste.deselectOne(${item.intitule})}"
+                                            class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        >
+                                            <span
+                                                th:text="#{recherche.favoris.liste.deselectOne(${item.intitule})}"
+                                            ></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="table-line__cell">
+                                    <a
+                                        class="link"
+                                        th:href="@{|/recherche/favoris/executer/${item.idFavori}#main_content|}"
+                                        th:text="${item.intitule}"
+                                        >Intitulé</a
+                                    >
+                                </td>
+                                <td class="table-line__cell" th:text="${item.type}">Type</td>
+                                <td class="table-line__cell" th:text="${item.createur}">Créateur</td>
+                            </tr>
+                        </th:block>
+                        <th:block th:unless="${resultList.listeFavoris.size > 0}">
+                            <td colspan="5" th:text="#{label.dossier.nombre(0)}"></td>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div th:replace="fragments/table/toolbar :: toolbar('table_fav_action_toolbar', true)"></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.listeFavoris.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'favoris_bas',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                </div>
+            </div>
+            <a
+                href="#skip_link_action-table_next"
+                id="skip_link_action-table_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(${tableCaption})}"
+            ></a>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panBirtToolbar">
+            <div class="actions-bar">
+                <div class="actions-bar__group">
+                    <button
+                        type="button"
+                        onclick="sauvegarderPanBirtReport(this)"
+                        th:disabled="${!refreshExisting}"
+                        class="actions-bar__item actions-bar__button base-btn base-btn--button base-btn--default base-btn--min"
+                        th:data-tippy-content="#{pan.stats.actions.enregistrer.label}"
+                    >
+                        <span aria-hidden="true" class="actions-bar__icon icon icon--save icon--big"></span
+                        ><span class="sr-only" th:text="#{pan.stats.actions.enregistrer.label}">Enregistrer</span>
+                    </button>
+                </div>
+                <div class="actions-bar__group">
+                    <div
+                        th:replace="fragments/components/action-button-fixed :: action-button-fixed(${refreshAction}, ${pendingRefresh != null}, 'pan-birt-refresh-button')"
+                    ></div>
+                    <th:block th:if="${publishAction}">
+                        <div
+                            th:replace="fragments/components/action-button-fixed :: action-button-fixed(${publishAction}, ${!displayReport}, '')"
+                        ></div>
+                    </th:block>
+                </div>
+                <div class="actions-bar__group">
+                    <div class="js-actions" th:if="${downloadPanActions !=null && !downloadPanActions.isEmpty()}">
+                        <div
+                            th:replace="fragments/components/dropdown-action :: dropdown-action('stat-download' ,${downloadPanActions}, 'icon--download', true, 'pan.stats.actions.liste.telecharger.label', 'base-btn--transparent base-btn--light base-btn--md-icon', ${!displayReport}, 'base-drop-down--light')"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="toolbar(id, isDisabledAction)" th:id="${id}">
+            <div class="actions-bar">
+                <div class="actions-bar__group" th:if="${mgppGeneraleActions !=null && !mgppGeneraleActions.isEmpty()}">
+                    <th:block th:each="action : ${mgppGeneraleActions}">
+                        <th:block th:if="${action.id == 'generer_courrier' && canGenererCourrier}">
+                            <div class="form-input m-r-2">
+                                <div class="form-input__container">
+                                    <div class="form-select__field-wrapper">
+                                        <div class="form-select-input">
+                                            <div class="form-select form-select--simple">
+                                                <div class="form-select__field-wrapper">
+                                                    <select
+                                                        id="courrier_value"
+                                                        aria-describedby="form-select-default_field_description form-select-default_description"
+                                                        class="form-select-input__field form-select-input__field--simple"
+                                                        data-validation="required"
+                                                    >
+                                                        <option
+                                                            value=""
+                                                            th:text="#{communicationSuccessive.select.default}"
+                                                        ></option>
+                                                        <option
+                                                            th:each="item : ${courrierSelect}"
+                                                            th:value="${item.id}"
+                                                            th:text="${item.label}"
+                                                        ></option>
+                                                    </select>
+                                                    <span aria-hidden="true" tabindex="-1">
+                                                        <span
+                                                            aria-hidden="true"
+                                                            class="form-select-input__arrow icon icon--arrow-bottom"
+                                                        ></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="generer_courrier_description" class="form-input__footer"></div>
+                            </div>
+                            <button
+                                th:replace="fragments/components/action-button :: action-button(${action}, false, '')"
+                            ></button>
+                        </th:block>
+                        <th:block th:if="${action.id == 'diffuser_fiche'}">
+                            <button
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, ${isDiffusionButtonVisible} ? '' : 'hidden')"
+                            ></button>
+                        </th:block>
+                        <th:block
+                            th:if="${action.id == 'visualiser_diffusion_fiche' || action.id == 'annuler_diffusion_fiche'}"
+                        >
+                            <button
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, ${isDiffusionButtonVisible && isFicheDiffusee} ? '' : 'hidden')"
+                            ></button>
+                        </th:block>
+                        <th:block th:if="${action.id == 'enregistrer_fiche' || action.id == 'supprimer_fiche'}">
+                            <button
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                            ></button>
+                        </th:block>
+                    </th:block>
+                </div>
+                <div class="actions-bar__group" th:unless="${#lists.isEmpty(mgppPrintActions)}">
+                    <div
+                        th:replace="fragments/components/dropdown-action :: dropdown-action(
+                            'dossier-print',
+                            ${mgppPrintActions},
+                            'icon--print',
+                            true,
+                            'dossier.print.dropdown.tooltip',
+                            ${isDisabledAction} ? 'base-btn--transparent base-btn--light action-table-selection base-btn--md-icon' : 'base-btn--transparent base-btn--light base-btn--md-icon',
+                            ${isDisabledAction},
+                            'base-drop-down--light'
+                            )"
+                    ></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

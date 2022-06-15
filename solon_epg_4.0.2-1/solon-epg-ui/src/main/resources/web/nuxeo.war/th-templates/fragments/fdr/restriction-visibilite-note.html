@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="restriction-visibilite-note(noteDto)">
+            <div class="form-optin--big form-optin m-b-6">
+                <fieldset class="form-optin__fieldset">
+                    <legend class="form-optin__legend" th:text="#{fdr.step.add.note.restriction.type}">
+                        Restreindre la visibilité par :
+                    </legend>
+                    <div class="form-optin__optins">
+                        <div class="form-optin__container">
+                            <input
+                                type="radio"
+                                value="NON"
+                                th:id="addNoteEtapeRadioTypeSelectNON"
+                                th:name="addNoteEtapeRadioTypeSelect"
+                                class="form-optin__checkbox default_check"
+                                onchange="showSelectOrganigrammeRestriction()"
+                                th:checked="${noteDto != null && 'NON'.equals(noteDto.typeRestriction)}"
+                                autocomplete="off"
+                            />
+                            <label
+                                th:for="addNoteEtapeRadioTypeSelectNON"
+                                class="form-optin__label"
+                                th:text="#{note.etape.restriction.non}"
+                            >
+                            </label>
+                        </div>
+                        <div class="form-optin__container">
+                            <input
+                                type="radio"
+                                value="MIN"
+                                th:id="addNoteEtapeRadioTypeSelectMIN"
+                                th:name="addNoteEtapeRadioTypeSelect"
+                                class="form-optin__checkbox default_check"
+                                onchange="showSelectOrganigrammeRestriction()"
+                                th:checked="${noteDto != null && 'MIN'.equals(noteDto.typeRestriction)}"
+                                autocomplete="off"
+                            />
+                            <label
+                                th:for="addNoteEtapeRadioTypeSelectMIN"
+                                class="form-optin__label"
+                                th:text="#{organigramme.type.ministere}"
+                            >
+                            </label>
+                        </div>
+                        <div class="form-optin__container">
+                            <input
+                                type="radio"
+                                value="DIR"
+                                th:id="addNoteEtapeRadioTypeSelectDIR"
+                                th:name="addNoteEtapeRadioTypeSelect"
+                                class="form-optin__checkbox"
+                                onchange="showSelectOrganigrammeRestriction()"
+                                th:checked="${noteDto != null && 'DIR'.equals(noteDto.typeRestriction)}"
+                                autocomplete="off"
+                            />
+                            <label
+                                th:for="addNoteEtapeRadioTypeSelectDIR"
+                                class="form-optin__label"
+                                th:text="#{organigramme.type.uniteStructurelle}"
+                            >
+                            </label>
+                        </div>
+                        <div class="form-optin__container">
+                            <input
+                                type="radio"
+                                value="PST"
+                                th:id="addNoteEtapeRadioTypeSelectPST"
+                                th:name="addNoteEtapeRadioTypeSelect"
+                                class="form-optin__checkbox"
+                                onchange="showSelectOrganigrammeRestriction()"
+                                th:checked="${noteDto != null && 'PST'.equals(noteDto.typeRestriction)}"
+                                autocomplete="off"
+                            />
+                            <label
+                                th:for="addNoteEtapeRadioTypeSelectPST"
+                                class="form-optin__label"
+                                th:text="#{organigramme.type.poste}"
+                            >
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <th:block th:if="${noteDto != null && !'NON'.equals(noteDto.typeRestriction)}">
+                <div id="noteEtapeSelectOrgaRestriction">
+                    <div
+                        th:replace="fragments/fdr/organigrammeSelectRestrictionNoteEtape :: organigrammeSelectRestrictionNoteEtape(${noteDto})"
+                    ></div>
+                </div>
+            </th:block>
+            <th:block th:unless="${noteDto != null && !'NON'.equals(noteDto.typeRestriction)}">
+                <div id="noteEtapeSelectOrgaRestriction"></div>
+            </th:block>
+        </div>
+    </body>
+</html>

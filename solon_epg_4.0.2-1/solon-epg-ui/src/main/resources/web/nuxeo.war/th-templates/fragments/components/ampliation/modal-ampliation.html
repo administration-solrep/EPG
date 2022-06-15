@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="modal-ampliation" id="modal-ampliation" class="interstitial-overlay__content">
+            <div class="interstitial interstitial--small" role="dialog" style="position: relative;">
+                <div class="interstitial__header">
+                    <h1 class="interstitial__title" th:text="#{pieceJointe.label.ajoutFichier}"></h1>
+                    <button
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                        type="button"
+                    >
+                        <span class="icon icon--cross" aria-hidden="true"></span
+                        ><span class="sr-only" th:text="#{pieceJointe.label.fermer}"></span>
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <form id="modal-ampliation-form">
+                        <th:block
+                            th:replace="fragments/components/formblocks/file-input :: fileInput(
+                                'file.upload.glisser.deposer.ouvrir.explorateur', 
+                                'ampliation-file', 
+                                'ampliation-file', 
+                                false, 
+                                ${acceptedType}, 
+                                true)"
+                        ></th:block>
+                    </form>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--full base-btn--transparent base-btn--bordered"
+                        type="button"
+                        th:text="#{pieceJointe.label.annuler}"
+                    ></button>
+                    <button
+                        class="base-btn base-btn--button base-btn--default base-btn--center base-btn--full"
+                        id="btn-confirm-add-doc-ampliation"
+                        type="button"
+                        th:text="#{pieceJointe.label.ajouter}"
+                        onclick="addAmpliationFile()"
+                    ></button>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

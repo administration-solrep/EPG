@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-tableau-maitre(item, lineActions)">
+            <tr
+                class="table-line"
+                th:classappend="${item.uuid == idContextuel ? 'table-line--selected' : ''}"
+                th:with="itemId=${item.getId()}"
+                th:data-id="${itemId}"
+            >
+                <td class="table-line__cell">
+                    <a
+                        class="link"
+                        href="#main_content"
+                        th:attr="onclick=|chargerBlocContextuel(this,'${item.ministerePilote}','ministere');return false;|"
+                        th:text="${item.ministerePiloteLabel}"
+                        th:href="@{|/suivi/pan/${currentSection}/${currentPanTab}/ministere/${item.ministerePilote}|}"
+                    ></a>
+                </td>
+                <td class="table-line__cell">
+                    <a
+                        class="link"
+                        target="_blank"
+                        th:attr="onclick=|chargerBlocContextuel(this,'${item.uuid}','textemaitre');return false;|"
+                        th:text="${item.numeroNor}"
+                        th:href="@{|/suivi/pan/${currentSection}/${currentPanTab}/textemaitre/${item.uuid}|}"
+                    ></a>
+                </td>
+                <td class="table-line__cell">
+                    <a
+                        class="link"
+                        target="_blank"
+                        th:attr="onclick=|chargerBlocContextuel(this,'${item.uuid}','textemaitre');return false;|"
+                        th:text="${item.numero}"
+                        th:href="@{|/suivi/pan/${currentSection}/${currentPanTab}/textemaitre/${item.uuid}|}"
+                    ></a>
+                </td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.titreOfficiel}, ${item.uuid}+'-titre-officiel')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${#dates.format(item.datePublication,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.titreActe}, ${item.uuid}+'-titre-officiel')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell">
+                    <th:block th:if="${item.dispositionHabilitation}">
+                        <span th:text="#{epg.dossier.creation.ordonnance.choix.article.38}"></span>
+                    </th:block>
+                    <th:block th:unless="${item.dispositionHabilitation}">
+                        <span th:text="#{epg.dossier.creation.ordonnance.choix.article.74.1}"></span>
+                    </th:block>
+                </td>
+                <td class="table-line__cell">
+                    <div class="table-line__action-buttons flex justify-start items-center">
+                        <th:block th:if="${texteMaitreDeleteAction != null}">
+                            <div
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${texteMaitreDeleteAction}, false, 'base-btn--light base-btn--transparent')"
+                            ></div>
+                        </th:block>
+                    </div>
+                </td>
+            </tr>
+        </div>
+    </body>
+</html>

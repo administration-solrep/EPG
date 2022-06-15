@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="migrationSpecifique(migration, isRunning, index)">
+            <th:block th:if="${migration.migrationType == 'DIR'}">
+                <div
+                    th:replace="fragments/components/migration/migration-direction :: migrationDirection(${migration}, ${isRunning}, ${index})"
+                ></div>
+            </th:block>
+            <th:block th:if="${migration.migrationType == 'UST'}">
+                <div
+                    th:replace="fragments/components/migration/migration-ust :: migrationUST(${migration}, ${isRunning}, ${index})"
+                ></div>
+            </th:block>
+            <th:block th:if="${migration.migrationType == 'PST'}">
+                <div
+                    th:replace="fragments/components/migration/migration-poste :: migrationPoste(${migration}, ${isRunning}, ${index})"
+                ></div>
+            </th:block>
+            <th:block th:if="${migration.migrationType == 'MIN'}">
+                <div
+                    th:replace="fragments/components/migration/migration-ministere :: migration-ministere(${migration}, ${isRunning}, ${index})"
+                ></div>
+            </th:block>
+            <div class="grid__row">
+                <th:block
+                    th:replace="fragments/components/formblocks/input-oui-non :: ouiNon(label=${'migration.supprimer.ancien.' + migration.migrationType}, id=|delete-old-${index}|, value=${migration.deleteOld}, disabled=${isRunning}, name=|deleteOld-${index}|)"
+                ></th:block>
+            </div>
+            <th:block th:if="${migration.migrationType == 'MIN' || migration.migrationType == 'DIR'}">
+                <div class="grid__row m-t-6">
+                    <th:block
+                        th:replace="fragments/components/formblocks/input-oui-non :: ouiNon(label=${'migration.migrer.modeles.fdr'}, id=|migrer-modeles-fdr-${index}|, value=${migration.migrerModelesFdr}, disabled=${isRunning}, name=|migrerModelesFdr-${index}|)"
+                    ></th:block>
+                </div>
+                <div class="grid__row m-t-6">
+                    <th:block
+                        th:replace="fragments/components/formblocks/input-oui-non :: ouiNon(label=${migration.migrationType == 'MIN' ? 'migration.nor.attribue.dossier.clos' : 'migration.direction.nor.attribue.dossier.clos'}, id=|migration-dossier-clos-${index}|, value=${migration.migrationWithDossierClos}, disabled=${isRunning}, name=|migrationWithDossierClos-${index}|)"
+                    ></th:block>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

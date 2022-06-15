@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-habilitation(item, lineActions)">
+            <tr
+                class="table-line"
+                th:classappend="${item.getId() == idContextuel ? 'table-line--selected' : ''}"
+                th:with="itemId=${item.getId()}"
+                th:data-id="${itemId}"
+            >
+                <td class="table-line__cell sticky-col">
+                    <div class="table-line__action-buttons flex justify-start items-center">
+                        <th:block th:each="action : ${lineActions}">
+                            <div
+                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                            ></div>
+                        </th:block>
+                    </div>
+                </td>
+                <td class="table-line__cell sticky-col" th:text="${item.numeroOrdre}"></td>
+                <td class="table-line__cell sticky-col" th:text="${item.article}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.objetRIM}, ${itemId}+'-objet')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${item.typeHabilitationLabel}"></td>
+
+                <td class="table-line__cell" th:text="${item.ministerePiloteLabel}"></td>
+                <td class="table-line__cell" th:text="${item.convention}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.dateTerme,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.conventionDepot}"></td>
+                <td
+                    class="table-line__cell"
+                    th:text="${#dates.format(item.datePrevisionnelleSaisineCE,'MMM yyyy')}"
+                ></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.datePrevisionnelleCM,'MMM yyyy')}"></td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.observation}, ${itemId}+'-observation')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell" th:text="${item.legislature}"></td>
+                <td class="table-line__cell">
+                    <th:block th:if="${item.codification == 0}" th:text="#{choix.non}"> </th:block>
+                    <th:block th:if="${item.codification == 1}" th:text="#{choix.oui}"> </th:block>
+                </td>
+            </tr>
+        </div>
+    </body>
+</html>

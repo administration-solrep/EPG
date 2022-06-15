@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="table-attente-signature"
+            class="tableForm table-onglet"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            th:id="|attente_signature_${currentTab}_content|"
+            th:with="tableCaption=#{liste.attente.signature.table.caption}"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'dossier_haut')"
+                ></div>
+            </th:block>
+            <a
+                href="#skip_link_action-table_prev"
+                id="skip_link_action-table_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(${tableCaption})}"
+            ></a>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div th:replace="fragments/table/toolbar :: toolbar('table_mass_action_toolbar', false)"></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_haut',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="table-scroller">
+                <div class="table-wrapper m-b-0">
+                    <table class="custom-table custom-table--has-check">
+                        <caption class="sr-only" th:text="${tableCaption}">
+                            Tableau des textes en attente de signature PR/PM
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th scope="col" class="table-header__cell table-header__cell--check">
+                                    <div class="form-choice-input">
+                                        <input
+                                            type="checkbox"
+                                            name="checkbox"
+                                            onclick="selectAllCheckBox(this);"
+                                            class="form-choice-input__input js-custom-table-header-check"
+                                            th:id="|selectAllTextes_${currentTab}|"
+                                            autocomplete="off"
+                                        />
+                                        <label
+                                            th:id="|selectAllTextes_${currentTab}__label|"
+                                            th:for="|selectAllTextes_${currentTab}|"
+                                            th:data-select-label="#{liste.attente.signature.selectAll}"
+                                            th:data-deselect-label="#{liste.attente.signature.deselectAll}"
+                                            class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                            th:title="#{liste.attente.signature.selectAll}"
+                                        >
+                                            <span th:text="#{liste.attente.signature.selectAll}"></span>
+                                        </label>
+                                    </div>
+                                </th>
+                                <th:block th:each="colonne : ${lstColonnes}">
+                                    <th:block th:if="${colonne.visible}">
+                                        <th scope="col" class="table-header__cell">
+                                            <span
+                                                th:if="${colonne.isLabelVisible}"
+                                                class="table-header__cell-inner"
+                                                th:text="${colonne.label !=null? #messages.msg(colonne.label) : ''}"
+                                            >
+                                                &nbsp;
+                                            </span>
+                                            <span
+                                                th:unless="${colonne.isLabelVisible}"
+                                                class="table-header__cell-inner"
+                                            >
+                                                <span class="sr-only" th:text="#{__${colonne.label}__}"></span>
+                                            </span>
+                                        </th>
+                                    </th:block>
+                                </th:block>
+                                <th scope="col" class="table-header__cell table-header__cell--with-filter-action">
+                                    <span class="table-header__cell-inner"></span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="custom-table__body">
+                            <th:block th:if="${resultList.liste.size > 0}">
+                                <tr
+                                    class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                                    th:each="item, nb : ${resultList.liste}"
+                                    th:data-id="${item.dossierId}"
+                                >
+                                    <td class="table-line__cell table-line__cell--check">
+                                        <div class="form-choice-input">
+                                            <input
+                                                th:id="'select-'+${item.dossierId}"
+                                                type="checkbox"
+                                                th:name="${'checkbox-'+nb.count}"
+                                                onclick="selectTableCheckbox(this)"
+                                                class="form-choice-input__input js-custom-table-line-check"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                th:for="'select-'+${item.dossierId}"
+                                                th:title="#{liste.attente.signature.selectOne(${item.nor})}"
+                                                th:data-select-label="#{liste.attente.signature.selectOne(${item.nor})}"
+                                                th:data-deselect-label="#{liste.attente.signature.deselectOne(${item.nor})}"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                            >
+                                                <span
+                                                    th:text="#{liste.attente.signature.selectOne(${item.nor})}"
+                                                ></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content">
+                                            <a
+                                                th:href="@{/dossier/{dossierId}/document(dossierId=${item.dossierId})} + '#main_content'"
+                                                class="link"
+                                            >
+                                                <span th:text="${item.titre}"></span>
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:with="elemId=|link-copy__link-${#strings.replace(label, ' ', '_')}_${item.dossierId}|"
+                                        >
+                                            <a
+                                                th:href="@{/dossier/{dossierId}/document(dossierId=${item.dossierId})} + '#main_content'"
+                                                class="link-copy__link link"
+                                                ><span th:id="${elemId}" th:text="${item.nor}"></span
+                                            ></a>
+                                            <th:block
+                                                th:replace="fragments/components/copy-nor-button :: copy-nor-button(${elemId}, 'NOR', false)"
+                                            ></th:block>
+                                        </p>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content">
+                                            <th:block
+                                                th:text="${#dates.format(item.dateDemandePublicationTS, 'dd/MM/yyyy')}"
+                                            ></th:block>
+                                            <br />
+                                            <th:block th:text="${item.vecteurPublicationTSLibelle}"></th:block>
+                                        </p>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <input
+                                            type="checkbox"
+                                            id="checkbox-arriveeSolon"
+                                            name="checkbox-arriveeSolon"
+                                            class="form-choice-input__input"
+                                            disabled="disabled"
+                                            th:checked="${item.arriveeSolon}"
+                                            autocomplete="off"
+                                        />
+                                        <label
+                                            for="checkbox-arriveeSolon"
+                                            id="checkbox-arriveeSolon_label"
+                                            class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        ></label>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <input
+                                            type="checkbox"
+                                            id="checkbox-accordPM"
+                                            name="checkbox-accordPM"
+                                            class="form-choice-input__input"
+                                            disabled="disabled"
+                                            th:checked="${item.accordPM}"
+                                            autocomplete="off"
+                                        />
+                                        <label
+                                            for="checkbox-accordPM"
+                                            id="checkbox-accordPM_label"
+                                            class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        ></label>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <input
+                                            type="checkbox"
+                                            id="checkbox-accordSGG"
+                                            name="checkbox-accordSGG"
+                                            class="form-choice-input__input"
+                                            disabled="disabled"
+                                            th:checked="${item.accordSGG}"
+                                            autocomplete="off"
+                                        />
+                                        <label
+                                            for="checkbox-accordSGG"
+                                            id="checkbox-accordSGG_label"
+                                            class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        ></label>
+                                    </td>
+                                    <th:block th:if="${currentTab == 'LOIS'}">
+                                        <td class="table-line__cell">
+                                            <input
+                                                type="checkbox"
+                                                id="checkbox-arriveeOriginale"
+                                                name="checkbox-arriveeOriginale"
+                                                class="form-choice-input__input"
+                                                disabled="disabled"
+                                                th:checked="${item.arriveeOriginale}"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                for="checkbox-arriveeOriginale"
+                                                id="checkbox-arriveeOriginale_label"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                            ></label>
+                                        </td>
+                                        <td class="table-line__cell">
+                                            <input
+                                                type="checkbox"
+                                                id="checkbox-miseEnSignature"
+                                                name="checkbox-miseEnSignature"
+                                                class="form-choice-input__input"
+                                                disabled="disabled"
+                                                th:checked="${item.miseEnSignature}"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                for="checkbox-miseEnSignature"
+                                                id="checkbox-miseEnSignature_label"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                            ></label>
+                                        </td>
+                                        <td class="table-line__cell">
+                                            <input
+                                                type="checkbox"
+                                                id="checkbox-retourSignature"
+                                                name="checkbox-retourSignature"
+                                                class="form-choice-input__input"
+                                                disabled="disabled"
+                                                th:checked="${item.retourSignature}"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                for="checkbox-retourSignature"
+                                                id="checkbox-retourSignature_label"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                            ></label>
+                                        </td>
+                                        <td class="table-line__cell">
+                                            <input
+                                                type="checkbox"
+                                                id="checkbox-decretPr"
+                                                name="checkbox-decretPr"
+                                                class="form-choice-input__input"
+                                                disabled="disabled"
+                                                th:checked="${item.decretPr}"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                for="checkbox-decretPr"
+                                                id="checkbox-decretPr_label"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                            ></label>
+                                        </td>
+                                        <td class="table-line__cell">
+                                            <input
+                                                type="checkbox"
+                                                id="checkbox-envoiPr"
+                                                name="checkbox-envoiPr"
+                                                class="form-choice-input__input"
+                                                disabled="disabled"
+                                                th:checked="${item.envoiPr}"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                for="checkbox-envoiPr"
+                                                id="checkbox-envoiPr_label"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                            ></label>
+                                        </td>
+                                        <td class="table-line__cell">
+                                            <input
+                                                type="checkbox"
+                                                id="checkbox-retourPr"
+                                                name="checkbox-retourPr"
+                                                class="form-choice-input__input"
+                                                disabled="disabled"
+                                                th:checked="${item.retourPr}"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                for="checkbox-retourPr"
+                                                id="checkbox-retourPr_label"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                            ></label>
+                                        </td>
+                                    </th:block>
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#dates.format(item.dateJo, 'dd/MM/yyyy')}"
+                                        ></p>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content">
+                                            <th:block th:text="${item.delaiLibelle}"></th:block>
+                                            <br />
+                                            <th:block
+                                                th:text="${#dates.format(item.datePublication, 'dd/MM/yyyy')}"
+                                            ></th:block>
+                                        </p>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <div
+                                            th:replace="fragments/components/longText :: ellipser(${item.observation},'jnEllipser-' + ${nb.index})"
+                                        ></div>
+                                    </td>
+                                    <td class="table-line__cell">
+                                        <div class="table-line__action-buttons flex justify-start items-center">
+                                            <th:block th:each="action : ${lineActions}">
+                                                <div
+                                                    th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                                                ></div>
+                                            </th:block>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <p class="table-row-count m-t-6" th:text="#{label.dossier.nombre(${resultList.nbTotal})}"></p>
+
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div th:replace="fragments/table/toolbar :: toolbar('table_mass_action_toolbar', false)"></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_bas',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                </div>
+            </div>
+            <a
+                href="#skip_link_action-table_next"
+                id="skip_link_action-table_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(${tableCaption})}"
+            ></a>
+        </div>
+    </body>
+</html>

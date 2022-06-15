@@ -1,0 +1,40 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="type-acte(dto)">
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="refTablesTitleTypesActe"
+                th:text="#{admin.table.reference.type.acte.title}"
+            >
+                Types d'acte dont la date de signature est obligatoire pour la publication DILA JO
+            </h2>
+
+            <div role="group" aria-labelledby="refTablesTitleTypesActe">
+                <div class="grid__row">
+                    <div class="relative grid__col grid__col--middle m-b-6">
+                        <div
+                            th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(
+                                'admin.table.reference.type.acte', 
+                                'typeActe', 
+                                'typeActe', 
+                                'form.description.nocharlimit', 
+                                ${ {} }, 
+                                ${dto.typesActe},
+                                false, 
+                                @{/ajax/archivage/adamant/suggestions?typeSelection=TypeActe},
+                                '0', 
+                                'input', 
+                                '', 
+                                '', 
+                                false, 
+                                true, 
+                                false)"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!-- Ce composant contribue la persistence du système d'extraction de SOLON EPG. -->
+<component name="fr.dila.solonepg.adamant.dao.DossierExtractionDao">
+	<require>org.nuxeo.ecm.core.persistence.PersistenceComponent</require>
+
+	<implementation class="fr.dila.solonepg.adamant.dao.DossierExtractionDaoImpl" />
+	<service>
+		<provide interface="fr.dila.solonepg.adamant.dao.DossierExtractionDao" />
+	</service>
+
+	<extension target="org.nuxeo.ecm.core.persistence.PersistenceComponent" point="hibernate">
+		<hibernateConfiguration name="adamant-provider">
+			<datasource>nxsqldirectory</datasource>
+			<classes>
+				<class>fr.dila.solonepg.adamant.model.DossierExtractionBordereau</class>
+				<class>fr.dila.solonepg.adamant.model.DossierExtractionLot</class>
+				<class>fr.dila.solonepg.adamant.model.RetourVitamBordereauLivraison</class>
+				<class>fr.dila.solonepg.adamant.model.RetourVitamRapportVersement</class>
+			</classes>
+			<properties>
+				<property name="hibernate.hbm2ddl.auto">update</property>
+			</properties>
+		</hibernateConfiguration>
+	</extension>
+</component>

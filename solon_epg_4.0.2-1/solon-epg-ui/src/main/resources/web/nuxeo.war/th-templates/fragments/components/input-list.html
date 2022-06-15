@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="input-list(label, id, legend, resultList, addAction)">
+            <div th:id="|input-list-${id}|" class="form-terms form-terms--simple">
+                <fieldset>
+                    <legend class="sr-only" th:text="${#messages.msg(legend)}">Ajouter</legend>
+                    <div class="form-terms__fields" th:with="notIconBig=true">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        th:for="|form_input_liste_${id}|"
+                                        th:id="|form_input_liste_${id}_label|"
+                                        class="form-label"
+                                        th:text="${#messages.msg(label)}"
+                                        data-validation="required"
+                                    >
+                                        Label
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    th:name="|form_input_liste_${id}|"
+                                    th:id="|form_input_liste_${id}|"
+                                    class="form-input__field form-input__field--type-text"
+                                />
+                            </div>
+                        </div>
+                        <button
+                            th:replace="fragments/components/label-action-button-fixed  :: label-action-button-fixed(${addAction}, false, '')"
+                        ></button>
+                    </div>
+                    <div aria-live="assertive" aria-relevant="additions, removals" class="form-terms__terms">
+                        <div th:each="item : ${resultList}" class="form-terms__terms__el">
+                            <span th:text="${item.label}">Label</span>
+                            <button
+                                th:if="${item.action != null }"
+                                th:replace="fragments/components/action-button-fixed  :: action-button-fixed(${item.action}, false, '')"
+                            ></button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </th:block>
+    </body>
+</html>

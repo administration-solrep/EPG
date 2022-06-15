@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="select(widget)">
+            <label
+                th:for="|${widget.name}|"
+                th:id="|${widget.name}_label|"
+                class="labellised-list__label"
+                th:classappend="${disabled ? 'form-label--disabled' : ''}"
+            >
+                <th:block th:text="#{${widget.label}}"></th:block>
+                <span th:if="${widget.required}" class="form-label__required-text" th:text="#{form.input.required}"
+                    >(requis)</span
+                >
+            </label>
+            <div
+                class="form-input labellised-list__description"
+                th:classappend="${widget.modifiedInCurVersion ? 'labellised-list__description--warning' : ''}"
+            >
+                <div class="form-select form-select--simple" th:id="|${widget.name}Select|">
+                    <div class="form-select__field-wrapper">
+                        <div class="form-select-input">
+                            <select
+                                th:id="${widget.name}"
+                                th:name="${widget.name}"
+                                aria-describedby="form-select-default_field_description form-select-default_description"
+                                class="form-select-input__field form-select-input__field--simple"
+                                th:data-validation="${widget.required} ? 'required'"
+                            >
+                                <option value="" th:text="#{communicationSuccessive.select.default}"
+                                    >Sélectionnez une valeur</option
+                                >
+                                <option
+                                    th:if="${widget.getValueParamByNameOrNull('lstValues')!=null}"
+                                    th:each="item : ${widget.getValueParamByName('lstValues')}"
+                                    th:value="${item.id}"
+                                    th:text="${item.label}"
+                                    th:selected="${widget.getValueParamByNameOrNull('valeur') == item.id}"
+                                    >Option1</option
+                                >
+                            </select>
+                            <span aria-hidden="true" tabindex="-1">
+                                <span
+                                    aria-hidden="true"
+                                    class="form-select-input__arrow icon icon--arrow-bottom"
+                                ></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </body>
+</html>

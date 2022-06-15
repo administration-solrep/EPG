@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block
+            th:fragment="complement(complementDto, isEdit, referencesPublicationVisible, referencesComplementVisible)"
+        >
+            <div class="folder-detail m-y-3">
+                <h3 class="folder-detail__title-label" th:text="#{dossier.traitement.papier.references}">
+                    Références
+                </h3>
+                <!-- mode Consultation -->
+                <th:block th:unless="${isEdit}">
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <!-- Date d'arrivée papier -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.date.arrivee.papier}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${#calendars.format(complementDto.dateArriveePapier, 'dd/MM/yyyy')}"
+                                ></td>
+                            </tr>
+                            <!-- Commentaire -->
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.commentaire}, ${complementDto.commentaire})"
+                            ></tr>
+                            <!-- Texte à publier -->
+                            <th:block th:if="${referencesPublicationVisible}">
+                                <tr class="folder-detail__table-line">
+                                    <td
+                                        class="folder-detail__table-cell folder-detail__table-cell--label"
+                                        th:text="#{dossier.traitement.papier.texte.a.publier}"
+                                    ></td>
+                                    <td
+                                        class="folder-detail__table-cell folder-detail__table-cell--value"
+                                        th:text="${complementDto.texteAPublier} ? #{optin.oui} : #{optin.non}"
+                                    ></td>
+                                </tr>
+                            </th:block>
+                            <th:block th:if="${referencesComplementVisible}">
+                                <!-- Texte soumis à validation -->
+                                <tr class="folder-detail__table-line">
+                                    <td
+                                        class="folder-detail__table-cell folder-detail__table-cell--label"
+                                        th:text="#{dossier.traitement.papier.texte.soumis.a.validation}"
+                                    ></td>
+                                    <td
+                                        class="folder-detail__table-cell folder-detail__table-cell--value"
+                                        th:text="${complementDto.texteSoumisAValidation} ? #{optin.oui} : #{optin.non}"
+                                    ></td>
+                                </tr>
+                                <!-- Signataire -->
+                                <tr
+                                    th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.traitement.papier.signataire}, ${complementDto.signataireValue != null ? complementDto.signataireValue.label : ''})"
+                                ></tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </th:block>
+                <!-- mode Création -->
+                <th:block th:if="${isEdit}">
+                    <form id="complementForm">
+                        <fieldset>
+                            <legend
+                                class="sr-only"
+                                th:text="#{dossier.traitement.papier.complement.references.fieldset}"
+                            >
+                                Modification des références
+                            </legend>
+                            <!-- Date d'arrivée -->
+                            <div class="m-t-6 m-b-4 form-input">
+                                <div class="form-input__header">
+                                    <div class="form-input__header-top">
+                                        <label
+                                            for="dateArrivee"
+                                            id="dateArrivee_label"
+                                            class="form-label"
+                                            th:text="#{dossier.traitement.papier.date.arrivee}"
+                                        ></label>
+                                    </div>
+                                </div>
+                                <div
+                                    th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_dateArriveePapier', 'dateArriveePapier', 'dateArriveePapier', false, ${#calendars.format(complementDto.dateArriveePapier,'dd/MM/yyyy')}, false)"
+                                ></div>
+                                <div id="dateArrivee_description" class="form-input__footer"></div>
+                            </div>
+                            <!-- Commentaires -->
+                            <div class="form-input--full m-b-4 form-input">
+                                <div
+                                    th:replace="fragments/components/formblocks/textarea-input :: textArea('dossier.traitement.papier.commentaire', 'commentaire', '', ${complementDto.commentaire}, false, '')"
+                                ></div>
+                            </div>
+                            <th:block th:if="${referencesPublicationVisible}">
+                                <!-- Texte à publier -->
+                                <div class="form-choice-input m-b-4">
+                                    <input
+                                        type="checkbox"
+                                        id="texteAPublier"
+                                        name="texteAPublier"
+                                        class="form-choice-input__input"
+                                        th:checked="${complementDto} != null ? ${complementDto.texteAPublier} : ''"
+                                        autocomplete="off"
+                                    />
+                                    <label
+                                        for="texteAPublier"
+                                        id="texteAPublier_label"
+                                        class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                                        th:text="#{dossier.traitement.papier.texte.a.publier}"
+                                    ></label>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${referencesComplementVisible}">
+                                <!-- Texte soumis à validation -->
+                                <div class="form-choice-input m-b-4">
+                                    <input
+                                        type="checkbox"
+                                        id="texteSoumisAValidation"
+                                        name="texteSoumisAValidation"
+                                        class="form-choice-input__input"
+                                        th:checked="${complementDto} != null ? ${complementDto.texteSoumisAValidation} : ''"
+                                        autocomplete="off"
+                                    />
+                                    <label
+                                        for="texteSoumisAValidation"
+                                        id="texteSoumisAValidation_label"
+                                        class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                                        th:text="#{dossier.traitement.papier.texte.soumis.a.validation}"
+                                    ></label>
+                                </div>
+                                <!-- Signataire -->
+                                <div class="m-b-4 form-optin">
+                                    <th:block th:with="labelPlainOptin=true">
+                                        <div
+                                            th:replace="fragments/components/formblocks/input-optin :: optin(
+                                                'dossier.traitement.papier.signataire', 
+                                                'signataire', 
+                                                'signataire', 
+                                                ${signataireOption}, 
+                                                ${complementDto} != null ? ${complementDto.signataire} : '', 
+                                                false, 
+                                                null)"
+                                        ></div>
+                                    </th:block>
+                                </div>
+                            </th:block>
+                        </fieldset>
+                    </form>
+                </th:block>
+            </div>
+        </th:block>
+    </body>
+</html>

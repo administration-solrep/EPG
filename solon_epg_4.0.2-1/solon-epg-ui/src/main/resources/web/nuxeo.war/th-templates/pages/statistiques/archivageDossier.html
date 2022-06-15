@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page statistiques pour archivage des dossiers', title=#{espace.suivi.statistique.dossier_archivage})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-archivage-dossier')"></div>
+        <h1
+            class="p-b-3 m-b-6 base-title base-title--lvl-1 base-title--is-underlined"
+            th:text="#{stat.statut.archivage.title}"
+        >
+            Statistique en fonction du statut d'archivage
+        </h1>
+        <form id="searchForm">
+            <div class="grid__row m-b-6">
+                <div class="grid__col grid__col--middle">
+                    <div
+                        th:replace="fragments/components/formblocks/date-picker-range :: datepickerRange(
+                      'stats.label.periode', 
+                      'periode', 
+                      ${#calendars.format(resultForm.periodeDebut,'dd/MM/yyyy')}, 
+                      ${#calendars.format(resultForm.periodeFin,'dd/MM/yyyy')}, 
+                      true, 
+                      false)"
+                    ></div>
+                </div>
+            </div>
+            <div class="grid__row m-b-6">
+                <div
+                    class="grid__col grid__col--middle form-select form-select--simple"
+                    th:with="selectIsRequired=true,selectDataValidation=required"
+                >
+                    <div
+                        th:replace="fragments/components/formblocks/simple-select ::simpleSelect('stats.label.archivage','statutArchivage','',${statuts}, ${resultForm.statutArchivage},'','stats.select.value')"
+                    ></div>
+                </div>
+            </div>
+        </form>
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-archivage-dossier')"></div>
+        <div id="listeResultats">
+            <th:block th:if="${displayTable}">
+                <div th:replace="fragments/table/tableStatutArchivageDossier :: statutArchivageDossier"></div>
+            </th:block>
+        </div>
+    </main>
+</html>

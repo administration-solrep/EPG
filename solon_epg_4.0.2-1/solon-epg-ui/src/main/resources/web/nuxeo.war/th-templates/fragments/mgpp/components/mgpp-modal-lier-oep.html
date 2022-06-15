@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="mgpp-modal-lier-oep"
+            class="interstitial-overlay__content"
+            th:with="id='mgpp-modal-lier-oep'"
+            th:id="${id}"
+        >
+            <div
+                class="interstitial"
+                role="dialog"
+                aria-labelledby="dialogTitle-lierOEPMgpp"
+                style="overflow: visible;"
+            >
+                <div class="interstitial__header">
+                    <h1
+                        id="dialogTitle-lierOEPMgpp"
+                        class="interstitial__title"
+                        th:text="#{communication.action.lier.oep}"
+                    >
+                        Sélectionner un organisme OEP
+                    </h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{fondDossier.popup.close}">Fermer</span>
+                    </button>
+                </div>
+                <div class="interstitial__content" style="overflow: visible;">
+                    <div
+                        th:replace="fragments/components/formblocks/autocomplete-select:: 
+                            autocompleteSelect('communication.label.organisme.oep', 'organismeOEP', 'organismeOEP', 'form.description.charlimit', ${ {} }, ${ {} }, false, @{'/ajax/mgpp/recherche/suggestions?typeSelection=oep'}, '3', 'input', 'key', 'label', false, false, false)"
+                    ></div>
+                </div>
+
+                <div class="interstitial__footer">
+                    <button
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        class="base-btn base-btn--submit base-btn--default"
+                        th:id="|btn-confirm-${id}|"
+                        th:text="#{button.confirmer}"
+                    >
+                        Confirmer
+                    </button>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="panBirtForm(fields, statId)">
+            <fieldset>
+                <th:block th:each="field : ${fields}">
+                    <div
+                        class="pan-form m-b-4"
+                        th:with="fieldName=${field.fragmentParams.get('name')},valuebeginning=${field.fragmentParams.get('valuebeginning')},valueending=${field.fragmentParams.get('valueending')},fieldOptions=${field.fragmentParams.get('options')}"
+                    >
+                        <th:block
+                            th:replace="fragments/pan/components/panFormField :: panFormField(
+                                ${field.fragmentParams.get('value')},
+                                null,
+                                ${field.fragmentParams.get('id')},
+                                ${field.fragmentParams.get('label')},
+                                true,
+                                false,
+                                ${field.type.key}
+                            )"
+                        ></th:block>
+                    </div>
+                </th:block>
+            </fieldset>
+            <div
+                th:if="${switchLabel != null}"
+                class="pan-stats-switch m-b-4"
+                th:data-alt-stat-id="${altStatId}"
+                th:data-stat-id="${statId}"
+                th:with="onClick='chargerPanBirtReport(this)'"
+            >
+                <div
+                    th:replace="fragments/components/formblocks/input-oui-non :: ouiNon(|pan.stats.form.${switchLabel}.afficher.label|, |switch-${currentPanSubtab}|, false, false)"
+                ></div>
+            </div>
+        </th:block>
+    </body>
+</html>

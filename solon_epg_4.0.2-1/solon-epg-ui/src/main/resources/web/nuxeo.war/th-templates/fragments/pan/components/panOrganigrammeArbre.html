@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="panOrganigrammeArbre(organigrammeTree, level, currentID, isOpen)">
+            <div id="overlay_organigramme_tree" class="overlay" th:if="${level == 1}" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <input
+                type="hidden"
+                id="urlPreviousPage"
+                name="urlPreviousPage"
+                th:value="@{/admin/organigramme/consult#main_content}"
+            />
+            <ul
+                class="tree-navigation__list"
+                th:id="|toggled-${currentID}|"
+                th:classappend="${(level &gt; 1 ? ' tree-navigation\_\_list--subtree ' : '') + (isOpen ? ' tree-navigation\_\_list--is-opened ' : ' tree-navigation\_\_list--is-closed ') }"
+                th:aria-hidden="${isOpen ? 'false' : 'true'}"
+            >
+                <li
+                    th:each="item, status : ${organigrammeTree}"
+                    class="tree-navigation__item tree-navigation__item--has-toggler"
+                    th:classappend="${(item.isOpen ? 'tree-navigation\_\_item--is-opened' : ' tree-navigation\_\_item--is-closed ') + (' tree-navigation\_\_item--lvl-'+level)}"
+                >
+                    <th:block th:if="${level eq 1}">
+                        <div class="tree-navigation__toggle-wrapper">
+                            <button
+                                th:aria-controls="|toggled-${currentID}-${status.index}|"
+                                th:aria-expanded="${item.isOpen ? 'true' : 'false'}"
+                                th:id="|toggler-${currentID}-${status.index}|"
+                                data-toggle="tree-navigation__list"
+                                class="tree-navigation__toggle js-toggle"
+                                th:attrappend="onclick=|onOpenOrganigrammeNode('${item.completeKey}')|"
+                                data-icon-opened="minus"
+                                data-icon-closed="plus"
+                                type="button"
+                            >
+                                <span
+                                    class="tree-navigation__icon tree-navigation__icon--toggler icon bubble-icon bubble-icon--squared bubble-icon--small"
+                                    th:classappend="${(item.isOpen ? 'tree-navigation\_\_icon--opened icon--minus' : 'tree-navigation\_\_icon--closed icon--plus')}"
+                                    th:aria-describedby="|button\_\_toggler-${currentID}-${status.index}|"
+                                    aria-hidden="true"
+                                ></span>
+                                <span th:id="|button\_\_toggler-${currentID}-${status.index}|" class="sr-only"></span>
+                                <span
+                                    th:id="${item.ministereId}"
+                                    class="tree-navigation__text"
+                                    th:text="${item.label}"
+                                    th:classappend="${item.isActive ? '' : 'tree-navigation\_\_text-not-active'}"
+                                    >Niveau</span
+                                >
+                            </button>
+                        </div>
+                        <ul
+                            th:replace="fragments/pan/components/panOrganigrammeArbre :: panOrganigrammeArbre(${item.childs}, ${level+1}, |${currentID}-${status.index}|, ${item.isOpen})"
+                        ></ul>
+                    </th:block>
+                    <th:block th:if="${level eq 2}">
+                        <div
+                            data-drop-group=""
+                            class="tree-navigation__button-edit base-drop-down base-drop-down--default"
+                        >
+                            <span
+                                th:id="${item.ministereId}"
+                                class="tree-navigation__label"
+                                th:classappend="${item.isActive ? '' : 'tree-navigation\_\_text-not-active'}"
+                            >
+                                <button
+                                    class="link"
+                                    th:attr="onclick=|chargerBlocContextuel(this,${item.ministereId},'ministere');|"
+                                    th:text="${item.label}"
+                                    type="button"
+                                >
+                                    Niveau
+                                </button>
+                            </span>
+                        </div>
+                    </th:block>
+                </li>
+            </ul>
+        </th:block>
+    </body>
+</html>

@@ -1,0 +1,266 @@
+<?xml version="1.0" ?>
+<!--
+  Ce composant déclare les types de corbeilles de SOLON MGPP.
+-->
+<component name="fr.dila.solonmgpp.core.service.corbeilleType.contrib">
+  <require>fr.dila.solonmgpp.core.service.CorbeilleService</require>
+
+  <extension target="fr.dila.solonmgpp.core.service.CorbeilleService" point="corbeille">
+    <!-- Corbeilles du gouvernement -->
+    <corbeille name="SECTION_GOUVERNEMENT_PROCEDURE_LEGISLATIVE" action="mgpp_procedureLegislative">
+      <corbeilleNode
+                type="MESSAGE"
+                name="CORBEILLE_GOUVERNEMET_PROC_LEG_ATTENTE"
+                parent="SECTION_GOUVERNEMENT_PROCEDURE_LEGISLATIVE"
+                label="En attente"
+                description="Regroupe les messages des évènements reçus mis en attente"
+            />
+      <corbeilleNode
+                type="MESSAGE"
+                name="CORBEILLE_GOUVERNEMENT_CENSURE"
+                label="Motion de censure"
+                description="Corbeille regroupant les communications relatives à l'application de l'alinéa 2 de l'article 49 de la constitution"
+            />
+      <corbeilleNode
+                type="MESSAGE"
+                name="CORBEILLE_GOUVERNEMET_PROC_LEG_HISTORIQUE"
+                label="Historique"
+                description="Regroupe les messages des évènements reçus ou émis, à l'état traité depuis moins d'un temps configurable"
+            />
+      <corbeilleNode
+                type="FICHE_LOI"
+                name="CONSULTATION_FICHE_LOIS_EXISTANT"
+                label="Liste des lois"
+                description="Liste des fiches de présentations lois"
+            />
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_PUBLICATION" action="mgpp_publication">
+      <corbeilleNode
+                type="DOSSIER"
+                name="CORBEILLE_GOUVERNEMENT_PUBLICATION_ATTRIB_PARLEMENTAIRE"
+                adoption="1"
+                typeActe="26','27','28','29"
+                routingTaskType="6"
+                label="Pour attribution secteur parlementaire"
+                description="Dossier dans l'étape pour attribution secteur parlementaire"
+            />
+      <corbeilleNode
+                type="DOSSIER"
+                name="CORBEILLE_GOUVERNEMENT_PUBLICATION_ATTRIB"
+                adoption="1"
+                typeActe="26','27','28','29"
+                routingTaskType="4"
+                label="Pour attribution"
+                description="Dossier dans l'étape pour attribution"
+            />
+      <corbeilleNode
+                type="DOSSIER"
+                name="CORBEILLE_GOUVERNEMENT_PUBLICATION_FOURN_EPRV"
+                adoption="1"
+                typeActe="26','27','28','29"
+                routingTaskType="12"
+                label="Pour fourniture d'épreuve"
+                description="Dossier dans l'étape pour fourniture d'épreuve"
+            />
+      <corbeilleNode
+                type="DOSSIER"
+                name="CORBEILLE_GOUVERNEMENT_PUBLICATION_BON_TIRER"
+                adoption="1"
+                typeActe="26','27','28','29"
+                routingTaskType="11"
+                label="Pour bon à tirer"
+                description="Dossier dans l'étape pour bon à tirer"
+            />
+      <corbeilleNode
+                type="DOSSIER"
+                name="CORBEILLE_GOUVERNEMENT_PUBLICATION_PUBLI_JO"
+                adoption="1"
+                typeActe="26','27','28','29"
+                routingTaskType="13"
+                label="Pour publication à la DILA JO"
+                description="Dossier dans l'étape pour publication à la DILA JO"
+            />
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_RAPPORT" action="mgpp_depotDeRapport">
+      <corbeilleNode
+                type="MESSAGE"
+                name="CORBEILLE_GOUVERNEMENT_RAPPORT_HISTORIQUE"
+                label="Historique"
+                description="Regroupe les messages des évènements reçus ou émis, à l'état traité depuis moins d'un temps configurable"
+            />
+      <!-- 
+      <corbeilleNode type="DOSSIER" name="CORBEILLE_GOUVERNEMENT_PUBLICATION_ATTRIB" typeActe="45" routingTaskType="4" label="Pour attribution" description="Dossier dans l'étape pour attribution"/>
+      <corbeilleNode type="DOSSIER" name="CORBEILLE_GOUVERNEMENT_PUBLICATION_ATTRIB_PARLEMENTAIRE" typeActe="45" routingTaskType="6" label="Pour attribution secteur parlementaire" description="Dossier dans l'étape pour attribution secteur parlementaire"/>
+       -->
+      <corbeilleNode
+                type="FICHE_DR"
+                name="CONSULTATION_FICHE_DR_EXISTANT"
+                label="Liste des autres rapports"
+                description="Liste des autres rapports"
+            />
+      <corbeilleNode
+                type="FICHE_DR_67"
+                name="CONSULTATION_FICHE_DR_67_EXISTANT"
+                label="Liste des rapports article 67"
+                description="Liste des rapports article 67"
+            />
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_OEP" action="mgpp_designationOEP">
+      <corbeilleNode
+                type="MESSAGE"
+                name="CORBEILLE_GOUVERNEMENT_OEP_HISTORIQUE"
+                label="Historique"
+                description="Regroupe les messages des évènements reçus ou émis, à l'état traité depuis moins d'un temps configurable"
+            />
+      <corbeilleNode
+                type="OEP"
+                name="CONSULTATION_OEP_EXISTANT"
+                label="Liste des OEP"
+                description="Liste des organismes extraparlementaire"
+                ifMember="EspaceParlementaireReader"
+            />
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_NOMINATION" action="mgpp_avisNomination">
+      <corbeilleNode
+                type="MESSAGE"
+                name="CORBEILLE_GOUVERNEMENT_NOMINATION_HISTORIQUE"
+                label="Historique"
+                description="Regroupe les messages des évènements reçus ou émis, à l'état traité depuis moins d'un temps configurable"
+            />
+      <corbeilleNode
+                type="AVI"
+                name="CONSULTATION_AVI_EXISTANT"
+                label="Liste des organismes"
+                description="Liste des organismes de nomination"
+            />
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_DECRET" action="mgpp_decret">
+      <corbeilleNode
+                type="MESSAGE"
+                name="CORBEILLE_GOUVERNEMENT_DECRET_HISTORIQUE"
+                label="Historique"
+                description="Regroupe les messages des évènements reçus ou émis, à l'état traité depuis moins d'un temps configurable"
+            />
+      <corbeilleNode
+                type="FICHE_DECRET"
+                name="CONSULTATION_FICHE_DECRET_EXISTANT"
+                label="Liste des sessions extraordinaires"
+                description="Liste des sessions extraordinaires"
+            />
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_INTERVENTION_EXTERIEURE" action="mgpp_interventionExterieure">
+      <corbeilleNode
+                type="MESSAGE_HISTO"
+                name="CORBEILLE_GOUVERNEMENT_INTERVENTION_EXTERIEURE_HISTORIQUE"
+                label="Historique"
+                description="Regroupe les messages des évènements reçus ou émis, à l'état traité depuis moins d'un temps configurable"
+            />
+      <corbeilleNode
+                type="FICHE_IE"
+                name="CONSULTATION_FICHE_IE_EXISTANT"
+                label="Liste des demandes de prolongation d'une intervention extérieure"
+                description="Liste des demandes de prolongation d'une intervention extérieure"
+            />
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_RESOLUTION_34-1" action="mgpp_resolutionArticle341">
+      <corbeilleNode
+                type="MESSAGE_HISTO"
+                name="CORBEILLE_GOUVERNEMENT_RESOLUTION_34-1_HISTORIQUE"
+                label="Historique"
+                description="Regroupe les messages des évènements reçus ou émis, à l'état traité depuis moins d'un temps configurable"
+            />
+      <corbeilleNode
+                type="FICHE_341"
+                name="CONSULTATION_FICHE_341_EXISTANT"
+                label="Liste des propositions de résolutions"
+                description="Liste des propositions de résolutions"
+            />
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_SUIVI" action="mgpp_suivi">
+    </corbeille>
+    <corbeille name="CORBEILLE_GOUVERNEMENT_SUIVI" action="mgpp_recherche">
+    </corbeille>
+    
+    <corbeille
+            name="CORBEILLE_GOUVERNEMENT_DECLARATION_DE_POLITIQUE_GENERALE"
+            action="mgpp_declarationDePolitiqueGenerale"
+        >
+      <corbeilleNode
+                type="MESSAGE_HISTO"
+                name="CORBEILLE_GOUVERNEMENT_DECLARATION_DE_POLITIQUE_GENERALE_HISTORIQUE"
+                label="Historique"
+                description="Déclaration de politique générale"
+            />
+      <corbeilleNode
+                type="FICHE_DPG"
+                name="CONSULTATION_FICHE_DPG_EXISTANT"
+                label="Liste des Déclarations de politiques"
+            />
+    </corbeille>
+
+    <corbeille
+            name="CORBEILLE_GOUVERNEMENT_DECLARATION_SUR_UN_SUJET_DETERMINE_50_1C"
+            action="mgpp_declarationSurUnSujetDetermine"
+        >
+      <corbeilleNode
+                type="MESSAGE_HISTO"
+                name="CORBEILLE_GOUVERNEMENT_DECLARATION_SUR_UN_SUJET_DETERMINE_HISTORIQUE"
+                label="Historique"
+                description="Déclaration sur un sujet déterminé"
+            />
+      <corbeilleNode
+                type="FICHE_SD"
+                name="CONSULTATION_FICHE_SD_EXISTANT"
+                label="Liste des Déclarations sur un sujet déterminé"
+            />
+    </corbeille>
+
+    <corbeille
+            name="CORBEILLE_GOUVERNEMENT_DEMANDE_DE_MISE_EN_OEUVRE_ARTICLE_28-3C"
+            action="mgpp_demandeMiseEnOeuvreArticle283C"
+        >
+      <corbeilleNode
+                type="MESSAGE_HISTO"
+                name="CORBEILLE_GOUVERNEMENT_DEMANDE_DE_MISE_EN_OEUVRE_ARTICLE_28-3C_HISTORIQUE"
+                label="Historique"
+                description="Demande  de mise en oeuvre de l'article 28-3C"
+            />
+      <corbeilleNode type="FICHE_JSS" name="CONSULTATION_FICHE_JSS_EXISTANT" label="Liste des demandes article 28-3C" />
+    </corbeille>
+
+
+    <corbeille name="CORBEILLE_GOUVERNEMENT_DEMANDE_AUDITION" action="mgpp_demandeAudition">
+      <corbeilleNode
+                type="MESSAGE_HISTO"
+                name="CORBEILLE_GOUVERNEMENT_DEMANDE_AUDITION_HISTORIQUE"
+                label="Historique"
+                description="Demandes d'audition"
+            />
+      <corbeilleNode type="FICHE_AUD" name="CONSULTATION_FICHE_AUD_EXISTANT" label="Liste des demandes d'audition" />
+    </corbeille>
+
+
+    
+    <corbeille
+            name="CORBEILLE_GOUVERNEMENT_AUTRES_DOCUMENTS_TRANSMIS_AUX_ASSEMBLEES"
+            action="mgpp_autresDocumentsTransmisAuxAssemblees"
+        >
+      <corbeilleNode
+                type="MESSAGE_HISTO"
+                name="CORBEILLE_GOUVERNEMENT_AUTRES_DOCUMENTS_TRANSMIS_AUX_ASSEMBLEES_HISTORIQUE"
+                label="Historique"
+                description="Documents transmis aux assemblées"
+            />
+      <corbeilleNode
+                type="FICHE_DOC"
+                name="CONSULTATION_FICHE_DOC_EXISTANT"
+                label="Liste des documents transmis aux assemblées"
+            />
+    </corbeille>
+    
+    
+    
+    
+    
+  </extension>
+</component>

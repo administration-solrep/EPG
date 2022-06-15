@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="vecteurs-publication-table"
+            id="listeVecteurs"
+            class="tableForm"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrlVecteurPublication}}"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <div class="heading-complex m-b-6">
+                <div class="heading-complex__main">
+                    <h2 class="base-title base-title--lvl-2" th:text="#{menu.admin.dossier.vecteur.title}">
+                        Vecteurs de publication
+                    </h2>
+                    <p
+                        class="heading-complex__subtitle base-subtitle"
+                        th:text="#{admin.vecteur.publication.table.nb(${nbVecteursPublication})}"
+                    >
+                        - 5 vecteurs de publication
+                    </p>
+                </div>
+                <div class="heading-complex__options"></div>
+            </div>
+            <div class="flexible-table">
+                <a
+                    href="#skip_link_table-vecteurs-publication_prev"
+                    id="skip_link_table-vecteurs-publication_next"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{admin.vecteur.publication.table})}"
+                >
+                    Passer le tableau pour arriver après
+                </a>
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <caption class="sr-only" th:text="#{admin.vecteur.publication.table}">
+                            Tableau des vecteurs de publication
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th:block th:each="colonne : ${lstColonnes}">
+                                    <th scope="col" class="table-header__cell table-header__cell--with-filter-action">
+                                        <button
+                                            th:replace="fragments/table/sortableHeader :: sortableHeader (
+                                                #{__${colonne.label}__},
+                                                ${colonne.sortValue},
+                                                ${colonne.sortName},
+                                                ${colonne.sortId},
+                                                ${colonne.inverseSort})"
+                                        ></button>
+                                    </th>
+                                </th:block>
+                                <th scope="col" class="table-header__cell table-header__cell--small">
+                                    <span class="sr-only" th:text="#{admin.vecteur.publication.table.header.action}"
+                                        >Actions</span
+                                    >
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body custom-table__body">
+                            <tr class="table-line custom-table__table-line" th:each="item, nb : ${resultList.liste}">
+                                <td class="table-line__cell">
+                                    <p class="table-line__cell-content" th:text="${item.intitule}">
+                                        Documents administration
+                                    </p>
+                                </td>
+                                <td class="table-line__cell">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#calendars.format(item.dateDebut, 'dd/MM/yyyy')}"
+                                    >
+                                        21/07/2020
+                                    </p>
+                                </td>
+                                <td class="table-line__cell">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#calendars.format(item.dateFin, 'dd/MM/yyyy')}"
+                                    >
+                                        12/12/2020
+                                    </p>
+                                </td>
+                                <td class="table-line__cell table-line__cell--small">
+                                    <div class="flex items-center">
+                                        <th:block th:each="action : ${editActionVecteurPublication}">
+                                            <div
+                                                th:replace="fragments/components/action-link :: action-link(
+                                                    ${action},
+                                                    'm-l-4 base-btn base-btn--button base-btn--default base-btn--icon-action-blue base-btn--discret',
+                                                    '')"
+                                            ></div>
+                                        </th:block>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a
+                    href="#skip_link_table-vecteurs-publication_next"
+                    id="skip_link_table-vecteurs-publication_prev"
+                    class="skip-link"
+                    th:text="#{skip.link.table.next(#{admin.vecteur.publication.table})}"
+                >
+                    Passer le tableau pour arriver avant
+                </a>
+            </div>
+            <!-- Modale Editer un vecteur de publication -->
+            <div
+                th:replace="fragments/dossier/vecteurs-publication/vecteurs-publication-modal :: vecteurs-publication-modal"
+            ></div>
+        </div>
+    </body>
+</html>

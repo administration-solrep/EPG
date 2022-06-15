@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="searchResults"
+            class="tableForm"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            th:with="tableCaption=${tableCaption}?:#{liste.dossier.table.caption}, id=${id} ?: 'listeDossiers', canBeSelected=${canBeSelected} ?: true"
+            th:id="${id}"
+        >
+            <div class="overlay" th:id="|result_overlay${id}|" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <th:block th:unless="${nbResults == null}">
+                <input type="hidden" id="nbResultInput" th:value="#{label.dossier.nombre(${nbResults})}" />
+            </th:block>
+            <th:block th:each="parameter : ${otherParameter}">
+                <input
+                    th:unless="${parameter.value ==null}"
+                    th:name="${parameter.key}"
+                    th:value="${parameter.value}"
+                    type="hidden"
+                    aria-hidden="true"
+                    data-isForm="true"
+                />
+            </th:block>
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'dossier_haut')"
+                ></div>
+            </th:block>
+            <a
+                th:href="|#skip_link_action-table_prev_${id}|"
+                th:id="|skip_link_action-table_next_${id}|"
+                class="skip-link"
+                >[[ #{skip.link.table.prev(${tableCaption})} ]]</a
+            >
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div th:replace="fragments/table/toolbar :: toolbar('table_mass_action_toolbar', true)"></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_haut',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                        <div
+                            th:replace="fragments/table/multipleSortIcon :: multipleSortIcon(modalId=|modal-multiple-sort-${id}|)"
+                        ></div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="custom-table custom-table--has-check">
+                    <caption class="sr-only" th:text="${tableCaption}">
+                        Tableau des dossiers
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th
+                                th:if="${canBeSelected}"
+                                scope="col"
+                                class="table-header__cell table-header__cell--check"
+                            >
+                                <div class="form-choice-input">
+                                    <input
+                                        type="checkbox"
+                                        id="selectAllDossier"
+                                        name="selectAllDossier"
+                                        onclick="selectAllCheckBox(this);"
+                                        class="form-choice-input__input js-custom-table-header-check"
+                                        autocomplete="off"
+                                    />
+                                    <label
+                                        id="selectAllDossier_label"
+                                        for="selectAllDossier"
+                                        th:data-select-label="#{liste.dossier.selectAll}"
+                                        th:data-deselect-label="#{liste.dossier.deselectAll}"
+                                        class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        th:title="#{liste.dossier.selectAll}"
+                                    >
+                                        <span>[[#{liste.dossier.selectAll}]]</span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th:block th:each="colonne : ${resultList.getListeColonnes()}">
+                                <th:block th:if="${colonne.visible && colonne.sortable}">
+                                    <th
+                                        th:aria-sort="${colonne.sortValue == 'asc' ? 'ascending' : (colonne.sortValue== 'desc' ? 'descending' : '')}"
+                                        scope="col"
+                                        class="table-header__cell table-header__cell--with-filter-action"
+                                        th:with="order=${colonne.sortOrder}"
+                                    >
+                                        <button
+                                            th:replace="fragments/table/sortableHeader :: sortableHeader (#{__${colonne.label}__},${colonne.sortValue},${colonne.sortName},${colonne.sortId},${colonne.inverseSort})"
+                                        ></button>
+                                    </th>
+                                </th:block>
+
+                                <th:block th:if="${colonne.visible && !colonne.sortable}">
+                                    <th scope="col" class="table-header__cell">
+                                        <span
+                                            th:if="${colonne.isLabelVisible}"
+                                            class="table-header__cell-inner"
+                                            th:text="${colonne.label !=null? #messages.msg(colonne.label) : ''}"
+                                        >
+                                            &nbsp;
+                                        </span>
+                                        <span th:unless="${colonne.isLabelVisible}" class="table-header__cell-inner">
+                                            <span class="sr-only">[[ #{__${colonne.label}__} ]]</span>
+                                        </span>
+                                    </th>
+                                </th:block>
+                            </th:block>
+                        </tr>
+                    </thead>
+                    <tbody class="custom-table__body">
+                        <th:block th:if="${resultList.liste.size > 0}">
+                            <tr
+                                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                                th:each="item, nb : ${resultList.liste}"
+                                th:data-id="${item.dossierId}"
+                                th:dossier-link-id="(${item.caseLinkIdsLabels!=null && #arrays.length(item.caseLinkIdsLabels) == 1 ? item.caseLinkIdsLabels[0].id : null})"
+                            >
+                                <td th:if="${canBeSelected}" class="table-line__cell table-line__cell--check">
+                                    <div class="form-choice-input">
+                                        <input
+                                            th:id="|select-${item.dossierId}-${nb.count}|"
+                                            type="checkbox"
+                                            th:name="${'checkbox-'+nb.count}"
+                                            onclick="selectTableCheckbox(this)"
+                                            class="form-choice-input__input js-custom-table-line-check"
+                                            autocomplete="off"
+                                        />
+                                        <label
+                                            th:for="|select-${item.dossierId}-${nb.count}|"
+                                            th:title="#{liste.dossier.selectOne(${item.numeroNor})}"
+                                            th:data-select-label="#{liste.dossier.selectOne(${item.numeroNor})}"
+                                            th:data-deselect-label="#{liste.dossier.deselectOne(${item.numeroNor})}"
+                                            class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        >
+                                            <span th:text="#{liste.dossier.selectOne(${item.numeroNor})}"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td
+                                    class="table-line__cell"
+                                    th:with="curEtape=${#arrays.isEmpty(item.caseLinkIdsLabels)?'':item.caseLinkIdsLabels[0].id}, elemId=|link-copy__link-${#strings.replace(label, ' ', '_')}_${item.dossierId}|"
+                                >
+                                    <a
+                                        th:if="${#arrays.isEmpty(item.caseLinkIdsLabels) || #arrays.length(item.caseLinkIdsLabels) <= 1}"
+                                        th:href="@{/dossier/{dossierId}/document(dossierId=${item.dossierId},dossierLinkId=${curEtape})} + '#main_content'"
+                                        th:target="${#strings.equals('/ajax/recherche/derniers/resultats/consultes', dataAjaxUrl)} ? '_blank' : '_self'"
+                                        class="link-copy__link link"
+                                        ><th:block
+                                            th:replace="fragments/components/dossier-table-numero-nor :: dossier-table-numero-nor(${navigationActions}, ${item}, ${elemId})"
+                                        ></th:block
+                                    ></a>
+
+                                    <th:block
+                                        th:if="${!#arrays.isEmpty(item.caseLinkIdsLabels) && #arrays.length(item.caseLinkIdsLabels) > 1}"
+                                    >
+                                        <button
+                                            class="link link-copy__link base-drop-down__button table-dossier-dropdown"
+                                            th:aria-controls="|${item.dossierId}_drop|"
+                                            th:aria-labelledby="|${item.dossierId}_label|"
+                                        >
+                                            <span
+                                                class="sr-only"
+                                                th:id="|${item.dossierId}_label|"
+                                                th:text="#{dropdown.element.srhelp}"
+                                                >Elément d'aide</span
+                                            >
+                                            <th:block
+                                                th:replace="fragments/components/dossier-table-numero-nor :: dossier-table-numero-nor(${navigationActions}, ${item}, ${elemId})"
+                                            ></th:block>
+                                        </button>
+                                        <div
+                                            aria-expanded="false"
+                                            th:id="|${item.dossierId}_drop|"
+                                            th:aria-labelledby="|${item.dossierId}_list|"
+                                            class="base-drop-down__drop"
+                                        >
+                                            <span
+                                                th:id="|${item.dossierId}_list|"
+                                                class="sr-only"
+                                                th:text="#{dropdown.liste.srhelp}"
+                                                >Liste d'aide</span
+                                            >
+                                            <ul
+                                                class="base-drop-down__drop-list"
+                                                th:each="dropDownItem : ${item.caseLinkIdsLabels}"
+                                            >
+                                                <li class="base-drop-down-item">
+                                                    <a
+                                                        th:href="@{${dropDownItem.url}}"
+                                                        class="base-drop-down__link link"
+                                                        th:each="label: ${dropDownItem.label}"
+                                                        th:text="${#messages.msgOrNull(label) != null ? #messages.msg(label) : label}"
+                                                    >
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </th:block>
+                                    <th:block
+                                        th:replace="fragments/components/copy-nor-button :: copy-nor-button(${elemId}, 'NOR', false)"
+                                    ></th:block>
+                                </td>
+                                <td class="table-line__cell">
+                                    <div
+                                        th:replace="fragments/components/longText :: ellipser(${item.titreActe},'jnEllipser-' + ${nb.index})"
+                                    >
+                                        test
+                                    </div>
+                                </td>
+                                <th:block th:if="${resultForm.isDateCreationVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#dates.format(item.created, 'dd/MM/yyyy')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isDernierContributeurVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.lastContributor}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isIdCreateurDossierVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.idCreateurDossier}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isStatutVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.statut}"></p>
+                                    </td>
+                                </th:block>
+
+                                <td th:if="${resultForm.isTypeActeVisible}" class="table-line__cell">
+                                    <p class="table-line__cell-content" th:text="${item.typeActe}"></p>
+                                </td>
+
+                                <th:block th:if="${resultForm.isMinistereRespVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.ministereResp}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isDirectionResponsableVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.directionResp}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isMinistereRattachVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.ministereAttache}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isDirectionRattachVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.directionAttache}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isNomRespDossierVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.nomRespDossier}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isPrenomRespDossierVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.prenomRespDossier}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isQualiteRespDossierVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.qualiteRespDossier}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isTelRespDossierVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.telRespDossier}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isMailRespDossierVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.mailRespDossier}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isCategorieActeVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.categorieActe}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isBaseLegaleVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.baseLegaleActe}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isDatePublicationSouhaiteeVisible()}">
+                                    <td>
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#dates.format(item.datePublication, 'dd/MM/yyyy')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isPublicationRapportPresentationVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="#{${item.publicationRapportPresentation ? 'choix.oui' : 'choix.non'}}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isPrioriteVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.priorite}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isSectionCeVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.sectionCe}"></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isRapporteurCeVisible()}">
+                                    <td class="table-line__cell">
+                                        <p class="table-line__cell-content" th:text="${item.rapporteurCe}"></p>
+                                    </td>
+                                </th:block>
+
+                                <td class="table-line__cell" th:if="${resultForm.isDateTransmissionSectionCeVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#dates.format(item.dateTransmissionSectionCe, 'dd/MM/yyyy')}"
+                                    ></p>
+                                </td>
+
+                                <th:block th:if="${resultForm.isDateSectionCeVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#dates.format(item.dateSectionCe, 'dd/MM/yyyy')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <td class="table-line__cell" th:if="${resultForm.isDateAgCeVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#dates.format(item.dateAgCe, 'dd/MM/yyyy')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isNumeroISAVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.numeroISA}"></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isNomCompletChargesMissionsVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#strings.listJoin(item.nomCompletChargesMissions, ', ')}"
+                                    ></p>
+                                </td>
+
+                                <th:block th:if="${resultForm.isNomCompletConseillersPmsVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#strings.listJoin(item.nomCompletConseillersPms, ', ')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isDateSignatureVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#dates.format(item.dateSignature, 'dd/MM/yyyy')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isPourFournitureEpreuveVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#dates.format(item.pourFournitureEpreuve, 'dd/MM/yyyy')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isVecteurPublicationVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#strings.listJoin(item.vecteurPublication, ', ')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isPublicationsConjointesVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#strings.listJoin(item.publicationsConjointes, ', ')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <td
+                                    class="table-line__cell"
+                                    th:if="${resultForm.isPublicationIntegraleOuExtraitVisible()}"
+                                >
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${item.publicationIntegraleOuExtrait}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isDecretNumeroteVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="#{${item.decretNumerote ? 'choix.oui' : 'choix.non'}}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isModeParutionVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.modeParution}"></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isDelaiPublicationVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.delaiPublication}"></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isDatePreciseePublicationVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#dates.format(item.datePreciseePublication, 'dd/MM/yyyy')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isDateParutionJorfVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#dates.format(item.dateParutionJorf, 'dd/MM/yyyy')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isNumeroTexteParutionJorfVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.numeroTexteParutionJorf}"></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isPageParutionJorfVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.pageParutionJorf}"></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isParutionBoVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="#{${#lists.isEmpty(item.parutionBo) ? 'choix.non' : 'choix.oui'}}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isZoneComSggDilaVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.zoneComSggDila}"></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isRubriquesVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#strings.listJoin(item.rubriques, ', ')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isMotsclesVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#strings.listJoin(item.motscles, ', ')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isChampsLibresVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#strings.listJoin(item.libre, ', ')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isApplicationLoiVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#strings.listJoin(item.applicationLoiRef, ', ')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isTranspositionOrdonnanceVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#strings.listJoin(item.transpositionOrdonnanceRef, ', ')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isTranspositionDirectiveVisible()}">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#strings.listJoin(item.transpositionDirectiveRef, ', ')}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isHabilitationRefLoiVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.habilitationRefLoi}"></p>
+                                </td>
+
+                                <td
+                                    class="table-line__cell"
+                                    th:if="${resultForm.isHabilitationNumeroArticlesVisible()}"
+                                >
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${item.habilitationNumeroArticles}"
+                                    ></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isHabilitationCommentaireVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.habilitationCommentaire}"></p>
+                                </td>
+
+                                <td class="table-line__cell" th:if="${resultForm.isHabilitationNumeroOrdreVisible()}">
+                                    <p class="table-line__cell-content" th:text="${item.habilitationNumeroOrdre}"></p>
+                                </td>
+
+                                <td th:if="${resultForm.isDateArriveeDossierLinkVisible()}" class="table-line__cell">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#dates.format(item.dateArrivee, 'dd/MM/yyyy HH:mm')}"
+                                    ></p>
+                                </td>
+
+                                <th:block th:if="${resultForm.isDateEffetVisible()}">
+                                    <td class="table-line__cell">
+                                        <p
+                                            class="table-line__cell-content"
+                                            th:text="${#strings.listJoin(#calendars.listFormat(item.dateEffet, 'dd/MM/yyyy'), ', ')}"
+                                        ></p>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isTexteEntrepriseVisible()}">
+                                    <td class="table-line__cell">
+                                        <th:block th:if="${item.texteEntreprise}">
+                                            <div
+                                                th:data-tippy-content="#{label.dossier.texteEntreprise(${item.numeroNor})}"
+                                                class="base-tooltip js-tooltip text-blue"
+                                                tabindex="0"
+                                            >
+                                                <span class="icon icon icon--check" aria-hidden="true"> </span>
+                                                <span
+                                                    class="sr-only"
+                                                    th:text="#{label.dossier.texteEntreprise(${item.numeroNor})}"
+                                                    >Dossier relevant de la rubrique enreprise</span
+                                                >
+                                            </div>
+                                        </th:block>
+                                        <th:block th:unless="${item.texteEntreprise}">
+                                            <div
+                                                th:data-tippy-content="#{label.dossier.notTexteEntreprise(${item.numeroNor})}"
+                                                class="base-tooltip js-tooltip text-blue"
+                                                tabindex="0"
+                                            >
+                                                <span class="icon icon--times-square" aria-hidden="true"> </span>
+                                                <span
+                                                    class="sr-only"
+                                                    th:text="#{label.dossier.notTexteEntreprise(${item.numeroNor})}"
+                                                    >Dossier ne relevant pas de la rubrique enreprise</span
+                                                >
+                                            </div>
+                                        </th:block>
+                                    </td>
+                                </th:block>
+
+                                <th:block th:if="${resultForm.isCompletVisible()}">
+                                    <td class="table-line__cell">
+                                        <th:block th:if="${#strings.isEmpty(item.dossierCompletErreur)}">
+                                            <div
+                                                th:data-tippy-content="#{label.dossier.oui.dossier.complet(${item.numeroNor})}"
+                                                class="base-tooltip js-tooltip text-blue"
+                                                tabindex="0"
+                                            >
+                                                <span class="icon icon--check" aria-hidden="true"> </span>
+                                                <span
+                                                    class="sr-only"
+                                                    th:text="#{label.dossier.oui.dossier.complet(${item.numeroNor})}"
+                                                    >Dossier complet</span
+                                                >
+                                            </div>
+                                        </th:block>
+                                        <th:block th:unless="${#strings.isEmpty(item.dossierCompletErreur)}">
+                                            <div
+                                                th:data-tippy-content="#{item.dossierCompletErreur(${item.numeroNor})}"
+                                                class="base-tooltip js-tooltip text-blue"
+                                                tabindex="0"
+                                            >
+                                                <span class="icon icon--times-square" aria-hidden="true"> </span>
+                                                <span
+                                                    class="sr-only"
+                                                    th:text="#{item.dossierCompletErreur(${item.numeroNor})}"
+                                                    >Dossier non complet</span
+                                                >
+                                            </div>
+                                        </th:block>
+                                    </td>
+                                </th:block>
+
+                                <td class="table-line__cell table-line__action-column">
+                                    <div class="table-line__action-column-container">
+                                        <th:block th:if="${item.isLocked()}">
+                                            <span
+                                                th:data-tippy-content="#{label.dossier.verrouille(${item.getLockOwner()})}"
+                                                aria-hidden="true"
+                                                class="table-line__action-button base-btn__icon icon icon--lock base-btn--icon-action-blue"
+                                            ></span>
+                                            <span
+                                                class="sr-only"
+                                                th:text="|${item.numeroNor} #{label.dossier.verrouille(${item.getLockOwner()})}|"
+                                                >Verouille</span
+                                            >
+                                        </th:block>
+                                        <th:block th:if="${item.getUrgent()}">
+                                            <span
+                                                th:data-tippy-content="#{dossier.urgent.title}"
+                                                aria-hidden="true"
+                                                class="table-line__action-button base-btn__icon icon icon--warning-mark base-btn--icon-action-blue"
+                                            ></span>
+                                            <span
+                                                class="sr-only"
+                                                th:text="#{dossier.urgent.dossier.title(${item.numeroNor})}"
+                                                >Urgent</span
+                                            >
+                                        </th:block>
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
+                        <th:block th:unless="${resultList.liste.size > 0}">
+                            <td colspan="5" th:text="#{label.dossier.nombre(0)}">dossier nombre</td>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div th:replace="fragments/table/toolbar :: toolbar('table_mass_action_toolbar', true)"></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_bas',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                        <div
+                            th:replace="fragments/table/multipleSortIcon :: multipleSortIcon(modalId=|modal-multiple-sort-${id}|)"
+                        ></div>
+                    </th:block>
+                </div>
+            </div>
+            <a
+                th:href="|#skip_link_action-table_next_${id}|"
+                th:id="|skip_link_action-table_prev_${id}|"
+                class="skip-link"
+                th:text="#{skip.link.table.next(${tableCaption})}"
+                >link next</a
+            >
+
+            <!-- Modale ajout note d'étape -->
+            <div th:replace="fragments/fdr/addEditNoteEtape :: addEditNoteEtape"></div>
+            <!-- Modale tri multiple-->
+            <div
+                th:replace="fragments/table/multipleSort :: multipleSort(id=|modal-multiple-sort-${id}|, lstSortedColonnes=${resultList.getListeSortedColonnes()}, lstSortableColumn=${resultList.getListeSortableAndVisibleColonnes()})"
+            ></div>
+        </div>
+    </body>
+</html>

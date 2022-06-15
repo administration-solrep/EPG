@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="texteMaitreForm" id="texteMaitreForm">
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__info_texte-maitre"
+                    aria-expanded="true"
+                    id="accordion__header__info_texte-maitre"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.sous.onglet.texteMaitre}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__info_texte-maitre"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                        th:replace="fragments/pan/components/panActionToolbar :: panActionToolbar(${subtabLeftActions}, ${subtabRightActions})"
+                    ></div>
+
+                    <th:block th:if="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <form class="grid m-t-4" id="texte-maitre-form" autocomplete="off">
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.numero}, null, 'numero', 'pan.directives.table.header.label.numero', true, false, 'text')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.dateDirective}, null, 'dateAdoption', 'pan.directives.table.header.label.dateAdoption', true, false, 'date-picker')"
+                            ></div>
+                            <div class="grid__row m-t-6">
+                                <div class="grid__col grid__col--form-input">
+                                    <div
+                                        th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete('pan.application.lois.table.lois.header.label.ministerePilote', false, 'ministerePilote', 'ministerePilote', 'MIN', ${texteMaitre.ministerePilote}, false, false, ${mapMinisterePilote}, false)"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.directionResponsable}, null, 'direction', 'pan.directives.table.header.label.direction', false, false, 'text')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.titreOfficiel}, null, 'titre', 'pan.directives.table.header.label.titre', true, false, 'text')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.dateEcheance}, null, 'dateEcheance', 'pan.directives.table.header.label.dateEcheance', true, false, 'date-picker')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.tabAffichageMarcheInt}, null, 'droitConforme', 'pan.directives.table.header.label.droitConforme', true, false, 'inputOuiNon')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.dateProchainTabAffichage}, null, 'dateProchainTabAffichage', 'pan.directives.table.header.label.dateProchainTabAffichage', false, false, 'date-picker')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.achevee}, null, 'achevee', 'pan.directives.table.header.label.achevee', true, false, 'inputOuiNon')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.dateTranspositionEffective}, null, 'dateTranspositionEffective', 'pan.directives.table.header.label.dateTransposition', false, false, 'date-picker')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.observation}, null, 'observation', 'pan.application.lois.table.lois.header.label.observation', false, false, 'text')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.champLibre}, null, 'champLibre', 'pan.application.lois.table.lois.header.label.champLibre', false, false, 'text')"
+                            ></div>
+                            <div class="grid__row m-t-6">
+                                <div class="grid__col grid__col--form-input">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-select ::simpleSelect('pan.directives.table.header.label.etat', 'etat','',${etatsDirectivesList}, ${texteMaitre.etat}, 'false',null)"
+                                    ></div>
+                                </div>
+                            </div>
+                        </form>
+                    </th:block>
+
+                    <th:block th:unless="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <div class="table-wrapper">
+                            <table role="presentation" class="folder-detail__table">
+                                <caption class="sr-only" th:text="#{pan.sous.onglet.texteMaitre}">
+                                    Texte-maitre
+                                </caption>
+                                <tbody>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.numero}"
+                                        >
+                                            Numero
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.numero}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.dateAdoption}"
+                                        >
+                                            Date d'adoption de la directive
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.dateDirective,'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.ministerePilote}"
+                                        >
+                                            Ministère pilote
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.ministerePiloteLabel}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.direction}"
+                                        >
+                                            Direction
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.directionResponsable}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.titre}"
+                                        >
+                                            Titre de la directive
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.titreOfficiel}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.dateEcheance}"
+                                        >
+                                            Date d'échéance de la directive
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.dateEcheance,'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.droitConforme}"
+                                        >
+                                            Transposition non nécessaire
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${texteMaitre.tabAffichageMarcheInt}"
+                                            th:text="#{choix.oui}"
+                                        ></td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${!texteMaitre.tabAffichageMarcheInt}"
+                                            th:text="#{choix.non}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.dateProchainTabAffichage}"
+                                        >
+                                            Date prochain tableau affichage
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.dateProchainTabAffichage,'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.achevee}"
+                                        >
+                                            Achevée
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${texteMaitre.achevee}"
+                                            th:text="#{choix.oui}"
+                                        ></td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${!texteMaitre.achevee}"
+                                            th:text="#{choix.non}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.dateTransposition}"
+                                        >
+                                            Date transposition effective
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.dateTranspositionEffective,'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.observation}"
+                                        >
+                                            Observation
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.observation}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.champLibre}"
+                                        >
+                                            Champ libre
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.champLibre}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.directives.table.header.label.etat}"
+                                        >
+                                            Etat
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${texteMaitre.etat}"
+                                            th:text="#{choix.oui}"
+                                        ></td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${!texteMaitre.etat}"
+                                            th:text="#{choix.non}"
+                                        ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

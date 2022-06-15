@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page parametre ADAMANT', title=#{archivage.adamant.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-archivage-adamant')"></div>
+
+        <h1 class="m-b-6 base-title base-title--lvl-1 base-title--is-underlined" th:text="#{archivage.adamant.title}">
+            Archivage ADAMANT
+        </h1>
+
+        <form id="archivage-adamant-form">
+            <!-- Dossiers en cours d'extraction -->
+            <div class="grid__row m-t-6">
+                <div class="grid__col grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    aria-disabled="false"
+                                    for="dossierExtraction"
+                                    id="dossierExtractionLabel"
+                                    class="form-label"
+                                >
+                                    <span th:text="#{archivage.adamant.dossier.extraction.label}">Label</span>
+                                </label>
+                                <div class="form-input__icon-group"></div>
+                            </div>
+                        </div>
+                        <div class="form-input__container">
+                            <input
+                                type="number"
+                                name="dossierExtraction"
+                                id="dossierExtraction"
+                                class="form-input__field form-input__field--type-number"
+                                th:value="${resultForm.dossierExtraction}"
+                                readonly
+                            />
+                        </div>
+                        <div id="dossierExtractionDescription" class="form-input__footer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intervalle d'éligibilité -->
+            <div class="grid__row align-start m-t-6">
+                <div class="grid__col grid__col--middle">
+                    <div
+                        th:replace="fragments/components/formblocks/date-picker-range :: datepickerRange('archivage.adamant.intervalle.eligibilite.label', 'intervalleEligibilite', null, null, true, false)"
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Statut -->
+            <div class="grid__row form-select form-select--simple m-t-6">
+                <div class="grid__col grid__col--middle">
+                    <div
+                        th:replace="fragments/components/formblocks/simple-select ::simpleSelect('archivage.adamant.statut.label', 'statut', '', ${statuts}, null, '', 'archivage.adamant.statut.tous')"
+                    ></div>
+                </div>
+            </div>
+        </form>
+
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-archivage-adamant')"></div>
+    </main>
+</html>

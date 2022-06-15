@@ -1,0 +1,222 @@
+<?xml version="1.0" ?>
+<!-- Ce composant contribue les content view de l'application SOLON MGPP -->
+<component name="fr.dila.solonepg.ui.mgpp.contentviews.contrib">
+
+	<require>org.nuxeo.ecm.platform.query.api.PageProviderService</require>
+
+	<extension target="org.nuxeo.ecm.platform.query.api.PageProviderService" point="providers">
+		
+		<!-- Content view de la liste des messages dans une corbeille -->
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.mgpp.MgppMessageListPageProvider"
+            name="mgppMessageListPageProvider"
+        >
+			<pattern quoteParameters="false" escapeParameters="false">
+				?
+			</pattern>
+			<sort column="msg:date_evenement" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.mgpp.MgppDossierPageProvider"
+            name="mgppDossierPageProvider"
+        >
+			<property name="documentType">Dossier</property>
+          	<property name="filtrableId">corbeille_dossier_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+			</pattern>
+          <sort column="d.dos:numeroNor" ascending="true" />
+          <pageSize>20</pageSize>
+      </genericPageProvider>
+		
+		<genericPageProvider class="fr.dila.solonepg.ui.contentview.mgpp.FicheOEPPageProvider" name="ficheOEPPageProvider">
+        	<property name="documentType">FichePresentationOEP</property>
+        	<property name="filtrableId">oep_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+			</pattern>
+        	<sort column="fpo.fpoep:idDossier" ascending="true" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider class="fr.dila.solonepg.ui.contentview.mgpp.FicheAVIPageProvider" name="ficheAVIPageProvider">
+        	<property name="documentType">FichePresentationAVI</property>
+        	<property name="filtrableId">avi_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+			</pattern>
+        	<sort column="fpa.fpavi:idDossier" ascending="true" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider class="fr.dila.solonepg.ui.contentview.mgpp.FicheLoiPageProvider" name="ficheLoiPageProvider">
+        	<property name="documentType">FicheLoi</property>
+       	 	<property name="filtrableId">fiche_loi_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+			</pattern>
+			<sort column="fl.floi:dateCreation" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheDRPageProvider"
+        >
+        	<property name="documentType">FichePresentationDR</property>
+        	<property name="filtrableId">fiche_dr_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fpd.ecm:uuid as id FROM FichePresentationDR as fpd WHERE fpd.fpdr:rapportParlement!='RAPPORT_RELATIF_ARTICLE_67_LOI_N_2004-1343' 
+			</pattern>
+			<sort column="fpd.fpdr:dateDepotEffectif" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheDR67PageProvider"
+        >
+        	<property name="documentType">FichePresentationDR</property>
+        	<property name="filtrableId">fiche_dr_67_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fpd.ecm:uuid as id FROM FichePresentationDR as fpd WHERE fpd.fpdr:rapportParlement='RAPPORT_RELATIF_ARTICLE_67_LOI_N_2004-1343' 
+			</pattern>
+			<sort column="fpd.fpdr:dateDepotEffectif" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheDPGPageProvider"
+        >
+        	<property name="documentType">FichePresentationDPG</property>
+        	<property name="filtrableId">fiche_dpg_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fpdp.ecm:uuid as id FROM FichePresentationDPG as fpdp 
+			</pattern>
+			<sort column="fpdp.fpdpg:dateVote" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheSDPageProvider"
+        >
+        	<property name="documentType">FichePresentationSD</property>
+        	<property name="filtrableId">fiche_sd_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fps.ecm:uuid as id FROM FichePresentationSD as fps 
+			</pattern>
+			<sort column="fps.fpsd:dateVote" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheJSSPageProvider"
+        >
+        	<property name="documentType">FichePresentationJSS</property>
+        	<property name="filtrableId">fiche_jss_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fpjs.ecm:uuid as id FROM FichePresentationJSS as fpjs
+			</pattern>
+			<sort column="fpjs.fpjss:dateLettrePm" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+				
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheDOCPageProvider"
+        >
+        	<property name="documentType">FichePresentationDOC</property>
+        	<property name="filtrableId">fiche_doc_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fpdo.ecm:uuid as id FROM FichePresentationDOC as fpdo 
+			</pattern>
+			<sort column="fpdo.fpdoc:dateLettrePm" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider> 
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheAUDPageProvider"
+        >
+        	<property name="documentType">FichePresentationAUD</property>
+        	<property name="filtrableId">fiche_aud_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fpau.ecm:uuid as id FROM FichePresentationAUD as fpau 
+			</pattern>
+			<sort column="fpau.fpaud:baseLegale" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>    
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheDecretPageProvider"
+        >
+        	<property name="documentType">FichePresentationDecret</property>
+        	<property name="filtrableId">fiche_decret_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fpde.ecm:uuid as id FROM FichePresentationDecret as fpde
+			</pattern>
+			<sort column="fpde.fpdec:date" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>      
+
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="ficheIEPageProvider"
+        >
+        	<property name="documentType">FichePresentationIE</property>
+        	<property name="filtrableId">fiche_ie_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				 ufnxql: SELECT fpi.ecm:uuid as id FROM FichePresentationIE as fpi
+			</pattern>
+			<sort column="fpi.fpie:date" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+		
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="fiche341PageProvider"
+        >
+			<property name="documentType">FichePresentation341</property>
+			<property name="filtrableId">fiche_341_list</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				ufnxql: SELECT fp3.ecm:uuid as id FROM FichePresentation341 as fp3
+			</pattern>
+			<sort column="fp3.fp341:dateDepot" ascending="false" />
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DocumentModelFiltrablePaginatedPageDocumentProvider"
+            name="fichePageProvider"
+        >
+            <property name="filtrableId">fiche_list</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+            </pattern>
+            <pageSize>20</pageSize>
+        </genericPageProvider>
+
+        <coreQueryPageProvider name="suiviEcheancesPageProvider">
+			<pattern quoteParameters="false" escapeParameters="false">
+				SELECT * 
+				FROM FichePresentationDR 
+				WHERE fpdr:rapportParlement IS NOT NULL
+			</pattern>
+			<pageSize>20</pageSize>
+		</coreQueryPageProvider>
+
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.MgppFichePresentationOEPDiffusePageProvider"
+            name="mgppFichePresentationOEPDiffusePageProvider"
+        >
+			<pattern quoteParameters="false" escapeParameters="false">
+				ufnxql: SELECT d.ecm:uuid as id
+				FROM FichePresentationOEP as d
+				WHERE d.fpoep:diffuse = ?
+			</pattern>
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+
+	</extension>
+</component>

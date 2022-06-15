@@ -1,0 +1,63 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="organigrammeFdd" style="position: relative;">
+            <div id="overlay_fdd" class="overlay" aria-live="polite" style="display: block;">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <input id="fdd-typeActe" type="hidden" th:value="${typeActe}" />
+            <h2
+                class="m-y-6 base-title base-title--lvl-2 base-title--is-underlined"
+                th:text="#{admin.fdd.arbo.repertoire(${typeActe})}"
+                id="fdd_titre"
+            >
+                Répertoires : Loi
+            </h2>
+            <div>
+                <nav aria-label="Navigation en arborescence" class="tree-navigation">
+                    <ul class="tree-navigation__container">
+                        <ul class="tree-navigation__list tree-navigation__list--is-opened">
+                            <th:block th:each="item, idx : ${categories.children}">
+                                <th:block th:if="${#lists.isEmpty(item.children)}">
+                                    <li
+                                        class="tree-navigation__item tree-navigation__item--subitem"
+                                        th:data-id="${item.id}"
+                                    >
+                                        <span>
+                                            <span class="tree-navigation__label" th:text="${item.name}"
+                                                >Répertoire réservé au ministère porteur</span
+                                            >
+                                        </span>
+                                        <span>
+                                            <div
+                                                th:replace="fragments/components/dropdown-action :: dropdown-action(
+                                        id='actions-'+${idx.index},
+                                        listActions=${generaleActionsRoot},
+                                        icon='icon--ellipsis',
+                                        hasindicator=false,
+                                        tooltip=null,
+                                        appendedClass='base-btn--icon-action-primary base-btn--transparent',
+                                        isDisabled=false,
+                                        divClass='',
+                                        dropClass='tree-navigation__button-ellipsis base-drop-down base-drop-down--icon-action-primary'
+                                        )"
+                                            ></div>
+                                        </span>
+                                    </li>
+                                </th:block>
+                                <th:block th:unless="${#lists.isEmpty(item.children)}">
+                                    <th:block th:each="node, idx : ${item}">
+                                        <th:block
+                                            th:replace="fragments/dossier/fdd/nodeFdd :: nodeFdd(${node}, ${generaleActions}, ${idx.index}, 1)"
+                                        ></th:block>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                        </ul>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </body>
+</html>

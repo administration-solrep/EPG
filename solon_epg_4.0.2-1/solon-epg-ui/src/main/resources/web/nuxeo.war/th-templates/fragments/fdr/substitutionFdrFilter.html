@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="substitutionFdrFilter()" class="accordion m-b-6">
+            <button
+                type="button"
+                aria-controls="accordion__content__route_substitution_filters"
+                aria-expanded="true"
+                id="accordion__header__route_substitution_filters"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+                class="accordion__header js-toggle accordion__header--default"
+            >
+                [[#{filtre.filtrer.sur}]]
+                <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract"></span>
+            </button>
+            <div
+                aria-hidden="false"
+                id="accordion__content__route_substitution_filters"
+                class="accordion__content accordion__content--accordion--default accordion__content--has-background accordion__content--is-opened"
+            >
+                <form id="searchForm" class="p-x-6 p-y-2">
+                    <div role="group" aria-labelledby="accordion__header__route_substitution_filters">
+                        <div class="grid__row m-b-6">
+                            <div class="grid__col grid__col--middle form-optin">
+                                <div class="grid__col grid__col--middle form-optin">
+                                    <th:block
+                                        th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('substitution.filtre.type.acte.dossier', 'filtreTypeActe', ${not #strings.isEmpty(criteria.getTypeActe)}, false)"
+                                    ></th:block>
+                                </div>
+                            </div>
+                            <div class="grid__col grid__col--middle form-optin">
+                                <div class="grid__col grid__col--middle form-optin">
+                                    <th:block
+                                        th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('substitution.filtre.ministere.dossier', 'filtreMinistere', ${not #lists.isEmpty(criteria.getListIdMinistereAttributaire)}, false)"
+                                    ></th:block>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-row flex-wrap justify-between">
+                            <button
+                                type="button"
+                                id="btn-reset-filtre-substitution"
+                                onclick="doResetFiltreFdrSubstitution()"
+                                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                                th:text="#{btn.reinitialiser.filtre.label}"
+                            ></button>
+                            <button
+                                type="button"
+                                id="btn-filtre-substitution"
+                                onclick="doFiltreFdrSubstitution()"
+                                class="base-btn base-btn--submit base-btn--default base-btn--center"
+                                th:text="#{btn.filtrer.label}"
+                            ></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

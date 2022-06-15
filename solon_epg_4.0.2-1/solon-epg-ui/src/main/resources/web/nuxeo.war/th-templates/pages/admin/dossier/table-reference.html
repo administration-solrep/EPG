@@ -1,0 +1,100 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page vecteurs de publication', title=#{menu.admin.dossier.table.reference.title})}"
+>
+    <main id="main_content" class="page-layout__content" role="main">
+        <form id="table-reference-form">
+            <fieldset class="m-y-6 flex flex-row justify-between">
+                <legend class="sr-only" th:text="#{admin.table.reference.button.legend}">
+                    Boutons du formulaire
+                </legend>
+                <button
+                    id="btnCancelTop"
+                    type="button"
+                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                    th:text="#{button.label.cancel}"
+                    onclick="reloadPage()"
+                >
+                    Annuler
+                </button>
+                <button
+                    id="btnSaveTableReferenceTop"
+                    type="button"
+                    class="base-btn base-btn--submit base-btn--default base-btn--center"
+                    th:text="#{button.label.save}"
+                    onclick="saveTableReference()"
+                >
+                    Enregistrer
+                </button>
+            </fieldset>
+
+            <h1 class="m-b-6 base-title base-title--lvl-1" th:text="#{menu.admin.dossier.table.reference.title}">
+                Tables de références
+            </h1>
+
+            <!-- Autorités de validation -->
+            <div
+                th:replace="fragments/dossier/table-reference/autorite-validation :: autorite-validation(${dto})"
+            ></div>
+            <!-- Signataires de la rubrique communication -->
+            <div
+                th:replace="fragments/dossier/table-reference/signataire-rubrique-communication :: signataire-rubrique-communication(${dto})"
+            ></div>
+            <!-- Ministères PM -->
+            <div th:replace="fragments/dossier/table-reference/ministere-pm :: ministere-pm(${dto})"></div>
+            <!-- Conseil d'état -->
+            <div th:replace="fragments/dossier/table-reference/conseil-etat :: conseil-etat(${dto})"></div>
+            <!-- Vecteurs de publications multiples -->
+            <div
+                th:replace="fragments/dossier/table-reference/vecteur-publication-multiple :: vecteur-publication-multiple(${dto})"
+            ></div>
+            <!-- Signatures : Chemin de Croix -->
+            <div
+                th:replace="fragments/dossier/table-reference/signature-chemin-croix :: signature-chemin-croix(${dto})"
+            ></div>
+            <!-- Types d'acte dont la date de signature est obligatoire pour la publication DILA JO -->
+            <div th:replace="fragments/dossier/table-reference/type-acte :: type-acte(${dto})"></div>
+            <!-- Configuration des postes de demande d'épreuve -->
+            <div
+                th:replace="fragments/dossier/table-reference/configuration-poste :: configuration-poste(${dto})"
+            ></div>
+            <!-- Configuration du poste DAN notifié lors de d'un avis rectificatif du conseil d'Etat -->
+            <div
+                th:replace="fragments/dossier/table-reference/configuration-poste-dan :: configuration-poste-dan(${dto})"
+            ></div>
+            <!-- Corbeilles de retour au DAN -->
+            <div
+                th:replace="fragments/dossier/table-reference/corbeille-retour-dan :: corbeille-retour-dan(${dto})"
+            ></div>
+            <!-- Modes de parution -->
+            <div th:replace="fragments/dossier/table-reference/mode-parution :: mode-parution"></div>
+
+            <fieldset class="m-y-6 flex flex-row justify-between">
+                <legend class="sr-only" th:text="#{admin.table.reference.button.legend}">
+                    Boutons du formulaire
+                </legend>
+                <button
+                    id="btnCancelBottom"
+                    type="button"
+                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                    th:text="#{button.label.cancel}"
+                    onclick="reloadPage()"
+                >
+                    Annuler
+                </button>
+                <button
+                    id="btnSaveTableReferenceBottom"
+                    type="button"
+                    class="base-btn base-btn--submit base-btn--default base-btn--center"
+                    th:text="#{button.label.save}"
+                    onclick="saveTableReference()"
+                >
+                    Enregistrer
+                </button>
+            </fieldset>
+        </form>
+    </main>
+</html>
