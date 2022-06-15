@@ -1,0 +1,1499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[
+    function toddMMyyyy(madate){
+   	if (madate)
+   	{
+   		var day = madate.getDate();
+		var month = madate.getMonth()+1;
+		if (day < 10) day = "0" + day ;
+		if (month < 10) month = "0" + month ;
+		return day + "/" + month  + "/" + madate.getFullYear();
+	}
+	else return " ";
+}
+reportContext.setPersistentGlobalVariable("toddMMyyyy", toddMMyyyy);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="MINISTERES_PARAM" id="320">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_INTE</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfSU5URQ==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ORDONNANCE_AFFICHER" id="65">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">RAC_NUMERO</property>
+                    <text-property name="displayName">RAC_NUMERO</text-property>
+                    <text-property name="heading">RAC_NUMERO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">RAC_DATEPUBLICATION_STR</property>
+                    <text-property name="displayName">RAC_DATEPUBLICATION_STR</text-property>
+                    <text-property name="heading">RAC_DATEPUBLICATION_STR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">RAC_TITREACTE</property>
+                    <text-property name="displayName">RAC_TITREACTE</text-property>
+                    <text-property name="heading">RAC_TITREACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HAB_NUMEROORDRE</property>
+                    <text-property name="displayName">HAB_NUMEROORDRE</text-property>
+                    <text-property name="heading">HAB_NUMEROORDRE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HAB_ARTICLE</property>
+                    <text-property name="displayName">HAB_ARTICLE</text-property>
+                    <text-property name="heading">HAB_ARTICLE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HAB_OBJETRIM</property>
+                    <text-property name="displayName">HAB_OBJETRIM</text-property>
+                    <text-property name="heading">HAB_OBJETRIM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HAB_MINISTEREPILOTE</property>
+                    <text-property name="displayName">HAB_MINISTEREPILOTE</text-property>
+                    <text-property name="heading">HAB_MINISTEREPILOTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HAB_DATESAISINECE_STR</property>
+                    <text-property name="displayName">HAB_DATESAISINECE_STR</text-property>
+                    <text-property name="heading">HAB_DATESAISINECE_STR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HAB_DATEPREVISIONNELLECM_STR</property>
+                    <text-property name="displayName">HAB_DATEPREVISIONNELLECM_STR</text-property>
+                    <text-property name="heading">HAB_DATEPREVISIONNELLECM_STR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">HAB_LEGISLATURE</property>
+                    <text-property name="displayName">HAB_LEGISLATURE</text-property>
+                    <text-property name="heading">HAB_LEGISLATURE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_NUMERONOR</property>
+                    <text-property name="displayName">ORD_NUMERONOR</text-property>
+                    <text-property name="heading">ORD_NUMERONOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_TITREACTE</property>
+                    <text-property name="displayName">ORD_TITREACTE</text-property>
+                    <text-property name="heading">ORD_TITREACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_NUMERO</property>
+                    <text-property name="displayName">ORD_NUMERO</text-property>
+                    <text-property name="heading">ORD_NUMERO</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_DATESAISINECE_STR</property>
+                    <text-property name="displayName">ORD_DATESAISINECE_STR</text-property>
+                    <text-property name="heading">ORD_DATESAISINECE_STR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_DATEPASSAGECM_STR</property>
+                    <text-property name="displayName">ORD_DATEPASSAGECM_STR</text-property>
+                    <text-property name="heading">ORD_DATEPASSAGECM_STR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_DATEPUBLICATION_STR</property>
+                    <text-property name="displayName">ORD_DATEPUBLICATION_STR</text-property>
+                    <text-property name="heading">ORD_DATEPUBLICATION_STR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_TERMEDEPOT</property>
+                    <text-property name="displayName">ORD_TERMEDEPOT</text-property>
+                    <text-property name="heading">ORD_TERMEDEPOT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_DATETERME_STR</property>
+                    <text-property name="displayName">ORD_DATETERME_STR</text-property>
+                    <text-property name="heading">ORD_DATETERME_STR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_DATELIMITEDEPOT_STR</property>
+                    <text-property name="displayName">ORD_DATELIMITEDEPOT_STR</text-property>
+                    <text-property name="heading">ORD_DATELIMITEDEPOT_STR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORD_OBSERVATION</property>
+                    <text-property name="displayName">ORD_OBSERVATION</text-property>
+                    <text-property name="heading">ORD_OBSERVATION</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">RAC_NUMERO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">RAC_DATEPUBLICATION_STR</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">RAC_TITREACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">HAB_NUMEROORDRE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">HAB_ARTICLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">HAB_OBJETRIM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">HAB_MINISTEREPILOTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">HAB_DATESAISINECE_STR</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">HAB_DATEPREVISIONNELLECM_STR</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">HAB_LEGISLATURE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">ORD_NUMERONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">ORD_TITREACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">ORD_NUMERO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">ORD_DATESAISINECE_STR</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">ORD_DATEPASSAGECM_STR</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">ORD_DATEPUBLICATION_STR</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">ORD_TERMEDEPOT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">ORD_DATETERME_STR</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">ORD_DATELIMITEDEPOT_STR</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">ORD_OBSERVATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">RAC_NUMERO</property>
+                    <property name="nativeName">RAC_NUMERO</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">RAC_DATEPUBLICATION_STR</property>
+                    <property name="nativeName">RAC_DATEPUBLICATION_STR</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">RAC_TITREACTE</property>
+                    <property name="nativeName">RAC_TITREACTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">HAB_NUMEROORDRE</property>
+                    <property name="nativeName">HAB_NUMEROORDRE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">HAB_ARTICLE</property>
+                    <property name="nativeName">HAB_ARTICLE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">HAB_OBJETRIM</property>
+                    <property name="nativeName">HAB_OBJETRIM</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">HAB_MINISTEREPILOTE</property>
+                    <property name="nativeName">HAB_MINISTEREPILOTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">HAB_DATESAISINECE_STR</property>
+                    <property name="nativeName">HAB_DATESAISINECE_STR</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">HAB_DATEPREVISIONNELLECM_STR</property>
+                    <property name="nativeName">HAB_DATEPREVISIONNELLECM_STR</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">HAB_LEGISLATURE</property>
+                    <property name="nativeName">HAB_LEGISLATURE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">ORD_NUMERONOR</property>
+                    <property name="nativeName">ORD_NUMERONOR</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">ORD_TITREACTE</property>
+                    <property name="nativeName">ORD_TITREACTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">ORD_NUMERO</property>
+                    <property name="nativeName">ORD_NUMERO</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">ORD_DATESAISINECE_STR</property>
+                    <property name="nativeName">ORD_DATESAISINECE_STR</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">ORD_DATEPASSAGECM_STR</property>
+                    <property name="nativeName">ORD_DATEPASSAGECM_STR</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">ORD_DATEPUBLICATION_STR</property>
+                    <property name="nativeName">ORD_DATEPUBLICATION_STR</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">ORD_TERMEDEPOT</property>
+                    <property name="nativeName">ORD_TERMEDEPOT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">ORD_DATETERME_STR</property>
+                    <property name="nativeName">ORD_DATETERME_STR</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">ORD_DATELIMITEDEPOT_STR</property>
+                    <property name="nativeName">ORD_DATELIMITEDEPOT_STR</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">ORD_OBSERVATION</property>
+                    <property name="nativeName">ORD_OBSERVATION</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT 
+RAC_NUMERO,
+RAC_DATEPUBLICATION AS RAC_DATEPUBLICATION_STR,
+RAC_TITREACTE,
+HAB_NUMEROORDRE,
+NVL(HAB_ARTICLE, ' ') AS HAB_ARTICLE,
+NVL(HAB_OBJETRIM, ' ') AS HAB_OBJETRIM,
+NVL(HAB_MINISTEREPILOTE, ' ') AS HAB_MINISTEREPILOTE,
+HAB_DATESAISINECE AS HAB_DATESAISINECE_STR,
+HAB_DATEPREVISIONNELLECM AS HAB_DATEPREVISIONNELLECM_STR,
+NVL(HAB_LEGISLATURE, ' ') AS HAB_LEGISLATURE,
+NVL(ORD_NUMERONOR, ' ') AS ORD_NUMERONOR,
+NVL(ORD_TITREACTE, ' ') AS ORD_TITREACTE,
+NVL(ORD_NUMERO, ' ') AS ORD_NUMERO,
+ORD_DATESAISINECE AS ORD_DATESAISINECE_STR,
+ORD_DATEPASSAGECM AS ORD_DATEPASSAGECM_STR,
+ORD_DATEPUBLICATION AS ORD_DATEPUBLICATION_STR,
+NVL(ORD_TERMEDEPOT, ' ') AS ORD_TERMEDEPOT, 
+ORD_DATETERME AS ORD_DATETERME_STR,
+ORD_DATELIMITEDEPOT AS ORD_DATELIMITEDEPOT_STR,
+NVL(ORD_OBSERVATION, ' ') AS ORD_OBSERVATION
+FROM 
+V_AN_LOI_HAB_ORDONNANCE
+WHERE HAB_TYPEHABILITATION = '0'
+ ORDER BY ORD_DATETERME,RAC_DATEPUBLICATION,RAC_NUMERO]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>ID</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>36</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ID</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ID</design:label>
+            <design:formattingHints>
+              <design:displaySize>36</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_APPELANT_DECRETS</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_APPELANT_DECRETS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_APPELANT_DECRETS</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_RECU_APPLICATION</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_RECU_APPLICATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_RECU_APPLICATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_ATTENTE_DECRETS</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_ATTENTE_DECRETS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_ATTENTE_DECRETS</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">custom</property>
+            <property name="height">20in</property>
+            <property name="width">27in</property>
+            <property name="orientation">landscape</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid name="ELEMENT_OUT" id="327">
+            <column id="328"/>
+            <row id="329">
+                <cell id="330">
+                    <text-data id="603">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <expression name="valueExpr">var madate = new Date()
+"Suivi global de toutes les habilitations de la législature en cours (ordonnances de l’article 38 C) à la date du " + toddMMyyyy(madate);</expression>
+                        <property name="contentType">html</property>
+                    </text-data>
+                </cell>
+            </row>
+            <row id="332">
+                <cell id="333">
+                    <text id="334">
+                        <property name="fontSize">12pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[ ]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="477">
+                <cell id="478">
+                    <table id="479">
+                        <property name="dataSet">ORDONNANCE_AFFICHER</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">RAC_NUMERO</property>
+                                <text-property name="displayName">RAC_NUMERO</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["RAC_NUMERO"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">RAC_DATEPUBLICATION</property>
+                                <text-property name="displayName">RAC_DATEPUBLICATION</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["RAC_DATEPUBLICATION_STR"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">RAC_TITREACTE</property>
+                                <text-property name="displayName">RAC_TITREACTE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["RAC_TITREACTE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">HAB_NUMEROORDRE</property>
+                                <text-property name="displayName">HAB_NUMEROORDRE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["HAB_NUMEROORDRE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">HAB_ARTICLE</property>
+                                <text-property name="displayName">HAB_ARTICLE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["HAB_ARTICLE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">HAB_OBJETRIM</property>
+                                <text-property name="displayName">HAB_OBJETRIM</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["HAB_OBJETRIM"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">HAB_MINISTEREPILOTE</property>
+                                <text-property name="displayName">HAB_MINISTEREPILOTE</text-property>
+                                <expression name="expression" type="javascript">var HAB_MINISTEREPILOTE = dataSetRow["HAB_MINISTEREPILOTE"];&#13;
+var messageToDisplay = HAB_MINISTEREPILOTE;&#13;
+&#13;
+var MINISTERES_PARAM = params["MINISTERES_PARAM"] + "";&#13;
+MINISTERES_PARAM = (MINISTERES_PARAM == "null" ? "" : MINISTERES_PARAM);&#13;
+var SEPARATEURS = "&amp;";&#13;
+var KEY_ID = "$id$=";&#13;
+var KEY_LABEL = "$label$=";&#13;
+var KEY_LIMIT = ";;";&#13;
+var MINISTERES = MINISTERES_PARAM.split(SEPARATEURS);&#13;
+&#13;
+for(i = 0; i &lt; (MINISTERES.length  - 1); i++)&#13;
+{&#13;
+	var MINISTERE = MINISTERES[i].split(KEY_LIMIT);&#13;
+	var MINISTERE_ID = "";&#13;
+	var MINISTERE_LABEL = "";&#13;
+	&#13;
+	for(j = 0; j &lt; (MINISTERE.length  - 1); j++)&#13;
+	{&#13;
+		if(MINISTERE[j].indexOf(KEY_ID) == 0)&#13;
+		{&#13;
+			MINISTERE_ID = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_ID) + KEY_ID.length);&#13;
+		}else if(MINISTERE[j].indexOf(KEY_LABEL) == 0)&#13;
+		{&#13;
+			MINISTERE_LABEL = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_LABEL) + KEY_LABEL.length);&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	if(MINISTERE_ID != "")&#13;
+	{&#13;
+		if(BirtStr.toUpper(MINISTERE_ID) == BirtStr.toUpper(HAB_MINISTEREPILOTE))&#13;
+		{&#13;
+			messageToDisplay = MINISTERE_LABEL;&#13;
+			break;&#13;
+		}&#13;
+	}&#13;
+}&#13;
+&#13;
+messageToDisplay;</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">HAB_DATESAISINECE</property>
+                                <text-property name="displayName">HAB_DATESAISINECE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["HAB_DATESAISINECE_STR"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">HAB_DATEPREVISIONNELLECM</property>
+                                <text-property name="displayName">HAB_DATEPREVISIONNELLECM</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["HAB_DATEPREVISIONNELLECM_STR"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_NUMERONOR</property>
+                                <text-property name="displayName">ORD_NUMERONOR</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_NUMERONOR"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_TITREACTE</property>
+                                <text-property name="displayName">ORD_TITREACTE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_TITREACTE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_NUMERO</property>
+                                <text-property name="displayName">ORD_NUMERO</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_NUMERO"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_DATEPUBLICATION</property>
+                                <text-property name="displayName">ORD_DATEPUBLICATION</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_DATEPUBLICATION_STR"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_TERMEDEPOT</property>
+                                <text-property name="displayName">ORD_TERMEDEPOT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_TERMEDEPOT"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_DATETERME</property>
+                                <text-property name="displayName">ORD_DATETERME</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_DATETERME_STR"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_DATELIMITEDEPOT</property>
+                                <text-property name="displayName">ORD_DATELIMITEDEPOT</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_DATELIMITEDEPOT_STR"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_OBSERVATION</property>
+                                <text-property name="displayName">ORD_OBSERVATION</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_OBSERVATION"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">HAB_LEGISLATURE</property>
+                                <text-property name="displayName">HAB_LEGISLATURE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["HAB_LEGISLATURE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_DATESAISINECE</property>
+                                <text-property name="displayName">ORD_DATESAISINECE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_DATESAISINECE_STR"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">ORD_DATEPASSAGECM</property>
+                                <text-property name="displayName">ORD_DATEPASSAGECM</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["ORD_DATEPASSAGECM_STR"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                        </list-property>
+                        <column id="548">
+                            <property name="width">75px</property>
+                            <property name="repeat">1</property>
+                        </column>
+                        <column id="598">
+                            <property name="width">100px</property>
+                            <property name="repeat">1</property>
+                        </column>
+                        <column id="535">
+                            <property name="width">75px</property>
+                        </column>
+                        <column id="536">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="537">
+                            <property name="width">100px</property>
+                        </column>
+                        <column id="538">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="539">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="540">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="541">
+                            <property name="width">75px</property>
+                        </column>
+                        <column id="542">
+                            <property name="width">75px</property>
+                        </column>
+                        <column id="593">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="543">
+                            <property name="width">100px</property>
+                        </column>
+                        <column id="544">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="545">
+                            <property name="width">100px</property>
+                        </column>
+                        <column id="546">
+                            <property name="width">75px</property>
+                        </column>
+                        <column id="547">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="549">
+                            <property name="width">75px</property>
+                            <list-property name="visibility">
+                                <structure>
+                                    <property name="format">all</property>
+                                    <expression name="valueExpr" type="javascript">true</expression>
+                                </structure>
+                            </list-property>
+                        </column>
+                        <column id="550">
+                            <property name="width">200px</property>
+                        </column>
+                        <header>
+                            <row id="480">
+                                <property name="verticalAlign">middle</property>
+                                <cell id="495">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="585">
+                                        <text-property name="text">Date de terme d’habilitation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="596">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="599">
+                                        <text-property name="text">N° de la loi contenant l’habilitation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="482">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="553">
+                                        <text-property name="text">Date publication de la loi contenant l’habilitation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="483">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="561">
+                                        <text-property name="text">Titre de la loi contenant l’habilitation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="484">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="563">
+                                        <text-property name="text">N° d’ordre</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="485">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="565">
+                                        <text-property name="text">Article de la loi</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="486">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="567">
+                                        <text-property name="text">Objet de l’habilitation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="487">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="569">
+                                        <text-property name="text">Ministère pilote de l’habilitation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="488">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="571">
+                                        <text-property name="text">Date de saisine du Conseil d’Etat</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="489">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="573">
+                                        <text-property name="text">Date de passage en conseil des ministres</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="591">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="594">
+                                        <text-property name="text">Législature de l’habilitation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="490">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="575">
+                                        <text-property name="text">NOR de l’ordonnance</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="491">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="577">
+                                        <text-property name="text">Titre de  l’ordonnance</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="492">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="579">
+                                        <text-property name="text">N° de l’ordonnance</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="493">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="581">
+                                        <text-property name="text">Date de publication de l’ordonnance</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="494">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="583">
+                                        <text-property name="text">Terme du dépôt du projet de loi de ratification  </text-property>
+                                    </label>
+                                </cell>
+                                <cell id="496">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="587">
+                                        <text-property name="text">Date limite du dépôt du projet de loi de ratification</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="497">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <label id="589">
+                                        <text-property name="text">Observations</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="498">
+                                <property name="verticalAlign">middle</property>
+                                <cell id="513">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="586">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/MM/yyyy</property>
+                                        </structure>
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">ORD_DATETERME</property>
+                                    </data>
+                                </cell>
+                                <cell id="597">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="600">
+                                        <property name="whiteSpace">nowrap</property>
+                                        <property name="resultSetColumn">RAC_NUMERO</property>
+                                    </data>
+                                </cell>
+                                <cell id="500">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="554">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/MM/yyyy</property>
+                                        </structure>
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">RAC_DATEPUBLICATION</property>
+                                    </data>
+                                </cell>
+                                <cell id="501">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="562">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">RAC_TITREACTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="502">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="564">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">HAB_NUMEROORDRE</property>
+                                    </data>
+                                </cell>
+                                <cell id="503">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="566">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">HAB_ARTICLE</property>
+                                    </data>
+                                </cell>
+                                <cell id="504">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="568">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">HAB_OBJETRIM</property>
+                                    </data>
+                                </cell>
+                                <cell id="505">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="570">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">HAB_MINISTEREPILOTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="506">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="601">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/MM/yyyy</property>
+                                        </structure>
+                                        <property name="whiteSpace">nowrap</property>
+                                        <property name="resultSetColumn">ORD_DATESAISINECE</property>
+                                    </data>
+                                </cell>
+                                <cell id="507">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="602">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/MM/yyyy</property>
+                                        </structure>
+                                        <property name="whiteSpace">nowrap</property>
+                                        <property name="resultSetColumn">ORD_DATEPASSAGECM</property>
+                                    </data>
+                                </cell>
+                                <cell id="592">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="595">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">HAB_LEGISLATURE</property>
+                                    </data>
+                                </cell>
+                                <cell id="508">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="576">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">ORD_NUMERONOR</property>
+                                    </data>
+                                </cell>
+                                <cell id="509">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="578">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">ORD_TITREACTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="510">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="580">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">ORD_NUMERO</property>
+                                    </data>
+                                </cell>
+                                <cell id="511">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="582">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/MM/yyyy</property>
+                                        </structure>
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">ORD_DATEPUBLICATION</property>
+                                    </data>
+                                </cell>
+                                <cell id="512">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="584">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">ORD_TERMEDEPOT</property>
+                                    </data>
+                                </cell>
+                                <cell id="514">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="588">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/MM/yyyy</property>
+                                        </structure>
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">ORD_DATELIMITEDEPOT</property>
+                                    </data>
+                                </cell>
+                                <cell id="515">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <property name="whiteSpace">normal</property>
+                                    <data id="590">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">ORD_OBSERVATION</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

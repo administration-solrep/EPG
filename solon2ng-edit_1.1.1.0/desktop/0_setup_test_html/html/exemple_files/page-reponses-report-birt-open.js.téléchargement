@@ -1,0 +1,90 @@
+$(document).ready(function() {
+  var $page = window.document.querySelector(
+    ".js-page-reponses-report-birt-open"
+  );
+
+  if (!$page) {
+    return;
+  }
+
+  var fakeFetchDelay = 2000;
+
+  // DOM.
+  var $alertZone = document.querySelector(".js-alert-zone");
+  var $actionsBarList = document.querySelectorAll(".js-actions");
+
+  $actionsBarList.forEach(function(item) {
+    // DOM
+    var $dp = item.querySelector(".js-dropdown");
+    var $linkList = $dp.querySelectorAll(".js-dropdown-link");
+    var $btnPending = item.querySelector(".js-button-pending");
+
+    $linkList.forEach(function(link) {
+      // Listen DP item click event;
+      link.addEventListener("click", function(evt) {
+        evt.preventDefault();
+
+        // Swap DP button.
+        var $actionsBar = item;
+        $actionsBar.classList.add(
+          "page-reponses-report-birt-open__actions--pending"
+        );
+
+        $btnPending.focus();
+
+        // Show pending alert.
+        showPendingAlert();
+
+        // Wait 2 min...
+        setTimeout(function() {
+          // Show succes alert.
+          showSuccessAlert();
+
+          $actionsBar.classList.remove(
+            "page-reponses-report-birt-open__actions--pending"
+          );
+          $dp.focus();
+        }, fakeFetchDelay);
+      });
+    });
+
+    function showPendingAlert() {
+      var $alert = $alertZone.querySelector(".js-alert");
+
+      // Update alert label and type.
+      setAlert("info", "Le fichier est en cours de génération.", $alert);
+
+      // Show alert zone.
+      $alertZone.classList.add("page-layout__alert-zone--isActive");
+    }
+
+    function showSuccessAlert() {
+      var $alert = $alertZone.querySelector(".js-alert");
+
+      // Update alert label and type.
+      setAlert("success", "Le fichier vous a été envoyé par mél.", $alert);
+
+      // Show alert zone.
+      $alertZone.classList.add("page-layout__alert-zone--isActive");
+    }
+
+    function setAlert(type, label, alert) {
+      var $alert = alert;
+      var $label = $alert.querySelector("p");
+      var $bubble = $alert.querySelector(".icon");
+
+      $alert.classList.remove("alert--info", "alert--info");
+      $alert.classList.add("alert--" + type);
+      $label.innerText = label || "";
+      $bubble.classList.remove(
+        "alert__icon--info",
+        "alert__icon--success",
+        "icon--lightbulb",
+        "icon--check"
+      );
+      var iconType = type === "success" ? "check" : "lightbulb";
+      $bubble.classList.add("alert__icon--" + type, "icon--" + iconType);
+    }
+  });
+});
+

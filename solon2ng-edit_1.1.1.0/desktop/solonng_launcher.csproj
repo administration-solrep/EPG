@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EEF812FB-B80F-4C7E-A1A6-C92EB8A5B858}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>solonng_launcher</RootNamespace>
+    <AssemblyName>solonng_launcher</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net35\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.12.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.12.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Code\utils\AppConfigurationManager.cs" />
+    <Compile Include="App_Code\utils\EncryptionHelper.cs" />
+    <Compile Include="App_Code\utils\FontsHelper.cs" />
+    <Compile Include="App_Code\utils\MimeTypeHelper.cs" />
+    <Compile Include="Components\modal\ModalDialogResult.cs" />
+    <Compile Include="Components\modal\SolonModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Components\modal\SolonModal.Designer.cs">
+      <DependentUpon>SolonModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\toast\ToastNotification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Components\toast\ToastNotification.designer.cs">
+      <DependentUpon>ToastNotification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\toast\ToastEnums.cs" />
+    <Compile Include="App_Code\core\ApiHandler.cs" />
+    <Compile Include="App_Code\dto\ApiResponseDto.cs" />
+    <Compile Include="App_Code\dto\FileDto.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ApplicationMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApplicationMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\LogMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Code\core\Constants.cs" />
+    <Compile Include="App_Code\core\FileContext.cs" />
+    <Compile Include="App_Code\core\GlobalContext.cs" />
+    <Compile Include="App_Code\core\LauncherManager.cs" />
+    <Compile Include="App_Code\lightJson\JsonArray.cs" />
+    <Compile Include="App_Code\lightJson\JsonObject.cs" />
+    <Compile Include="App_Code\lightJson\JsonValue.cs" />
+    <Compile Include="App_Code\lightJson\JsonValueType.cs" />
+    <Compile Include="App_Code\lightJson\Serialization\JsonParseException.cs" />
+    <Compile Include="App_Code\lightJson\Serialization\JsonReader.cs" />
+    <Compile Include="App_Code\lightJson\Serialization\JsonSerializationException.cs" />
+    <Compile Include="App_Code\lightJson\Serialization\JsonWriter.cs" />
+    <Compile Include="App_Code\lightJson\Serialization\TextPosition.cs" />
+    <Compile Include="App_Code\lightJson\Serialization\TextScanner.cs" />
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="App_Code\core\Statut.cs" />
+    <Compile Include="App_Code\core\ThreadController.cs" />
+    <Compile Include="App_Code\utils\ContextFileJsonConstants.cs" />
+    <Compile Include="App_Code\utils\Helpers.cs" />
+    <Compile Include="App_Code\utils\LogHelper.cs" />
+    <EmbeddedResource Include="Components\modal\SolonModal.resx">
+      <DependentUpon>SolonModal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\toast\ToastNotification.resx">
+      <DependentUpon>ToastNotification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ApplicationMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\LogMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LogMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="0_setup_test_html\html\exemple_files\bootstrap.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\core%402" />
+    <None Include="0_setup_test_html\html\exemple_files\dual-listbox.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\jquery-3.4.1.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\jquery.easy-autocomplete.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\jquery.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\main.7256f9ff95e41308505b.bundle.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\page-reponses-report-birt-open.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\polyfill-array.prototype.find.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\polyfill-object.assign.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\polyfill-promise.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\popper.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\runtime_main.7256f9ff95e41308505b.bundle.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\select2.full.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\select2.full.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\solrep.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\specific.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\swipper.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\tinymce.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\tippy.js%406" />
+    <None Include="0_setup_test_html\html\exemple_files\tippy.min.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\transverse.js.téléchargement" />
+    <None Include="0_setup_test_html\html\exemple_files\vendors_main.7256f9ff95e41308505b.bundle.js.téléchargement" />
+    <None Include="0_setup_test_html\html\fonts\icon-solon.eot" />
+    <None Include="0_setup_test_html\html\fonts\icon-solon.ttf" />
+    <None Include="0_setup_test_html\html\fonts\icon-solon.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-100.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-100.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-100.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-100.woff2" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-200.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-200.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-200.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-200.woff2" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-300.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-300.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-300.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-300.woff2" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-500.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-500.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-500.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-500.woff2" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-600.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-600.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-600.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-600.woff2" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-700.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-700.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-700.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-700.woff2" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-800.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-800.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-800.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-800.woff2" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-900.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-900.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-900.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-900.woff2" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-regular.eot" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-regular.ttf" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-regular.woff" />
+    <None Include="0_setup_test_html\html\fonts\roboto-slab-v11-latin-regular.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-200.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-200.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-200.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-200.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-200italic.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-200italic.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-200italic.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-200italic.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-300.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-300.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-300.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-300.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-300italic.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-300italic.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-300italic.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-300italic.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-600.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-600.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-600.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-600.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-600italic.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-600italic.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-600italic.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-600italic.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-700.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-700.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-700.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-700.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-700italic.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-700italic.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-700italic.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-700italic.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-900.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-900.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-900.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-900.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-900italic.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-900italic.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-900italic.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-900italic.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-italic.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-italic.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-italic.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-italic.woff2" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-regular.eot" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-regular.ttf" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-regular.woff" />
+    <None Include="0_setup_test_html\html\fonts\source-sans-pro-v13-latin-regular.woff2" />
+    <None Include="0_setup_test_html\solonng.reg" />
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Resources\RobotoSlab-VariableFont_wght.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="0_setup_test_html\html\exemple.html" />
+    <Content Include="0_setup_test_html\html\exemple_files\datepicker.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\dual-listbox.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\easy-autocomplete.min.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\easy-autocomplete.themes.min.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\header-logo-mini.png" />
+    <Content Include="0_setup_test_html\html\exemple_files\loader.svg" />
+    <Content Include="0_setup_test_html\html\exemple_files\main.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\maquette.js" />
+    <Content Include="0_setup_test_html\html\exemple_files\roboto.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\scale.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\select2.min.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\solrep.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\sourcesanspro.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\specific.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\swipper.min.css" />
+    <Content Include="0_setup_test_html\html\exemple_files\transverse.css" />
+    <Content Include="0_setup_test_html\html\icons\favicon.ico" />
+    <Content Include="0_setup_test_html\html\icons\favicon.png" />
+    <Content Include="Resources\images\Admin.png" />
+    <Content Include="Resources\images\marianne.ico" />
+    <Content Include="Resources\images\delete.png" />
+    <Content Include="Resources\images\info.png" />
+    <Content Include="Resources\images\power.png" />
+    <Content Include="Resources\images\search.png" />
+    <None Include="Resources\logopm.png" />
+    <None Include="Resources\images\refresh.png" />
+    <None Include="Resources\images\trashContextMenu.png" />
+    <None Include="Resources\images\folder %281%29.png" />
+    <Content Include="Resources\images\file_edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\folder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\loading.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\trash.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\warning.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\images\Icon1.ico" />
+    <EmbeddedResource Include="Resources\images\preministre.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

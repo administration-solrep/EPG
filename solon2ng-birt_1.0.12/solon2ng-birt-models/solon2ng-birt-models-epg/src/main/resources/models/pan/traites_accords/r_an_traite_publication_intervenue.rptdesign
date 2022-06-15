@@ -1,0 +1,1027 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[
+function toddMMyyyy(madate){
+   	if(madate)
+   	{
+   		var day = madate.getDate();
+		var month = madate.getMonth()+1;
+		if (day < 10) day = "0" + day ;
+		if (month < 10) month = "0" + month ;
+		return day + "/" + month  + "/" + madate.getFullYear();
+	}
+	else return " ";
+}
+reportContext.setPersistentGlobalVariable("toddMMyyyy", toddMMyyyy);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="MINISTERES_PARAM" id="320">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_INTE</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfSU5URQ==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="PUBLICATION_INTERVENUE" id="65">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">TRAIT_CATEGORIE</property>
+                    <text-property name="displayName">TRAIT_CATEGORIE</text-property>
+                    <text-property name="heading">TRAIT_CATEGORIE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TRAIT_ORGANISATION</property>
+                    <text-property name="displayName">TRAIT_ORGANISATION</text-property>
+                    <text-property name="heading">TRAIT_ORGANISATION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TRAIT_THEMATIQUE</property>
+                    <text-property name="displayName">TRAIT_THEMATIQUE</text-property>
+                    <text-property name="heading">TRAIT_THEMATIQUE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TRAIT_TITREACTE</property>
+                    <text-property name="displayName">TRAIT_TITREACTE</text-property>
+                    <text-property name="heading">TRAIT_TITREACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TRAIT_DATESIGNATURE</property>
+                    <text-property name="displayName">TRAIT_DATESIGNATURE</text-property>
+                    <text-property name="heading">TRAIT_DATESIGNATURE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TRAIT_MINISTEREPILOTE</property>
+                    <text-property name="displayName">TRAIT_MINISTEREPILOTE</text-property>
+                    <text-property name="heading">TRAIT_MINISTEREPILOTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">LRAT_NUMERONOR</property>
+                    <text-property name="displayName">LRAT_NUMERONOR</text-property>
+                    <text-property name="heading">LRAT_NUMERONOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">LRAT_TITREACTE</property>
+                    <text-property name="displayName">LRAT_TITREACTE</text-property>
+                    <text-property name="heading">LRAT_TITREACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">LRAT_DATEPUBLICATION</property>
+                    <text-property name="displayName">LRAT_DATEPUBLICATION</text-property>
+                    <text-property name="heading">LRAT_DATEPUBLICATION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DECRET_NUMERONOR</property>
+                    <text-property name="displayName">DECRET_NUMERONOR</text-property>
+                    <text-property name="heading">DECRET_NUMERONOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DECRET_TITREACTE</property>
+                    <text-property name="displayName">DECRET_TITREACTE</text-property>
+                    <text-property name="heading">DECRET_TITREACTE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DECRET_DATEPUBLICATION</property>
+                    <text-property name="displayName">DECRET_DATEPUBLICATION</text-property>
+                    <text-property name="heading">DECRET_DATEPUBLICATION</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">TRAIT_CATEGORIE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">TRAIT_ORGANISATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">TRAIT_THEMATIQUE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">TRAIT_TITREACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">TRAIT_DATESIGNATURE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">TRAIT_MINISTEREPILOTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">LRAT_NUMERONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">LRAT_TITREACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">LRAT_DATEPUBLICATION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">DECRET_NUMERONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">DECRET_TITREACTE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">DECRET_DATEPUBLICATION</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">TRAIT_CATEGORIE</property>
+                    <property name="nativeName">TRAIT_CATEGORIE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">TRAIT_ORGANISATION</property>
+                    <property name="nativeName">TRAIT_ORGANISATION</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">TRAIT_THEMATIQUE</property>
+                    <property name="nativeName">TRAIT_THEMATIQUE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">TRAIT_TITREACTE</property>
+                    <property name="nativeName">TRAIT_TITREACTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">TRAIT_DATESIGNATURE</property>
+                    <property name="nativeName">TRAIT_DATESIGNATURE</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">TRAIT_MINISTEREPILOTE</property>
+                    <property name="nativeName">TRAIT_MINISTEREPILOTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">LRAT_NUMERONOR</property>
+                    <property name="nativeName">LRAT_NUMERONOR</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">LRAT_TITREACTE</property>
+                    <property name="nativeName">LRAT_TITREACTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">LRAT_DATEPUBLICATION</property>
+                    <property name="nativeName">LRAT_DATEPUBLICATION</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">DECRET_NUMERONOR</property>
+                    <property name="nativeName">DECRET_NUMERONOR</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">DECRET_TITREACTE</property>
+                    <property name="nativeName">DECRET_TITREACTE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">DECRET_DATEPUBLICATION</property>
+                    <property name="nativeName">DECRET_DATEPUBLICATION</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT
+NVL(TRAIT_CATEGORIE, ' ') AS TRAIT_CATEGORIE,
+NVL(TRAIT_ORGANISATION, ' ') AS TRAIT_ORGANISATION,
+NVL(TRAIT_THEMATIQUE, ' ') AS TRAIT_THEMATIQUE,
+NVL(TRAIT_TITREACTE, ' ') AS TRAIT_TITREACTE,
+TRAIT_DATESIGNATURE,
+NVL(TRAIT_MINISTEREPILOTE, ' ') AS TRAIT_MINISTEREPILOTE,
+
+CASE TRAIT_AUTORISATIONRATIFICATION WHEN 0 THEN 'sans objet' ELSE NVL(TO_CHAR(LRAT_NUMERONOR), ' ') END AS LRAT_NUMERONOR ,
+CASE TRAIT_AUTORISATIONRATIFICATION WHEN  0 THEN 'sans objet' ELSE NVL(TO_CHAR(LRAT_TITREACTE), ' ') END AS LRAT_TITREACTE,
+CASE TRAIT_AUTORISATIONRATIFICATION WHEN  0 THEN 'sans objet' ELSE NVL(TO_CHAR(LRAT_DATEPUBLICATION, 'DD/MM/YYYY'), ' ') END AS LRAT_DATEPUBLICATION,
+
+NVL(DECRET_NUMERONOR, ' ') AS DECRET_NUMERONOR,
+NVL(DECRET_TITREACTE, ' ') AS DECRET_TITREACTE,
+DECRET_DATEPUBLICATION
+FROM V_AN_TRAITE_ACCORD
+WHERE (DECRET_DATEPUBLICATION IS NOT NULL)
+ORDER BY TRAIT_DATESIGNATURE]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>ID</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>36</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ID</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ID</design:label>
+            <design:formattingHints>
+              <design:displaySize>36</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_APPELANT_DECRETS</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_APPELANT_DECRETS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_APPELANT_DECRETS</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_RECU_APPLICATION</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_RECU_APPLICATION</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_RECU_APPLICATION</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>NBR_MESURES_ATTENTE_DECRETS</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>NBR_MESURES_ATTENTE_DECRETS</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NBR_MESURES_ATTENTE_DECRETS</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">custom</property>
+            <property name="height">15in</property>
+            <property name="width">21in</property>
+            <property name="orientation">landscape</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid name="ELEMENT_OUT" id="327">
+            <column id="328"/>
+            <row id="329">
+                <cell id="330">
+                    <text-data id="768">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <expression name="valueExpr">var madate = new Date()
+"Tableau général des traités et accords dont la publication est intervenue à la date du " + toddMMyyyy(madate);</expression>
+                        <property name="contentType">html</property>
+                    </text-data>
+                </cell>
+            </row>
+            <row id="332">
+                <cell id="333">
+                    <text id="334">
+                        <property name="fontSize">12pt</property>
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[ ]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="595">
+                <cell id="596">
+                    <table id="597">
+                        <property name="dataSet">PUBLICATION_INTERVENUE</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">TRAIT_CATEGORIE</property>
+                                <text-property name="displayName">TRAIT_CATEGORIE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TRAIT_CATEGORIE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TRAIT_ORGANISATION</property>
+                                <text-property name="displayName">TRAIT_ORGANISATION</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TRAIT_ORGANISATION"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TRAIT_THEMATIQUE</property>
+                                <text-property name="displayName">TRAIT_THEMATIQUE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TRAIT_THEMATIQUE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TRAIT_TITREACTE</property>
+                                <text-property name="displayName">TRAIT_TITREACTE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TRAIT_TITREACTE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TRAIT_DATESIGNATURE</property>
+                                <text-property name="displayName">TRAIT_DATESIGNATURE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["TRAIT_DATESIGNATURE"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                            <structure>
+                                <property name="name">TRAIT_MINISTEREPILOTE</property>
+                                <text-property name="displayName">TRAIT_MINISTEREPILOTE</text-property>
+                                <expression name="expression" type="javascript">var TRAIT_MINISTEREPILOTE = dataSetRow["TRAIT_MINISTEREPILOTE"];&#13;
+var messageToDisplay = TRAIT_MINISTEREPILOTE;&#13;
+&#13;
+var MINISTERES_PARAM = params["MINISTERES_PARAM"] + "";&#13;
+MINISTERES_PARAM = (MINISTERES_PARAM == "null" ? "" : MINISTERES_PARAM);&#13;
+var SEPARATEURS = "&amp;";&#13;
+var KEY_ID = "$id$=";&#13;
+var KEY_LABEL = "$label$=";&#13;
+var KEY_LIMIT = ";;";&#13;
+var MINISTERES = MINISTERES_PARAM.split(SEPARATEURS);&#13;
+&#13;
+for(i = 0; i &lt; (MINISTERES.length  - 1); i++)&#13;
+{&#13;
+	var MINISTERE = MINISTERES[i].split(KEY_LIMIT);&#13;
+	var MINISTERE_ID = "";&#13;
+	var MINISTERE_LABEL = "";&#13;
+	&#13;
+	for(j = 0; j &lt; (MINISTERE.length  - 1); j++)&#13;
+	{&#13;
+		if(MINISTERE[j].indexOf(KEY_ID) == 0)&#13;
+		{&#13;
+			MINISTERE_ID = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_ID) + KEY_ID.length);&#13;
+		}else if(MINISTERE[j].indexOf(KEY_LABEL) == 0)&#13;
+		{&#13;
+			MINISTERE_LABEL = MINISTERE[j].substring(MINISTERE[j].indexOf(KEY_LABEL) + KEY_LABEL.length);&#13;
+		}&#13;
+	}&#13;
+	&#13;
+	if(MINISTERE_ID != "")&#13;
+	{&#13;
+		if(BirtStr.toUpper(MINISTERE_ID) == BirtStr.toUpper(TRAIT_MINISTEREPILOTE))&#13;
+		{&#13;
+			messageToDisplay = MINISTERE_LABEL;&#13;
+			break;&#13;
+		}&#13;
+	}&#13;
+}&#13;
+&#13;
+messageToDisplay;</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">LRAT_NUMERONOR</property>
+                                <text-property name="displayName">LRAT_NUMERONOR</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["LRAT_NUMERONOR"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">LRAT_TITREACTE</property>
+                                <text-property name="displayName">LRAT_TITREACTE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["LRAT_TITREACTE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">LRAT_DATEPUBLICATION</property>
+                                <text-property name="displayName">LRAT_DATEPUBLICATION</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["LRAT_DATEPUBLICATION"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DECRET_NUMERONOR</property>
+                                <text-property name="displayName">DECRET_NUMERONOR</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DECRET_NUMERONOR"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DECRET_TITREACTE</property>
+                                <text-property name="displayName">DECRET_TITREACTE</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DECRET_TITREACTE"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">DECRET_DATEPUBLICATION</property>
+                                <text-property name="displayName">DECRET_DATEPUBLICATION</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["DECRET_DATEPUBLICATION"]</expression>
+                                <property name="dataType">date-time</property>
+                            </structure>
+                        </list-property>
+                        <column id="649">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="650">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="651">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="652">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="654">
+                            <property name="width">100px</property>
+                        </column>
+                        <column id="655">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="656">
+                            <property name="width">100px</property>
+                        </column>
+                        <column id="657">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="658">
+                            <property name="width">100px</property>
+                        </column>
+                        <column id="659">
+                            <property name="width">100px</property>
+                        </column>
+                        <column id="660">
+                            <property name="width">200px</property>
+                        </column>
+                        <column id="661">
+                            <property name="width">100px</property>
+                        </column>
+                        <header>
+                            <row id="598">
+                                <property name="verticalAlign">middle</property>
+                                <cell id="599">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="665">
+                                        <text-property name="text">Catégorie d’accord</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="600">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="667">
+                                        <text-property name="text">Pays ou organisation</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="601">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="669">
+                                        <text-property name="text">Thématique</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="602">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="671">
+                                        <text-property name="text">Titre du traité ou accord</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="604">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="675">
+                                        <text-property name="text">Date de signature du traité ou de l’accord</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="605">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="677">
+                                        <text-property name="text">Intitulé du ministère</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="606">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="679">
+                                        <text-property name="text">NOR de la loi</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="607">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="681">
+                                        <text-property name="text">Titre de la loi d’autorisation de ratification</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="608">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="683">
+                                        <text-property name="text">Date de publication de la loi d’autorisation de ratification</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="609">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="685">
+                                        <text-property name="text">N° du décret de publication</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="610">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="687">
+                                        <text-property name="text">Titre du décret de publication</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="611">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="689">
+                                        <text-property name="text">Date du décret de publication</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="615">
+                                <property name="verticalAlign">middle</property>
+                                <cell id="616">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="697">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">TRAIT_CATEGORIE</property>
+                                    </data>
+                                </cell>
+                                <cell id="617">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="698">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">TRAIT_ORGANISATION</property>
+                                    </data>
+                                </cell>
+                                <cell id="618">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="699">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">TRAIT_THEMATIQUE</property>
+                                    </data>
+                                </cell>
+                                <cell id="619">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="700">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">TRAIT_TITREACTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="621">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="701">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/MM/yyyy</property>
+                                        </structure>
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">TRAIT_DATESIGNATURE</property>
+                                    </data>
+                                </cell>
+                                <cell id="622">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="702">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">TRAIT_MINISTEREPILOTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="623">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="703">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">LRAT_NUMERONOR</property>
+                                    </data>
+                                </cell>
+                                <cell id="624">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="704">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">LRAT_TITREACTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="625">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="705">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">LRAT_DATEPUBLICATION</property>
+                                    </data>
+                                </cell>
+                                <cell id="626">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="706">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">DECRET_NUMERONOR</property>
+                                    </data>
+                                </cell>
+                                <cell id="627">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="707">
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">DECRET_TITREACTE</property>
+                                    </data>
+                                </cell>
+                                <cell id="628">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="708">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                        </structure>
+                                        <property name="whiteSpace">normal</property>
+                                        <property name="resultSetColumn">DECRET_DATEPUBLICATION</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>
