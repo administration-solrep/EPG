@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="epgFddDossierContent(dossierParent, entiteVisible, tooltip, depth)">
+            <th:block th:unless="${#lists.isEmpty(dossierParent.lstFolders)}">
+                <th:block th:each="folder : ${dossierParent.lstFolders}">
+                    <tr
+                        class="table-line table-line--with-action-column table-line--complex-line"
+                        th:data-id="${folder.id}"
+                    >
+                        <td th:class="|table-line\_\_cell table-line\_\_cell--file-folder-info tab--${depth}|">
+                            <p tabindex="-1" link-url="" class="folder-name folder-name--sub-folder">
+                                <span class="folder-name__text" th:text="${folder.nom}"></span>
+                            </p>
+                        </td>
+                        <td class="table-line__cell"></td>
+                        <td class="table-line__cell" th:if="${entiteVisible}"></td>
+                        <td class="table-line__cell"></td>
+                        <td class="table-line__cell"></td>
+                        <td class="table-line__cell table-line__action-column">
+                            <div class="table-line__action-column-container" th:with="dropdownRight=true">
+                                <div class="table-line__action-column-container">
+                                    <th:block th:if="${not #lists.isEmpty(folder.lstActions)}">
+                                        <div
+                                            th:replace="fragments/components/dropdown-action :: dropdown-action(
+	                                        'content-action',
+	                                        ${folder.lstActions}, 
+	                                        'icon--ellipsis', 
+	                                        false, 
+	                                        'fondDossier.tooltip.showOptions',
+	                                        'base-btn--transparent base-btn--light base-btn--md-icon', 
+	                                        false, 
+                                            'base-drop-down--light'
+                                            )"
+                                        ></div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <div
+                        th:replace="fragments/components/listeDocumentsFddDossierContent :: epgFddDossierContent(${folder}, ${fondDto.entiteVisible}, 'fondDossier.tooltip.showOptions', ${depth}+1)"
+                    ></div>
+                </th:block>
+            </th:block>
+            <div
+                th:replace="fragments/components/listeDocumentsDossierContent :: dossierContent(${folder}, ${fondDto.entiteVisible}, 'fondDossier.tooltip.showOptions', ${depth}+1)"
+            ></div>
+        </div>
+    </body>
+</html>

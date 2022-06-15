@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="mgppEditNomine(item)" id="content-mgppModaleEdit">
+            <form action="" class="grid m-t-2">
+                <input type="hidden" name="idRepresentant" th:value="${item.document.id}" />
+                <input type="hidden" name="idFiche" />
+                <input type="hidden" id="typeRepresentant" name="typeRepresentant" th:value="${typeRepresentant}" />
+                <div class="grid__row">
+                    <div class="grid__col grid__col--middle">
+                        <div
+                            th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{'label.mgpp.nomine'}, false, '', 'nomine', 'nomine', ${item.nomine}, false)"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="grid__row m-t-6">
+                    <div class="grid__col grid__col--middle">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="dateDebut"
+                                        id="dateDebut-label"
+                                        class="form-label"
+                                        th:text="#{label.mgpp.representant.dateDebut}"
+                                    >
+                                    </label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_dateDebut', 'dateDebut', 'dateDebut', false, ${item.dateDebut ? #dates.format(item.dateDebut.time, 'dd/MM/yyyy'):''}, ${disabled})"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid__row m-t-6">
+                    <div class="grid__col grid__col--middle">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="dateFin"
+                                        id="dateFin-label"
+                                        class="form-label"
+                                        th:text="#{label.mgpp.representant.dateFin}"
+                                    >
+                                    </label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_dateFin', 'dateFin', 'dateFin', false, ${item.dateFin ? #dates.format(item.dateFin.time, 'dd/MM/yyyy'):''}, ${disabled})"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid__row m-t-6">
+                    <div class="grid__col grid__col--middle">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="dateAuditionAN"
+                                        id="dateAuditionAN-label"
+                                        class="form-label"
+                                        th:text="#{label.mgpp.representant.dateAuditionAN}"
+                                    >
+                                    </label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_dateAuditionAN', 'dateAuditionAN', 'dateAuditionAN', false, ${item.dateAuditionAN ? #dates.format(item.dateAuditionAN.time, 'dd/MM/yyyy'):''}, ${disabled})"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid__row m-t-6">
+                    <div class="grid__col grid__col--middle">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="dateAuditionSE"
+                                        id="dateAuditionSE-label"
+                                        class="form-label"
+                                        th:text="#{label.mgpp.representant.dateAuditionSE}"
+                                    >
+                                    </label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_dateAuditionSE', 'dateAuditionSE', 'dateAuditionSE', false, ${item.dateAuditionSE ? #dates.format(item.dateAuditionSE.time, 'dd/MM/yyyy'):''}, ${disabled})"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="dossierContent(dossierParent, entiteVisible, tooltip, depth)">
+            <th:block th:unless="${#lists.isEmpty(dossierParent.lstDocuments)}">
+                <th:block th:each="doc, nb : ${dossierParent.lstDocuments}">
+                    <tr
+                        class="table-line table-line--with-action-column table-line--complex-line"
+                        th:data-id="${doc.id}"
+                    >
+                        <td th:class="|table-line\_\_cell table-line\_\_cell--file-folder-info tab--${depth}|">
+                            <a
+                                class="link"
+                                th:href="@{|/dossier/${repDossierId}/telecharger?fileId=${doc.id}|}"
+                                target="_blank"
+                                th:title="${doc.nonTransmis}? |${doc.nom} #{file.label.non.transmis.ce}| : ${doc.nom}+${doc.extension}"
+                            >
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--file link__icon link__icon--prepend link__icon--large"
+                                >
+                                </span>
+                                <th:block th:unless="${doc.nonTransmis}" th:text="|${doc.nom} ${doc.extension}|">
+                                    nom.doc
+                                </th:block>
+                                <th:block th:if="${doc.nonTransmis}" th:text="|* ${doc.nom} ${doc.extension}|">
+                                    * nom.doc
+                                </th:block>
+                            </a>
+
+                            <th:block th:if="${editAction == null && doc.modifEnCours}">
+                                <span class="pipe-separator"> | </span>
+                                <th:block th:text="#{file.edit.isediting}">
+                                    Edition
+                                </th:block>
+                            </th:block>
+                            <th:block th:if="${editAction != null}">
+                                <span class="pipe-separator"> | </span>
+                                <a
+                                    th:replace="fragments/components/action-link :: action-link(
+                                    ${editAction},
+                                    'link',
+                                    'icon link\_\_icon link\_\_icon--prepend link\_\_icon--large')"
+                                >
+                                </a>
+                            </th:block>
+                        </td>
+                        <td class="table-line__cell" th:text="${doc.auteur}">auteur</td>
+                        <td class="table-line__cell" th:text="${doc.entite}" th:if="${entiteVisible}">entite</td>
+                        <td class="table-line__cell" th:text="${doc.date}">date</td>
+                        <td class="table-line__cell" th:text="${doc.version}">version</td>
+                        <td class="table-line__cell table-line__cell--check">
+                            <div class="form-choice-input" th:with="selectId='select-'+${pieceId}+'-'+${doc.id}">
+                                <input
+                                    th:id="${selectId}"
+                                    type="checkbox"
+                                    th:name="${'checkbox-'+nb.count}"
+                                    onclick="selectTableCheckbox(this)"
+                                    class="form-choice-input__input js-custom-table-line-check"
+                                    autocomplete="off"
+                                />
+                                <label
+                                    th:for="${selectId}"
+                                    th:title="#{liste.dossier.selectOne(${doc.nom})}"
+                                    th:data-select-label="#{liste.dossier.selectOne(${doc.nom})}"
+                                    th:data-deselect-label="#{liste.dossier.deselectOne(${doc.nom})}"
+                                    class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                >
+                                    <span th:text="#{liste.dossier.selectOne(${folder.nom})}">sélectionner</span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+            </th:block>
+        </div>
+    </body>
+</html>

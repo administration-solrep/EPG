@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="rechercheLibreFiltresSelectionnes"
+            id="search-results-selected-criterias"
+            class="search-result-form__header-body"
+            th:classappend="${resultForm == null or (resultForm.mapPoste.isEmpty()
+                and #strings.isEmpty(resultForm.dateDebutCreation)
+                and #strings.isEmpty(resultForm.dateFinCreation)
+                and #strings.isEmpty(resultForm.dateDebutPublication)
+                and #strings.isEmpty(resultForm.dateFinPublication)
+                and #strings.isEmpty(resultForm.dateDebutSignature)
+                and #strings.isEmpty(resultForm.dateFinSignature)
+                and #strings.isEmpty(resultForm.dateDebutPublicationJO)
+                and #strings.isEmpty(resultForm.dateFinPublicationJO)) ? 'hide-element' : ''}"
+        >
+            <p
+                class="search-result-form__title base-title base-title--lvl-3 base-title--is-underlined"
+                id="search-results-selected-criterias-title"
+                th:text="#{recherche.libre.filtres.selectionnes}"
+            >
+                [[#{recherche.libre.filtres.selectionnes}]]
+            </p>
+            <div
+                role="group"
+                aria-labelledby="search-results-selected-criterias-title"
+                aria-live="polite"
+                aria-atomic="true"
+                class="search-tags m-b-6"
+            >
+                <!-- Les critères sélectionnés s'affichent ici sous forme de button -->
+                <!-- Poste -->
+                <div
+                    th:replace="fragments/components/recherchelibre/filtre-button-poste :: filtreButtonPoste(
+                        ${resultForm ? resultForm.mapPoste : null},
+                        #{recherche.libre.btn.poste})"
+                ></div>
+
+                <!-- Date de création -->
+                <div
+                    th:replace="fragments/components/recherchelibre/filtre-button-date :: filtreButtonDate(
+                        'Creation',
+                        ${resultForm ? resultForm.dateDebutCreation : null},
+                        ${resultForm ? resultForm.dateFinCreation : null},
+                        #{recherche.libre.btn.date.creation})"
+                ></div>
+
+                <!-- Date de publication souhaitée -->
+                <div
+                    th:replace="fragments/components/recherchelibre/filtre-button-date :: filtreButtonDate(
+                        'Publication',
+                        ${resultForm ? resultForm.dateDebutPublication : null},
+                        ${resultForm ? resultForm.dateFinPublication : null},
+                        #{recherche.libre.btn.date.publication})"
+                ></div>
+
+                <!-- Date de signature -->
+                <div
+                    th:replace="fragments/components/recherchelibre/filtre-button-date :: filtreButtonDate(
+                        'Signature',
+                        ${resultForm ? resultForm.dateDebutSignature : null},
+                        ${resultForm ? resultForm.dateFinSignature : null},
+                        #{recherche.libre.btn.date.signature})"
+                ></div>
+
+                <!-- Date de publication JO -->
+                <div
+                    th:replace="fragments/components/recherchelibre/filtre-button-date :: filtreButtonDate(
+                        'Publication_JO',
+                        ${resultForm ? resultForm.dateDebutPublicationJO : null},
+                        ${resultForm ? resultForm.dateFinPublicationJO : null},
+                        #{recherche.libre.btn.date.publication.jo})"
+                ></div>
+            </div>
+        </div>
+    </body>
+</html>

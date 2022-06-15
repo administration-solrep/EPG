@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<!-- La contribution au service Jointure pour l'application Réponses -->
+<component name="fr.dila.solonepg.query.jointure.contrib">
+
+	<extension target="fr.dila.st.core.service.STJointureService" point="queryassembler">
+		<queryassembler isDefault="true" class="fr.dila.solonepg.core.recherche.query.EPGUFNXQLQueryAssembler" />
+	</extension>
+
+	<extension target="fr.dila.st.core.service.STJointureService" point="correspondences">
+		<correspondence
+            document="Dossier"
+            doc_prefix="d."
+            emplacement="BEFORE_WHERE"
+            query_part="ufnxql:SELECT DISTINCT d.ecm:uuid AS id FROM Dossier AS d"
+        />
+		<correspondence document="FileSolonEpg" doc_prefix="f." emplacement="BEFORE_WHERE" query_part=", FileSolonEpg AS f" />
+		<correspondence
+            document="FileSolonEpg"
+            doc_prefix="f."
+            emplacement="AFTER_WHERE"
+            query_part="AND f.filepg:relatedDocument = d.ecm:uuid"
+        />
+		<correspondence document="RouteStep" doc_prefix="e." emplacement="BEFORE_WHERE" query_part=",RouteStep AS e" />
+		<correspondence
+            document="RouteStep"
+            doc_prefix="e."
+            emplacement="AFTER_WHERE"
+            query_part=" AND e.rtsk:documentRouteId = d.dos:lastDocumentRoute"
+        />
+
+		<correspondence document="Comment" doc_prefix="c." emplacement="BEFORE_WHERE" query_part=", Comment AS c" />
+		<correspondence
+            document="Comment"
+            doc_prefix="c."
+            emplacement="AFTER_WHERE"
+            query_part=" AND c.commentedDocId = e.ecm:uuid"
+        />
+
+	</extension>
+
+	<extension target="fr.dila.st.core.service.STJointureService" point="dependencies">
+		<dependency prefix="f." need="d." />
+		<dependency prefix="e." need="d." />
+
+		<dependency prefix="c." need="e." />
+		<dependency prefix="c." need="d." />
+		<dependency prefix="a." need="d." />
+	</extension>
+</component>

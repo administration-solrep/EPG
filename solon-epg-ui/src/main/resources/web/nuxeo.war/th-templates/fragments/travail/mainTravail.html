@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="mainTravail"
+            th:with="listeTitle=${#messages.msgOrNull(titre) == null ? titre : #messages.msg(titre)},
+                 listeNbDossiers=#{label.dossier.nombre(${nbResults})},
+                 tableCaption=${listeTitle}+' - '+${listeNbDossiers}"
+        >
+            <h1 class="base-title base-title--lvl-1" th:text="#{menu.travail.title}">Espace de travail</h1>
+            <div class="page-reponses__table">
+                <div class="page-reponses__table-heading">
+                    <h2
+                        class="page-reponses__table-heading__base-title base-title base-title--lvl-2"
+                        th:remove="${titre==null}?all"
+                    >
+                        [[ ${listeTitle} ]] -
+                        <span class="base-paragraph page-reponses__folders-number" th:text="${listeNbDossiers}"> </span>
+                    </h2>
+                </div>
+
+                <th:block th:unless="${#lists.isEmpty(resultList.liste)}">
+                    <div th:replace="fragments/components/rapid-filtre :: rapidSearch('travail')"></div>
+                </th:block>
+
+                <div th:replace="fragments/table/tableDossiers :: searchResults"></div>
+            </div>
+        </div>
+    </body>
+</html>

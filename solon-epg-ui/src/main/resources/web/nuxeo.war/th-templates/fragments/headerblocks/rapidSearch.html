@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div class="rapid-search header__search" th:fragment="rapidSearch">
+            <form
+                method="GET"
+                class="rapidSearch-form--inverted"
+                id="rapidSearchForm"
+                th:action="@{/recherche/rapide}+ '#main_content'"
+                style="display: flex; align-items: center;"
+            >
+                <label for="nor" id="nor_label" class="form-label form-label--white rapid-search__label">
+                    <th:block th:text="#{recherche.rapide.label}"></th:block>
+                    <span class="form-label__required-text" th:text="#{form.input.required}">(requis)</span>
+                </label>
+                <div class="form-input rapid-search__input">
+                    <div class="form-input__container">
+                        <input
+                            type="search"
+                            name="nor"
+                            id="nor"
+                            th:placeholder="#{recherche.rapide.placeholder}"
+                            class="form-input__field form-input__field--type-search form-input__field--with-icon"
+                            data-validation="does_not_start_with_asterisk, alpha_num_asterisk_semicolon"
+                            th:value="${nor}"
+                        />
+                        <span aria-hidden="true" class="icon icon--search icon--v-align form-input__icon"></span>
+                    </div>
+                    <div class="form-input__footer" id="nor_error"></div>
+                </div>
+                <button
+                    type="submit"
+                    class="base-btn base-btn--submit base-btn--default base-btn--secondary base-btn--center"
+                >
+                    [[#{recherche.rapide.button.label}]]
+                </button>
+            </form>
+        </div>
+    </body>
+</html>

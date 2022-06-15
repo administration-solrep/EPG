@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <!-- Fieldset -->
+        <div th:fragment="bloc(nom, titre, elements)" class="m-t-4 accordion">
+            <button
+                class="accordion__header js-toggle accordion__header--default"
+                th:id="|accordion__header__${nom}|"
+                aria-expanded="true"
+                th:aria-controls="|accordion__content__${nom}|"
+                type="button"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+            >
+                [[#{${titre}}]]
+                <span class="icon icon--substract accordion__icon accordion__icon--default" aria-hidden="true"></span>
+            </button>
+            <div
+                class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                th:id="|accordion__content__${nom}|"
+                aria-hidden="false"
+            >
+                <fieldset>
+                    <legend class="sr-only" th:text="#{fiche.legend.sronly(${titre})}"></legend>
+                    <th:block th:if="${nom == 'navette'}">
+                        <th:block th:each="navette : ${elements}">
+                            <h3 class="base-title base-title--lvl-3" th:text="${navette.name}"></h3>
+                            <ul class="labellised-list m-t-3 m-b-6">
+                                <th:block th:each="widget : ${navette.lstWidgets}">
+                                    <li class="labellised-list__item">
+                                        <th:block th:if="${widget.typeChamp == 'text'}">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/text :: text(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                        <th:block th:if="${widget.typeChamp} == 'date'">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/date :: date(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                        <th:block th:if="${widget.typeChamp} == 'date_time'">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/date-time :: date-time(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                        <th:block th:if="${widget.typeChamp} == 'multiple_date'">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/multiple-date :: multipleDate(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                        <th:block th:if="${widget.typeChamp}== 'input-text'">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/input-text :: inputText(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                        <th:block th:if="${widget.typeChamp}== 'input-text-hidden'">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/input-text-hidden :: inputTextHidden(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                        <th:block th:if="${widget.typeChamp} == 'select'">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/select :: select(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${nom == 'navette'}">
+                        <ul class="labellised-list">
+                            <th:block th:each="widget : ${elements}">
+                                <li class="labellised-list__item">
+                                    <th:block th:if="${widget.typeChamp == 'text'}">
+                                        <th:block
+                                            th:replace="fragments/mgpp/widgets/text :: text(${widget})"
+                                        ></th:block>
+                                    </th:block>
+                                    <th:block th:if="${widget.typeChamp}== 'input-text'">
+                                        <th:block
+                                            th:replace="fragments/mgpp/widgets/input-text :: inputText(${widget})"
+                                        ></th:block>
+                                    </th:block>
+                                    <th:block th:if="${widget.typeChamp} == 'textarea'">
+                                        <th:block
+                                            th:replace="fragments/mgpp/widgets/textarea :: textarea(${widget})"
+                                        ></th:block>
+                                    </th:block>
+                                    <th:block th:if="${widget.typeChamp} == 'date'">
+                                        <th:block
+                                            th:replace="fragments/mgpp/widgets/date :: date(${widget})"
+                                        ></th:block>
+                                    </th:block>
+                                    <th:block th:if="${widget.typeChamp} == 'date_time'">
+                                        <th:block
+                                            th:replace="fragments/mgpp/widgets/date-time :: date-time(${widget})"
+                                        ></th:block>
+                                    </th:block>
+                                    <th:block th:if="${widget.typeChamp} == 'radio'">
+                                        <th:block
+                                            th:replace="fragments/mgpp/widgets/optin-radio :: optinRadio(${widget})"
+                                        ></th:block>
+                                    </th:block>
+                                    <th:block th:if="${widget.typeChamp} == 'select'">
+                                        <th:block
+                                            th:replace="fragments/mgpp/widgets/select :: select(${widget})"
+                                        ></th:block>
+                                    </th:block>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </th:block>
+                </fieldset>
+            </div>
+        </div>
+    </body>
+</html>

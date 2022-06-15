@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="publication-ministerielle-table"
+            id="listePublications"
+            class="tableForm"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrlPublicationMinisterielle}}"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <div class="heading-complex m-b-6">
+                <div class="heading-complex__main">
+                    <h2 class="base-title base-title--lvl-2" th:text="#{admin.publication.ministerielle.title}">
+                        Publications ministérielles
+                    </h2>
+                    <p
+                        class="heading-complex__subtitle base-subtitle"
+                        th:text="#{admin.publication.ministerielle.table.nb(${nbPublicationsMinisterielles})}"
+                    >
+                        - 4 publications ministérielles
+                    </p>
+                </div>
+                <div class="heading-complex__options"></div>
+            </div>
+            <div class="flexible-table">
+                <a
+                    href="#skip_link_table-publication-ministerielle_prev"
+                    id="skip_link_table-publication-ministerielle_next"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{admin.publication.ministerielle.table})}"
+                >
+                    Passer le tableau pour arriver après
+                </a>
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <caption class="sr-only" th:text="#{admin.publication.ministerielle.table}">
+                            Tableau des Publications Ministérielles
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th:block th:each="colonne : ${lstColonnesPublications}">
+                                    <th scope="col" class="table-header__cell table-header__cell--with-filter-action">
+                                        <button
+                                            th:replace="fragments/table/sortableHeader :: sortableHeader (
+                                                #{__${colonne.label}__},
+                                                ${colonne.sortValue},
+                                                ${colonne.sortName},
+                                                ${colonne.sortId},
+                                                ${colonne.inverseSort})"
+                                        ></button>
+                                    </th>
+                                </th:block>
+                                <th scope="col" class="table-header__cell table-header__cell--small">
+                                    <span class="sr-only" th:text="#{admin.vecteur.publication.table.header.action}"
+                                        >Actions</span
+                                    >
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body custom-table__body">
+                            <tr
+                                class="table-line custom-table__table-line"
+                                th:each="item, nb : ${resultListPublications.liste}"
+                            >
+                                <td class="table-line__cell">
+                                    <p class="table-line__cell-content" th:with="elemId=|link-copy__link-_${item.id}|">
+                                        <span th:id="${elemId}" th:text="${item.nor}"></span>
+                                        <th:block
+                                            th:replace="fragments/components/copy-nor-button :: copy-nor-button(${elemId}, 'NOR', false)"
+                                        ></th:block>
+                                    </p>
+                                </td>
+                                <td class="table-line__cell">
+                                    <p class="table-line__cell-content" th:text="${item.intitule}">
+                                        Publication Ministérielle CCO N
+                                    </p>
+                                </td>
+                                <td class="table-line__cell table-line__cell--small">
+                                    <div class="flex items-center">
+                                        <th:block th:each="action : ${deleteActionPublicationMinisterielle}">
+                                            <div
+                                                th:replace="fragments/components/action-link :: action-link(
+                                                    ${action},
+                                                    'm-l-4 base-btn base-btn--button base-btn--default base-btn--icon-action-blue base-btn--discret',
+                                                    '')"
+                                            ></div>
+                                        </th:block>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a
+                    href="#skip_link_table-publication-ministerielle_next"
+                    id="skip_link_table-publication-ministerielle_prev"
+                    class="skip-link"
+                    th:text="#{skip.link.table.next(#{admin.publication.ministerielle.table})}"
+                >
+                    Passer le tableau pour arriver avant
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

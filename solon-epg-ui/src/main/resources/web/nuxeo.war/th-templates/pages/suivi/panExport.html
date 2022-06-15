@@ -1,0 +1,151 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='page-solon-pan-master-table', description='Pilotage de l\'activité normative - exports et publication', title=#{pan.stats.exports.publication.title.breadcrumb.label})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div class="row-actions">
+            <div class="row-actions__left">
+                <button
+                    class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--bordered base-btn--light"
+                    th:value="#{button.label.cancel}"
+                    onclick="window.location.reload()"
+                >
+                    [[#{button.label.cancel}]]
+                </button>
+            </div>
+            <div class="row-actions__right">
+                <th:block
+                    th:each="action : ${exportActions}"
+                    th:with="buttonDisabled=${((action.id == 'EXPORT_GLOBAL_LEGISLATURE_EN_COURS' || action.id == 'EXPORT_GLOBAL_LEGISLATURE_PRECEDENTE') && exportEnCours) || (action.id == 'PUBLIER_LEGISLATURE_PRECEDENTE' && !legisPrecExportee) }"
+                >
+                    <th:block
+                        th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, ${buttonDisabled}, '')"
+                    ></th:block>
+                </th:block>
+            </div>
+        </div>
+        <h1 class="m-b-10 base-title base-title--lvl-1 base-title--is-underlined" th:text="#{menu.suivi.pan.title}">
+            Pilotage de l'activité normative
+        </h1>
+
+        <h2 class="base-title base-title--lvl-2" th:text="#{menu.suivi.pan.export.title}">
+            Exports et publication
+        </h2>
+
+        <div class="accordion">
+            <button
+                type="button"
+                aria-controls="accordion__content__pan_exported"
+                aria-expanded="true"
+                id="accordion__header__pan_exported"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+                class="accordion__header js-toggle accordion__header--default"
+            >
+                <h3
+                    class="base-title base-title--lvl-3"
+                    th:text="#{pan.stats.exports.publication.precedents.label}"
+                ></h3>
+                <span aria-hidden="true" class="icon icon--substract accordion__icon accordion__icon--default"></span>
+            </button>
+            <div
+                aria-hidden="false"
+                id="accordion__content__pan_exported"
+                class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+            >
+                <div class="page-layout__content--dark p-a-4">
+                    <ul class="list-none">
+                        <li th:each="export : ${exports}">
+                            <a
+                                th:if="${not export.isExporting}"
+                                class="link link--no-line"
+                                th:href="@{/suivi/pan/stats/telecharger/export?id=__${export.id}__}"
+                            >
+                                <span aria-hidden="true" class="table-action__icon icon icon--download p-r-4"></span>
+                                [[${export.name}]]
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <button
+                type="button"
+                aria-controls="accordion__content__pan_export"
+                aria-expanded="true"
+                id="accordion__header__pan_export"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+                class="accordion__header js-toggle accordion__header--default"
+            >
+                <h3 class="base-title base-title--lvl-3" th:text="#{pan.stats.exports.publication.nouvel.label}"></h3>
+                <span aria-hidden="true" class="icon icon--substract accordion__icon accordion__icon--default"></span>
+            </button>
+            <div
+                aria-hidden="false"
+                id="accordion__content__pan_export"
+                class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+            >
+                <form id="exportGlobalForm" class="page-layout__content--dark p-a-4">
+                    <h4
+                        class="base-title base-title--lvl-4"
+                        th:text="#{pan.stats.exports.publication.legislatures.label}"
+                    >
+                        Législatures
+                    </h4>
+                    <div class="grid__row m-t-6">
+                        <div class="grid__col grid__col--form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect('pan.stats.exports.publication.legislatures.label', 'legislatures', 'legislatures', '',  ${legislatures}, ${legislatureEnCours}, ${exportEnCours}, '', '1', 'input', '', '', true, true, false)"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div
+                        th:replace="fragments/pan/components/blocExportGlobal :: bloc(${statistiques}, 'pan.stats.exports.publication.bilan.semestriel', 'BS', ${ {'Lois', 'Ordonnances'} }, ${listeReports})"
+                    ></div>
+
+                    <div
+                        th:replace="fragments/pan/components/blocExportGlobal :: bloc(${statistiques}, 'pan.stats.exports.publication.taux.execution', 'TX', ${ {'Lois', 'Ordonnances'} }, ${listeReports})"
+                    ></div>
+
+                    <div
+                        th:replace="fragments/pan/components/blocExportGlobal :: bloc(${statistiques}, 'pan.stats.exports.publication.taux.application', 'APP', ${ {'Global'} }, ${listeReports})"
+                    ></div>
+
+                    <div
+                        th:replace="fragments/pan/components/blocExportGlobal :: bloc(${statistiques}, 'pan.stats.exports.publication.indicateurs', 'TXD', ${ {'Lois', 'Ordonnances'} }, ${listeReports})"
+                    ></div>
+                </form>
+            </div>
+        </div>
+        <div class="row-actions">
+            <div class="row-actions__left">
+                <button
+                    class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--bordered base-btn--light"
+                    th:value="#{button.label.cancel}"
+                    onclick="goPreviousPage()"
+                >
+                    [[#{button.label.cancel}]]
+                </button>
+            </div>
+            <div class="row-actions__right">
+                <th:block
+                    th:each="action : ${exportActions}"
+                    th:with="buttonDisabled=${((action.id == 'EXPORT_GLOBAL_LEGISLATURE_EN_COURS' || action.id == 'EXPORT_GLOBAL_LEGISLATURE_PRECEDENTE') && exportEnCours) || (action.id == 'PUBLIER_LEGISLATURE_PRECEDENTE' && !legisPrecExportee) }"
+                >
+                    <th:block
+                        th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, ${buttonDisabled}, '')"
+                    ></th:block>
+                </th:block>
+            </div>
+        </div>
+    </main>
+</html>

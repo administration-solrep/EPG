@@ -1,0 +1,106 @@
+{
+  "from" : 0,
+  "size" : 25,
+  "query" : {
+    "bool" : {
+      "must" : [ {
+        "bool" : {
+          "should" : [ {
+            "simple_query_string" : {
+              "auto_generate_synonyms_phrase_query": true,
+              "query" : "asile",
+              "fuzzy_max_expansions": 50,
+              "fields" : [ "dos:numeroNor^10.0", "documents.file:data^1.0", "documents.dc:title^2.0", "dos:titreActe^5.0" ],
+              "flags" : -1,
+              "default_operator" : "or",
+              "lenient" : false,
+              "analyze_wildcard" : false,
+              "fuzzy_transpositions": true,
+              "fuzzy_prefix_length": 0,
+              "boost" : 1.0
+            }
+          }, {
+            "nested" : {
+              "query" : {
+                "bool" : {
+                  "should" : [ {
+                    "simple_query_string" : {
+                      "auto_generate_synonyms_phrase_query": true,
+                      "query" : "asile",
+                      "fuzzy_max_expansions": 50,
+                      "fields" : [ "documents.file:data^1.0" ],
+                      "flags" : -1,
+                      "default_operator" : "or",
+                      "lenient" : false,
+                      "analyze_wildcard" : false,
+                      "fuzzy_transpositions": true,
+                      "fuzzy_prefix_length": 0,
+                      "boost" : 1.0
+                    }
+                  }, {
+                    "simple_query_string" : {
+                      "auto_generate_synonyms_phrase_query": true,
+                      "query" : "asile",
+                      "fuzzy_max_expansions": 50,
+                      "fields" : [ "documents.dc:title^2.0" ],
+                      "flags" : -1,
+                      "default_operator" : "or",
+                      "lenient" : false,
+                      "analyze_wildcard" : false,
+                      "fuzzy_transpositions": true,
+                      "fuzzy_prefix_length": 0,
+                      "boost" : 1.0
+                    }
+                  } ],
+                  "adjust_pure_negative" : true,
+                  "boost" : 1.0
+                }
+              },
+              "path" : "documents",
+              "ignore_unmapped" : false,
+              "score_mode" : "sum",
+              "boost" : 1.0,
+              "inner_hits" : {
+                "ignore_unmapped" : false,
+                "from" : 0,
+                "version" : false,
+                "explain" : false,
+                "size": 3,
+                "track_scores" : false,
+                "_source" : false,
+                "seq_no_primary_term": false,
+                "docvalue_fields" : [ 
+                  {
+                    "field": "documents.UID"
+                  }
+                ]
+              }
+            }
+          } ],
+          "adjust_pure_negative" : true,
+          "boost" : 1.0
+        }
+      } ],
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "stored_fields" : "dos:titreActe",
+  "docvalue_fields" : [
+    {"field": "dos:ministereResp", "format": "use_field_mapping"},
+    {"field": "dos:statut","format": "use_field_mapping"},
+    {"field": "dos:numeroNor", "format": "use_field_mapping"},
+    {"field": "retdila:dateParutionJorf", "format": "use_field_mapping"}
+  ],
+  "highlight" : {
+    "type" : "plain",
+    "require_field_match" : false,
+    "fields" : {
+      "dos:titreActe" : {
+        "fragment_size" : 1500,
+        "number_of_fragments" : 1
+      }
+    }
+  }
+}

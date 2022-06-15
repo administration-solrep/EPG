@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="responsablesActe(bordereauDto)" th:with="dto=${bordereauDto.responsablesActe}">
+            <th:block th:unless="${bordereauDto.isEdit && !isNorAttribue}">
+                <div class="folder-detail">
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.ministere.resp},${dto.intituleMinistereResp})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.direction.resp},${dto.intituleDirectionResp})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.ministere.rattach},${dto.intituleMinistereRattach})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.direction.rattach},${dto.intituleDirectionRattach})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.nom.responsable.dossier},${dto.nomResponsable},${bordereauDto.isCopy},'dos:nomRespDossier')"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.prenom.resp.dossier},${dto.prenomResponsable},${bordereauDto.isCopy},'dos:prenomRespDossier')"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.qualite.resp.dossier},${dto.qualiteResponsable},${bordereauDto.isCopy},'dos:qualiteRespDossier')"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line  :: folderDetailCheckBoxLine(#{dossier.bordereau.tel.resp.dossier},${dto.telResponsable},${bordereauDto.isCopy},'dos:telRespDossier')"
+                            ></tr>
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.bordereau.mel.resp.dossier}"
+                                ></td>
+                                <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                    <a
+                                        class="link"
+                                        th:href="|mailto:${dto.melResponsable}|"
+                                        th:text="${dto.melResponsable}"
+                                    >
+                                        mail
+                                    </a>
+                                </td>
+                                <th:block th:if="${bordereauDto.isCopy} == true">
+                                    <td class="folder-detail__table-cell">
+                                        <div class="form-choice-input ds-checkbox-right m-r-20">
+                                            <input
+                                                th:id="select-field-dos-mailRespDossier"
+                                                type="checkbox"
+                                                aria-hidden="true"
+                                                th:data-name="|dos:mailRespDossier|"
+                                                onclick="selectBordereauCheckbox(this)"
+                                                class="form-choice-input__input js-custom-table-line-check"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                th:for="select-field-dos-mailRespDossier"
+                                                th:title="#{dossier.similaire.bordereau.liste.champ.select.one(#{dossier.bordereau.mel.resp.dossier})}"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                                            >
+                                                <span th:text="#{dossier.similaire.bordereau.selectionner}"
+                                                    >Sélectionner le champ</span
+                                                >
+                                            </label>
+                                        </div>
+                                    </td>
+                                </th:block>
+                            </tr>
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.bordereau.cree.par}"
+                                ></td>
+                                <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                    [[${dto.creeParLibelle}]]
+                                    <a
+                                        class="link"
+                                        th:href="|mailto:${dto.creeParEmail}|"
+                                        th:text="${dto.creeParEmail}"
+                                    >
+                                        Creer par email</a
+                                    >
+                                </td>
+                            </tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.charge.mission},${#strings.listJoin(dto.chargeMission, ',')})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.conseiller.pm},${#strings.listJoin(dto.conseillerPM, ',')})"
+                            ></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <th:block th:if="${bordereauDto.isEdit && !isNorAttribue}">
+                <div role="group" aria-labelledby="accordion__content__epgBordereauResponsablesActe">
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.ministere.resp}, false, '', 'ministereResp', 'ministereResp', ${dto.intituleMinistereResp}, true)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.direction.resp}, false, '', 'directionResp', 'directionResp', ${dto.intituleDirectionResp}, true)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.ministere.rattach}, false, '', 'ministereRattach', 'ministereRattach', ${dto.intituleMinistereRattach}, true)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.direction.rattach}, false, '', 'directionRattach', 'directionRattach', ${dto.intituleDirectionRattach}, true)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.nom.responsable.dossier}, true, '', 'nomResponsable', 'nomResponsable', ${dto.nomResponsable}, false)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.prenom.resp.dossier}, false, '', 'prenomResponsable', 'prenomResponsable', ${dto.prenomResponsable}, false)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.qualite.resp.dossier}, true, '', 'qualiteResponsable', 'qualiteResponsable', ${dto.qualiteResponsable}, false)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input" th:with="validation='generic_phone_number'">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.tel.resp.dossier}, false, '', 'telResponsable', 'telResponsable', ${dto.telResponsable}, false)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.mel.resp.dossier}, false, '', 'melResponsable', 'melResponsable', ${dto.melResponsable}, false)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--full-width form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.cree.par}, false, '', 'creePar', 'creePar', |${dto.creeParLibelle} ${dto.creeParEmail}|, true)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.charge.mission}, false, '', 'chargeMission', 'chargeMission', ${#strings.listJoin(dto.chargeMission, ',')}, true)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.conseiller.pm}, false, '', 'conseillerPM', 'conseillerPM', ${#strings.listJoin(dto.conseillerPM, ',')}, true)"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

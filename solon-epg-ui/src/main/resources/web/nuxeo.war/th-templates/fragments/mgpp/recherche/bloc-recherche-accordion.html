@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="bloc(nom, titre, elements)" class="m-t-4 accordion">
+            <button
+                class="accordion__header js-toggle accordion__header--default"
+                th:id="|accordion__header__${nom}|"
+                th:aria-expanded="${nom == 'technique'}"
+                th:aria-controls="|accordion__content__${nom}|"
+                type="button"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+            >
+                [[#{${titre}}]]
+                <span
+                    class="icon accordion__icon accordion__icon--default"
+                    th:classappend="${nom == 'technique' ? 'icon--substract' : 'icon--add'}"
+                    aria-hidden="true"
+                ></span>
+            </button>
+
+            <div
+                class="accordion__content accordion__content--accordion--default accordion__content--has-background"
+                th:classappend="${nom == 'technique' ? 'accordion__content--is-opened' : ''}"
+                th:id="|accordion__content__${nom}|"
+                th:aria-hidden="${nom != 'technique'}"
+            >
+                <div class="search-form">
+                    <th:block th:each="widget, status : ${elements}">
+                        <div class="grid__row" th:classappend="${status.index != 0 ? 'm-t-6' : ''}">
+                            <div class="grid__col grid__col--middle">
+                                <th:block th:if="${#strings.equals(widget.typeChamp, 'multiple-input-text')}">
+                                    <th:block
+                                        th:if="${#strings.equals(widget.getValueParamByName('autocomplete'), 'true')}"
+                                    >
+                                        <div
+                                            th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(${widget.label}, ${'search-'+widget.name}, ${widget.name}, 'form.description.charlimit', ${{}}, ${{}} , false, @{'/ajax/mgpp/recherche/suggestions?typeSelection='+${widget.name}}, '3', 'input', 'key', 'label', false, true, false)"
+                                        ></div>
+                                    </th:block>
+                                    <th:block
+                                        th:unless="${#strings.equals(widget.getValueParamByName('autocomplete'), 'true')}"
+                                    >
+                                        <div
+                                            th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(${widget.label}, ${'search-'+widget.name}, ${widget.name}, 'form.description.charlimit', ${widget.getValueParamByNameOrNull('lstValues')}, ${widget.getValueParamByNameOrNull('valeur')!=null ? widget.getValueParamByName('valeur') : {}} , false, null, '3', '', '', '', false, true, false)"
+                                        ></div>
+                                    </th:block>
+                                </th:block>
+                                <th:block th:if="${#strings.equals(widget.typeChamp, 'input-text')}">
+                                    <th:block
+                                        th:if="${#strings.equals(widget.getValueParamByName('autocomplete'), 'true')}"
+                                    >
+                                        <div class="form-input">
+                                            <div
+                                                th:replace="fragments/mgpp/widgets/input-text :: inputText(${widget})"
+                                            ></div>
+                                        </div>
+                                    </th:block>
+                                    <th:block
+                                        th:unless="${#strings.equals(widget.getValueParamByName('autocomplete'), 'true')}"
+                                    >
+                                        <div
+                                            th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{${widget.label}}, false, '', ${'search-'+widget.name}, ${widget.name}, ${widget.getValueParamByNameOrNull('valeur')}, false)"
+                                        ></div>
+                                    </th:block>
+                                </th:block>
+                                <th:block th:if="${#strings.equals(widget.typeChamp, 'date')}">
+                                    <div
+                                        th:replace="fragments/components/formblocks/date-picker-range :: datepickerRange(${widget.label}, ${widget.name}, ${widget.getValueParamByNameOrNull('valeurDebut')}, ${widget.getValueParamByNameOrNull('valeurFin')}, false, false)"
+                                    ></div>
+                                </th:block>
+                                <th:block th:if="${#strings.equals(widget.typeChamp, 'select')}">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-select :: simpleSelect(${widget.label}, ${widget.name}, '', ${widget.getValueParamByNameOrNull('lstValues')}, ${widget.getValueParamByNameOrNull('valeur')}, 'false', 'communicationSuccessive.select.default')"
+                                    ></div>
+                                </th:block>
+                                <th:block th:if="${#strings.equals(widget.typeChamp, 'niveau-lecture')}">
+                                    <th:block
+                                        th:replace="fragments/mgpp/widgets/niveau-lecture :: niveauLecture(${widget})"
+                                    ></th:block>
+                                </th:block>
+                                <th:block th:if="${#strings.equals(widget.typeChamp, 'radio')}">
+                                    <th:block
+                                        th:replace="fragments/mgpp/widgets/optin-radio :: optinRadio(${widget})"
+                                    ></th:block>
+                                </th:block>
+                                <th:block th:if="${#strings.equals(widget.typeChamp, 'textarea')}">
+                                    <div
+                                        th:replace="fragments/components/formblocks/textarea-input :: textArea(${widget.label}, ${widget.name}, '', ${widget.getValueParamByNameOrNull('valeur')}, false, '')"
+                                    ></div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

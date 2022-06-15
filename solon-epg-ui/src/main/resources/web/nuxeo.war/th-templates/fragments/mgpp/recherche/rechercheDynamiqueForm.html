@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="formRechercheDynamique(typeParlementaire, rechercheDynamique)" id="formRechercheDynamique">
+            <form th:unless="${#strings.isEmpty(typeParlementaire)}" class="formDynamique" id="formDynamique">
+                <input type="hidden" id="typeParlementaire" name="typeParlementaire" th:value="${typeParlementaire}" />
+                <fieldset>
+                    <div
+                        th:replace="fragments/mgpp/recherche/bloc-recherche-accordion :: bloc('technique', 'label.recherche.avancee.technique',${rechercheDynamique.metadonneesTechniques})"
+                    ></div>
+
+                    <div
+                        th:replace="fragments/mgpp/recherche/bloc-recherche-accordion :: bloc('distribution', 'label.recherche.avancee.distribution',${rechercheDynamique.metadonneesDistribution})"
+                    ></div>
+
+                    <th:block th:unless="${#lists.isEmpty(rechercheDynamique.metadonneesPublication)}">
+                        <div
+                            th:replace="fragments/mgpp/recherche/bloc-recherche-accordion :: bloc('publication', 'label.recherche.avancee.publication',${rechercheDynamique.metadonneesPublication})"
+                        ></div>
+                    </th:block>
+
+                    <div
+                        th:replace="fragments/mgpp/recherche/bloc-recherche-accordion :: bloc('autres', 'label.recherche.avancee.other',${rechercheDynamique.autresMetadonnees})"
+                    ></div>
+
+                    <div
+                        th:replace="fragments/mgpp/recherche/bloc-recherche-accordion :: bloc('piecejointe', 'label.recherche.avancee.piecesjointes',${rechercheDynamique.piecesJointes})"
+                    ></div>
+                </fieldset>
+                <div class="page-reponses-search__buttons m-t-6">
+                    <button
+                        type="button"
+                        onclick="reinitSearch('/mgpp/recherche/reinit', hardReloadPage)"
+                        class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered"
+                        th:text="#{label.recherche.avancee.reinitialiser}"
+                    ></button>
+                    <button
+                        type="button"
+                        onclick="doGlobalSearch()"
+                        id="rechercheCommunicationSubmit"
+                        class="base-btn base-btn--submit base-btn--default"
+                        th:text="#{label.recherche.avancee.rechercher}"
+                    ></button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

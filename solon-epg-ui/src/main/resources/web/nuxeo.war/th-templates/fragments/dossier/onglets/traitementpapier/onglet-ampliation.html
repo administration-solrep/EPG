@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ongletAmpliation" id="ongletAmpliation_content" class="page-epg-bordereau">
+            <!-- mode Consulation -->
+            <th:block th:unless="${isEditable}">
+                <table role="presentation" class="folder-detail__table">
+                    <tbody>
+                        <!-- Dossier papier archivé -->
+                        <tr class="folder-detail__table-line">
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                th:text="#{dossier.traitement.papier.ampliation.dossier.papier.archive}"
+                            ></td>
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                th:text="${dto.dossierPapierArchive ? 'Oui' : 'Non'}"
+                            ></td>
+                        </tr>
+                        <!-- Destinataire -->
+                        <tr class="folder-detail__table-line">
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                th:text="#{dossier.traitement.papier.ampliation.destinataire}"
+                            ></td>
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                th:text="${#lists.isEmpty(dto.destinataires)} ? '' : ${dto.destinataires}"
+                            ></td>
+                        </tr>
+                        <!-- Destinataire (saisie libre) -->
+                        <tr class="folder-detail__table-line">
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                th:text="#{dossier.traitement.papier.ampliation.destinataire.libre}"
+                            ></td>
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                th:text="${#lists.isEmpty(dto.destinatairesLibres)} ? '' : ${dto.destinatairesLibres}"
+                            ></td>
+                        </tr>
+                        <!-- Ampliation -->
+                        <tr class="folder-detail__table-line">
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                th:text="#{dossier.traitement.papier.ampliation}"
+                            ></td>
+                            <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                <th:block th:if="${dto != null and dto.fileName != null}">
+                                    <div
+                                        th:replace="fragments/components/ampliation/file-input-content-ampliation :: file-input-content-ampliation(${dto.fileName})"
+                                    ></div>
+                                </th:block>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Historique -->
+                <div id="historique-ampliation" class="m-t-6 m-b-4">
+                    <th:block th:if="${!#lists.isEmpty(lstHistorique)}">
+                        <div
+                            th:replace="fragments/dossier/onglets/traitementpapier/ampliation/historique-ampliation :: historique-ampliation(${lstHistorique})"
+                        ></div>
+                    </th:block>
+                </div>
+            </th:block>
+            <!-- mode Création -->
+            <th:block th:if="${isEditable}">
+                <form id="ampliationForm">
+                    <!-- Dossier papier archivé -->
+                    <div class="grid__row">
+                        <div>
+                            <th:block
+                                th:replace="fragments/components/formblocks/input-oui-non :: ouiNon(
+                                    'dossier.traitement.papier.ampliation.dossier.papier.archive', 
+                                    'dossierPapierArchive', 
+                                    ${dto.dossierPapierArchive != null ? dto.dossierPapierArchive : 'false'}, 
+                                    false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                    <!-- Destinataire -->
+                    <div class="grid__row m-t-6 m-b-4">
+                        <div class="grid__col grid__col--middle">
+                            <div
+                                th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete(
+									'dossier.traitement.papier.ampliation.destinataire',
+									true,
+									'destinataire',
+									'destinataire',
+									'USR',
+									'',
+									false,
+									true,
+									${dto.mapDestinataire}, 
+									false)"
+                            ></div>
+                        </div>
+                    </div>
+                    <!-- Destinataire (saisie libre) -->
+                    <div class="grid__row m-t-6 m-b-4">
+                        <div class="grid__col grid__col--middle">
+                            <div
+                                th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(
+                                    label='dossier.traitement.papier.ampliation.destinataire.libre', 
+                                    id='destinataireLibre', 
+                                    name='destinataireLibre', 
+                                    description='', 
+                                    options=${ {} }, 
+                                    values=${dto.destinatairesLibres}, 
+                                    disabled='false', 
+                                    urlautocomplete=null, 
+                                    minLength='0', 
+                                    queryparam='input', 
+                                    keymapping='', 
+                                    labelmapping='', 
+                                    required=false, 
+                                    multiple=true, 
+                                    customTags=true)"
+                            ></div>
+                        </div>
+                    </div>
+                    <!-- Ampliation -->
+                    <div class="form-input m-t-6 m-b-4">
+                        <th:block
+                            th:replace="fragments/components/ampliation/file-input-ampliation :: fileInput(
+                                'admin.modele.courrier.file.label', 
+                                'ampliationFile', 
+                                'ampliationFile', 
+                                false, 
+                                ${acceptedType}, 
+                                false,
+                                ${dto != null ? dto.fileName : null})"
+                        ></th:block>
+                    </div>
+                    <!-- Historique -->
+                    <div id="historique-ampliation" class="m-t-6 m-b-4">
+                        <th:block th:if="${!#lists.isEmpty(lstHistorique)}">
+                            <div
+                                th:replace="fragments/dossier/onglets/traitementpapier/ampliation/historique-ampliation :: historique-ampliation(${lstHistorique})"
+                            ></div>
+                        </th:block>
+                    </div>
+                    <!-- Buttons -->
+                    <div class="m-t-6 flex flex-row justify-between">
+                        <button
+                            type="button"
+                            id="btnAnnulerAMpliation"
+                            class="m-l-1 m-b-1 base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                            th:text="#{button.label.cancel}"
+                            onclick="annulerAmpliation()"
+                        >
+                            Annuler
+                        </button>
+
+                        <button
+                            type="button"
+                            id="btnValiderAmpliation"
+                            class="m-l-1 m-b-1 base-btn base-btn--button base-btn--default"
+                            th:text="#{button.label.valider}"
+                            onclick="loadMailContentAmpliation()"
+                        >
+                            Valider
+                        </button>
+                    </div>
+                </form>
+            </th:block>
+
+            <!-- Modal d'envoie de mail -->
+            <div
+                th:replace="fragments/dossier/onglets/traitementpapier/ampliation/modal-send-mail-ampliation :: modal-send-mail-ampliation"
+            ></div>
+            <!-- Modal ampliation -->
+            <div th:replace="fragments/components/ampliation/modal-ampliation :: modal-ampliation"></div>
+
+            <input type="hidden" id="init-modal-ampliation" data-controls="modal-send-mail-ampliation" />
+        </div>
+    </body>
+</html>

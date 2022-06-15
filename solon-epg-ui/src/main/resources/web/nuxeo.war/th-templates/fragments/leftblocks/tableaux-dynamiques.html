@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="tableaux-dynamiques">
+            <div id="suivi_menu_td" class="tree-navigation__toggle-wrapper">
+                <button
+                    aria-controls="tree-navigation__toggled-td"
+                    aria-expanded="true"
+                    id="tree-navigation__toggler-td"
+                    data-toggle="tree-navigation__list"
+                    data-icon-opened="minus"
+                    data-icon-closed="plus"
+                    class="tree-navigation__toggle js-toggle uppercase"
+                >
+                    <span
+                        aria-hidden="true"
+                        class="tree-navigation__icon tree-navigation__icon--toggler tree-navigation__icon--closed icon icon--plus bubble-icon bubble-icon--squared bubble-icon--small"
+                    >
+                    </span>
+                    <span class="tree-navigation__text" th:text="#{suivi.menu.tableaux.dynamiques.title}"></span>
+                </button>
+            </div>
+            <ul
+                id="tree-navigation__toggled-td"
+                class="tree-navigation__list tree-navigation__list--is-closed tree-navigation__list--subtree"
+                aria-hidden="true"
+            >
+                <li
+                    th:each="item : ${lstTableaux}"
+                    class="tree-navigation__item tree-navigation__item--subitem quick-access-dropdown td-li"
+                >
+                    <input type="hidden" name="idTab" th:value="${item.id}" />
+                    <a
+                        th:title="${item.label}"
+                        th:href="@{${item.link}}"
+                        class="tree-navigation__link quick-access__link link td-link"
+                    >
+                        <span class="tree-navigation__text m-b-3" th:text="${item.label}">Tableau dynamique 1</span>
+                    </a>
+                    <th:block th:unless="${item.actions ==null or #lists.isEmpty(item.actions)}">
+                        <div class="left-list-dropdown">
+                            <div
+                                th:replace="fragments/components/dropdown-action :: dropdown-action(
+				                        ${item.id}, 
+				                        ${item.actions}, 
+				                        'icon--ellipsis', 
+				                        false, 
+				                        null, 
+				                        'base-btn--transparent base-btn--light base-btn--md-icon', 
+				                        false, 
+				                        'base-drop-down--light'
+				                        )"
+                            ></div>
+                        </div>
+                    </th:block>
+                </li>
+            </ul>
+        </th:block>
+    </body>
+</html>

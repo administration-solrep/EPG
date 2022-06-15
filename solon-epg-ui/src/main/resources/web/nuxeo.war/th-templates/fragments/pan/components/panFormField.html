@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="panFormField(fieldValue, lockedValue, fieldId, labelMsg, required, disabled, fieldType)"
+            th:remove="tag"
+        >
+            <div
+                class="grid__row m-t-6"
+                th:with="formInputClass=${isNarrow} ? 'grid\_\_col--form-input-narrow' : 'grid\_\_col--form-input'"
+            >
+                <div class="grid__col" th:classappend="${formInputClass}" th:with="name=${fieldName}">
+                    <div class="form-input" th:if="${fieldType == 'inputOuiNon'}" th:with="onClick=${fieldOnClick}">
+                        <div
+                            th:with="required=${required}"
+                            th:replace="fragments/components/formblocks/input-oui-non :: ouiNon(${labelMsg}, ${fieldId}, ${fieldValue}, ${disabled})"
+                        ></div>
+                    </div>
+                    <div
+                        class="form-input"
+                        th:if="${fieldType == 'input-optin'}"
+                        th:with="labelPlainOptin=${isFieldLabelPlain}?:false"
+                    >
+                        <div
+                            th:replace="fragments/components/formblocks/input-optin:: optin(${labelMsg}, ${fieldId}, ${fieldId}, ${fieldOptions}, ${fieldValue}, ${disabled}, null)"
+                        ></div>
+                    </div>
+                    <div
+                        class="form-input"
+                        th:if="${fieldType == 'select'}"
+                        th:with="selectIsRequired=${required}, selectDataValidation=${required}? 'required': ''"
+                    >
+                        <div
+                            th:replace="fragments/components/formblocks/simple-select :: simpleSelect(${labelMsg}, ${fieldId}, null, ${fieldOptions}, ${fieldValue}, ${disabled} ? 'true' : 'false', 'selection.valeur.vide.label')"
+                        ></div>
+                    </div>
+                    <div class="form-input" th:if="${fieldType == 'date-range'}">
+                        <div
+                            th:replace="fragments/components/formblocks/date-picker-range :: datepickerRange(${labelMsg}, ${fieldId}, ${#dates.format(valuebeginning, 'dd/MM/yyyy')}, ${#dates.format(valueending, 'dd/MM/yyyy')}, ${required}, ${disabled})"
+                        ></div>
+                    </div>
+                    <div
+                        class="form-input"
+                        th:unless="${fieldType == 'inputOuiNon' || fieldType == 'input-optin' || fieldType == 'select' || fieldType == 'date-range'}"
+                        th:with="dataValidation=${dataValidation != null}? ${dataValidation}:''"
+                    >
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label th:for="${fieldId}" th:id="|${fieldId}-label|" class="form-label">
+                                    [[ #{${labelMsg}} ]]
+                                    <span th:if="${required}" class="form-label__required-text">(requis)</span>
+                                </label>
+                                <div class="form-input__icon-group"></div>
+                            </div>
+                        </div>
+                        <div class="form-input__container" th:if="${fieldType == 'text'}">
+                            <input
+                                type="text"
+                                th:name="${fieldId}"
+                                th:id="${fieldId}"
+                                th:value="${fieldValue}"
+                                class="form-input__field form-input__field--type-text"
+                                th:classappend="${disabled} ? 'form-input__field--disabled' : ''"
+                                th:disabled="${disabled}"
+                                th:data-validation="${dataValidation}"
+                            />
+                        </div>
+                        <div class="form-input__container" th:if="${fieldType == 'text-area'}">
+                            <textarea
+                                th:name="${fieldId}"
+                                th:id="${fieldId}"
+                                th:text="${fieldValue}"
+                                class="form-input__field form-input__field--type-text"
+                                th:classappend="${disabled} ? 'form-input__field--disabled' : ''"
+                                th:disabled="${disabled}"
+                                cols="30"
+                                rows="3"
+                                th:data-validation="${dataValidation}"
+                            ></textarea>
+                        </div>
+
+                        <th:block th:if="${fieldType == 'date-picker'}">
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_description_form_input_'+${fieldId}, ${name} ?: ${fieldId}, ${fieldId}, ${required}, ${#dates.format(fieldValue, 'dd/MM/yyyy')}, ${disabled})"
+                            ></div>
+                        </th:block>
+                        <div class="form-input__footer" th:id="|${fieldId}_description|"></div>
+                    </div>
+                </div>
+                <div class="grid__col grid__col--auto" th:if="${lockedValue != null}">
+                    <div class="form-choice-input">
+                        <input
+                            type="checkbox"
+                            th:id="|${fieldId}Locked|"
+                            th:name="|${fieldId}Locked|"
+                            class="form-choice-input__input"
+                            th:disabled="${disabled}"
+                            value="true"
+                            th:checked="${lockedValue}"
+                            autocomplete="off"
+                        />
+                        <label
+                            th:for="|${fieldId}Locked|"
+                            th:id="|${fieldId}Locked_label|"
+                            class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                        >
+                            [[ #{pan.form.figer.champ} ]]
+                            <span class="sr-only" th:text="#{${labelMsg}}">Label</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

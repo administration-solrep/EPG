@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panEditMesure(item)" id="content-panModaleEdit">
+            <form action="" class="grid m-t-2">
+                <input type="hidden" name="idPremierTableau" th:value="${item.getId()}" />
+                <input type="hidden" name="idContextuel" th:value="${idContextuel}" />
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.numeroOrdre}, null, 'numeroOrdre', 'pan.application.table.mesures.header.label.ordre', false, ${profilOnlyMinisteriel}, 'text')"
+                ></div>
+
+                <th:block th:with="article=${currentSection == 'lois' ? 'articleLoi' : 'articleOrdonnance'}">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.article}, null, 'article', 'pan.application.table.mesures.header.label.' + ${article}, false, ${profilOnlyMinisteriel}, 'text')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.baseLegale}, null, 'baseLegale', 'pan.application.table.mesures.header.label.baseLegale', false, ${profilOnlyMinisteriel}, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.objetRIM}, null, 'objet', 'pan.application.table.mesures.header.label.objet', false, ${profilOnlyMinisteriel}, 'text-area')"
+                ></div>
+
+                <div class="grid__row m-t-4">
+                    <div class="grid__col">
+                        <div
+                            th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete('pan.application.table.mesures.header.label.ministerePilote', false, 'ministerePiloteMesure', 'ministerePilote', 'MIN', 'ministere', true, false, ${mapMinisterePilote}, ${profilOnlyMinisteriel})"
+                        ></div>
+                    </div>
+                </div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.directionResponsable}, null, 'directionResponsable', 'pan.application.table.mesures.header.label.directionResponsable', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.consultationsHCE}, null, 'consultationHorsCE', 'pan.application.table.mesures.header.label.consultationHorsCE', false, false, 'text')"
+                ></div>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.calendrierConsultationsHCE}, null, 'calendrierHorsCE', 'pan.application.table.mesures.header.label.calendrierHorsCE', false, false, 'text')"
+                ></div>
+
+                <th:block th:with="isNarrow=true">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.datePrevisionnelleSaisineCE}, null, 'datePrevisionnelleSaisineCE', 'pan.application.table.mesures.header.label.datePreviSaisineCE', false, false, 'date-picker')"
+                    ></div>
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.dateObjectifPublication}, null, 'dateObjectifPublication', 'pan.application.table.mesures.header.label.objectifPubli', false, ${profilOnlyMinisteriel}, 'date-picker')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.observation}, null, 'observation', 'pan.application.table.mesures.header.label.observations', false, ${profilOnlyMinisteriel}, 'text-area')"
+                ></div>
+
+                <th:block th:with="fieldOptions=${typeMesuresList}">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.typeMesure}, null, 'typeMesure', 'pan.application.table.mesures.header.label.typeMesure', false, ${profilOnlyMinisteriel}, 'select')"
+                    ></div>
+                </th:block>
+
+                <div
+                    th:replace="fragments/pan/components/panFormField :: panFormField( ${item.differe}, null, 'differeApplication', 'pan.application.lois.modale.mesures.label.differe', false, ${profilOnlyMinisteriel}, 'inputOuiNon')"
+                ></div>
+
+                <th:block th:with="fieldOnClick='setApplicationRecu()'">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.applicationRecu}, null, 'applicationRecu', 'pan.application.table.mesures.header.label.applicationRecu', false, ${profilOnlyMinisteriel}, 'inputOuiNon')"
+                    ></div>
+                </th:block>
+
+                <div
+                    id="saisirDecretsNOR"
+                    class="grid__row m-t-4"
+                    th:classappend="${item.applicationRecu} ? '' : 'hidden'"
+                >
+                    <div class="grid__col grid__col--form-input-narrow">
+                        <div
+                            th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect('pan.action.saisir.decrets.nor', 'norDecrets', 'norDecrets', '', null, ${decretsNor}, false, @{/ajax/recherche/suggestions?typeSelection=NOR&selectionFilter=decret}, 3, 'input', 'key', 'label', false, true, false)"
+                        ></div>
+                    </div>
+                </div>
+
+                <th:block th:with="isNarrow=true">
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.dateMiseApplication}, null, 'dateMiseApplication', 'pan.application.table.mesures.header.label.dateApplication', false, ${profilOnlyMinisteriel}, 'date-picker')"
+                    ></div>
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.dateEntreeEnVigueur}, null, 'dateEntreeVigueur', 'pan.application.table.mesures.header.label.dateCertaineEntreeVigueur', false, ${profilOnlyMinisteriel}, 'date-picker')"
+                    ></div>
+                    <div
+                        th:replace="fragments/pan/components/panFormField :: panFormField( ${item.dateLimite}, null, 'dateLimite', 'pan.application.table.mesures.header.label.dateLimiteSixMois', false, ${profilOnlyMinisteriel}, 'date-picker')"
+                    ></div>
+                </th:block>
+
+                <div class="see-more m-t-4 m-b-6">
+                    <div
+                        class="see-more__content"
+                        th:classappend="${not hideColumns} ? 'see-more__content--visible' : ''"
+                        th:aria-hidden="${hideColumns}"
+                    >
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField( ${item.codeModifie}, null, 'codeModifie', 'pan.application.table.mesures.header.label.codeModifie', false, ${profilOnlyMinisteriel}, 'text')"
+                        ></div>
+
+                        <th:block th:with="fieldOptions=${poleChargeMissionList}">
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField( ${poleChargeMissionKey}, null, 'poleChargeMission', 'pan.application.table.mesures.header.label.poleChargeMission', false, ${profilOnlyMinisteriel}, 'select')"
+                            ></div>
+                        </th:block>
+
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField( ${item.amendement}, null, 'amendement', 'pan.application.table.mesures.header.label.amendement', false, ${profilOnlyMinisteriel}, 'inputOuiNon')"
+                        ></div>
+
+                        <th:block th:with="isNarrow=true">
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField( ${item.datePassageCM}, null, 'datePassageCM', 'pan.application.table.mesures.header.label.datePassageCM', false, ${profilOnlyMinisteriel}, 'date-picker')"
+                            ></div>
+                        </th:block>
+
+                        <!--  responsable amendement -->
+                        <th:block th:with="fieldOptions=${responsableAmendementList}, isFieldLabelPlain=true">
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField( ${item.responsableAmendement}, null, 'responsableAmendement', 'pan.application.table.mesures.header.label.responsableAmendement', false, ${profilOnlyMinisteriel}, 'input-optin')"
+                            ></div>
+                        </th:block>
+
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField( ${item.numeroQuestion}, null, 'numeroQuestion', 'pan.application.table.mesures.header.label.numeroQuestionParlementaire', false, ${profilOnlyMinisteriel}, 'text')"
+                        ></div>
+
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField( ${item.champLibre}, null, 'champLibre', 'pan.application.table.mesures.header.label.champLibre', false, ${profilOnlyMinisteriel}, 'text-area')"
+                        ></div>
+
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField( ${item.communicationMinisterielle}, null, 'communicationMinisterielle', 'pan.application.table.mesures.header.label.communicationMinisterielle', false, false, 'text-area')"
+                        ></div>
+                    </div>
+                </div>
+                <button
+                    type="button"
+                    onclick="afficherMasquerColonnesMesures($('.ACTION_HIDE_COLUMNS_MESURES'))"
+                    class="see-more__toggler base-btn base-btn--button base-btn--default base-btn--discret"
+                    th:aria-label="${hideColumns} ? #{pan.action.afficher.champs} : #{pan.action.masquer.champs}"
+                    aria-haspopup="true"
+                    th:aria-expanded="${not hideColumns}"
+                    th:data-label-more="#{pan.action.afficher.champs}"
+                    th:data-label-less="#{pan.action.masquer.champs}"
+                    th:text="${hideColumns} ? #{pan.action.afficher.champs} : #{pan.action.masquer.champs}"
+                >
+                    Afficher plus de champs...
+                </button>
+            </form>
+        </div>
+    </body>
+</html>

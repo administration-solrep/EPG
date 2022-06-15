@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="rechercheLibrePagination(resultForm, page, nbTotal)"
+            th:with="nbTotalPage = ${resultForm.getNbPage(nbTotal)}, pageIndex = ${resultForm.getPage()}"
+        >
+            <nav aria-label="pagination">
+                <ul class="pagination">
+                    <!-- Bouton précédent -->
+                    <li class="pagination__item pagination__item--previous-page">
+                        <th:block th:unless="${#strings.equals('1', #strings.toString(page))}">
+                            <a href="#" class="pagination__link link" onclick="goToPreviousResultSearchPage()">
+                                <span
+                                    aria-hidden="true"
+                                    class="pagination__link-icon pagination__link-icon--previous icon icon--arrow-left"
+                                ></span>
+                                <th:block th:text="#{recherche.libre.pagination.precedent}"></th:block>
+                            </a>
+                        </th:block>
+                    </li>
+
+                    <!-- Page 1 -->
+                    <div
+                        th:replace="fragments/components/recherchelibre/recherche-libre-pagination-page :: rechercheLibrePaginationPage(1, ${pageIndex})"
+                    ></div>
+
+                    <th:block th:if="${nbTotalPage > 1 && nbTotalPage <= 5}">
+                        <!-- Page 2 à 5 (si pas plus de 5 pages) -->
+                        <th:block th:each="index : ${#numbers.sequence(2, nbTotalPage)}">
+                            <div
+                                th:replace="fragments/components/recherchelibre/recherche-libre-pagination-page :: rechercheLibrePaginationPage(${index}, ${pageIndex})"
+                            ></div>
+                        </th:block>
+                    </th:block>
+
+                    <th:block th:if="${nbTotalPage > 5}">
+                        <!-- Page entre 1 et dernière -->
+                        <li th:if="${pageIndex > 3}" aria-hidden="true" class="pagination__item">
+                            <!-- Ellipse de début de pagination -->
+                            <span class="pagination__page-ellipsis"></span>
+                        </li>
+
+                        <th:block th:each="index : ${#numbers.sequence(pageIndex - 1, pageIndex + 1)}">
+                            <th:block th:unless="${index <= 1 || index >= nbTotalPage}">
+                                <div
+                                    th:replace="fragments/components/recherchelibre/recherche-libre-pagination-page :: rechercheLibrePaginationPage(${index}, ${pageIndex})"
+                                ></div>
+                            </th:block>
+                        </th:block>
+
+                        <li th:if="${pageIndex < nbTotalPage -2}" aria-hidden="true" class="pagination__item">
+                            <!-- Ellipse de fin de pagination -->
+                            <span class="pagination__page-ellipsis"></span>
+                        </li>
+                    </th:block>
+
+                    <!-- Dernière page -->
+                    <th:block th:if="${nbTotalPage > 5}">
+                        <div
+                            th:replace="fragments/components/recherchelibre/recherche-libre-pagination-page :: rechercheLibrePaginationPage(${nbTotalPage}, ${pageIndex})"
+                        ></div>
+                    </th:block>
+
+                    <!-- Bouton suivant -->
+                    <li class="pagination__item pagination__item--next-page">
+                        <th:block th:unless="${page == nbTotalPage}">
+                            <a href="#" class="pagination__link link" onclick="goToNextResultSearchPage()">
+                                <th:block th:text="#{recherche.libre.pagination.suivant}"></th:block>
+                                <span
+                                    aria-hidden="true"
+                                    class="pagination__link-icon pagination__link-icon--next icon icon--arrow-right"
+                                ></span>
+                            </a>
+                        </th:block>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>

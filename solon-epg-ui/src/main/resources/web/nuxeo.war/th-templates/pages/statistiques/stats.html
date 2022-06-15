@@ -1,0 +1,17 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page statistiques', title=#{statistique.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div class="page-reponses__table-heading m-b-6" style="margin-top: 0;">
+            <h1 class="base-title base-title--lvl-1" style="flex: 1;" th:text="#{statistique.title}">Statistiques</h1>
+        </div>
+        <th:block th:if="${utilisateurSGG}">
+            <div th:replace="fragments/table/tableStatsSGG :: tableStatsSGG"></div>
+        </th:block>
+        <div th:replace="fragments/table/tableStatsGlobale :: tableStatsGlobale"></div>
+    </main>
+</html>

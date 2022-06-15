@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div id="tables-gestion-listes" th:fragment="tables-gestion-listes()">
+            <div class="heading-complex m-b-6">
+                <div class="heading-complex__main">
+                    <h2 class="base-title base-title--lvl-2" th:text="#{suivi.gestionListes.listesSignature}">
+                        Listes de mise en signature
+                    </h2>
+                    <p class="heading-complex__subtitle base-subtitle">
+                        [[#{suivi.gestionListes.nb.listes(${#lists.size(listesSignature)})}]]
+                    </p>
+                </div>
+            </div>
+            <div class="flexible-table" th:unless="${#lists.isEmpty(listesSignature)}">
+                <div
+                    th:replace="fragments/table/table-gestion-listes :: table-gestion-listes(${listesSignature}, 'listesSignature')"
+                ></div>
+            </div>
+            <div class="heading-complex m-b-6">
+                <div class="heading-complex__main">
+                    <h2 class="base-title base-title--lvl-2" th:text="#{suivi.gestionListes.autresListes}">
+                        Autres listes
+                    </h2>
+                    <p class="heading-complex__subtitle base-subtitle">
+                        [[#{suivi.gestionListes.nb.listes(${#lists.size(autresListes)})}]]
+                    </p>
+                </div>
+            </div>
+            <div class="flexible-table" th:unless="${#lists.isEmpty(autresListes)}">
+                <div
+                    th:replace="fragments/table/table-gestion-listes :: table-gestion-listes(${autresListes},'autresListes')"
+                ></div>
+            </div>
+        </div>
+    </body>
+</html>

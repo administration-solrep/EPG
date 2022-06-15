@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div class="creationDossierClass" th:fragment="dossierCreationList">
+            <div class="accordion accordion--aside">
+                <div class="accordion__header js-toggle accordion__header--aside">
+                    <h2 class="accordion-title-lvl-2" th:text="#{epg.sidebar.dossier.creation.liste.title}"></h2>
+                    <button
+                        type="button"
+                        aria-controls="accordion__content__dossier-creation"
+                        aria-expanded="true"
+                        id="accordion__header__dossier-creation"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract-without-background"
+                        data-icon-closed="add-without-background"
+                        class="js-toggle accordion__header__button"
+                        th:data-title-opened="#{attr.data.title.opened(#{epg.sidebar.dossier.creation.liste.title})}"
+                        th:data-title-closed="#{attr.data.title.closed(#{epg.sidebar.dossier.creation.liste.title})}"
+                        th:title="#{attr.data.title.opened(#{epg.sidebar.dossier.creation.liste.title})}"
+                    >
+                        <span class="sr-only">[[#{epg.sidebar.dossier.creation.reduire.bloc}]]</span
+                        ><span
+                            aria-hidden="true"
+                            class="icon icon--substract-without-background bubble-icon bubble-icon--neutral accordion__icon accordion__icon--aside"
+                        ></span>
+                    </button>
+                </div>
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__dossier-creation"
+                    class="accordion__content accordion__content--aside accordion__content--is-opened"
+                >
+                    <nav aria-label="Accès dossier en cours de création" class="quick-access">
+                        <ul class="quick-access__list">
+                            <li class="quick-access__item" th:each="action : ${dossierCreationActions}">
+                                <div
+                                    th:replace="fragments/components/action-link :: action-link(${action},'quick-access\_\_link link','icon icon--arrow-right link\_\_icon link\_\_icon--prepend link\_\_icon--small')"
+                                ></div>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

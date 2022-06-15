@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="modal-success-create-list-signature-content">
+            <div class="interstitial__header">
+                <h1 th:if="${resultList != null}" class="interstitial__title" th:text="${resultList.titre}"></h1>
+                <h1
+                    th:unless="${resultList != null}"
+                    class="interstitial__title"
+                    th:text="#{outilSelection.action.create.list.signature.title.modal.supprimer}"
+                ></h1>
+                <button
+                    type="button"
+                    class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                >
+                    <span aria-hidden="true" class="icon icon--cross"></span
+                    ><span class="sr-only" th:text="#{validation.popup.close.label}"
+                        >Fermer la fenêtre de dialogue</span
+                    >
+                </button>
+            </div>
+            <div class="interstitial__content">
+                <div
+                    th:if="${messageError != null && not #strings.isEmpty(messageError)}"
+                    class="alert-modal alert--warning"
+                >
+                    <div role="alert" class="alerts--flex">
+                        <span
+                            aria-hidden="true"
+                            class="icon icon--information bubble-icon alert__icon alert__icon--warning"
+                        ></span>
+                        <span class="sr-only" th:text="#{corbeille.communication.alerte}">Alerte</span>
+                        <div>
+                            <p th:text="${messageError}">
+                                NOR des dossiers qui n''ont pas été ajouté car déjà présent dans une liste de mise en
+                                signature : ACOR2120755S
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <th:block th:if="${resultList != null}">
+                    <div
+                        th:replace="fragments/dossier/onglets/traitementpapier/table-consult-traitement-papier-liste :: table-consult-traitement-papier-liste(true)"
+                    ></div>
+                </th:block>
+                <th:block th:if="${resultList == null && messageError == null}">
+                    <p th:text="#{suivi.gestionListes.message.liste.supprimer}"></p>
+                </th:block>
+            </div>
+            <div class="interstitial__footer">
+                <button
+                    type="button"
+                    th:text="#{button.label.fermer}"
+                    class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                >
+                    fermer
+                </button>
+                <th:block th:if="${resultList != null}">
+                    <button
+                        type="button"
+                        id="btn-modal-suppr-from-liste"
+                        th:text="#{outilSelection.action.create.list.signature.modal.supprimer}"
+                        class="base-btn base-btn--button base-btn--default base-btn--default base-btn--center base-btn--secondary"
+                        onclick="doDeleteFromListSignature()"
+                    >
+                        Supprimer element sélectionné de la liste
+                    </button>
+                    <button
+                        type="button"
+                        id="btn-pursuivre"
+                        th:text="#{outilSelection.action.create.list.signature.modal.imprimer}"
+                        class="base-btn base-btn--button base-btn--default base-btn--center"
+                        onclick="doExportListeSignatureModal()"
+                    >
+                        Exporter en pdf
+                    </button>
+                </th:block>
+            </div>
+        </div>
+    </body>
+</html>

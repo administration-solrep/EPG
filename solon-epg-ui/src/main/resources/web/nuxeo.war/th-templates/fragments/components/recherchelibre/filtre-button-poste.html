@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="filtreButtonPoste(dto, typeCritere)">
+            <th:block th:if="${dto != null}">
+                <th:block th:each="entry : ${dto.entrySet()}">
+                    <button
+                        type="button"
+                        th:id="|btn-filter-poste-${entry.key}|"
+                        th:aria-label="#{recherche.libre.label.supprimer.filtre(${entry.value})}"
+                        class="search-tags__tag"
+                        onclick="removeFilter(this)"
+                        th:text="|${typeCritere} : ${entry.value}|"
+                    >
+                        [[${typeCritere}]] : [[${entry.value}]]
+                    </button>
+                </th:block>
+            </th:block>
+        </div>
+    </body>
+</html>

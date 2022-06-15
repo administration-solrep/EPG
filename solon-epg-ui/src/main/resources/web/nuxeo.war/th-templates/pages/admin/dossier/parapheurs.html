@@ -1,0 +1,51 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page administration', title=#{admin.parapheurs.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-dossier-parapheurs')"></div>
+
+        <h1 class="m-y-6 base-title base-title--lvl-1 base-title--is-underlined" th:text="#{admin.parapheurs.title}">
+            Parapheurs
+        </h1>
+        <div
+            class="flex flex-wrap justify-start items-end"
+            id="search-type-acte-parapheur"
+            role="group"
+            aria-labelledby="paraph_search_srtitle"
+        >
+            <span id="paraph_search_srtitle" class="sr-only" th:text="#{admin.parapheurs.repertoires.search.title}"
+                >Rechercher un type d'acte</span
+            >
+            <div class="grid__col--middle form-input">
+                <div
+                    th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(
+                        'epg.dossier.creation.type.acte.label', 
+                        'typeActe', 
+                        'typeActe', 
+                        'form.description.nocharlimit', 
+                        ${ {} }, 
+                        null, 
+                        null,
+                        @{/ajax/travail/suggestions},
+                        '0',
+                        'input',
+                        '',
+                        '',
+                        true,
+                        false,
+                        false)"
+                ></div>
+            </div>
+            <th:block
+                th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${editAction}, false, ${editAction.properties['classes']})"
+            ></th:block>
+        </div>
+        <div id="parapheursContent" class="m-t-4"></div>
+
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-dossier-parapheurs')"></div>
+    </main>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/suiviLibreLayout :: layout (template=~{::main},templateClass='', description='page application des lois', title=#{suiviLibre.suiviOrdonnances.titre})}"
+>
+    <main id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <h1
+            class="m-t-6 m-b-6 p-b-3 base-title base-title--lvl-1 base-title--is-underlined"
+            th:text="#{suiviLibre.suiviOrdonnances.titre}"
+        >
+            Suivi des ordonnances
+        </h1>
+        <h2 class="m-y-6 base-title base-title--lvl-2" th:text="#{suiviLibre.suiviOrdonnances.habilitations}">
+            Habilitations depuis la XIIIe législature
+        </h2>
+        <p>
+            <a
+                th:href="@{/suiviLibre/suiviOrdonnances/liste-habilitations}"
+                class="link"
+                th:text="#{suiviLibre.suiviOrdonnances.liste}"
+            >
+                Liste des habilitations depuis la XIIIe législature
+            </a>
+        </p>
+        <th:block th:replace="fragments/suiviLibre/applicationTexteMaitre :: applicationTexteMaitre"></th:block>
+
+        <th:block th:replace="fragments/suiviLibre/applicationMinisteres :: applicationMinisteres"></th:block>
+
+        <th:block
+            th:replace="fragments/suiviLibre/applicationDivers :: applicationDivers('ratifications', '3', ${extra.get('ratifications')})"
+        ></th:block>
+    </main>
+</html>

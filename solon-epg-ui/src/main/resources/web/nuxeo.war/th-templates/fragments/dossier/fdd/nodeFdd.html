@@ -1,0 +1,86 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="nodeFdd(item, actions, index, level)"
+            th:remove="tag"
+            th:with="actionsDrop=${level == 1 ? generaleActionsRoot : (item.editable ? actions : generaleActionsNoEdit)}"
+        >
+            <th:block th:if="${#lists.isEmpty(item.children)}">
+                <li
+                    class="tree-navigation__item"
+                    th:classappend="|tree-navigation\_\_item--lvl-${level}|"
+                    th:data-id="${item.id}"
+                >
+                    <span>
+                        <span class="tree-navigation__label" th:text="${item.name}"></span>
+                    </span>
+                    <span>
+                        <div
+                            th:replace="fragments/components/dropdown-action :: dropdown-action(
+                                   id='actions-'+${index},
+                                   listActions=${actionsDrop},
+                                   icon='icon--ellipsis',
+                                   hasindicator=false,
+                                   tooltip=null,
+                                   appendedClass='base-btn--icon-action-primary base-btn--transparent',
+                                   isDisabled=false,
+                                   divClass='',
+                                   dropClass='tree-navigation__button-ellipsis base-drop-down base-drop-down--icon-action-primary'
+                                   )"
+                        ></div>
+                    </span>
+                </li>
+            </th:block>
+            <th:block th:unless="${#lists.isEmpty(item.children)}">
+                <li
+                    class="tree-navigation__item tree-navigation__item--is-opened tree-navigation__item--has-toggler"
+                    th:classappend="|tree-navigation\_\_item--lvl-${level}|"
+                    th:data-id="${item.id}"
+                >
+                    <div class="tree-navigation__toggle-wrapper">
+                        <button
+                            th:aria-controls="|tree-navigation\_\_toggled\_\_${item.id}|"
+                            aria-expanded="true"
+                            th:id="|tree-navigation\_\_toggler\_\_${item.id}|"
+                            data-toggle="tree-navigation__list"
+                            data-icon-opened="minus"
+                            data-icon-closed="plus"
+                            class="tree-navigation__toggle js-toggle"
+                        >
+                            <span
+                                aria-hidden="true"
+                                class="tree-navigation__icon tree-navigation__icon--toggler tree-navigation__icon--opened icon icon--minus bubble-icon bubble-icon--squared bubble-icon--small"
+                            ></span
+                            ><span class="tree-navigation__text" th:text="${item.name}">Documentation jointe</span>
+                        </button>
+                        <div
+                            th:replace="fragments/components/dropdown-action :: dropdown-action(
+                            'actions-'+${index},
+                            ${actionsDrop},
+                            'icon--ellipsis',
+                            false,
+                            null,
+                            'base-btn--icon-action-primary base-btn--transparent',
+                            false,
+                            ''
+                            )"
+                        ></div>
+                    </div>
+                    <ul
+                        th:id="|tree-navigation\_\_toggled\_\_${item.id}|"
+                        class="tree-navigation__list tree-navigation__list--subtree tree-navigation__list--is-opened"
+                        aria-hidden="false"
+                    >
+                        <th:block th:each="child, idx : ${item.children}">
+                            <div
+                                th:replace="fragments/dossier/fdd/nodeFdd :: nodeFdd(${child}, ${actions}, ${index} + '_' + ${idx.index}, ${level+2})"
+                            ></div>
+                        </th:block>
+                    </ul>
+                </li>
+            </th:block>
+        </div>
+    </body>
+</html>

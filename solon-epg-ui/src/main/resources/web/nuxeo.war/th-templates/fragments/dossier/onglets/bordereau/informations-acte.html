@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="informationsActe(bordereauDto)" th:with="dto=${bordereauDto.informationsActe}">
+            <th:block th:unless="${bordereauDto.isEdit && !isNorAttribue}">
+                <div class="folder-detail">
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.statut},${dto.statutLibelle})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.type.acte},${dto.typeActeLibelle})"
+                            ></tr>
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.bordereau.nor}"
+                                ></td>
+                                <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                    <th:block
+                                        th:replace="fragments/components/idComponent :: id('consult_link-copy__link', ${dto.nor}, 'NOR', null, false, true)"
+                                    ></th:block>
+                                </td>
+                            </tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.titre.acte},${dto.titreActe},${bordereauDto.isCopy},'dos:titreActe')"
+                            ></tr>
+                            <th:block th:if="${dto.isVisibleCategorieActe}">
+                                <tr
+                                    th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.categorie.acte},${dto.categorieActeLibelle})"
+                                ></tr>
+                            </th:block>
+                            <th:block th:if="${dto.isVisiblePublicationRapport}">
+                                <tr
+                                    th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.publication.rapport.presentation},${dto.publicationRapportPresentation ? 'Oui' : 'Non'},${bordereauDto.isCopy},'dos:publicationRapportPresentation')"
+                                ></tr>
+                            </th:block>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.date.publication.souhaitee},${#calendars.format(dto.datePublicationSouhaitee,'dd/MM/yyyy')})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.date.signature},${#calendars.format(dto.dateSignature,'dd/MM/yyyy')},${bordereauDto.isCopy},'dos:dateSignature')"
+                            ></tr>
+                            <th:block th:if="${bordereauDto.acteVisibility['PARUTION']}">
+                                <tr
+                                    th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.date.publication},${#calendars.format(dto.datePublication,'dd/MM/yyyy')},${bordereauDto.isCopy},'dos:datePublication')"
+                                ></tr>
+                            </th:block>
+                            <tr class="folder-detail__table-line" th:if="${dto.isVisibleStatutArchivage}">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.bordereau.statut.archivage}"
+                                ></td>
+                                <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                    <th:block th:text="${dto.statutArchivageLibelle}"></th:block>
+                                    <a
+                                        class="link m-l-1"
+                                        th:if="${dto.idBordereauVersement}"
+                                        th:href="@{|/dossier/${idDossier}/telecharger?fileId=${dto.idBordereauVersement}|}"
+                                        target="_blank"
+                                        th:title="#{dossier.bordereau.versement.label}"
+                                        th:text="#{dossier.bordereau.versement.label}"
+                                    >
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <th:block th:if="${bordereauDto.isEdit && !isNorAttribue}">
+                <div role="group" aria-labelledby="accordion__header__epgBordereauInfosActe">
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.statut}, false, '', 'statut', 'statut', ${dto.statutLibelle}, true)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div class="form-input" th:with="simpleSelectClickFunction=changeTypeActe">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect('dossier.bordereau.type.acte', 'typeActe', '', ${typeActeOptions}, ${dto.typeActe}, '__${!dto.isEditableTypeActe}__', null)"
+                                ></div>
+                            </div>
+                            <input type="hidden" th:value="${dto.typeActe}" id="actualTypeActe" />
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.nor}, false, '', 'bordereauNor', 'bordereauNor', ${dto.nor}, true)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="form-input--full grid__col grid__col--full-width form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/textarea-input :: textArea('dossier.bordereau.titre.acte', 'titreActe', '', ${dto.titreActe}, false, 'required')"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div
+                            class="grid__col grid__col--middle form-select form-select--simple"
+                            th:if="${dto.isVisibleCategorieActe}"
+                        >
+                            <div class="form-input">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect('dossier.bordereau.categorie.acte', 'categorieActe', '', ${categorieActeOptions}, ${dto.categorieActe}, 'false', null)"
+                                ></div>
+                            </div>
+                        </div>
+                        <div class="grid__col grid__col--middle" th:if="${dto.isVisiblePublicationRapport}">
+                            <div class="form-optin">
+                                <th:block
+                                    th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('dossier.bordereau.publication.rapport.presentation', 'publicationRapportPresentation', ${dto.publicationRapportPresentation}, false)"
+                                ></th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="datePublicationSouhaitee"
+                                        id="datePublicationSouhaitee_label"
+                                        class="form-label"
+                                        th:text="#{dossier.bordereau.date.publication.souhaitee}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_datePublicationSouhaitee', 'datePublicationSouhaitee', 'datePublicationSouhaitee', false, ${#calendars.format(dto.datePublicationSouhaitee,'dd/MM/yyyy')}, false)"
+                            ></div>
+                            <div id="datePublicationSouhaitee_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                        </div>
+                        <div
+                            class="grid__col grid__col--middle form-input"
+                            th:with="additionalValidation=', date_inferior_to(min_date_signature)'"
+                        >
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="dateSignature"
+                                        id="dateSignature_label"
+                                        class="form-label"
+                                        th:text="#{dossier.bordereau.date.signature}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_dateSignature', 'dateSignature', 'dateSignature', false, ${#calendars.format(dto.dateSignature,'dd/MM/yyyy')}, ${!dto.isModifiableDateSignature})"
+                            ></div>
+                            <div id="dateSignature_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                            <input type="hidden" id="min_date_signature" value="01/01/1900" />
+                        </div>
+                    </div>
+                    <div class="grid__row p-t-3 p-b-3" th:if="${bordereauDto.acteVisibility['PARUTION']}">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="datePublication"
+                                        id="datePublication_label"
+                                        class="form-label"
+                                        th:text="#{dossier.bordereau.date.publication}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_datePublication', 'datePublication', 'datePublication', false, ${#calendars.format(dto.datePublication,'dd/MM/yyyy')}, true)"
+                            ></div>
+                            <div id="datePublication_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                        </div>
+                        <div
+                            class="grid__col grid__col--middle form-select form-select--simple"
+                            th:if="${dto.isVisibleStatutArchivage}"
+                        >
+                            <div class="form-input">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect('dossier.bordereau.statut.archivage', 'statutArchivage', '', ${statutArchivageOptions}, ${dto.statutArchivage}, 'true', null)"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

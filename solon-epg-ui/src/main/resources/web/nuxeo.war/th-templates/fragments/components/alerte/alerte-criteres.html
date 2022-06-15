@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="alert-criteres" th:remove="tag">
+            <th:block th:if="${critereForm != null}">
+                <input type="hidden" name="baseProduction" th:value="${critereForm.baseProduction}" />
+                <input type="hidden" name="baseArchivage" th:value="${critereForm.baseArchivage}" />
+                <input type="hidden" name="expressionExacte" th:value="${critereForm.expressionExacte}" />
+                <input type="hidden" name="derniereVersion" th:value="${critereForm.derniereVersion}" />
+                <input type="hidden" name="recherche" th:value="${critereForm.recherche}" />
+                <input type="hidden" name="posteId" th:value="${critereForm.posteId}" />
+                <input type="hidden" name="dateDebutCreation" th:value="${critereForm.dateDebutCreation}" />
+                <input type="hidden" name="dateFinCreation" th:value="${critereForm.dateFinCreation}" />
+                <input type="hidden" name="dateDebutSignature" th:value="${critereForm.dateDebutSignature}" />
+                <input type="hidden" name="dateFinSignature" th:value="${critereForm.dateFinSignature}" />
+                <input type="hidden" name="dateDebutPublication" th:value="${critereForm.dateDebutPublication}" />
+                <input type="hidden" name="dateFinPublication" th:value="${critereForm.dateFinPublication}" />
+                <input type="hidden" name="dateDebutPublicationJO" th:value="${critereForm.dateDebutPublicationJO}" />
+                <input type="hidden" name="dateFinPublicationJO" th:value="${critereForm.dateFinPublicationJO}" />
+                <th:block th:each="vecteurPublication : ${critereForm.vecteurPublication}">
+                    <input type="hidden" name="vecteurPublicationIds[]" th:value="${vecteurPublication.toJson}" />
+                </th:block>
+                <th:block th:each="typeActe : ${critereForm.typeActe}">
+                    <input type="hidden" name="typeActeIds[]" th:value="${typeActe.toJson}" />
+                </th:block>
+                <th:block th:each="categorieActe : ${critereForm.categorieActe}">
+                    <input type="hidden" name="categorieActeIds[]" th:value="${categorieActe.toJson}" />
+                </th:block>
+                <th:block th:each="statut : ${critereForm.statut}">
+                    <input type="hidden" name="statutIds[]" th:value="${statut.toJson}" />
+                </th:block>
+                <th:block th:each="ministereAttache : ${critereForm.ministereAttache}">
+                    <input type="hidden" name="ministereAttacheIds[]" th:value="${ministereAttache.toJson}" />
+                </th:block>
+                <th:block th:each="directionAttache : ${critereForm.directionAttache}">
+                    <input type="hidden" name="directionAttacheIds[]" th:value="${directionAttache.toJson}" />
+                </th:block>
+                <th:block th:each="statutArchivage : ${critereForm.statutArchivage}">
+                    <input type="hidden" name="statutArchivageIds[]" th:value="${statutArchivage.toJson}" />
+                </th:block>
+            </th:block>
+        </div>
+    </body>
+</html>

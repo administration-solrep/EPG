@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="parution(bordereauDto)" th:with="dto=${bordereauDto.parution}">
+            <th:block th:unless="${bordereauDto.isEdit && !isNorAttribue}">
+                <div class="folder-detail">
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.fourniture.epreuve},${#calendars.format(dto.dateFournitureEpreuve,'dd/MM/yyyy')},${bordereauDto.isCopy},'dos:pourFournitureEpreuve')"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.vecteur.publication},${#strings.listJoin(dto.vecteurPublicationLibelle, ', ')},${bordereauDto.isCopy},'dos:vecteurPublication')"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.extrait.publication},${dto.integraleOuExtraitPublicationLibelle})"
+                            ></tr>
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.bordereau.publication.conjointe}"
+                                ></td>
+                                <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                                    <th:block th:each="publicationConjointe,iterStat : ${dto.mapPublicationConjointes}">
+                                        <th:block
+                                            th:unless="${iterStat.first}"
+                                            th:text="#{dossier.bordereau.parution.publicationconjointe.separator}"
+                                        >
+                                        </th:block>
+                                        <a
+                                            th:href="@{|/dossier/${publicationConjointe.value}/document#main_content|}"
+                                            class="link-copy__link link"
+                                            th:text="${publicationConjointe.key}"
+                                            target="_blank"
+                                            th:unless="${#strings.isEmpty(publicationConjointe.value)}"
+                                            >NOR
+                                        </a>
+                                        <th:block
+                                            th:if="${#strings.isEmpty(publicationConjointe.value)}"
+                                            th:text="${publicationConjointe.key}"
+                                        ></th:block>
+                                    </th:block>
+                                </td>
+                                <th:block th:if="${bordereauDto.isCopy} == true">
+                                    <td class="folder-detail__table-cell">
+                                        <div class="form-choice-input ds-checkbox-right m-r-20">
+                                            <input
+                                                id="select-field-publicationsConjointes"
+                                                type="checkbox"
+                                                aria-hidden="true"
+                                                data-name="dos:publicationsConjointes"
+                                                onclick="selectBordereauCheckbox(this)"
+                                                class="form-choice-input__input js-custom-table-line-check"
+                                                autocomplete="off"
+                                            />
+                                            <label
+                                                for="select-field-publicationsConjointes"
+                                                th:title="#{dossier.similaire.bordereau.liste.champ.select.one(#{dossier.bordereau.publication.conjointe})}"
+                                                class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                                            >
+                                                <span th:text="#{dossier.similaire.bordereau.selectionner}"
+                                                    >Sélectionner le champ</span
+                                                >
+                                            </label>
+                                        </div>
+                                    </td>
+                                </th:block>
+                            </tr>
+                            <th:block th:if="${bordereauDto.acteVisibility['DecretNumerote']}">
+                                <tr
+                                    th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.parution.decret.numerote},${dto.decretNumerote ? 'Oui' : 'Non'},${bordereauDto.isCopy},'dos:decretNumerote')"
+                                ></tr>
+                            </th:block>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.mode.parution},${dto.modeParutionLibelle},${bordereauDto.isCopy},'retdila:modeParution')"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.delai.publication},${dto.delaiPublicationLibelle},${bordereauDto.isCopy},'dos:delaiPublication')"
+                            ></tr>
+                            <th:block th:if="${dto.isDatePreciseeVisible}">
+                                <tr
+                                    th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.publication.date.precisee.sgg},${#calendars.format(dto.datePreciseePublication,'dd/MM/yyyy')},${bordereauDto.isCopy},'dos:datePreciseePublication')"
+                                ></tr>
+                            </th:block>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.texte},${dto.numeroTexte})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.texte.jo},${dto.numeroTexteJO})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.page.jo},${dto.pageJO})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.titre.officiel},${dto.titreOfficiel})"
+                            ></tr>
+                            <tr
+                                th:replace="fragments/components/folder-detail-checkbox-line :: folderDetailCheckBoxLine(#{dossier.bordereau.zone.commentaire.sgg.dila},${dto.zoneCommentaireSggDila},${bordereauDto.isCopy},'dos:zoneComSggDila')"
+                            ></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <th:block th:if="${bordereauDto.isEdit && !isNorAttribue}">
+                <div role="group" aria-labelledby="accordion__header__epgBordereauParution">
+                    <div class="grid__row p-y-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="dateFournitureEpreuve"
+                                        id="dateFournitureEpreuve_label"
+                                        class="form-label"
+                                        th:text="#{dossier.bordereau.fourniture.epreuve}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_dateFournitureEpreuve', 'dateFournitureEpreuve', 'dateFournitureEpreuve', false, ${#calendars.format(dto.dateFournitureEpreuve,'dd/MM/yyyy')}, false)"
+                            ></div>
+                            <div id="dateFournitureEpreuvee_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <th:block
+                                th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect('dossier.bordereau.vecteur.publication', 'vecteurPublication', 'vecteurPublication[]', 'form.description.nocharlimit', ${vecteurPublicationOptions}, ${dto.vecteurPublication}, 'false', '', '0', '', '', '', false, true, false)"
+                            ></th:block>
+                        </div>
+                    </div>
+                    <div class="grid__row p-y-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-select :: simpleSelect('dossier.bordereau.extrait.publication', 'integraleOuExtraitPublication', '', ${integraleOuExtraitOptions}, ${dto.integraleOuExtraitPublication}, 'false', null)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.publication.conjointe}, false, '', 'publicationsConjointes', 'publicationsConjointes', ${#strings.listJoin(dto.publicationsConjointes, ', ')}, false)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-y-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-select :: simpleSelect('dossier.bordereau.mode.parution', 'modeParution', '', ${modeParutionOptions}, ${dto.modeParution}, 'false', null)"
+                            ></div>
+                        </div>
+                        <div
+                            class="grid__col grid__col--middle form-input"
+                            th:if="${bordereauDto.acteVisibility['DecretNumerote']}"
+                        >
+                            <div class="form-optin">
+                                <th:block
+                                    th:replace="fragments/components/formblocks/input-oui-non :: ouiNon('dossier.bordereau.parution.decret.numerote', 'decretNumerote', ${dto.decretNumerote}, false)"
+                                ></th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-y-3">
+                        <div
+                            class="grid__col grid__col--middle form-input"
+                            th:with="simpleSelectClickFunction='bordereauShowHiddenDelay'"
+                        >
+                            <div
+                                th:replace="fragments/components/formblocks/simple-select :: simpleSelect('dossier.bordereau.delai.publication', 'delaiPublication', '', ${delaiPublicationOptions}, ${dto.delaiPublication}, 'false', 'selection.valeur.vide.label')"
+                            ></div>
+                        </div>
+                        <div
+                            id="datePreciseeContent"
+                            th:classappend=" ${dto.isDatePreciseeVisible ? 'visible': 'invisible'}"
+                            class="grid__col grid__col--middle form-input"
+                        >
+                            <p>
+                                [[${simpleSelectClickFunction}]]
+                            </p>
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="datePreciseePublication"
+                                        id="datePreciseePublication_label"
+                                        class="form-label"
+                                    >
+                                        [[#{dossier.bordereau.publication.date.precisee.sgg}]]
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"
+                                            >(requis)</span
+                                        ></label
+                                    >
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker('datepicker_datePreciseePublication', 'datePreciseePublication', 'datePreciseePublication', false, ${#calendars.format(dto.datePreciseePublication,'dd/MM/yyyy')}, false)"
+                            ></div>
+                            <div id="datePreciseePublication_description" class="form-input__footer">
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-y-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.texte}, false, '', 'numeroTexte', 'numeroTexte', ${dto.numeroTexte}, true)"
+                            ></div>
+                        </div>
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.texte.jo}, false, '', 'numeroTexteJO', 'numeroTexteJO', ${dto.numeroTexteJO}, true)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-y-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.page.jo}, false, '', 'pageJO', 'pageJO', ${dto.pageJO}, true)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-y-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/textarea-input :: textArea('dossier.bordereau.titre.officiel', 'titreOfficiel', '', ${dto.titreOfficiel}, true, '')"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row p-y-3">
+                        <div class="grid__col grid__col--middle form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/textarea-input :: textArea('dossier.bordereau.zone.commentaire.sgg.dila', 'zoneCommentaireSggDila', '', ${dto.zoneCommentaireSggDila}, ${!dto.isModifiableZoneComSggDila}, '')"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

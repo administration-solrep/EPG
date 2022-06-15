@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="publication-ministerielle-form">
+            <form id="publication-ministerielle-form">
+                <div role="group" aria-labelledby="form_add_bo_title">
+                    <div class="page-layout__content--dark m-y-6 p-a-5">
+                        <h3
+                            class="m-b-6 base-title base-title--lvl-3"
+                            id="form_add_bo_title"
+                            th:text="#{admin.publication.ministerielle.ajouter}"
+                        >
+                            Ajouter une publication ministérielle
+                        </h3>
+                        <div class="grid__row">
+                            <!-- NOR -->
+                            <div class="page-migration__autocomplete-wrap grid__col grid__col--middle">
+                                <div
+                                    th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete(
+                                    label='admin.publication.ministerielle.nor', 
+                                    labelRequired=true, 
+                                    myID='idMinistere',
+                                    myName='idMinistere', 
+                                    typeSelection='MIN', 
+                                    idSelection=null,
+                                    activatePosteFilter=false, 
+                                    isMulti=false, 
+                                    listItems=null,
+                                    disabled=false)"
+                                ></div>
+                            </div>
+
+                            <!-- Intitulé de la publication ministérielle -->
+                            <div class="grid__col grid__col--middle">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                        #{admin.publication.ministerielle.intitule}, 
+                                        true, 
+                                        null, 
+                                        'intitulePublication', 
+                                        'intitulePublication', 
+                                        null, 
+                                        false)"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-t-6 m-b-6 flex flex-row justify-end">
+                        <input
+                            id="ajouter-publication-ministerielle"
+                            type="button"
+                            class="base-btn base-btn--button base-btn--default"
+                            th:value="#{admin.publication.ministerielle.ajouter}"
+                            onclick="ajouterPublicationMinisterielle()"
+                        />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

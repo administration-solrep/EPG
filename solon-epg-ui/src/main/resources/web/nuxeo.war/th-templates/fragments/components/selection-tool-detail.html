@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="selection-tool-detail">
+            <div class="selection-tool" id="selection-tool">
+                <div class="selection-tool__folder-list">
+                    <div
+                        class="folder-selected selection-tool__folder-selected"
+                        th:each="item : ${selectionToolItems}"
+                        th:data-id="${item.id}"
+                    >
+                        <th:block th:if="${selectionToolType.name == 'DOSSIER'}">
+                            <th:block th:if="${#lists.size(item.caseLinkIdsLabels) > 1}">
+                                <div class="link-copy folder-selected__link">
+                                    <div
+                                        th:replace="fragments/components/textualDropDown :: dropdown (${item.label}, ${item.id} , ${item.caseLinkIdsLabels})"
+                                    ></div>
+                                    <th:block
+                                        th:replace="fragments/components/copy-nor-button :: copy-nor-button(|selection-tool_link-copy__link_${item.label}|, 'numéro', false)"
+                                    ></th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:unless="${#lists.size(item.caseLinkIdsLabels) > 1}">
+                                <th:block
+                                    th:replace="fragments/components/idComponent :: id('selection-tool_link-copy__link', ${item.label}, 'numéro', @{|/dossier/${item.id}/document#main_content|}, false, false)"
+                                ></th:block>
+                            </th:block>
+                        </th:block>
+                        <th:block th:if="${selectionToolType.name == 'MODELE'}">
+                            <a
+                                th:href="@{|/recherche/fdr/modele/modification?id=${item.id}#main_content|}"
+                                class="link"
+                                th:text="${item.label}"
+                                >Modele label</a
+                            >
+                        </th:block>
+                        <button
+                            type="button"
+                            class="js-folder-selected-action folder-selected__button base-btn base-btn--button base-btn--default base-btn--icon-action-bg base-btn--center base-btn--rounded"
+                            th:data-tippy-content="#{menu.outilSelection.suppression.dossier(${item.label})}"
+                            th:attr="onclick=|doDeleteElement('${item.id}')|"
+                        >
+                            <span aria-hidden="true" class="icon icon--cross-bold"></span>
+                            <span class="sr-only" th:text="#{menu.outilSelection.supression.dossier(${item.label})}">
+                                Supprimer le dossier de la sélection
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="selection-tool__action-list">
+                    <th:block th:with="notIconBig=true" th:each="action : ${selectionToolActions}">
+                        <button
+                            th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, 'selection-tool__action-button base-btn--full base-btn--with-icon base-btn--with-icon-alt')"
+                        ></button>
+                    </th:block>
+                </div>
+            </div>
+        </th:block>
+    </body>
+</html>

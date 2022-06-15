@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="vecteurs-publication-modal" class="interstitial-overlay">
+            <div id="vecteurs-publication-modal" class="interstitial-overlay__content">
+                <div role="dialog" aria-labelledby="dialogTitle-vecteurs-publication-modal" class="interstitial">
+                    <div class="interstitial__header">
+                        <h3 id="dialogTitle-vecteurs-publication-modal" class="interstitial__title"></h3>
+                        <button
+                            type="button"
+                            class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                        >
+                            <span aria-hidden="true" class="icon icon--cross"></span>
+                            <span class="sr-only" th:text="#{validation.popup.close.label}"></span>
+                        </button>
+                    </div>
+                    <div class="interstitial__content">
+                        <form id="vecteurs-publication-modal-form">
+                            <div class="m-b-4">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                        #{admin.vecteur.publication.jo}, 
+                                        true, 
+                                        null, 
+                                        'vecteurPublicationJOModal', 
+                                        'vecteurPublicationJOModal', 
+                                        null, 
+                                        false)"
+                                ></div>
+                            </div>
+                            <div class="m-b-4">
+                                <div class="form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                for="dateDebutModal"
+                                                id="dateDebutModal_label"
+                                                class="form-label"
+                                                th:text="#{admin.vecteur.publication.date.debut}"
+                                            ></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                            'datepicker_dateDebut', 
+                                            'dateDebutModal', 
+                                            'dateDebutModal', 
+                                            false, 
+                                            null, 
+                                            false)"
+                                    ></div>
+                                    <div id="dateDebut_description" class="form-input__footer"></div>
+                                </div>
+                            </div>
+                            <div class="m-b-4">
+                                <div class="form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                for="dateFinModal"
+                                                id="dateFinModal_label"
+                                                class="form-label"
+                                                th:text="#{admin.vecteur.publication.date.fin}"
+                                            ></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                            'datepicker_dateFin', 
+                                            'dateFinModal', 
+                                            'dateFinModal', 
+                                            false, 
+                                            null, 
+                                            false)"
+                                    ></div>
+                                    <div id="dateFin_description" class="form-input__footer"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="interstitial__footer">
+                        <button
+                            type="button"
+                            class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                            th:text="#{button.label.cancel}"
+                        >
+                            Annuler</button
+                        ><button
+                            type="button"
+                            class="base-btn base-btn--button base-btn--default base-btn--center"
+                            th:text="#{button.label.save}"
+                            th:id="btn-confirm-vecteurs-publication-modal"
+                        >
+                            Enregistrer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

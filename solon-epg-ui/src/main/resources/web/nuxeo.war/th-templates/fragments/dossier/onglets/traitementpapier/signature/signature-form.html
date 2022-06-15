@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="signatureForm(dto, isVisible)">
+            <!-- mode Consulation -->
+            <th:block th:unless="${isEditable}">
+                <table role="presentation" class="folder-detail__table">
+                    <tbody>
+                        <!-- Chemin de croix -->
+                        <tr class="folder-detail__table-line">
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                th:text="#{dossier.traitement.papier.signature.chemin.croix}"
+                            ></td>
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                th:text="${dto.cheminDeCroix ? 'Oui' : 'Non'}"
+                            ></td>
+                        </tr>
+                        <!-- SGG -->
+                        <tr class="folder-detail__table-line">
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                th:text="#{dossier.traitement.papier.signature.sgg}"
+                            ></td>
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                th:text="${dto.signatureDestinataireSGGValue != null ? dto.signatureDestinataireSGGValue.value : null}"
+                            ></td>
+                        </tr>
+                        <!-- SGG -->
+                        <tr class="folder-detail__table-line">
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                th:text="#{dossier.traitement.papier.signature.cabinet.pm}"
+                            ></td>
+                            <td
+                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                th:text="${dto.signatureDestinataireCPMValue != null ? dto.signatureDestinataireCPMValue.value : null}"
+                            ></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </th:block>
+            <!-- mode Création -->
+            <th:block th:if="${isEditable}">
+                <form id="signature-form">
+                    <!-- Chemin de croix -->
+                    <div class="grid__row">
+                        <div class="grid__col relative">
+                            <div class="form-choice-input">
+                                <input
+                                    type="checkbox"
+                                    id="cheminCroix"
+                                    name="cheminCroix"
+                                    class="form-choice-input__input"
+                                    th:checked="${dto.cheminDeCroix}"
+                                    autocomplete="off"
+                                />
+                                <label
+                                    for="cheminCroix"
+                                    id="cheminCroix_label"
+                                    class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                                    th:text="#{dossier.traitement.papier.signature.chemin.croix}"
+                                >
+                                    Chemin de croix
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <th:block th:if="${isVisible}">
+                        <!-- SGG -->
+                        <div class="grid__row">
+                            <div class="grid__col m-t-6 form-select form-select--simple">
+                                <th:block
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+                                        'dossier.traitement.papier.signature.sgg', 
+                                        'sgg', 
+                                        '', 
+                                        ${lstSGG}, 
+                                        ${dto.signatureDestinataireSGG}, 
+                                        'false', 
+                                        'empty.select.input.label')"
+                                >
+                                </th:block>
+                            </div>
+                        </div>
+
+                        <!-- Cabinet du Premier ministre -->
+                        <div class="grid__row">
+                            <div class="grid__col m-y-6 form-select form-select--simple">
+                                <th:block
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+                                        'dossier.traitement.papier.signature.cabinet.pm', 
+                                        'cabinetPM', 
+                                        '', 
+                                        ${lstCabinetPM}, 
+                                        ${dto.signatureDestinataireCPM}, 
+                                        'false', 
+                                        'empty.select.input.label')"
+                                >
+                                </th:block>
+                            </div>
+                        </div>
+
+                        <!-- Bouton Éditer le chemin de croix -->
+                        <div class="flex justify-end">
+                            <input
+                                id="editer-chemin-croix-button"
+                                type="button"
+                                class="base-btn base-btn--button base-btn--default"
+                                th:value="#{dossier.traitement.papier.signature.editer.chemin.croix}"
+                                onclick="editerCheminCroix()"
+                            />
+                        </div>
+                    </th:block>
+                </form>
+            </th:block>
+        </div>
+    </body>
+</html>

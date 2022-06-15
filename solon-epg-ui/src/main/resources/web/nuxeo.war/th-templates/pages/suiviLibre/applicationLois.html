@@ -1,0 +1,23 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/suiviLibreLayout :: layout (template=~{::main},templateClass='', description='page application des lois', title=#{suiviLibre.__${typeApplication}__.titre})}"
+>
+    <main id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <h1
+            class="m-y-6 p-b-3 base-title base-title--lvl-1 base-title--is-underlined"
+            th:text="#{suiviLibre.__${typeApplication}__.titre}"
+        >
+            Application des lois
+        </h1>
+        <div
+            th:replace="fragments/components/formblocks/input-optin ::optin(|suiviLibre.__${typeApplication}__.optin.titre|, 'legislature', 'legislature', ${options}, ${value}, false, 'updateLegislature(this)')"
+        ></div>
+        <div id="resultatLegislature">
+            <div th:replace="fragments/suiviLibre/applicationLegislature :: applicationLegislature"></div>
+        </div>
+    </main>
+</html>

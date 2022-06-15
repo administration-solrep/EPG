@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.dila.ss</groupId>
+		<artifactId>socle-solrep-parent</artifactId>
+		<version>4.0.17</version>
+
+	</parent>
+
+	<groupId>fr.dila.solonepg</groupId>
+	<artifactId>solon-epg-parent</artifactId>
+	<name>SOLON EPG parent</name>
+	<packaging>pom</packaging>
+	<version>4.0.2-1</version>
+
+	<properties>
+		<fr.dila.solonepg.version>4.0.2-1</fr.dila.solonepg.version>
+		<fr.dila.ss.version>4.0.17</fr.dila.ss.version>
+		<fr.dila.st.version>4.0.17</fr.dila.st.version>
+		<fr.dila.solonepg.odfdom.version>0.8.7</fr.dila.solonepg.odfdom.version>
+		<org.apache.lucene>8.9.0</org.apache.lucene>
+        <elasticsearch.version>7.15.1</elasticsearch.version>
+		<!-- sonar properties -->
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.surefire.reportsPath>${basedir}/target/surefire-reports</sonar.surefire.reportsPath>
+		<sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
+		<sonar.cobertura.reportsPath>${basedir}/target/site/cobertura/coverage.xml</sonar.cobertura.reportsPath>
+	</properties>
+
+	<modules>
+		<module>solon-epg-api</module>
+		<module>solon-epg-core</module>
+		<module>solon-epg-webengine</module>
+		<module>solon-mgpp-api</module>
+		<module>solon-mgpp-core</module>
+		<module>solon-mgpp-webengine</module>
+		<module>solon-epg-ui</module>
+		<module>solon-epg-distribution</module>
+		<module>solon-epg-elastic</module>
+		<module>solon-epg-adamant</module>
+		<module>solon-ng-edit</module>
+
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Dépendances à SOLON EPG -->
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-api</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-core</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-core</artifactId>
+				<type>test-jar</type>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-webengine</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-adamant</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+
+
+			<!-- Dépendances à SOLON MGPP -->
+			<dependency>
+				<groupId>fr.dila.solonmgpp</groupId>
+				<artifactId>solon-mgpp-api</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonmgpp</groupId>
+				<artifactId>solon-mgpp-core</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonmgpp</groupId>
+				<artifactId>solon-mgpp-webengine</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-ui</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+
+
+			<!-- Dépendances à SOLON EPG ELASTIC -->
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-elastic-batch</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-elastic-bundle</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-elastic-client</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-elastic-indexing</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-elastic-model</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-epg-elastic-persistence</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>fr.dila.solonepg</groupId>
+				<artifactId>solon-ng-edit</artifactId>
+				<version>${fr.dila.solonepg.version}</version>
+			</dependency>
+
+			<!-- Dépendances externes -->
+			<dependency>
+				<groupId>org.odftoolkit</groupId>
+				<artifactId>odfdom-java</artifactId>
+				<version>${fr.dila.solonepg.odfdom.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>fr.dila.solon</groupId>
+				<artifactId>solon2ng-birt-models-epg</artifactId>
+				<version>${solon2ng.birt.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.elasticsearch</groupId>
+				<artifactId>elasticsearch</artifactId>
+				<version>${elasticsearch.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.elasticsearch</groupId>
+						<artifactId>jna</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.elasticsearch.client</groupId>
+				<artifactId>elasticsearch-rest-client</artifactId>
+				<version>${elasticsearch.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.elasticsearch.client</groupId>
+				<artifactId>elasticsearch-rest-high-level-client</artifactId>
+				<version>${elasticsearch.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>${org.apache.lucene}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-queries</artifactId>
+				<version>${org.apache.lucene}</version>
+			</dependency>
+
+			<!-- Attention : Ne pas modifier la version powermock ! -->
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-junit4</artifactId>
+				<version>1.6.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito</artifactId>
+				<version>1.6.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-junit4-rule-agent</artifactId>
+				<version>1.6.1</version>
+				<scope>test</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.nuxeo.build</groupId>
+					<artifactId>ant-assembly-maven-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.8.5</version>
+					<executions>
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+						<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+						<!-- Sets the path to the file which contains the execution data. -->
+						<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+						<!-- Sets the name of the property containing the settings CoCo execution
+							due to missing execution data file. for JaCoCo runtime agent. -->
+						<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+						<goal>report</goal>
+						</goals>
+						<configuration>
+						<!-- Sets the path to the file which contains the execution data. -->
+						<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+						<!-- Sets the output directory for the code coverage report. -->
+						<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
+                            <!-- Sets the name of the property containing the settings for JaCoCo
+                                runtime agent. -->
+                            <propertyName>failsafeArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <!-- Ensures that the code coverage report for integration tests after
+                        integration tests have been run. -->
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
+                            <!-- Sets the output directory for the code coverage report. -->
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+                        </configuration>
+                    </execution>
+					<execution>
+						<id>create-merged-report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
+					</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<!-- Sets the VM argument line used when unit tests are run. -->
+						<argLine>${surefireArgLine} -noverify </argLine>
+						<systemPropertyVariables>
+			                <user.timezone>Europe/Paris</user.timezone>
+			            </systemPropertyVariables>
+			            <excludes>
+	                        <exclude>**/*IntegrationTest.java</exclude>
+	                        <exclude>**/*IT.java</exclude>
+	                    </excludes>
+					</configuration>
+				</plugin>
+				<plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-failsafe-plugin</artifactId>
+	                <executions>
+	                    <!-- Ensures that both integration-test and verify goals of the Failsafe
+	                        Maven plugin are executed. -->
+	                    <execution>
+	                        <id>integration-tests</id>
+	                        <goals>
+	                            <goal>integration-test</goal>
+	                            <goal>verify</goal>
+	                        </goals>
+	                        <configuration>
+	                            <!-- Sets the VM argument line used when integration tests are run. -->
+	                            <argLine>${failsafeArgLine} -noverify </argLine>
+	                            <!-- Skips integration tests if the value of skip.integration.tests
+	                                property is true -->
+	                            <skipTests>${skip.integration.tests}</skipTests>
+	                        </configuration>
+	                    </execution>
+	                </executions>
+	            </plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings
+					only. It has no influence on the Maven build itself. -->
+<!--
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId></groupId>
+										<artifactId></artifactId>
+										<versionRange>1.0</versionRange>
+										<goals>
+											<goal></goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-nuxeo-plugin
+										</artifactId>
+										<versionRange>[1.0.14,)</versionRange>
+										<goals>
+											<goal>eclipse-version</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.jvnet.maven.incrementalbuild
+										</groupId>
+										<artifactId>
+											incremental-build-plugin
+										</artifactId>
+										<versionRange>[1.3,)</versionRange>
+										<goals>
+											<goal>incremental-build</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.myfaces.tobago
+										</groupId>
+										<artifactId>
+											maven-apt-plugin
+										</artifactId>
+										<versionRange>[1.0.25,)</versionRange>
+										<goals>
+											<goal>execute</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+-->
+			</plugins>
+		</pluginManagement>
+		<plugins>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.codehaus.mojo</groupId> -->
+<!-- 				<artifactId>cobertura-maven-plugin</artifactId> -->
+<!-- 				configuration dans plugins socle_transverse -->
+<!-- 			</plugin> -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>com.qualinsight.mojo.cobertura</groupId> -->
+<!-- 				<artifactId>qualinsight-mojo-cobertura-core</artifactId> -->
+<!-- 				<version>1.0.5</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>instrument-ut</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>instrument-ut</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>instrument-it</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>instrument-it</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>report-ut-coverage</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>report-ut-coverage</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>report-it-coverage</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>report-it-coverage</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>report-overall-coverage</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>report-overall-coverage</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
+		</plugins>
+	</build>
+
+  <distributionManagement>
+    <repository>
+      <id>releaseRepository</id>
+      <name>releaseRepository</name>
+      <url>${repository.release.url}</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshotRepository</id>
+      <name>snapshotRepository</name>
+      <url>${repository.snapshot.url}</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>

@@ -1,0 +1,278 @@
+<#escape x as x?xml>
+<?xml version="1.0"?>
+<component name="default-repository-config">
+  <extension target="org.nuxeo.ecm.core.blob.BlobManager" point="configuration">
+    <blobprovider name="default">
+      <class>${nuxeo.core.binarymanager}</class>
+      <property name="path">${repository.binary.store}</property>
+      <property name="key">${nuxeo.core.binarymanager_key}</property>
+    </blobprovider>
+  </extension>
+
+  <extension target="org.nuxeo.ecm.core.storage.sql.RepositoryService"
+    point="repository">
+    <repository name="default" label="label.default.repository">
+      <pool minPoolSize="${nuxeo.vcs["min-pool-size"]}" maxPoolSize="${nuxeo.vcs["max-pool-size"]}"
+        blockingTimeoutMillis="${nuxeo.vcs["blocking-timeout-millis"]}"
+        idleTimeoutMinutes="${nuxeo.vcs["idle-timeout-minutes"]}"
+        activeTimeoutMinutes="${nuxeo.vcs["active-timeout-minutes"]}" />
+      <clustering id="${repository.clustering.id}" enabled="${repository.clustering.enabled}" delay="${repository.clustering.delay}" />
+      <clusterInvalidatorClass>org.nuxeo.ecm.core.storage.sql.VCSPubSubInvalidator</clusterInvalidatorClass>
+      <noDDL>${nuxeo.vcs.noddl}</noDDL>
+      <ddlMode>${nuxeo.vcs.ddlmode}</ddlMode>
+      <aclOptimizations enabled="${nuxeo.vcs.optimizations.acl.enabled}" readAclMaxSize="${nuxeo.vcs.optimizations.acl.maxsize}"/>
+      <pathOptimizations enabled="${nuxeo.vcs.optimizations.path.enabled}"/>
+      <proxies enabled="false"/>
+      <idType>${nuxeo.vcs.idtype}</idType>
+      <changeTokenEnabled>${nuxeo.changetoken.enabled}</changeTokenEnabled>
+      <indexing>
+<#if "${nuxeo.db.type}" == "oracle">
+        <!-- For oracle -->
+		<excludedTypes>
+			<type>AdministrativeStatus</type>
+			<type>BibliothequeRequetesRoot</type>
+			<type>DelegationRoot</type>
+			<type>FondDeDossierRepertoire</type>
+			<type>AdministrativeStatusContainer</type>
+			<type>BirtReport</type>
+			<type>FavorisDossierRoot</type>
+			<type>FeuilleRouteModelFolder</type>
+			<type>QuestionsConnexesRoot</type>
+			<type>SmartFolder</type>
+			<type>Workspace</type>
+			<type>content</type>
+			<type>CaseRoot</type>
+			<type>NaiadFeuilleRouteInstancesRoot</type>
+			<type>Parapheur</type>
+			<type>FavorisIndexation</type>
+			<type>AdminWorkspace</type>
+			<type>BirtReportModel</type>
+			<type>Domain</type>
+			<type>FondDeDossier</type>
+			<type>QuestionConnexe</type>
+			<type>QuestionConnexeAA</type>
+			<type>AllotissementsRoot</type>
+			<type>DossierLink</type>
+			<type>NaiadFeuilleRoute</type>
+			<type>Folder</type>
+			<type>ParametreFolder</type>
+			<type>ParametreESFolder</type>
+			<type>HiddenFolder</type>
+			<type>ManagementRoot</type>
+			<type>WorkspaceRoot</type>
+			<type>BirtReportModelsRoot</type>
+			<type>Parametre</type>
+			<type>NaiadFeuilleRouteStep</type>
+			<type>UserWorkspacesRoot</type>
+			<type>JetonMaitreFolder</type>
+			<type>Comment</type>
+			<type>ReponsesMailbox</type>
+			<type>StepFolder</type>
+			<type>etatQuestion#anonymousType</type>
+			<type>JetonDocFolder</type>
+			<type>MailboxRoot</type>
+			<type>Root</type>
+			<type>parameter</type>
+			<type>FavorisIndexationRoot</type>
+			<type>RequeteRoot</type>
+			<type>VerrouOrganigrammeFolder</type>
+			<type>JetonMaitre</type>
+			<type>ParapheurFolder</type>
+			<type>SolonEpgMailbox</type>
+			<type>AlertRoot</type>
+			<type>ProfilUtilisateur</type>
+			<type>EspaceRechercheRoot</type>
+			<type>DossiersSignalesRoot</type>
+			<type>InfoUtilisateurConnection</type>
+			<type>ModeleParapheur</type>
+			<type>ModeleFondDeDossier</type>
+			<type>BirtResultatFichier</type>
+			<type>IndexationRubrique</type>
+			<type>JetonDoc</type>
+			<type>ResultatConsulte</type>
+			<type>TableauDynamiqueRoot</type>
+			<type>InfoUtilisateurConnectionRoot</type>
+			<type>TableReference</type>
+			<type>TexteSignaleRoot</type>
+			<type>TexteSignale</type>
+			<type>ParapheurModelRoot</type>
+			<type>WsSpeRoot</type>
+			<type>EtatApplication</type>
+			<type>FondDossierModelRoot</type>
+			<type>IndexationRoot</type>
+			<type>ListeTraitementPapierRoot</type>
+			<type>BulletinOfficielRoot</type>
+			<type>TableReferenceRoot</type>
+			<type>ActiviteNormativeRoot</type>
+			<type>ActiviteNormative</type>
+			<type>ParametrageApplication</type>
+			<type>BirtResultatRoot</type>
+			<type>FicheDossierRoot</type>
+			<type>EcheancierPromulgationRoot</type>
+			<type>SemaineParlementaireRoot</type>
+			<type>ActiviteParlementaireRoot</type>
+			<type>FicheLoi</type>
+			<type>FichePresentationDR</type>
+			<type>FichePresentationOEP</type>
+			<type>FichePresentationIE</type>
+			<type>RepresentantOEP</type>
+			<type>FichePresentationAVI</type>
+			<type>RepresentantAVI</type>
+			<type>FichePresentation341</type>
+			<type>FichePresentationAN</type>
+			<type>FichePresentationDecret</type>
+			<type>Navette</type>
+			<type>EcheancierPromulgation</type>
+			<type>SemaineParlementaire</type>
+			<type>ActiviteParlementaire</type>
+		</excludedTypes>
+
+		<fulltext analyser="LEXER EPG_LEXER WORDLIST EPG_WORDLIST" >
+            <index name="actualiteObjet">
+                <field>act:objet</field>
+            </index>
+		</fulltext>
+<#else>
+		<excludedTypes>
+			<type>AdministrativeStatus</type>
+			<type>AdministrativeStatus</type>
+			<type>BibliothequeRequetesRoot</type>
+			<type>DelegationRoot</type>
+			<type>FondDeDossierRepertoire</type>
+			<type>AdministrativeStatusContainer</type>
+			<type>BirtReport</type>
+			<type>FavorisDossierRoot</type>
+			<type>FeuilleRouteModelFolder</type>
+			<type>QuestionsConnexesRoot</type>
+			<type>SmartFolder</type>
+			<type>Workspace</type>
+			<type>content</type>
+			<type>CaseRoot</type>
+			<type>NaiadFeuilleRouteInstancesRoot</type>
+			<type>Parapheur</type>
+			<type>FavorisIndexation</type>
+			<type>AdminWorkspace</type>
+			<type>BirtReportModel</type>
+			<type>Domain</type>
+			<type>FondDeDossier</type>
+			<type>QuestionConnexe</type>
+			<type>QuestionConnexeAA</type>
+			<type>AllotissementsRoot</type>
+			<type>DossierLink</type>
+			<type>NaiadFeuilleRoute</type>
+			<type>Folder</type>
+			<type>ParametreFolder</type>
+			<type>ParametreESFolder</type>
+			<type>HiddenFolder</type>
+			<type>ManagementRoot</type>
+			<type>WorkspaceRoot</type>
+			<type>BirtReportModelsRoot</type>
+			<type>Parametre</type>
+			<type>NaiadFeuilleRouteStep</type>
+			<type>UserWorkspacesRoot</type>
+			<type>JetonMaitreFolder</type>
+			<type>Comment</type>
+			<type>ReponsesMailbox</type>
+			<type>StepFolder</type>
+			<type>etatQuestion#anonymousType</type>
+			<type>JetonDocFolder</type>
+			<type>MailboxRoot</type>
+			<type>Root</type>
+			<type>parameter</type>
+			<type>FavorisIndexationRoot</type>
+			<type>RequeteRoot</type>
+			<type>VerrouOrganigrammeFolder</type>
+			<type>JetonMaitre</type>
+			<type>ParapheurFolder</type>
+			<type>SolonEpgMailbox</type>
+			<type>AlertRoot</type>
+			<type>ProfilUtilisateur</type>
+			<type>EspaceRechercheRoot</type>
+			<type>DossiersSignalesRoot</type>
+			<type>InfoUtilisateurConnection</type>
+			<type>ModeleParapheur</type>
+			<type>ModeleFondDeDossier</type>
+			<type>BirtResultatFichier</type>
+			<type>IndexationRubrique</type>
+			<type>JetonDoc</type>
+			<type>ResultatConsulte</type>
+			<type>TableauDynamiqueRoot</type>
+			<type>InfoUtilisateurConnectionRoot</type>
+			<type>TableReference</type>
+			<type>TexteSignaleRoot</type>
+			<type>TexteSignale</type>
+			<type>ParapheurModelRoot</type>
+			<type>WsSpeRoot</type>
+			<type>EtatApplication</type>
+			<type>FondDossierModelRoot</type>
+			<type>IndexationRoot</type>
+			<type>ListeTraitementPapierRoot</type>
+			<type>BulletinOfficielRoot</type>
+			<type>TableReferenceRoot</type>
+			<type>ActiviteNormativeRoot</type>
+			<type>ActiviteNormative</type>
+			<type>ParametrageApplication</type>
+			<type>BirtResultatRoot</type>
+			<type>FicheDossierRoot</type>
+			<type>EcheancierPromulgationRoot</type>
+			<type>SemaineParlementaireRoot</type>
+			<type>ActiviteParlementaireRoot</type>
+			<type>FicheLoi</type>
+			<type>FichePresentationDR</type>
+			<type>FichePresentationOEP</type>
+			<type>FichePresentationIE</type>
+			<type>RepresentantOEP</type>
+			<type>FichePresentationAVI</type>
+			<type>RepresentantAVI</type>
+			<type>FichePresentation341</type>
+			<type>FichePresentationAN</type>
+			<type>FichePresentationDecret</type>
+			<type>Navette</type>
+			<type>EcheancierPromulgation</type>
+			<type>SemaineParlementaire</type>
+			<type>ActiviteParlementaire</type>
+		</excludedTypes>
+        <!-- for H2 -->
+		<fulltext disabled="true" searchDisabled="${nuxeo.vcs.fulltext.search.disabled}" analyzer="org.apache.lucene.analysis.standard.StandardAnalyzer">
+			<index name="default">
+				<!-- all props implied -->
+			</index>
+			<index name="titreActe">
+				<field>dos:titreActe</field>
+			</index>
+            <index name="actualiteObjet">
+                <field>act:objet</field>
+            </index>
+		</fulltext>
+</#if>
+      </indexing>
+      <usersSeparator key="${nuxeo.db.user_separator_key}" />
+
+      <schema>
+        <field type="largetext">note</field>
+        <field type="largetext">webp:content</field>
+        <field type="largetext">webc:welcomeText</field>
+        <field type="largetext">comment:comment</field>
+        <field type="largetext">post</field>
+        <field type="largetext">mail:mail</field>
+        <field type="largetext">qu:texteQuestion</field>
+        <field type="largetext">texm:observation</field>
+        <field type="largetext">texm:champLibre</field>
+        <field type="largetext">texm:objet</field>
+        <field type="largetext">texm:objetRIM</field>
+        <field type="largetext">mes:objetRIM</field>
+        <field type="largetext">eapp:message</field>
+        <field type="largetext">act:contenu</field>
+      </schema>
+    </repository>
+  </extension>
+
+  <extension target="org.nuxeo.runtime.kv.KeyValueService" point="configuration">
+    <store name="default" class="org.nuxeo.ecm.core.storage.sql.kv.SQLKeyValueStore">
+      <property name="datasource">jdbc/keyvaluestore</property>
+      <property name="table">kv</property>
+    </store>
+  </extension>
+
+</component>
+</#escape>

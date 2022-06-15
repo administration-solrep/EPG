@@ -1,0 +1,35 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="corbeille-retour-dan(dto)">
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="refTablesTitleCorbeillesDan"
+                th:text="#{admin.table.reference.corbeille.retour.title}"
+            >
+                Corbeilles de retour au DAN
+            </h2>
+
+            <div role="group" aria-labelledby="refTablesTitleCorbeillesDan">
+                <div class="grid__row">
+                    <div class="relative grid__col grid__col--middle m-b-6">
+                        <th:block
+                            th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+                                'admin.table.reference.poste.autorise',
+                                false,
+                                'posteAutorise',
+                                'posteAutorise',
+                                'PST', 
+                                '',
+                                false,
+                                true,
+                                ${dto.mapCorbeillesRetourDAN},
+                                false)"
+                        ></th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

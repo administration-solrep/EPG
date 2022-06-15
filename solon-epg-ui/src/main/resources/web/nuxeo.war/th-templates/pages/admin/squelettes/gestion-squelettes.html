@@ -1,0 +1,32 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Gestion des squelettes de feuilles de route', title=#{admin.squelettes.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <th:block th:if="${action != null}">
+            <div class="flex justify-end m-t-6">
+                <button
+                    th:replace="fragments/components/label-action-button :: label-action-button(${action}, false, 'base-btn base-btn--button base-btn--default base-btn-row__right')"
+                ></button>
+            </div>
+        </th:block>
+        <h1 class="m-y-6 base-title base-title--lvl-1" th:text="#{admin.squelettes.title}">
+            Gestion des squelettes de feuilles de route
+        </h1>
+        <div id="resultList">
+            <th:block th:if="${resultList}">
+                <div th:replace="fragments/table/table-squelettes :: table-squelettes"></div>
+            </th:block>
+        </div>
+        <th:block th:if="${action != null}">
+            <div class="flex justify-end m-t-6">
+                <button
+                    th:replace="fragments/components/label-action-button :: label-action-button(${action}, false, 'base-btn base-btn--button base-btn--default base-btn-row__right')"
+                ></button>
+            </div>
+        </th:block>
+    </main>
+</html>

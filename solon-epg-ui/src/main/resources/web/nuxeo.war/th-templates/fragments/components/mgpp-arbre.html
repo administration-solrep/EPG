@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="mgpp-arbre(item,index,isOpen)">
+            <li
+                class="tree-navigation__item"
+                th:classappend="${(item.type == 'SECTION' ? 'tree-navigation\_\_item--lvl-1' : 'tree-navigation\_\_item--subitem') + (item.name == corbeilleActivated ? ' tree-navigation\_\_item--active ' : '')}"
+            >
+                <a
+                    th:title="${item.name == corbeilleActivated ? item.label + ' (' + item.count + ') - actif' : item.label}"
+                    th:href="@{|/mgpp/dossier/${item.name}|}"
+                    class="tree-navigation__link tree-navigation__link--has-icon link link--no-line"
+                    ><span
+                        aria-hidden="true"
+                        class="icon icon--folder link__icon link__icon--prepend link__icon--large"
+                    ></span
+                    ><span class="tree-navigation__text" th:text="${item.label + '(' + item.count + ')'}"></span
+                ></a>
+                <ul
+                    th:if="${not #lists.isEmpty(item.corbeilleNodeList)}"
+                    class="tree-navigation__list tree-navigation__list--is-opened tree-navigation__list--subtree"
+                >
+                    <th:block th:each="child : ${item.corbeilleNodeList}">
+                        <th:block
+                            th:replace="fragments/components/mgpp-arbre :: mgpp-arbre (${child},'',true)"
+                        ></th:block>
+                    </th:block>
+                </ul>
+            </li>
+        </th:block>
+    </body>
+</html>

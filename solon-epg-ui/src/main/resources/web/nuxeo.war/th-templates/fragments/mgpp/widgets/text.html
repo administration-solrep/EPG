@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block
+            th:fragment="text(widget)"
+            th:with="valeur=${widget.getValueParamByNameOrNull('valeur')==null ? '' : widget.getValueParamByName('valeur')}"
+        >
+            <div class="labellised-list__label">
+                [[#{${widget.label}}]]
+            </div>
+            <div
+                class="labellised-list__description"
+                th:classappend="${widget.modifiedInCurVersion ? 'labellised-list__description--warning' : ''}"
+            >
+                <th:block
+                    th:if="${widget.label == 'label.mgpp.fichedossier.numeroNor' || widget.label == 'label.mgpp.evenement.idDossier'}"
+                >
+                    <div th:if="${valeur != ''}" class="link-copy">
+                        <a class="link-copy__link link" id="link-copy__link-nor" href="#" th:text="${valeur}">
+                            Numéro NOR
+                        </a>
+                        <button
+                            class="js-copy link-copy__button js-tooltip base-btn base-btn--button base-btn--default base-btn--icon-action-blue base-btn--center base-btn--transparent"
+                            type="button"
+                            data-copy="link-copy__link-nor"
+                            th:data-tippy-content="#{label.mgpp.dossier.action.copier}"
+                            th:data-tippy-default-content="#{label.mgpp.dossier.action.copier}"
+                            data-tippy-trigger="mouseenter focus click"
+                        >
+                            <span class="sr-only" th:text="#{label.mgpp.dossier.copier}"></span
+                            ><span class="link-copy__icon icon icon--copy" aria-hidden="true"></span>
+                        </button>
+                        <span class="link-copy__live sr-only" aria-live="assertive"></span>
+                    </div>
+                </th:block>
+                <th:block
+                    th:if="${widget.label != 'label.mgpp.fichedossier.numeroNor' && widget.label != 'label.mgpp.evenement.idDossier'}"
+                >
+                    <span
+                        th:id="${widget.name=='destinataireCopie' ? 'destinataireCopieText' : widget.name=='natureLoi' ? 'natureLoiText' : null}"
+                        th:text="${valeur}"
+                        >Texte du composant
+                    </span>
+                </th:block>
+            </div>
+            <input
+                th:if="${widget.name == 'idDossier' && widget.getValueParamByNameOrNull('valeur') != null}"
+                th:id="${widget.name}"
+                th:name="${widget.name}"
+                type="hidden"
+                th:value="${widget.getValueParamByNameOrNull('valeur')}"
+            />
+        </th:block>
+    </body>
+</html>

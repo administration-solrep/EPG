@@ -1,0 +1,89 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page de paramétrage statistiques', title=#{pan.stats.parametrage.title.label})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" th:value="@{|${urlPreviousPage}#main_content|}" />
+        <div class="m-t-6">
+            <div class="row-actions">
+                <div class="row-actions__left">
+                    <button
+                        class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--bordered base-btn--light"
+                        th:value="#{button.label.cancel}"
+                        onclick="goPreviousPage()"
+                    >
+                        [[#{button.label.cancel}]]
+                    </button>
+                </div>
+                <div class="row-actions__right">
+                    <button
+                        onclick="updateFormSubmit('panStatistiquesForm', '/ajax/suivi/pan/stats/parametrage/editer', checkErrorOrToast)"
+                        type="submit"
+                        class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--center"
+                        th:text="#{button.label.valider}"
+                    />
+                </div>
+            </div>
+            <h1 class="m-b-10 base-title base-title--lvl-1 base-title--is-underlined" th:text="#{menu.suivi.pan.title}">
+                Pilotage de l'activité normative
+            </h1>
+            <h2 class="base-title base-title--lvl-2" th:text="#{pan.stats.parametrage.title.label}">
+                Paramétrage statisitques
+            </h2>
+
+            <form id="panStatistiquesForm" class="grid m-t-2">
+                <h3
+                    class="base-title base-title--lvl-3 base-title--important"
+                    th:text="#{pan.stats.parametrage.legislatures.label}"
+                >
+                    Legislatures
+                </h3>
+                <fieldset>
+                    <legend class="sr-only" th:text="#{pan.stats.parametrage.legislatures.label}"></legend>
+                    <div class="grid__row m-t-6">
+                        <div class="grid__col grid__col--form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect('pan.stats.parametrage.legislatures.label', 'legislatures', 'legislatures', '',  ${ {} }, ${statistiques.legislaturesRaw}, 'false', null, '2', 'input', '', '', true, true, true)"
+                            ></div>
+                        </div>
+                    </div>
+                    <th:block th:with="fieldOptions=${statistiques.legislatures}">
+                        <div
+                            th:replace="fragments/pan/components/panFormField :: panFormField(${statistiques.legislatureEnCours}, null, 'legislatureEnCours', 'pan.stats.parametrage.legislatureEnCours.label', true, false, 'select')"
+                        ></div>
+                    </th:block>
+                </fieldset>
+
+                <th:block
+                    th:replace="fragments/pan/components/blocParametrageStatistiques :: blocParametrageStatistiques(${statistiques.legisEnCours})"
+                ></th:block>
+
+                <th:block
+                    th:replace="fragments/pan/components/blocParametrageStatistiques :: blocParametrageStatistiques(${statistiques.legisPrec})"
+                ></th:block>
+            </form>
+            <div class="row-actions">
+                <div class="row-actions__left">
+                    <button
+                        class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--bordered base-btn--light"
+                        th:value="#{button.label.cancel}"
+                        onclick="goPreviousPage()"
+                    >
+                        [[#{button.label.cancel}]]
+                    </button>
+                </div>
+                <div class="row-actions__right">
+                    <button
+                        onclick="updateFormSubmit('panStatistiquesForm', '/ajax/suivi/pan/stats/parametrage/editer', checkErrorOrToast)"
+                        type="submit"
+                        class="js-tooltip base-btn base-btn--button base-btn--default base-btn--default base-btn--center"
+                        th:text="#{button.label.valider}"
+                    />
+                </div>
+            </div>
+        </div>
+    </main>
+</html>

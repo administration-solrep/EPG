@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="searchResults"
+            class="tableForm"
+            data-search="true"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            th:with="tableCaption=${tableCaption}?:#{liste.dossier.table.caption}"
+            th:id="listeDossiersPan"
+            style="position: relative;"
+        >
+            <div class="overlay" id="result_overlay_listeDossiersPan" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'dossier_haut')"
+                ></div>
+            </th:block>
+            <a
+                th:href="|#skip_link_action-table_prev_${id}|"
+                th:id="|skip_link_action-table_next_${id}|"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(${tableCaption})}"
+            ></a>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_haut',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                        <div
+                            th:replace="fragments/table/multipleSortIcon :: multipleSortIcon(modalId=|modal-multiple-sort-${id}|)"
+                        ></div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="custom-table custom-table--has-check">
+                    <caption class="sr-only" th:text="${tableCaption}">
+                        Tableau des dossiers
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th scope="col" tabindex="-1" class="table-header__cell"></th>
+                            <th:block th:each="colonne : ${resultList.getListeColonnes()}">
+                                <th:block th:if="${colonne.visible && colonne.sortable}">
+                                    <th
+                                        th:aria-sort="${colonne.sortValue == 'asc' ? 'ascending' : (colonne.sortValue== 'desc' ? 'descending' : '')}"
+                                        scope="col"
+                                        class="table-header__cell table-header__cell--with-filter-action"
+                                        th:with="order=${colonne.sortOrder}"
+                                    >
+                                        <button
+                                            th:replace="fragments/table/sortableHeader :: sortableHeader (#{__${colonne.label}__},${colonne.sortValue},${colonne.sortName},${colonne.sortId},${colonne.inverseSort})"
+                                        ></button>
+                                    </th>
+                                </th:block>
+
+                                <th:block th:if="${colonne.visible && !colonne.sortable}">
+                                    <th scope="col" class="table-header__cell">
+                                        <span
+                                            th:if="${colonne.isLabelVisible}"
+                                            class="table-header__cell-inner"
+                                            th:text="${colonne.label !=null? #messages.msg(colonne.label) : ''}"
+                                        >
+                                            &nbsp;
+                                        </span>
+                                        <span th:unless="${colonne.isLabelVisible}" class="table-header__cell-inner">
+                                            <span class="sr-only" th:text="#{__${colonne.label}__}"></span>
+                                        </span>
+                                    </th>
+                                </th:block>
+                            </th:block>
+                        </tr>
+                    </thead>
+                    <tbody class="custom-table__body">
+                        <th:block th:if="${resultList.liste.size > 0}">
+                            <th:block th:each="item, nb : ${resultList.liste}">
+                                <th:block
+                                    th:replace="|fragments/pan/${currentSection}/ligne-tableau-maitre| :: ligne-tableau-maitre(${item}, ${lineActions})"
+                                ></th:block>
+                            </th:block>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left"></div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'dossier_bas',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(lstSortableColonnes)}">
+                        <div
+                            th:replace="fragments/table/multipleSortIcon :: multipleSortIcon(modalId=|modal-multiple-sort-${id}|)"
+                        ></div>
+                    </th:block>
+                </div>
+            </div>
+            <a
+                th:href="|#skip_link_action-table_next_${id}|"
+                th:id="|skip_link_action-table_prev_${id}|"
+                class="skip-link"
+                th:text="#{skip.link.table.next(${tableCaption})}"
+            ></a>
+
+            <!-- Modale tri multiple-->
+            <div
+                th:replace="fragments/table/multipleSort :: multipleSort(id=|modal-multiple-sort-${id}|, lstSortedColonnes=${resultList.getListeSortedColonnes()}, lstSortableColumn=${resultList.getListeSortableAndVisibleColonnes()})"
+            ></div>
+        </div>
+    </body>
+</html>

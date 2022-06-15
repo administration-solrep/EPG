@@ -1,0 +1,98 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div class="interstitial__chained">
+            <input type="hidden" id="urlDeleteAjax" name="urlDeleteAjax" th:value="${urlDeleteAjax}" />
+            <span id="suppression-dossiers-modal" class="sr-only" th:text="#{epg.dossiers.creation.deleteModal.label}">
+                Suppression des dossiers en cours de création sélectionnés
+            </span>
+            <div th:aria-hidden="false" class="interstitial__chained__inner">
+                <div class="interstitial__header" tabindex="0">
+                    <h3 class="interstitial__title">
+                        <th:block th:text="#{epg.dossiers.creation.deleteModal.summary.title}"></th:block>
+                        <span
+                            class="interstitial__title__step"
+                            th:text="#{epg.dossiers.creation.deleteModal.summary.step}"
+                        >
+                            (1/2)
+                        </span>
+                    </h3>
+                </div>
+                <div class="interstitial__content">
+                    <div class="m-b-8">
+                        <div
+                            th:if="${ignoredDossiers != null && !#lists.isEmpty(ignoredDossiers)}"
+                            class="alert-modal alert--warning"
+                        >
+                            <div role="alert" class="alerts--flex">
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--information bubble-icon alert__icon alert__icon--warning"
+                                ></span>
+                                <span class="sr-only" th:text="#{corbeille.communication.alerte}">Alerte</span>
+                                <div>
+                                    <p th:text="#{epg.dossiers.creation.deleteModal.ignored}">
+                                        Les dossiers suivants ne peuvent être supprimés, ils seront ignorés :
+                                    </p>
+                                    <ul>
+                                        <li th:each="dossier : ${ignoredDossiers}">
+                                            <strong>
+                                                <th:block
+                                                    th:replace="fragments/components/idComponent :: id('ignored-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                                ></th:block>
+                                            </strong>
+                                            <em th:text="|(Raison : #{${dossier.label}})|">(Raison)</em>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            th:if="${deletableDossiers != null && !#lists.isEmpty(deletableDossiers)}"
+                            class="m-t-6 text-red"
+                        >
+                            <p>
+                                <strong th:text="#{epg.dossiers.creation.deleteModal.warn}"
+                                    >Après l'étape suivante, des dossiers seront définitivement supprimés :</strong
+                                >
+                            </p>
+                            <ul>
+                                <li th:each="dossier : ${deletableDossiers}">
+                                    <strong text-red>
+                                        <th:block
+                                            th:replace="fragments/components/idComponent :: id('deletable-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                        ></th:block>
+                                    </strong>
+                                    <em th:text="${dossier.label != null} ? ${dossier.label}">(Titre de l'acte)</em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:aria-hidden="true" class="interstitial__chained__inner hidden">
+                <div
+                    th:replace="fragments/components/modal-suppression-dossiers-auth-content :: suppression-dossiers-auth-content"
+                ></div>
+            </div>
+            <div class="interstitial__footer">
+                <button
+                    type="button"
+                    class="interstitial__button-cancel base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                    th:text="#{button.label.cancel}"
+                >
+                    Annuler
+                </button>
+                <button
+                    onclick="doDeleteDossiers(event, this, true)"
+                    type="button"
+                    class="interstitial__button-chained base-btn base-btn--button base-btn--default base-btn--center"
+                    th:text="#{action.button.label.next}"
+                >
+                    Suivant
+                </button>
+            </div>
+        </div>
+    </body>
+</html>

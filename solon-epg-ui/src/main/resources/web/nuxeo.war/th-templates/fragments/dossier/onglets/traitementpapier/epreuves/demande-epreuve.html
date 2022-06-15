@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block
+            th:fragment="demandeEpreuve(idPrefix, dto, title, isEdit)"
+            th:with="isPremiereDemande = ${#strings.equals('epreuvePremiereDemande', idPrefix)},dateEpreuve = ${isPremiereDemande ? dto.dateEpreuve : dto.nouvelleDateEpreuve},dateEpreuvePourLe = ${isPremiereDemande ? dto.dateEpreuvePourLe : dto.nouvelleDateEpreuvePourLe},numeroListe = ${isPremiereDemande ? dto.numeroListe : dto.nouveauNumeroListe},dateEnvoiRelecture = ${isPremiereDemande ? dto.dateEnvoiRelecture : dto.nouvelleDateEnvoiRelecture},destinataire = ${isPremiereDemande ? dto.destinataire : dto.nouveauDestinataire},signataire = ${isPremiereDemande ? dto.signataire : dto.nouveauSignataire}, isParametre = ${isPremiereDemande ? isSignataireParametre : isNouveauSignataireParametre}"
+        >
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                th:id="|title-${idPrefix}|"
+                th:text="${#messages.msg(title)}"
+            >
+                Première demande d'épreuve
+            </h2>
+            <!-- mode Consultation -->
+            <th:block th:unless="${isEdit}">
+                <div class="folder-detail">
+                    <!---->
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <!-- Epreuve demandée le -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="${isPremiereDemande ? #messages.msg('dossier.traitement.papier.epreuves.demande.le') : #messages.msg('dossier.traitement.papier.epreuves.nouvelle.demande.le')}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${#calendars.format(dateEpreuve,'dd/MM/yyyy')}"
+                                ></td>
+                            </tr>
+                            <!-- Pour le -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.epreuves.pour.le}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${#calendars.format(dateEpreuvePourLe,'dd/MM/yyyy')}"
+                                ></td>
+                            </tr>
+                            <!-- Numéro de la liste -->
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(
+                                    #{dossier.traitement.papier.epreuves.numero.liste}, 
+                                    ${numeroListe})"
+                            ></tr>
+                            <!-- Envoi en relecture le -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="${isPremiereDemande ? #messages.msg('dossier.traitement.papier.epreuves.envoi.relecture.le') : #messages.msg('dossier.traitement.papier.epreuves.envoi.relecture.nouvelle.demande')}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${#calendars.format(dateEnvoiRelecture,'dd/MM/yyyy')}"
+                                ></td>
+                            </tr>
+                            <!-- Destinataire -->
+                            <tr
+                                th:replace="fragments/components/folder-detail-line :: folderDetailLine(
+                                    #{dossier.traitement.papier.epreuves.envoi.destinataire}, 
+                                    ${destinataire})"
+                            ></tr>
+                            <!-- Signataire -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.signataire}"
+                                >
+                                    Signataire
+                                </td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${signataire.label}"
+                                ></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <!-- mode Création -->
+            <th:block th:if="${isEdit}">
+                <div role="group" aria-labelledby="|title-${idPrefix}|">
+                    <form th:id="|${idPrefix}Form|">
+                        <!-- Epreuve demandée le -->
+                        <div class="grid__col--middle m-b-4 form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        th:for="|${idPrefix}DateEpreuve|"
+                                        th:id="|${idPrefix}DateEpreuve_label|"
+                                        class="form-label"
+                                        th:text="${isPremiereDemande ? #messages.msg('dossier.traitement.papier.epreuves.demande.le') : #messages.msg('dossier.traitement.papier.epreuves.nouvelle.demande.le')}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                    ${idPrefix} + '_datepicker_dateEpreuve', 
+                                    ${idPrefix} + 'DateEpreuve', 
+                                    ${idPrefix} + 'DateEpreuve', 
+                                    false, 
+                                    ${dateEpreuve != null ? #calendars.format(dateEpreuve,'dd/MM/yyyy') : null}, 
+                                    true)"
+                            ></div>
+                            <div th:id="|${idPrefix}DateEpreuve_description|" class="form-input__footer"></div>
+                        </div>
+                        <!-- Pour le -->
+                        <div class="grid__col--middle m-b-4 form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        th:for="|${idPrefix}DateEpreuvePourLe|"
+                                        th:id="|${idPrefix}DateEpreuvePourLe_label|"
+                                        class="form-label"
+                                        th:text="#{dossier.traitement.papier.epreuves.pour.le}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                    ${idPrefix} + '_datepicker_dateEpreuvePourLe', 
+                                    ${idPrefix} + 'DateEpreuvePourLe', 
+                                    ${idPrefix} + 'DateEpreuvePourLe', 
+                                    false, 
+                                    ${dateEpreuvePourLe != null ? #calendars.format(dateEpreuvePourLe,'dd/MM/yyyy') : null}, 
+                                    false)"
+                            ></div>
+                            <div th:id="|${idPrefix}DateEpreuvePourLe_description|" class="form-input__footer"></div>
+                        </div>
+                        <!-- Numéro de la liste -->
+                        <div class="grid__col--middle m-b-4 form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        th:for="|${idPrefix}NumeroListe|"
+                                        th:id="|${idPrefix}NumeroListe_label|"
+                                        class="form-label form-label--disabled"
+                                        th:text="#{dossier.traitement.papier.epreuves.numero.liste}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    th:name="|${idPrefix}NumeroListe|"
+                                    th:id="|${idPrefix}NumeroListe|"
+                                    th:value="${numeroListe}"
+                                    disabled="disabled"
+                                    class="form-input__field form-input__field--type-number form-input__field--disabled"
+                                />
+                            </div>
+                        </div>
+                        <!-- Envoi en relecture le -->
+                        <div class="grid__col--middle m-b-4 form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        th:for="|${idPrefix}DateEnvoiRelecture|"
+                                        th:id="|${idPrefix}DateEnvoiRelecture_label|"
+                                        class="form-label"
+                                        th:text="${isPremiereDemande ? #messages.msg('dossier.traitement.papier.epreuves.envoi.relecture.le') : #messages.msg('dossier.traitement.papier.epreuves.envoi.relecture.nouvelle.demande')}"
+                                    ></label>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                    ${idPrefix} + '_datepicker_dateEnvoiRelecture', 
+                                    ${idPrefix} + 'DateEnvoiRelecture', 
+                                    ${idPrefix} + 'DateEnvoiRelecture', 
+                                    false, 
+                                    ${dateEnvoiRelecture != null ? #calendars.format(dateEnvoiRelecture,'dd/MM/yyyy') : null}, 
+                                    true)"
+                            ></div>
+                            <div th:id="|${idPrefix}DateEnvoiRelecture_description|" class="form-input__footer"></div>
+                        </div>
+                        <!-- Destinataire -->
+                        <div class="form-input--full grid__col--middle m-b-4 form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        th:for="|${idPrefix}Destinataire|"
+                                        th:id="|${idPrefix}Destinataire-label|"
+                                        class="form-label"
+                                    >
+                                        <th:block
+                                            th:text="#{dossier.traitement.papier.epreuves.envoi.destinataire}"
+                                        ></th:block>
+                                        <a
+                                            href="javascript:void(0)"
+                                            th:attr="onclick=|actualiserDestinataire(this)|"
+                                            th:id="|${idPrefix}Destinataire-actualiser|"
+                                            th:data-id="${idPrefix}"
+                                            th:data-tippy-content="#{dossier.traitement.papier.epreuves.actualiser.destinataire}"
+                                        >
+                                            <span aria-hidden="true" th:classappend="|icon icon--refresh|"></span>
+                                        </a>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <textarea
+                                    th:name="|${idPrefix}Destinataire|"
+                                    th:id="|${idPrefix}Destinataire|"
+                                    cols="30"
+                                    rows="3"
+                                    th:text="${destinataire}"
+                                    th:aria-describedby="|label_header_bottom_${idPrefix}Destinataire|"
+                                    class="form-input__field"
+                                ></textarea>
+                            </div>
+                            <div th:id="|${idPrefix}Destinataire_description|" class="form-input__footer"></div>
+                        </div>
+                        <!-- Signataire -->
+                        <div class="m-b-4">
+                            <div
+                                th:replace="fragments/dossier/onglets/traitementpapier/select-signataire :: selectSignataire(
+                                    ${signataires}, 
+                                    ${signataire},
+                                    ${isParametre},
+                                    ${idPrefix})"
+                            ></div>
+                        </div>
+                        <!-- Bouton Editer bordereau d'envoi en relecture -->
+                        <div class="flex justify-end m-b-6">
+                            <button
+                                type="button"
+                                th:id="|${idPrefix}Btn|"
+                                th:data-id="${idPrefix}"
+                                class="base-btn base-btn--button base-btn--default"
+                                th:text="#{dossier.traitement.papier.epreuves.editer.bordereau.envoi.relecture}"
+                                th:classappend="${isPremiereDemande ? 'base-btn--secondary' : ''}"
+                                onclick="editerBordereauEnvoiRelecture(this)"
+                            >
+                                Editer bordereau d'envoi en relecture
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </th:block>
+        </th:block>
+    </body>
+</html>

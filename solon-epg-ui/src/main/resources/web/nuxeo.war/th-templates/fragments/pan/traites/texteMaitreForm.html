@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="texteMaitreForm" id="texteMaitreForm">
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__info_texte-maitre"
+                    aria-expanded="true"
+                    id="accordion__header__info_texte-maitre"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.sous.onglet.texteMaitre}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__info_texte-maitre"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                        th:replace="fragments/pan/components/panActionToolbar :: panActionToolbar(${subtabLeftActions}, ${subtabRightActions})"
+                    ></div>
+
+                    <th:block th:if="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <form class="grid m-t-4" id="texte-maitre-form" autocomplete="off">
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.categorie}, null, 'categorie', 'pan.traites.categorie', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.pays}, null, 'pays', 'pan.traites.pays', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.thematique}, null, 'thematique', 'pan.traites.thematique', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.titreActe}, null, 'intitule', 'pan.traites.intitule', true, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.dateSignature}, null, 'dateSignature', 'pan.traites.dateSignature', true, false, 'date-picker')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.dateEntreeEnVigueur}, null, 'dateEntreeEnVigueur', 'pan.traites.dateEntreeEnVigueur', false, false, 'date-picker')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.autorisationRatification}, null, 'autorisation', 'pan.traites.autorisation', false, false, 'inputOuiNon')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.publication}, null, 'publication', 'pan.traites.publication', false, false, 'inputOuiNon')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.observation}, null, 'observation', 'pan.traites.observation', false, false, 'text')"
+                            ></div>
+
+                            <div class="grid__row m-t-6">
+                                <div class="grid__col grid__col--form-input">
+                                    <div
+                                        th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete('pan.traites.ministerePilote', false, 'ministerePilote', 'ministerePilote', 'MIN', ${texteMaitre.ministerePilote}, false, false, ${mapMinisterePilote}, false)"
+                                    ></div>
+                                </div>
+                            </div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.degrePriorite}, null, 'degrePriorite', 'pan.traites.degrePriorite', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.datePJL}, null, 'datePJL', 'pan.traites.datePJL', false, false, 'date-picker')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.etudeImpact}, null, 'etudeImpact', 'pan.traites.etudeImpact', false, false, 'inputOuiNon')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.dispoEtudeImpact}, null, 'dispoEtudeImpact', 'pan.traites.dispoEtudeImpact', false, false, 'inputOuiNon')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.dateDepotRatification}, null, 'dateDepotRatification', 'pan.traites.dateDepotRatification', false, false, 'date-picker')"
+                            ></div>
+                        </form>
+                    </th:block>
+
+                    <th:block th:unless="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <div class="table-wrapper">
+                            <table role="presentation" class="folder-detail__table">
+                                <caption class="sr-only" th:text="#{pan.sous.onglet.texteMaitre}">
+                                    Texte-maitre
+                                </caption>
+                                <tbody>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.categorie}"
+                                        >
+                                            Catégorie
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.categorie}"
+                                        >
+                                            Catégorie
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.pays}"
+                                        >
+                                            Pays ou organisation
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.pays}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.thematique}"
+                                        >
+                                            Thématique
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.thematique}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.intitule}"
+                                        >
+                                            Intitulé
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.typeActe}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.dateSignature}"
+                                        >
+                                            Date de signature
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.dateSignature,'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.dateEntreeEnVigueur}"
+                                        >
+                                            Date d'entrée en vigueur
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.dateEntreeEnVigueur,'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.autorisation}"
+                                        >
+                                            Autorisation de ratification
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.autorisation}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.publication}"
+                                        >
+                                            Publication JORF
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${texteMaitre.publication}"
+                                            th:text="#{choix.oui}"
+                                        ></td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${!texteMaitre.publication}"
+                                            th:text="#{choix.non}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.observation}"
+                                        >
+                                            Observation
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.observation}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.ministerePilote}"
+                                        >
+                                            Ministere pilote
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.ministerePiloteLabel}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.degrePriorite}"
+                                        >
+                                            Ministere pilote
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.degrePriorite}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.datePJL}"
+                                        >
+                                            Ministere pilote
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.datePJL, 'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.etudeImpact}"
+                                        >
+                                            Etude impact demandée
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${texteMaitre.etudeImpact}"
+                                            th:text="#{choix.oui}"
+                                        ></td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${!texteMaitre.etudeImpact}"
+                                            th:text="#{choix.non}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.dispoEtudeImpact}"
+                                        >
+                                            Disponibilité de l'étude d'imapct
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${texteMaitre.dispoEtudeImpact}"
+                                            th:text="#{choix.oui}"
+                                        ></td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${!texteMaitre.dispoEtudeImpact}"
+                                            th:text="#{choix.non}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.dateDepotRatification}"
+                                        >
+                                            Date dépot ratification
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.dateDepotRatification, 'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__info_texte-maitre-ratification"
+                    aria-expanded="true"
+                    id="accordion__header__info_texte-maitre-ratification"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.traites.ratification}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__info_texte-maitre-ratification"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <th:block th:if="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <form class="grid m-t-4" id="texte-maitre-form-ratification" autocomplete="off">
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.ratificationTraite.numeroNor}, null, 'ratificationNumeroNor', 'pan.traites.ratification.numeroNor', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.ratificationTraite.etapeSolon}, null, 'ratificationEtapeSolon', 'pan.traites.ratification.etapeSolon', false, true, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.ratificationTraite.numero}, null, 'ratificationNumero', 'pan.traites.ratification.numero', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.ratificationTraite.dateCreation}, null, 'ratificationDateCreation', 'pan.traites.ratification.dateCreation', false, false, 'date-picker')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.ratificationTraite.titreOfficiel}, null, 'ratificationTitreOfficiel', 'pan.traites.ratification.titreOfficiel', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.ratificationTraite.dateSaisineCE}, null, 'ratificationDateSaisineCE', 'pan.traites.ratification.dateSaisineCE', false, false, 'date-picker')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.ratificationTraite.datePublication}, null, 'ratificationDatePublication', 'pan.traites.ratification.datePublication', false, false, 'date-picker')"
+                            ></div>
+                        </form>
+                    </th:block>
+
+                    <th:block th:unless="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <div class="table-wrapper">
+                            <table role="presentation" class="folder-detail__table">
+                                <caption class="sr-only" th:text="#{pan.traites.ratification}">
+                                    Texte-maitre
+                                </caption>
+                                <tbody>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.ratification.numeroNor}"
+                                        >
+                                            NOR
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.ratificationTraite.numeroNor}"
+                                        >
+                                            NOR
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.ratification.etapeSolon}"
+                                        >
+                                            Etape Solon
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.ratificationTraite.etapeSolon}"
+                                        >
+                                            Etape Solon
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.ratification.numero}"
+                                        >
+                                            numero
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.ratificationTraite.numero}"
+                                        >
+                                            numero
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.ratification.dateCreation}"
+                                        >
+                                            dateCreation
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.ratificationTraite.dateCreation, 'dd/MM/yyyy')}"
+                                        >
+                                            dateCreation
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.ratification.titreOfficiel}"
+                                        >
+                                            titreOfficiel
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.ratificationTraite.titreOfficiel}"
+                                        >
+                                            titreOfficiel
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.ratification.dateSaisineCE}"
+                                        >
+                                            dateSaisineCE
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.ratificationTraite.dateSaisineCE, 'dd/MM/yyyy')}"
+                                        >
+                                            dateSaisineCE
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.ratification.datePublication}"
+                                        >
+                                            datePublication
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.ratificationTraite.datePublication, 'dd/MM/yyyy')}"
+                                        >
+                                            datePublication
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__info_texte-maitre-decret"
+                    aria-expanded="true"
+                    id="accordion__header__info_texte-maitre-decret"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.traites.decret}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__info_texte-maitre-decret"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <th:block th:if="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <form class="grid m-t-4" id="texte-maitre-form-decret" autocomplete="off">
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.decretTraite.numeroNor}, null, 'decretNumeroNor', 'pan.traites.decret.numeroNor', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.decretTraite.etapeSolon}, null, 'decretEtapeSolon', 'pan.traites.decret.etapeSolon', false, true, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.decretTraite.numero}, null, 'decretNumero', 'pan.traites.decret.numero', false, false, 'text')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.decretTraite.datePublication}, null, 'decretDatePublication', 'pan.traites.decret.datePublication', false, false, 'date-picker')"
+                            ></div>
+
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.decretTraite.titreOfficiel}, null, 'decretTitreOfficiel', 'pan.traites.decret.titreOfficiel', false, false, 'text')"
+                            ></div>
+                        </form>
+                    </th:block>
+
+                    <th:block th:unless="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <div class="table-wrapper">
+                            <table role="presentation" class="folder-detail__table">
+                                <caption class="sr-only" th:text="#{pan.traites.decret}">
+                                    Texte-maitre
+                                </caption>
+                                <tbody>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.decret.numeroNor}"
+                                        >
+                                            NOR
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.decretTraite.numeroNor}"
+                                        >
+                                            NOR
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.decret.etapeSolon}"
+                                        >
+                                            Etape Solon
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.decretTraite.etapeSolon}"
+                                        >
+                                            Etape Solon
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.decret.numero}"
+                                        >
+                                            numero
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.decretTraite.numero}"
+                                        >
+                                            numero
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.decret.datePublication}"
+                                        >
+                                            datePublication
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.decretTraite.datePublication, 'dd/MM/yyyy')}"
+                                        >
+                                            datePublication
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.traites.decret.titreOfficiel}"
+                                        >
+                                            titreOfficiel
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.decretTraite.titreOfficiel}"
+                                        >
+                                            titreOfficiel
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

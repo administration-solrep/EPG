@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body th:remove="tag">
+        <table th:remove="tag">
+            <tbody th:remove="tag">
+                <th:block th:fragment="rowDestinataire(id, isEditable, item, row, editAction)">
+                    <tr class="table-line custom-table__table-line" th:data-id="${item.id}">
+                        <th:block th:if="${isEditable}">
+                            <td class="table-line__cell table-line__cell--check">
+                                <div class="form-choice-input">
+                                    <input
+                                        type="checkbox"
+                                        th:id="|checkbox-${id}-${row}|"
+                                        th:name="|checkbox-${id}-${row}|"
+                                        class="form-choice-input__input js-custom-table-line-check"
+                                        onclick="selectTableCheckbox(this)"
+                                        autocomplete="off"
+                                    /><label
+                                        th:for="|checkbox-${id}-${row}|"
+                                        th:id="|checkbox-${id}-${row}|"
+                                        class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                                    ></label>
+                                </div>
+                            </td>
+                        </th:block>
+                        <td
+                            class="table-line__cell"
+                            th:id="|p-destinataire-${id}-${row}|"
+                            th:text="${item.destinataireCommunicationLabel}"
+                        >
+                            Lorem ipsum
+                        </td>
+                        <td
+                            class="table-line__cell"
+                            th:id="|p-dateEnvoi-${id}-${row}|"
+                            th:text="${#calendars.format(item.dateEnvoi,'dd/MM/yyyy')}"
+                        >
+                            jj/mm/aaaa
+                        </td>
+                        <td
+                            class="table-line__cell"
+                            th:id="|p-dateRetour-${id}-${row}|"
+                            th:text="${#calendars.format(item.dateRetour,'dd/MM/yyyy')}"
+                        >
+                            jj/mm/aaaa
+                        </td>
+                        <td
+                            class="table-line__cell"
+                            th:id="|p-dateRelance-${id}-${row}|"
+                            th:text="${#calendars.format(item.dateRelance,'dd/MM/yyyy')}"
+                        >
+                            jj/mm/aaaa
+                        </td>
+                        <td class="table-line__cell" th:id="|p-sensAvis-${id}-${row}|" th:text="${item.sensAvisLabel}">
+                            Favorable
+                        </td>
+                        <td class="table-line__cell" th:id="|p-objet-${id}-${row}|" th:text="${item.objet}">
+                            Avis avant publication
+                        </td>
+                        <td class="table-line__cell">
+                            <div class="flex items-center">
+                                <th:block th:if="${isEditable}" th:each="action : ${editAction}">
+                                    <div
+                                        th:replace="fragments/components/action-link :: action-link(
+                                            ${action},
+                                            'm-l-4 base-btn base-btn--button base-btn--default base-btn--icon-action-blue base-btn--discret',
+                                            '')"
+                                    ></div>
+                                </th:block>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </body>
+</html>

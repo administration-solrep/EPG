@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="tableau-suivi"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="d_tableau-suivi_content"
+            th:with="tableCaption=${tableCaption} ?: #{pan.tableau.suivi.caption}"
+        >
+            <div
+                th:replace="fragments/pan/components/panActionToolbar :: panActionToolbar(${subtabLeftActions}, ${subtabRightActions})"
+            ></div>
+
+            <div class="m-t-6" th:unless="${currentSection == 'habilitations'}" id="optin-afficher-mesures-appliquees">
+                <div
+                    th:replace="fragments/components/formblocks/input-optin :: optin('pan.action.tableau.suivi.afficher', 'afficher-mesures-appliquees', 'afficher-mesures-appliquees', ${afficherMesuresAppliquees}, ${afficherAppliquees}, false, 'switchAffichageMesuresAppliquees(this)')"
+                ></div>
+            </div>
+
+            <div class="heading-complex__options" th:if="${tableSuiviDTO.lockDate != null}">
+                <p
+                    th:text=" #{pan.tableau.suivi.publier.info(${#dates.format(tableSuiviDTO.lockDate,'dd/MM/yyyy')},${tableSuiviDTO.lockUser})} "
+                ></p>
+            </div>
+
+            <div
+                th:replace="fragments/pan/components/panTable :: panTable(${tableSuiviDTO}, ${tableCaption}, 'suivi', ${currentSection}, 'ligne-tableau-suivi', null, null )"
+            ></div>
+
+            <p class="table-row-count m-t-6" th:text=" #{pan.nb.lignes(${tableSuiviDTO.nbTotal})} "></p>
+        </div>
+    </body>
+</html>

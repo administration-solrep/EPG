@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="filtreChkItem(item, selectedItems, type)" class="facet-filter-item">
+            <div class="form-choice-input">
+                <input
+                    type="checkbox"
+                    th:id="|chk-${item.id}|"
+                    th:name="${item.name}"
+                    th:data-id="${item.id}"
+                    th:data-value="${item.name}"
+                    th:data-type="${type}"
+                    class="form-choice-input__input"
+                    th:checked="${selectedItems != null && #lists.contains(selectedItems, item.id)}"
+                    onclick="addOrRemoveItemFacet(this)"
+                    autocomplete="off"
+                />
+                <label
+                    th:for="|chk-${item.id}|"
+                    th:id="|${item.id}_label|"
+                    class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                >
+                    <span th:text="${item.name}">BO (DEV) - Ecologie</span>
+                    <span class="facet-filter-item__count" th:text="| (${item.nbElement})|"> (12)</span>
+                </label>
+            </div>
+        </div>
+    </body>
+</html>

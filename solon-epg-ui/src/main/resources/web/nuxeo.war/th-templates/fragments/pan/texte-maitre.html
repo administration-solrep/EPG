@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="texte-maitre"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="d_texte-maitre_content"
+        >
+            <input type="hidden" id="firstTableType" th:value="${firstTableType}" />
+
+            <div id="suiviTexteMaitre">
+                <div th:replace="@{'fragments/pan/' + ${currentSection} + '/texteMaitreForm'} :: texteMaitreForm"></div>
+            </div>
+            <div id="premierTableau">
+                <div th:replace="fragments/pan/texte-maitre-premier-tableau :: texte-maitre-premier-tableau"></div>
+            </div>
+
+            <div id="secondTableau">
+                <div th:replace="fragments/pan/texte-maitre-second-tableau :: texte-maitre-second-tableau"></div>
+            </div>
+            <div th:replace="fragments/pan/components/panModaleEdit :: panModaleEdit"></div>
+        </div>
+    </body>
+</html>

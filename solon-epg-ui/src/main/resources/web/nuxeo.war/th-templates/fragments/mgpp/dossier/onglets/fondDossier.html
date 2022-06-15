@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="fondDossier" id="fiche_content">
+            <a
+                href="#skip_link_action-table_prev"
+                id="skip_link_action-table_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(#{dossier.onglet.document.fond})}"
+            ></a>
+            <div class="flex m-b-4">
+                <h2 class="base-title--lvl-4 base-title base-title--lvl-2" th:text="#{dossier.onglet.document.fond}">
+                    Fond de dossier
+                </h2>
+            </div>
+            <div
+                class="row-actions__right m-b-4"
+                th:if="${mgppFddActions !=null && not #lists.isEmpty(mgppFddActions)}"
+            >
+                <th:block th:each="action : ${mgppFddActions}">
+                    <button
+                        th:replace="fragments/components/label-action-button :: label-action-button(${action}, false, '')"
+                    ></button>
+                </th:block>
+            </div>
+            <div class="file-tree-table">
+                <div class="file-tree-table__table table-wrapper">
+                    <table class="custom-table">
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th
+                                    scope="col"
+                                    class="table-header__cell table-header__cell--with-file-tree"
+                                    tabindex="-1"
+                                >
+                                    <span
+                                        class="table-header__cell-inner"
+                                        th:text="#{fondDossier.mgpp.column.header.fichier}"
+                                    >
+                                        &nbsp;
+                                    </span>
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="table-header__cell table-header__cell--with-file-tree"
+                                    tabindex="-1"
+                                >
+                                    <span
+                                        class="table-header__cell-inner"
+                                        th:text="#{fondDossier.column.header.auteur}"
+                                    >
+                                        &nbsp;
+                                    </span>
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="table-header__cell table-header__cell--with-file-tree"
+                                    tabindex="-1"
+                                >
+                                    <span class="table-header__cell-inner" th:text="#{fondDossier.column.header.date}">
+                                        &nbsp;
+                                    </span>
+                                </th>
+                                <th scope="col" class="table-header__cell table-header__cell--actions">
+                                    <span class="sr-only">Supprimer</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <!---->
+                        <tbody class="custom-table__body">
+                            <th:block th:unless="${#lists.isEmpty(lstDocuments)}">
+                                <th:block th:each="doc : ${lstDocuments}">
+                                    <tr
+                                        class="table-line table-line--with-action-column table-line--complex-line"
+                                        th:data-id="${doc.id}"
+                                    >
+                                        <td th:class="|table-line\_\_cell table-line\_\_cell--file-folder-info|">
+                                            <a
+                                                class="link"
+                                                th:href="@{|/mgpp/fiche/telecharger?fileId=${doc.id}|}"
+                                                target="_blank"
+                                                th:title="${doc.nom}+${doc.extension}"
+                                            >
+                                                <span
+                                                    aria-hidden="true"
+                                                    class="icon icon--file link__icon link__icon--prepend link__icon--large"
+                                                >
+                                                </span>
+                                                <th:block th:text="|${doc.nom} ${doc.extension}|">
+                                                    nom.doc
+                                                </th:block>
+                                            </a>
+                                        </td>
+                                        <td class="table-line__cell" th:text="${doc.auteur}"></td>
+                                        <td class="table-line__cell" th:text="${doc.date}"></td>
+                                        <td class="table-line__cell table-line__action-column">
+                                            <th:block th:each="action : ${doc.lstActions}">
+                                                <div
+                                                    th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                                                ></div>
+                                            </th:block>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal de confirmation d'ajout de document -->
+            <div th:replace="fragments/components/mgpp-modal-add-document-fdd :: mgpp-modal-add-document-fdd"></div>
+
+            <a
+                href="#skip_link_action-table_next"
+                id="skip_link_action-table_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(#{dossier.onglet.document.fond})}"
+            ></a>
+        </div>
+    </body>
+</html>

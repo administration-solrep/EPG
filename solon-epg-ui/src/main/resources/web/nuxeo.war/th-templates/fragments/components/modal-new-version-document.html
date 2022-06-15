@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="modal-new-version-document"
+            id="modal-new-version-document"
+            class="interstitial-overlay__content"
+        >
+            <div
+                class="interstitial"
+                role="dialog"
+                aria-labelledby="dialogTitle-modificationDocument"
+                style="position: relative;"
+            >
+                <div class="interstitial__header">
+                    <h1
+                        id="dialogTitle-modificationDocument"
+                        class="interstitial__title"
+                        th:text="#{fondDossier.modal.new.version.title}"
+                    ></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{modal.close}"></span>
+                    </button>
+                </div>
+                <div id="contentModalNewVersion" class="interstitial__content">
+                    <div
+                        th:replace="fragments/components/formblocks/file-input :: 
+                        fileInput(null, 'documentFile', 'documentFile', false, ${fondDto.acceptedFileTypes}, true)"
+                    ></div>
+                </div>
+
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                    ></button>
+                    <button
+                        type="button"
+                        onclick="doNewVersionDocument()"
+                        id="btn-confirm-edit-doc"
+                        class="base-btn base-btn--button base-btn--default base-btn--center"
+                        th:text="#{button.label.valider}"
+                    ></button>
+                </div>
+                <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+            </div>
+        </div>
+    </body>
+</html>

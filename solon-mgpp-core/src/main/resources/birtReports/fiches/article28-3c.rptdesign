@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100902 Build &lt;2.6.1.v20100915-1750></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">fixed layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">201</property>
+    <parameters>
+        <scalar-parameter name="FICHEID_PARAM" id="477">
+            <text-property name="helpText">FICHEID_PARAM</text-property>
+            <text-property name="promptText">FICHEID_PARAM</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="nuxeo" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@idlv-db-ora-112-2.lyon-dev2.local:1521:ORA112</property>
+            <property name="odaUser">SOLONEPG_INTE</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">U09MT05FUEdfSU5URQ==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="article23-8c" id="476">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">id</property>
+                    <property name="paramName">FICHEID_PARAM</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">IDDOSSIER</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">DATELETTREPM</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">OBJET</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">nuxeo</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">ID</property>
+                    <property name="nativeName">ID</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">IDDOSSIER</property>
+                    <property name="nativeName">IDDOSSIER</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">DATELETTREPM</property>
+                    <property name="nativeName">DATELETTREPM</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">OBJET</property>
+                    <property name="nativeName">OBJET</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT 
+ID, 
+IDDOSSIER, 
+DATELETTREPM, 
+OBJET 
+FROM FICHE_PRESENTATION_JSS F
+where F."ID" = ?]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">0.14427860696517414in</property>
+            <property name="rightMargin">0.4925373134328358in</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="125">
+            <property name="dataSet">article23-8c</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">ID</property>
+                    <text-property name="displayName">ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DATELETTREPM</property>
+                    <text-property name="displayName">DATELETTREPM</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DATELETTREPM"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">EXPORTDATE</property>
+                    <text-property name="displayName">EXPORTDATE</text-property>
+                    <expression name="expression" type="javascript">new Date()</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">IDDOSSIER</property>
+                    <text-property name="displayName">IDDOSSIER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["IDDOSSIER"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">OBJET</property>
+                    <text-property name="displayName">OBJET</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OBJET"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <structure name="toc"/>
+            <column id="132">
+                <property name="width">100%</property>
+                <property name="pageBreakAfter">avoid</property>
+                <property name="pageBreakBefore">avoid</property>
+            </column>
+            <detail>
+                <row id="210">
+                    <property name="pageBreakAfter">avoid</property>
+                    <cell id="211">
+                        <property name="backgroundColor">#FFFFFF</property>
+                        <property name="textAlign">center</property>
+                        <grid id="803">
+                            <property name="width">7.635416666666667in</property>
+                            <column id="804">
+                                <property name="width">6.875in</property>
+                            </column>
+                            <column id="805">
+                                <property name="width">0.7604166666666666in</property>
+                            </column>
+                            <row id="806">
+                                <cell id="807">
+                                    <property name="textAlign">right</property>
+                                    <label id="808">
+                                        <property name="fontSize">8pt</property>
+                                        <property name="color">#808080</property>
+                                        <property name="textAlign">right</property>
+                                        <property name="display">inline</property>
+                                        <text-property name="text">Export du</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="809">
+                                    <property name="textAlign">left</property>
+                                    <data id="472">
+                                        <property name="fontSize">8pt</property>
+                                        <property name="color">#808080</property>
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/mm/yyyy</property>
+                                            <property name="locale">fr</property>
+                                        </structure>
+                                        <property name="textAlign">left</property>
+                                        <property name="display">inline</property>
+                                        <property name="resultSetColumn">EXPORTDATE</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </grid>
+                    </cell>
+                </row>
+                <row id="221">
+                    <property name="height">0.3645833333333333in</property>
+                    <property name="pageBreakAfter">avoid</property>
+                    <cell id="222">
+                        <property name="textAlign">center</property>
+                        <label id="223">
+                            <property name="fontSize">16pt</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Demande de mise en oeuvre de l'article 28-3C</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="810">
+                    <property name="pageBreakAfter">avoid</property>
+                    <cell id="811">
+                        <property name="textAlign">center</property>
+                        <label id="603">
+                            <property name="fontSize">10.5pt</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="color">#5C5C5C</property>
+                            <property name="borderBottomColor">#5C5C5C</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">1px</property>
+                            <property name="paddingTop">10pt</property>
+                            <property name="paddingLeft">10pt</property>
+                            <property name="textAlign">left</property>
+                            <text-property name="text">Fiche présentation</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="214">
+                    <property name="pageBreakAfter">avoid</property>
+                    <cell id="215">
+                        <property name="borderBottomStyle">none</property>
+                        <property name="borderLeftStyle">none</property>
+                        <property name="borderRightStyle">none</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="textAlign">center</property>
+                        <grid id="478">
+                            <column id="479"/>
+                            <column id="480"/>
+                            <row id="481">
+                                <cell id="482">
+                                    <label id="220">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="paddingRight">3pt</property>
+                                        <property name="textAlign">right</property>
+                                        <property name="display">block</property>
+                                        <list-property name="visibility">
+                                            <structure>
+                                                <property name="format">all</property>
+                                                <expression name="valueExpr" type="javascript">row["ORIGINEQUESTION"]=='SE'</expression>
+                                            </structure>
+                                        </list-property>
+                                        <text-property name="text">Identifiant dossier</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="483">
+                                    <data id="863">
+                                        <property name="textAlign">left</property>
+                                        <property name="whiteSpace">nowrap</property>
+                                        <property name="resultSetColumn">IDDOSSIER</property>
+                                    </data>
+                                </cell>
+                            </row>
+                            <row id="484">
+                                <cell id="485">
+                                    <label id="138">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="paddingRight">3pt</property>
+                                        <property name="textAlign">right</property>
+                                        <property name="display">block</property>
+                                        <text-property name="text">Objet</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="486">
+                                    <text-data id="867">
+                                        <property name="textAlign">left</property>
+                                        <expression name="valueExpr">row["OBJET"]</expression>
+                                        <property name="contentType">html</property>
+                                    </text-data>
+                                </cell>
+                            </row>
+                            <row id="487">
+                                <cell id="488">
+                                    <label id="144">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="paddingRight">3pt</property>
+                                        <property name="textAlign">right</property>
+                                        <property name="display">block</property>
+                                        <property name="pageBreakBefore">avoid</property>
+                                        <text-property name="text">Date de la lettre du Premier ministre</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="489">
+                                    <data id="865">
+                                        <structure name="dateTimeFormat">
+                                            <property name="category">Custom</property>
+                                            <property name="pattern">dd/mm/yyyy</property>
+                                            <property name="locale">fr_FR</property>
+                                        </structure>
+                                        <property name="textAlign">left</property>
+                                        <property name="whiteSpace">nowrap</property>
+                                        <property name="resultSetColumn">DATELETTREPM</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </grid>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

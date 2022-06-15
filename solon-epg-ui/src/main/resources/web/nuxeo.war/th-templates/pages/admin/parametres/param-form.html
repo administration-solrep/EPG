@@ -1,0 +1,249 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Page dedition de paramètres', title=#{menu.admin.param.param.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{/admin#sidebar}" />
+
+        <div class="row-actions">
+            <div class="row-actions__left">
+                <button
+                    type="button"
+                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered base-btn--padded-lr"
+                    onclick="goPreviousPage()"
+                    th:text="#{button.label.cancel}"
+                ></button>
+            </div>
+            <div class="row-actions__right">
+                <button
+                    type="button"
+                    class="base-btn base-btn--button base-btn--default base-btn--primary"
+                    onclick="saveParametresApplication()"
+                    th:text="#{button.label.save}"
+                ></button>
+            </div>
+        </div>
+
+        <div class="heading-complex m-y-6">
+            <div class="heading-complex__main">
+                <h1 class="base-title base-title--lvl-1 p-b-3" th:text="#{menu.admin.param.param.title}">
+                    <th:block th:text="#{menu.admin.param.param.title}">Paramètres de l'application</th:block>
+                </h1>
+                <p class="heading-complex__subtitle base-subtitle" th:text="#{menu.admin.param.param.subtitle}"></p>
+            </div>
+            <div class="heading-complex__options"></div>
+        </div>
+        <form id="formParamAppli">
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="app-params-title-message"
+                th:text="#{parametres.label.message}"
+            ></h2>
+
+            <div role="group" aria-labelledby="app-params-title-message">
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.delaiAffichageMessage','delaiAffichageMessage', 'delaiAffichageMessage', ${paramAppliForm.delaiAffichageMessage}, true)"
+                ></th:block>
+            </div>
+
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="app-params-title-corbeilles"
+                th:text="#{parametres.label.corbeilles}"
+            ></h2>
+
+            <div role="group" aria-labelledby="app-params-title-corbeilles">
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.nbDossierPage','nbDossierPage', 'nbDossierPage', ${paramAppliForm.nbDossierPage}, true)"
+                ></th:block>
+
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.dateRafraichissementCorbeille','dateRafraichissementCorbeille', 'dateRafraichissementCorbeille', ${paramAppliForm.dateRafraichissementCorbeille}, true)"
+                ></th:block>
+
+                <div class="m-b-6">
+                    <div
+                        th:replace="fragments/components/formblocks/complex-selector :: complexSelector('multiple.select.label','metadonneSelected', ${paramAppliForm.metadonneDispos}, ${paramAppliForm.metadonneDisponibleColonneCorbeille})"
+                    ></div>
+                </div>
+            </div>
+
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="app-params-title-recherche"
+                th:text="#{parametres.label.recherche}"
+            ></h2>
+
+            <div role="group" aria-labelledby="app-params-title-recherche">
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.nbDerniersResultatsConsultes','nbDerniersResultatsConsultes', 'nbDerniersResultatsConsultes', ${paramAppliForm.nbDerniersResultatsConsultes}, true)"
+                ></th:block>
+
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.nbFavorisConsultation','nbFavorisConsultation', 'nbFavorisConsultation', ${paramAppliForm.nbFavorisConsultation}, true)"
+                ></th:block>
+
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.nbFavorisRecherche','nbFavorisRecherche', 'nbFavorisRecherche', ${paramAppliForm.nbFavorisRecherche}, true)"
+                ></th:block>
+            </div>
+
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="app-params-title-suivi"
+                th:text="#{parametres.label.suivi}"
+            ></h2>
+
+            <div role="group" aria-labelledby="app-params-title-suivi">
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.nbDossiersSignales','nbDossiersSignales', 'nbDossiersSignales', ${paramAppliForm.nbDossiersSignales}, true)"
+                ></th:block>
+
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.nbTableauxDynamiques','nbTableauxDynamiques', 'nbTableauxDynamiques', ${paramAppliForm.nbTableauxDynamiques}, true)"
+                ></th:block>
+
+                <th:block
+                    th:replace="fragments/components/input-number :: inputNumber('parametresAppli.form.label.delaiEnvoiMailMaintienAlerte','delaiEnvoiMailMaintienAlerte', 'delaiEnvoiMailMaintienAlerte', ${paramAppliForm.delaiEnvoiMailMaintienAlerte}, true)"
+                ></th:block>
+            </div>
+
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="app-params-title-courriers"
+                th:text="#{parametres.label.gestionEnvoiCourrier}"
+            ></h2>
+
+            <div role="group" aria-labelledby="app-params-title-courriers" class="flex justify-start items-start m-b-6">
+                <div class="flex flex-col page-epg-appparams__domains">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="app_authorized_domains"
+                                    id="app_authorized_domains_label"
+                                    class="form-label"
+                                    th:text="#{parametresAppli.form.label.nomsDomaine}"
+                                ></label>
+                            </div>
+                        </div>
+                        <div class="form-input__container">
+                            <div
+                                th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(
+	                            '', 
+	                            suffixesMailsAutorises, 
+	                            suffixesMailsAutorises, 
+	                            'form.description.nocharlimit', 
+	                            ${ {} }, 
+	                            ${paramAppliForm.suffixesMailsAutorises},
+	                            'false', 
+	                            null,
+	                            '0',
+	                            'input',
+	                            '',
+	                            '',
+	                             false,
+	                             true,
+	                            true)"
+                            ></div>
+
+                            <div class="m-t-6 flex items-center p-l-2">
+                                <span class="inline-block p-x-2">Ou</span>
+                                <button
+                                    type="button"
+                                    class="base-btn base-btn--button base-btn--default"
+                                    th:text="#{parametresAppli.form.label.importerListe}"
+                                ></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="app-params-title-connexion"
+                th:text="#{parametres.label.connexionSolonEPP}"
+            ></h2>
+
+            <div role="group" aria-labelledby="app-params-title-connexion">
+                <div
+                    th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                    #{parametresAppli.form.label.urlEppInfosParl}, 
+                                    true, 
+                                    '', 
+                                    'urlEppInfosParl', 
+                                    'urlEppInfosParl', 
+                                    ${paramAppliForm.urlEppInfosParl}, 
+                                    false)"
+                ></div>
+
+                <div
+                    th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                    #{parametresAppli.form.label.loginEppInfosParl}, 
+                                    true, 
+                                    '', 
+                                    'loginEppInfosParl', 
+                                    'loginEppInfosParl', 
+                                    ${paramAppliForm.loginEppInfosParl}, 
+                                    false)"
+                ></div>
+                <div class="m-b-6 grid__col--middle form-input">
+                    <div class="form-input__header">
+                        <div class="form-input__header-top">
+                            <label for="app_password" id="app_password_label" class="form-label">
+                                [[#{parametresAppli.form.label.passEppInfosParl}]]
+                                <span class="form-label__required-text" th:text="#{form.required.label}"></span>
+                            </label>
+                            <div class="form-input__icon-group"></div>
+                        </div>
+                    </div>
+                    <div class="form-input__container">
+                        <input
+                            type="password"
+                            name="passEppInfosParl"
+                            id="app_password"
+                            th:value="${paramAppliForm.passEppInfosParl}"
+                            data-validation="required"
+                            class="form-input__field form-input__field--type-password"
+                        />
+                        <button
+                            type="button"
+                            title="Voir le mot de passe"
+                            class="js-form-input-action form-input__action"
+                        >
+                            <span class="sr-only" th:text="#{form.password.show.label}"></span
+                            ><span
+                                aria-hidden="true"
+                                class="form-input__action-icon icon icon--stroked-eye icon--v-align"
+                            ></span>
+                        </button>
+                    </div>
+                    <div id="passEppInfosParl_description" class="form-input__footer"></div>
+                </div>
+            </div>
+        </form>
+
+        <div class="row-actions">
+            <div class="row-actions__left">
+                <button
+                    type="button"
+                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered base-btn--padded-lr"
+                    onclick="goPreviousPage()"
+                    th:text="#{button.label.cancel}"
+                ></button>
+            </div>
+            <div class="row-actions__right">
+                <button
+                    type="button"
+                    class="base-btn base-btn--button base-btn--default base-btn--primary"
+                    onclick="saveParametresApplication()"
+                    th:text="#{button.label.save}"
+                ></button>
+            </div>
+        </div>
+    </main>
+</html>

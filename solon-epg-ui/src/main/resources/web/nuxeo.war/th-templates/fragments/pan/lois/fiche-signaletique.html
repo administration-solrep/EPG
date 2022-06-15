@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="fiche-signaletique"
+            id="d_fiche-signaletique_content"
+            class="page-epg-bordereau"
+            th:with="message=${currentSection == 'lois' ? #messages.msg('pan.application.fiche.loi') : #messages.msg('pan.application.fiche.ordonnance') },delai=${currentSection == 'lois' ? #messages.msg('pan.application.fiche.delai.loi') : #messages.msg('pan.application.fiche.delai.ordonnance')}"
+        >
+            <fieldset class="bordereauFieldset">
+                <div class="accordion">
+                    <button
+                        type="button"
+                        aria-controls="accordion__content__fiche_texte-maitre"
+                        aria-expanded="true"
+                        id="accordion__header__fiche_texte-maitre"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract"
+                        data-icon-closed="add"
+                        class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[${message}]]
+                        <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                        </span>
+                    </button>
+
+                    <div
+                        aria-hidden="false"
+                        id="accordion__content__fiche_texte-maitre"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                        role="region"
+                        aria-labelledby="accordion__header__fiche_texte-maitre"
+                    >
+                        <fieldset>
+                            <legend class="sr-only" th:text="${message}"></legend>
+                            <div class="table-wrapper">
+                                <table role="presentation" class="folder-detail__table">
+                                    <caption class="sr-only" th:text="${message}">
+                                        Loi
+                                    </caption>
+                                    <tbody>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.intitule}"
+                                            >
+                                                Intitulé
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.intitule}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.nor}"
+                                            >
+                                                Nor
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.numeroNor}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line" th:if="${currentSection == 'lois'}">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.natureTexte}"
+                                            >
+                                                Nature de texte
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.natureTexte}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line" th:if="${currentSection == 'lois'}">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.procedureVote}"
+                                            >
+                                                Procédure de vote
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.procedureVote}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="${currentSection == 'lois' ? #messages.msg('pan.application.lois.table.lois.header.label.loiApplicationImmediate') : #messages.msg('pan.application.ordonnance.header.label.ordonnanceApplicationImmediate') }"
+                                            >
+                                                Loi d'application directe
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:if="${fiche.applicationDirecte}"
+                                                th:text="#{choix.oui}"
+                                            ></td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:if="${!fiche.applicationDirecte}"
+                                                th:text="#{choix.non}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line" th:if="${currentSection == 'lois'}">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.datePromulgation}"
+                                            >
+                                                Date de promulgation
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${#dates.format(fiche.datePromulgation,'dd/MM/yyyy')}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.datePublication}"
+                                            >
+                                                Date de publication
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${#dates.format(fiche.datePublication,'dd/MM/yyyy')}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.table.mesures.header.label.dateLimiteSixMois}"
+                                            >
+                                                Date limite du délai de 6 mois
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${#dates.format(fiche.dateLimite,'dd/MM/yyyy')}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.dateEntreeEnVigueur}"
+                                            >
+                                                Date d'entrée en vigueur
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${#dates.format(fiche.dateEntreeVigueur,'dd/MM/yyyy')}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.fiche.header.label.tauxApplication}"
+                                            >
+                                                Taux d'application
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.tauxApplication} +' %'"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line" th:if="${currentSection == 'lois'}">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.loiHabilitation}"
+                                            >
+                                                Loi d'habilitation
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:if="${fiche.hasHabilitation}"
+                                                th:text="#{choix.oui}"
+                                            ></td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:if="${!fiche.hasHabilitation}"
+                                                th:text="#{choix.non}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.dateReunionProgrammation}"
+                                            >
+                                                Date de la réunion de programmation
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${#dates.format(fiche.dateReunionProgrammation,'dd/MM/yyyy')}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.dateCirculationCR}"
+                                            >
+                                                Date de mise en circulation du CR de la réunion
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${#dates.format(fiche.dateCirculationCompteRendu,'dd/MM/yyyy')}"
+                                            ></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <button
+                        type="button"
+                        aria-controls="accordion__content__fiche_mesures"
+                        aria-expanded="true"
+                        id="accordion__header__fiche_mesures"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract"
+                        data-icon-closed="add"
+                        class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{pan.application.fiche.mesures}]]
+                        <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                        </span>
+                    </button>
+
+                    <div
+                        aria-hidden="false"
+                        id="accordion__content__fiche_mesures"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                        role="region"
+                        aria-labelledby="accordion__header__fiche_mesures"
+                    >
+                        <fieldset>
+                            <legend class="sr-only" th:text="#{pan.application.fiche.mesures}"></legend>
+                            <div class="table-wrapper">
+                                <table role="presentation" class="folder-detail__table">
+                                    <caption class="sr-only" th:text="#{pan.application.fiche.mesures}">
+                                        Mesures d'application
+                                    </caption>
+                                    <tbody>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.fiche.header.label.nbMesuresAnalysees}"
+                                            >
+                                                Nombre de mesures analysées comme appelant l'intervention d'un décret
+                                                d'application
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.mapMesures.get('activite.normative.fiche.signaletique.Active')}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.fiche.header.label.nbTotal.mesuresEventuelles}"
+                                            >
+                                                Nombre total de mesures éventuelles
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.mapMesures.get('activite.normative.fiche.signaletique.Éventuelle')}"
+                                            ></td>
+                                        </tr>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.fiche.header.label.nbTotal.mesuresDifferees}"
+                                            >
+                                                Nombre total de mesures différées
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.mapMesures.get('activite.normative.fiche.signaletique.Différée')}"
+                                            ></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <button
+                        type="button"
+                        aria-controls="accordion__content__fiche_observation"
+                        aria-expanded="true"
+                        id="accordion__header__fiche_observation"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract"
+                        data-icon-closed="add"
+                        class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{pan.application.fiche.observation}]]
+                        <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                        </span>
+                    </button>
+
+                    <div
+                        aria-hidden="false"
+                        id="accordion__content__fiche_observation"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                        aria-labelledby="accordion__header__fiche_observation"
+                        role="region"
+                    >
+                        <fieldset>
+                            <legend class="sr-only" th:text="#{pan.application.fiche.observation}"></legend>
+                            <div class="table-wrapper">
+                                <table role="presentation" class="folder-detail__table">
+                                    <caption class="sr-only" th:text="#{pan.application.fiche.observation}">
+                                        Observation
+                                    </caption>
+                                    <tbody>
+                                        <tr class="folder-detail__table-line">
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--label"
+                                                th:text="#{pan.application.lois.table.lois.header.label.observation}"
+                                            >
+                                                Observation
+                                            </td>
+                                            <td
+                                                class="folder-detail__table-cell folder-detail__table-cell--value"
+                                                th:text="${fiche.observation}"
+                                            ></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <button
+                        type="button"
+                        aria-controls="accordion__content__fiche_repartition-ministere"
+                        aria-expanded="true"
+                        id="accordion__header__fiche_repartition-ministere"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract"
+                        data-icon-closed="add"
+                        class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{pan.application.fiche.repartition}]]
+                        <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                        </span>
+                    </button>
+
+                    <div
+                        aria-hidden="false"
+                        id="accordion__content__fiche_repartition-ministere"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                        role="region"
+                        aria-labelledby="accordion__header__fiche_repartition-ministere"
+                    >
+                        <table role="presentation" class="folder-detail__table">
+                            <caption class="sr-only" th:text="#{pan.application.fiche.repartition}">
+                                Répartition par ministère
+                            </caption>
+                            <tbody>
+                                <tr th:each="item : ${fiche.repartititionMinisteres}" class="folder-detail__table-line">
+                                    <td
+                                        scope="col"
+                                        class="folder-detail__table-cell folder-detail__table-cell--label"
+                                        th:text="${item.key}"
+                                    >
+                                        Clé
+                                    </td>
+                                    <td
+                                        scope="col"
+                                        class="folder-detail__table-cell folder-detail__table-cell--value"
+                                        th:text="${item.value}"
+                                    ></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <button
+                        type="button"
+                        aria-controls="accordion__content__fiche_delai-application"
+                        aria-expanded="true"
+                        id="accordion__header__fiche_delai-application"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract"
+                        data-icon-closed="add"
+                        class="accordion__header js-toggle accordion__header--default"
+                    >
+                        <th:block th:text="${delai}"></th:block>
+                        <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                        </span>
+                    </button>
+
+                    <div
+                        aria-hidden="false"
+                        id="accordion__content__fiche_delai-application"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                        role="region"
+                        aria-labelledby="accordion__header__fiche_delai-application"
+                    >
+                        <table role="presentation" class="folder-detail__table">
+                            <caption class="sr-only" th:text="${delai}">
+                                Délai d'application de la loi
+                            </caption>
+                            <tbody>
+                                <tr th:each="item : ${fiche.delaiPublication}" class="folder-detail__table-line">
+                                    <td
+                                        scope="col"
+                                        class="folder-detail__table-cell folder-detail__table-cell--label"
+                                        th:text="${item.key}"
+                                    >
+                                        Clé
+                                    </td>
+                                    <td
+                                        scope="col"
+                                        class="folder-detail__table-cell folder-detail__table-cell--value"
+                                        th:text="${item.value}"
+                                    ></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </body>
+</html>

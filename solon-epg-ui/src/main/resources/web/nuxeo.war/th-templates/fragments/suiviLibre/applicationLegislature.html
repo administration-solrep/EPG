@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="applicationLegislature" style="position: relative;">
+            <div class="overlay" id="resultatLegislature_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+
+            <input id="typeActe" type="hidden" th:value="${typeActe}" />
+            <input id="typeApplication" type="hidden" th:value="${typeApplication}" />
+            <th:block th:replace="fragments/suiviLibre/applicationTexteMaitre :: applicationTexteMaitre"></th:block>
+
+            <th:block th:replace="fragments/suiviLibre/applicationMinisteres :: applicationMinisteres"></th:block>
+
+            <th:block th:each="oth, index : ${extra}">
+                <th:block
+                    th:replace="fragments/suiviLibre/applicationDivers :: applicationDivers(${oth.key}, ${index.index} + 3, ${oth.value})"
+                ></th:block>
+            </th:block>
+        </div>
+    </body>
+</html>

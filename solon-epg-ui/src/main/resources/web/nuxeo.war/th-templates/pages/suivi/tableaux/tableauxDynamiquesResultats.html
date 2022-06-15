@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page résultats tableaux dynamiques', title=#{tableaux.dynamiques.resultats.title(${tableauDynamique.label})})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <input type="hidden" id="idTabDyn" th:value="${tableauDynamique.id}" />
+
+        <h1
+            class="base-title base-title--lvl-1"
+            th:text="#{tableaux.dynamiques.resultats.title(${tableauDynamique.label})}"
+        >
+            Résultats de la requête
+        </h1>
+        <div class="page-reponses__table">
+            <th:block th:unless="${exportAction}">
+                <div class="page-reponses__table-heading">
+                    <h2
+                        class="page-reponses__table-heading__base-title base-title base-title--lvl-2"
+                        th:text="#{tableaux.dynamiques.resultats.nombre(${nbResults})}"
+                    ></h2>
+                </div>
+            </th:block>
+
+            <th:block th:if="${exportAction}">
+                <div class="page-reponses__table-heading heading-complex">
+                    <div class="heading-complex__main">
+                        <h2
+                            class="page-reponses__table-heading__base-title base-title base-title--lvl-2"
+                            th:text="#{tableaux.dynamiques.resultats.nombre(${nbResults})}"
+                        ></h2>
+                    </div>
+
+                    <div class="heading-complex__options">
+                        <div
+                            th:replace="fragments/components/action-button-fixed :: action-button-fixed(${exportAction}, false, 'base-btn--secondary base-btn--min base-btn--rounded color-white')"
+                        ></div>
+                    </div>
+                </div>
+            </th:block>
+
+            <div th:replace="fragments/table/tableDossiers :: searchResults"></div>
+        </div>
+    </main>
+</html>

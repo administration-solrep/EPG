@@ -1,0 +1,79 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Page d\'une liste des paramètres d\'indexation', title=#{menu.admin.param.param.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <!-- Modal de confirmation de suppression document -->
+        <div th:replace="fragments/components/modal-ajout-liste-mots-cles :: modal-ajout-liste-mots-cles"></div>
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('retour-parametres-indexation')"></div>
+        <form>
+            <h1 class="m-b-6 base-title base-title--lvl-1" id="form-subtitle" th:text="${dto.label}">Liste</h1>
+            <input type="hidden" name="listeId" id="listeId" th:value="${dto.id}" />
+            <div role="group" aria-labelledby="form-subtitle" class="grid__row">
+                <div class="grid__col m-b-6">
+                    <div id="input-list-listeMotsCles" class="form-terms form-terms--simple">
+                        <fieldset>
+                            <legend class="sr-only" th:text="#{param.indexation.rubriques.ajouter}">Ajouter</legend>
+                            <div class="form-terms__fields" th:with="notIconBig=true">
+                                <div class="form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                for="form_input_liste_listeMotsCles"
+                                                id="form_input_liste_listeMotsCles_label"
+                                                class="form-label"
+                                                th:text="#{param.indexation.liste.input.description}"
+                                                data-validation="required"
+                                            >
+                                                Label
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-input__container">
+                                        <input
+                                            type="text"
+                                            name="form_input_liste_listeMotsCles"
+                                            id="form_input_liste_listeMotsCles"
+                                            class="form-input__field form-input__field--type-text"
+                                        />
+                                    </div>
+                                </div>
+                                <button
+                                    th:replace="fragments/components/label-action-button-fixed  :: label-action-button-fixed(${addAction}, false, '')"
+                                ></button>
+                            </div>
+                            <div aria-live="assertive" aria-relevant="additions, removals" class="form-terms__terms">
+                                <div th:each="item : ${dto.motCle}" class="form-terms__terms__el">
+                                    <span th:text="${item}">Label</span>
+                                    <button
+                                        type="button"
+                                        class="js-interstitial-trigger js-tooltip base-btn base-btn--button base-btn--default"
+                                        th:classappend="|ACTION_REMOVE_MOTS_CLES base-btn--light base-btn--min base-btn--transparent|"
+                                        onclick="doInitModal(this)"
+                                        th:data-tippy-content="#{param.indexation.supprimer(${item})}"
+                                        data-controls="validation-dialog-modal"
+                                        th:data-message="#{param.indexation.liste.motsCles.supprimer.confirm.message(${item})}"
+                                        data-function="doRemoveMotsCles()"
+                                        th:data-parameters="|motsCles=${item}|"
+                                        th:data-title="#{param.indexation.liste.motsCles.supprimer.title}"
+                                        th:title="#{param.indexation.supprimer(${item})}"
+                                    >
+                                        <span aria-hidden="true" class="icon icon--times-circle icon--big"></span>
+                                        <span
+                                            class="sr-only"
+                                            th:text="#{param.indexation.liste.motsCles.supprimer.title}"
+                                        ></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('retour-parametres-indexation')"></div>
+    </main>
+</html>

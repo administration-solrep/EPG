@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="texteMaitreForm" id="texteMaitreForm">
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__info_texte-maitre"
+                    aria-expanded="true"
+                    id="accordion__header__info_texte-maitre"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{pan.sous.onglet.texteMaitre}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__info_texte-maitre"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                        th:replace="fragments/pan/components/panActionToolbar :: panActionToolbar(${subtabLeftActions}, ${subtabRightActions})"
+                    ></div>
+
+                    <th:block th:if="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <form class="grid m-t-4" id="texte-maitre-form" autocomplete="off">
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.motCle}, null, 'motCle', 'pan.application.lois.table.lois.header.label.motCle', false, false, 'text')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.numeroInterne}, null, 'numeroInterne', 'pan.application.lois.table.lois.header.label.numeroInterne', false, false, 'text')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.numero}, null, 'numero', 'pan.application.lois.table.lois.header.label.numero', false, false, 'text')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.numeroNor}, null, 'numeroNor', 'pan.application.lois.table.lois.header.label.nor', false, true, 'text')"
+                            ></div>
+                            <div class="grid__row m-t-6">
+                                <div class="grid__col grid__col--form-input">
+                                    <div
+                                        th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete('pan.application.lois.table.lois.header.label.ministerePilote', false, 'ministerePilote', 'ministerePilote', 'MIN', ${texteMaitre.ministerePilote}, false, false, ${mapMinisterePilote}, false)"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.titreOfficiel}, null,'titreOfficiel', 'pan.application.lois.table.lois.header.label.titre', false, false, 'text')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.datePublication}, null, 'datePublication', 'pan.application.lois.table.lois.header.label.datePublication', false, false, 'date-picker')"
+                            ></div>
+                            <div class="grid__row m-t-6">
+                                <div class="grid__col grid__col--form-input">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-select ::simpleSelect('pan.application.lois.table.lois.header.label.legislaturePublication', 'legislaturePublication','',${legislaturePublicationList}, ${texteMaitre.legislaturePublication}, 'false',null)"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.applicationDirecte}, null, 'applicationDirecte', 'pan.application.ordonnances.table.ordonnances.header.label.applicationImmediate', false, false, 'inputOuiNon')"
+                            ></div>
+                            <div
+                                th:replace="fragments/pan/components/panFormField :: panFormField(${texteMaitre.observation}, null, 'observation', 'pan.application.lois.table.lois.header.label.observation', false, false, 'text')"
+                            ></div>
+
+                            <th:block th:with="fieldOptions=${fondementConstitutionnelValues}, isFieldLabelPlain=true">
+                                <div
+                                    th:replace="fragments/pan/components/panFormField :: panFormField(${#strings.toString(texteMaitre.dispositionHabilitation)}, null, 'fondementConstitutionnel', 'pan.ordonnances.fondementConstitutionnel', false, false, 'input-optin')"
+                                ></div>
+                            </th:block>
+                        </form>
+                    </th:block>
+
+                    <th:block th:unless="${consultTexteMaitreDto.canEditTexteMaitre}">
+                        <div class="table-wrapper">
+                            <table role="presentation" class="folder-detail__table">
+                                <caption class="sr-only" th:text="#{pan.sous.onglet.texteMaitre}">
+                                    Texte-maitre
+                                </caption>
+                                <tbody>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.motCle}"
+                                        >
+                                            Mot clé
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.motCle}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.numeroInterne}"
+                                        >
+                                            N° interne
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.numeroInterne}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.numero}"
+                                        >
+                                            Numero
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.numero}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.nor}"
+                                        >
+                                            Nor
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.numeroNor}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.ministerePilote}"
+                                        >
+                                            Ministère pilote
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.ministerePiloteLabel}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.titre}"
+                                        >
+                                            Titre
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.titreOfficiel}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.datePublication}"
+                                        >
+                                            Date de publication
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${#dates.format(texteMaitre.datePublication,'dd/MM/yyyy')}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.legislaturePublication}"
+                                        >
+                                            Législature publication
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.legislaturePublication}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.ordonnances.table.ordonnances.header.label.applicationImmediate}"
+                                        >
+                                            Loi d'application directe
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${texteMaitre.applicationDirecte}"
+                                            th:text="#{choix.oui}"
+                                        ></td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${!texteMaitre.applicationDirecte}"
+                                            th:text="#{choix.non}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.application.lois.table.lois.header.label.observation}"
+                                        >
+                                            Observation
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${texteMaitre.observation}"
+                                        ></td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{pan.ordonnances.fondementConstitutionnel}"
+                                        >
+                                            Fondement constitutionnel
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${texteMaitre.dispositionHabilitation}"
+                                            th:text="#{epg.dossier.creation.ordonnance.choix.article.38}"
+                                        ></td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:if="${!texteMaitre.dispositionHabilitation}"
+                                            th:text="#{epg.dossier.creation.ordonnance.choix.article.74.1}"
+                                        ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

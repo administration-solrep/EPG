@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="selectOptions(label, id, options, value, classAppend)"
+            class="form-select form-select--simple form-select--inline"
+            th:classappend="${classAppend}"
+        >
+            <div class="form-input form-input--inline">
+                <div class="form-input__header">
+                    <div class="form-input__header-top">
+                        <label th:for="${id}" id="search_order-by_label" class="form-label" th:text="${label}"
+                            >Label</label
+                        >
+                    </div>
+                </div>
+                <div class="form-input__container">
+                    <div class="form-select__field-wrapper">
+                        <div class="form-select-input">
+                            <select
+                                th:name="|select-${id}|"
+                                th:id="${id}"
+                                class="form-select-input__field form-select-input__field--simple"
+                                onchange="applySelectedOptions()"
+                            >
+                                <option
+                                    th:each="option : ${options}"
+                                    th:value="${option}"
+                                    th:text="${option}"
+                                    th:selected="${#strings.equals(option, value)}"
+                                >
+                                </option>
+                            </select>
+                            <span aria-hidden="true" tabindex="-1">
+                                <span
+                                    aria-hidden="true"
+                                    class="icon icon--arrow-bottom form-select-input__arrow"
+                                ></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

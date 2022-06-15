@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="rechercheLibreFiltreAutres">
+            <!-- Mettre à jour les résultats -->
+            <button
+                type="button"
+                class="m-b-6 base-btn base-btn--button base-btn--default base-btn--center base-btn--full"
+                onclick="updateResults()"
+            >
+                <span aria-hidden="true" class="m-r-2 icon icon--refresh icon--v-align icon--medium"></span>
+                <span th:text="#{recherche.libre.maj.resultat}">[[#{recherche.libre.maj.resultat}]]</span>
+            </button>
+
+            <h2
+                class="search-result-form__subtitle base-title base-title--lvl-2"
+                th:text="#{recherche.libre.label.filtres}"
+            >
+                [[#{recherche.libre.label.filtres}]]
+            </h2>
+
+            <!-- Poste -->
+            <div
+                th:replace="fragments/components/recherchelibre/recherche-libre-filtre-poste :: rechercheLibreFiltrePoste(
+                    'poste',
+                    'recherche.libre.btn.poste',
+                    'recherche.libre.btn.poste',
+                    'poste-id', 
+                    'poste',
+                    ${resultForm ? resultForm.posteId : null},
+                    ${resultForm ? resultForm.mapPoste : null},)"
+            ></div>
+            <!-- Date de création -->
+            <div
+                th:replace="fragments/components/recherchelibre/recherche-libre-filtre-date :: rechercheLibreFiltreDate(
+                    'date-creation',
+                    'recherche.libre.btn.date.creation',
+                    'recherche.libre.label.periode',
+                    'datepicker_description_form_input_date_debut_creation', 
+                    'datepicker_description_form_input_date_fin_creation', 
+                    'Creation',
+                    ${resultForm ? resultForm.dateDebutCreation : null},
+                    ${resultForm ? resultForm.dateFinCreation : null})"
+            ></div>
+            <!-- Date de publication souhaitée -->
+            <div
+                th:replace="fragments/components/recherchelibre/recherche-libre-filtre-date :: rechercheLibreFiltreDate(
+                    'date-publication',
+                    'recherche.libre.btn.date.publication',
+                    'recherche.libre.label.periode',
+                    'datepicker_description_form_input_date_debut_publication', 
+                    'datepicker_description_form_input_date_fin_publication', 
+                    'Publication',
+                    ${resultForm ? resultForm.dateDebutPublication : null},
+                    ${resultForm ? resultForm.dateFinPublication : null})"
+            ></div>
+            <!-- Date de signature -->
+            <div
+                th:replace="fragments/components/recherchelibre/recherche-libre-filtre-date :: rechercheLibreFiltreDate(
+                    'date-signature',
+                    'recherche.libre.btn.date.signature',
+                    'recherche.libre.label.periode',
+                    'datepicker_description_form_input_date_debut_signature', 
+                    'datepicker_description_form_input_date_fin_signature', 
+                    'Signature',
+                    ${resultForm ? resultForm.dateDebutSignature : null},
+                    ${resultForm ? resultForm.dateFinSignature : null})"
+            ></div>
+            <!-- Date de publication JO -->
+            <div
+                th:replace="fragments/components/recherchelibre/recherche-libre-filtre-date :: rechercheLibreFiltreDate(
+                    'date-publication-jo',
+                    'recherche.libre.btn.date.publication.jo',
+                    'recherche.libre.label.periode',
+                    'datepicker_description_form_input_date_debut_publication_jo', 
+                    'datepicker_description_form_input_date_fin_publication_jo', 
+                    'Publication_JO',
+                    ${resultForm ? resultForm.dateDebutPublicationJO : null},
+                    ${resultForm ? resultForm.dateFinPublicationJO : null})"
+            ></div>
+            <!-- Mettre à jour les résultats -->
+            <button
+                type="button"
+                class="base-btn base-btn--button base-btn--default base-btn--center base-btn--full"
+                onclick="updateResults()"
+            >
+                <span aria-hidden="true" class="m-r-2 icon icon--refresh icon--v-align icon--medium"></span>
+                <span th:text="#{recherche.libre.btn.maj.resultat}">[[#{recherche.libre.btn.maj.resultat}]]</span>
+            </button>
+        </div>
+    </body>
+</html>

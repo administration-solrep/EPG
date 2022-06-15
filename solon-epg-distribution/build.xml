@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project name="QA">
+
+	<target name="autodeploy" description="D�ploiement de l'application sur le serveur QA">
+		<echo>
+			===========================================================
+			. D�ploiement sur le serveur de QA
+			.
+			. Serveur de d�ploiement :
+			${ssh.username}@${ssh.host}"
+			===========================================================
+		</echo>
+		<scp
+            file="${deploy.srcdir}/${deploy.archive}"
+            todir="${ssh.username}@${ssh.host}:${deploy.destdir}"
+            password="${ssh.password}"
+            trust="true"
+        />
+
+		<!-- D�ploiement de la distribution et lancement des tests fonctionnels -->
+		<sshexec
+            host="${ssh.host}"
+            username="${ssh.username}"
+            password="${ssh.password}"
+            command="${deploy.script} -r db,ldap,ldapdb /opt/solonepg-server-SNAPSHOT ${deploy.destdir}/${deploy.archive}"
+            trust="true"
+        />
+	</target>
+
+	<target name="autodeploymgpp" description="D�ploiement de l'application sur le serveur QA pour MGPP">
+		<echo>
+			===========================================================
+			. D�ploiement sur le serveur de QA pour MGPP
+			.
+			. Serveur de d�ploiement :
+			${ssh.username}@${ssh.host}"
+			===========================================================
+		</echo>
+		<scp
+            file="${deploy.srcdir}/${deploy.archive}"
+            todir="${ssh.username}@${ssh.host}:${deploy.destdir}"
+            password="${ssh.password}"
+            trust="true"
+        />
+		<!-- pas de reset ldapdb qui est r�alis� par epp -->
+		<sshexec
+            host="${ssh.host}"
+            username="${ssh.username}"
+            password="${ssh.password}"
+            command="${deploy.script} -r db,ldap /opt/solonepg-server-SNAPSHOT ${deploy.destdir}/${deploy.archive}"
+            trust="true"
+        />
+	</target>
+
+	<target name="install" description="Installation de l'application sur le serveur ${ssh.host}">
+		<echo>
+			===========================================================
+			. D�ploiement sur le serveur ${ssh.username}@${ssh.host}"
+			===========================================================
+		</echo>
+		<scp
+            file="${deploy.srcdir}/${deploy.archive}"
+            todir="${ssh.username}@${ssh.host}:${deploy.destdir}"
+            password="${ssh.password}"
+            trust="true"
+        />
+
+		<!-- D�ploiement de la distribution et lancement des tests fonctionnels -->
+		<sshexec
+            host="${ssh.host}"
+            username="${ssh.username}"
+            password="${ssh.password}"
+            command="'${deploy.script}' '${deploy.destdir}/${deploy.archive}' '${deploy.install.confdir}'"
+            trust="true"
+        />
+	</target>
+
+</project>

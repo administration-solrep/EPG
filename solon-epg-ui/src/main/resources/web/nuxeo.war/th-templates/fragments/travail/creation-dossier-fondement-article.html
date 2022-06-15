@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="creation-dossier-fondement-article" class="page-layout__content--dark m-y-6 p-a-5">
+            <div class="form-optin--big">
+                <div
+                    th:replace="fragments/components/formblocks/input-optin :: optin(
+                        label='epg.dossier.creation.ordonnance.article.legend',
+                        id='article',
+                        name='article',
+                        options=${articleOption},
+                        value='',
+                        disabled=false,
+                        onchange='onChangeArticle()',
+                        noFormInputClass=true
+                    )"
+                ></div>
+            </div>
+
+            <div id="ordonnance" class="hide-element">
+                <form id="ordonnance-form">
+                    <!-- Référence -->
+                    <div class="grid__row m-y-6">
+                        <div class="grid__col grid__col--middle">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                    #{epg.dossier.creation.application.loi.ordonnance.reference.label},
+                                    true,
+                                    #{epg.dossier.creation.application.loi.ordonnance.reference.description},
+                                    'reference',
+                                    'reference',
+                                    null,
+                                    false)"
+                            ></div>
+                        </div>
+                    </div>
+                    <!-- Numéro d'ordre -->
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--full-width">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input-validation :: simpleInputValidation(
+                                    #{epg.dossier.creation.application.loi.ordonnance.numero.ordre.label},
+                                    #{epg.dossier.creation.application.loi.ordonnance.numero.ordre.description},
+                                    'numeroOrdre',
+                                    'numeroOrdre',
+                                    null,
+                                    false,
+                                    'integer')"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col">
+                            <!-- Numéro d'article -->
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                    #{epg.dossier.creation.application.loi.ordonnance.numero.article.label},
+                                    false,
+                                    null,
+                                    'numeroArticle',
+                                    'numeroArticle',
+                                    null,
+                                    false)"
+                            ></div>
+                        </div>
+                        <div class="form-input--full grid__col form-input--little form-input">
+                            <!-- Commentaire -->
+                            <div
+                                th:replace="fragments/components/formblocks/textarea-input :: textArea(
+                                    'epg.dossier.creation.application.loi.ordonnance.commentaire.label',
+                                    'commentaire',
+                                    '',
+                                    null,
+                                    'false',
+                                    '')"
+                            ></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

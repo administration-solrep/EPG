@@ -1,0 +1,65 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page parametre ADAMANT', title=#{parametre.admant.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <form id="param-adamant-form">
+            <fieldset class="m-y-6 flex flex-row justify-between">
+                <legend class="sr-only">[[#{parametre.admant.button.legend}]]</legend>
+                <button
+                    type="button"
+                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                    onclick="resetParamAdamant()"
+                >
+                    [[#{button.label.cancel}]]
+                </button>
+                <button
+                    type="button"
+                    class="base-btn base-btn--submit base-btn--default base-btn--center"
+                    onclick="saveParamAdamant()"
+                >
+                    [[#{button.label.save}]]
+                </button>
+            </fieldset>
+
+            <h1 class="m-b-6 base-title base-title--lvl-1">[[#{parametre.admant.title}]]</h1>
+
+            <h2 class="m-b-6 base-title base-title--lvl-2" id="adamantSubtitle1">
+                [[#{parametre.admant.element.manifest.subtitle}]]
+            </h2>
+
+            <div id="param-adamant-body">
+                <th:block th:replace="fragments/archivage/parametreAdamantForm :: parametreAdamantForm"></th:block>
+            </div>
+
+            <fieldset class="m-y-6 flex flex-row justify-between">
+                <legend class="sr-only">[[#{parametre.admant.button.legend}]]</legend>
+                <button
+                    type="button"
+                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                    onclick="resetParamAdamant()"
+                >
+                    [[#{button.label.cancel}]]
+                </button>
+                <button
+                    type="button"
+                    class="base-btn base-btn--submit base-btn--default base-btn--center"
+                    onclick="saveParamAdamant()"
+                >
+                    [[#{button.label.save}]]
+                </button>
+            </fieldset>
+        </form>
+
+        <!-- div pour contrôler si le formulaire a été modifié -->
+        <div
+            id="modale-sauvegarde-param-adamant"
+            name="param-adamant"
+            th:data-init-function="initControlParamAdamant"
+            th:data-check-function="checkParamAdamantForm"
+        ></div>
+    </main>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ministere-pm(dto)">
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="refTablesTitleMinisteresPm"
+                th:text="#{admin.table.reference.ministere.pm.title}"
+            >
+                Ministères PM
+            </h2>
+
+            <div role="group" aria-labelledby="refTablesTitleMinisteresPm">
+                <div class="grid__row">
+                    <div class="relative grid__col grid__col--middle m-b-6">
+                        <th:block
+                            th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+                                'admin.table.reference.ministere.pm',
+                                false,
+                                'ministerePm',
+                                'ministerePm',
+                                'MIN', 
+                                '',
+                                false,
+                                false,
+                                ${dto.mapMinisterePm},
+                                false)"
+                        ></th:block>
+                    </div>
+                </div>
+                <div class="grid__row">
+                    <div class="relative grid__col grid__col--middle m-b-6">
+                        <th:block
+                            th:replace="fragments/components/organigrammeSelectAutocomplete ::organigrammeSelectAutocomplete(
+                                'admin.table.reference.direction.pm',
+                                false,
+                                'directionPm',
+                                'directionPm',
+                                'DIR',
+                                '',
+                                false,
+                                true,
+                                ${dto.mapDirectionsPm},
+                                false)"
+                        ></th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

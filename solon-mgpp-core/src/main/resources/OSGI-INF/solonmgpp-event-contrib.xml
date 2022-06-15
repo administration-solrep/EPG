@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<component name="fr.dila.solonmgpp.core.event">
+  
+  <extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+
+    <!-- Listener exécuté après la création d'un caseLink après le passage d'une étape à l'état "running"   -->
+    <listener
+            name="afterCaseLinkCreated"
+            async="true"
+            postCommit="true"
+            priority="211"
+            class="fr.dila.solonmgpp.core.event.AfterCaseLinkCreatedListener"
+        >
+        <event>afterCaseLinkCreated</event>
+    </listener>
+    
+    <!-- Listener pour la préparation de l'injection vers EPP d'un gourvenement -->
+    <listener
+            name="injectionEPPPreparation"
+            async="true"
+            postCommit="true"
+            priority="211"
+            class="fr.dila.solonmgpp.core.event.InjectionEPPListener"
+        >
+        <event>injectionEPPPreparation</event>
+    </listener>
+    
+        <!-- Listener de la generation de stats pour activite normatives -->
+    <listener
+            name="purgeCalendrierBatchListener"
+            async="false"
+            postCommit="false"
+            priority="210"
+            class="fr.dila.solonmgpp.core.event.PurgeCalendrierBatchListener"
+        >
+      <event>purgeCalendrierBatch</event>
+    </listener>
+
+        <!-- Listener de la generation de stats pour activite normatives -->
+    <listener
+            name="updateFichePresentationAfterUpdateBordereauListener"
+            async="true"
+            postCommit="true"
+            priority="210"
+            class="fr.dila.solonmgpp.core.event.UpdateFichePresentationAfterUpdateBordereauListener"
+        >
+      <event>updateFichePresentationAfterUpdateBordereau</event>
+    </listener>
+    
+        <!-- Initialise les droits du dossier avant sa création -->
+    <listener
+            name="dossierCreationListener"
+            async="false"
+            postCommit="false"
+            priority="10"
+            class="fr.dila.solonmgpp.core.event.DossierCreationListener"
+        >
+      <event>afterDossierCreated</event>
+    </listener>
+
+    <listener
+            name="updateMgppInfoCorbeilleBatchListener"
+            async="false"
+            postCommit="false"
+            priority="210"
+            class="fr.dila.solonmgpp.core.event.batch.UpdateMgppInfoCorbeilleBatchListener"
+        >
+      <event>updateMgppInfoCorbeilleEvent</event>
+    </listener>
+
+    <listener
+            name="modeleCourrierListener"
+            async="false"
+            postCommit="false"
+            priority="220"
+            class="fr.dila.solonmgpp.core.event.ModeleCourrierListener"
+        >
+      <event>aboutToCreate</event>
+      <event>beforeDocumentModification</event>
+    </listener>
+  </extension>
+
+</component>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="rechercheLibreFiltrePoste(id, btnText, posteLabel, posteId, posteName, idSelection, mapPoste)"
+            class="accordion"
+        >
+            <button
+                type="button"
+                th:aria-controls="|content-${id}|"
+                aria-expanded="true"
+                id="accordion__header__filters-accordion-publish"
+                th:id="|btn-${id}|"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+                class="accordion__header js-toggle accordion__header--default"
+            >
+                <span th:text="${#messages.msg(btnText)}"></span>
+                <span aria-hidden="true" class="icon icon--substract accordion__icon accordion__icon--default"></span>
+            </button>
+            <!---->
+            <div
+                aria-hidden="false"
+                th:id="|content-${id}|"
+                class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+            >
+                <div
+                    th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete(
+                    label=${posteLabel}, 
+                    labelRequired=false, 
+                    myID=${posteId},
+                    myName=${posteName}, 
+                    typeSelection='PST', 
+                    idSelection=${idSelection},
+                    activatePosteFilter=false, 
+                    isMulti=false, 
+                    listItems=${mapPoste},
+                    disabled=false)"
+                ></div>
+            </div>
+            <!---->
+            <div class="form-choice-input">
+                <input
+                    type="checkbox"
+                    id="chk-poste-en-cours"
+                    name="chk-poste-en-cours"
+                    th:data-value="#{recherche.libre.label.filtre.en.cours.poste}"
+                    th:data-type="poste"
+                    class="form-choice-input__input"
+                    th:checked="${resultForm ? resultForm.posteEnCours : null}"
+                    autocomplete="off"
+                />
+                <label
+                    for="chk-poste-en-cours"
+                    id="chk-poste-en-cours_label"
+                    class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                >
+                    <span th:text="#{recherche.libre.label.filtre.en.cours.poste}">BO (DEV) - Ecologie</span>
+                    <span class="sr-only" th:text="#{recherche.libre.filtre.en.cours.poste.message}"
+                        >Retourner les dossiers en cours dans ce poste</span
+                    >
+                </label>
+            </div>
+        </div>
+    </body>
+</html>

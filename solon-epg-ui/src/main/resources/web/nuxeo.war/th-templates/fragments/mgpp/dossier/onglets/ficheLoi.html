@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ficheLoi" id="fiche_content">
+            <input type="hidden" id="idMessage" name="idMessage" th:value="${id}" />
+            <input type="hidden" id="diffuser" name="diffuser" />
+
+            <div th:replace="fragments/table/toolbarMgpp :: toolbar('ficheLoi_toolbar', false)"></div>
+
+            <form id="formEditFiche">
+                <div
+                    th:replace="fragments/mgpp/dossier/onglets/bloc-ficheLoi :: bloc('ficheLoi', 'label.mgpp.dossier.onglets.ficheLoi',${lstWidgetsFiche})"
+                ></div>
+
+                <div
+                    th:replace="fragments/mgpp/dossier/onglets/bloc-ficheLoi :: bloc('depot', 'label.mgpp.dossier.onglets.ficheLoi.depot',${lstWidgetsDepot})"
+                ></div>
+
+                <div
+                    th:replace="fragments/mgpp/dossier/onglets/bloc-ficheLoi :: bloc('navette', 'label.mgpp.dossier.onglets.ficheLoi.navette',${lstNavettes})"
+                ></div>
+
+                <div
+                    th:replace="fragments/mgpp/dossier/onglets/bloc-ficheLoi :: bloc('loiVotee', 'label.mgpp.dossier.onglets.ficheLoi.loiVotee',${lstWidgetsLoiVotee})"
+                ></div>
+            </form>
+            <th:block th:unless="${#lists.isEmpty(lstWidgetsDetails)}">
+                <div
+                    th:replace="fragments/mgpp/dossier/onglets/bloc-detail :: blocDetail('detail', 'label.mgpp.dossier.onglets.ficheLoi.detail',${lstWidgetsDetails})"
+                ></div>
+            </th:block>
+        </div>
+    </body>
+</html>

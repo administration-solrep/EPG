@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <!--/* bloc ajout piece joint en mode modification */-->
+        <th:block th:fragment="rapidSearch(id)" th:if="${rapidSearch}">
+            <div class="accordion m-t-7 m-b-7">
+                <button
+                    th:aria-controls="|accordion__content__accordion-general-${id}-${rapidSearch.size}|"
+                    aria-expanded="false"
+                    id="accordion__header__accordion-general"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    <th:block th:text="#{recherche.libre.label.filtres}"></th:block>
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--add"></span>
+                </button>
+                <div
+                    aria-hidden="true"
+                    th:id="|accordion__content__accordion-general-${id}-${rapidSearch.size}|"
+                    class="accordion__content accordion__content--accordion--default accordion__content--has-background accordion__content--is-closed"
+                >
+                    <form class="search-form" id="searchForm" autocomplete="off">
+                        <fieldset>
+                            <legend class="sr-only" th:text="#{recherche.libre.label.filtres}"></legend>
+                            <input
+                                name="idCorbeille"
+                                id="idCorbeille"
+                                th:value="${corbeille}"
+                                type="hidden"
+                                aria-hidden="true"
+                                data-isform="true"
+                            />
+
+                            <input
+                                name="suiviDossierNodeKey"
+                                id="suiviDossierNodeKey"
+                                th:value="${suiviDossierNodeKey}"
+                                type="hidden"
+                                aria-hidden="true"
+                                data-isform="true"
+                            />
+
+                            <th:block th:each="parameter : ${otherParameter}">
+                                <input
+                                    th:unless="${parameter.value ==null}"
+                                    th:name="${parameter.key}"
+                                    th:value="${parameter.value}"
+                                    type="hidden"
+                                    aria-hidden="true"
+                                    data-isForm="true"
+                                />
+                            </th:block>
+
+                            <th:block th:each="widget, nb : ${rapidSearch}">
+                                <div class="grid__row" th:classappend="${nb.index > 0 ? 'm-t-6' : ''}">
+                                    <div class="grid__col grid__col--middle">
+                                        <th:block th:if="${#strings.equals(widget.typeChamp, 'select')}">
+                                            <div
+                                                th:replace="fragments/components/formblocks/simple-select :: simpleSelect(${widget.label}, ${widget.name}, '', ${widget.getValueParamByNameOrNull('lstValues')}, ${widget.getValueParamByNameOrNull('valeur')}, 'false', 'communicationSuccessive.select.default')"
+                                            ></div>
+                                        </th:block>
+                                        <th:block th:if="${widget.typeChamp == 'input-text'}">
+                                            <th:block th:if="${widget.getValueParamByName('autocomplete') == 'true'}">
+                                                <div class="form-input">
+                                                    <div
+                                                        th:replace="fragments/mgpp/widgets/input-text :: inputText(${widget})"
+                                                    ></div>
+                                                </div>
+                                            </th:block>
+                                            <th:block
+                                                th:unless="${widget.getValueParamByName('autocomplete') == 'true'}"
+                                            >
+                                                <div
+                                                    th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{${widget.label}}, false, '', ${'search-'+widget.name}, ${widget.name}, ${widget.getValueParamByNameOrNull('valeur')}, false)"
+                                                ></div>
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(widget.typeChamp, 'multiple_date')}">
+                                            <div
+                                                th:replace="fragments/components/formblocks/date-picker-range :: datepickerRange(${widget.label}, ${widget.name}, ${widget.getValueParamByNameOrNull('valueBeginning')}, ${widget.getValueParamByNameOrNull('valueEnding')}, false, false)"
+                                            ></div>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(widget.typeChamp, 'date')}">
+                                            <div class="form-input form-date-interval">
+                                                <div class="form-input__header">
+                                                    <div class="form-input__header-top">
+                                                        <p class="form-label" th:text="#{${widget.label}}"></p>
+                                                    </div>
+                                                    <div class="form-input__header-bottom"></div>
+                                                </div>
+                                                <div class="form-input__container">
+                                                    <div
+                                                        th:replace="fragments/components/input-date-picker :: inputDatePicker('', ${widget.name}, ${widget.name+'-filtre'}, false, ${widget.getValueParamByNameOrNull('valeur')}, false)"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(widget.typeChamp, 'niveau-lecture')}">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/niveau-lecture :: niveauLecture(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(widget.typeChamp, 'radio')}">
+                                            <th:block
+                                                th:replace="fragments/mgpp/widgets/optin-radio :: optinRadio(${widget})"
+                                            ></th:block>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(widget.typeChamp, 'multiple-input-text')}">
+                                            <div
+                                                th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(${widget.label}, ${'search-'+widget.name}, ${widget.name}, 'form.description.nocharlimit', ${widget.getValueParamByName('lstValues')}, ${ {} }, false, null, '0', '', '', '', false, true, false)"
+                                            ></div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </fieldset>
+                        <div class="page-reponses-search__buttons m-t-6">
+                            <button
+                                type="button"
+                                onclick="doReinitialiserFiltres()"
+                                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered"
+                                th:text="#{label.recherche.avancee.reinitialiser}"
+                            ></button>
+                            <button
+                                type="button"
+                                onclick="doSearch()"
+                                id="btnRecherche"
+                                class="base-btn base-btn--submit base-btn--default"
+                                th:text="#{label.recherche.avancee.rechercher}"
+                            ></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </th:block>
+    </body>
+</html>

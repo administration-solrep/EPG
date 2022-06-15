@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="rechercheLibreFiltreChk(id, btnText, dto, selectedItems)" class="accordion">
+            <button
+                type="button"
+                th:aria-controls="|content-${id}|"
+                th:aria-expanded="${#lists.isEmpty(selectedItems) ? false : true}"
+                id="accordion__header__filters-accordion-publish"
+                th:id="|btn-${id}|"
+                data-toggle="accordion__content"
+                data-icon-opened="substract"
+                data-icon-closed="add"
+                class="accordion__header js-toggle accordion__header--default"
+            >
+                <span th:text="${#messages.msg(btnText)}"></span>
+                <span
+                    aria-hidden="true"
+                    class="icon accordion__icon accordion__icon--default"
+                    th:classappend="${#lists.isEmpty(selectedItems) ? 'icon--add' : 'icon--substract'}"
+                >
+                </span>
+            </button>
+            <!---->
+            <div
+                th:aria-hidden="${#lists.isEmpty(selectedItems) ? true : false}"
+                th:id="|content-${id}|"
+                class="accordion__content accordion__content--accordion--default"
+                th:classappend="${not #lists.isEmpty(selectedItems) ? 'accordion__content--is-opened' : ''}"
+            >
+                <fieldset>
+                    <legend class="sr-only" th:text="${#messages.msg(btnText)}"></legend>
+
+                    <th:block th:if="${dto != null and not #lists.isEmpty(dto.items)}">
+                        <th:block th:each="item : ${dto.items}" th:if="${itemStat.index lt 10}">
+                            <div
+                                th:replace="fragments/components/recherchelibre/filtre-chk-item :: filtreChkItem(${item}, ${selectedItems}, ${id})"
+                            ></div>
+                        </th:block>
+                        <!---->
+                        <th:block th:if="${#lists.size(dto.items) gt 10}">
+                            <div class="see-more">
+                                <div class="see-more__content">
+                                    <th:block
+                                        th:each="item : ${dto.items}"
+                                        th:if="${itemStat.index gte 10 && itemStat.index lt 100}"
+                                    >
+                                        <div
+                                            th:replace="fragments/components/recherchelibre/filtre-chk-item :: filtreChkItem(${item}, ${selectedItems}, ${id})"
+                                        ></div>
+                                        <span
+                                            th:if="${itemStat.index eq 99}"
+                                            class="mention-text"
+                                            th:text="#{recherche.libre.label.affiner.recherche}"
+                                        >
+                                            D'autres valeurs existent, veuillez affiner votre recherche
+                                        </span>
+                                    </th:block>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="see-more__toggler base-btn base-btn--button base-btn--default base-btn--discret"
+                                    th:aria-label="#{label.see.more}"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    th:data-label-more="#{label.see.more}"
+                                    th:data-label-less="#{label.see.less}"
+                                >
+                                    [[#{recherche.libre.label.voir.plus}]]
+                                </button>
+                            </div>
+                        </th:block>
+                        <!---->
+                    </th:block>
+                </fieldset>
+            </div>
+            <!---->
+        </div>
+    </body>
+</html>

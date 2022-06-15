@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ongletPublication" id="ongletPublication_content" class="page-epg-bordereau">
+            <th:block th:unless="${isEditable}">
+                <div class="folder-detail">
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <!-- Date d'envoi JO -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.publication.date.envoi.jo}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${#calendars.format(dto.dateEnvoiJO,'dd/MM/yyyy')}"
+                                ></td>
+                            </tr>
+                            <!-- Vecteur de publication -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.publication.vecteur.publication}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${dto.vecteurPublication != null ? dto.vecteurPublication.value : null}"
+                                ></td>
+                            </tr>
+                            <!-- Mode parution -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.publication.mode.parution}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${dto.modeParution != null ? dto.modeParution.value : null}"
+                                ></td>
+                            </tr>
+                            <!--  Epreuves en retour -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.publication.epreuves.retour}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${dto.epreuvesRetour ? 'Oui' : 'Non'}"
+                                ></td>
+                            </tr>
+                            <!-- Délai publication -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.publication.delai.publication}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${dto.delaiPublication != null ? dto.delaiPublication.value : null}"
+                                ></td>
+                            </tr>
+                            <!-- Publication à date précisée -->
+                            <tr
+                                class="folder-detail__table-line"
+                                th:classappend="${dto.delaiPublication != null and not #strings.equals('À date précisée', dto.delaiPublication.value) ? 'hide-element' : ''}"
+                            >
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.publication.date.precisee}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${dto.datePublication != null ? dto.datePublication.value : null}"
+                                ></td>
+                            </tr>
+                            <!-- Numéro de la liste -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.epreuves.numero.liste}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${dto.numeroListe}"
+                                ></td>
+                            </tr>
+                            <!-- Parution JORF - Date JO -->
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.publication.parution.jorf}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${#calendars.format(dto.dateParutionJORF,'dd/MM/yyyy')}"
+                                ></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <!-- mode Création -->
+            <th:block th:if="${isEditable}">
+                <!-- Date d'envoi JO -->
+                <div class="grid__row">
+                    <div class="grid__col--middle form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="dateEnvoiJO"
+                                    id="dateEnvoiJO_label"
+                                    class="form-label"
+                                    th:text="#{dossier.traitement.papier.publication.date.envoi.jo}"
+                                ></label>
+                            </div>
+                        </div>
+                        <div
+                            th:replace="fragments/components/input-date-picker :: inputDatePicker(
+								'_datepicker_dateEnvoiJO', 
+								'dateEnvoiJO', 
+								'dateEnvoiJO', 
+								false, 
+								${#calendars.format(dto.dateEnvoiJO,'dd/MM/yyyy')}, 
+								false)"
+                        ></div>
+                        <div id="dateEnvoiJO_description" class="form-input__footer"></div>
+                    </div>
+                </div>
+                <!-- Vecteur de publication -->
+                <div class="grid__row">
+                    <div
+                        class="grid__col grid__col--middle m-t-6 form-select form-select--simple"
+                        th:with="name='vecteurPublication'"
+                    >
+                        <th:block
+                            th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+								'dossier.traitement.papier.publication.vecteur.publication', 
+								'vecteurPublication-trtPapier',
+								'', 
+								${lstVecteurPublication}, 
+								${dto.vecteurPublication != null ? dto.vecteurPublication.id : null}, 
+								'false', 
+								'empty.select.input.label')"
+                        ></th:block>
+                    </div>
+                </div>
+                <!-- Mode parution -->
+                <div class="grid__row">
+                    <div
+                        class="grid__col grid__col--middle m-t-6 form-select form-select--simple"
+                        th:with="name='modeParution'"
+                    >
+                        <th:block
+                            th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+								'dossier.traitement.papier.publication.mode.parution', 
+								'modeParution-trtPapier',
+								'',
+								${lstModeParution}, 
+								${dto.modeParution != null ? dto.modeParution.id : null}, 
+								'false', 
+								'empty.select.input.label')"
+                        ></th:block>
+                    </div>
+                </div>
+                <!-- Epreuves en retour -->
+                <div class="grid__row">
+                    <div class="m-t-6">
+                        <th:block
+                            th:replace="fragments/components/formblocks/input-oui-non :: ouiNon(
+								'dossier.traitement.papier.publication.epreuves.retour', 
+								'epreuvesRetour', 
+								${dto.epreuvesRetour != null ? dto.epreuvesRetour : 'false'}, 
+								false)"
+                        ></th:block>
+                    </div>
+                </div>
+                <!-- Délai publication -->
+                <div class="grid__row">
+                    <div
+                        class="grid__col grid__col--middle m-t-6 form-select form-select--simple"
+                        th:with="simpleSelectClickFunction=showDatePublication,name='delaiPublication'"
+                    >
+                        <th:block
+                            th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+								'dossier.traitement.papier.publication.delai.publication', 
+								'delaiPublication-trtPapier',
+								'', 
+								${lstDelaiPublication}, 
+								${dto.delaiPublication != null ? dto.delaiPublication.id : null}, 
+								'false', 
+								'empty.select.input.label')"
+                        ></th:block>
+                    </div>
+                </div>
+                <!-- Publication à date précisée -->
+                <div
+                    class="grid__row"
+                    id="datePublication-div"
+                    th:classappend="${dto.delaiPublication != null and not #strings.equals('À date précisée', dto.delaiPublication.value) ? 'hide-element' : ''}"
+                >
+                    <div class="grid__col--middle m-t-6 form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="datePublication"
+                                    id="datePublication_label"
+                                    class="form-label"
+                                    th:text="#{dossier.traitement.papier.publication.date.precisee}"
+                                ></label>
+                            </div>
+                        </div>
+                        <div
+                            th:replace="fragments/components/input-date-picker :: inputDatePicker(
+								'_datepicker_datePublication', 
+								'datePublication',
+								'datePublication-trtPapier',
+								false, 
+								${#calendars.format(dto.datePublication,'dd/MM/yyyy')}, 
+								false)"
+                        ></div>
+                        <div id="datePublication-trtPapier_description" class="form-input__footer"></div>
+                    </div>
+                </div>
+                <!-- Numéro de la liste -->
+                <div class="grid__row">
+                    <div class="grid__col--middle m-t-6 form-input">
+                        <div
+                            th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                #{dossier.traitement.papier.epreuves.numero.liste}, 
+                                false, 
+                                null, 
+                                'numeroListe', 
+                                'numeroListe', 
+                                ${dto.numeroListe}, 
+                                true)"
+                        ></div>
+                    </div>
+                </div>
+                <!-- Parution JORF - Date JO -->
+                <div class="grid__row">
+                    <div class="grid__col--middle m-t-6 m-b-4 form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="dateParutionJORF"
+                                    id="dateParutionJORF_label"
+                                    class="form-label"
+                                    th:text="#{dossier.traitement.papier.publication.parution.jorf}"
+                                ></label>
+                            </div>
+                        </div>
+                        <div
+                            th:replace="fragments/components/input-date-picker :: inputDatePicker(
+								'_datepicker_dateParutionJORF', 
+								'dateParutionJORF', 
+								'dateParutionJORF', 
+								false, 
+								${#calendars.format(dto.dateParutionJORF,'dd/MM/yyyy')}, 
+								true)"
+                        ></div>
+                        <div id="dateParutionJORF_description" class="form-input__footer"></div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </body>
+</html>

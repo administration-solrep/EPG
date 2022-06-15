@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="tableau-programmation"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="d_tableau-programmation_content"
+            th:with="tableCaption=${tableCaption} ?: #{pan.tableau.programmation.caption}"
+        >
+            <div
+                th:replace="fragments/pan/components/panActionToolbar :: panActionToolbar(${subtabLeftActions}, ${subtabRightActions})"
+            ></div>
+
+            <div
+                class="heading-complex__options m-t-2"
+                th:if="${(tableProgDTO.lockDate != null) && not #lists.isEmpty(tableProgDTO.liste) }"
+            >
+                <p
+                    th:text=" #{pan.tableau.programmation.figer.info(${#dates.format(tableProgDTO.lockDate,'dd/MM/yyyy')},${tableProgDTO.lockUser})} "
+                ></p>
+            </div>
+
+            <div
+                th:replace="fragments/pan/components/panTable :: panTable(${tableProgDTO}, ${tableCaption}, 'programmation', ${currentSection}, 'ligne-tableau-programmation', null, null)"
+            ></div>
+
+            <div class="heading-complex__options">
+                <p class="table-row-count m-t-6" th:text=" #{pan.nb.lignes(${tableProgDTO.nbTotal})} "></p>
+                <p
+                    th:if="${(tableProgDTO.lockDate != null) && not #lists.isEmpty(tableProgDTO.liste) }"
+                    th:text=" #{pan.tableau.programmation.figer.info(${#dates.format(tableProgDTO.lockDate,'dd/MM/yyyy')},${tableProgDTO.lockUser})} "
+                ></p>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="parapheur-files-content(files)">
+            <ul class="form-file__file-label-list" th:each="file,nb : ${files}">
+                <li class="form-file__file-label-item" th:id="|${nb.index}-file|">
+                    <div class="file-label">
+                        <p class="file-label__content file-label__content--sm">
+                            <span class="file-label__content-inner" th:text="${file.nom}"></span>
+                            <button
+                                type="button"
+                                class="parapheur-file-label__button js-tooltip base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent"
+                                th:data-tippy-content="#{admin.parapheurs.file.upload.supprimer.label(${file.nom})}"
+                                th:onclick="|supprimerFichierParapheur(this, '__${nb.index}__')|"
+                            >
+                                <span aria-hidden="true" class="icon icon--times-circle icon--v-align icon--big"></span
+                                ><span
+                                    class="sr-only"
+                                    th:text="#{admin.parapheurs.file.upload.supprimer.label(${file.nom})}"
+                                    >Retirer le fichier</span
+                                >
+                            </button>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

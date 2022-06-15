@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="date-time(widget)">
+            <label
+                th:for="|${widget.name}|"
+                th:id="|${widget.name}_label|"
+                class="labellised-list__label"
+                th:classappend="${disabled ? 'form-label--disabled' : ''}"
+            >
+                <th:block th:text="#{${widget.label}}"></th:block>
+                <span th:if="${widget.required}" class="form-label__required-text" th:text="#{form.input.required}"
+                    >(requis)</span
+                >
+            </label>
+            <div
+                class="form-input labellised-list__description form-date-time"
+                th:classappend="${widget.modifiedInCurVersion ? 'labellised-list__description--warning' : ''}"
+                th:with="values=${widget.getValueParamByNameOrNull('lstValues')}, date=${values.size() > 0 ? values[0] : ''}, time=${values.size() > 1 ? values[1] : '00:00'}"
+            >
+                <fieldset class="form-date-time__fieldset">
+                    <legend class="form-label" th:text="#{label.datepicker.time.form.label}">
+                        Sélectionner une date et un horaire
+                    </legend>
+                    <div class="form-date-time__container">
+                        <th:block
+                            th:replace="fragments/components/input-date-picker :: inputDatePicker('', ${widget.name}, |${widget.name}-date|, false, ${date}, false)"
+                        ></th:block>
+                        <label th:for="|${widget.name}-time|" class="sr-only" th:text="#{stats.label.periode.heure}"
+                            >Heure</label
+                        >
+                        <div class="form-date-time__time form-select-input">
+                            <input
+                                type="time"
+                                th:name="|${widget.name}|"
+                                th:id="|${widget.name}-time|"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${time}"
+                                required
+                            />
+                        </div>
+                    </div>
+                </fieldset>
+                <div th:id="|${widget.name}_description|" class="form-input__footer"></div>
+            </div>
+        </th:block>
+    </body>
+</html>

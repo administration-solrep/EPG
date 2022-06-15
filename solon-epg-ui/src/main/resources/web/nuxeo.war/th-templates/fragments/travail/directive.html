@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="directive-mesure-transposition"
+            class="folder-selected"
+            th:with="titre=${#strings.isEmpty(directive.titre)} ? ${directive.annee}+'-'+${directive.reference} : ${directive.titre}"
+        >
+            <form>
+                <input type="hidden" name="annee" th:value="${directive.annee}" />
+                <input type="hidden" name="reference" th:value="${directive.reference}" />
+                <input type="hidden" name="titre" th:value="${directive.titre}" />
+                <input type="hidden" name="numeroArticle" th:value="${directive.numeroArticle}" />
+                <input type="hidden" name="commentaire" th:value="${directive.commentaire}" />
+            </form>
+
+            <div class="link-copy folder-selected__link">
+                <a th:href="${uriTransDirective}" class="link-copy__link link" target="_blank">
+                    <th:block th:text="${titre}">Titre</th:block
+                    ><span
+                        aria-hidden="true"
+                        class="icon icon--external link__icon link__icon--append link__icon--large"
+                    ></span
+                ></a>
+            </div>
+            <button
+                type="button"
+                class="js-folder-selected-action folder-selected__button base-btn base-btn--button base-btn--default base-btn--icon-action-bg base-btn--center base-btn--rounded"
+                th:data-tippy-content="#{epg.dossier.creation.application.loi.ordonnance.supprimer.directive(${titre})}"
+                onclick="removeDirective(this)"
+            >
+                <span aria-hidden="true" class="icon icon--cross-bold"></span>
+                <span
+                    class="sr-only"
+                    th:text="#{epg.dossier.creation.application.loi.ordonnance.supprimer.directive(${titre})}"
+                >
+                    Supprimer la directive européenne 2019-432
+                </span>
+            </button>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page modèles courrier', title=#{menu.admin.modele.courrier.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <div class="flex-row-actions align-right">
+            <th:block th:if="${createAction}">
+                <div
+                    th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${createAction}, false, '')"
+                ></div>
+            </th:block>
+        </div>
+        <h1 class="m-t-6 m-b-6 base-title base-title--lvl-1" th:text="#{menu.admin.modele.courrier.title}">
+            Gestion des modèles de courriers
+        </h1>
+
+        <div th:replace="fragments/components/courrierListe :: courrierListe(${lstColonnes})"></div>
+        <div class="flex-row-actions align-right">
+            <th:block th:if="${createAction}">
+                <div
+                    th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${createAction}, false, '')"
+                ></div>
+            </th:block>
+        </div>
+    </main>
+</html>

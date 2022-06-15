@@ -1,0 +1,57 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div class="table-wrapper" th:fragment="table-gestion-listes(listes, context)">
+            <a
+                th:href="|#skip_link_action-table_${context}_prev|"
+                th:id="|skip_link_action-table_${context}_next|"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(${#messages.msg('suivi.gestionListes.'+context)})}"
+            >
+                Aller après le tableau
+            </a>
+            <table class="custom-table" th:id="|table-${context}|">
+                <caption class="sr-only" th:text="${#messages.msg('suivi.gestionListes.'+context)}">
+                    Listes
+                </caption>
+                <thead class="table-header custom-table__header">
+                    <tr class="table-header__line">
+                        <th:block th:if="${context == 'autresListes'}">
+                            <th scope="col" class="table-header__cell">
+                                <span th:text="#{suivi.gestionListes.table.type}">Type de liste</span>
+                            </th>
+                        </th:block>
+                        <th scope="col" class="table-header__cell">
+                            <span th:text="#{suivi.gestionListes.table.titre}">Numéro de liste</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="table-body custom-table__body">
+                    <th:block th:if="${listes.size > 0}">
+                        <tr class="table-line custom-table__table-line" th:each="item : ${listes}">
+                            <td class="table-line__cell" th:if="${context == 'autresListes'}" th:text="${item.type}">
+                                type
+                            </td>
+                            <td class="table-line__cell">
+                                <a
+                                    th:href="@{|/suivi/liste/${item.id}#main_content|}"
+                                    class="link"
+                                    th:text="${item.titre}"
+                                    >titre</a
+                                >
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+
+            <a
+                th:href="|#skip_link_action-table_${context}_next|"
+                th:id="|skip_link_action-table_${context}_prev|"
+                class="skip-link"
+                th:text="#{skip.link.table.next(${#messages.msg('suivi.gestionListes.'+context)})}"
+            >
+                Aller avant le tableau
+            </a>
+        </div>
+    </body>
+</html>

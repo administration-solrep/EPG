@@ -1,0 +1,142 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="mode-parution" id="listeModeParution">
+            <div class="heading-complex m-b-6">
+                <div class="heading-complex__main">
+                    <h2 class="base-title base-title--lvl-2" th:text="#{admin.table.reference.mode.parution.title}">
+                        Modes de parution
+                    </h2>
+                    <p
+                        class="heading-complex__subtitle base-subtitle"
+                        th:text="#{admin.table.reference.mode.parution.subtitle(${nbModeParution})}"
+                    >
+                        - 4 modes de parution
+                    </p>
+                </div>
+                <div class="heading-complex__options"></div>
+            </div>
+            <div class="flexible-table">
+                <a
+                    href="#skip_link_table-mode-parution_prev"
+                    id="skip_link_table-mode-parution_next"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{admin.table.reference.mode.parution.table})}"
+                >
+                    Passer le tableau pour arriver après
+                </a>
+                <div class="table-action m-b-4">
+                    <div class="table-action__action-container">
+                        <div class="table-action__group">
+                            <th:block th:each="action : ${addActionModeParution}">
+                                <div
+                                    th:replace="fragments/components/action-button-fixed :: action-button-fixed(
+                                        ${action}, 
+                                        false, 
+                                        'base-btn base-btn--submit base-btn--default base-btn--center')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <caption class="sr-only" th:text="#{admin.table.reference.mode.parution.table}">
+                            Tableau des modes de parution
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th
+                                    scope="col"
+                                    class="table-header__cell"
+                                    th:text="#{admin.table.reference.mode.parution.field.mode.parution}"
+                                ></th>
+                                <th
+                                    scope="col"
+                                    class="table-header__cell"
+                                    th:text="#{admin.table.reference.mode.parution.field.date.debut}"
+                                ></th>
+                                <th
+                                    scope="col"
+                                    class="table-header__cell"
+                                    th:text="#{admin.table.reference.mode.parution.field.date.fin}"
+                                ></th>
+                                <th scope="col" class="table-header__cell table-header__cell--small">
+                                    <span
+                                        class="sr-only"
+                                        th:text="#{admin.table.reference.mode.parution.table.header.action}"
+                                    >
+                                        Actions
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body custom-table__body">
+                            <tr class="table-line custom-table__table-line" th:each="item, nb : ${lstModeParution}">
+                                <td class="table-line__cell">
+                                    <p class="table-line__cell-content" th:text="${item.mode}">
+                                        Papier
+                                    </p>
+                                </td>
+                                <td class="table-line__cell">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#calendars.format(item.dateDebut,'dd/MM/yyyy')}"
+                                    >
+                                        12/12/2020
+                                    </p>
+                                </td>
+                                <td class="table-line__cell">
+                                    <p
+                                        class="table-line__cell-content"
+                                        th:text="${#calendars.format(item.dateFin,'dd/MM/yyyy')}"
+                                    >
+                                        12/12/2020
+                                    </p>
+                                </td>
+                                <td class="table-line__cell table-line__cell--small">
+                                    <div class="flex items-center">
+                                        <th:block th:each="action : ${tableActions}">
+                                            <div
+                                                th:replace="fragments/components/action-button-fixed :: action-button-fixed(
+                                                    ${action},
+                                                    false,
+                                                    'm-l-4 base-btn base-btn--button base-btn--default base-btn--icon-action-blue base-btn--center base-btn--transparent')"
+                                            ></div>
+                                        </th:block>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-action m-b-4">
+                    <div class="table-action__action-container">
+                        <div class="table-action__group">
+                            <th:block th:each="action : ${addActionModeParution}">
+                                <div
+                                    th:replace="fragments/components/action-button-fixed :: action-button-fixed(
+                                        ${action}, 
+                                        false, 
+                                        'base-btn base-btn--submit base-btn--default base-btn--center')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <a
+                    href="#skip_link_table-mode-parution_next"
+                    id="skip_link_table-mode-parution_prev"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{admin.table.reference.mode.parution.table})}"
+                >
+                    Passer le tableau pour arriver avant
+                </a>
+            </div>
+
+            <!-- Modale Ajout/Modification d'un mode de parution -->
+            <div th:replace="fragments/dossier/table-reference/mode-parution-modal :: mode-parution-modal"></div>
+        </div>
+    </body>
+</html>

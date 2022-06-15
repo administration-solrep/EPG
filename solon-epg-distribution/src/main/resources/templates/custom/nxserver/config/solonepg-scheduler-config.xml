@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+<!-- Ce composant lance les batchs de de solon epg. /!\ Attention à la syntaxe 
+	non standard de l'expression cron. Voir http://www.jarvana.com/jarvana/view/opensymphony/quartz/1.6.1/quartz-1.6.1-javadoc.jar!/org/quartz/CronExpression.html -->
+<component name="fr.dila.solonepg.distribution.scheduler">
+	<require>org.nuxeo.runtime.started</require>
+    <require>org.nuxeo.ecm.core.orphanVersionsCleanup</require>
+	<extension target="org.nuxeo.ecm.platform.scheduler.core.service.SchedulerRegistryService" point="schedule">
+
+		<!-- Lancement des batchs du PAN et statistiques -->
+		<schedule id="lanceurGeneralBatchPANEvent">
+			<username>${#nuxeo.batch.user}</username>
+			<password>${#nuxeo.batch.password}</password>
+			<eventId>lanceurGeneralBatchPANEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			<cronExpression>${nuxeo.batch.lanceurGeneralBatchPANEvent}</cronExpression>
+		</schedule>
+		
+		<!-- Lancement des batchs d'alert -->
+		<schedule id="lanceurGeneralBatchAlertEvent">
+			<username>${nuxeo.batch.user}</username>
+			<password>${nuxeo.batch.password}</password>
+			<eventId>lanceurGeneralAlertBatchEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			<cronExpression>${nuxeo.batch.lanceurGeneralBatchAlertEvent}</cronExpression>
+		</schedule>
+		
+		 <!-- Lancement de tous les autres batchs  -->
+		<schedule id="lanceurGeneralBatchDiversEvent">
+			<username>${nuxeo.batch.user}</username>
+			<password>${nuxeo.batch.password}</password>
+			<eventId>lanceurGeneralDiversBatchEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			<cronExpression>${nuxeo.batch.lanceurGeneralBatchDiversEvent}</cronExpression>
+
+		</schedule>
+
+        <!-- Lancement du batch horaire de notification -->
+		<schedule id="wsNotificationEvent">
+			<username>${#nuxeo.batch.user}</username>
+			<password>${#nuxeo.batch.password}</password>
+			<eventId>wsNotificationEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			 <!-- Toutes les heures par défaut -->
+			<cronExpression>${nuxeo.batch.wsNotificationEvent}</cronExpression>
+		</schedule>
+		
+		<!-- Lancement du batch d'extraction Adamant -->
+		<schedule id="extractionAdamantBatchEvent">
+			<username>${#nuxeo.batch.user}</username>
+			<password>${#nuxeo.batch.password}</password>
+			<eventId>extractionAdamantBatchEvent</eventId>
+			<eventCategory>default</eventCategory>
+			<cronExpression>${nuxeo.batch.extractionAdamantBatchEvent}</cronExpression>
+		</schedule>
+		
+		<!-- Lancement du batch de retour VITAM -->
+		<schedule id="retourVitamBatchEvent">
+			<username>${#nuxeo.batch.user}</username>
+			<password>${#nuxeo.batch.password}</password>
+			<eventId>retourVitamBatchEvent</eventId>
+			<eventCategory>default</eventCategory>
+			<cronExpression>${nuxeo.batch.retourVitamBatchEvent}</cronExpression>
+		</schedule>
+
+
+        <!-- Batch de suppression des CaseLink avec deleted=1 -->
+        <schedule id="cleanDeletedDossierBatch">
+            <eventId>cleanDeletedDossierEvent</eventId>
+            <eventCategory>cmf</eventCategory>
+            <!-- every hour -->
+            <cronExpression>${nuxeo.batch.cleanDeletedDossierBatch}</cronExpression>
+        </schedule>
+
+        <schedule id="cleanDeletedStepBatch">
+            <eventId>cleanDeletedStep</eventId>
+            <eventCategory>cmf</eventCategory>
+            <!-- every hour -->
+            <cronExpression>${nuxeo.batch.cleanDeletedStepBatch}</cronExpression>
+        </schedule>
+
+        <schedule id="cleanDeletedDossierLinkBatch">
+            <eventId>cleanDeletedDossierLinkEvent</eventId>
+            <eventCategory>cmf</eventCategory>
+	        <!-- every hour -->
+            <cronExpression>${nuxeo.batch.cleanDeletedDossierLinkBatch}</cronExpression>
+        </schedule>
+
+		<schedule id="validateCaseLinkBatch">
+			<eventId>validateCaseLink</eventId>
+			<eventCategory>cmf</eventCategory>
+			<cronExpression>0 30 22 * * ?</cronExpression>
+		</schedule>
+
+		<schedule id="unlockOrganigrammeBatch">
+			<eventId>unlockOrganigrammeBatchEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			<cronExpression>0 30 1 * * ?</cronExpression>
+		</schedule>
+
+		<schedule id="dossierUnlockBatch">
+			<eventId>unlockBatchEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			<cronExpression>0 30 1 * * ?</cronExpression>
+		</schedule>
+
+		<schedule id="closeUsersConnectionsEventBatch">
+			<eventId>closeUsersConnectionsEvent</eventId>
+			<eventCategory>cmf</eventCategory>
+			<cronExpression>0 30 0 * * ?</cronExpression>
+		</schedule>
+        
+        <schedule id="orphanVersionsCleanup">
+            <!-- cleanup every day at 1:30 AM -->
+            <cronExpression>0 30 1 * * ?</cronExpression>
+            <event>orphanVersionsCleanup</event>
+        </schedule>
+
+	</extension>
+</component>

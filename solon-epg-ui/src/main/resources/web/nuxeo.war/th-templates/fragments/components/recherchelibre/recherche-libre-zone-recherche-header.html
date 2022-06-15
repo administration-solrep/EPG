@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="rechercheLibreZoneRechercheHeader" class="search-result-form">
+            <div class="search-result-form__header">
+                <div class="search-result-form__header-row">
+                    <div class="search-result-form__header-col">
+                        <div class="form-choice-input">
+                            <input
+                                type="checkbox"
+                                id="chk_base_production"
+                                name="chk_base_production"
+                                class="form-choice-input__input"
+                                th:checked="${resultForm ? resultForm.baseProduction : 'checked'}"
+                                autocomplete="off"
+                            />
+                            <label
+                                for="chk_base_production"
+                                id="chk_base_production_label"
+                                class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                            >
+                                <span>[[#{recherche.libre.chk.base.production}]]</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="search-result-form__header-col">
+                        <div class="form-choice-input">
+                            <input
+                                type="checkbox"
+                                id="chk_base_archivage"
+                                name="chk_base_archivage"
+                                class="form-choice-input__input"
+                                th:checked="${resultForm ? resultForm.baseArchivage : null}"
+                                autocomplete="off"
+                            />
+                            <label
+                                for="chk_base_archivage"
+                                id="chk_base_archivage_label"
+                                class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                            >
+                                <span>[[#{recherche.libre.chk.base.archivage}]]</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-result-form__header-row search-result-form__header-row--background">
+                    <div class="search-result-form__input form-input">
+                        <div class="form-input__header sr-only">
+                            <div class="form-input__header-top">
+                                <label for="recherche" id="recherche_label" class="form-label sr-only">
+                                    [[#{recherche.libre.label.recherche}]]
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-input__container">
+                            <input
+                                type="text"
+                                name="recherche"
+                                id="recherche"
+                                th:placeholder="#{recherche.libre.placeholder.recherche}"
+                                class="form-input__field form-input__field--type-text form-input__field--with-icon"
+                                th:value="${resultForm ? resultForm.recherche : null}"
+                            />
+                            <span aria-hidden="true" class="icon icon--search icon--v-align form-input__icon"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-result-form__header-row search-result-form__header-row--background">
+                    <div class="search-result-form__header-col">
+                        <div class="form-choice-input">
+                            <input
+                                type="checkbox"
+                                id="chk_expression_exacte"
+                                name="chk_expression_exacte"
+                                class="form-choice-input__input"
+                                th:checked="${resultForm ? resultForm.expressionExacte : null}"
+                                autocomplete="off"
+                            />
+                            <label
+                                for="chk_expression_exacte"
+                                id="chk_expression_exacte_label"
+                                class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                                ><span>[[#{recherche.libre.chk.expression.exacte}]]</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="search-result-form__header-col">
+                        <div class="form-choice-input">
+                            <input
+                                type="checkbox"
+                                id="chk_derniere_version"
+                                name="chk_derniere_version"
+                                class="form-choice-input__input"
+                                th:checked="${resultForm ? resultForm.derniereVersion : null}"
+                                autocomplete="off"
+                            />
+                            <label
+                                for="chk_derniere_version"
+                                id="chk_derniere_version_label"
+                                class="form-label form-choice-input__label form-choice-input__label--checkbox"
+                            >
+                                <span>[[#{recherche.libre.chk.derniere.version}]]</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-result-form__header-row search-result-form__header-row--action">
+                    <div class="search-result-form__header-col">
+                        <button
+                            type="button"
+                            class="base-btn base-btn--reset base-btn--default base-btn--light base-btn--bordered"
+                            onclick="reinitRechercheLibre()"
+                        >
+                            [[#{recherche.libre.btn.reinitialiser.recherche}]]
+                        </button>
+                    </div>
+                    <div class="search-result-form__header-col">
+                        <button
+                            type="button"
+                            id="btn-rechercher"
+                            class="search-result-form__send base-btn base-btn--submit base-btn--default base-btn--primary"
+                            onclick="doRechercheLibre()"
+                        >
+                            [[#{recherche.libre.btn.rechercher}]]
+                        </button>
+                    </div>
+                </div>
+                <div class="search-result-form__header-row search-result-form__header-row--more">
+                    <div class="see-more search-result-form__header-see-more">
+                        <div class="see-more__content">
+                            <div
+                                th:replace="fragments/components/recherchelibre/recherche-libre-result-action :: rechercheLibreResultAction"
+                            ></div>
+                        </div>
+                        <button
+                            type="button"
+                            class="see-more__toggler base-btn base-btn--button base-btn--default base-btn--discret"
+                            th:aria-label="#{recherche.libre.btn.voir.plus.actions}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            th:data-label-more="#{recherche.libre.btn.voir.plus.actions}"
+                            th:data-label-less="#{recherche.libre.btn.voir.moins.actions}"
+                        >
+                            [[#{recherche.libre.btn.voir.plus.actions}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Critères sélectionnés -->
+            <div
+                th:replace="fragments/components/recherchelibre/recherche-libre-criteres-selectionnes :: rechercheLibreCriteresSelectionnes"
+            ></div>
+            <!-- Filtres sélectionnés -->
+            <div
+                th:replace="fragments/components/recherchelibre/recherche-libre-filtres-selectionnes :: rechercheLibreFiltresSelectionnes"
+            ></div>
+        </div>
+    </body>
+</html>

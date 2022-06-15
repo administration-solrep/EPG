@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="statutArchivageDossier"
+            class="tableForm relative"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            id="listeDossiersArchives"
+            data-post="true"
+            th:with="tableCaption=${tableCaption}?:#{statut.archivage.dossier.table.caption}"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <input
+                th:unless="${#strings.isEmpty(idStat)}"
+                th:name="idStat"
+                th:value="${idStat}"
+                type="hidden"
+                aria-hidden="true"
+                data-isForm="true"
+            />
+            <div class="search-table">
+                <div class="search-table__heading m-b-6">
+                    <div class="heading-complex">
+                        <div class="heading-complex__main">
+                            <h3
+                                class="base-title base-title--lvl-3"
+                                th:text="#{statut.archivage.dossier.nombre(${nbResults})}"
+                            >
+                                53 dossier(s)
+                            </h3>
+                        </div>
+                        <div class="heading-complex__options">
+                            <th:block th:if="${exportAction}">
+                                <div
+                                    th:replace="fragments/components/action-button :: action-button(${exportAction}, false, 'base-btn--secondary base-btn--min base-btn--rounded')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:unless="${resultForm.defaultSize >= resultList.nbTotal}">
+                <div
+                    th:replace="fragments/components/nombre-document-page :: documentParPage(${resultForm}, 'dossiers_haut')"
+                ></div>
+            </th:block>
+            <a
+                href="#skip_link_action-table_prev"
+                id="skip_link_action-table_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(${tableCaption})}"
+            ></a>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div
+                            th:replace="fragments/table/toolbar :: toolbar('table_dossier_action_toolbar', true)"
+                        ></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'favoris_haut',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="custom-table custom-table--has-check">
+                    <caption class="sr-only" th:text="${tableCaption}">
+                        Tableau dossiers avec statut archivage
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th scope="col" class="table-header__cell table-header__cell--check">
+                                <div class="form-choice-input">
+                                    <input
+                                        type="checkbox"
+                                        name="checkbox"
+                                        onclick="selectAllCheckBox(this);"
+                                        class="form-choice-input__input js-custom-table-header-check"
+                                        id="selectAllDossiers"
+                                        autocomplete="off"
+                                    />
+                                    <label
+                                        id="selectAllDossiers__label"
+                                        for="selectAllDossiers"
+                                        th:data-select-label="#{liste.dossier.selectAll}"
+                                        th:data-deselect-label="#{recherche.favoris.liste.deselectAll}"
+                                        class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        th:title="#{liste.dossier.selectAll}"
+                                    >
+                                        <span th:text="#{recherche.favoris.liste.selectAll}"></span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th:block th:each="colonne : ${resultList.getListeColonnes()}">
+                                <th:block th:if="${colonne.visible && colonne.sortable}">
+                                    <th
+                                        th:aria-sort="${colonne.sortValue == 'asc' ? 'ascending' : (colonne.sortValue== 'desc' ? 'descending' : '')}"
+                                        scope="col"
+                                        class="table-header__cell table-header__cell--with-filter-action"
+                                        th:with="order=${colonne.sortOrder}"
+                                    >
+                                        <button
+                                            th:replace="fragments/table/sortableHeader :: sortableHeader (#{__${colonne.label}__},${colonne.sortValue},${colonne.sortName},${colonne.sortId},${colonne.inverseSort})"
+                                        ></button>
+                                    </th>
+                                </th:block>
+
+                                <th:block th:if="${colonne.visible && !colonne.sortable}">
+                                    <th scope="col" class="table-header__cell">
+                                        <span
+                                            th:if="${colonne.isLabelVisible}"
+                                            class="table-header__cell-inner"
+                                            th:text="${colonne.label !=null? #messages.msg(colonne.label) : ''}"
+                                        >
+                                            &nbsp;
+                                        </span>
+                                        <span th:unless="${colonne.isLabelVisible}" class="table-header__cell-inner">
+                                            <span class="sr-only" th:text="#{__${colonne.label}__}"></span>
+                                        </span>
+                                    </th>
+                                </th:block>
+                            </th:block>
+                        </tr>
+                    </thead>
+                    <tbody class="custom-table__body">
+                        <th:block th:if="${resultList.liste.size > 0}">
+                            <tr
+                                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                                th:each="item, nb : ${resultList.liste}"
+                                th:data-id="${item.dossierId}"
+                            >
+                                <td class="table-line__cell table-line__cell--check">
+                                    <div class="form-choice-input">
+                                        <input
+                                            th:id="'select-'+${item.dossierId}"
+                                            type="checkbox"
+                                            th:name="${'checkbox-'+nb.count}"
+                                            onclick="selectTableCheckbox(this)"
+                                            class="form-choice-input__input js-custom-table-line-check"
+                                            autocomplete="off"
+                                        />
+                                        <label
+                                            th:for="'select-'+${item.dossierId}"
+                                            th:title="#{liste.dossier.selectOne(${item.nor})}"
+                                            th:data-select-label="#{liste.dossier.selectOne(${item.nor})}"
+                                            th:data-deselect-label="#{liste.dossier.deselectOne(${item.nor})}"
+                                            class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label"
+                                        >
+                                            <span th:text="#{liste.dossier.deselectOne(${item.nor})}"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="table-line__cell">
+                                    <a
+                                        th:href="@{/dossier/{dossierId}/document(dossierId=${item.dossierId},dossierLinkId=${item.dossierLinkId})} + '#main_content'"
+                                        class="link-copy__link link"
+                                        th:text="${item.nor}"
+                                    ></a>
+                                </td>
+                                <td class="table-line__cell">
+                                    <div
+                                        th:replace="fragments/components/longText :: ellipser(${item.titreActe},'jnEllipser-' + ${nb.index})"
+                                    ></div>
+                                </td>
+                                <td class="table-line__cell" th:text="${item.statutArchivagePeriode}">
+                                    Statut dossier
+                                </td>
+                                <td class="table-line__cell" th:text="${item.dateChangementStatut}">
+                                    Date Changement Statut
+                                </td>
+                                <td class="table-line__cell" th:text="${item.statutEnCours}">Statut en cours</td>
+                                <td class="table-line__cell" th:text="${item.messageErreur}">Message d'erreur</td>
+                            </tr>
+                        </th:block>
+                        <th:block th:unless="${resultList.liste.size > 0}">
+                            <td colspan="5" th:text="#{label.dossier.nombre(0)}"></td>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-action">
+                <div class="table-action__action-container table-action__action-container--left">
+                    <div class="table-action__group">
+                        <div
+                            th:replace="fragments/table/toolbar :: toolbar('table_dossiers_action_toolbar', true)"
+                        ></div>
+                    </div>
+                </div>
+                <div class="table-action__action-container table-action__action-container--right">
+                    <th:block th:unless="${resultList.liste.size == resultList.nbTotal}">
+                        <nav
+                            th:replace="fragments/table/pagination :: pagination (${resultForm}, ${resultForm.page},'favoris_bas',${resultList.nbTotal})"
+                        ></nav>
+                    </th:block>
+                </div>
+            </div>
+            <a
+                href="#skip_link_action-table_next"
+                id="skip_link_action-table_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(${tableCaption})}"
+            ></a>
+        </div>
+    </body>
+</html>

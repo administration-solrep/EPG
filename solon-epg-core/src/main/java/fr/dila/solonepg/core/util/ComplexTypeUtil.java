@@ -1,0 +1,103 @@
+package fr.dila.solonepg.core.util;
+
+import fr.dila.solonepg.api.cases.typescomplexe.DossierTransposition;
+import fr.dila.solonepg.api.constant.DossierSolonEpgConstants;
+import fr.dila.solonepg.core.cases.typescomplexe.DossierTranspositionImpl;
+import fr.dila.st.api.domain.ComplexeType;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.core.api.NuxeoException;
+
+/**
+ * Classe utilitaire pour les types complexes.
+ *
+ * @author jgomez
+ *
+ */
+public class ComplexTypeUtil {
+    private static final String MIN_COMMENTAIRE = "commentaire";
+
+    private static final String MIN_REF_MESURE = "refMesure";
+
+    private static final String MIN_NUMERO_ARTICLES = "numeroArticles";
+
+    private static final String MIN_TITRE = "titre";
+
+    private static final String MIN_REFERENCE_KEY = "ref";
+
+    private static final String MIN_ANNEE_REF_TRANSPO_DIRECTIVE = "directiveAnnee";
+
+    private static final Log LOGGER = LogFactory.getLog(ComplexTypeUtil.class);
+
+    /**
+     * Récupère la liste des références d'un type complexe à partir de la liste du type complexe.
+     *
+     * @param complextype
+     * @return la liste des référénces d'un type complexe à partir de la liste dutype complexe.
+     */
+    public static List<String> getListeComplexeTypeRef(List<ComplexeType> complextype) {
+        List<String> listeRef = new ArrayList<>();
+        for (ComplexeType complexeType : complextype) {
+            listeRef.add(
+                (String) complexeType
+                    .getSerializableMap()
+                    .get(DossierSolonEpgConstants.DOSSIER_COMPLEXE_TYPE_REF_PROPERTY)
+            );
+        }
+        return listeRef;
+    }
+
+    public static DossierTransposition createGenericTransposition(
+        String ref,
+        String titre,
+        String numeroArticles,
+        String refMesure,
+        String commentaire,
+        String annee
+    ) {
+        Map<String, Serializable> contenuGeneriqueTransposition = new HashMap<>();
+        contenuGeneriqueTransposition.put(MIN_REFERENCE_KEY, ref);
+        contenuGeneriqueTransposition.put(MIN_TITRE, titre);
+        contenuGeneriqueTransposition.put(MIN_NUMERO_ARTICLES, numeroArticles);
+        contenuGeneriqueTransposition.put(MIN_REF_MESURE, annee + "/" + refMesure);
+        contenuGeneriqueTransposition.put(MIN_COMMENTAIRE, commentaire);
+        DossierTransposition generiqueTransposition = new DossierTranspositionImpl(contenuGeneriqueTransposition);
+
+        return generiqueTransposition;
+    }
+
+    /**
+     * Convertit une liste de complexeType en une map ayant pour clé la référence des complexeType concaténée avec le
+     * numéro d'ordre si celui-ci existe.
+     *
+     * @param list
+     *            la liste des complexe types
+     * @return une map
+     */
+    public static Map<String, ComplexeType> convertToMap(List<ComplexeType> list) {
+        Map<String, ComplexeType> result = new HashMap<>();
+        for (ComplexeType complex : list) {
+            Map<String, Serializable> map = complex.getSerializableMap();
+            if (map != null && map.containsKey(MIN_REFERENCE_KEY)) {
+                Serializable reference = map.get(MIN_REFERENCE_KEY) + "/" + map.get(MIN_ANNEE_REF_TRANSPO_DIRECTIVE);
+                Serializable numOrdre = map.get(MIN_REF_MESURE);
+                String numOrdreStr = numOrdre == null ? "" : numOrdre.toString();
+                result.put(reference + numOrdreStr, complex);
+            } else {
+                LOGGER.error("La map est nulle ou le complexType ne contient pas de clé référence" + map);
+                throw new NuxeoException("La liste contient des complexeType incorrects");
+            }
+        }
+
+        return result;
+    }
+
+    private ComplexTypeUtil() {
+        // Private default constructor
+    }
+}

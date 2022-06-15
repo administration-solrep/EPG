@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panBirtDetail" class="birt-fragment" th:id="|birt-fragment-${currentPanSubtab}|">
+            <div th:id="|birt-fragment-${currentPanSubtab}_overlay|" class="overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+
+            <div class="page-reponses-report-birt-open__iframe-wrapper m-b-4" th:if="${displayReport}">
+                <iframe
+                    th:src="@{|/suivi/pan/stats/${generatedReportPath}|}"
+                    th:id="|birtReport-${statId}-iframe|"
+                    th:data-id="${statId}"
+                ></iframe>
+            </div>
+            <p th:unless="${displayReport}" class="m-t-4" th:text="#{pan.stats.nonDisponible}">
+                Statistique non disponible
+            </p>
+        </div>
+    </body>
+</html>

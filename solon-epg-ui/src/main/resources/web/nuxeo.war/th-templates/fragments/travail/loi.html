@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="loi">
+            <form>
+                <input type="hidden" name="reference" th:value="${loi.reference}" />
+                <input type="hidden" name="titre" th:value="${loi.titre}" />
+                <input type="hidden" name="numeroOrdre" th:value="${loi.numeroOrdre}" />
+                <input type="hidden" name="numeroArticle" th:value="${loi.numeroArticle}" />
+                <input type="hidden" name="commentaire" th:value="${loi.commentaire}" />
+            </form>
+
+            <div class="flex justify-between items-center">
+                <div>
+                    <p th:text="${loi.titre}">
+                        Loi n°2017-228 du 24 février 2017 ratifiant l’ordonnance n° 2016‑462 du 14 avril 2016 portant
+                        création de l’Agence nationale de santé publique et modifiant l’article 166 de la loi n° 2016‑41
+                        du 26 janvier 2016 de modernisation de notre système de santé
+                    </p>
+                    <ul>
+                        <li>
+                            <strong
+                                th:text="#{epg.dossier.creation.application.loi.ordonnance.numero.ordre.directive.label}"
+                                >Numéro d'ordre :</strong
+                            >
+                            [[${loi.numeroOrdre}]]
+                        </li>
+                        <li>
+                            <strong
+                                th:text="#{epg.dossier.creation.application.loi.ordonnance.numero.article.directive.label}"
+                                >Numéro d'article :</strong
+                            >
+                            [[${loi.numeroArticle}]]
+                        </li>
+                        <li>
+                            <strong
+                                th:text="#{epg.dossier.creation.application.loi.ordonnance.commentaire.directive.label}"
+                                >Commentaire :</strong
+                            >
+                            [[${loi.commentaire}]]
+                        </li>
+                    </ul>
+                </div>
+                <button
+                    type="button"
+                    class="m-l-2 base-btn base-btn--button base-btn--default base-btn--icon-action-bg base-btn--center base-btn--rounded"
+                    data-tippy-content="Supprimer l’élément de la sélection"
+                    onclick="removeDirective(this)"
+                >
+                    <span aria-hidden="true" class="icon icon--cross-bold"></span>
+                    <span
+                        class="sr-only"
+                        th:text="#{epg.dossier.creation.application.loi.ordonnance.supprimer.element.label}"
+                    >
+                        Supprimer l’élément de la sélection
+                    </span>
+                </button>
+            </div>
+        </div>
+    </body>
+</html>

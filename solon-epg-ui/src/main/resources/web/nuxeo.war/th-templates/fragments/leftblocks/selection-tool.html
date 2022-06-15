@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="selectionTool">
+            <div class="accordion accordion--aside">
+                <span class="accordion__header js-toggle accordion__header--aside">
+                    <th:block th:text="#{menu.outilSelection.title}"></th:block>
+                    <button
+                        type="button"
+                        aria-controls="accordion__content__selects-tool"
+                        aria-expanded="true"
+                        id="accordion__header__selects-tool"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract-without-background"
+                        data-icon-closed="add-without-background"
+                        class="js-toggle accordion__header__button"
+                        th:aria-label="#{menu.outilSelection.title}"
+                        th:data-title-opened="#{attr.data.title.opened(#{menu.outilSelection.title})}"
+                        th:data-title-closed="#{attr.data.title.closed(#{menu.outilSelection.title})}"
+                        th:title="#{attr.data.title.opened(#{menu.outilSelection.title})}"
+                    >
+                        <span class="sr-only" th:text="#{menu.outilSelection.reduire.bloc}"
+                            >Reduire le bloc Outil de sélection</span
+                        >
+                        <span
+                            aria-hidden="true"
+                            class="icon icon--substract-without-background bubble-icon bubble-icon--neutral accordion__icon accordion__icon--aside"
+                        ></span>
+                    </button>
+                </span>
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__selects-tool"
+                    class="accordion__content accordion__content--aside accordion__content--is-opened"
+                >
+                    <div th:replace="fragments/components/selection-tool-detail :: selection-tool-detail"></div>
+                </div>
+                <!-- Modale de reattribution de nor-->
+                <div th:replace="fragments/components/modal-reattribution-nor :: modal-reattribution-nor"></div>
+                <!-- Modale de résumé pour la reattribution de nor chargée en ajax-->
+                <div id="reattribution-nor-summary"></div>
+                <!-- Modale de substitution de poste-->
+                <div th:replace="fragments/components/modal-substitution-poste :: modal-substitution-poste"></div>
+                <!-- Modale de transfert-->
+                <div th:replace="fragments/components/modal-transfert-selection :: modal-transfert-selection"></div>
+                <!-- Modale de résumé pour le transfert de dossier chargée en ajax-->
+                <div id="transfert-dossier-summary"></div>
+            </div>
+
+            <!-- Modal de suppression des dossiers -->
+            <div th:replace="fragments/components/modal-suppression-dossiers :: modal-suppression-dossiers"></div>
+            <!-- Modal de substitution mass -->
+            <div th:replace="fragments/components/modal-substitution-mass :: modal-substitution-mass"></div>
+            <!--/* Modale selection tool */-->
+            <div
+                th:replace="fragments/components/modal-success-create-list-signature :: modal-success-create-list-signature"
+            ></div>
+        </div>
+    </body>
+</html>

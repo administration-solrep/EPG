@@ -1,0 +1,3519 @@
+<?xml version="1.0" ?>
+<!-- Cet composant contribue les fabriques pour créer les type de documents 
+	de l'application SOLON EPG. -->
+<component name="fr.dila.solonepg.contentTemplateService">
+	<require>fr.dila.cm.contentTemplate</require>
+	<require>fr.dila.st.core.type</require>
+
+	<!-- définition des extension utilisées pour définir les répertoires créés 
+		par défaut -->
+	<extension target="org.nuxeo.ecm.platform.content.template.service.ContentTemplateService" point="factory">
+
+		<!-- Factory pour créer l'arborescence de répertoire de l'espace d'administration -->
+		<contentFactory
+            name="AdminWorkspaceTemplateFactory"
+            class="fr.dila.solonepg.core.content.template.factories.AdminWorkspaceTemplateBasedFactory"
+        />
+
+		<!-- Factory pour créer l'arborescence de répertoire de l'espace personnels 
+			des utilisateurs -->
+		<contentFactory
+            name="WorkspaceTemplateFactory"
+            class="fr.dila.solonepg.core.content.template.factories.WorkspaceTemplateBasedFactory"
+        />
+
+		<!-- Factory pour créer l'arborescence de répertoire d'un modèle de fond 
+			de dossier -->
+		<contentFactory
+            name="FondDossierModelTemplateFactory"
+            class="fr.dila.solonepg.core.content.template.factories.FondDossierFolderTemplateBasedFactory"
+        />
+
+		<!-- Factory pour créer l'arborescence de répertoire d'un modèle de parapheur -->
+		<contentFactory
+            name="ParapheurModelTemplateFactory"
+            class="fr.dila.solonepg.core.content.template.factories.ParapheurFolderTemplateBasedFactory"
+        />
+
+		<!-- Fabrique permettant de créer la racine des modèles de feuilles de 
+			route -->
+		<contentFactory
+            name="FeuilleRouteModelFolderFactory"
+            class="fr.dila.solonepg.core.content.template.factories.FeuilleRouteModelFolderFactory"
+        />
+			
+		<!-- Fabrique permettant de créer la racine des squelettes de feuilles de 
+			route -->
+		<contentFactory
+            name="FeuilleRouteSqueletteFolderFactory"
+            class="fr.dila.solonepg.core.content.template.factories.FeuilleRouteSqueletteFolderFactory"
+        />
+
+		<!-- Fabrique permettant de créer des feuilles de route (utilisée pour 
+			créer la feuille de route par défaut) -->
+		<contentFactory
+            name="FeuilleRouteFactory"
+            class="fr.dila.solonepg.core.content.template.factories.FeuilleRouteFactory"
+        />
+			
+		<!-- Fabrique permettant de créer des squelettes de feuilles de route -->
+		<contentFactory
+            name="FeuilleRouteSqueletteFactory"
+            class="fr.dila.solonepg.core.content.template.factories.FeuilleRouteSqueletteFactory"
+        />
+
+	</extension>
+
+	<extension target="org.nuxeo.ecm.platform.content.template.service.ContentTemplateService" point="factoryBinding">
+		<!-- Racine des espaces de travail collaboratifs -->
+		<factoryBinding name="DomainFactory" factoryName="SimpleTemplateFactory" targetType="Domain">
+			<template>
+				<templateItem typeName="CaseRoot" id="case-root" title="Case" />
+				<templateItem typeName="MailboxRoot" id="mailbox-root" title="Mailbox" />
+				<templateItem typeName="WorkspaceRoot" id="workspaces" title="Workspaces" />
+				<templateItem typeName="TableReferenceRoot" id="table-reference-root" title="TableReference" />
+				<templateItem typeName="BulletinOfficielRoot" id="bulletin-officiel-root" title="BulletinOfficiel" />
+				<templateItem typeName="VecteurPublicationRoot" id="vecteur-publication-root" title="VecteurPublication" />
+				<templateItem typeName="IndexationRoot" id="indexation-root" title="IndexationRoot" />
+				<templateItem typeName="TableauDynamiqueRoot" id="tableau-dynamique-root" title="TableauDynamiqueRoot" />
+				<templateItem typeName="ListeTraitementPapierRoot" id="liste-traitement-papier" title="ListeTraitementPapierRoot" />
+				<templateItem
+                    typeName="InfoUtilisateurConnectionRoot"
+                    id="info-utilisateur-connection"
+                    title="InfoUtilisateurConnectionRoot"
+                />
+				<templateItem typeName="WsSpeRoot" id="ws-notification-root" title="Liste des demandes de publication en attente" />
+				<templateItem typeName="ActiviteNormativeRoot" id="activite-normative-root" title="ActiviteNormativeRoot" />
+				<templateItem typeName="MajMinRoot" id="maj-min-root" title="MajMinRoot" />
+				<templateItem typeName="TexteSignaleRoot" id="texte-signale-root" title="TexteSignaleRoot" />
+				<templateItem
+                    typeName="DocumentRouteInstancesRoot"
+                    id="document-route-instances-root"
+                    title="DocumentRouteInstancesRoot"
+                />
+				<templateItem typeName="TrashRoot" id="trash-root" title="Liste documents en attente de suppression" />
+				<templateItem typeName="ActualiteRoot" id="actualite-root" title="Liste des actualites">
+					<acl>
+						<ace principal="Administrateur fonctionnel" permission="ReadWrite" granted="true" />
+                        <ace principal="Everyone" permission="Read" granted="true" />
+					</acl>
+				</templateItem>
+			</template>
+		</factoryBinding>
+
+		<!-- Racine des Mailbox -->
+		<factoryBinding name="MailboxRootFactory" factoryName="SimpleTemplateFactory" targetType="MailboxRoot">
+		</factoryBinding>
+
+		<!-- Racine des espaces collaboratifs -->
+		<factoryBinding name="WorkspaceRootFactory" factoryName="SimpleTemplateFactory" targetType="WorkspaceRoot">
+			<template>
+				<templateItem typeName="AdminWorkspace" id="admin" title="Administration" />
+			</template>
+		</factoryBinding>
+
+		<!-- Espace d'administration -->
+		<!-- JetonMaitre et JetonLock à supprimer après la suppression des répertoires 
+			associés dans le nxshell -->
+		<factoryBinding name="AdminWorkspaceFactory" factoryName="AdminWorkspaceTemplateFactory" targetType="AdminWorkspace">
+			<template>
+				<templateItem typeName="FeuilleRouteModelFolder" id="modele-route" title="Modèles feuilles de route" />
+					<templateItem typeName="FeuilleRouteSqueletteFolder" id="squelette-route" title="Squelettes feuilles de route" />
+				<templateItem typeName="JetonDocFolder" id="jeton-doc-list" title="Liste des jetons de documents" />
+				<templateItem typeName="ParapheurModelRoot" id="parapheur" title="Modèles parapheurs" />
+				<templateItem typeName="FondDossierModelRoot" id="fond-dossier" title="Modèles fond de dossier" />
+				<templateItem typeName="ParametreFolder" id="parametre" title="Paramètrage technique" />
+				<templateItem typeName="ParametrageApplication" id="parametrage-application" title="Paramètrage application">
+					<properties>
+						<property xpath="parametrage_application:nbDossierPage" value="10" />
+						<property xpath="parametrage_application:delaiRafraichissementCorbeille" value="5" />
+						<property xpath="parametrage_application:nbDerniersResultats" value="30" />
+						<property xpath="parametrage_application:nbFavorisConsultation" value="30" />
+						<property xpath="parametrage_application:nbFavorisRecherche" value="30" />
+						<property xpath="parametrage_application:nbDossiersSignales" value="100" />
+						<property xpath="parametrage_application:nbTableauxDynamiques" value="10" />
+						<property xpath="parametrage_application:delaiEnvoiMailAlerte" value="15" />
+						<property xpath="parametrage_application:delaiAffichageMessage" value="5" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ParametrageAdamant" id="parametrage-adamant" title="Paramétrage adamant">
+					<properties>
+						<property xpath="parametrage_adamant:numeroSolon" value="20190082" />
+						<property xpath="parametrage_adamant:originAgencyBlocIdentifier" value="FRAN_NP_000002" />
+						<property xpath="parametrage_adamant:submisAgencyBlocIdentifier" value="FRAN_NP_000221" />
+						<property xpath="parametrage_adamant:archivalProfile" value="FRAN_PR_1000" />
+						<property xpath="parametrage_adamant:originatingAgencyIdentifier" value="FRAN_NP_000002" />
+						<property xpath="parametrage_adamant:submissionAgencyIdentifier" value="FRAN_NP_000221" />
+						<property xpath="parametrage_adamant:delaiEligibilite" value="10" />
+						<property xpath="parametrage_adamant:nbDossierExtraction" value='1000' />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ParametrageAnModel" id="parametre-an" title="Paramètrage Activité Normative">
+					<properties>
+						<!-- <property xpath="paran:legislatures" value="13"/> -->
+						<property xpath="paran:legis_ec" value="14" />
+						<property xpath="paran:legislature_publication" value="14" />
+						<!-- Législature en cours -->
+						<property xpath="paran:ec_debut_legislature" value="2015-12-08" />
+						<!-- bilan semestriel -->
+						<property xpath="paran:ec_bs_promul_lois_debut" value="2015-12-08" />
+						<property xpath="paran:ec_bs_promul_lois_fin" value="2015-12-08" />
+						<property xpath="paran:ec_bs_publi_decrets_debut" value="2015-12-08" />
+						<property xpath="paran:ec_bs_publi_decrets_fin" value="2015-12-08" />
+						<!-- Taux d'exécution des lois (au cours de la dernière session parlementaire) -->
+						<property xpath="paran:ec_tp_promul_lois_debut" value="2015-12-08" />
+						<property xpath="paran:ec_tp_promul_lois_fin" value="2015-12-08" />
+						<property xpath="paran:ec_tp_publi_decrets_debut" value="2015-12-08" />
+						<property xpath="paran:ec_tp_publi_decrets_fin" value="2015-12-08" />
+						<!-- Taux d'exécution des lois (depuis le debut de la législature) -->
+						<property xpath="paran:ec_tl_promul_lois_debut" value="2015-12-08" />
+						<property xpath="paran:ec_tl_promul_lois_fin" value="2015-12-08" />
+						<property xpath="paran:ec_tl_publi_decrets_debut" value="2015-12-08" />
+						<property xpath="paran:ec_tl_publi_decrets_fin" value="2015-12-08" />
+
+						<!-- Législature Précédente -->
+						<property xpath="paran:pre_debut_legislature" value="2015-12-08" />
+						<!-- bilan semestriel -->
+						<property xpath="paran:pre_bs_promul_lois_debut" value="2015-12-08" />
+						<property xpath="paran:pre_bs_promul_lois_fin" value="2015-12-08" />
+						<property xpath="paran:pre_bs_publi_decrets_debut" value="2015-12-08" />
+						<property xpath="paran:pre_bs_publi_decrets_fin" value="2015-12-08" />
+						<!-- Taux d'exécution des lois (au cours de la dernière session parlementaire) -->
+						<property xpath="paran:pre_tp_promul_lois_debut" value="2015-12-08" />
+						<property xpath="paran:pre_tp_promul_lois_fin" value="2015-12-08" />
+						<property xpath="paran:pre_tp_publi_decrets_debut" value="2015-12-08" />
+						<property xpath="paran:pre_tp_publi_decrets_fin" value="2015-12-08" />
+						<!-- Taux d'exécution des lois (depuis le debut de la législature) -->
+						<property xpath="paran:pre_tl_promul_lois_debut" value="2015-12-08" />
+						<property xpath="paran:pre_tl_promul_lois_fin" value="2015-12-08" />
+						<property xpath="paran:pre_tl_publi_decrets_debut" value="2015-12-08" />
+						<property xpath="paran:pre_tl_publi_decrets_fin" value="2015-12-08" />
+						<!-- Données relatives aux ordonnances -->
+						<!-- Législature en cours -->
+						<!-- bilan semestriel -->
+						<property xpath="paran:ec_bs_publi_ordo_debut" value="2015-12-08" />
+						<property xpath="paran:ec_bs_publi_ordo_fin" value="2015-12-08" />
+						<property xpath="paran:ec_bs_publi_decrets_ordo_debut" value="2015-12-08" />
+						<property xpath="paran:ec_bs_publi_decrets_ordo_fin" value="2015-12-08" />
+						
+						<!-- Taux d'exécution des lois (au cours de la dernière session parlementaire) -->
+						<property xpath="paran:ec_tp_publi_ordos_deb" value="2015-12-08" />
+						<property xpath="paran:ec_tp_publi_ordos_fin" value="2015-12-08" /> 
+					    <property xpath="paran:ec_tp_publi_decrets_ordos_deb" value="2015-12-08" />
+					    <property xpath="paran:ec_tp_publi_decrets_ordos_fin" value="2015-12-08" />
+						
+						<!-- Taux d'exécution des lois (depuis le debut de la législature) -->
+						<property xpath="paran:ec_tl_publi_ordos_deb" value="2015-12-08" />
+						<property xpath="paran:ec_tl_publi_ordos_fin" value="2015-12-08" />
+						<property xpath="paran:ec_tl_publi_decrets_ordos_deb" value="2015-12-08" />
+						<property xpath="paran:ec_tl_publi_decrets_ordos_fin" value="2015-12-08" />
+						
+						<!-- Législature Précédente -->
+						<!-- bilan semestriel -->
+						<property xpath="paran:pre_bs_publi_ordo_debut" value="2015-12-08" />
+						<property xpath="paran:pre_bs_publi_ordo_fin" value="2015-12-08" />
+						<property xpath="paran:pre_bs_publi_decrets_ord_debut" value="2015-12-08" />
+						<property xpath="paran:pre_bs_publi_decrets_ordo_fin" value="2015-12-08" />
+						
+						<!-- Taux d'exécution des lois (au cours de la dernière session parlementaire) -->
+						<property xpath="paran:pre_tp_publi_ordos_deb" value="2015-12-08" />
+						<property xpath="paran:pre_tp_publi_ordos_fin" value="2015-12-08" />
+						<property xpath="paran:pre_tp_publi_decrets_ordos_deb" value="2015-12-08" />
+						<property xpath="paran:pre_tp_publi_decrets_ordos_fin" value="2015-12-08" />
+						
+						<!-- Taux d'exécution des lois (depuis le debut de la législature) -->
+						<property xpath="paran:pre_tl_publi_ordos_deb" value="2015-12-08" />
+						<property xpath="paran:pre_tl_publi_ordos_fin" value="2015-12-08" />
+						<property xpath="paran:pre_tl_publi_decrets_ordos_deb" value="2015-12-08" />
+						<property xpath="paran:pre_tl_publi_decrets_ordos_fin" value="2015-12-08" />
+	
+					</properties>
+				</templateItem>
+				<templateItem typeName="EtatApplication" id="etat-application" title="Etat application">
+					<properties>
+						<property xpath="etat_application:restriction_acces" value="false" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="NotificationsSuiviBatchs"
+                    id="notifications-suivi-batchs"
+                    title="Notifications du suivi des Batchs"
+                >
+					<properties>
+						<property xpath="notifications_suivi_batchs:etat_notification" value="true" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="JetonMaitreFolder" id="jeton-maitre-list" title="Liste des jetons maitres" />
+				<templateItem typeName="LockJetonMaitreFolder" id="lock-jeton-maitre-list" title="Liste des locks de jetons maitres" />
+			</template>
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Droit du document Verrou Folder -->
+		<factoryBinding name="VerrouFolderFactory" factoryName="SimpleTemplateFactory" targetType="VerrouOrganigrammeFolder">
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Droit du document Parametrage -->
+		<factoryBinding
+            name="ParametrageApplicationFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="ParametrageApplication"
+        >
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+		
+		<!-- Droit du document ParametrageAdamant -->
+		<factoryBinding name="ParametrageAdamantFactory" factoryName="SimpleTemplateFactory" targetType="ParametrageAdamant">
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Droit du document EtatApplication -->
+		<factoryBinding name="EtatApplicationFactory" factoryName="SimpleTemplateFactory" targetType="EtatApplication">
+			<acl>
+				<ace principal="AdminAccessUnrestricted" permission="ReadWrite" granted="true" />
+				<ace principal="Everyone" permission="Read" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Droit du document NotificationsSuiviBatchs -->
+		<factoryBinding
+            name="NotificationsSuiviBatchsFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="NotificationsSuiviBatchs"
+        >
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+
+		<!-- Racine des tables de reference -->
+		<factoryBinding name="TableReferenceFactory" factoryName="SimpleTemplateFactory" targetType="TableReferenceRoot">
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Racine des tableaux dynamiques -->
+		<factoryBinding name="TableauDynamiqueFactory" factoryName="SimpleTemplateFactory" targetType="TableauDynamiqueRoot">
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Racine des elements de l'activite normative -->
+		<factoryBinding name="ActiviteNormativeRoot" factoryName="SimpleTemplateFactory" targetType="ActiviteNormativeRoot">
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Racine des elements de l'historique des mises à jour ministérielles -->
+		<factoryBinding name="MajMinRoot" factoryName="SimpleTemplateFactory" targetType="MajMinRoot">
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+			<template>
+				<templateItem typeName="MajMinSet" id="ordonnance" title="Historique des ordonnances" />
+				<templateItem typeName="MajMinSet" id="application_loi" title="Historique des applications loi" />
+				<templateItem typeName="MajMinSet" id="transposition" title="Historique des transpositions" />
+				<templateItem typeName="MajMinSet" id="habilitation" title="Historique des habilitations" />
+				<templateItem typeName="MajMinSet" id="application_ordonnance" title="Historique des applications ordonnance" />
+			</template>
+		</factoryBinding>
+
+
+		<!-- Racine des elements des textes signales -->
+		<factoryBinding name="TexteSignaleRoot" factoryName="SimpleTemplateFactory" targetType="TexteSignaleRoot">
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Racine des liste traitement papier -->
+		<factoryBinding
+            name="ListeTraitementPapierFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="ListeTraitementPapierRoot"
+        >
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+
+		<factoryBinding
+            name="InfoUtilisateurConnectionRootFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="InfoUtilisateurConnectionRoot"
+        >
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Racine des bulletins officiels -->
+		<factoryBinding name="BulletinOfficielFactory" factoryName="SimpleTemplateFactory" targetType="BulletinOfficielRoot">
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<factoryBinding
+            name="VecteurPublicationFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="VecteurPublicationRoot"
+        >
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+			<template>
+				<templateItem typeName="VecteurPublication" id="JournalOfficiel" title="Journal Officiel">
+					<properties>
+						<property xpath="vp:vpIntitule" value="Journal Officiel" />
+						<property xpath="vp:vpPos" value="1" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="VecteurPublication" id="Bodmr" title="BODMR">
+					<properties>
+						<property xpath="vp:vpIntitule" value="BODMR" />
+						<property xpath="vp:vpPos" value="2" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="VecteurPublication" id="docAdministratif" title="Documents administratifs">
+					<properties>
+						<property xpath="vp:vpIntitule" value="Documents administratifs" />
+						<property xpath="vp:vpPos" value="3" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="VecteurPublication" id="joAdministratif" title="JO + documents administratifs">
+					<properties>
+						<property xpath="vp:vpIntitule" value="JO + documents administratifs" />
+						<property xpath="vp:vpPos" value="4" />
+					</properties>
+				</templateItem>
+			</template>
+		</factoryBinding>
+
+		<!-- Racine des indexations -->
+		<factoryBinding name="IndexationFactory" factoryName="SimpleTemplateFactory" targetType="IndexationRoot">
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Espace personnel -->
+		<factoryBinding name="WorkspaceFactory" factoryName="WorkspaceTemplateFactory" targetType="Workspace">
+			<template>
+				<templateItem typeName="AlertRoot" id="mesalertes" title="Mes alertes" />
+				<templateItem typeName="RequeteRoot" id="mesrequetes" title="Mes requêtes" />
+				<templateItem typeName="DossiersSignalesRoot" id="dossiers-signales" title="Mes dossiers signales" />
+				<templateItem typeName="ProfilUtilisateur" id="profil-utilisateur" title="Mon profil utilisateur" />
+				<templateItem typeName="EspaceRechercheRoot" id="espace-recherche" title="Mon espace recherche" />
+				<templateItem typeName="BirtRefreshRoot" id="messtatsrafraichies" title="Mes stats rafraichies" />
+				<templateItem typeName="ExportPANStatRoot" id="export-pan-stats" title="Mes export pan stats" />
+			</template>
+		</factoryBinding>
+
+		<!-- Espace d'administration / Modèles de feuille de route -->
+		<factoryBinding
+            name="FeuilleRouteModelFolderFactory"
+            factoryName="FeuilleRouteModelFolderFactory"
+            targetType="FeuilleRouteModelFolder"
+        >
+			<template>
+				<templateItem typeName="FeuilleRoute" id="Feuille de route par défaut" title="Feuille de route par défaut">
+					<properties>
+						<property xpath="feuille_route:feuilleRouteDefaut" value="true" />
+						<property xpath="feuille_route:numero" value="1" />
+					</properties>
+				</templateItem>
+			</template>
+		</factoryBinding>
+
+		<!-- Espace d'administration / Modèles de fond de dossier -->
+		<factoryBinding
+            name="FondDossierModelRootFactory"
+            factoryName="FondDossierModelTemplateFactory"
+            targetType="FondDossierModelRoot"
+        >
+			<template>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Amnistie" title="ModeleFondDeDossier Amnistie">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="1" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Arrêté ministériel"
+                    title="ModeleFondDeDossier Arrêté ministériel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="2" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Arrêté interministériel"
+                    title="ModeleFondDeDossier Arrêté interministériel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="3" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Arrêté PM" title="ModeleFondDeDossier Arrêté PM">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="4" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Arrêté PR" title="ModeleFondDeDossier Arrêté PR">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="5" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Avenant" title="ModeleFondDeDossier Avenant">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="6" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Avis" title="ModeleFondDeDossier Avis">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="7" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Circulaire" title="ModeleFondDeDossier Circulaire">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="8" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Citation" title="ModeleFondDeDossier Citation">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="9" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Communiqué" title="ModeleFondDeDossier Communiqué">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="10" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Convention" title="ModeleFondDeDossier Convention">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="11" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Décision" title="ModeleFondDeDossier Décision">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="12" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret CE art. 37"
+                    title="ModeleFondDeDossier Décret CE art. 37"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="13" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Décret CE" title="ModeleFondDeDossier Décret CE">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="14" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret CE CM"
+                    title="ModeleFondDeDossier Décret CE CM"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="15" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Décret CM" title="ModeleFondDeDossier Décret CM">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="16" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Décret PR" title="ModeleFondDeDossier Décret PR">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="17" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret simple"
+                    title="ModeleFondDeDossier Décret simple"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="18" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret de publication de traité ou accord"
+                    title="ModeleFondDeDossier Décret de publication de traité ou accord"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="19" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Délibération"
+                    title="ModeleFondDeDossier Délibération"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="20" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Demande Avis CE"
+                    title="ModeleFondDeDossier Demande Avis CE"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="21" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Divers" title="ModeleFondDeDossier Divers">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="22" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Exequatur" title="ModeleFondDeDossier Exequatur">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="23" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Instruction"
+                    title="ModeleFondDeDossier Instruction"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="24" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Liste" title="ModeleFondDeDossier Liste">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="25" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Loi" title="ModeleFondDeDossier Loi">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="26" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Loi art. 53 de la Constitution"
+                    title="ModeleFondDeDossier Loi art. 53 de la Constitution"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="27" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Loi constitutionnelle"
+                    title="ModeleFondDeDossier Loi constitutionnelle"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="28" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Loi organique"
+                    title="ModeleFondDeDossier Loi organique"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="29" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Note" title="ModeleFondDeDossier Note">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="30" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Ordonnance" title="ModeleFondDeDossier Ordonnance">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="31" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Rapport" title="ModeleFondDeDossier Rapport">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="32" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Rectificatif"
+                    title="ModeleFondDeDossier Rectificatif"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="33" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Tableau" title="ModeleFondDeDossier Tableau">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="34" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Tâche Générique"
+                    title="ModeleFondDeDossier Tâche Générique"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="35" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Arrêté ministériel individuel"
+                    title="ModeleFondDeDossier Arrêté ministériel individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="36" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Arrêté interministériel individuel"
+                    title="ModeleFondDeDossier Arrêté interministériel individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="37" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Arrêté PM individuel"
+                    title="ModeleFondDeDossier Arrêté PM individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="38" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Arrêté PR individuel"
+                    title="ModeleFondDeDossier Arrêté PR individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="39" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret CE individuel"
+                    title="ModeleFondDeDossier Décret CE individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="40" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret CE CM individuel"
+                    title="ModeleFondDeDossier Décret CE CM individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="41" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret CM individuel"
+                    title="ModeleFondDeDossier Décret CM individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="42" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret PR individuel"
+                    title="ModeleFondDeDossier Décret PR individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="43" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret simple individuel"
+                    title="ModeleFondDeDossier Décret simple individuel"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="44" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Rapport au parlement"
+                    title="ModeleFondDeDossier Rapport au parlement"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="45" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleFondDeDossier" id="ModeleFondDeDossier Arrêté CE" title="ModeleFondDeDossier Arrêté CE">
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="46" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Décret PR CE"
+                    title="ModeleFondDeDossier Décret PR CE"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="47" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Textes non publiés au JO"
+                    title="ModeleFondDeDossier Textes non publiés au JO"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="48" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleFondDeDossier"
+                    id="ModeleFondDeDossier Informations parlementaires"
+                    title="ModeleFondDeDossier Informations parlementaires"
+                >
+					<properties>
+						<property xpath="modele_fond_dossier_solon_epg:typeActe" value="49" />
+					</properties>
+				</templateItem>
+			</template>
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Espace d'administration / Modèles de parapheur -->
+		<factoryBinding
+            name="ParapheurModelRootFactory"
+            factoryName="ParapheurModelTemplateFactory"
+            targetType="ParapheurModelRoot"
+        >
+			<template>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Amnistie" title="ModeleParapheur Amnistie">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="1" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Arrêté ministériel"
+                    title="ModeleParapheur Arrêté ministériel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="2" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Arrêté interministériel"
+                    title="ModeleParapheur Arrêté interministériel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="3" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Arrêté PM" title="ModeleParapheur Arrêté PM">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="4" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Arrêté PR" title="ModeleParapheur Arrêté PR">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="5" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Avenant" title="ModeleParapheur Avenant">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="6" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Avis" title="ModeleParapheur Avis">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="7" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Circulaire" title="ModeleParapheur Circulaire">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="8" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Citation" title="ModeleParapheur Citation">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="9" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Communiqué" title="ModeleParapheur Communiqué">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="10" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Convention" title="ModeleParapheur Convention">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="11" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Décision" title="ModeleParapheur Décision">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="12" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Décret CE art. 37"
+                    title="ModeleParapheur Décret CE art. 37"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="13" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Décret CE" title="ModeleParapheur Décret CE">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="14" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Décret CE CM" title="ModeleParapheur Décret CE CM">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="15" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Décret CM" title="ModeleParapheur Décret CM">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="16" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Décret PR" title="ModeleParapheur Décret PR">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="17" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Décret simple" title="ModeleParapheur Décret simple">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="18" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Décret de publication de traité ou accord"
+                    title="ModeleParapheur Décret de publication de traité ou accord"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="19" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Délibération" title="ModeleParapheur Délibération">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="20" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Demande Avis CE" title="ModeleParapheur Demande Avis CE">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="21" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Divers" title="ModeleParapheur Divers">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="22" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Exequatur" title="ModeleParapheur Exequatur">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="23" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Instruction" title="ModeleParapheur Instruction">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="24" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Liste" title="ModeleParapheur Liste">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="25" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Loi" title="ModeleParapheur Loi">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="26" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Loi art. 53 de la Constitution"
+                    title="ModeleParapheur Loi art. 53 de la Constitution"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="27" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Loi constitutionnelle"
+                    title="ModeleParapheur Loi constitutionnelle"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="28" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Loi organique" title="ModeleParapheur Loi organique">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="29" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Note" title="ModeleParapheur Note">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="30" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Ordonnance" title="ModeleParapheur Ordonnance">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="31" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Rapport" title="ModeleParapheur Rapport">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="32" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Rectificatif" title="ModeleParapheur Rectificatif">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="33" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Tableau" title="ModeleParapheur Tableau">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="34" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Tâche Générique" title="ModeleParapheur Tâche Générique">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="35" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Arrêté ministériel individuel"
+                    title="ModeleParapheur Arrêté ministériel individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="36" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Arrêté interministériel individuel"
+                    title="ModeleParapheur Arrêté interministériel individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="37" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Arrêté PM individuel"
+                    title="ModeleParapheur Arrêté PM individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="38" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Arrêté PR individuel"
+                    title="ModeleParapheur Arrêté PR individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="39" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Décret CE individuel"
+                    title="ModeleParapheur Décret CE individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="40" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Décret CE CM individuel"
+                    title="ModeleParapheur Décret CE CM individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="41" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Décret CM individuel"
+                    title="ModeleParapheur Décret CM individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="42" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Décret PR individuel"
+                    title="ModeleParapheur Décret PR individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="43" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Décret simple individuel"
+                    title="ModeleParapheur Décret simple individuel"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="44" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Injection" title="ModeleParapheur Injection">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="50" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Rapport au parlement"
+                    title="ModeleParapheur Rapport au parlement"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="45" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Arrêté CE" title="ModeleParapheur Arrêté CE">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="46" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="ModeleParapheur" id="ModeleParapheur Décret PR CE" title="ModeleParapheur Décret PR CE">
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="47" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Textes non publiés au JO"
+                    title="ModeleParapheur Textes non publiés au JO"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="48" />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="ModeleParapheur"
+                    id="ModeleParapheur Informations parlementaires"
+                    title="ModeleParapheur Informations parlementaires"
+                >
+					<properties>
+						<property xpath="modele_parapheur_solon_epg:typeActe" value="49" />
+					</properties>
+				</templateItem>
+			</template>
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Espace d'administration / Parametre -->
+		<factoryBinding name="ParametreFactory" factoryName="SimpleTemplateFactory" targetType="ParametreFolder">
+			<template>
+				<!-- param 1 -->
+				<templateItem
+                    typeName="Parametre"
+                    id="delai-elimination-dossiers"
+                    title="Suppression dossiers : Délai d'élimination des dossiers"
+                >
+					<properties>
+						<property xpath="parametre:value" value="9" />
+						<property xpath="parametre:unit" value="Mois" />
+						<property
+                            xpath="dc:description"
+                            value="Durée sans mouvement pour un dossier au statut initié après laquelle le dossier est sélectionné pour être éliminer"
+                        />
+					</properties>
+				</templateItem>
+				<!-- param 2 -->
+				<templateItem
+                    typeName="Parametre"
+                    id="delai-candidature-abandon-dossiers"
+                    title="Abandon Dossiers : Délai pour la candidature à l'abandon des dossiers"
+                >
+					<properties>
+						<property xpath="parametre:value" value="9" />
+						<property xpath="parametre:unit" value="Mois" />
+						<property
+                            xpath="dc:description"
+                            value="Durée sans mouvement pour un dossier au statut lancé après laquelle le dossier est  sélectionné pour être abandonné."
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="delai-abandon-dossiers"
+                    title="Abandon Dossiers : Délai pour l'abandon des dossiers"
+                >
+					<properties>
+						<property xpath="parametre:value" value="7" />
+						<property xpath="parametre:unit" value="Jours" />
+						<property
+                            xpath="dc:description"
+                            value="Délai après lequel les dossiers, pré-sélectionnés pour être abandonnés, sont effectivement abandonnés."
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="delai-versement-dossiers-base-intermediaire"
+                    title="Archivage intermédiaire : Durée pour le versement des dossiers"
+                >
+					<properties>
+						<property xpath="parametre:value" value="9" />
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée après laquelle un dossier au statut publié est versé dans la base d'archivage intermédiaire."
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA" title="Durée d'utilité administrative (défaut)">
+					<properties>
+						<property xpath="parametre:value" value="6" />
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-1" title="Durée d'utilité administrative (Amnistie)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Amnistie) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-2" title="Durée d'utilité administrative (Arrêté ministériel)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté ministériel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-36" title="Durée d'utilité administrative (Arrêté ministériel individuel)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté ministériel individuel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-3" title="Durée d'utilité administrative (Arrêté interministériel)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté interministériel)- les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-37"
+                    title="Durée d'utilité administrative (Arrêté interministériel individuel)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté interministériel individuel)- les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-4" title="Durée d'utilité administrative (Arrêté du Premier ministre)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté du Premier ministre) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-5"
+                    title="Durée d'utilité administrative (Arrêté du Président de la République)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté du Président de la République)- les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-39"
+                    title="Durée d'utilité administrative (Arrêté du Président de la République individuel)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté du Président de la République individuel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-46" title="Durée d'utilité administrative (Arrêté en Conseil d'Etat)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté en Conseil d'Etat) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-6" title="Durée d'utilité administrative (Avenant)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Avenant) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-7" title="Durée d'utilité administrative (Avis)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Avis) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-8" title="Durée d'utilité administrative (Circulaire)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Circulaire) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-9" title="Durée d'utilité administrative (Citation)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Citation) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-10" title="Durée d'utilité administrative (Communiqué)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Communiqué) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-11" title="Durée d'utilité administrative (Convention)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Convention) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-12" title="Durée d'utilité administrative (Décision)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décision) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-13"
+                    title="Durée d'utilité administrative (Décret en Conseil d'Etat de l'article 37 second alinéa de la Constitution)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret en Conseil d'Etat de l'article 37 second alinéa de la Constitution) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-14" title="Durée d'utilité administrative (Décret en Conseil d'Etat)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret en Conseil d'Etat) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-40"
+                    title="Durée d'utilité administrative (Décret en Conseil d'Etat individuel)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret en Conseil d'Etat individuel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-15"
+                    title="Durée d'utilité administrative (Décret en Conseil d'Etat et conseil des ministres) "
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret en Conseil d'Etat et conseil des ministres) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-41"
+                    title="Durée d'utilité administrative (Décret en Conseil d'Etat et conseil des ministres individuel)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret en Conseil d'Etat et conseil des ministres individuel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-16" title="Durée d'utilité administrative (Décret en conseil des ministres)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret en conseil des ministres) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-42"
+                    title="Durée d'utilité administrative (Décret en conseil des ministres individuel)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret en conseil des ministres individuel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-43"
+                    title="Durée d'utilité administrative (Décret du Président de la République individuel)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret du Président de la République individuel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-38"
+                    title="Durée d'utilité administrative (Arrêté du Premier ministre individuel)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:value" value="120" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Arrêté du Premier ministre individuel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-17"
+                    title="Durée d'utilité administrative (Décret du Président de la République)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:value" value="120" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret du Président de la République) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-51"
+                    title="Durée d'utilité administrative (Accord collectif dans la fonction publique)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:value" value="120" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Accord collectif dans la fonction publique) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-18" title="Durée d'utilité administrative (Décret simple)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret simple) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-44" title="Durée d'utilité administrative (Décret simple individuel)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret simple individuel) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-19"
+                    title="Durée d'utilité administrative (Décret de publication de traité ou accord)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret de publication de traité ou accord) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-47"
+                    title="Durée d'utilité administrative (Décret du Président de la République en Conseil d'Etat) "
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Décret du Président de la République en Conseil d'Etat)  - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-20" title="Durée d'utilité administrative (Délibération)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Délibération) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-21"
+                    title="Durée d'utilité administrative (Demande d'avis au Conseil d'Etat)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Demande d'avis au Conseil d'Etat) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-22" title="Durée d'utilité administrative (Divers)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Divers) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-23" title="Durée d'utilité administrative (Exequatur)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Exequatur) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-49" title="Durée d'utilité administrative (Informations parlementaires)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:value" value="120" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Informations parlementaires) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-24" title="Durée d'utilité administrative (Instruction)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Instruction) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-25" title="Durée d'utilité administrative (Liste)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Liste) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-26" title="Durée d'utilité administrative (Loi)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Loi) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem
+                    typeName="Parametre"
+                    id="DUA-27"
+                    title="Durée d'utilité administrative (Loi de l'article 53 de la Constitution)"
+                >
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Loi de l'article 53 de la Constitution) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-28" title="Durée d'utilité administrative (Loi constitutionnelle) ">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Loi constitutionnelle)  - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-29" title="Durée d'utilité administrative (Loi organique)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Loi organique) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-30" title="Durée d'utilité administrative (Note)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Note)- les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-31" title="Durée d'utilité administrative (Ordonnance)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Ordonnance)- les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-32" title="Durée d'utilité administrative (Rapport)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Rapport)- les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-33" title="Durée d'utilité administrative (Rectificatif)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Rectificatif) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-34" title="Durée d'utilité administrative (Tableau)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Tableau) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-45" title="Durée d'utilité administrative (Rapport au parlement)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Rapport au parlement) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="Parametre" id="DUA-48" title="Durée d'utilité administrative (Textes non publiés au JO)">
+					<properties>
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="parametre:value" value="120" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="Durée d'utilité administrative (Textes non publiés au JO) - les dossiers de la base d'archivage intermédiaire qui ont atteint leur DUA sont proposés pour être versés dans la base d'archivage définitive"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- param titre mel d'elimination -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mail-dossier-elimination"
+                    title="Suppression dossiers : Objet du courriel listant les dossiers sélectionnés pour être éliminés"
+                >
+					<properties>
+						<property xpath="parametre:value" value="[S.O.L.O.N. II] Dossiers candidats à l'élimination" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification adressée par mèl à l'administrateur fonctionel lorsqu'au moins un dossier est sélectionné pour être éliminé."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- param content mel d'elimination -->
+				<templateItem
+                    typeName="Parametre"
+                    id="text-mail-dossier-elimination"
+                    title="Suppression dossiers : Texte du courriel listant les dossiers sélectionnés pour être éliminés"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le tableau suivant liste les dossiers au statut initié qui répondent aux critères d'élimination. Veuillez vous connecter à l'application S.O.L.O.N. II pour valider les dossiers à supprimer."
+                        />
+						<property xpath="parametre:unit" value="Texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification adressée par mèl à l'administrateur fonctionel lorsqu'au moins un dossier est sélectionné pour être éliminé."
+                        />
+					</properties>
+				</templateItem>
+                
+                <templateItem
+                    typeName="Parametre"
+                    id="objet-mail-dossier-elimination-admin-ministeriel"
+                    title="Suppression dossiers : Objet du courriel listant les dossiers sélectionnés pour être éliminés par un administrateur ministeriel"
+                >
+                    <properties>
+                        <property xpath="parametre:value" value="[S.O.L.O.N. II] Dossiers candidats à l'élimination" />
+                        <property xpath="parametre:unit" value="objet" />
+                        <property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification adressée par mèl à l'administrateur minitériel lorsqu'au moins un dossier est sélectionné pour être éliminé."
+                        />
+                    </properties>
+                </templateItem>
+
+                <templateItem
+                    typeName="Parametre"
+                    id="text-mail-dossier-elimination-admin-ministeriel"
+                    title="Suppression dossiers : Texte du courriel listant les dossiers sélectionnés pour être éliminés par un administrateur ministeriel"
+                >
+                    <properties>
+                        <property
+                            xpath="parametre:value"
+                            value="Le tableau suivant liste les dossiers validés par un administrateur fonctionnel qui répondent aux critères d'élimination. Veuillez vous connecter à l'application S.O.L.O.N. II pour valider les dossiers à supprimer."
+                        />
+                        <property xpath="parametre:unit" value="texte" />
+                        <property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification adressée par mèl à l'administrateur minitériel lorsqu'au moins un dossier est sélectionné pour être éliminé."
+                        />
+                    </properties>
+                </templateItem>
+                
+
+				<!-- param titre mel de candidature d'abandonne -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mail-dossier-candidat-abandonne"
+                    title="Abandon Dossiers : Objet du courriel listant les dossiers sélectionnés pour être abandonnés"
+                >
+					<properties>
+						<property xpath="parametre:value" value="[S.O.L.O.N. II] Dossiers candidats à l'abandon" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mèl adressée à l'administrateur fonctionel lorsqu'au moins un dossiers est sélectionné pour être abandonné."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- param contenu mel de candidature d'abandonne -->
+				<templateItem
+                    typeName="Parametre"
+                    id="text-mail-dossier-candidat-abandonne"
+                    title="Abandon Dossiers : Texte du courriel listant les dossiers sélectionnés pour être abandonnés"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le tableau suivant liste les dossiers qui basculeront au statut abandonné en l'absence d'une action positive de votre part pour vous y opposer."
+                        />
+						<property xpath="parametre:unit" value="Texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mèl adressée à l'administrateur fonctionel lorsqu'au moins un dossier est sélectionné pour être abandonné."
+                        />
+					</properties>
+				</templateItem>
+
+
+				<!-- param titre mel apres valididation de transmission -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mail-dossier-after-validation-transmission"
+                    title="Suppression dossiers : Objet du courriel listant les dossiers candidats à l'élimination pour les administrateurs ministériels"
+                >
+					<properties>
+						<property xpath="parametre:value" value="[S.O.L.O.N. II] Dossiers candidats à l'élimination" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mèl adressée aux administrateurs ministériels lorsqu'au moins un dossiers est candidat à l'élimination."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- param contenu mel apres valididation de transmission -->
+				<templateItem
+                    typeName="Parametre"
+                    id="text-mail-dossier-after-validation-transmission"
+                    title="Suppression dossiers : Texte du courriel listant les dossiers candidats à l'élimination pour les administrateurs ministériels"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le tableau suivant liste les dossiers de votre ministère qui peuvent être éliminés."
+                        />
+						<property xpath="parametre:unit" value="Texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mèl adressée aux administrateurs ministériels lorsqu'au moins un dossiers est candidat à l'élimination."
+                        />
+					</properties>
+				</templateItem>
+
+
+				<!-- param titre mel de condidature d'archivage intermediaire -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mail-dossier-candidat-archivage-intermediaire"
+                    title="Archivage intermédiaire : Objet du courriel listant les dossiers candidats au versement"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="[S.O.L.O.N. II] Dossiers candidats pour être versés dans la base d'archivage intermédiaire"
+                        />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mèl adressée à l'administrateur fonctionel  lorsqu'au moins un dossier est candidat au versement dans la base d'archivage intermédiaire."
+                        />
+						<property xpath="parametre:type" value="archivage" />
+					</properties>
+				</templateItem>
+
+				<!-- param contenu mel de condidature d'archivage intermediaire -->
+				<templateItem
+                    typeName="Parametre"
+                    id="text-mail-dossier-candidat-archivage-intermediaire"
+                    title="Archivage intermédiaire : Texte du courriel listant les dossiers candidats au versement"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le tableau suivant liste les dossiers qui répondent aux critères de versement dans la base d'archivage intermédiaire."
+                        />
+						<property xpath="parametre:unit" value="Texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mèl adressée à l'administrateur fonctionel lorsqu'au moins un dossier est candidat au versement dans la base d'archivage intermédiaire."
+                        />
+						<property xpath="parametre:type" value="archivage" />
+					</properties>
+				</templateItem>
+
+				<!-- param titre mel de condidature d'archivage definitive -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mail-dossier-candidat-archivage-definitive"
+                    title="Archivage définitif : Objet du courriel listant les dossiers candidats au versement"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="[S.O.L.O.N. II] Dossiers candidats pour être versés dans la base d'archivage définitive"
+                        />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mèl adressée à l'administrateur fonctionel  lorsqu'au moins un dossier est candidat au versement dans la base d'archivage définitive."
+                        />
+						<property xpath="parametre:type" value="archivage" />
+					</properties>
+				</templateItem>
+
+				<!-- param contenu mel de condidature d'archivage definitive -->
+				<templateItem
+                    typeName="Parametre"
+                    id="text-mail-dossier-candidat-archivage-definitive"
+                    title="Archivage définitif : Texte du courriel listant les dossiers candidats au versement"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le tableau suivant liste les dossiers qui répondent aux critères de versement dans la base d'archivage définitive."
+                        />
+						<property xpath="parametre:unit" value="Texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mèl adressée à l'administrateur fonctionel lorsqu'au moins un dossier est candidat au versement dans la base d'archivage définitive."
+                        />
+						<property xpath="parametre:type" value="archivage" />
+					</properties>
+				</templateItem>
+
+				<!-- param titre mel de l'export d'archivage definitive -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mail-dossiers-export-archivage-definitive"
+                    title="Archivage définitif : Objet du courriel listant les dossiers exportés pour archivage définitif"
+                >
+					<properties>
+						<property xpath="parametre:value" value="[S.O.L.O.N. II] Dossiers exporter pour archivage definitive" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mèl adressée à l'administrateur fonctionel lorsqu'au moins un dossier est exporté pour archivage définitive."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- param contenu mel de l'export d'archivage definitive -->
+				<templateItem
+                    typeName="Parametre"
+                    id="text-mail-dossiers-export-archivage-definitive"
+                    title="Archivage définitif : Texte du courriel listant les dossiers exportés pour archivage définitif "
+                >
+					<properties>
+						<property xpath="parametre:value" value="Le tableau suivant liste les dossiers exporter pour archivage definitive." />
+						<property xpath="parametre:unit" value="Texte" />
+						<property xpath="parametre:type" value="archivage" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mèl adressée à l'administrateur fonctionel suite a l'export des dossiers pour archivage définitive."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- param titre mel de l'ampliation' -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mail-ampliation"
+                    title="Ampliation : Objet du courriel signalant la présence d'une ampliation"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Ampliation" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) du  mèl qui signale la disponibilité de l'ampliation aux destinataires."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- param contenu mel de l'ampliation' -->
+				<templateItem
+                    typeName="Parametre"
+                    id="text-mail-ampliation"
+                    title="Ampliation : Texte du courriel signalant la présence d'une ampliation"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Vous pourrez trouver en pièce jointe une ampliation du texte suivant : ${NOR} ${titre} signé le ${date} \n\n SGG – Service de la législation et de la qualité du droit"
+                        />
+						<property xpath="parametre:unit" value="Texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut)  du  mèl qui signale la disponibilité de l'ampliation aux destinataires."
+                        />
+					</properties>
+				</templateItem>
+
+
+				<!-- param Flag permettant d'afficher ou non le bouton publier dossier 
+					pour simuler la publication du dossier -->
+				<templateItem
+                    typeName="Parametre"
+                    id="flag-affichage-publier-dossier"
+                    title="PAN : Flag pour l'affichage du bouton publier dossier"
+                >
+					<properties>
+						<property xpath="parametre:value" value="true" />
+						<property xpath="parametre:unit" value="boolean" />
+						<property
+                            xpath="dc:description"
+                            value="Flag permettant d'afficher ou non le bouton publier dossier pour simuler la publication du dossier"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Date début de la législature, à prendre en compte par l'activité 
+					normative - Bilan semestriels -->
+				<templateItem
+                    typeName="Parametre"
+                    id="date-debut-legislature"
+                    title="Activité normative - Date début de la  législature"
+                >
+					<properties>
+						<property xpath="parametre:value" value="30/06/2007" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Date début de la  législature, à prendre en compte par l'activité normative(jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Inférieure de l'intervalle de promulgation des lois, à prendre 
+					en compte par l'activité normative - Taux d'exécution des lois (depuis le
+					début de la législature) -->
+				<templateItem
+                    typeName="Parametre"
+                    id="taux-legislature-date-promulgation-borne-inferieure"
+                    title="Activité normative - Taux d'exécution des lois (depuis le début de la législature): Date de promulgation - Borne inférieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="30/06/2007" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Inférieure de l'intervalle de promulgation des lois, à prendre en compte par l'activité normative - Taux d'exécution des lois (depuis le début de la législature) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Supérieure de l'intervalle de promulgation des lois, à prendre 
+					en compte par l'activité normative - Taux d'exécution des lois (depuis le
+					début de la législature) -->
+				<templateItem
+                    typeName="Parametre"
+                    id="taux-legislature-date-promulgation-borne-superieure"
+                    title="Activité normative - Taux d'exécution des lois (depuis le début de la législature): Date de promulgation - Borne supérieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="30/06/2011" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Supérieure de l'intervalle de promulgation des lois, à prendre en compte par l'activité normative - Taux d'exécution des lois (depuis le début de la législature) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Inférieure de l'intervalle de publication des lois, à prendre 
+					en compte par l'activité normative - Taux d'exécution des lois (depuis le
+					début de la législature) -->
+				<templateItem
+                    typeName="Parametre"
+                    id="taux-legislature-date-publication-borne-inferieure"
+                    title="Activité normative - Taux d'exécution des lois (depuis le début de la législature): Date de publication  - Borne inférieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="30/06/2007" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Inférieure de l'intervalle de publication des lois, à prendre en compte par l'activité normative - Taux d'exécution des lois (depuis le début de la législature) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Supérieure de l'intervalle de publication des lois, à prendre 
+					en compte par l'activité normative - Taux d'exécution des lois (depuis le
+					début de la législature) -->
+				<templateItem
+                    typeName="Parametre"
+                    id="taux-legislature-date-publication-borne-superieure"
+                    title="Activité normative - Taux d'exécution des lois (depuis le début de la législature): Date de publication - Borne supérieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="31/12/2011" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Supérieure de l'intervalle de publication des lois, à prendre en compte par l'activité normative - Taux d'exécution des lois (depuis le début de la législature) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Inférieure de l'intervalle de promulgation des lois, à prendre 
+					en compte par l'activité normative - Taux d'exécution des lois (au cours
+					de la dernière session parlementaire) -->
+				<templateItem
+                    typeName="Parametre"
+                    id="taux-parlementaire-date-promulgation-borne-inferieure"
+                    title="Activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire): Date de promulgation - Borne inférieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="01/07/2010" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Inférieure de l'intervalle de promulgation des lois, à prendre en compte par l'activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Supérieure de l'intervalle de promulgation des lois, à prendre 
+					en compte par l'activité normative - Taux d'exécution des lois (au cours
+					de la dernière session parlementaire) -->
+				<templateItem
+                    typeName="Parametre"
+                    id="taux-parlementaire-date-promulgation-borne-superieure"
+                    title="Activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire): Date de promulgation - Borne supérieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="30/06/2011" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Supérieure de l'intervalle de promulgation des lois, à prendre en compte par l'activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Inférieure de l'intervalle de publication des lois, à prendre 
+					en compte par l'activité normative - Taux d'exécution des lois (au cours
+					de la dernière session parlementaire) -->
+				<templateItem
+                    typeName="Parametre"
+                    id="taux-parlementaire-date-publication-borne-inferieure"
+                    title="Activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire): Date de publication  - Borne inférieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="01/07/2010" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Inférieure de l'intervalle de publication des lois, à prendre en compte par l'activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Supérieure de l'intervalle de publication des lois, à prendre 
+					en compte par l'activité normative - Taux d'exécution des lois (au cours
+					de la dernière session parlementaire) -->
+				<templateItem
+                    typeName="Parametre"
+                    id="taux-parlementaire-date-publication-borne-superieure"
+                    title="Activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire): Date de publication - Borne supérieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="31/12/2011" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Supérieure de l'intervalle de publication des lois, à prendre en compte par l'activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Inférieure de l'intervalle de promulgation des lois, à prendre 
+					en compte par l'activité normative - Bilan semestriel -->
+				<templateItem
+                    typeName="Parametre"
+                    id="bilan-semestriel-date-promulgation-borne-inferieure"
+                    title="Activité normative - Bilan semestriel: Date de promulgation des lois- Borne inférieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="01/07/2010" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Inférieure de l'intervalle de promulgation des lois, à prendre en compte par l'activité normative - Bilan semestriel (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Supérieure de l'intervalle de promulgation des lois, à prendre 
+					en compte par l'activité normative - Bilan semestriel -->
+				<templateItem
+                    typeName="Parametre"
+                    id="bilan-semestriel-date-promulgation-borne-superieure"
+                    title="Activité normative - Bilan semestriel: Date de promulgation des lois- Borne Supérieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="30/06/2011" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Supérieure de l'intervalle de promulgation des lois, à prendre en compte par l'activité normative - Bilan semestriel (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Inférieure de l'intervalle de publication des decrets, à prendre 
+					en compte par l'activité normative - Bilan semestriel -->
+				<templateItem
+                    typeName="Parametre"
+                    id="bilan-semestriel-date-publication-borne-inferieure"
+                    title="Activité normative - Bilan semestriel"
+                >
+					<properties>
+						<property xpath="parametre:value" value="01/07/2010" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Inférieure de l'intervalle de publication des decrets, à prendre en compte par l'activité normative - Bilan semestriel(jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Borne Supérieure de l'intervalle de publication des decrets, à prendre 
+					en compte par l'activité normative - Bilan semestriel -->
+				<templateItem
+                    typeName="Parametre"
+                    id="bilan-semestriel-date-publication-borne-superieure"
+                    title="Activité normative - Bilan semestriel: Date de publication - Borne supérieure"
+                >
+					<properties>
+						<property xpath="parametre:value" value="31/12/2011" />
+						<property xpath="parametre:unit" value="Date" />
+						<property
+                            xpath="dc:description"
+                            value="Borne Supérieure de l'intervalle de publication des decrets, à prendre en compte par l'activité normative - Taux d'exécution des lois (au cours de la dernière session parlementaire) (jj/mm/aaaa)"
+                        />
+					</properties>
+				</templateItem>
+
+
+				<!-- Annee de depart, à prendre en compte par l'activité normative - 
+					Statistiques sur les mois et années de publication -->
+				<templateItem
+                    typeName="Parametre"
+                    id="annee-depart-statistique-mesure-publication"
+                    title="PAN : Activité normative – Année de départ des statistiques sur les mois et années de publication"
+                >
+					<properties>
+						<property xpath="parametre:value" value="2007" />
+						<property xpath="parametre:unit" value="Année" />
+						<property
+                            xpath="dc:description"
+                            value="Année de départ, à prendre en compte par l'activité normative - Statistiques sur les mois et années de publication"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Adresse mail de l'administrateur de l'application -->
+				<templateItem
+                    typeName="Parametre"
+                    id="adresse-mail-administrateur-application"
+                    title="Divers : Adresse courriel de l'administrateur de l'application"
+                >
+					<properties>
+						<property xpath="parametre:value" value="ne-pas-repondre-a-ce-mel@solon-epg.com" />
+						<property xpath="parametre:unit" value="adresse mél" />
+						<property xpath="dc:description" value="Adresse mèl de l'administrateur de l'application" />
+					</properties>
+				</templateItem>
+
+				<!-- Format des références pour les lois - expression régulière -->
+				<templateItem typeName="Parametre" id="format-reference-loi" title="PAN : Format - Références lois">
+					<properties>
+						<property xpath="parametre:value" value="[0-9]{4}[-][0-9]{1,4}" />
+						<property xpath="parametre:unit" value="Expression Régulière " />
+						<property
+                            xpath="dc:description"
+                            value="Format attendu pour les référence des lois : la valeur doit être une expression régulière Java"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Format des références pour les ordonnances - expression régulière -->
+				<templateItem typeName="Parametre" id="format-reference-ordonnance" title="PAN : Format - Références ordonnances">
+					<properties>
+						<property xpath="parametre:value" value="[0-9]{4}[-][0-9]{1,4}" />
+						<property xpath="parametre:unit" value="Expression Régulière " />
+						<property
+                            xpath="dc:description"
+                            value="Format attendu pour les références des ordonnances : la valeur doit être une expression régulière Java"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Format du numéro d'ordre - expression régulière -->
+				<templateItem typeName="Parametre" id="format-numero-ordre" title="PAN : Format - Numéro ordre">
+					<properties>
+						<property xpath="parametre:value" value="[0-9]{1,3}(,[0-9]{1}){0,1}" />
+						<property xpath="parametre:unit" value="Expression Régulière " />
+						<property
+                            xpath="dc:description"
+                            value="Format attendu pour le numéro d'ordre : la valeur doit être une expression régulière Java"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Objet » (par défaut) de la notification par mèl suite à la création 
+					d'un utilisateur ou à la demande de son mot de passe par mail -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-notification-creation-utilisateur"
+                    title="Mot de passe : Objet courriel de notification de création utilisateur/demande de mot de passe"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Création de votre compte pour l'application Solon Epg" />
+						<property xpath="parametre:unit" value="objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mèl suite à la création d'un utilisateur ou à la demande de modification de son mot de passe."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Texte du message » (par défaut) de la notification par mèl suite 
+					à la création d'un utilisateur ou à la demande de son mot de passe par mail -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-notification-creation-utilisateur"
+                    title="Mot de passe : Texte du courriel de notification de changement de mot de passe"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Bienvenue dans l'application Solon Epg" />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mèl suite à la création d'un utilisateur ou à la demande de modification de son mot de passe."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Objet » (par défaut) de la notification par mél suite à la validation 
+					d'un utilisateur d'une feuille de route -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-notification-validation-feuille-route"
+                    title="Feuille de route : Objet du courriel de notification de validation"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Notification validation feuille de route" />
+						<property xpath="parametre:unit" value="objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél suite à la demande d'un utilisateur de la validation d'une feuille de route."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Texte » (par défaut) de la notification par mél suite à la validation 
+					d'un utilisateur d'une feuille de route -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-notification-validation-feuille-route"
+                    title="Feuille de route : Texte du courriel de notification de validation"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Une demande de validation de feuille de route a été faite. " />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte » (par défaut) de la notification par mél suite à la demande d'un utilisateur de la validation d'une feuille de route."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Objet » (par défaut) de la notification par mél suite à la validation 
+					automatique d'un dossier -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-notification-erreur-validation-automatique"
+                    title="Feuille de route : Objet du courriel de notification d'erreur lors de la validation automatique de feuille de route"
+                >
+					<properties>
+						<property xpath="parametre:value" value="[S.O.L.O.N. II]  Validation automatique" />
+						<property xpath="parametre:unit" value="objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél suite à une erreur de validation automatique."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Texte » (par défaut) de la notification par mél suite à la validation 
+					automatique d'un dossier -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-notification-erreur-validation-automatique"
+                    title="Feuille de route : Texte du courriel de notification d'erreur lors de la validation automatique de feuille de route"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Une erreur est survenue au cours de la validation automatique des dossiers suivants ${NOR}."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte » (par défaut) de la notification par mél suite à une erreure lors de la validation d'un dossier."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Objet » (par défaut) de l'échec de demande de publication -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-echec-demande-publi"
+                    title="Publication : Objet du courriel d'échec de demande de publication"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="[SOLON EPG] Dossier ${nor_dossier} : échec de la demande de publication au webservice"
+                        />
+						<property xpath="parametre:unit" value="objet" />
+						<property xpath="dc:description" value="« Objet » (par défaut) de l'échec de demande de publication" />
+					</properties>
+				</templateItem>
+
+				<!-- « Texte » (par défaut) de l'échec de demande de publication -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-echec-demande-publi"
+                    title="Publication : Texte du courriel d'échec de demande de publication"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Erreur lors de l'envoi du webservice de demande de publication et d'épreuvage pour le dossier ${nor_dossier}."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property xpath="dc:description" value="« Texte du message » (par défaut) de l'échec de demande de publication" />
+					</properties>
+				</templateItem>
+
+				<!-- « Objet » (par défaut) de l'échec du rejeu d'une notification de 
+					demande publication -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-echec-rejeu-notif"
+                    title="Notification : Objet du courriel d'échec d'un rejeu d'une notification"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="[SOLON EPG] Dossier ${nor_dossier} : échec de la demande de publication au webservice par rejeu"
+                        />
+						<property xpath="parametre:unit" value="objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de l'échec du rejeu d'une notification de demande publication"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Texte » (par défaut) de l'échec du rejeu d'une notification de 
+					demande publication -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-echec-rejeu-notif"
+                    title="Notification : Texte du courriel d'échec d'un rejeu d'une notification"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le dernier rejeu de notification de demande de publication au webservice du dossier ${nor_dossier} a échoué."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de l'échec de rejeu d'une notification de demande publication"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Objet » (par défaut) de l'abandon d'une notification de demande 
+					publication -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-abandon-notif"
+                    title="Notification : Objet du courriel d'abandon d'une notification"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="[SOLON EPG] Dossier ${nor_dossier} : abandon de la demande de publication au webservice"
+                        />
+						<property xpath="parametre:unit" value="objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de l'abandon d'une notification de demande publication"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Texte » (par défaut) de l'abandon du rejeu d'une notification 
+					de demande publication -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-abandon-notif"
+                    title="Notification : Texte du courriel d'abandon d'une notification "
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le nombre d'essais maximum pour notifier le webservice du dossier ${nor_dossier} a été atteint, et la notification a été abandonnée."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de l'abandon d'une notification de demande publication"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- « Objet » (par défaut) du mél de demande publication suivante -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-demande-publi-suivante"
+                    title="Publication : Objet du courriel de demande de publication"
+                >
+					<properties>
+						<property xpath="parametre:value" value="[SOLON EPG] Le dossier n° '${nor_dossier}' est prêt à être publié." />
+						<property xpath="parametre:unit" value="objet" />
+						<property xpath="dc:description" value="« Objet » (par défaut) du mél de demande publication suivante" />
+					</properties>
+				</templateItem>
+
+				<!-- « Texte du message » (par défaut) du mél pour demande publication 
+					suivante -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-demande-publi-suivante"
+                    title="Publication : Texte du courriel de demande de publication"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le dossier n° '${nor_dossier}' est prêt à être publié. Voir le lien sur le dossier ci dessous."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property xpath="dc:description" value="« Texte du message » (par défaut) du mél pour demande publication suivante" />
+					</properties>
+				</templateItem>
+
+				<!-- « Objet » (par défaut) du mél d'envoi des résultats d'une alerte -->
+				<templateItem typeName="Parametre" id="objet-mel-alert" title="Alertes : Objet du courriel de résultat d'alerte">
+					<properties>
+						<property xpath="parametre:value" value="[SOLON EPG - Alert] Résultats de l'alerte ${titre_alerte}" />
+						<property xpath="parametre:unit" value="objet" />
+						<property xpath="dc:description" value="« Objet » (par défaut) du mél d'envoi des résultats d'une alerte" />
+					</properties>
+				</templateItem>
+
+				<!-- « Texte du message » (par défaut) du mél d'envoi des résultats d'une 
+					alerte -->
+				<templateItem typeName="Parametre" id="texte-mel-alert" title="Alertes : Texte du courriel de résultat d'alerte">
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Bonjour, vous trouverez les résultats de l'alerte dans la pièce jointe et les détails concernant l'alerte ci-dessous."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property xpath="dc:description" value="« Texte » (par défaut) du mél d'envoi des résultats d'une alerte" />
+					</properties>
+				</templateItem>
+
+				<!-- Batch Hebdomadaire - -->
+				<templateItem
+                    typeName="Parametre"
+                    id="batch-hebdo-purgeTentativesConnexionEvent"
+                    title="Batch Hebdomadaire - Jour d'exécution pour le batch purgeTentativesConnexionEvent"
+                >
+					<properties>
+						<property xpath="parametre:value" value="lundi" />
+						<property xpath="parametre:unit" value="Jour de la semaine" />
+						<property
+                            xpath="dc:description"
+                            value="Jour d'exécution pour le batch purgeTentativesConnexionEvent - une valeur parmi lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Batch Mensuel - -->
+				<templateItem
+                    typeName="Parametre"
+                    id="batch-mensuel-dossierCandidatAbandon"
+                    title="Batch Mensuel - Jour d'exécution pour le batch des dossiers candidats à l'abandon"
+                >
+					<properties>
+						<property xpath="parametre:value" value="1" />
+						<property xpath="parametre:unit" value="Integer" />
+						<property xpath="dc:description" value="Jour d'exécution pour le batch dossierCandidatAbandon" />
+					</properties>
+				</templateItem>
+
+				<templateItem
+                    typeName="Parametre"
+                    id="batch-mensuel-dossierCandidatToArchivageIntermediaire"
+                    title="Batch Mensuel - Jour d'exécution pour le batch des dossiers candidats à l'archivage intermédiaire"
+                >
+					<properties>
+						<property xpath="parametre:value" value="3" />
+						<property xpath="parametre:unit" value="Integer" />
+						<property xpath="parametre:type" value="archivage" />
+						<property xpath="dc:description" value="Jour d'exécution pour le batch dossierCandidatToArchivageIntermediaire" />
+					</properties>
+				</templateItem>
+
+				<templateItem
+                    typeName="Parametre"
+                    id="batch-mensuel-dossierCandidatToArchivageDefinitive"
+                    title="Batch Mensuel - Jour d'exécution pour le batch des dossiers candidats à l'archivage définitif"
+                >
+					<properties>
+						<property xpath="parametre:value" value="29" />
+						<property xpath="parametre:unit" value="Integer" />
+						<property xpath="parametre:type" value="archivage" />
+						<property xpath="dc:description" value="Jour d'exécution pour le batch dossierCandidatToArchivageDefinitive" />
+					</properties>
+				</templateItem>
+
+				<templateItem
+                    typeName="Parametre"
+                    id="batch-mensuel-dossierElimination"
+                    title="Batch Mensuel - Jour d'exécution pour le batch dossierElimination"
+                >
+					<properties>
+						<property xpath="parametre:value" value="15" />
+						<property xpath="parametre:unit" value="Integer" />
+						<property xpath="dc:description" value="Jour d'exécution pour le batch dossierElimination" />
+					</properties>
+				</templateItem>
+
+				<templateItem
+                    typeName="Parametre"
+                    id="url-application-transmise-par-mel"
+                    title="Divers : Url application transmise par courriel"
+                >
+					<properties>
+						<property xpath="parametre:value" value="http://idlv-solonepg-test.lyon-dev2.local:8180/solon-epg" />
+						<property xpath="parametre:unit" value="url" />
+						<property
+                            xpath="dc:description"
+                            value="Adresse URL de l'application transmise systématiquement aux utilisateurs lors des notifications par mèl."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre d'objet du mél. d'erreur de création d'un jeton -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-notification-erreur-jeton"
+                    title="WS : Objet du courriel de notification d'erreur de création de jeton"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Erreur dans la création d'un jeton" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél suite à l'erreur de création d'un jeton"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre texte du mél. d'erreur de création d'un jeton -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-notification-erreur-jeton"
+                    title="WS : Texte du courriel de notification d'erreur de création de jeton"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Une erreur est intervenue lors de la création d'un jeton pour le dossier ${numero_dossier}"
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mél suite à une erreur lors de la création d'un jeton pour un dossier"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre d'objet du mél. d'alerte de dossiers bloqués -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-alerte-dossiers-bloques"
+                    title="Dossiers bloqués : Objet du courriel d'alerte"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Dossiers bloqués" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél suite à la découverte de dossiers bloqués"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre texte du mél. d'alerte de dossiers bloqués -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-alerte-dossiers-bloques"
+                    title="Dossiers bloqués : Texte du courriel d'alerte"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Nombre de dossiers diagnostiqués bloqués : ${nb_resultats}." />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mél suite à la découverte de dossiers bloqués"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre objet du mél. d'alerte d'erreur heapspace -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-notification-erreur-heap-space"
+                    title="Alertes : Objet mél d'erreur d'allocation dynamique de mémoire (heapspace)"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Erreur java heapspace" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél suite à une erreur heapspace"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre texte du mél. d'alerte d'erreur heapspace -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-notification-erreur-heap-space"
+                    title="Alertes : Texte mél d'erreur d'allocation dynamique de mémoire (heapspace)"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Une erreur heapspace a eu lieu lors de l'appel aux webservices concernant ${concernant}."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mél suite à la découverte de dossiers bloqués"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre url didacticiel -->
+				<templateItem typeName="Parametre" id="url-didacticiel" title="Divers : Url didacticiel">
+					<properties>
+						<property xpath="parametre:value" value="http://lien-didacticiel:8180/" />
+						<property xpath="parametre:unit" value="url" />
+						<property xpath="dc:description" value="Adresse URL du document didacticiel utilisé pour le lien didacticiel" />
+					</properties>
+				</templateItem>
+
+				<templateItem typeName="Parametre" id="archivage-repertoire" title="Archivage définitif : Répertoire racine">
+					<properties>
+						<property xpath="parametre:value" value="/EPG/ARCHIVAGE" />
+						<property xpath="parametre:unit" value="texte" />
+						<property xpath="parametre:type" value="archivage" />
+						<property xpath="dc:description" value="Repertoire racine de l'archivage definitive" />
+					</properties>
+				</templateItem>
+
+				<templateItem
+                    typeName="Parametre"
+                    id="vitam-todo-repertoire"
+                    title="Retour VITAM - Repertoire racine de dépot des retours vitam"
+                >
+					<properties>
+						<property xpath="parametre:value" value="/EPG/ARCHIVAGE/VITAM/todo" />
+						<property xpath="parametre:unit" value="texte" />
+						<property xpath="dc:description" value="Repertoire de dépot des retours vitam" />
+					</properties>
+				</templateItem>
+
+				<templateItem
+                    typeName="Parametre"
+                    id="vitam-done-repertoire"
+                    title="Retour VITAM - Repertoire racine des retours vitam traités avec succès"
+                >
+					<properties>
+						<property xpath="parametre:value" value="/EPG/ARCHIVAGE/VITAM/done" />
+						<property xpath="parametre:unit" value="texte" />
+						<property xpath="dc:description" value="Repertoire racine des retours vitam traités avec succès" />
+					</properties>
+				</templateItem>
+
+				<templateItem
+                    typeName="Parametre"
+                    id="vitam-error-repertoire"
+                    title="Retour VITAM - Repertoire racine des retours vitam en erreur de traitement"
+                >
+					<properties>
+						<property xpath="parametre:value" value="/EPG/ARCHIVAGE/VITAM/error" />
+						<property xpath="parametre:unit" value="texte" />
+						<property xpath="dc:description" value="Repertoire racine des retours vitam en erreur de traitement" />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre objet du mél. de détection de nor incohérent -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-nor-dossier-incoherent"
+                    title="NOR : Objet du courriel de NORs incohérents"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Dossiers NORs incohérents" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél suite à la détection de nor incohérents"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre texte du mél. de détection de nor incohérent -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-nor-dossier-incoherent"
+                    title="NOR : Texte du courriel de NORs incohérents"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Nombre de dossiers NORs diagnostiqués incohérents : ${nb_resultats}." />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mél suite à la découverte de dossiers NORs incohérents."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre objet du mél d'envoi de non renseignement des paramètres 
+					DILA -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-dila-parameters"
+                    title="DILA : Objet du courriel paramètres d'hébergement DILA"
+                >
+					<properties>
+						<property xpath="parametre:value" value="[SOLON EPG - Administration] Paramètres DILA inconnus" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) du mél d'envoi de non renseignement des paramètres DILA"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre texte du mél. d'envoi de non renseignement des paramètres 
+					DILA -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-dila-parameters"
+                    title="DILA : Texte courriel paramètres d'hébergement DILA"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Bonjour, les paramètres nécessaires à l'envoi de notifications aux webservices sont vides ou partiellement complétés. Afin d'assurer le bon fonctionnement de l'application, il est nécessaire qu'ils soient renseignés."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte » (par défaut) du mél d'envoi de non renseignement des paramètres DILA"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre d'objet du mél. du batch de recherche d'incohérence des 
+					dossiers link -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-dossiers-link-incoherent"
+                    title="Batch : Objet du courriel de notification du batch liens de dossiers incohérents"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Résultat du batch dossiers link incohérents" />
+						<property xpath="parametre:unit" value="Objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél des résultats du batch de recherche des dossiers link incohérents."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre texte du mél. du batch de recherche d'incohérence des 
+					dossiers link -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-dossiers-link-incoherent"
+                    title="Batch : Texte du courriel de notification du batch liens de dossiers incohérents"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Bonjour, le batch de recherche d'incohérence entre les étapes en cours et les dossiers link a retourné ${nb_resultats} dossier(s) à vérifier."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mél des résultats du batch de recherche des dossiers link incohérents."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Lien de la page de renseignements -->
+				<templateItem typeName="Parametre" id="page-renseignements" title="Divers : Page de renseignements">
+					<properties>
+						<property xpath="parametre:value" value="http://extraqual.pm.rie.gouv.fr/demat/index.html" />
+						<property xpath="parametre:unit" value="page" />
+						<property
+                            xpath="dc:description"
+                            value="Page affichée par le lien « Pour tout renseignement sur les conditions d'accès à l'outil » de la page d'accueil"
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Lien de la page de suivi de l'application des lois sur le portail de la qualité et de la simplification du droit -->
+				<templateItem
+                    typeName="Parametre"
+                    id="page-suivi-application-lois"
+                    title="PAN : Page de suivi de l'application des lois"
+                >
+					<properties>
+						<property xpath="parametre:value" value="https://extraqual.pm.rie.gouv.fr/suivi.html" />
+						<property xpath="parametre:unit" value="page" />
+						<property
+                            xpath="dc:description"
+                            value="Page affichée par le lien « SUIVI DE L'APPLICATION DES LOIS SUR LE PORTAIL DE LA QUALITE ET DE LA SIMPLIFICATION DU DROIT  » de la page outil de suivi de l'application des lois, disponible depuis la page d'accueil."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre de délai de renouvellement des mots de passe -->
+				<templateItem
+                    typeName="Parametre"
+                    id="delai-renouvellement-mots-de-passe"
+                    title="Mot de passe : Délai de renouvellement des mots de passe"
+                >
+					<properties>
+						<property xpath="parametre:value" value="6" />
+						<property xpath="parametre:unit" value="Mois" />
+						<property xpath="dc:description" value="Délai de renouvellement des mots de passe en mois." />
+					</properties>
+				</templateItem>
+
+				<!-- Paramètre de délai de prévenance du renouvellement de mot de passe -->
+				<templateItem
+                    typeName="Parametre"
+                    id="delai-prevenance-renouvellement-mot-de-passe"
+                    title="Mot de passe : Délai de prévenance de renouvellement de mot de passe"
+                >
+					<properties>
+						<property xpath="parametre:value" value="10" />
+						<property xpath="parametre:unit" value="Jours" />
+						<property xpath="dc:description" value="Délai de prévenance par mèl de renouvellement du mot de passe en jours." />
+					</properties>
+				</templateItem>
+
+				<!-- Objet mèl de prévenance du renouvellement de mot de passe -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-prevenance-renouvellement-mot-de-passe"
+                    title="Mot de passe : Objet du courriel de prévenance du renouvellement de mot de passe"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Expiration prochaine de votre mot de passe" />
+						<property xpath="parametre:unit" value="objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél adressée aux utilisateurs dont le mot de passe va expirer (dépassement du délai de renouvellement)."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Texte mèl de prévenance du renouvellement de mot de passe -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-prevenance-renouvellement-mot-de-passe"
+                    title="Mot de passe : Texte du courriel de prévenance du renouvellement de mot de passe"
+                >
+					<properties>
+						<property
+                            xpath="parametre:value"
+                            value="Le mot de passe pour le compte ${user_login} va expirer dans ${jours_restants} jours."
+                        />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mél adressée aux utilisateurs dont le mot de passe va expirer (dépassement du délai de renouvellement)."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Objet mèl de notification de suivi des batchs -->
+				<templateItem
+                    typeName="Parametre"
+                    id="objet-mel-suivi-batch-notification"
+                    title="Batch : Objet du courriel de notification de suivi des batchs"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Notification d'échec d'exécution d'un batch" />
+						<property xpath="parametre:unit" value="objet" />
+						<property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél adressée aux administrateurs lors de l'échec de l'exécution d'un batch."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Texte mèl de notification de suivi des batchs -->
+				<templateItem
+                    typeName="Parametre"
+                    id="texte-mel-suivi-batch-notification"
+                    title="Batch : Texte du courriel de notification de suivi des batchs"
+                >
+					<properties>
+						<property xpath="parametre:value" value="Le batch ${eventName} s'est terminé avec des erreurs." />
+						<property xpath="parametre:unit" value="texte" />
+						<property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mél adressée aux administrateurs lors de l'échec de l'exécution d'un batch."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Taille max des pièces jointes -->
+				<templateItem
+                    typeName="Parametre"
+                    id="parametre-taille-pieces-jointes"
+                    title="Divers : Taille maximale des pièces jointes en MO"
+                >
+					<properties>
+						<property xpath="parametre:value" value="5" />
+						<property xpath="parametre:unit" value="Megaoctets" />
+						<property xpath="dc:description" value="Taille maximale des fichiers téléchargés" />
+					</properties>
+				</templateItem>
+
+				<!-- Délai après signature pour cloture textes non publiés -->
+				<templateItem
+                    typeName="Parametre"
+                    id="delai-cloture-txt-non-pub"
+                    title="Batch : Délai de clôture après la signature des textes non publiés au JO"
+                >
+					<properties>
+						<property xpath="parametre:value" value="15" />
+						<property xpath="parametre:unit" value="Jours" />
+						<property xpath="dc:description" value="Nombre de jours nécessaires après signature du dossier pour sa clôture." />
+					</properties>
+				</templateItem>
+				
+				<!-- Activation de la publication de l'échéancier a la BDJ -->
+				<templateItem
+                    typeName="Parametre"
+                    id="flag-activation-publication-echeancier-bdj"
+                    title="PAN : Activation de la publication de l'échéancier à la BDJ"
+                >
+					<properties>
+						<property xpath="parametre:value" value="false" />
+						<property xpath="parametre:unit" value="boolean" />
+						<property
+                            xpath="dc:description"
+                            value="Flag permettant d'activer la fonctionnalité de publication de l'échéancier d'un texte maitre à la BDJ"
+                        />
+					</properties>
+				</templateItem>
+				
+				<!-- Activation de la publication de l'échéancier a la BDJ -->
+				<templateItem
+                    typeName="Parametre"
+                    id="url-webservice-publication-echeancier-bdj"
+                    title="WS : Url du webservice de publication de l'échéancier à la BDJ"
+                >
+					<properties>
+						<property xpath="parametre:value" value="" />
+						<property xpath="parametre:unit" value="url" />
+						<property
+                            xpath="dc:description"
+                            value="Adresse URL du webservice de la BDJ auquel doivent être adressés les échéanciers des textes maitres."
+                        />
+					</properties>
+				</templateItem>
+
+				<!-- Activation de la publication des bilan semestriels a la BDJ -->
+				<templateItem
+                    typeName="Parametre"
+                    id="flag-activation-publication-bilansemestriel-bdj"
+                    title="PAN : Activation de la publication des bilans semestriels à la BDJ"
+                >
+					<properties>
+						<property xpath="parametre:value" value="false" />
+						<property xpath="parametre:unit" value="boolean" />
+						<property
+                            xpath="dc:description"
+                            value="Flag permettant d'activer la fonctionnalité de publication des bilans semestriels à la BDJ"
+                        />
+					</properties>
+				</templateItem>
+				
+				<!-- URL de la publication des bilans semestriels a la BDJ -->
+				<templateItem
+                    typeName="Parametre"
+                    id="url-webservice-publication-bilansemestriel-bdj"
+                    title="WS : Url du webservice de publication des bilans semestriels à la BDJ"
+                >
+					<properties>
+						<property xpath="parametre:value" value="" />
+						<property xpath="parametre:unit" value="url" />
+						<property
+                            xpath="dc:description"
+                            value="Adresse URL du webservice de la BDJ auquel doivent être adressés les bilans semestriels."
+                        />
+					</properties>
+				</templateItem>
+				
+				<templateItem typeName="Parametre" id="adresse-emission-mel" title="Divers : Adresse d'émission des mèls">
+                    <properties>
+                        <property
+                            xpath="parametre:value"
+                            value="ne-pas-repondre-dev1@reponses2ng.com;ne-pas-repondre-dev2@reponses2ng.com"
+                        />
+                        <property xpath="parametre:unit" value="adresse mèl" />
+                        <property
+                            xpath="dc:description"
+                            value="Adresses d'émission des mèls, séparées par des point-virgules."
+                        />
+                    </properties>
+                </templateItem>
+
+                <templateItem
+                    typeName="Parametre"
+                    id="delai-avertissement-utilisateur-inactif"
+                    title="Utilisateur : Délai avertissement utilisateur inactif"
+                >
+                    <properties>
+                        <property xpath="parametre:value" value="12" />
+                        <property xpath="parametre:unit" value="Mois" />
+                        <property
+                            xpath="dc:description"
+                            value="En cas de non connexion d’un utilisateur durant plus d’un délai signalée par l’application qui vérifie le compte de l’utilisateur pour une éventuelle mise à jour en termes de gestion des droits d’accès et de l’organigramme. La liste des utilisateurs concernés est adressée à l’administrateur."
+                        />
+                    </properties>
+                </templateItem>
+
+                <templateItem
+                    typeName="Parametre"
+                    id="delai-desactivation-utilisateur"
+                    title="Utilisateur : Délai désactivation utilisateur"
+                >
+                    <properties>
+                        <property xpath="parametre:value" value="24" />
+                        <property xpath="parametre:unit" value="Mois" />
+                        <property
+                            xpath="dc:description"
+                            value="Les utilisateurs passés un délai sans connexion sont supprimés de l’application."
+                        />
+                    </properties>
+                </templateItem>
+                
+                <templateItem
+                    typeName="Parametre"
+                    id="objet-mail-notification-delai-avertissement-utilisateur-inactif"
+                    title="Utilisateur : Objet mél Délai avertissement utilisateur inactif"
+                >
+                    <properties>
+                        <property xpath="parametre:value" value="Utilisateurs inactifs" />
+                        <property xpath="parametre:unit" value="objet" />
+                        <property
+                            xpath="dc:description"
+                            value="« Objet » (par défaut) de la notification par mél adressée à l'administrateur lorsqu'au moins un utilisateur dépasse le délai de non connexion défini dans les paramètres."
+                        />
+                    </properties>
+                </templateItem>
+
+                <templateItem
+                    typeName="Parametre"
+                    id="text-mail-notification-delai-avertissement-utilisateur-inactif"
+                    title="Utilisateur : Texte du mél Délai avertissement utilisateur inactif"
+                >
+                    <properties>
+                        <property
+                            xpath="parametre:value"
+                            value="Les utilisateurs suivants ne sont pas connectés depuis le délai d'avertissement des utilisateurs inactifs défini dans les paramètres. "
+                        />
+                        <property xpath="parametre:unit" value="texte" />
+                        <property
+                            xpath="dc:description"
+                            value="« Texte du message » (par défaut) de la notification par mél adressée à l'administrateur lorsqu'au moins un utilisateur dépasse le délai de non connexion défini dans les paramètres."
+                        />
+                    </properties>
+                </templateItem>
+                                
+                <templateItem
+                    typeName="Parametre"
+                    id="solon-edit-version"
+                    title="SOLON-Edit : numéro de version courant"
+                >
+                    <properties>
+                        <property xpath="parametre:value" value="1.1.0.0" />
+                        <property xpath="parametre:unit" value="texte" />
+                        <property
+                            xpath="dc:description"
+                            value="Numéro de la dernière version de SOLON-Edit disponible depuis l'application. Le format à renseigner doit être exactement de la forme suivante (où n est un chiffre ou nombre) : n.n.n.n"
+                        />
+                    </properties>
+                </templateItem>
+			</template>
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- repertoire racine des instances de feuille de route -->
+		<factoryBinding
+            name="NaiadFeuilleRouteInstancesRootFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="DocumentRouteInstancesRoot"
+        >
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Feuille de route -->
+		<factoryBinding name="FeuilleRouteFactory" factoryName="FeuilleRouteFactory" targetType="FeuilleRoute">
+			<template>
+				<templateItem typeName="RouteStep" id="Pour initialisation">
+					<properties>
+						<property xpath="routing_task:type" value="1" />
+						<property xpath="routing_task:obligatoireSGG" value="true" />
+					</properties>
+				</templateItem>
+			</template>
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+		
+		<!-- Squelettes de Feuille de route -->
+		<factoryBinding
+            name="FeuilleRouteSqueletteFactory"
+            factoryName="FeuilleRouteSqueletteFactory"
+            targetType="FeuilleRouteSquelette"
+        >
+			<template>
+				<templateItem typeName="RouteStepSquelette" id="Pour initialisation">
+					<properties>
+						<property xpath="routing_task:type" value="1" />
+						<property xpath="routing_task:obligatoireSGG" value="true" />
+					</properties>
+				</templateItem>
+			</template>
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<!-- Rubrique d'indexation -->
+		<factoryBinding name="IndexationRubriqueFactory" factoryName="SimpleTemplateFactory" targetType="IndexationRoot">
+			<template>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-1">
+					<properties>
+						<property xpath="dc:title" value="ACTION SOCIALE, SANTÉ, SÉCURITÉ SOCIALE" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Action sociale, santé, sécurité sociale" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-2">
+					<properties>
+						<property xpath="dc:title" value="AGRICULTURE ET ESPACE RURAL, VITICULTURE, BOIS ET FORÊTS" />
+						<property
+                            xpath="indexation_rubrique_solon_epg:intitule"
+                            value="Agriculture et espace rural, viticulture, bois et forêts"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-3">
+					<properties>
+						<property xpath="dc:title" value="COLLECTIVITÉS TERRITORIALES, AMÉNAGEMENT ET DÉVELOPPEMENT DU TERRITOIRE" />
+						<property
+                            xpath="indexation_rubrique_solon_epg:intitule"
+                            value="Collectivités territoriales, Aménagement et développement du territoire"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-4">
+					<properties>
+						<property xpath="dc:title" value="CULTURE ET COMMUNICATION" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Culture et communication" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-5">
+					<properties>
+						<property xpath="dc:title" value="DÉFENSE, ANCIENS COMBATTANTS" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Défense, anciens combattants" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-6">
+					<properties>
+						<property xpath="dc:title" value="DOMAINE PUBLIC" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Domaine public" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-7">
+					<properties>
+						<property xpath="dc:title" value="ECONOMIE ET FINANCE, COMMERCE, ARTISANAT, INDUSTRIE, ENTREPRISES" />
+						<property
+                            xpath="indexation_rubrique_solon_epg:intitule"
+                            value="Economie et finances, commerce, artisanat, industrie, entreprises"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-8">
+					<properties>
+						<property xpath="dc:title" value="ENERGIE, ENVIRONNEMENT" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Energie, environnement" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-9">
+					<properties>
+						<property xpath="dc:title" value="ENSEIGNEMENT, EDUCATION ET SCIENCES ET TECHNIQUES" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Enseignement, Education et Sciences et techniques" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-10">
+					<properties>
+						<property xpath="dc:title" value="FISCALITÉ, BUDGET DE L'ÉTAT" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Fiscalité, budget de l'état" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-11">
+					<properties>
+						<property xpath="dc:title" value="FONCTION PUBLIQUE" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Fonction publique" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-12">
+					<properties>
+						<property xpath="dc:title" value="JUSTICE, LIBERTÉS PUBLIQUE, DROITS FONDAMENTAUX" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Justice, libertés publiques, droits fondamentaux " />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-13">
+					<properties>
+						<property xpath="dc:title" value="LOGEMENT, CONSTRUCTION, URBANISME" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Logement, construction, urbanisme" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-14">
+					<properties>
+						<property xpath="dc:title" value="MÉDAILLES, DÉCORATIONS" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Médailles, décorations" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-15">
+					<properties>
+						<property xpath="dc:title" value="OUTRE-MER" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Outre-mer " />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-16">
+					<properties>
+						<property xpath="dc:title" value="POUVOIRS PULICS, SECTEUR PUBLIC, VIE POLITIQUE" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Pouvoirs publics, secteur public, vie politique" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-17">
+					<properties>
+						<property xpath="dc:title" value="RELATIONS INTERNATIONALES, ÉTRANGERS, FRANÇAIS DE L'ÉTRANGER et RAPATRIÉS" />
+						<property
+                            xpath="indexation_rubrique_solon_epg:intitule"
+                            value="Relations internationales, étrangers, français de l'étranger et rapatriés"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-18">
+					<properties>
+						<property xpath="dc:title" value="RUbRIQUES MINISTÉRIELLES (DÉCRETS D'ATTRIBUTIONS ET D'ORGANISATION)" />
+						<property
+                            xpath="indexation_rubrique_solon_epg:intitule"
+                            value="Rubriques ministérielles (décrets d'attributions et d'organisation)"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-19">
+					<properties>
+						<property xpath="dc:title" value="sÉCURITÉ" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Sécurité" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-20">
+					<properties>
+						<property xpath="dc:title" value="SPORT ET JEUX" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Sport et jeux" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-21">
+					<properties>
+						<property xpath="dc:title" value="TEXTES RELATIFS AU DROIT, DE CODIFICATION ET DIVERS" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Textes relatifs au droit, de codification et divers" />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-22">
+					<properties>
+						<property xpath="dc:title" value="TRANSPORTS, ACTIVITÉS MARITIMES, PORTS, NAVIGATION INTÉRIEURE" />
+						<property
+                            xpath="indexation_rubrique_solon_epg:intitule"
+                            value="Transports, Activités maritimes, ports, navigation intérieure"
+                        />
+					</properties>
+				</templateItem>
+				<templateItem typeName="IndexationRubrique" id="indexation-rubrique-23">
+					<properties>
+						<property xpath="dc:title" value="TRAVAIL" />
+						<property xpath="indexation_rubrique_solon_epg:intitule" value="Travail" />
+					</properties>
+				</templateItem>
+			</template>
+			<acl>
+				<ace principal="Everyone" permission="ReadWrite" granted="true" />
+			</acl>
+		</factoryBinding>
+
+		<factoryBinding name="TrashRootFactory" factoryName="SimpleTemplateFactory" targetType="TrashRoot">
+			<acl>
+				<ace principal="Everyone" permission="Everything" granted="true" />
+			</acl>
+		</factoryBinding>
+
+	</extension>
+</component>

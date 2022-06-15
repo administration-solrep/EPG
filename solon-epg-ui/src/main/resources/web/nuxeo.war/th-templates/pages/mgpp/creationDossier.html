@@ -1,0 +1,112 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page rattacher un dossier', title=#{mgpp.dossier.rattachement.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <input
+            type="hidden"
+            id="idCommunicationATraiter"
+            name="idCommunicationATraiter"
+            th:value="${idCommunicationATraiter}"
+        />
+
+        <h1 class="heading-complex__title base-title base-title--lvl-1" th:text="#{mgpp.dossier.rattachement.title}">
+            Rattacher un dossier
+        </h1>
+
+        <h2 class="base-title base-title--lvl-2 m-t-6" th:text="#{epg.dossier.creation.title}">
+            Créer un dossier
+        </h2>
+
+        <!-- fragment Type d'acte -->
+        <div
+            th:replace="fragments/travail/creation-dossier-type-acte :: creation-dossier-type-acte('&isLoi=true')"
+        ></div>
+
+        <!-- Ajax content load -->
+        <div id="dynamic-type-acte-content"></div>
+
+        <!-- Boutons Annuler et Créer le dossier -->
+        <div class="flex justify-between">
+            <button
+                type="button"
+                class="m-r-2 base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered"
+                th:text="#{button.label.cancel}"
+                onclick="goPreviousPage()"
+            >
+                Annuler
+            </button>
+            <button
+                type="button"
+                class="base-btn base-btn--button base-btn--default base-btn--center"
+                id="btn-create-dossier"
+                th:text="#{epg.dossier.creation.btn}"
+                onclick="creerDossierPourTraiter()"
+            >
+                Créer le dossier
+            </button>
+        </div>
+
+        <!-- Modale de choix du poste -->
+        <div th:replace="fragments/travail/modal-choix-poste :: modal-choix-poste"></div>
+
+        <!-- Rattachement à un dossier existant -->
+        <h2 class="base-title base-title--lvl-2 m-t-6" th:text="#{mgpp.dossier.existant.rattachement.title}">
+            Rattachement à un dossier existant
+        </h2>
+        <div class="m-y-6">
+            <div class="grid__row">
+                <div class="grid__col form-input">
+                    <div class="form-input__header">
+                        <div class="form-input__header-top">
+                            <label
+                                for="norRattachement"
+                                id="nor_rattachement_label"
+                                class="form-label"
+                                th:text="#{epg.dossier.creation.nor.label}"
+                            >
+                                NOR
+                            </label>
+                        </div>
+                        <div class="form-input__header-bottom"></div>
+                    </div>
+                    <div class="form-input__container">
+                        <input
+                            type="text"
+                            name="norRattachement"
+                            id="norRattachement"
+                            class="form-input__field form-input__field--type-text"
+                        />
+                    </div>
+                </div>
+            </div>
+            <button
+                type="button"
+                class="base-btn base-btn--button base-btn--default base-btn--center m-t-6"
+                id="btn-rattacher-dossier"
+                th:text="#{mgpp.dossier.rattacher.btn}"
+                onclick="rattacherDossier()"
+            >
+                Rattacher
+            </button>
+        </div>
+
+        <!-- Pas de rattachement à un dossier EPG -->
+        <h2 class="base-title base-title--lvl-2" th:text="#{mgpp.dossier.non.rattachement.title}">
+            Pas de rattachement à un dossier EPG
+        </h2>
+        <button
+            type="button"
+            class="base-btn base-btn--button base-btn--default base-btn--center m-y-6"
+            id="btn-non-rattachement"
+            th:text="#{mgpp.dossier.non.rattachement.title}"
+            onclick="traiterSansDossier()"
+        >
+            Pas de rattachement à un dossier EPG
+        </button>
+    </main>
+</html>

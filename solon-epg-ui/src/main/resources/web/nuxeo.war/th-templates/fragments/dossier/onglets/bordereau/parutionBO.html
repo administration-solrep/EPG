@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="parutionBO(bordereauDto)" th:with="dto=${bordereauDto.parution.parutionBO}">
+            <th:block th:each="parution : ${dto}">
+                <th:block th:unless="${bordereauDto.isEdit && !isNorAttribue}">
+                    <div class="folder-detail">
+                        <table role="presentation" class="folder-detail__table">
+                            <tbody>
+                                <tr
+                                    th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.date.bo},${#calendars.format(parution.dateBO,'dd/MM/yyyy')})"
+                                ></tr>
+                                <tr
+                                    th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.numero.text.bo},${parution.numeroTextBO})"
+                                ></tr>
+                                <tr
+                                    th:replace="fragments/components/folder-detail-line :: folderDetailLine(#{dossier.bordereau.page.bo},${parution.pageBO})"
+                                ></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </th:block>
+                <th:block th:if="${bordereauDto.isEdit && !isNorAttribue}">
+                    <div role="group" aria-labelledby="accordion__header__epgBordereauParutionBO">
+                        <div class="grid__row p-y-3">
+                            <div class="grid__col grid__col--middle form-input">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.date.bo}, false, '', 'dateBO', 'dateBO', ${#calendars.format(parution.dateBO,'dd/MM/yyyy')}, true)"
+                                ></div>
+                            </div>
+                            <div class="grid__col grid__col--middle form-input">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.numero.text.bo}, false, '', 'numeroTexteBO', 'numeroTexteBO', ${parution.numeroTextBO}, true)"
+                                ></div>
+                            </div>
+                        </div>
+                        <div class="grid__row p-y-3">
+                            <div class="grid__col grid__col--middle form-input">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{dossier.bordereau.page.bo}, false, '', 'pageBO', 'pageBO', ${parution.pageBO}, true)"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </th:block>
+        </th:block>
+    </body>
+</html>

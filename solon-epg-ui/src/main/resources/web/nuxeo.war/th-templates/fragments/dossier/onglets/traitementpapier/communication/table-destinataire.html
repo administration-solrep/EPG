@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="tableDestinataire(id, title, isEditable, listDestinataire, sensAvis, listDestinataireCommunicationDTO, addAction, editAction)"
+            class="tableForm"
+        >
+            <div class="accordion">
+                <button
+                    type="button"
+                    th:aria-controls="|accordion__content__${id}|"
+                    aria-expanded="true"
+                    th:id="|accordion__header__${id}|"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    <span th:text="${#messages.msg(title)}">Cabinet du PM</span>
+                    <span
+                        aria-hidden="true"
+                        class="icon icon--substract accordion__icon accordion__icon--default"
+                    ></span>
+                </button>
+                <div
+                    aria-hidden="false"
+                    th:id="|accordion__content__${id}|"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div class="flexible-table table-traitement-1">
+                        <a
+                            href="#skip_link_table-traitement-1_prev"
+                            id="skip_link_table-traitement-1_next"
+                            class="skip-link"
+                            th:text="#{skip.link.table.prev(${#messages.msg(title)})}"
+                        >
+                            Passer le tableau pour arriver après
+                        </a>
+                        <div class="table-wrapper">
+                            <table class="custom-table" th:id="|table-${id}|">
+                                <caption class="sr-only" th:text="${#messages.msg(title)}">
+                                    Cabinet du PM
+                                </caption>
+                                <thead class="table-header custom-table__header">
+                                    <tr class="table-header__line">
+                                        <th:block th:if="${isEditable}">
+                                            <th scope="col" class="table-header__cell table-header__cell--check">
+                                                <div class="form-choice-input">
+                                                    <input
+                                                        type="checkbox"
+                                                        th:id="|table_header_checkbox_${id}|"
+                                                        th:name="|table_header_checkbox_${id}|"
+                                                        class="form-choice-input__input js-custom-table-header-check"
+                                                        onclick="selectAllCheckBox(this);"
+                                                        autocomplete="off"
+                                                    />
+                                                    <label
+                                                        th:for="|table_header_checkbox_${id}|"
+                                                        th:id="|table_header_checkbox_${id}_label|"
+                                                        th:title="#{dossier.traitement.papier.communication.selectAll}"
+                                                        th:data-select-label="#{dossier.traitement.papier.communication.selectAll}"
+                                                        th:data-deselect-label="#{dossier.traitement.papier.communication.deselectAll}"
+                                                        class="form-label form-choice-input__label form-choice-input__label--checkbox form-choice-input__label--hidden-label form-choice-input__label--white"
+                                                    >
+                                                        <span
+                                                            class="sr-only"
+                                                            th:text="#{dossier.traitement.papier.communication.selectAll}"
+                                                            >Sélectionner toutes les lignes</span
+                                                        >
+                                                    </label>
+                                                </div>
+                                            </th>
+                                        </th:block>
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell"
+                                            th:text="#{dossier.traitement.papier.communication.destinataire}"
+                                        >
+                                            Destinataire
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell"
+                                            th:text="#{dossier.traitement.papier.communication.date.envoie}"
+                                        >
+                                            Date d'envoi
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell"
+                                            th:text="#{dossier.traitement.papier.communication.date.retour}"
+                                        >
+                                            Date retour
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell"
+                                            th:text="#{dossier.traitement.papier.communication.date.relance}"
+                                        >
+                                            Date de relance
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell"
+                                            th:text="#{dossier.traitement.papier.communication.sens.avis}"
+                                        >
+                                            Sens de l'avis
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="table-header__cell"
+                                            th:text="#{dossier.traitement.papier.communication.objet}"
+                                        >
+                                            Objet
+                                        </th>
+                                        <th scope="col" class="table-header__cell">
+                                            <span
+                                                class="sr-only"
+                                                th:text="#{dossier.traitement.papier.communication.actions}"
+                                                >Actions</span
+                                            >
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="table-body custom-table__body">
+                                    <th:block th:each="item, nb : ${listDestinataireCommunicationDTO}">
+                                        <th:block
+                                            th:replace="fragments/dossier/onglets/traitementpapier/communication/row-destinataire :: rowDestinataire(
+                                            ${id},
+                                            ${isEditable},
+                                            ${item},
+                                            ${nb.count},
+                                            ${editAction})"
+                                        ></th:block>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a
+                            href="#skip_link_table-traitement-1_next"
+                            id="skip_link_table-traitement-1_prev"
+                            class="skip-link"
+                            th:text="#{skip.link.table.next(${#messages.msg(title)})}"
+                        >
+                            Passer le tableau pour arriver avant</a
+                        >
+                    </div>
+
+                    <th:block th:if="${isEditable}" th:each="action : ${addAction}">
+                        <div
+                            th:replace="fragments/components/action-link :: action-link(
+                                ${action},
+                                'base-btn base-btn--button base-btn--default base-btn--quaternary',
+                                'base-btn\_\_icon base-btn\_\_icon--vertical-center base-btn\_\_icon--left icon')"
+                        ></div>
+                    </th:block>
+                    <!---->
+                </div>
+            </div>
+            <!-- Modale Editer un destinataire -->
+            <div
+                th:replace="fragments/dossier/onglets/traitementpapier/communication/modal-destinataire :: modalDestinataire(
+                    'edit-' + ${id}, 
+                    'dossier.traitement.papier.communication.editer.ligne',
+                    ${listDestinataire}, 
+                    ${sensAvis})"
+            ></div>
+            <!-- Modale Ajouter un destinataire -->
+            <div
+                th:replace="fragments/dossier/onglets/traitementpapier/communication/modal-destinataire :: modalDestinataire(
+                    'add-' + ${id}, 
+                    'dossier.traitement.papier.communication.ajouter.ligne',
+                    ${listDestinataire}, 
+                    ${sensAvis})"
+            ></div>
+        </div>
+    </body>
+</html>

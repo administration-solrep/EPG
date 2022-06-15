@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="mgpp-corbeilleArbre(corbeilles)">
+            <nav
+                th:aria-label="|#{tree.title} #{mailbox.list.title}|"
+                class="tree-navigation tree-navigation--no-toggle"
+            >
+                <ul class="tree-navigation__container">
+                    <li class="list-none">
+                        <ul class="tree-navigation__list tree-navigation__list--is-opened">
+                            <th:block th:each="corbeille : ${corbeilles}">
+                                <th:block th:if="${!corbeille.dynamic}">
+                                    <th:block
+                                        th:replace="fragments/components/mgpp-arbre :: mgpp-arbre (${corbeille},'',true)"
+                                    ></th:block>
+                                </th:block>
+                            </th:block>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <hr class="page-layout__separator m-t-6" />
+            <nav
+                th:aria-label="|#{tree.title} #{mailbox.list.title}|"
+                class="tree-navigation tree-navigation--no-toggle"
+            >
+                <ul class="tree-navigation__container">
+                    <li class="list-none">
+                        <ul class="tree-navigation__list tree-navigation__list--is-opened">
+                            <th:block th:each="corbeille : ${corbeilles}">
+                                <th:block th:unless="${!corbeille.dynamic}">
+                                    <th:block
+                                        th:replace="fragments/components/mgpp-arbre :: mgpp-arbre (${corbeille},'',true)"
+                                    ></th:block>
+                                </th:block>
+                            </th:block>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </th:block>
+    </body>
+</html>

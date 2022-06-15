@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="authentification-modal"
+            class="interstitial-overlay__content"
+            th:data-init-function="${initFunction}"
+            th:with="id='authentification-modal'"
+            th:id="${id}"
+        >
+            <div
+                class="interstitial"
+                role="dialog"
+                aria-labelledby="dialogTitle-valider-liste-dossier"
+                style="position: relative;"
+            >
+                <div class="interstitial__header" tabindex="0">
+                    <h3 class="dialogTitle-valider-liste-dossier" th:id="|dialogTitle-${id}|"></h3>
+                </div>
+                <div class="interstitial__content">
+                    <div class="m-b-8">
+                        <form id="authentification_modal_form">
+                            <input type="hidden" name="csrf-token" th:value="${csrftoken}" />
+                            <p class="text-red">
+                                <strong th:id="|message-${id}|">
+                                    Authentifiez-vous pour confirmer la validation des dossiers.
+                                </strong>
+                            </p>
+                            <div class="m-b-6 form-input">
+                                <div class="form-input__header">
+                                    <div class="form-input__header-top">
+                                        <label
+                                            for="form_login_username"
+                                            id="form_login_username_label"
+                                            class="form-label"
+                                        >
+                                            <th:block th:text="#{login.username.label}"></th:block>
+                                            <span class="form-label__required-text" th:text="#{form.required.label}"
+                                                >(requis)</span
+                                            >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-input__container">
+                                    <input
+                                        type="text"
+                                        name="form_login_username"
+                                        id="form_login_username"
+                                        th:placeholder="#{login.username.placeholder}"
+                                        data-validation="required"
+                                        required="required"
+                                        class="form-input__field form-input__field--type-text"
+                                    />
+                                </div>
+                                <div id="form_login_username-error" class="form-input__footer"></div>
+                            </div>
+                            <div class="m-b-6 form-input">
+                                <div class="form-input__header">
+                                    <div class="form-input__header-top">
+                                        <label
+                                            for="form_login_password"
+                                            id="form_login_password_label"
+                                            class="form-label"
+                                        >
+                                            <th:block th:text="#{form.password.label}"></th:block>
+                                            <span class="form-label__required-text" th:text="#{form.required.label}"
+                                                >(requis)</span
+                                            >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-input__container">
+                                    <input
+                                        type="password"
+                                        name="form_login_password"
+                                        id="form_login_password"
+                                        th:placeholder="#{login.password.placeholder}"
+                                        data-validation="required"
+                                        class="form-input__field form-input__field--type-password"
+                                        required
+                                    />
+
+                                    <button
+                                        type="button"
+                                        th:title="#{form.password.show.label}"
+                                        class="js-form-input-action form-input__action"
+                                    >
+                                        <span class="sr-only" th:text="#{form.password.show.label}"
+                                            >Voir le mot de passe</span
+                                        >
+                                        <span
+                                            aria-hidden="true"
+                                            class="form-input__action-icon icon icon--stroked-eye icon--v-align"
+                                        ></span>
+                                    </button>
+                                </div>
+                                <div id="form_login_password-error" class="form-input__footer"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        type="button"
+                        th:id="|btn-confirm-${id}|"
+                        class="base-btn base-btn--button base-btn--default base-btn--center"
+                        th:text="#{button.label.valider}"
+                    >
+                        Valider
+                    </button>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

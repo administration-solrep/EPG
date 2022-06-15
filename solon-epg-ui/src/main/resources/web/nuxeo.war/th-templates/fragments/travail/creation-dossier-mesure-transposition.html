@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="creation-dossier-mesure-transposition"
+            th:with="isDirective=${isDirective} ?: false"
+            class="page-layout__content--dark m-y-6 p-a-5"
+        >
+            <div class="form-optin--big">
+                <div
+                    th:replace="fragments/components/formblocks/input-optin :: optin(
+                        label=|epg.dossier.creation.transposition.directive.europeenne.legend.${familleActe}|,
+                        id='mesureTransposition',
+                        name='mesureTransposition',
+                        options=${mesureTranspositionOption},
+                        value='false',
+                        disabled=false,
+                        onchange='onChangeMesureTransposition()',
+                        noFormInputClass=true
+                    )"
+                ></div>
+            </div>
+
+            <div id="mesure-transposition-europeenne" class="hide-element">
+                <form id="mesure-transposition-europeenne-form">
+                    <div class="grid__row m-y-6">
+                        <!-- Année -->
+                        <div class="grid__col form-input align-flex-start">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label for="annee" id="annee_label" class="form-label">
+                                        <span
+                                            th:text="#{epg.dossier.creation.transposition.directive.europeenne.annee.label}"
+                                            >Année</span
+                                        >
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"
+                                            >(requis)</span
+                                        >
+                                    </label>
+                                </div>
+                                <div class="form-input__header-bottom">
+                                    <p
+                                        id="label_header_bottom_annee"
+                                        class="form-input__description form-input__description--default"
+                                        th:text="#{epg.dossier.creation.transposition.directive.europeenne.annee.description}"
+                                    >
+                                        Année de la Directive, ex : 2020
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="number"
+                                    name="annee"
+                                    id="annee"
+                                    required="required"
+                                    aria-describedby=" label_header_bottom_annee"
+                                    class="form-input__field form-input__field--type-number"
+                                    th:value="${mesureTranspositionDTO.annee}"
+                                />
+                            </div>
+                        </div>
+                        <!-- Référence -->
+                        <div class="grid__col align-flex-start" th:with="validation ='integer'">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                    #{epg.dossier.creation.transposition.directive.europeenne.reference.label},
+                                    true,
+                                    #{epg.dossier.creation.transposition.directive.europeenne.reference.description},
+                                    'reference',
+                                    'reference',
+                                    null,
+                                    false)"
+                            ></div>
+                        </div>
+                    </div>
+                    <!-- Titre -->
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col grid__col--full-width">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                    #{epg.dossier.creation.transposition.directive.europeenne.titre.label},
+                                    false,
+                                    null,
+                                    'titre',
+                                    'titre',
+                                    null,
+                                    false)"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="grid__row m-b-6">
+                        <!-- Numéro d'article -->
+                        <div class="grid__col">
+                            <div
+                                th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                    #{epg.dossier.creation.transposition.directive.europeenne.numero.article.label},
+                                    false,
+                                    null,
+                                    'numeroArticle',
+                                    'numeroArticle',
+                                    null,
+                                    false)"
+                            ></div>
+                        </div>
+                        <!-- Commentaire -->
+                        <div class="form-input--full grid__col form-input--little form-input">
+                            <div
+                                th:replace="fragments/components/formblocks/textarea-input :: textArea(
+                                    'epg.dossier.creation.transposition.directive.europeenne.commentaire.label',
+                                    'commentaire',
+                                    '',
+                                    null,
+                                    'false',
+                                    '')"
+                            ></div>
+                        </div>
+                    </div>
+                </form>
+                <button
+                    type="button"
+                    class="m-t-3 base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--uppercased"
+                    onclick="addDirectiveMesureTransposition()"
+                >
+                    <span aria-hidden="true" class="m-r-3 icon icon--add-without-background"></span>
+                    <span
+                        th:text="#{|epg.dossier.creation.transposition.directive.europeenne.${isDirective ? 'directive' : 'texte'}.label|}"
+                    ></span>
+                </button>
+
+                <!-- Ajax content load -->
+                <div id="directives-mesure-transposition"></div>
+            </div>
+        </div>
+    </body>
+</html>

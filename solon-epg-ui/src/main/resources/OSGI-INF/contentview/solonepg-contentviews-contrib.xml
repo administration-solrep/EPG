@@ -1,0 +1,337 @@
+<?xml version="1.0" ?>
+<!-- Ce composant permet de contribuer les content view de l'application 
+	EPG. -->
+<component name="fr.dila.solonepg.ui.contentviews.contrib">
+
+    <require>org.nuxeo.ecm.platform.query.api.PageProviderService</require>
+
+    <extension target="org.nuxeo.ecm.platform.query.api.PageProviderService" point="providers">
+
+        <genericPageProvider
+            name="ADMIN_JOURNAL_DOSSIER"
+            class="fr.dila.solonepg.ui.contentview.EpgJournalAdminPageProvider"
+        >
+            <pageSize>20</pageSize>
+            <sort column="eventDate" ascending="false" />
+        </genericPageProvider>
+
+        <genericPageProvider name="PAN_JOURNAL" class="fr.dila.solonepg.ui.contentview.PanJournalAdminPageProvider">
+            <pageSize>20</pageSize>
+            <sort column="eventDate" ascending="false" />
+        </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="corbeillePostePageProvider"
+        >
+            <property name="filtrableId">espace_suivi_dossiers_signales_content</property>
+            <property name="isCaseLink">true</property>
+            <property name="loadCaseLink">true</property>
+            <property name="checkQueryCache">true</property>
+            <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+          	<pattern quoteParameters="false" escapeParameters="false">
+	          ufnxql: SELECT dl.ecm:uuid as id FROM DossierLink as dl, Dossier as d
+	          	WHERE d.ecm:uuid = dl.acslk:caseDocumentId AND dl.ecm:parentId = ?
+                AND d.dos:statut = '2' AND dl.acslk:deleted = 0 and testDossierAcl(dl.ecm:uuid) = 1
+                AND dl.ecm:currentLifeCycleState = 'todo'
+		 	</pattern>
+          	<pageSize>10</pageSize>
+      </genericPageProvider>
+       
+      <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="corbeilleTypeActePageProvider"
+        >
+            <property name="filtrableId">espace_suivi_dossiers_signales_content</property>
+            <property name="isCaseLink">true</property>
+            <property name="loadCaseLink">true</property>
+            <property name="checkQueryCache">true</property>
+            <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+          	<pattern quoteParameters="false" escapeParameters="false">
+	          ufnxql: SELECT dl.ecm:uuid as id FROM DossierLink as dl, Dossier as d
+	          	WHERE d.ecm:uuid = dl.acslk:caseDocumentId
+	          	AND dl.ecm:parentId IN ? AND d.dos:typeActe = ? AND dl.acslk:deleted = 0
+                AND d.dos:statut = '2' and testDossierAcl(dl.ecm:uuid) = 1 AND dl.ecm:currentLifeCycleState = 'todo'
+          	</pattern>
+          	<pageSize>10</pageSize>
+      </genericPageProvider>
+      
+      <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="corbeilleTypeEtapePageProvider"
+        >
+            <property name="filtrableId">espace_suivi_dossiers_signales_content</property>
+            <property name="isCaseLink">true</property>
+            <property name="loadCaseLink">true</property>
+            <property name="checkQueryCache">true</property>
+            <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+          	<pattern quoteParameters="false" escapeParameters="false">
+	          ufnxql: SELECT dl.ecm:uuid as id FROM DossierLink as dl, Dossier as d
+	          	WHERE d.ecm:uuid = dl.acslk:caseDocumentId
+	          	AND dl.ecm:parentId IN ? AND dl.acslk:routingTaskType = ? AND dl.acslk:deleted = 0
+                AND d.dos:statut = '2' and testDossierAcl(d.ecm:uuid) = 1 AND dl.ecm:currentLifeCycleState = 'todo'
+	         </pattern>
+	         <pageSize>10</pageSize>
+      </genericPageProvider>
+      
+       <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="corbeilleDossierEnCreationPageProvider"
+        >
+            <property name="filtrableId">espace_suivi_dossiers_signales_content</property>
+            <property name="isCaseLink">true</property>
+            <property name="checkQueryCache">true</property>
+            <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT dl.ecm:uuid as id FROM DossierLink as dl, Dossier as d
+                WHERE d.ecm:uuid = dl.acslk:caseDocumentId AND dl.acslk:caseLifeCycleState = 'init'
+                AND dl.acslk:deleted = 0 AND dl.acslk:archive = 0 AND dl.ecm:parentId IN ? AND d.dos:norAttribue = 0
+                and testDossierAcl(dl.ecm:uuid) = 1 AND dl.ecm:currentLifeCycleState = 'todo'
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="corbeilleDossiersSuivisPageProvider"
+        >
+            <property name="filtrableId">espace_suivi_dossiers_signales_content</property>
+            <property name="loadCaseLink">true</property>
+            <property name="checkQueryCache">true</property>
+            <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.ecm:uuid IN (?) AND
+                testDossierAcl(d.ecm:uuid) = 1
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="corbeilleHistoriqueValidationPageProvider"
+        >
+            <property name="filtrableId">espace_suivi_historique_validation_content</property>
+            <property name="loadCaseLink">#{false}</property>
+            <property name="checkQueryCache">true</property>
+            <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT distinct d.ecm:uuid as id FROM Dossier as d, RouteStep as rs
+                WHERE d.dos:lastDocumentRoute = rs.rtsk:documentRouteId AND rs.ecm:currentLifeCycleState = 'done'
+                AND rs.rtsk:distributionMailboxId IN (?) AND testDossierAcl(d.ecm:uuid) = 1 AND d.dos:statut = '2'
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+
+        <genericPageProvider class="fr.dila.solonepg.ui.contentview.DossierPageProvider" name="dossiersById">
+            <property name="filtrableId">dossier_for_liste_traitement</property>
+            <property name="loadCaseLink">#{false}</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d
+                WHERE d.ecm:uuid IN ('?') AND testDossierAcl(d.ecm:uuid) = 1
+            </pattern>
+            <sort column="d.dos:numeroNor" ascending="true" />
+            <pageSize>10</pageSize>
+            <property name="loadCaseLink">true</property>
+        </genericPageProvider>
+
+        <genericPageProvider
+            name="espace_suivi_statistique_dossier_archivage_content"
+            class="fr.dila.solonepg.ui.contentview.DossierArchivageStatPageProvider"
+        >
+            <sort column="nor" ascending="true" />
+        </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="bordereau_dossiers_indexation_content"
+        >
+            <property name="filtrableId">dossier_for_liste_traitement</property>
+            <property name="loadCaseLink">#{false}</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+                SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:typeActe = '?' AND ?
+                AND d.dos:archive = 0 AND d.dos:statut IN ('2', '4')
+                AND testDossierAcl(d.ecm:uuid) = 1 AND d.dos:deleted=0
+            </pattern>
+            <sort column="d.dos:numeroNor" ascending="true" />
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+
+        <genericPageProvider class="fr.dila.solonepg.ui.contentview.UserPageProvider" name="user_page">
+            <pattern quoteParameters="false" escapeParameters="false">
+                SELECT fc.favcon:usersNames AS id FROM FavorisConsultation as fc WHERE fc.dc:creator = '?'
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DerniersDossiersConsultesPageProvider"
+            name="dossier_page_consult"
+        >
+            <pattern quoteParameters="false" escapeParameters="false">
+               ufnxql: SELECT rc.ecm:uuid AS id FROM ResultatConsulte as rc WHERE rc.dc:creator = '?'
+            </pattern>
+            <pageSize>10</pageSize>
+            <property name="loadCaseLink">true</property>
+        </genericPageProvider>
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DerniersUsersConsultesPageProvider"
+            name="user_page_consult"
+        >
+            <pattern quoteParameters="false" escapeParameters="false">
+                SELECT * FROM ResultatConsulte WHERE dc:creator = '?'
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DerniersModeleFDRConsultesPageProvider"
+            name="model_fdr_consult"
+        >
+            <pattern quoteParameters="false" escapeParameters="false">
+                 SELECT * FROM ResultatConsulte WHERE dc:creator = '?'
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.mgpp.EcheancierPromulgationPageProvider"
+            name="echeancierPromulgationPageProvider"
+        >
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT fl.ecm:uuid as id FROM FicheLoi as fl WHERE fl.floi:echeancierPromulgation = 1
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+    <genericPageProvider class="fr.dila.solonepg.ui.contentview.DossierPageProvider" name="dossierCreePage">
+    	<property name="filtrableId">dossier_for_liste_traitement</property>
+    	<property name="loadCaseLink">true</property>
+    	<property name="checkQueryCache">true</property>
+    	<property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+      	<pattern quoteParameters="false" escapeParameters="false">
+          	ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d
+            WHERE d.dos:posteCreator IN (?) AND testDossierAcl(d.ecm:uuid) = 1 AND d.dos:statut IN ('1','2')
+      	</pattern>
+      	<sort column="d.dos:numeroNor" ascending="true" />
+      	<pageSize>10</pageSize>
+    </genericPageProvider>
+
+    <genericPageProvider class="fr.dila.solonepg.ui.contentview.DossierPageProvider" name="dossierTraitePage">
+    	<property name="filtrableId">dossier_for_liste_traitement</property>
+    	<property name="loadCaseLink">true</property>
+    	<property name="checkQueryCache">true</property>
+    	<property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+      	<pattern quoteParameters="false" escapeParameters="false">
+            ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d, RouteStep as rs
+            WHERE d.dos:lastDocumentRoute = rs.rtsk:documentRouteId AND rs.ecm:currentLifeCycleState = 'running'
+            AND rs.rtsk:distributionMailboxId IN (?) AND testDossierAcl(d.ecm:uuid) = 1 AND d.dos:statut IN ('1','2')
+      	</pattern>
+      	<pageSize>10</pageSize>
+    </genericPageProvider>
+
+    <genericPageProvider class="fr.dila.solonepg.ui.contentview.DossierPageProvider" name="dossierAbandon">
+      <property name="filtrableId">dossier_for_liste_traitement</property>
+    	<property name="loadCaseLink">#{false}</property>
+    	<property name="checkQueryCache">true</property>
+    	<property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+      	<pattern quoteParameters="false" escapeParameters="false">
+          ufnxql:  SELECT d.ecm:uuid as id FROM Dossier as d
+          	WHERE d.dos:candidat = '4' AND d.dos:ministereAttache IN ? AND testDossierAcl(d.ecm:uuid) = 1
+      </pattern>
+      <sort column="d.dos:numeroNor" ascending="true" />
+      <pageSize>10</pageSize>
+    </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="dossiersCandidatElimination"
+        >
+            <property name="filtrableId">archivage_definitive_dossier</property>
+            <property name="loadCaseLink">#{false}</property>
+            <property name="checkQueryCache">true</property>
+    		<property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d
+                WHERE d.dos:candidat = ? AND d.dos:deleted = 0 AND testDossierAcl(d.ecm:uuid) = 1
+            </pattern>
+            <sort column="d.dos:numeroNor" ascending="true" />
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="dossiersValidesElimination"
+        >
+            <property name="filtrableId">suppression_suivi_dossier</property>
+            <property name="loadCaseLink">#{false}</property>
+            <property name="checkQueryCache">true</property>
+    		<property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:candidat = '3'
+                AND d.dos:deleted = 0 AND testDossierAcl(d.ecm:uuid) = 1
+            </pattern>
+            <sort column="d.dos:numeroNor" ascending="true" />
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="dossierCandidatToArchivageDefinitivePage"
+        >
+            <property name="filtrableId">archivage_definitive_dossier</property>
+            <property name="loadCaseLink">#{false}</property>
+            <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>    
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:statutArchivage = '4'
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.st.ui.contentview.UfnxqlPageDocumentProvider"
+            name="espace_suivi_mes_alertes_content"
+        >
+            <property name="typeDocument">Alert</property>
+            <property name="queryString">
+                SELECT a.ecm:uuid as id FROM Alert as a where testAcl(a.ecm:uuid) = 1 AND
+                a.ecm:currentLifeCycleState != 'deleted'
+            </property>
+            <pageSize>20</pageSize>
+        </genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.DossierPageProvider"
+            name="dossierCandidatToArchivageIntermediairePage"
+        >
+      <property name="filtrableId">archivage_intermediaire_dossier</property>
+      <property name="loadCaseLink">#{false}</property>
+      <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;consetat:d;tp:d</property>
+      <pattern quoteParameters="false" escapeParameters="false">
+          ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d WHERE d.dos:statutArchivage = '2'
+      </pattern>
+      <pageSize>10</pageSize>
+     </genericPageProvider>
+     
+	<genericPageProvider class="fr.dila.st.ui.contentview.UfnxqlPageDocumentProvider" name="liste_squelettes">
+		<sort column="f.dc:title" ascending="true" />
+		  <property name="queryString">
+             SELECT f.ecm:uuid as id FROM FeuilleRouteSquelette as f WHERE f.ecm:parentId = ? AND f.ecm:currentLifeCycleState IN ('draft', 'validated')
+         </property>
+		<pageSize>10</pageSize>
+	</genericPageProvider>
+
+        <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.AttenteSignaturePageProvider"
+            name="attenteSignaturePageProvider"
+        >
+            <property name="prefixForSchema">dos:d;acslk:dl;cslk:dl;retdila:d;dc:d;tp:d</property>
+            <pattern quoteParameters="false" escapeParameters="false">
+                ufnxql: SELECT d.ecm:uuid as id FROM Dossier as d, TexteSignale as t WHERE d.dos:dateVersementTS IS NOT
+                NULL AND d.dos:archive = 0 AND t.ts:idDossier = d.ecm:uuid AND t.ts:type_ts = '?'
+                and testDossierAcl(d.ecm:uuid) = 1 ORDER BY
+                t.ts:dateDemandePublicationTS desc, d.dos:dateVersementTS desc
+            </pattern>
+            <pageSize>10</pageSize>
+        </genericPageProvider>
+
+    </extension>
+</component>

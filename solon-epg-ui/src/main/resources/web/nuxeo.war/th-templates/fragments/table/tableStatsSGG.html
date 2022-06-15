@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="tableStatsSGG" class="tableForm m-b-6" id="listeStatsSGG">
+            <a
+                href="#skip_link_action-table_prev"
+                id="skip_link_action-table_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(#{label.tableau.stats.sgg.caption})}"
+            ></a>
+            <div class="table-wrapper">
+                <table class="custom-table">
+                    <caption class="sr-only" th:text="#{label.tableau.stats.sgg.caption}">
+                        Tableau des statistiques relatives au traitement des dossiers transmis au SGG
+                    </caption>
+                    <thead class="table-header custom-table__header">
+                        <tr class="table-header__line">
+                            <th scope="col" class="table-header__cell" th:text="#{label.tableau.stats.sgg}">
+                                Statistiques relatives au traitement des dossiers transmis au SGG
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="custom-table__body">
+                        <th:block th:if="${not #lists.isEmpty(statsSggList.liste)}">
+                            <tr
+                                class="custom-table__table-line table-line table-line--with-check table-line--with-action-column table-line--complex-line"
+                                th:each="item, nb : ${statsSggList.liste}"
+                                th:data-id="${item.id}"
+                            >
+                                <td class="table-line__cell">
+                                    <a
+                                        th:href="@{|/stats/${item.id}#main_content|}"
+                                        class="link"
+                                        th:text="${item.label}"
+                                        >Stat</a
+                                    >
+                                </td>
+                            </tr>
+                        </th:block>
+                        <th:block th:unless="${not #lists.isEmpty(statsSggList.liste)}">
+                            <td colspan="5" th:text="#{label.stats.nombre(0)}">Aucun résultat</td>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+
+            <a
+                href="#skip_link_action-table_next"
+                id="skip_link_action-table_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(#{label.tableau.stats.sgg.caption})}"
+            ></a>
+        </div>
+    </body>
+</html>

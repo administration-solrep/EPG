@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="mgpp-modal-add-document-fdd"
+            class="interstitial-overlay__content"
+            th:with="id='mgpp-modal-add-document-fdd'"
+            th:id="${id}"
+        >
+            <div class="interstitial" role="dialog" aria-labelledby="dialogTitle-addDocumentFddMgpp">
+                <div class="interstitial__header">
+                    <h1
+                        id="dialogTitle-addDocumentFddMgpp"
+                        class="interstitial__title"
+                        th:text="#{fichier.ajout.default}"
+                    >
+                        Ajouter un fichier
+                    </h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{fondDossier.popup.close}">Fermer</span>
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <div
+                        th:replace="fragments/components/formblocks/file-input:: 
+                            fileInput(null, 'fddMgppDocumentFileAdd', 'fddMgppDocumentFileAdd', true, null, false)"
+                    ></div>
+                </div>
+
+                <input type="hidden" id="groupId" name="groupId" />
+
+                <div class="interstitial__footer">
+                    <button
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        class="base-btn base-btn--submit base-btn--default"
+                        th:id="|btn-confirm-${id}|"
+                        th:text="#{button.label.save}"
+                    >
+                        Sauvegarder
+                    </button>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

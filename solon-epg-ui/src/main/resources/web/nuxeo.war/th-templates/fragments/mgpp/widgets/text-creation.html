@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="text(widget)">
+            <div
+                th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{${widget.label}}, ${widget.required}, '', ${widget.name=='destinataireCopie' ? 'destinataireCopieText' : widget.name=='natureLoi' ? 'natureLoiText' : null}, '', ${widget.getValueParamByNameOrNull('valeur')}, true)"
+            ></div>
+            <input
+                th:if="${(widget.name == 'idDossier' || widget.name == 'destinataireCopie') && widget.getValueParamByNameOrNull('valeur') != null}"
+                th:id="${widget.name}"
+                th:name="${widget.name}"
+                type="hidden"
+                th:multiple="${widget.name == 'destinataireCopie'}"
+                th:with="institution = ${widget.getValueParamByNameOrNull('institution')}"
+                th:value="${widget.name == 'destinataireCopie' ? institution : widget.getValueParamByNameOrNull('valeur')}"
+            />
+        </th:block>
+    </body>
+</html>

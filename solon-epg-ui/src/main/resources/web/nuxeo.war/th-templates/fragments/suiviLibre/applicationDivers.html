@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="applicationDivers(titre, header, liste)" th:with="tableNum=|table${header}|">
+            <h2
+                class="m-y-6 base-title base-title--lvl-2"
+                th:text="#{suiviLibre.__${typeApplication}__.__${tableNum}__.titre}"
+            >
+                Autres éléments de suivi des elm
+            </h2>
+            <div class="flexible-table table-autres">
+                <a
+                    th:href="|#skip_link_table-${titre}_prev|"
+                    th:id="|skip_link_table-${titre}_next|"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{suiviLibre.__${typeApplication}__.__${tableNum}__.titre})}"
+                >
+                    Passer le tableau pour arriver après</a
+                >
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <caption class="sr-only" th:text="#{suiviLibre.__${typeApplication}__.__${tableNum}__.titre}">
+                            Autres éléments de suivi des elm
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th scope="col" class="table-header__cell">
+                                    <span th:text="#{suiviLibre.__${typeApplication}__.__${tableNum}__.header1}"
+                                        >Autres éléments de suivi des elm</span
+                                    >
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body custom-table__body">
+                            <tr class="table-line custom-table__table-line" th:each="elm : ${liste}">
+                                <td class="table-line__cell">
+                                    <a
+                                        th:href="@{|/suiviLibre/${typeApplication}/${elm.suiviUrl}?legislatureEnCours=${legislatureEnCours}|}"
+                                        class="link"
+                                        th:text="${elm.suiviLibelle}"
+                                    >
+                                        Bilan semestriel, par loi Délai de mise en application, par loi
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a
+                    th:href="|#skip_link_table-${titre}_next|"
+                    th:id="|skip_link_table-${titre}_prev|"
+                    class="skip-link"
+                    th:text="#{skip.link.table.next(#{suiviLibre.__${typeApplication}__.__${tableNum}__.titre})}"
+                >
+                    Passer le tableau pour arriver avant</a
+                >
+            </div>
+        </div>
+    </body>
+</html>

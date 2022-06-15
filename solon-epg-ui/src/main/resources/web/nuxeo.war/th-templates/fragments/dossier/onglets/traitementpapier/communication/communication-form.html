@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="communicationForm(dto, isBtnVisible)"
+            th:with="priorite=${#strings.equals('1', dto.priorite) ? 'Urgent' : (#strings.equals('2', dto.priorite) ? 'TTU' : 'Normal')}"
+        >
+            <div class="accordion">
+                <button
+                    type="button"
+                    aria-controls="accordion__content__epgBordereauInfos"
+                    aria-expanded="true"
+                    id="accordion__header__epgBordereauInfos"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                    th:text="#{dossier.traitement.papier.communication.priorite.signataire.liste}"
+                >
+                    Priorité &amp; signataires &amp; liste des personnes nommées dans le même texte
+                    <span
+                        aria-hidden="true"
+                        class="icon icon--substract accordion__icon accordion__icon--default"
+                    ></span>
+                </button>
+                <div
+                    aria-hidden="false"
+                    id="accordion__content__epgBordereauInfos"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <!-- mode Consultation -->
+                    <th:block th:unless="${isEditable}">
+                        <div class="folder-detail">
+                            <!---->
+                            <table role="presentation" class="folder-detail__table">
+                                <tbody>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{dossier.traitement.papier.communication.priorite}"
+                                        >
+                                            Priorité
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${priorite}"
+                                        >
+                                            TTU
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{dossier.traitement.papier.communication.liste.personne}"
+                                        >
+                                            Liste des personnes nommées
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${dto.personnesNommees}"
+                                        >
+                                            M. le Premier ministre
+                                        </td>
+                                    </tr>
+                                    <tr class="folder-detail__table-line">
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                                            th:text="#{dossier.traitement.papier.signataire}"
+                                        >
+                                            Signataire
+                                        </td>
+                                        <td
+                                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                                            th:text="${dto.nomsSignatairesCommunication}"
+                                        ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </th:block>
+                    <!-- mode Création -->
+                    <th:block th:if="${isEditable}">
+                        <form>
+                            <fieldset>
+                                <legend
+                                    class="sr-only"
+                                    th:text="#{dossier.traitement.papier.communication.priorite.signataire.liste}"
+                                >
+                                    Priorité &amp; signataires &amp; liste des personnes nommées dans le même texte
+                                </legend>
+                                <div
+                                    class="m-b-4 form-optin"
+                                    name="form_priorities_priority"
+                                    th:label="#{dossier.traitement.papier.communication.priorite}"
+                                >
+                                    <fieldset class="form-optin__fieldset">
+                                        <legend class="form-optin__legend"></legend>
+                                        <div class="form-optin__optins">
+                                            <div class="form-optin__container">
+                                                <input
+                                                    type="radio"
+                                                    id="prioriteUrgent"
+                                                    name="priorite"
+                                                    class="form-optin__checkbox"
+                                                    th:value="1"
+                                                    th:checked="${#strings.equals('1', dto.priorite)}"
+                                                    autocomplete="off"
+                                                />
+                                                <label for="prioriteUrgent" class="form-optin__label">
+                                                    <span
+                                                        th:text="#{dossier.traitement.papier.communication.priorite.urgent}"
+                                                    >
+                                                        Urgent
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="form-optin__container">
+                                                <input
+                                                    type="radio"
+                                                    id="prioriteTTU"
+                                                    name="priorite"
+                                                    class="form-optin__checkbox"
+                                                    th:value="2"
+                                                    th:checked="${#strings.equals('2', dto.priorite)}"
+                                                    autocomplete="off"
+                                                />
+                                                <label for="prioriteTTU" class="form-optin__label">
+                                                    <span
+                                                        th:text="#{dossier.traitement.papier.communication.priorite.ttu}"
+                                                    >
+                                                        TTU
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="form-optin__container">
+                                                <input
+                                                    type="radio"
+                                                    id="prioriteNormal"
+                                                    name="priorite"
+                                                    class="form-optin__checkbox"
+                                                    th:value="3"
+                                                    th:checked="${dto.priorite == null or #strings.equals('3', dto.priorite)}"
+                                                    autocomplete="off"
+                                                />
+                                                <label for="prioriteNormal" class="form-optin__label">
+                                                    <span
+                                                        th:text="#{dossier.traitement.papier.communication.priorite.normal}"
+                                                    >
+                                                        Normal
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="form-input--full m-b-4 form-input">
+                                    <div
+                                        th:replace="fragments/components/formblocks/textarea-input :: textArea(
+                                            'dossier.traitement.papier.communication.liste.personne', 
+                                            'personne', 
+                                            '', 
+                                            ${dto.personnesNommees != null ? dto.personnesNommees : ''}, 
+                                            'false', 
+                                            '')"
+                                    ></div>
+                                </div>
+                                <div class="m-b-4">
+                                    <div
+                                        th:replace="fragments/dossier/onglets/traitementpapier/select-signataire :: selectSignataire(
+                                            ${signataires}, 
+                                            ${dto.signataire},
+                                            ${isSignataireParametre},
+                                            'communication')"
+                                    ></div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </th:block>
+                    <!-- Buttons -->
+                    <div class="flex flex-wrap justify-end m-t-6">
+                        <th:block th:if="${isBtnVisible}">
+                            <button
+                                type="button"
+                                id="btnEditerBordereauEnvoiCabinetSG"
+                                class="m-l-1 m-b-1 base-btn base-btn--button base-btn--default base-btn--secondary"
+                                th:text="#{dossier.traitement.papier.communication.editer.bordereau.envoi.cabinet.sg}"
+                                onclick="editerBordereauEnvoiCabinetSG()"
+                            >
+                                Editer bordereau d'envoi au cabinet du Secrétaire général
+                            </button>
+                        </th:block>
+                        <button
+                            type="button"
+                            id="btnEditerBordereauRelance"
+                            class="m-l-1 m-b-1 base-btn base-btn--button base-btn--default base-btn--secondary"
+                            th:text="#{dossier.traitement.papier.communication.editer.bordereau.relance}"
+                            onclick="editerBordereauRelance()"
+                        >
+                            Editer bordereau de relance
+                        </button>
+                        <button
+                            type="button"
+                            id="btnEditerBordereauEnvoi"
+                            class="m-l-1 m-b-1 base-btn base-btn--button base-btn--default"
+                            th:text="#{dossier.traitement.papier.communication.editer.bordereau.envoi}"
+                            onclick="editerBordereauEnvoi()"
+                        >
+                            Editer bordereau d'envoi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

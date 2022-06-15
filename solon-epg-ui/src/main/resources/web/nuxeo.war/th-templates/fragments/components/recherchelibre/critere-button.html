@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="critereButton(dto, selectedItems, typeCritere)">
+            <th:block th:if="${selectedItems and dto and not #lists.isEmpty(dto.items)}">
+                <th:block th:each="item : ${dto.items}">
+                    <th:block th:if="${#lists.contains(selectedItems, item.id)}">
+                        <button
+                            type="button"
+                            th:id="|btn-filter-${item.id}|"
+                            th:aria-label="#{recherche.libre.label.supprimer.critere(${item.name})}"
+                            class="search-tags__tag"
+                            onclick="removeFilter(this)"
+                        >
+                            [[${typeCritere}]] : [[${item.name}]]
+                        </button>
+                    </th:block>
+                </th:block>
+            </th:block>
+        </div>
+    </body>
+</html>

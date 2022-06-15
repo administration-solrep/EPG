@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="panTable(tableDTO, tableCaption, label, templateSubFolder, tableRowTemplate, tableLineActions, deleteAction)"
+            th:remove="tag"
+        >
+            <div class="overlay" th:id="result_overlay" aria-live="polite">
+                <img width="29" height="29" th:src="@{/img/loader.svg}" alt="" />
+            </div>
+            <th:block th:unless="${#lists.isEmpty(tableDTO.liste)}">
+                <div class="m-t-4">
+                    <div class="js-sticky-column-table">
+                        <div class="table-scroller">
+                            <a
+                                th:href="'#skip_link_ ' + ${label} + '-table_prev'"
+                                th:id="'skip_link_' + ${label} + '-table_next'"
+                                class="skip-link"
+                                th:text="#{skip.link.table.prev(${tableCaption})} "
+                            ></a>
+                            <div class="table-scrollbar-wrapper m-b-0">
+                                <table class="custom-table table-mesures">
+                                    <caption class="sr-only" th:text="${tableCaption}">
+                                        Tableau de programmation
+                                    </caption>
+                                    <thead class="table-header custom-table__header">
+                                        <tr class="table-header__line">
+                                            <th:block th:if="${tableLineActions != null}">
+                                                <th
+                                                    aria-sort="descending"
+                                                    scope="col"
+                                                    class="table-header__cell table-header__cell--with-filter-action sticky-col"
+                                                >
+                                                    <span class="table-header__cell-inner"></span>
+                                                </th>
+                                            </th:block>
+                                            <th:block
+                                                th:each="colonne, index : ${tableDTO.listeColonnes}"
+                                                th:with="hidden=${type=='mesures' ? colonne.isHideable : false}"
+                                            >
+                                                <th
+                                                    th:unless="${colonne.isLabelVisible}"
+                                                    class="table-header__cell sticky-col"
+                                                    scope="col"
+                                                >
+                                                    <span class="sr-only" th:text="#{__${colonne.label}__}"></span>
+                                                </th>
+
+                                                <th
+                                                    th:unless="${colonne.isSortable}"
+                                                    scope="col"
+                                                    class="table-header__cell"
+                                                    th:classappend="|${index.index < 2 ? 'sticky-col' : ''} ${hidden ? 'hidden' : ''}|"
+                                                    th:data-show-hide="${hidden} ? 'true'"
+                                                >
+                                                    <span
+                                                        class="table-header__cell-inner"
+                                                        th:text="#{__${colonne.label}__}"
+                                                    ></span>
+                                                </th>
+                                                <th
+                                                    th:if="${colonne.isLabelVisible && colonne.isSortable}"
+                                                    th:aria-sort="${colonne.sortValue == 'asc' ? 'ascending' : (colonne.sortValue== 'desc' ? 'descending' : '')}"
+                                                    scope="col"
+                                                    class="table-header__cell table-header__cell--with-filter-action"
+                                                    th:classappend="|${index.index < 2 ? 'sticky-col' : ''} ${hidden ? 'hidden' : ''}|"
+                                                    th:with="order=${colonne.sortOrder}"
+                                                    th:data-show-hide="${hidden} ? 'true'"
+                                                >
+                                                    <button
+                                                        th:replace="fragments/table/sortableHeader :: sortableHeader (#{__${colonne.label}__},${colonne.sortValue},${colonne.sortName},${colonne.sortId},${colonne.inverseSort})"
+                                                    ></button>
+                                                </th>
+                                            </th:block>
+
+                                            <th:block th:if="${deleteAction != null}">
+                                                <th
+                                                    aria-sort="descending"
+                                                    scope="col"
+                                                    class="table-header__cell table-header__cell--with-filter-action"
+                                                >
+                                                    <span class="table-header__cell-inner"></span>
+                                                </th>
+                                            </th:block>
+                                            <th:block th:if="${type=='mesures'}">
+                                                <th scope="col" class="table-header__cell" tabindex="-1"></th>
+                                            </th:block>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="custom-table__body">
+                                        <th:block th:unless="${#lists.isEmpty(tableDTO.liste)}">
+                                            <th:block th:each="item : ${tableDTO.liste}">
+                                                <th:block
+                                                    th:replace="@{'fragments/pan/' + ${templateSubFolder} + '/' + ${tableRowTemplate}} :: ${tableRowTemplate}(${item}, ${tableLineActions})"
+                                                ></th:block>
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:if="${#lists.isEmpty(tableDTO.liste)}">
+                                            <td colspan="5" th:text="#{label.fdr.nombre(0)}"></td>
+                                        </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a
+                                th:href="'#skip_link_ ' + ${label} + '-table_next'"
+                                th:id="'skip_link_' + ${label} + '-table_prev'"
+                                class="skip-link"
+                                th:text=" #{skip.link.table.next(${tableCaption})} "
+                            ></a>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </body>
+</html>

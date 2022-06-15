@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="modalDestinataire(id, title, listDestinataire, sensAvis)" class="interstitial-overlay">
+            <div th:id="|modal-destinataire-${id}|" class="interstitial-overlay__content">
+                <div role="dialog" aria-labelledby="dialogTitle-destinataire" class="interstitial">
+                    <div class="interstitial__header">
+                        <h3
+                            th:id="|dialogTitle-destinataire-${id}|"
+                            class="interstitial__title"
+                            th:text="${#messages.msg(title)}"
+                        >
+                            Ajouter une ligne
+                        </h3>
+                        <button
+                            type="button"
+                            class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                        >
+                            <span aria-hidden="true" class="icon icon--cross"></span>
+                            <span class="sr-only" th:text="#{validation.popup.close.label}"
+                                >Fermer la fenêtre de dialogue</span
+                            >
+                        </button>
+                    </div>
+                    <div class="interstitial__content">
+                        <form th:id="|modalDestinataire-form-${id}|">
+                            <fieldset>
+                                <legend
+                                    class="sr-only"
+                                    th:text="#{dossier.traitement.papier.communication.editer.ligne}"
+                                >
+                                    Editer la ligne
+                                </legend>
+                                <!-- Destinataire -->
+                                <th:block th:if="${id == 'add-autres' or id == 'edit-autres'}">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                            #{dossier.traitement.papier.communication.destinataire}, 
+                                            false, 
+                                            null, 
+                                            'destinataire-' + ${id}, 
+                                            'destinataire-' + ${id}, 
+                                            null, 
+                                            false)"
+                                    ></div>
+                                </th:block>
+                                <th:block th:unless="${id == 'add-autres' or id == 'edit-autres'}">
+                                    <div class="m-b-4 form-select form-select--simple">
+                                        <div
+                                            th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+                                                'dossier.traitement.papier.communication.destinataire', 
+                                                'destinataire-' + ${id}, 
+                                                '', 
+                                                ${listDestinataire}, 
+                                                null, 
+                                                'false', 
+                                                'selection.valeur.vide.label')"
+                                        ></div>
+                                    </div>
+                                </th:block>
+
+                                <!-- Date d'envoi -->
+                                <div class="m-y-4 form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                th:for="|dateEnvoi-${id}|"
+                                                th:id="|dateEnvoi-${id}_label|"
+                                                class="form-label"
+                                                th:text="#{dossier.traitement.papier.communication.date.envoie}"
+                                            ></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                            'datepicker_dateEnvoi' + ${id},
+                                            'dateEnvoi-' + ${id}, 
+                                            'dateEnvoi-' + ${id}, 
+                                            false, 
+                                            null,
+                                            false)"
+                                    ></div>
+                                    <div th:id="|dateEnvoi-${id}_description|" class="form-input__footer"></div>
+                                </div>
+
+                                <!-- Date retour -->
+                                <div class="m-y-4 form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                th:for="|dateRetour-${id}|"
+                                                th:id="|dateRetour-${id}_label|"
+                                                class="form-label"
+                                                th:text="#{dossier.traitement.papier.communication.date.retour}"
+                                            ></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                            'datepicker_dateRetour' + ${id},
+                                            'dateRetour-' + ${id}, 
+                                            'dateRetour-' + ${id}, 
+                                            false, 
+                                            null,
+                                            false)"
+                                    ></div>
+                                    <div th:id="|dateRetour-${id}_description|" class="form-input__footer"></div>
+                                </div>
+
+                                <!-- Date de relance -->
+                                <div class="m-y-4 form-input">
+                                    <div class="form-input__header">
+                                        <div class="form-input__header-top">
+                                            <label
+                                                th:for="|dateRelance-${id}|"
+                                                th:id="|dateRelance-${id}_label|"
+                                                class="form-label"
+                                                th:text="#{dossier.traitement.papier.communication.date.relance}"
+                                            ></label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                            'datepicker_dateRelance' + ${id},
+                                            'dateRelance-' + ${id}, 
+                                            'dateRelance-' + ${id}, 
+                                            false, 
+                                            null,
+                                            false)"
+                                    ></div>
+                                    <div th:id="|dateRelance-${id}_description|" class="form-input__footer"></div>
+                                </div>
+
+                                <!-- Sens de l'avis -->
+                                <div
+                                    class="m-b-4 form-select form-select--simple"
+                                    th:with="simpleSelectClickFunction=onChangeSensAvis"
+                                >
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-select :: simpleSelect(
+                                            'dossier.traitement.papier.communication.sens.avis', 
+                                            'sensAvis-' + ${id}, 
+                                            '', 
+                                            ${sensAvis}, 
+                                            null, 
+                                            'false', 
+                                            'selection.valeur.vide.label')"
+                                    ></div>
+                                </div>
+
+                                <!-- Objet -->
+                                <div class="m-b-4 form-input">
+                                    <div
+                                        th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                            #{dossier.traitement.papier.communication.objet}, 
+                                            false, 
+                                            null, 
+                                            'objet-' + ${id}, 
+                                            'objet-' + ${id}, 
+                                            null, 
+                                            false)"
+                                    ></div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="interstitial__footer">
+                        <button
+                            type="button"
+                            class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                            th:text="#{button.label.cancel}"
+                        >
+                            Annuler</button
+                        ><button
+                            type="button"
+                            class="interstitial__button base-btn base-btn--button base-btn--default base-btn--center"
+                            th:id="|btn-confirm-modal-destinataire-${id}|"
+                            th:text="#{button.label.save}"
+                        >
+                            Enregistrer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

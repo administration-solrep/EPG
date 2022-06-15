@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ongletEpreuves" id="ongletEpreuves_content" class="page-epg-bordereau">
+            <!-- Première demande d'épreuve -->
+            <div
+                th:replace="fragments/dossier/onglets/traitementpapier/epreuves/demande-epreuve :: demandeEpreuve(
+                    'epreuvePremiereDemande',
+                    ${epreuveDTO},
+                    'dossier.traitement.papier.epreuves.premiere.demande',
+                    ${isEditable})"
+            ></div>
+            <!-- Nouvelle demande d'épreuve -->
+            <div
+                th:replace="fragments/dossier/onglets/traitementpapier/epreuves/demande-epreuve :: demandeEpreuve(
+                    'epreuveNouvelleDemande',
+                    ${epreuveDTO},
+                    'dossier.traitement.papier.epreuves.nouvelle.demande',
+                    ${isEditable})"
+            ></div>
+            <!-- Bon à tirer -->
+            <h2
+                class="m-b-6 base-title base-title--lvl-2"
+                id="title-bon-a-tirer"
+                th:text="#{dossier.traitement.papier.epreuves.bon.a.tirer}"
+            >
+                Bon à tirer
+            </h2>
+            <th:block th:unless="${isEditable}">
+                <div class="folder-detail">
+                    <!---->
+                    <table role="presentation" class="folder-detail__table">
+                        <tbody>
+                            <tr class="folder-detail__table-line">
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--label"
+                                    th:text="#{dossier.traitement.papier.epreuves.retour.bon.a.tirer}"
+                                ></td>
+                                <td
+                                    class="folder-detail__table-cell folder-detail__table-cell--value"
+                                    th:text="${#calendars.format(epreuveDTO.dateRetourBon,'dd/MM/yyyy')}"
+                                ></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+            <!-- mode Création -->
+            <th:block th:if="${isEditable}">
+                <div role="group" aria-labelledby="title-premiere-demande">
+                    <div class="grid__col--middle m-b-4 form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    th:for="dateRetourBon"
+                                    th:id="dateRetourBon_label"
+                                    class="form-label"
+                                    th:text="#{dossier.traitement.papier.epreuves.retour.bon.a.tirer}"
+                                ></label>
+                            </div>
+                        </div>
+                        <div
+                            th:replace="fragments/components/input-date-picker :: inputDatePicker(
+                                'dateRetourBon_datepicker', 
+                                'dateRetourBon', 
+                                'dateRetourBon', 
+                                false, 
+                                ${epreuveDTO.dateRetourBon != null ? #calendars.format(epreuveDTO.dateRetourBon,'dd/MM/yyyy') : null}, 
+                                false)"
+                        ></div>
+                        <div th:id="dateRetourBon_description" class="form-input__footer"></div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </body>
+</html>

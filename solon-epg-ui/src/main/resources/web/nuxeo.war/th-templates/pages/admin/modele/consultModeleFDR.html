@@ -1,0 +1,175 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Edition d\'un modèle de feuille de route', title=${modeleForm.intitule})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <input type="hidden" id="idModele" name="idModele" th:value="${modeleForm.id}" />
+        <input type="hidden" id="idDossier" name="idDossier" th:value="${idDossier}" />
+
+        <h1 class="base-title base-title--lvl-1 base-title--is-underlined" th:text="${modeleForm.intitule}">titre</h1>
+
+        <div class="m-t-6">
+            <div class="row-actions__left" th:unless="${#lists.isEmpty(modeleLeftActions)}">
+                <th:block th:each="action : ${modeleLeftActions}">
+                    <button
+                        th:replace="fragments/components/label-action-button :: label-action-button(${action}, false, 'base-btn--bordered base-btn--light')"
+                    ></button>
+                </th:block>
+            </div>
+            <div class="row-actions__right" th:unless="${#lists.isEmpty(modeleRightActions)}">
+                <th:block th:each="action : ${modeleRightActions}">
+                    <button
+                        th:replace="fragments/components/label-action-button :: label-action-button(${action}, false, ${action.type == 'secondary'?'base-btn--center base-btn--secondary':'base-btn--center'})"
+                    ></button>
+                </th:block>
+            </div>
+        </div>
+
+        <div class="m-t-6">
+            <table
+                role="presentation"
+                class="folder-detail__table"
+                th:unless="${modeleForm.etat == 'BROUILLON' and modeleForm.isLockByCurrentUser}"
+            >
+                <tbody>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.numero}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${modeleForm.numero}"
+                        ></td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.intitule}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${modeleForm.intituleComplet}"
+                        ></td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.ministere}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${modeleForm.libelleMinistere}"
+                        ></td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.direction}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${modeleForm.libelleDirection}"
+                        ></td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.typeActe}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${modeleForm.typeActeLibelle}"
+                        ></td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.modeleParDefaut}"
+                        ></td>
+                        <td class="folder-detail__table-cell folder-detail__table-cell--value">
+                            <th:block th:if="${modeleForm.modeleParDefaut}"> [[#{ModeleFDR.label.oui}]] </th:block>
+                            <th:block th:unless="${modeleForm.modeleParDefaut}"> [[#{ModeleFDR.label.non}]] </th:block>
+                        </td>
+                    </tr>
+                    <tr class="folder-detail__table-line">
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--label"
+                            th:text="#{modeleFDR.form.libelle.description}"
+                        ></td>
+                        <td
+                            class="folder-detail__table-cell folder-detail__table-cell--value"
+                            th:text="${modeleForm.description}"
+                        ></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="m-t-6">
+            <div class="roadmap-table tableForm">
+                <a
+                    href="#skip_link_roadmap-table_prev"
+                    id="skip_link_roadmap-table_next"
+                    class="skip-link"
+                    th:text="#{roadmap.skip.link.before}"
+                    >Passer le tableau 'roadmap' pour arriver après</a
+                >
+                <div class="table-action">
+                    <div class="table-action__action-container">
+                        <div class="table-action__group">
+                            <th:block th:each="action : ${modeleForm.fdrDto.tabActions}">
+                                <div
+                                    th:replace="fragments/components/action-button :: action-button(${action}, false, '')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <table
+                    th:unless="${#lists.isEmpty(modeleForm.fdrDto.table.lines)}"
+                    th:replace="fragments/fdr/tableFdr :: tableFdr(${modeleForm.fdrDto})"
+                ></table>
+                <div class="table-action">
+                    <div class="table-action__action-container">
+                        <div class="table-action__group">
+                            <th:block th:each="action : ${modeleForm.fdrDto.tabActions}">
+                                <div
+                                    th:replace="fragments/components/action-button :: action-button(${action}, false, '')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <a
+                    href="#skip_link_roadmap-table_next"
+                    id="skip_link_roadmap-table_prev"
+                    class="skip-link"
+                    th:text="#{roadmap.skip.link.after}"
+                    >Passer le tableau 'roadmap' pour arriver avant</a
+                >
+            </div>
+
+            <div class="m-t-6">
+                <div class="row-actions__left" th:unless="${#lists.isEmpty(modeleLeftActions)}">
+                    <th:block th:each="action : ${modeleLeftActions}">
+                        <button
+                            th:replace="fragments/components/label-action-button :: label-action-button(${action}, false, 'base-btn--bordered base-btn--light')"
+                        ></button>
+                    </th:block>
+                </div>
+                <div class="row-actions__right" th:unless="${#lists.isEmpty(modeleRightActions)}">
+                    <th:block th:each="action : ${modeleRightActions}">
+                        <button
+                            th:replace="fragments/components/label-action-button :: label-action-button(${action}, false, ${action.type == 'secondary'?'base-btn--center base-btn--secondary':'base-btn--center'})"
+                        ></button>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </main>
+</html>

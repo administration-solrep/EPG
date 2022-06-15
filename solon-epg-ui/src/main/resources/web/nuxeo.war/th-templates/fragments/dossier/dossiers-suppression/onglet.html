@@ -1,0 +1,41 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="onglet">
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-dossier-a-supprimer')"></div>
+
+        <div class="page-usersearch__results-subtitle">
+            <div class="search-table__heading">
+                <h2
+                    class="m-t-6 m-b-6 base-title base-title--lvl-3 base-title--is-underlined"
+                    th:text="#{admin.delete.dossier.nbResults(${resultList.nbTotal})}"
+                ></h2>
+                <button
+                    th:if="${resultList.nbTotal > 0}"
+                    type="button"
+                    class="js-tooltip base-btn base-btn--button base-btn--default base-btn--secondary base-btn--min base-btn--rounded"
+                    th:data-tippy-content="#{admin.delete.dossier.export}"
+                    onclick="exportDossierSupprimer()"
+                >
+                    <span aria-hidden="true" class="icon icon--download icon--big"></span>
+                    <span class="sr-only" th:text="#{admin.delete.dossier.export}">Export</span>
+                </button>
+            </div>
+        </div>
+
+        <th:block th:unless="${#lists.isEmpty(resultList.liste)}">
+            <div th:replace="fragments/components/rapid-filtre :: rapidSearch(${id})"></div>
+        </th:block>
+
+        <div
+            th:id="|listResult${id}|"
+            style="position: relative;"
+            th:if="${not #lists.isEmpty(resultList.liste)}"
+            th:with="tableCaption=${resultList.titre}+' - '+#{label.dossier.nombre(${resultList.nbTotal})}"
+        >
+            <div th:replace="fragments/table/tableDossiers :: searchResults(id=|${id}|)"></div>
+        </div>
+
+        <div th:replace="fragments/components/edit-buttons :: edit-buttons('boutons-dossier-a-supprimer')"></div>
+    </div>
+</html>

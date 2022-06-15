@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="rechercheLibreCriteresSelectionnes"
+            id="search-results-selected-criterias"
+            class="search-result-form__header-body"
+            th:classappend="${resultForm == null or (#lists.isEmpty(resultForm.vecteurPublication) 
+                and #lists.isEmpty(resultForm.typeActe) 
+                and #lists.isEmpty(resultForm.categorieActe) 
+                and #lists.isEmpty(resultForm.statut) 
+                and #lists.isEmpty(resultForm.ministereAttache) 
+                and #lists.isEmpty(resultForm.directionAttache) 
+                and #lists.isEmpty(resultForm.statutArchivage)) ? 'hide-element' : ''}"
+        >
+            <p
+                class="search-result-form__title base-title base-title--lvl-3 base-title--is-underlined"
+                id="search-results-selected-criterias-title"
+            >
+                [[#{recherche.libre.criteres.selectionnes}]]
+            </p>
+            <div
+                role="group"
+                aria-labelledby="search-results-selected-criterias-title"
+                aria-live="polite"
+                aria-atomic="true"
+                class="search-tags m-b-6"
+            >
+                <!-- Les critères sélectionnés s'affichent ici sous forme de button -->
+                <!-- Vecteur de publication -->
+                <div
+                    th:replace="fragments/components/recherchelibre/critere-button :: critereButton(
+                        ${vecteurPublication},
+                        ${resultForm ? resultForm.getVecteurPublicationId() : null},
+                        #{recherche.libre.btn.vecteur.publication})"
+                ></div>
+
+                <!-- Type d'acte -->
+                <div
+                    th:replace="fragments/components/recherchelibre/critere-button :: critereButton(
+                        ${typeActe},
+                        ${resultForm ? resultForm.getTypeActeId() : null},
+                        #{recherche.libre.btn.type.acte})"
+                ></div>
+
+                <!-- Catégorie d'acte -->
+                <div
+                    th:replace="fragments/components/recherchelibre/critere-button :: critereButton(
+                        ${categorieActe},
+                        ${resultForm ? resultForm.getCategorieActeId() : null},
+                        #{recherche.libre.btn.categorie.acte})"
+                ></div>
+
+                <!-- Statut -->
+                <div
+                    th:replace="fragments/components/recherchelibre/critere-button :: critereButton(
+                        ${statut},
+                        ${resultForm ? resultForm.getStatutId() : null},
+                        #{recherche.libre.btn.statut})"
+                ></div>
+
+                <!-- Ministère de rattachement -->
+                <div
+                    th:replace="fragments/components/recherchelibre/critere-button :: critereButton(
+                        ${ministereAttache},
+                        ${resultForm ? resultForm.getMinistereAttacheId() : null},
+                        #{recherche.libre.btn.ministere.attache})"
+                ></div>
+
+                <!-- Direction de rattachement -->
+                <div
+                    th:replace="fragments/components/recherchelibre/critere-button :: critereButton(
+                        ${directionAttache},
+                        ${resultForm ? resultForm.getDirectionAttacheId() : null},
+                        #{recherche.libre.btn.direction.attache})"
+                ></div>
+
+                <!-- Statut d'archivage -->
+                <div
+                    th:replace="fragments/components/recherchelibre/critere-button :: critereButton(
+                        ${statutArchivage},
+                        ${resultForm ? resultForm.getStatutArchivageId() : null},
+                        #{recherche.libre.btn.statut.archivage})"
+                ></div>
+            </div>
+        </div>
+    </body>
+</html>

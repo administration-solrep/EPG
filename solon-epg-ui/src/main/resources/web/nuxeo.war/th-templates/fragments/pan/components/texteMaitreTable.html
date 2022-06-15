@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="texteMaitreTable(id, tableList, tableLineActions, tableCaption, actions, tableForm, lineTemplate, type, firstTable, typeNor, dataUrl, dataAjaxUrl)"
+            th:data-url="@{${dataUrl}}"
+            th:data-ajaxurl="@{${dataAjaxUrl}}"
+            class="tableForm"
+            th:data-post="true"
+            th:id="${id}"
+        >
+            <div class="m-t-6 accordion">
+                <button
+                    type="button"
+                    th:aria-controls="'accordion\_\_content\_\_info_' + ${type}"
+                    aria-expanded="true"
+                    th:id="'accordion\_\_header\_\_info_' + ${type}"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract"
+                    data-icon-closed="add"
+                    class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[${tableCaption}]]
+                    <span aria-hidden="true" class="icon accordion__icon accordion__icon--default icon--substract">
+                    </span>
+                </button>
+
+                <div
+                    aria-hidden="false"
+                    th:id="'accordion\_\_content\_\_info_' + ${type}"
+                    class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div class="m-t-4 flex justify-between items-end">
+                        <div class="flex items-end">
+                            <div class="actions-bar m-t-2">
+                                <div class="actions-bar__group">
+                                    <th:block th:each="action : ${actions}">
+                                        <div
+                                            th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                                        ></div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end items-center m-t-4">
+                            <th:block th:unless="${tableForm.defaultSize >= tableList.nbTotal}">
+                                <div
+                                    th:replace="fragments/components/nombre-document-page :: documentParPage(${tableForm}, 'dossier_haut')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+
+                    <div class="m-t-4 flex justify-between items-end">
+                        <div class="flex items-end">
+                            <th:block
+                                th:if="${(ajouterSecondTableNorAction && not firstTable) || (ajouterPremierTableNorAction && firstTable)}"
+                                th:with="typeSing=${#strings.substring(type, 0, #strings.length(type) - 1)}, ajouterTableNorAction=${(ajouterSecondTableNorAction && not firstTable) ? ajouterSecondTableNorAction : ajouterPremierTableNorAction}"
+                            >
+                                <div
+                                    th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect('pan.action.saisir.'+${typeSing}+'.nor', 'ajouterParNor-'+${typeSing}, 'ajouterParNor-'+${typeSing}, '', null, ${ {} }, false, @{|/ajax/recherche/suggestions?typeSelection=NOR&selectionFilter=${typeNor}|}, 3, 'input', 'key', 'label', false, false, false)"
+                                ></div>
+                                <div
+                                    th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${ajouterTableNorAction}, false, '')"
+                                ></div>
+                            </th:block>
+                        </div>
+                        <div class="flex justify-end items-center m-t-4" th:if="${ajouterNorAction == null}">
+                            <th:block th:unless="${tableList.liste.size == tableList.nbTotal}">
+                                <div
+                                    th:replace="fragments/table/pagination :: pagination (${tableForm}, ${tableForm.page},'dossier_haut',${tableList.nbTotal})"
+                                ></div>
+                            </th:block>
+                            <th:block th:if="${masquerColonnesMesureAction && firstTable}">
+                                <div
+                                    th:replace="fragments/components/action-button-fixed :: action-button-fixed(${masquerColonnesMesureAction}, false, '')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+
+                    <div
+                        th:replace="fragments/pan/components/panTable :: panTable(${tableList}, ${tableCaption}, ${type}, ${currentSection}, ${lineTemplate}, ${tableLineActions}, null)"
+                    ></div>
+
+                    <p
+                        class="table-row-count m-t-6"
+                        th:text="${#messages.msgOrNull('pan.nb.'+type, tableList.nbTotal) != null ? #messages.msg('pan.nb.'+type, tableList.nbTotal):#messages.msg('pan.nb.lignes', tableList.nbTotal)}"
+                    ></p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

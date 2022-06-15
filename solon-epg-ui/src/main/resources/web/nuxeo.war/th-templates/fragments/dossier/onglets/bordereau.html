@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div
+        th:fragment="bordereau"
+        id="bordereau_content"
+        class="page-epg-bordereau"
+        th:with="hideFormat=true,isNorAttribue=${bordereauDto.informationsActe.statut} == '5'"
+>
+    <!-- Céation d'une variable isNorAttribué en récupérant le statut du dossier : statut 5 = NorAttribué-->
+    <th:block th:each="action : ${tabActions}">
+        <div
+                th:replace="fragments/components/action-button :: action-button(${action}, false, 'base-btn--transparent base-btn--light')"
+        ></div>
+    </th:block>
+    <th:block th:if="${bordereauDto.isCopy}">
+        <input type="hidden" id="dossierId" name="dossierId" th:value="${dossierId}" />
+        <input type="hidden" id="indexCourant" name="indexCourant" th:value="${indexCourant}" />
+        <input
+                type="hidden"
+                id="hasButtonNext"
+                name="hasButtonNext"
+                th:value="${bordereauDto.hasNextDossier}"
+        />
+        <input
+                type="hidden"
+                id="hasButtonPrevious"
+                name="hasButtonPrevious"
+                th:value="${bordereauDto.hasPreviousDossier}"
+        />
+    </th:block>
+
+    <form id="dossierFormBordereau">
+        <fieldset class="bordereauFieldset">
+            <div role="presentation" class="accordion accordion--is-opened">
+                <h2>
+                    <button
+                            type="button"
+                            aria-controls="accordion__content__epgBordereauInfosActe"
+                            aria-expanded="true"
+                            id="accordion__header__epgBordereauInfosActe"
+                            data-toggle="accordion__content"
+                            data-icon-opened="substract"
+                            data-icon-closed="add"
+                            class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{dossier.bordereau.informations.acte}]]
+                        <span
+                                aria-hidden="true"
+                                class="icon accordion__icon accordion__icon--default icon--substract"
+                        ></span>
+                    </button>
+                </h2>
+                <div
+                        aria-hidden="false"
+                        id="accordion__content__epgBordereauInfosActe"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                            th:replace="fragments/dossier/onglets/bordereau/informations-acte :: informationsActe(${bordereauDto})"
+                    ></div>
+                </div>
+            </div>
+            <div
+                    role="presentation"
+                    class="accordion accordion--is-opened"
+                    th:with="emptyValues=${#strings.isEmpty(bordereauDto.responsablesActe.nomResponsable) || #strings.isEmpty(bordereauDto.responsablesActe.qualiteResponsable) || #strings.isEmpty(bordereauDto.responsablesActe.telResponsable)}"
+            >
+                <h2>
+                    <button
+                            type="button"
+                            aria-controls="accordion__content__epgBordereauResponsablesActe"
+                            th:aria-expanded="${!bordereauDto.isEdit || emptyValues}"
+                            id="accordion__header__epgBordereauResponsablesActe"
+                            data-toggle="accordion__content"
+                            data-icon-opened="substract"
+                            data-icon-closed="add"
+                            class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{dossier.bordereau.responsables.acte}]]
+                        <span
+                                aria-hidden="true"
+                                class="icon accordion__icon accordion__icon--default"
+                                th:classappend="${bordereauDto.isEdit && !emptyValues ? 'icon--add' : 'icon--substract'}"
+                        ></span>
+                    </button>
+                </h2>
+                <div
+                        th:aria-hidden="${bordereauDto.isEdit && !emptyValues}"
+                        id="accordion__content__epgBordereauResponsablesActe"
+                        class="accordion__content accordion__content--accordion--default"
+                        th:classappend="${bordereauDto.isEdit && !emptyValues ? 'accordion\_\_content--is-closed' : 'accordion\_\_content--is-opened'}"
+                >
+                    <div
+                            th:replace="fragments/dossier/onglets/bordereau/responsables-acte :: responsablesActe(${bordereauDto})"
+                    ></div>
+                </div>
+            </div>
+            <div
+                    th:if="${bordereauDto.acteVisibility['CE']}"
+                    role="presentation"
+                    class="accordion accordion--is-opened"
+            >
+                <h2>
+                    <button
+                            type="button"
+                            aria-controls="accordion__content__epgBordereauConseilEtat"
+                            aria-expanded="false"
+                            id="accordion__header__epgBordereauConseilEtat"
+                            data-toggle="accordion__content"
+                            data-icon-opened="substract"
+                            data-icon-closed="add"
+                            class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{dossier.bordereau.conseil.etat}]]
+                        <span
+                                aria-hidden="true"
+                                class="icon accordion__icon accordion__icon--default icon--add"
+                        ></span>
+                    </button>
+                </h2>
+                <div
+                        aria-hidden="true"
+                        id="accordion__content__epgBordereauConseilEtat"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-closed"
+                >
+                    <div
+                            th:replace="fragments/dossier/onglets/bordereau/conseil-etat :: conseilEtat(${bordereauDto})"
+                    ></div>
+                </div>
+            </div>
+            <div
+                    th:if="${bordereauDto.acteVisibility['PARUTION']}"
+                    role="presentation"
+                    class="accordion accordion--is-opened"
+            >
+                <h2>
+                    <button
+                            type="button"
+                            aria-controls="accordion__content__epgBordereauParution"
+                            aria-expanded="true"
+                            id="accordion__header__epgBordereauParution"
+                            data-toggle="accordion__content"
+                            data-icon-opened="substract"
+                            data-icon-closed="add"
+                            class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{dossier.bordereau.parution}]]
+                        <span
+                                aria-hidden="true"
+                                class="icon accordion__icon accordion__icon--default icon--substract"
+                        ></span>
+                    </button>
+                </h2>
+                <div
+                        aria-hidden="false"
+                        id="accordion__content__epgBordereauParution"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                            th:replace="fragments/dossier/onglets/bordereau/parution :: parution(${bordereauDto})"
+                    ></div>
+                </div>
+            </div>
+            <div
+                    th:if="${not #lists.isEmpty(bordereauDto.parution.parutionBO) && bordereauDto.acteVisibility['PARUTION_BO']}"
+                    role="presentation"
+                    class="accordion accordion--is-opened"
+            >
+                <h2>
+                    <button
+                            type="button"
+                            aria-controls="accordion__content__epgBordereauParutionBO"
+                            aria-expanded="true"
+                            id="accordion__header__epgBordereauParutionBO"
+                            data-toggle="accordion__content"
+                            data-icon-opened="substract"
+                            data-icon-closed="add"
+                            class="accordion__header js-toggle accordion__header--default"
+                    >
+                        <th:block th:text="#{dossier.bordereau.parutionBO}"></th:block>
+                        <span
+                                aria-hidden="true"
+                                class="icon accordion__icon accordion__icon--default icon--substract"
+                        ></span>
+                    </button>
+                </h2>
+                <div
+                        aria-hidden="false"
+                        id="accordion__content__epgBordereauParutionBO"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                            th:replace="fragments/dossier/onglets/bordereau/parutionBO :: parutionBO(${bordereauDto})"
+                    ></div>
+                </div>
+            </div>
+        </fieldset>
+        <div
+                th:if="${bordereauDto.acteVisibility['TRANSPOSITION_APPLICATION'] and
+                    (bordereauDto.acteVisibility['ApplicationLoi'] or
+                    bordereauDto.acteVisibility['TranspositionOrdonnance'] or
+                    bordereauDto.acteVisibility['TranspositionDirective'] or
+                    bordereauDto.acteVisibility['Habilitation'])}"
+                role="presentation"
+                class="accordion accordion--is-opened"
+        >
+            <h2>
+                <button
+                        type="button"
+                        aria-controls="accordion__content__epgBordereauTranspositionApplication"
+                        th:aria-expanded="${!bordereauDto.isEdit}"
+                        id="accordion__header__epgBordereauTranspositionApplication"
+                        data-toggle="accordion__content"
+                        data-icon-opened="substract"
+                        data-icon-closed="add"
+                        class="accordion__header js-toggle accordion__header--default"
+                >
+                    [[#{dossier.bordereau.transposition.application}]]
+                    <span
+                            aria-hidden="true"
+                            class="icon accordion__icon accordion__icon--default"
+                            th:classappend="${bordereauDto.isEdit ? 'icon--add' : 'icon--substract'}"
+                    ></span>
+                </button>
+            </h2>
+            <div
+                    th:aria-hidden="${bordereauDto.isEdit}"
+                    id="accordion__content__epgBordereauTranspositionApplication"
+                    class="accordion__content accordion__content--accordion--default"
+                    th:classappend="${bordereauDto.isEdit ? 'accordion\_\_content--is-closed' : 'accordion\_\_content--is-opened'}"
+            >
+                <div
+                        th:replace="fragments/dossier/onglets/bordereau/transposition-application :: transpositionApplication(${bordereauDto})"
+                ></div>
+            </div>
+        </div>
+        <fieldset class="bordereauFieldset">
+            <div
+                    th:unless="${!bordereauDto.baseLegale.isVisibleBaseLegale || (bordereauDto.isBaseLegaleEmpty && !bordereauDto.isEdit)}"
+                    role="presentation"
+                    class="accordion accordion--is-opened"
+            >
+                <th:block
+                        th:with="isBaseLegaleOpen=${bordereauDto.baseLegale != null ? !(bordereauDto.baseLegale.isEmpty()) : false}"
+                >
+                    <!--Bouton base legale -->
+                    <!--
+                        inverser th:classappend en mettant icon add avant
+                        et icon substract a la fin, pour une coherence
+                    -->
+                    <h2>
+                        <button
+                                type="button"
+                                aria-controls="accordion__content__epgBordereauBaseLegale"
+                                aria-expanded="false"
+                                id="accordion__header__epgBordereauBaseLegale"
+                                data-toggle="accordion__content"
+                                data-icon-opened="substract"
+                                data-icon-closed="add"
+                                class="accordion__header js-toggle accordion__header--default"
+                        >
+                            <th:block th:text="#{dossier.bordereau.base.legale}">Base légale</th:block>
+                            <span
+                                    aria-hidden="true"
+                                    class="icon accordion__icon accordion__icon--default"
+                                    th:classappend="${isBaseLegaleOpen ? 'icon--add' : 'icon--substract'}"
+                            ></span>
+                        </button>
+                    </h2>
+
+                    <!-- Div principale de base légale -->
+                    <!--
+                        j'ai enlevé cette partie et remplacé par la nouvelle classe
+                        qui laisse parraître le formulaire
+                        class="accordion__content accordion__content--accordion--default"
+                    -->
+                    <div
+                            aria-hidden="false"
+                            id="accordion__content__epgBordereauBaseLegale"
+                            class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                            th:classappend="${isBaseLegaleOpen ? 'accordion\_\_content--is-closed' : 'accordion\_\_content--is-open'}"
+                    >
+                        <div
+                                th:replace="fragments/dossier/onglets/bordereau/base-legale :: baseLegale(${bordereauDto})"
+                        ></div>
+                    </div>
+                </th:block>
+            </div>
+            <div
+                    th:if="${bordereauDto.acteVisibility['RAPPORT_PARLEMENT']}"
+                    role="presentation"
+                    class="accordion accordion--is-opened"
+            >
+                <h2>
+                    <button
+                            type="button"
+                            aria-controls="accordion__content__epgBordereauPeriodicite"
+                            aria-expanded="false"
+                            id="accordion__header__epgBordereauPeriodicite"
+                            data-toggle="accordion__content"
+                            data-icon-opened="substract"
+                            data-icon-closed="add"
+                            class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{dossier.bordereau.periodicite.rapport}]]
+                        <span
+                                aria-hidden="true"
+                                class="icon accordion__icon accordion__icon--default icon--add"
+                        ></span>
+                    </button>
+                </h2>
+                <div
+                        aria-hidden="true"
+                        id="accordion__content__epgBordereauPeriodicite"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-closed"
+                >
+                    <div
+                            th:replace="fragments/dossier/onglets/bordereau/periodicite :: periodicite(${bordereauDto})"
+                    ></div>
+                </div>
+            </div>
+            <div
+                    th:if="${bordereauDto.acteVisibility['INDEXATION']}"
+                    role="presentation"
+                    class="accordion accordion--is-opened"
+            >
+                <h2>
+                    <button
+                            type="button"
+                            aria-controls="accordion__content__epgBordereauDonneesIndexation"
+                            aria-expanded="true"
+                            id="accordion__header__epgBordereauDonneesIndexation"
+                            data-toggle="accordion__content"
+                            data-icon-opened="substract"
+                            data-icon-closed="add"
+                            class="accordion__header js-toggle accordion__header--default"
+                    >
+                        [[#{dossier.bordereau.donnees.indexation}]]
+                        <span
+                                aria-hidden="true"
+                                class="icon accordion__icon accordion__icon--default icon--substract"
+                        ></span>
+                    </button>
+                </h2>
+                <div
+                        aria-hidden="false"
+                        id="accordion__content__epgBordereauDonneesIndexation"
+                        class="accordion__content accordion__content--accordion--default accordion__content--is-opened"
+                >
+                    <div
+                            th:replace="fragments/dossier/onglets/bordereau/donnees-indexation :: donneesIndexation(${bordereauDto})"
+                    ></div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <!-- Modale de confirmation de changement de type d'acte -->
+    <input
+            type="hidden"
+            id="init-modal-changement-acte"
+            th:data-title="#{changement.type.acte.title.label}"
+            th:data-message="#{changement.type.acte.modal.confirm.question}"
+            th:data-btn-confirm-label="#{button.confirmer}"
+            data-function="javascript:saveDossier()"
+            data-controls="modal-changement-type-acte"
+    />
+
+    <div th:replace="fragments/components/modal-changement-type-acte :: modal-changement-type-acte"></div>
+</div>
+</body>
+</html>

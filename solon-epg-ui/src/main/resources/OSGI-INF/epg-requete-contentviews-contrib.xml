@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<component name="fr.dila.solonepg.ui.requete.contentviews.recherche">
+
+    <require>org.nuxeo.ecm.platform.query.api.PageProviderService</require>
+
+    <extension target="org.nuxeo.ecm.platform.query.api.PageProviderService" point="providers">
+
+      <genericPageProvider class="fr.dila.st.ui.contentview.PaginatedPageDocumentProvider" name="pp_favoris_recherche">
+        <pattern quoteParameters="false" escapeParameters="false">
+            ufnxql: SELECT d.ecm:uuid AS id FROM FavorisRecherche as d WHERE 
+                    isChildOf(d.ecm:uuid, select w.ecm:uuid from Workspace AS w where w.ecm:name ='?') = 1
+                    AND d.ecm:currentLifeCycleState != 'deleted'
+        </pattern>
+        <sort column="d.dc:title" ascending="true" />
+        <pageSize>30</pageSize>
+      </genericPageProvider>
+
+      <genericPageProvider class="fr.dila.solonepg.ui.contentview.DossierPageProvider" name="recherche_requeteur">
+          <property name="providerBean">#{providerBean}</property>
+          <property name="filtrableId">recherche_requeteur</property>
+          <pattern quoteParameters="false" escapeParameters="false">
+              ?
+          </pattern>
+          <parameter>#{smartNXQLQueryActions.fullQuery}</parameter>
+          <sort column="d.dos:numeroNor" ascending="true" />
+          <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+          <pageSize>20</pageSize>
+      </genericPageProvider>
+
+     <genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.UserRecherchePageDocumentProvider"
+            name="recherche_user_resultat"
+        >
+        <parameter>#{userManagerActions.queryPart}</parameter>
+        <pageSize>30</pageSize>
+        <pageSizeBinding>#{profilUtilisateurActions.getNbDossiersVisiblesMax()}</pageSizeBinding>
+      </genericPageProvider>
+
+     <genericPageProvider
+            class="fr.dila.st.ui.contentview.UfnxqlPageDocumentProvider"
+            name="recherche_modele_feuille_route_resultat"
+        >
+        <property name="queryString">#{rechercheModeleFeuilleRouteActions.searchQueryString}</property>
+        <property name="parameters">#{rechercheModeleFeuilleRouteActions.searchQueryParameter}</property>
+        <sort column="r.dc:title" ascending="true" />
+        <pageSize>30</pageSize>
+      </genericPageProvider>
+
+    </extension>
+</component>

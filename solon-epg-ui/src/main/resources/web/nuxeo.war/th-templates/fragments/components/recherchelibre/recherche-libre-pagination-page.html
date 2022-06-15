@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="rechercheLibrePaginationPage(index, page)">
+            <li
+                aria-hidden="false"
+                class="pagination__item"
+                th:classappend="${#strings.equals(page, index)} ? 'pagination__item--is-active' : ''"
+            >
+                <a
+                    href="#"
+                    class="pagination__page-link link"
+                    th:data-value="${index}"
+                    onclick="goToResultSearchPage($(this).data('value'))"
+                >
+                    <span class="pagination__sr-only" th:text="#{recherche.libre.pagination.span(${index})}"> </span>
+                    <span th:text="${index}"></span>
+                </a>
+            </li>
+        </div>
+    </body>
+</html>

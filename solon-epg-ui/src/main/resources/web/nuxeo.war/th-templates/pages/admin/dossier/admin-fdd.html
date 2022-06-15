@@ -1,0 +1,111 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page administration', title=#{admin.fdd.title})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <form>
+            <div class="m-y-6 flex flex-row justify-between">
+                <button
+                    type="button"
+                    onclick="goPreviousPage()"
+                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                    th:text="#{button.label.back}"
+                >
+                    Annuler
+                </button>
+                <button
+                    type="button"
+                    onclick="enregistrerFdd()"
+                    class="base-btn base-btn--submit base-btn--default base-btn--center"
+                    th:text="#{button.label.save}"
+                >
+                    Enregistrer
+                </button>
+            </div>
+            <h1 class="m-y-6 base-title base-title--lvl-1 base-title--is-underlined" th:text="#{admin.fdd.title}">
+                Fond de dossier
+            </h1>
+            <div id="search-type-acte-fdd" role="group" aria-labelledby="fond_dossier_search_srtitle">
+                <span id="fond_dossier_search_srtitle" class="sr-only" th:text="#{admin.fdd.rechercher}"
+                    >Rechercher un fond de dossier</span
+                >
+                <div class="grid__col--middle m-b-6 form-select">
+                    <div
+                        th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(
+                        'admin.fdd.formats',
+                        'formatsAcceptesFdd',
+                        'formatsAcceptes',
+                        '',
+                        ${ {} },
+                        ${formatsAutorises},
+                        'false',
+                        '',
+                        '0',
+                        'input',
+                        '',
+                        '',
+                        false,
+                        true,
+                        false)"
+                    ></div>
+                </div>
+                <div class="flex flex-wrap justify-start items-end">
+                    <div class="grid__col--middle form-input">
+                        <div
+                            th:replace="fragments/components/formblocks/autocomplete-select :: autocompleteSelect(
+                                'admin.fdd.typeActe',
+                                'typeActeFdd',
+                                'typeActe',
+                                'form.description.nocharlimit',
+                                ${ {} },
+                                null,
+                                null,
+                                @{/ajax/travail/suggestions},
+                                '0',
+                                'input',
+                                '',
+                                '',
+                                true,
+                                false,
+                                false)"
+                        ></div>
+                    </div>
+                    <button
+                        id="button-edit-fdd"
+                        type="button"
+                        onclick="chargerFdd()"
+                        disabled
+                        class="m-l-1 base-btn base-btn--submit base-btn--default base-btn--center"
+                        th:text="#{admin.fdd.editer}"
+                    >
+                        Editer
+                    </button>
+                </div>
+                <div id="fdd_content" class="p-t-4"></div>
+            </div>
+            <div class="m-y-6 flex flex-row justify-between">
+                <button
+                    type="button"
+                    onclick="goPreviousPage()"
+                    class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                    th:text="#{button.label.back}"
+                >
+                    Annuler
+                </button>
+                <button
+                    type="button"
+                    onclick="enregistrerFdd()"
+                    class="base-btn base-btn--submit base-btn--default base-btn--center"
+                    th:text="#{button.label.save}"
+                >
+                    Enregistrer
+                </button>
+            </div>
+        </form>
+        <div th:replace="fragments/dossier/fdd/admin-fdd-modal :: admin-fdd-modal"></div>
+    </main>
+</html>

@@ -1,0 +1,48 @@
+{
+  "size" : 1,
+  "query" : {
+    "bool" : {
+      "must" : [ {
+        "term" : {
+          "UID" : {
+            "value" : "40ef0ec4-b202-40b5-9e1c-c7fbbcaeac6b",
+            "boost" : 1.0
+          }
+        }
+      } ],
+      "should" : [ {
+        "simple_query_string" : {
+          "auto_generate_synonyms_phrase_query": true,
+          "query" : "asile",
+          "fuzzy_max_expansions": 50,
+          "fields" : [ "file:data^1.0" ],
+          "flags" : -1,
+          "default_operator" : "or",
+          "lenient" : false,
+          "analyze_wildcard" : false,
+          "fuzzy_transpositions": true,
+          "fuzzy_prefix_length": 0,
+          "boost" : 1.0
+        }
+      } ],
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "stored_fields" : "dc:title",
+  "highlight" : {
+    "type" : "plain",
+    "require_field_match" : false,
+    "fields" : {
+      "dc:title" : {
+        "fragment_size" : 500,
+        "number_of_fragments" : 1
+      },
+      "file:data" : {
+        "fragment_size" : 150,
+        "number_of_fragments" : 1
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<!--
+  Cet composant contribue les fabriques pour créer les type de documents de l'application SOLON MGPP.
+-->
+<component name="fr.dila.solonmgpp.contentTemplateService">
+  <require>fr.dila.cm.contentTemplate</require>
+  <require>fr.dila.solonepg.contentTemplateService</require>
+  <require>fr.dila.solonmgpp.core.type</require>
+
+  <extension target="org.nuxeo.ecm.platform.content.template.service.ContentTemplateService" point="factoryBinding">
+    <!-- Racine des espaces de travail collaboratifs -->
+     <factoryBinding name="DomainFactory" factoryName="SimpleTemplateFactory" targetType="Domain" append="true">
+      <template>
+          <templateItem typeName="FicheDossierRoot" id="fiche-dossier" title="FicheDossierRoot" />
+          <templateItem typeName="NotificationDocRoot" id="notification" title="NotificationDocRoot" />
+      </template>
+    </factoryBinding>
+    
+     <factoryBinding name="DomainFactory" factoryName="SimpleTemplateFactory" targetType="Domain" append="true">
+      <template>
+          <templateItem
+                    typeName="SemaineParlementaireRoot"
+                    id="semaine-parlementaire"
+                    title="SemaineParlementaireRoot"
+                />
+      </template>
+    </factoryBinding>
+    
+    <factoryBinding name="DomainFactory" factoryName="SimpleTemplateFactory" targetType="Domain" append="true">
+      <template>
+          <templateItem
+                    typeName="ActiviteParlementaireRoot"
+                    id="activite-parlementaire"
+                    title="ActiviteParlementaireRoot"
+                />
+      </template>
+    </factoryBinding>
+    
+    
+     <factoryBinding name="DomainFactory" factoryName="SimpleTemplateFactory" targetType="Domain" append="true">
+      <template>
+          <templateItem
+                    typeName="EcheancierPromulgationRoot"
+                    id="echeancier-promulgation"
+                    title="EcheancierPromulgationRoot"
+                />
+      </template>
+    </factoryBinding>
+    
+   <!-- Racine des fiches dossiers -->
+    <factoryBinding name="FicheDossierRootFactory" factoryName="SimpleTemplateFactory" targetType="FicheDossierRoot">
+      <acl>
+        <ace principal="Everyone" permission="Everything" granted="true" />
+      </acl>
+    </factoryBinding>
+    
+        <factoryBinding
+            name="SemaineParlementaireFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="SemaineParlementaireRoot"
+        >
+      <acl>
+        <ace principal="Everyone" permission="Everything" granted="true" />
+      </acl>
+    </factoryBinding>
+    
+        <factoryBinding
+            name="ActiviteParlementaireFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="ActiviteParlementaireRoot"
+        >
+      <acl>
+        <ace principal="Everyone" permission="Everything" granted="true" />
+      </acl>
+    </factoryBinding>
+    
+        <factoryBinding
+            name="EcheancierPromulgationFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="EcheancierPromulgationRoot"
+        >
+      <acl>
+        <ace principal="Everyone" permission="Everything" granted="true" />
+      </acl>
+    </factoryBinding>
+        
+   <!-- Racine des notifications -->
+    <factoryBinding
+            name="NotificationDocRootFactory"
+            factoryName="SimpleTemplateFactory"
+            targetType="NotificationDocRoot"
+        >
+      <acl>
+        <ace principal="Everyone" permission="Everything" granted="true" />
+      </acl>
+    </factoryBinding>
+    
+
+  </extension>
+</component>

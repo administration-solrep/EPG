@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Cet composant contribue les vocabulaires de l'application SOLON EPG. -->
+<component name="fr.dila.solonepg.core.vocabulaire" version="1.0.0">
+	<require>org.nuxeo.runtime.started</require>
+	<require>fr.dila.solonepg.core.schema</require>
+
+	<extension target="org.nuxeo.ecm.directory.sql.SQLDirectoryFactory" point="directories">
+
+		<!-- *********************************************************************** 
+			Vocabulaires Administration *********************************************************************** -->
+		<!-- Metadonnee dossier -->
+		<directory name="dossier_metadata">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_DOS_METADATA</table>
+			<dataFile>data/vocabularies/dossier_metadata.csv</dataFile>
+		</directory>
+
+		<!-- Formats de fichiers autorisés -->
+		<directory name="format_fichier_autorise">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_FILE_FORMAT</table>
+			<dataFile>data/vocabularies/format_fichier_autorise.csv</dataFile>
+		</directory>
+
+		<!-- *********************************************************************** 
+			Vocabulaires Dossier SOLON EPG *********************************************************************** -->
+		<!-- statut dossier -->
+		<directory name="statut_dossier">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_DOS_STATUS</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/statut_dossier.csv</dataFile>
+		</directory>
+
+		<!-- categorie acte -->
+		<directory name="categorie_acte">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_ACTE_CATEGORY</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/categorie_acte.csv</dataFile>
+		</directory>
+
+		<!-- category acte convention collective -->
+		<directory name="category_acte_convention_collective">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_CONV_COL_ACTE_CATEGORY</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/category_acte_convention_collective.csv</dataFile>
+		</directory>
+
+		<!-- delai publication -->
+		<directory name="delai_publication">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_PUBLICATION_DELAI</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/delai_publication.csv</dataFile>
+		</directory>
+
+		<!-- Type de publication : integral ou extrait -->
+		<directory name="type_publication">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_PUBLICATION_TYPE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/type_publication.csv</dataFile>
+		</directory>
+
+		<!-- Type d'acte -->
+		<directory name="type_acte">
+			<schema>vocabularyTypeActe</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_ACTE_TYPE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/type_acte.csv</dataFile>
+		</directory>
+
+		<!-- Type de noeud organigramme -->
+		<directory name="organigramme_type_node">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_ORGA_NODE_TYPE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/organigramme_type_node.csv</dataFile>
+		</directory>
+
+		<!-- bordereau : label des champs du bordereau en fonction de leur nom 
+			technique -->
+		<directory name="bordereau_label">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_BORDEREAU_LABEL</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/bordereau_label.csv</dataFile>
+		</directory>
+
+
+		<!-- traitement papier : label des champs du traitement papier en fonction 
+			de leur nom technique -->
+		<directory name="traitement_papier_label">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_TRAITEMENT_PAPIER_LABEL</table>
+			<dataFile>data/vocabularies/traitement_papier_label.csv</dataFile>
+		</directory>
+
+
+		<!-- identifiant et nom des colonnes des instances de feuille de route -->
+		<directory name="feuille_route_column">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_FDR_COLUMN</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/feuille_route_column.csv</dataFile>
+		</directory>
+
+		<!-- Les choix des statuts d'étapes proposés par la recherche pour les 
+			statuts de validation et les statuts d'étape -->
+		<directory name="statut_etape_recherche">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_ETAPE_STATUT_RECHERCHE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/statut_etape_recherche.csv</dataFile>
+		</directory>
+
+		<!-- Vocabulaire contenant uniquement les statuts de validation -->
+		<directory name="statut_validation">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_STATUT_VALIDATION</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/statut_validation.csv</dataFile>
+		</directory>
+
+		<!-- Les choix des statuts d'étapes proposés par la recherche pour les 
+			cycles de vie de l'étape -->
+		<directory name="etat_etape_recherche">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_ETAPE_ETAT_RECHERCHE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/etat_etape_recherche.csv</dataFile>
+		</directory>
+
+
+		<!-- traitement papier : type signataire -->
+		<directory name="type_signataire_traitement_papier">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_PAPIER_TYPE_SIGN</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/type_signataire_traitement_papier.csv</dataFile>
+		</directory>
+
+		<!-- traitement papier : niveau priorité -->
+		<directory name="niveau_priorite_traitement_papier">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_PAPIER_PRIORITE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/niveau_priorite_traitement_papier.csv</dataFile>
+		</directory>
+
+		<!-- traitement papier : type avis -->
+		<directory name="type_avis_traitement_papier">
+			<schema>vocabularyTypeAvisTP</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_PAPIER_AVIS_TP</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/type_avis_traitement_papier.csv</dataFile>
+		</directory>
+
+		<!-- base legale nature texte -->
+		<directory name="base_legale_nature_texte">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_BASE_LEGALE_NATURE_TEXTE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/base_legale_nature_texte.csv</dataFile>
+		</directory>
+
+		<!-- periodicite rapport -->
+		<directory name="periodicite_rapport">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_PERIODICITE_RAPPORT</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/periodicite_rapport.csv</dataFile>
+		</directory>
+
+		<!-- *********************************************************************** 
+			Vocabulaires Reponse
+			*********************************************************************** -->
+
+		<directory name="groupe_politique">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_GROUPE_POLITIQUE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/groupe_politique.csv</dataFile>
+		</directory>
+
+		<directory name="verrou">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_VERROU</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/verrou.csv</dataFile>
+		</directory>
+
+		<directory name="niveau_visibilite">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_NIVEAU_VISIBILITE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/niveau_visibilite.csv</dataFile>
+		</directory>
+
+		<directory name="niveau_priorite">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_NIVEAU_PRIORITE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/niveau_priorite.csv</dataFile>
+		</directory>
+
+		<directory name="legislature">
+			<schema>vocabularyLegislature</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_LEGISLATURE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/legislature.csv</dataFile>
+		</directory>
+
+		<!-- *********************************************************************** 
+			Vocabulaires des feuilles de route *********************************************************************** -->
+		<!-- Types de tâches de la feuille de route (surcharge de Nuxeo CM) -->
+		<directory name="cm_routing_task_type">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<table>VOC_CM_ROUTING_TASK_TYPE</table> <!-- 31 caractères max sous oracle -->
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<dataFile>data/vocabularies/routing_task_type.csv</dataFile>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+		</directory>
+
+		<!-- *********************************************************************** 
+			Vocabulaires user *********************************************************************** -->
+		<!-- Civilité -->
+		<directory name="title">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<table>VOC_TITLE</table> <!-- 31 caractères max sous oracle -->
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<dataFile>data/vocabularies/title.csv</dataFile>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+		</directory>
+
+		<!-- Boolean Oui / Non -->
+		<directory name="boolean_voc">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<table>VOC_BOOLEAN</table> <!-- 31 caractères max sous oracle -->
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<dataFile>data/vocabularies/boolean.csv</dataFile>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+		</directory>
+		
+		<!-- Disposition habilitation -->
+		<directory name="disposition_habilitation">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<table>VOC_DISPOSITION_HABILITATION</table> <!-- 31 caractères max sous oracle -->
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<dataFile>data/vocabularies/disposition_habilitation.csv</dataFile>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+		</directory>
+
+		<!-- liste de ministeres -->
+		<directory name="ministeres">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_MINISTERES</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/ministeres.csv</dataFile>
+		</directory>
+
+		<!-- vecteur de publication Texte Signale -->
+		<directory name="vecteur_publication_ts">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_VECTEUR_PUBLICATION_TS</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/vecteur_publication_ts.csv</dataFile>
+		</directory>
+
+		<!-- Nature du texte de la loi -->
+		<directory name="nature_texte">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_NATURE_TEXTE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/nature_texte.csv</dataFile>
+		</directory>
+
+		<!-- Nature du texte de la loi -->
+		<directory name="type_habilitation">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_TYPE_HABILITATION</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/type_habilitation.csv</dataFile>
+		</directory>
+
+
+
+		<!-- Procédure de vote de la loi -->
+		<directory name="procedure_vote">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_PROCEDURE_VOTE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/procedure_vote.csv</dataFile>
+		</directory>
+
+		<!-- Type de mesure -->
+		<directory name="type_mesure">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_TYPE_MESURE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/type_mesure.csv</dataFile>
+		</directory>
+
+		<!-- Responsable amendement -->
+		<directory name="responsable_amendement">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_RESP_AMENDEMENT</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/responsable_amendement.csv</dataFile>
+		</directory>
+
+		<!-- Chargé de mission -->
+		<directory name="charge_mission">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_CHARGE_MISSION</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/charge_mission.csv</dataFile>
+		</directory>
+
+		<!-- Etat de la directive -->
+		<directory name="directive_etat">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_DIRECTIVE_ETAT</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/directive_etat.csv</dataFile>
+		</directory>
+
+		<!-- *********************************************************************** 
+			Vocabulaires section CE*********************************************************************** -->
+					
+		<!-- Section CE - priorite-->
+		<directory name="priorite_ce">
+			<schema>vocabularyTypeActe</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_PRIORITE_CE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/priorite_ce.csv</dataFile>
+		</directory>
+		
+		<!-- status eligibilité archivage -->
+		<directory name="status_eligibilite_archivage">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_STATUS_ELIGIBILITE</table>
+			<dataFile>data/vocabularies/status_eligibilite_archivage.csv</dataFile>
+		</directory>
+		
+		<!-- status eligibilité archivage -->
+		<directory name="status_archivage">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_STATUS_ARCHIVAGE</table>
+			<dataFile>data/vocabularies/statut_archivage.csv</dataFile>
+		</directory>
+
+		<!-- facets statut d'archivage -->
+		<directory name="statut_archivage_facet">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_STATUT_ARCHIVAGE_FACET</table>
+			<dataFile>data/vocabularies/statut_archivage_facet.csv</dataFile>
+		</directory>
+
+		<!-- type fichier -->
+		<directory name="file_type">
+			<schema>vocabulary</schema>
+			<dataSource>java:/nxsqldirectory</dataSource>
+			<cacheTimeout>3600</cacheTimeout>
+			<cacheMaxSize>1000</cacheMaxSize>
+			<idField>id</idField>
+			<autoincrementIdField>false</autoincrementIdField>
+			<createTablePolicy>on_missing_columns</createTablePolicy>
+			<table>VOC_FILE_TYPE</table> <!-- 31 caractères max sous oracle -->
+			<dataFile>data/vocabularies/file_type.csv</dataFile>
+		</directory>
+	</extension>
+
+</component>

@@ -1,0 +1,75 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page de détail d\'une liste', title=#{suivi.detailListe})}"
+>
+    <main
+        id="main_content"
+        class="page-layout__content"
+        th:with="caption=#{suivi.detailListe.title(${resultList.titre})}"
+    >
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <button
+            type="button"
+            class="m-t-3 m-b-6 base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+            onclick="goPreviousPage()"
+            th:text="#{button.label.back}"
+        >
+            Retour
+        </button>
+        <h1 class="m-b-6 base-title base-title--lvl-1" th:text="${resultList.titre}">PR1</h1>
+        <h2 class="m-b-1 base-title base-title--lvl-2 base-title--is-underlined" th:text="${caption}">Détail liste</h2>
+        <div class="flexible-table">
+            <a
+                href="#skip_link_list-table_prev"
+                id="skip_link_list-table_next"
+                class="skip-link"
+                th:text="#{skip.link.table.prev(${caption})}"
+            >
+                Aller après le tableau
+            </a>
+            <div class="actions-bar m-y-4">
+                <div class="actions-bar__group" th:if="${generaleActions !=null && !generaleActions.isEmpty()}">
+                    <th:block th:each="action : ${generaleActions}">
+                        <button
+                            th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                        ></button>
+                    </th:block>
+                </div>
+            </div>
+            <div id="table-consult-detail-liste">
+                <th:block
+                    th:replace="fragments/dossier/onglets/traitementpapier/table-consult-traitement-papier-liste :: table-consult-traitement-papier-liste(false)"
+                ></th:block>
+            </div>
+            <div class="actions-bar m-y-4">
+                <div class="actions-bar__group" th:if="${generaleActions !=null && !generaleActions.isEmpty()}">
+                    <th:block th:each="action : ${generaleActions}">
+                        <button
+                            th:replace="fragments/components/action-button-fixed :: action-button-fixed(${action}, false, '')"
+                        ></button>
+                    </th:block>
+                </div>
+            </div>
+            <a
+                href="#skip_link_list-table_next"
+                id="skip_link_list-table_prev"
+                class="skip-link"
+                th:text="#{skip.link.table.next(${caption})}"
+                >Aller avant le tableau</a
+            >
+        </div>
+        <button
+            type="button"
+            class="m-t-3 m-b-6 base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+            onclick="goPreviousPage()"
+            th:text="#{button.label.back}"
+        >
+            Retour
+        </button>
+
+        <div th:replace="fragments/components/modal-traitement-serie-list :: modal-traitement-serie-list"></div>
+    </main>
+</html>

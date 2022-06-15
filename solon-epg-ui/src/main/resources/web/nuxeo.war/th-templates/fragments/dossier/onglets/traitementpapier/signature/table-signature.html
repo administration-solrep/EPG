@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="tableSignature(dto)" class="tableForm">
+            <div class="flexible-table">
+                <a
+                    href="#skip_link_table-signature_prev"
+                    id="skip_link_table-signature_next"
+                    class="skip-link"
+                    th:text="#{skip.link.table.prev(#{dossier.traitement.papier.signature.table})}"
+                >
+                    Passer le tableau pour arriver après
+                </a>
+                <div class="table-wrapper">
+                    <table class="custom-table" th:id="table-signature">
+                        <caption class="sr-only" th:text="#{dossier.traitement.papier.signature.table}">
+                            Table de signature
+                        </caption>
+                        <thead class="table-header custom-table__header">
+                            <tr class="table-header__line">
+                                <th
+                                    scope="col"
+                                    class="table-header__cell"
+                                    th:text="#{dossier.traitement.papier.signature.date}"
+                                >
+                                    Date
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="table-header__cell"
+                                    th:text="#{dossier.traitement.papier.signature.numero.liste}"
+                                >
+                                    Numéro de liste
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="table-body custom-table__body">
+                            <th:block th:each="item, nb : ${dto}">
+                                <tr class="table-line custom-table__table-line">
+                                    <td
+                                        class="table-line__cell"
+                                        th:text="${#calendars.format(item.dateGenerationListe,'dd/MM/yyyy')}"
+                                    >
+                                        jj/mm/aaaa
+                                    </td>
+                                    <td class="table-line__cell" th:text="${item.numeroListe}">
+                                        Lorem ipsum
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <a
+                    href="#skip_link_table-signature_next"
+                    id="skip_link_table-signature_prev"
+                    class="skip-link"
+                    th:text="#{skip.link.table.next(#{dossier.traitement.papier.signature.table}}"
+                >
+                    Passer le tableau pour arriver avant</a
+                >
+            </div>
+        </div>
+    </body>
+</html>

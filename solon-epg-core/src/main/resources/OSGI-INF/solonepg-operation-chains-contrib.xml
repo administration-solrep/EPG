@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<!-- Ce composant permet de contribuer les chaines d'opérations de l'application 
+	SOLON EPG. -->
+<component name="fr.dila.solonepg.core.operationChain">
+	<extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent" point="chains">
+
+		<!-- Chaine d'opérations exécutée après le passage d'une étape à l'état 
+			"running" -->
+		<chain id="RouteStepChain">
+			<operation id="ST.Distribution.CreateCaseLink" />
+			<operation id="ST.Distribution.StepToCaseLinkMapping">
+				<param name="actionnable" type="boolean">true</param>
+				<param name="mappingProperties" type="Properties">
+					dc:title=Case:dc:title
+					acslk:dueDate=Step:rtsk:dueDate
+					acslk:automaticValidation=Step:rtsk:automaticValidation
+				</param>
+				<param name="leavingChainsProperties" type="Properties">
+					validate=solonepgValidateAndRemoveLink
+					refuse=solonepgRefuseAndRemoveLink
+				</param>
+			</operation>
+			<operation id="Case.Management.Distribution" />
+			<operation id="SolonEpg.CaseLink.Created" />
+			<operation id="ST.Distribution.ValidationAutomatique" />
+		</chain>
+
+		<!-- Chaine d'opérations exécutée pendant l'exécution de la chaîne RouteStepChain 
+			: supprime l'ancien CaseLink -->
+		<chain id="solonepgValidateAndRemoveLink">
+			<operation id="SolonEpg.Distribution.RemoveCaseLink" />
+			<operation id="Feuille.Route.Resume.Step" />
+		</chain>
+
+		<!-- Chaine d'opérations exécutée pendant l'exécution de la chaîne RouteStepChain 
+			: supprime l'ancien CaseLink -->
+		<chain id="solonepgRefuseAndRemoveLink">
+			<operation id="SolonEpg.Distribution.RemoveCaseLink" />
+			<operation id="Feuille.Route.Resume.Step" />
+		</chain>
+
+		<!-- Chaine d'opérations exécutée après le passage d'une étape à l'état 
+			"canceled" -->
+		<chain id="solonepgUndoRunningActionable">
+			<operation id="SolonEpg.Distribution.RemoveCaseLink" />
+			<operation id="Feuille.Route.BackToReady" />
+		</chain>
+
+	</extension>
+</component>

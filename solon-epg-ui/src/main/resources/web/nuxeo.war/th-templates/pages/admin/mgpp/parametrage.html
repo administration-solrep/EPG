@@ -1,0 +1,410 @@
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='page paramétrage MGPP', title=#{admin.param.mgpp.header})}"
+>
+    <body>
+        <main role="main" id="main_content" class="page-layout__content">
+            <form id="mgppParamForm" method="POST" th:action="@{/admin/mgpp/parametres/sauver}">
+                <input type="hidden" name="csrf-token" th:value="${csrftoken}" />
+                <div class="m-t-6 m-b-6 flex flex-row justify-between">
+                    <button
+                        type="button"
+                        class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                        onclick="reloadMgppParam()"
+                    ></button>
+                    <button
+                        type="submit"
+                        class="base-btn base-btn--submit base-btn--default base-btn--center"
+                        th:text="#{button.label.save}"
+                    ></button>
+                </div>
+                <h1 class="m-y-6 base-title base-title--lvl-1" th:text="#{admin.param.mgpp.header}"></h1>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.connexionws.title}"></h2>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_url" id="form_url_label" class="form-label">
+                                    [[#{mgpp.param.url.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span>
+                                </label>
+                                <div class="form-input__icon-group"></div>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="url"
+                                name="formUrl"
+                                id="form_url"
+                                required="required"
+                                data-validation="required"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${form.url}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_username" id="form_username_label" class="form-label">
+                                    [[#{mgpp.param.username.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span
+                                ></label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formUsername"
+                                id="form_username"
+                                required="required"
+                                data-validation="required,user_name,maxlength(200)"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${form.username}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_password" id="form_password_label" class="form-label">
+                                    [[#{mgpp.param.password.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span
+                                ></label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="password"
+                                name="formPassword"
+                                id="form_password"
+                                required="required"
+                                data-validation="required,maxlength(200)"
+                                class="form-input__field form-input__field--type-password"
+                            />
+                            <button
+                                type="button"
+                                title="Voir le mot de passe"
+                                class="js-form-input-action form-input__action"
+                            >
+                                <span class="sr-only" th:text="#{form.password.show.label}"></span
+                                ><span
+                                    aria-hidden="true"
+                                    class="form-input__action-icon icon icon--stroked-eye icon--v-align"
+                                ></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.persistance.title}"></h2>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_persistance" id="form_persistance_label" class="form-label">
+                                    [[#{mgpp.param.pers.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span
+                                ></label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formPersistance"
+                                id="form_persistance"
+                                required="required"
+                                data-validation="required,integer,maxlength(19)"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${form.nbJourPers}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.president.title}"></h2>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_assemblee" id="form_assemblee_label" class="form-label">
+                                    [[#{mgpp.param.presan.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span
+                                ></label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formAssemblee"
+                                id="form_assemblee"
+                                required="required"
+                                data-validation="required,maxlength(2000)"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${form.presAN}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_senat" id="form_senat_label" class="form-label">
+                                    [[#{mgpp.param.pressenat.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formSenat"
+                                id="form_senat"
+                                required="required"
+                                data-validation="required,maxlength(2000)"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${form.presSenat}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.delaiverif.title}"></h2>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_delayseconds" id="form_delayseconds_label" class="form-label">
+                                    [[#{mgpp.param.verif.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span
+                                ></label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formDelaiSec"
+                                id="form_delayseconds"
+                                required="required"
+                                data-validation="required,integer,maxlength(19)"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${form.delaiVerifSec}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.cominit.title}"></h2>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="form_primeminister"
+                                    id="form_primeminister_label"
+                                    class="form-label"
+                                    th:text="#{mgpp.param.pm.label}"
+                                >
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formEntetePM"
+                                id="form_primeminister"
+                                class="form-input__field form-input__field--type-text"
+                                data-validation="maxlength(2000)"
+                                th:value="${form.initComPM}"
+                            />
+                        </div>
+                        <div id="pm_description" class="form-input__footer"></div>
+                    </div>
+                </div>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="form_directeurAdjointSGG"
+                                    id="form_directeurAdjointSGG_label"
+                                    class="form-label"
+                                    th:text="#{mgpp.param.directeurAdjointSGG.label}"
+                                >
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formEnteteDirecteurAdjointSGG"
+                                id="form_directeurAdjointSGG"
+                                class="form-input__field form-input__field--type-text"
+                                data-validation="maxlength(2000)"
+                                th:value="${form.initComDirecteurAdjointSGG}"
+                            />
+                        </div>
+                        <div id="directeurAdjointSGG_description" class="form-input__footer"></div>
+                    </div>
+                </div>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="form_SGG"
+                                    id="form_SGG_label"
+                                    class="form-label"
+                                    th:text="#{mgpp.param.sgg.label}"
+                                >
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formEnteteSGG"
+                                id="form_SGG"
+                                class="form-input__field form-input__field--type-text"
+                                data-validation="maxlength(2000)"
+                                th:value="${form.initComSGG}"
+                            />
+                        </div>
+                        <div id="sgg_description" class="form-input__footer"></div>
+                    </div>
+                </div>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.accueil.title}"></h2>
+                <div class="form-input--full m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label
+                                    for="form_text"
+                                    id="form_text_label"
+                                    class="form-label"
+                                    th:text="#{mgpp.param.textelibre.label}"
+                                >
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <textarea
+                                name="formText"
+                                id="form_text"
+                                cols="30"
+                                rows="3"
+                                class="form-input__field"
+                                data-validation="maxlength(2000)"
+                                th:text="${form.textAccueil}"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.delaipurge.title}"></h2>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_delaymonths" id="form_delaymonths_label" class="form-label">
+                                    [[#{mgpp.param.purge.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span
+                                ></label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formDelaiPurge"
+                                id="form_delaymonths"
+                                required="required"
+                                data-validation="required,integer,maxlength(19)"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${form.delaiPurgeMois}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.filtredate.title}"></h2>
+                <div class="m-b-6 grid__col--middle">
+                    <div class="form-input">
+                        <div class="form-input__header">
+                            <div class="form-input__header-top">
+                                <label for="form_laws" id="form_laws_label" class="form-label">
+                                    [[#{mgpp.param.lois.label}]]
+                                    <span class="form-label__required-text" th:text="#{form.required.label}"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-input__container height-auto">
+                            <input
+                                type="text"
+                                name="formFiltreLoi"
+                                id="form_laws"
+                                required="required"
+                                data-validation="required,integer,maxlength(19)"
+                                class="form-input__field form-input__field--type-text"
+                                th:value="${form.filtreLoi}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <h2 class="m-b-6 base-title base-title--lvl-2" th:text="#{mgpp.param.initcourrier.title}"></h2>
+                <div class="form-optin">
+                    <fieldset class="form-optin__fieldset">
+                        <legend class="form-optin__legend">
+                            [[#{mgpp.param.initcourrier.label}]]
+                            <span class="form-label__required-text" th:text="#{form.required.label}"></span>
+                        </legend>
+                        <div class="form-optin__optins">
+                            <div class="form-optin__container">
+                                <input
+                                    type="radio"
+                                    id="min-oui"
+                                    name="minChargeRelation"
+                                    th:checked="${form.initCourrier}"
+                                    class="form-optin__checkbox"
+                                    value="true"
+                                    autocomplete="off"
+                                /><label for="min-oui" class="form-optin__label"
+                                    ><span th:text="#{choix.oui}"></span>
+                                    <!----></label
+                                >
+                            </div>
+                            <div class="form-optin__container">
+                                <input
+                                    type="radio"
+                                    id="min-non"
+                                    name="minChargeRelation"
+                                    class="form-optin__checkbox"
+                                    value="false"
+                                    th:checked="${!form.initCourrier}"
+                                    autocomplete="off"
+                                /><label for="min-non" class="form-optin__label"
+                                    ><span th:text="#{choix.non}"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!---->
+                    <!---->
+                </div>
+                <div class="m-t-6 m-b-6 flex flex-row justify-between">
+                    <button
+                        type="button"
+                        class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                        onclick="reloadMgppParam()"
+                    ></button>
+                    <button
+                        type="submit"
+                        class="base-btn base-btn--submit base-btn--default base-btn--center"
+                        th:text="#{button.label.save}"
+                    ></button>
+                </div>
+            </form>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="suivi-alerte(listItem)">
+            <div id="suivi_menu_alerte" class="tree-navigation__toggle-wrapper">
+                <button
+                    aria-controls="tree-navigation__toggled-alertes"
+                    aria-expanded="true"
+                    id="tree-navigation__toggler-alertes"
+                    data-toggle="tree-navigation__list"
+                    data-icon-opened="minus"
+                    data-icon-closed="plus"
+                    class="tree-navigation__toggle js-toggle uppercase"
+                >
+                    <span
+                        aria-hidden="true"
+                        class="tree-navigation__icon tree-navigation__icon--toggler tree-navigation__icon--opened icon icon--minus bubble-icon bubble-icon--squared bubble-icon--small"
+                    >
+                    </span>
+                    <span class="tree-navigation__text" th:text="#{menu.suivi.alertes.title}"></span>
+                </button>
+            </div>
+            <ul
+                id="tree-navigation__toggled-alertes"
+                class="tree-navigation__list tree-navigation__list--is-opened tree-navigation__list--subtree"
+            >
+                <li th:each="item : ${listItem}" class="quick-access-dropdown">
+                    <input type="hidden" name="id" th:value="${item.id}" />
+                    <a
+                        th:title="|${item.label} - ${item.isActivated() ? 'actif' : 'suspendu'}|"
+                        th:href="@{${item.link}}"
+                        class="quick-access__link alerte-link link"
+                    >
+                        <span
+                            aria-hidden="true"
+                            class="icon icon--arrow-right link__icon link__icon--prepend link__icon--small"
+                        >
+                        </span>
+                        <span class="tree-navigation__text" th:text="${item.label}">Alerte1 </span>
+                        <span
+                            class="icon link__icon m-l-1"
+                            th:classappend="${item.isActivated() ? 'icon--arrow-triangle-right-circle' : 'icon--pause-circle'}"
+                        ></span>
+                    </a>
+                    <div class="left-list-dropdown">
+                        <div
+                            th:replace="fragments/components/dropdown-action :: dropdown-action(
+                        ${item.link}, 
+                        ${item.alerteActions}, 
+                        'icon--ellipsis', 
+                        false, 
+                        null, 
+                        'base-btn--transparent base-btn--light base-btn--md-icon', 
+                        false, 
+                        'base-drop-down--light'
+                        )"
+                        ></div>
+                    </div>
+                </li>
+            </ul>
+        </th:block>
+    </body>
+</html>

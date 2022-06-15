@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!-- Ce composant contribue les content view de la partie PAN l'application SOLON EPG -->
+<component name="fr.dila.solonepg.ui.pan.contentviews.contrib">
+
+	<require>org.nuxeo.ecm.platform.query.api.PageProviderService</require>
+
+    <extension target="org.nuxeo.ecm.platform.query.api.PageProviderService" point="providers">
+		<genericPageProvider class="fr.dila.solonepg.ui.contentview.PanMesuresPageProvider" name="panMesuresPageProvider">
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+
+		<genericPageProvider class="fr.dila.solonepg.ui.contentview.PanDecretsPageProvider" name="panDecretsPageProvider">
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+
+		<genericPageProvider
+            class="fr.dila.solonepg.ui.contentview.PanMainTableauPageProvider"
+            name="panMainTableauPageProvider"
+        >
+        	<property name="checkQueryCache">true</property>
+        	<property name="prefixForSchema">texm:d</property>
+			<pattern quoteParameters="false" escapeParameters="false">
+				ufnxql: SELECT d.ecm:uuid as id
+				FROM ActiviteNormative as d
+				WHERE testAcl(d.ecm:uuid) = 1
+				AND 0
+			</pattern>
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+
+		<genericPageProvider class="fr.dila.solonepg.ui.contentview.PanMajMinPageProvider" name="panMajMinPageProvider">
+			<pattern quoteParameters="true" escapeParameters="false">
+				SELECT * FROM MajMin
+				WHERE ecm:parentId = ?
+				AND ecm:isProxy = 0
+				ORDER BY majm:dateCreation DESC
+			</pattern>
+			<pageSize>20</pageSize>
+		</genericPageProvider>
+	</extension>
+</component>

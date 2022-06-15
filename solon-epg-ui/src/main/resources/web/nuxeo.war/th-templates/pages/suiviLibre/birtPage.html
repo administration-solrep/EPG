@@ -1,0 +1,46 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/suiviLibreLayout :: layout (template=~{::main},templateClass='', description='page activité parlementaire', title=${titre})}"
+>
+    <main id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <div class="m-y-6 flex flex-row justify-between">
+            <button
+                type="button"
+                onclick="goPreviousPage()"
+                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                th:text="#{button.label.back}"
+            >
+                Retour
+            </button>
+        </div>
+        <h1 class="m-t-6 m-b-6 p-b-3 base-title base-title--lvl-1 base-title--is-underlined" th:text="${titre}">
+            Titre rapport
+        </h1>
+        <th:block th:each="report : ${reports}">
+            <h2
+                class="m-t-6 m-b-6 p-b-3 base-title base-title--lvl-2"
+                th:text="${report.titre}"
+                th:if="${#lists.size(reports) > 1}"
+            ></h2>
+            <div class="page-reponses-report-birt-open__iframe-wrapper" th:if="${report.available}">
+                <iframe th:src="@{|/suiviLibre/${typeApplication}/report?filename=${report.link}|}"></iframe>
+            </div>
+            <p th:unless="${report.available}" th:text="#{suiviLibre.tableau.nonPublie}">
+                Ce tableau n'a pas encore été publié
+            </p>
+        </th:block>
+        <div class="m-y-6 flex flex-row justify-between">
+            <button
+                type="button"
+                onclick="goPreviousPage()"
+                class="base-btn base-btn--button base-btn--default base-btn--light base-btn--transparent base-btn--bordered"
+                th:text="#{button.label.back}"
+            >
+                Retour
+            </button>
+        </div>
+    </main>
+</html>

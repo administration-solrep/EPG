@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="modal-changement-periodicite"
+            id="modal-changement-periodicite"
+            class="interstitial-overlay__content"
+        >
+            <div
+                class="interstitial"
+                role="dialog"
+                th:aria-labelledby="|dialogTitle-${id}|"
+                style="position: relative;"
+            >
+                <div class="interstitial__header">
+                    <h1
+                        th:id="dialogTitle-modal-changement-periodicite"
+                        class="interstitial__title"
+                        th:text="#{fdr.substituer.action.label}"
+                    ></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                        onclick="closePeriodiciteRapportModale(event)"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{validation.popup.close.label}"
+                            >Fermer la fenêtre de dialogue</span
+                        >
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <div id="select-modele-fdr">
+                        <div
+                            th:replace="fragments/components/select-modele-fdr :: select-modele-fdr(${listeModele})"
+                        ></div>
+                    </div>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                        onclick="closePeriodiciteRapportModale(event)"
+                    ></button>
+                    <button
+                        type="button"
+                        th:id="btn-confirm-modal-changement-periodicite"
+                        class="base-btn base-btn--button base-btn--default base-btn--center interstitial__close"
+                        th:text="#{changement.periodicite.rapport.modal.substituer.button}"
+                        onclick="doSubstitutionFdrModalPeriodiciteRapport()"
+                    ></button>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

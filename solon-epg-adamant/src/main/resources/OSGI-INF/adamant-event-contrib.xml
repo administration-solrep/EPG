@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!-- Ce composant contribue les listeners du module Adamant de l'application SOLON EPG. -->
+<component name="fr.dila.solonepg.adamant.event">
+	<require>fr.dila.cm.core.routing.listeners</require>
+	<require>com.nuxeo.case-management.eventContrib</require>
+	<require>org.nuxeo.ecm.platform.htmlsanitizer.HtmlSanitizerService</require>
+	<require>fr.dila.ss.core.listener</require>
+
+	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+		<!-- Batch d'extraction Adamant -->
+		<listener
+            name="extractionAdamantBatchListener"
+            async="false"
+            postCommit="false"
+            priority="190"
+            class="fr.dila.solonepg.adamant.batch.ExtractionAdamantBatchListener"
+        >
+			<event>extractionAdamantBatchEvent</event>
+		</listener>
+		<!-- Batch de retour Vitam -->
+		<listener
+            name="RetourVitamBatchListener"
+            async="false"
+            postCommit="false"
+            priority="190"
+            class="fr.dila.solonepg.adamant.batch.RetourVitamBatchListener"
+        >
+			<event>retourVitamBatchEvent</event>
+		</listener>
+	</extension>
+
+</component>

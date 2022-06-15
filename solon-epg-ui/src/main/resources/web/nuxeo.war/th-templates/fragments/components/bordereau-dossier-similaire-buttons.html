@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="bordereau-dossier-similaire-buttons(label)" th:aria-label="${label}">
+            <input
+                type="hidden"
+                id="urlPreviousPage"
+                name="urlPreviousPage"
+                th:value="@{|${urlPreviousPage}#main_content|}"
+            />
+            <div class="row-actions">
+                <div class="row-actions__left">
+                    <button
+                        type="button"
+                        class="base-btn base-btn--button base-btn--default base-btn--light base-btn--bordered base-btn--padded-lr"
+                        onclick="goPreviousPage()"
+                        th:text="#{button.label.back}"
+                    >
+                        Retour
+                    </button>
+                </div>
+                <th:block th:each="action : ${editActions}">
+                    <div
+                        class="row-actions__right"
+                        th:with="buttonDisabled=${(action.id =='SUIVANT_COPY_BORDEREAU' && bordereauDto.hasNextDossier == false) || action.id =='PRECEDENT_COPY_BORDEREAU' && bordereauDto.hasPreviousDossier == false}"
+                    >
+                        <div
+                            th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, ${buttonDisabled}, ${action.properties['classes']})"
+                        ></div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </body>
+</html>

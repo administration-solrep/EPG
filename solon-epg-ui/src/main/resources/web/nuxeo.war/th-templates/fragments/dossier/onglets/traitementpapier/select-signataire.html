@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            th:fragment="selectSignataire(lstSignataires, selectValue, isSignataireParametre, idPrefix)"
+            th:with="idRbtParametre=${idPrefix + 'RbtSignataireParametre'},idRbtAutre=${idPrefix + 'RbtSignataireAutre'},rbtName=${idPrefix + 'RbtSignataire'},selectId=${idPrefix + 'SignataireParametre'},inputId=${idPrefix + 'SignataireAutre'}"
+        >
+            <div class="grid__row">
+                <div class="grid__col grid__col--full-width m-b-4 form-input-group form-input-group--column">
+                    <fieldset class="form-input__fieldset">
+                        <legend class="form-input-group__label" th:text="#{dossier.traitement.papier.signataire}">
+                            Signataire
+                        </legend>
+                        <div class="form-input-group__list">
+                            <div class="form-choice-input-fields">
+                                <input
+                                    type="radio"
+                                    th:id="${idRbtParametre}"
+                                    th:name="${rbtName}"
+                                    class="form-choice-input__input"
+                                    value="parametre"
+                                    th:data-id="${idPrefix}"
+                                    onchange="enableIntitule(this)"
+                                    th:checked="${isSignataireParametre == true}"
+                                    autocomplete="off"
+                                />
+                                <label
+                                    th:for="${idRbtParametre}"
+                                    class="form-choice-input__label form-choice-input__label--radio form-choice-input__label--empty"
+                                >
+                                    <span class="sr-only" th:text="#{dossier.traitement.papier.signataire.parametre}">
+                                        Signataire paramétré
+                                    </span>
+                                </label>
+                                <fieldset class="form-choice-input-fields__fieldset">
+                                    <legend class="sr-only" th:text="#{dossier.traitement.papier.signataire.parametre}">
+                                        Signataire paramétré
+                                    </legend>
+                                    <div class="form-choice-input-fields__fields">
+                                        <div class="form-select form-select--simple">
+                                            <div class="form-input">
+                                                <div
+                                                    th:replace="fragments/components/formblocks/simple-select ::simpleSelect(
+                                                        'dossier.traitement.papier.signataire.parametre',
+                                                        ${selectId},
+                                                        '',
+                                                        ${lstSignataires},
+                                                        ${selectValue != null ? selectValue.id : null},
+                                                        ${isSignataireParametre != true ? 'true' : ''},
+                                                        'selection.valeur.vide.label')"
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="form-choice-input-fields">
+                                <input
+                                    type="radio"
+                                    th:id="${idRbtAutre}"
+                                    th:name="${rbtName}"
+                                    class="form-choice-input__input"
+                                    value="autre"
+                                    th:data-id="${idPrefix}"
+                                    onchange="enableIntitule(this)"
+                                    th:checked="${isSignataireParametre == false}"
+                                    autocomplete="off"
+                                />
+                                <label
+                                    th:for="${idRbtAutre}"
+                                    class="form-choice-input__label form-choice-input__label--radio form-choice-input__label--empty"
+                                >
+                                    <span class="sr-only" th:text="#{dossier.traitement.papier.signataire.autre}">
+                                        Autre signataire
+                                    </span>
+                                </label>
+                                <fieldset class="form-choice-input-fields__fieldset">
+                                    <legend class="sr-only" th:text="#{dossier.traitement.papier.signataire.autre}">
+                                        Autre signataire
+                                    </legend>
+                                    <div class="form-choice-input-fields__fields">
+                                        <div
+                                            th:replace="fragments/components/formblocks/simple-input :: simpleInput(
+                                                #{dossier.traitement.papier.signataire.autre}, 
+                                                false, 
+                                                '', 
+                                                ${inputId},
+                                                ${inputId},
+                                                ${isSignataireParametre == false ? selectValue.label : null}, 
+                                                ${isSignataireParametre})"
+                                        ></div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

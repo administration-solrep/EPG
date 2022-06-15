@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="panBirtSubtab" th:id="|d_${currentPanSubtab}_content|">
+            <input type="hidden" class="birt-subtab" th:value="${currentPanSubtab}" />
+
+            <form th:id="|birtPanReportForm-${currentPanSubtab}|">
+                <input
+                    type="hidden"
+                    th:id="|generate-stat-${currentPanSubtab}|"
+                    class="pan-stat"
+                    th:value="${statId}"
+                />
+                <input
+                    th:if="${ministerePilote != null}"
+                    type="hidden"
+                    name="ministerePilote"
+                    th:value="${ministerePilote}"
+                />
+                <input th:if="${idContextuel != null}" type="hidden" name="dossierId" th:value="${idContextuel}" />
+                <div class="alert alert--info" th:if="${pendingRefresh != null}">
+                    <div class="alerts--flex">
+                        <span
+                            aria-hidden="true"
+                            class="icon icon--lightbulb bubble-icon alert__icon alert__icon--info"
+                        ></span>
+                        <span class="sr-only" th:text="#{label.alert.levelinfo.srhelp.INFO}">Information</span>
+                        <input
+                            type="hidden"
+                            name="targetId"
+                            disabled="true"
+                            th:value="|d_${currentPanSubtab}-birt_content|"
+                        />
+                        <p th:text="${pendingRefresh}"></p>
+                    </div>
+                </div>
+                <div th:replace="fragments/pan/panBirtForm :: panBirtForm(${panBirtFormFields}, ${statId})"></div>
+
+                <div th:replace="fragments/pan/panBirtToolbar :: panBirtToolbar"></div>
+
+                <div class="birt-fragment" th:id="|birt-fragment-${currentPanSubtab}|">
+                    <div th:replace="fragments/pan/panBirtDetail :: panBirtDetail"></div>
+                </div>
+
+                <div th:replace="fragments/pan/panBirtToolbar :: panBirtToolbar"></div>
+            </form>
+        </div>
+    </body>
+</html>

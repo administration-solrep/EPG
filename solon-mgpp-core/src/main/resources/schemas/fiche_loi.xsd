@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://dila.fr/solon/schemas/fiche_loi/"
+    xmlns:floi="http://dila.fr/solon/schemas/fiche_loi/"
+>
+
+  <!-- on inclut le schema contenant la definition de xs:stringList  -->
+  <xs:include schemaLocation="base.xsd" />
+
+  <xs:element name="numeroNor" type="xs:string" />
+  <xs:element name="idDossier" type="xs:string" />
+  <xs:element name="dateCreation" type="xs:date" />
+  
+  <!-- Champs ajoutés lors de la FEV-334 -->
+  <xs:element name="ministereResp" type="xs:string" />
+  <xs:element name="nomCompletChargesMissions" type="floi:stringList" />
+  <xs:element name="dateProjet" type="xs:date" />
+  <xs:element name="dateSectionCe" type="xs:date" />
+  <xs:element name="numeroISA" type="xs:string" />
+  <xs:element name="diffusion" type="xs:string" />
+  <xs:element name="diffusionGenerale" type="xs:string" />
+  <xs:element name="titreOfficiel" type="xs:string" />
+  <xs:element name="natureLoi" type="floi:NatureLoi" />
+  
+  <xs:element name="intitule" type="xs:string" />
+  <xs:element name="dateCM" type="xs:date" />
+  <xs:element name="observation" type="xs:string" />
+  <xs:element name="dateProcedureAcceleree" type="xs:date" />
+  <xs:element name="article493" type="xs:boolean" default="false" />
+  
+  <!-- Info depot -->
+  <xs:element name="assembleeDepot" type="xs:string" />
+  <xs:element name="dateDepot" type="xs:date" />
+  <xs:element name="numeroDepot" type="xs:string" />
+  <xs:element name="refusEngagementProcAss1" type="xs:string" />
+  <xs:element name="dateRefusEngProcAss1" type="xs:date" />
+  <xs:element name="refusEngagementProcAss2" type="xs:string" />
+  <xs:element name="decisionEngagementAssemblee2" type="xs:string" />
+  
+  <!-- Info loi -->
+  <xs:element name="dateReception" type="xs:date" />
+  <xs:element name="dateLimitePromulgation" type="xs:date" />
+  <xs:element name="dateSaisieCC" type="xs:date" />
+  <xs:element name="dateDecision" type="xs:date" />
+  <xs:element name="dateAdoption" type="xs:date" />
+  <xs:element name="dateJO" type="xs:date" />
+  
+  <!-- echeancier promulgation -->
+  <xs:element name="echeancierPromulgation" type="xs:boolean" default="false" />
+  
+  <xs:element name="departElysee" type="xs:date" />
+  <xs:element name="retourElysee" type="xs:date" />
+  
+  <xs:simpleType name="NatureLoi">
+    <xs:restriction base="xs:string">
+	    <xs:enumeration value="PROJET" />
+	    <xs:enumeration value="PROPOSITION" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="DecisionProcedureAcc">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ACCEPTATION" />  
+      <xs:enumeration value="REFUS" />
+    </xs:restriction>    
+  </xs:simpleType>
+  
+</xs:schema>

@@ -1,0 +1,22 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layout (template=~{::main},templateClass='', description='page liste des résultats de corbeille',title=${resultList.titre})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <h1 class="m-b-10 base-title base-title--lvl-1" th:text="#{${typeParlementaire}}"></h1>
+
+        <div class="heading-complex m-b-6">
+            <div class="heading-complex__main">
+                <h2 class="base-title base-title--lvl-2" th:text="${resultList.titre}"></h2>
+                <p class="heading-complex__subtitle base-subtitle" th:text="${subtitle}"></p>
+            </div>
+            <div class="heading-complex__options"></div>
+        </div>
+
+        <div th:replace="fragments/components/rapid-filtre :: rapidSearch('resultats-corbeille')"></div>
+        <div th:replace="fragments/table/tableResultatsCorbeille :: searchResults(${corbeille})"></div>
+    </main>
+</html>

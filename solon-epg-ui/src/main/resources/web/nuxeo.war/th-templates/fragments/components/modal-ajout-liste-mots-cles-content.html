@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="modal-ajout-liste-mots-cles-content">
+            <form>
+                <fieldset>
+                    <legend class="sr-only" th:text="#{param.indexation.ajouter.liste}">Ajouter une liste</legend>
+                    <div class="grid__row m-b-6">
+                        <div class="grid__col form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        for="modal_params_indexation_mots_cles"
+                                        id="modal_params_indexation_mots_cles_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{param.indexation.modalAjoutListe.label}">Libellé</span>
+                                        <span
+                                            th:unless="${isReattribution}"
+                                            class="form-label__required-text"
+                                            th:text="#{form.input.required}"
+                                        >
+                                            (requis)
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="modal_params_indexation_mots_cles"
+                                    id="modal_params_indexation_mots_cles"
+                                    th:required="${isReattribution ? '' : 'required'}"
+                                    th:disabled="${isReattribution}"
+                                    class="form-input__field form-input__field--type-text"
+                                    th:data-validation="${isReattribution ? '' : 'required'}"
+                                    th:value="${resultList != null ? resultList.label : null}"
+                                />
+                            </div>
+                            <div id="modal_params_indexation_mots_cles_description" class="form-input__footer"></div>
+                        </div>
+                    </div>
+                    <div class="m-b-6 form-optin" th:if="${isAdminFonctionnel}">
+                        <fieldset class="form-optin__fieldset">
+                            <legend class="form-optin__legend">
+                                [[#{organigramme.menu.select}]]
+                                <span class="form-label__required-text" th:text="#{form.required.label}"> </span>
+                            </legend>
+                            <div class="form-optin__optins">
+                                <div class="form-optin__container">
+                                    <input
+                                        type="radio"
+                                        value="un"
+                                        id="type-selection_un"
+                                        name="type-selection"
+                                        class="form-optin__checkbox default_check"
+                                        onchange="changeSelectionMinistere(this.value)"
+                                        th:checked="${!isReattribution || (isReattribution && !#strings.contains(resultList.label,'Tous'))}"
+                                        autocomplete="off"
+                                    />
+                                    <label
+                                        for="type-selection_un"
+                                        class="form-optin__label"
+                                        th:text="#{param.indexation.reattribution.un}"
+                                    >
+                                    </label>
+                                </div>
+                                <div class="form-optin__container">
+                                    <input
+                                        type="radio"
+                                        value="Tous"
+                                        id="type-selection_tous"
+                                        name="type-selection"
+                                        class="form-optin__checkbox"
+                                        onchange="changeSelectionMinistere(this.value)"
+                                        th:checked="${isReattribution && #strings.contains(resultList.label,'Tous')}"
+                                        autocomplete="off"
+                                    />
+                                    <label
+                                        for="type-selection_tous"
+                                        class="form-optin__label"
+                                        th:text="#{param.indexation.reattribution.tous}"
+                                    >
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="m-b-6">
+                        <div class="form-input" id="select-autocomplete-ministeres">
+                            <div
+                                th:replace="fragments/components/organigrammeSelectAutocomplete :: organigrammeSelectAutocomplete(
+                                            label='param.indexation.ministere',
+                                            labelRequired=true,
+                                            myID='selection-ministere',
+                                            myName='ministere',
+                                            typeSelection='MIN',
+                                            idSelection=${isReattribution ? resultList.ministereIds[0] : null},
+                                            activatePosteFilter=${isAdminFonctionnel} ? false : true,
+                                            isMulti=false,
+                                            listItems=${isReattribution && !#strings.contains(resultList.label,'Tous') ? resultList.mapMinistere : ministere},
+                                            disabled=${isReattribution && #strings.contains(resultList.label,'Tous')}
+                                            )"
+                            ></div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>

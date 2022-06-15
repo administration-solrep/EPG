@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!-- Ce composant contribue les listeners de l'application SOLON EPG. -->
+<component name="fr.dila.solonepg.core.override.event">
+	<require>com.nuxeo.case-management.eventContrib</require>
+	<require>fr.dila.cm.core.routing.listeners</require>
+	<require>fr.dila.st.core.listener</require>
+	<require>fr.dila.ss.core.listener</require>
+	<require>org.nuxeo.ecm.platform.htmlsanitizer.HtmlSanitizerService</require>
+	<require>org.nuxeo.ecm.platform.mail.core.listener.contrib</require>
+
+	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+
+		<!-- on ecrase htmlsanitizer qui plante -->
+		<listener name="htmlsanitizerlistener" enabled="true" />
+
+		<listener name="mailReceivedListener" enabled="false" />
+
+		<!-- Désactive le listener qui appelle jena sur la suppression d'etape 
+			de la feuille de route -->
+		<listener name="deleteRelationsListener" enabled="false" />
+
+		<!-- Désactive les listener sur la gestion des Commentaire par nuxeo -->
+		<listener name="commentListener" enabled="false" />
+		<listener name="docRemovedCommentListener" enabled="false" />
+
+		<!-- Désactive listener sur pour les annotations de version -->
+<!-- 		<listener name="annotationsVersionEventListener" enabled="false" /> -->
+
+	</extension>
+
+</component>

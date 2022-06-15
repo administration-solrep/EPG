@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="ligne-tableau-lois(item, tableLineActions)" th:remove="tag">
+            <tr
+                class="table-line"
+                th:classappend="${item.uuid == idContextuel ? 'table-line--selected' : ''}"
+                th:data-id="${item.uuid}"
+            >
+                <td class="table-line__cell">
+                    <th:block th:if="${item.applicationDirecte}">
+                        <div
+                            th:data-tippy-content="#{pan.application.lois.table.lois.header.label.applicationImmediate}"
+                            tabindex="0"
+                            class="base-tooltip js-tooltip"
+                            th:data-placement="right"
+                        >
+                            <span
+                                class="sr-only"
+                                th:text="#{pan.application.lois.table.lois.header.label.applicationImmediate}"
+                            ></span
+                            ><span aria-hidden="true" class="table-line__icon icon icon--check-circle"></span>
+                        </div>
+                    </th:block>
+                </td>
+                <td class="table-line__cell">
+                    <a
+                        class="link"
+                        target="_blank"
+                        th:attr="onclick=|chargerBlocContextuel(this,'${item.uuid}','textemaitre');return false;|"
+                        th:text="${item.numeroNor}"
+                    ></a>
+                </td>
+                <td class="table-line__cell">
+                    <th:block
+                        th:replace="fragments/components/longText :: ellipser (${item.titreOfficiel}, ${item.uuid}+'-titre-officiel')"
+                    ></th:block>
+                </td>
+                <td class="table-line__cell">
+                    <a
+                        class="link"
+                        target="_blank"
+                        th:attr="onclick=|chargerBlocContextuel(this,'${item.uuid}','textemaitre');return false;|"
+                        th:text="${item.numero}"
+                    ></a>
+                </td>
+                <td class="table-line__cell">
+                    <a
+                        class="link"
+                        target="_blank"
+                        th:attr="onclick=|chargerBlocContextuel(this,'${item.ministerePilote}','ministere');return false;|"
+                        th:text="${item.ministerePiloteLabel}"
+                    ></a>
+                </td>
+                <td class="table-line__cell" th:text="${#dates.format(item.datePromulgation,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${#dates.format(item.datePublication,'dd/MM/yyyy')}"></td>
+                <td class="table-line__cell" th:text="${item.procedureVoteLabel}"></td>
+                <td class="table-line__cell" th:text="${item.natureTexteLabel}"></td>
+                <td class="table-line__cell" th:text="${item.legislaturePublication}"></td>
+                <td class="table-line__cell" th:text="${item.commissionAssNationale}"></td>
+                <td class="table-line__cell" th:text="${item.commissionSenat}"></td>
+                <td class="table-line__cell" th:text="${item.numeroInterne}"></td>
+                <td class="table-line__cell" th:text="${item.motCle}"></td>
+                <td class="table-line__cell" th:text="${item.champLibre}"></td>
+            </tr>
+        </div>
+    </body>
+</html>

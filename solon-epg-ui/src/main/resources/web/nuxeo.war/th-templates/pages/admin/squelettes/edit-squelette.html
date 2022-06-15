@@ -1,0 +1,157 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout  :: layout (template=~{::main},templateClass='', description='Edition d\'un squelette de feuille de route', title=${squeletteForm.intitule})}"
+>
+    <main role="main" id="main_content" class="page-layout__content">
+        <input type="hidden" id="urlPreviousPage" name="urlPreviousPage" th:value="@{${urlPreviousPage}}" />
+        <input type="hidden" id="idSquelette" name="idSquelette" th:value="${squeletteForm.id}" />
+        <input type="hidden" id="isSquelette" name="isSquelette" th:value="${isSquelette}" />
+
+        <!-- Modale ajout étape -->
+        <div th:replace="fragments/fdr/ajoutEtapeFdr :: ajoutEtapeFdr"></div>
+        <!-- Modale ajout Branch -->
+        <div th:replace="fragments/fdr/ajoutBranchFdr :: ajoutBranchFdr"></div>
+        <!-- Modale edition étape -->
+        <div th:replace="fragments/fdr/editEtape :: editEtape"></div>
+
+        <h1 class="base-title base-title--lvl-1 base-title--is-underlined" th:text="${squeletteForm.intitule}">
+            titre
+        </h1>
+
+        <div class="m-t-6">
+            <form
+                id="editSqueletteFDR"
+                th:action="@{/admin/fdr/squelette/sauvegarde}"
+                th:object="${squeletteForm}"
+                method="POST"
+                onsubmit="showReloadLoader()"
+            >
+                <input type="hidden" name="csrf-token" th:value="${csrftoken}" />
+                <input type="hidden" name="id" id="id" th:value="${squeletteForm.id}" />
+                <div class="row-actions__right">
+                    <input
+                        type="submit"
+                        th:value="#{label.casemanagement.save}"
+                        class="base-btn base-btn--button base-btn--default base-btn--default base-btn--center base-btn--secondary"
+                    />
+                    <th:block th:each="action : ${modeleRightActions}">
+                        <button
+                            th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, ${action.type == 'secondary'?'base-btn--center base-btn--secondary':'base-btn--center'})"
+                        ></button>
+                    </th:block>
+                </div>
+                <div class="row-actions__left">
+                    <th:block th:each="action : ${modeleLeftActions}">
+                        <button
+                            th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, 'base-btn--bordered base-btn--light')"
+                        ></button>
+                    </th:block>
+                </div>
+                <div class="grid__row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="intitule"
+                                        id="intitule_label"
+                                        class="form-label form-label--disabled"
+                                    >
+                                        <span th:text="#{modeleFDR.form.libelle.intitule}">Label</span>
+                                        <span class="form-label__required-text" th:text="#{form.input.required}"
+                                            >(requis)</span
+                                        >
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="intitule"
+                                    id="intitule"
+                                    class="form-input__field form-input__field--type-text"
+                                    th:value="${squeletteForm.intitule}"
+                                    data-validation="required"
+                                />
+                            </div>
+                            <div id="intitule_description" class="form-input__footer"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row m-t-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input">
+                            <th:block th:with="selectIsRequired=true,selectDataValidation=required">
+                                <div
+                                    th:replace="fragments/components/formblocks/simple-select :: simpleSelect('modeleFDR.form.libelle.typeActe', 'typeActe', '', ${typeActe}, ${squeletteForm.typeActe}, 'false', 'admin.squelette.creation.empty.typeActe')"
+                                ></div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__row m-y-6">
+                    <div class="grid__col grid__col--middle flexgrow1">
+                        <div class="form-input">
+                            <div class="form-input__header">
+                                <div class="form-input__header-top">
+                                    <label
+                                        aria-disabled="false"
+                                        for="description"
+                                        id="description_label"
+                                        class="form-label"
+                                    >
+                                        <span th:text="#{modeleFDR.form.libelle.description}">Label</span>
+                                    </label>
+                                    <div class="form-input__icon-group"></div>
+                                </div>
+                            </div>
+                            <div class="form-input__container">
+                                <input
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    class="form-input__field form-input__field--type-text"
+                                    th:value="${squeletteForm.description}"
+                                />
+                            </div>
+                            <div id="description_description" class="form-input__footer"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-t-6 roadmap-table tableForm">
+                    <table
+                        th:unless="${#lists.isEmpty(squeletteForm.squeletteDto.table.lines)}"
+                        th:replace="fragments/fdr/tableFdr :: tableFdr(${squeletteForm.squeletteDto})"
+                    ></table>
+                </div>
+                <div class="m-t-6">
+                    <div class="row-actions__right">
+                        <input
+                            type="submit"
+                            th:value="#{label.casemanagement.save}"
+                            class="base-btn base-btn--button base-btn--default base-btn--default base-btn--center base-btn--secondary"
+                        />
+                        <th:block th:each="action : ${modeleRightActions}">
+                            <button
+                                th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, ${action.type == 'secondary'?'base-btn--center base-btn--secondary':'base-btn--center'})"
+                            ></button>
+                        </th:block>
+                    </div>
+                    <div class="row-actions__left">
+                        <th:block th:each="action : ${modeleLeftActions}">
+                            <button
+                                th:replace="fragments/components/label-action-button-fixed :: label-action-button-fixed(${action}, false, 'base-btn--bordered base-btn--light')"
+                            ></button>
+                        </th:block>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</html>

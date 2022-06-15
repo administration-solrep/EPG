@@ -1,0 +1,50 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div
+            id="admin-fdd-modal"
+            th:fragment="admin-fdd-modal"
+            class="interstitial-overlay__content"
+            th:with="id='admin-fdd-modal'"
+        >
+            <div role="dialog" aria-labelledby="dialogTitle-fdd-modal" class="interstitial">
+                <div class="interstitial__header">
+                    <h1 th:id="|dialogTitle-${id}|" class="interstitial__title"></h1>
+                    <button
+                        type="button"
+                        class="interstitial__close base-btn base-btn--button base-btn--default base-btn--discret"
+                    >
+                        <span aria-hidden="true" class="icon icon--cross"></span
+                        ><span class="sr-only" th:text="#{validation.popup.close.label}"
+                            >Fermer la fenêtre de dialogue</span
+                        >
+                    </button>
+                </div>
+                <div class="interstitial__content">
+                    <form id="form-fdd">
+                        <input type="hidden" id="fdd-ref" name="ref" />
+                        <input type="hidden" id="fdd-position" name="position" />
+                        <div
+                            th:replace="fragments/components/formblocks/simple-input :: simpleInput(#{admin.fdd.titre}, true, '', 'fdd-name', 'name', '', false)"
+                        ></div>
+                    </form>
+                </div>
+                <div class="interstitial__footer">
+                    <button
+                        type="button"
+                        class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                        th:text="#{button.label.cancel}"
+                    ></button>
+                    <button
+                        type="button"
+                        th:id="|btn-confirm-${id}|"
+                        class="base-btn base-btn--button base-btn--default base-btn--center"
+                        th:text="#{button.label.save}"
+                    ></button>
+                </div>
+            </div>
+            <div tabindex="-1" class="interstitial-overlay__tabindex"></div>
+        </div>
+    </body>
+</html>

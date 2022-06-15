@@ -1,0 +1,4323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<component name="fr.dila.solonepg.ui.action">
+
+	<require>fr.dila.ecm.platform.routing.actions</require>
+	<require>fr.dila.ss.ui.actions</require>
+
+	<extension point="actions" target="org.nuxeo.ecm.platform.actions.ActionService">
+
+		<!-- MAIN MENU (surcharge pour le menu recherche) -->
+		<action id="MAIN_RECHERCHE" label="menu.recherche.title" order="12" type="link" link="/recherche/libre#sidebar">
+			<category>MAIN_MENU</category>
+		</action>
+
+        <action id="MAIN_STATS" label="menu.stats.title" order="14" type="link" link="/stats#main_content">
+            <category>MAIN_MENU</category>
+        </action>
+
+        <!-- Complète le menu de suivi -->
+        <action id="SUIVI_DOSSIERS_CREES" label="menu.suivi.dossiers.crees.title" order="10" type="menuSection">
+            <category>SUIVI_MENU_TREE</category>
+            <properties>
+                <property name="submenu">SUIVI_MENU_DOSSIERS_CREES</property>
+            </properties>
+        </action>
+
+		<action id="SUIVI_DOSSIERS_RUNNING" label="menu.suivi.dossiers.atraiter.title" order="20" type="menuSection">
+			<category>SUIVI_MENU_TREE</category>
+			<properties>
+				<property name="submenu">SUIVI_MENU_DOSSIERS_RUNNING</property>
+			</properties>
+		</action>
+
+
+        <action id="SUIVI_PAN" label="menu.suivi.pan.title" order="30" type="menuSection">
+            <category>SUIVI_MENU</category>
+            <properties>
+                <property name="submenu">SUIVI_MENU_PAN</property>
+            </properties>
+        </action>
+
+		<action
+            id="SUIVI_GESTION_LISTES"
+            label="suivi.gestionListes"
+            order="40"
+            type="menuSection"
+            link="/suivi/listes/gestion"
+        >
+			<category>SUIVI_MENU_GESTION_LISTES</category>
+			<filter-id>accessGestionDeListeReader</filter-id>
+		</action>
+
+		<!--	Actions détail d'une liste	-->
+		<!-- Action	d'impression de la liste -->
+		<action
+            id="PRINT_LIST_BIRT"
+            link="javascript:doPrintList()"
+            enabled="true"
+            order="1"
+            label="suivi.detailListe.action.print.label"
+            icon="icon--print"
+        >
+			<category>SUIVI_DETAIL_LIST</category>
+			<filter-id>accessGestionDeListeReader</filter-id>
+		</action>
+
+		<!-- Action	pour traiter la liste en série -->
+		<action
+            id="TRAITER_SERIE_LIST"
+            link="javascript:void(0)"
+            enabled="true"
+            order="2"
+            label="suivi.detailListe.action.traiter.label"
+            icon="icon--forward"
+        >
+			<category>SUIVI_DETAIL_LIST</category>
+			<filter-id>accessGestionDeListeReader</filter-id>
+			<filter-id>canTraiterListeSerie</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-traitement-serie-list</property>
+				<property name="specificClass">action-table-selection</property>
+				<property name="function">doTraitementSerie()</property>
+			</properties>
+		</action>
+
+		<!-- Action	pour retirer des dossiers de la liste -->
+		<action
+            id="REMOVE_DOSSIERS_LIST"
+            link="javascript:void(0)"
+            enabled="true"
+            order="3"
+            label="suivi.detailListe.action.remove.label"
+            icon="icon--minus-circle"
+        >
+			<category>SUIVI_DETAIL_LIST</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">suivi.detailListe.action.remove.modale.titre</property>
+				<property name="message">suivi.detailListe.action.remove.modale.label</property>
+				<property name="function">doRemoveFoldersFromList()</property>
+				<property name="specificClass">action-table-selection</property>
+			</properties>
+		</action>
+
+		<!--	Actions outil de sélection	-->
+		<!-- Action	 de vidage de l'outil de sélection -->
+		<action
+            id="EMPTY_SELECTION_TOOL"
+            link="javascript:doEmptySelectionTool()"
+            enabled="true"
+            order="20"
+            label="menu.outilSelection.emptySelection"
+            icon="icon--clipboard-bubble-times"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+
+		<action
+            id="VALIDATE_STEP_SELECTION_TOOL"
+            enabled="true"
+            order="10"
+            label="menu.outilSelection.validateStep"
+            icon="icon--paper-bubble-check"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="positionIcon">droite</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">outilSelection.validateStep.modal.title</property>
+				<property name="message">outilSelection.validateStep.modal.message</property>
+				<property name="function">doValidateStepSelectionTool()</property>
+			</properties>
+		</action>
+		
+		<!-- Action de création de liste de demande d'épreuve -->
+		<action
+            id="CREATE_LIST_DEMANDE_EPREUVE"
+            enabled="true"
+            order="12"
+            label="menu.outilSelection.action.create.list.epreuve"
+            icon="icon--note-bubble-plus"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>accessGestionDeListeReader</filter-id>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">menu.outilSelection.action.create.list.epreuve
+				</property>
+				<property name="message">outilSelection.action.create.list.epreuve.message.modal
+				</property>
+				<property name="function">doCreateListEpreuve()</property>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+
+		<!-- Action d'ajout de dossiers dans la corbeille dossiers suivi depuis l'outil de sélection -->
+		<action
+            id="ADD_CORBEILLE_DOSSIER_SUIVI"
+            order="11"
+            enabled="true"
+            label="menu.outilSelection.action.add.dossiers.suivi"
+            icon="icon--folder-bubble-arrow-right"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">menu.outilSelection.action.add.dossiers.suivi
+				</property>
+				<property name="message">outilSelection.action.add.dossiers.suivi.message.modal
+				</property>
+				<property name="function">doAddDossiersSuivis()</property>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+		
+		<!-- Actions de réattribution de Nor de l'outil de sélection -->
+		<action
+            id="REATTRIBUTION_NOR_SELECTION"
+            enabled="true"
+            order="15"
+            label="menu.outilSelection.action.reattribution.nor"
+            icon="icon--pm-bubble-arrow-down-left"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>isAdminFonctionnel</filter-id>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-reattribution-nor</property>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+
+		<!-- Action de création de liste de demande de publication-->
+		<action
+            id="CREATE_LIST_DEMANDE_PUBLICATION"
+            enabled="true"
+            order="13"
+            label="menu.outilSelection.action.create.list.publication"
+            icon="icon--note-bubble-share"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>accessGestionDeListeReader</filter-id>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">menu.outilSelection.action.create.list.publication
+				</property>
+				<property name="message">outilSelection.action.create.list.publication.message.modal
+				</property>
+				<property name="function">doCreateListPublication()</property>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+		
+		<!-- Actions de création de liste de signature -->
+		<action
+            id="CREATE_LIST_MISE_EN_SIGNATURE"
+            link="javascript:doCreateListSignature()"
+            order="14"
+            enabled="true"
+            label="menu.outilSelection.action.create.list.signature"
+            icon="icon--note-bubble-pen"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>accessGestionDeListeReader</filter-id>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+                        
+
+		<!-- Action d'abandon des dossiers de l'outil de sélection -->
+		<action
+            id="ABANDON_SELECTION_TOOL"
+            link="javascript:doAbandonSelectionTool()"
+            order="16"
+            enabled="true"
+            label="menu.outilSelection.action.abandon"
+            icon="icon--clipboard-bubble-times"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>isAdminFonctionnel</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">menu.outilSelection.action.abandon
+				</property>
+				<property name="message">outilSelection.action.abandon.message.modal
+				</property>
+				<property name="function">doAbandonSelection()</property>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+
+		<!-- Action de substituer des fdr en masse depuis l'outil de sélection -->
+		<action
+            id="SUBSTITUTION_MASSE_SELECTION_TOOL"
+            enabled="true"
+            order="17"
+            label="menu.outilSelection.action.substitution"
+            icon="icon--left-right"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="positionIcon">droite</property>
+                <property name="actionType">modal</property>
+                <property name="dataControls">modal-substitution-mass</property>
+                <property name="dataInitJs">openModalSubstitutionMass</property>
+			</properties>
+		</action>
+
+		<!-- Action de suppression de masse des dossiers de l'outil de sélection -->
+		<action
+            id="SUPPRIMER_MASSE_SELECTION_TOOL"
+            enabled="true"
+            order="18"
+            label="menu.outilSelection.action.delete"
+            icon="icon--bin"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>accessAdminDossierSuppression</filter-id>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-suppression-dossiers</property>
+				<property name="dataInitJs">openModalSuppressionDossiersSelection</property>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+		
+		<!-- Action de substitution de poste de l'outil de sélection-->
+		<action
+            id="SUBSTITUTION_POSTE_SELECTION"
+            enabled="true"
+            order="19"
+            label="menu.outilSelection.action.substitution.poste"
+            icon="icon--pm-bubble-arrow-down-left"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>isFDRModelPosteMassSubstitutor</filter-id>
+			<filter-id>isSelectionTypeModele</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-substitution-poste</property>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+		
+		<!-- Actions de transfert de dossier de l'outil de sélection -->
+		<action
+            id="TRANSFERT_SELECTION"
+            enabled="true"
+            order="15"
+            label="menu.outilSelection.action.transfert"
+            icon="icon--pm-bubble-arrow-down-left"
+        >
+			<category>SELECTION_TOOL_ACTIONS</category>
+			<filter-id>isAdminFonctionnel</filter-id>
+			<filter-id>isSelectionTypeDossier</filter-id>
+			<filter-id>isSelectionNotEmpty</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-transfert-selection</property>
+				<property name="positionIcon">droite</property>
+			</properties>
+		</action>
+		
+
+        <!-- catégorie FDR -->
+        <action
+            id="ADMIN_MENU_MODELE_SQUELETTE"
+            label="menu.admin.modele.squelette.title"
+            order="30"
+            link="/admin/fdr/squelettes#main_content"
+            type="link"
+        >
+		   <category>ADMIN_MENU_MODELE</category>
+		   <filter-id>accessAdminFdrSquelette</filter-id>
+		</action>
+		<action
+            id="ADMIN_MENU_MODELE_CREER_MASSE"
+            label="menu.admin.modele.creer.masse.title"
+            order="40"
+            link="/admin/fdr/modele/creation/masse#main_content"
+            type="link"
+        >
+		   <category>ADMIN_MENU_MODELE</category>
+		   <filter-id>accessAdminFdrCreerMasse</filter-id>
+		</action>
+
+		<!-- categorie Dossier -->
+		<action id="ADMIN_MENU_DOSSIER" label="menu.admin.dossier.title" type="menuSection" order="22">
+      		<category>ADMIN_MENU</category>
+      		<filter-id>accessAdminDossier</filter-id>
+      		<properties>
+				<property name="submenu">ADMIN_MENU_DOSSIER</property>
+			</properties>
+    	</action>
+    	<action
+            id="ADMIN_MENU_DOSSIER_ABANDON"
+            label="menu.admin.dossier.abandon.title"
+            link="/admin/dossiers/abandon#main_content"
+            order="23"
+            type="link"
+        >
+      		<category>ADMIN_MENU_DOSSIER</category>
+      		<filter-id>accessAdminDossierAbandon</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_DOSSIER_SUPPRESSION"
+            label="menu.admin.dossier.suppression.title"
+            link="/admin/dossiers/suppression#main_content"
+            order="24"
+            type="link"
+        >
+      		<category>ADMIN_MENU_DOSSIER</category>
+      		<filter-id>accessAdminDossierSuppression</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_DOSSIER_PARAPHEUR"
+            label="menu.admin.dossier.parapheur.title"
+            link="/admin/dossiers/parapheur#main_content"
+            order="25"
+            type="link"
+        >
+      		<category>ADMIN_MENU_DOSSIER</category>
+      		<filter-id>accessAdminDossierParapheur</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_DOSSIER_FDD"
+            label="menu.admin.dossier.fdd.title"
+            link="/admin/dossiers/fdd#main_content"
+            order="26"
+            type="link"
+        >
+      		<category>ADMIN_MENU_DOSSIER</category>
+      		<filter-id>accessAdminDossierFDD</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_DOSSIER_VECTEUR"
+            link="/admin/dossiers/vecteurs#main_content"
+            label="menu.admin.dossier.vecteur.title"
+            order="27"
+            type="link"
+        >
+      		<category>ADMIN_MENU_DOSSIER</category>
+      		<filter-id>admin_param_bulletin</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_DOSSIER_TABLE_REFERENCE"
+            label="menu.admin.dossier.table.reference.title"
+            link="/admin/dossiers/table/reference#main_content"
+            order="28"
+            type="link"
+        >
+      		<category>ADMIN_MENU_DOSSIER</category>
+      		<filter-id>accessAdminDossierReference</filter-id>
+			<filter-id>isAdminFonctionnel</filter-id>
+    	</action>
+    	
+    	<!-- Action retour page substitution en masse -->
+		<action id="DOSSIER_SUBSTITUER_MASS_FDR_RETOUR" label="button.label.back" link="javascript:goPreviousPage()">
+        	<category>SUBSTITUTION_MASS_ACTIONS_LEFT</category>
+		</action>
+    	
+    	<!-- Action pour substituer la fdr de plusieur dossier avec l'outil de selection -->
+		<action
+            id="DOSSIER_SUBSTITUER_MASS_FDR_VALIDER"
+            label="fdr.substituer.action.label"
+            link="|/selection/substitution/valider?idModele=${idModele}|"
+            type="primary"
+        >
+        	<category>SUBSTITUTION_MASS_ACTIONS_RIGHT</category>
+		</action>
+		
+         <action
+            id="RECHERCHE_MODELE_EXPORT"
+            link="javascript:doExportResultListModele()"
+            enabled="true"
+            order="1"
+            label="label.recherche.export.excel"
+            icon="icon icon--download icon--big"
+        >
+        </action>
+    	
+    	<!-- catégorie Archivage -->
+    	<action id="ADMIN_MENU_ARCHIVAGE" label="menu.admin.archivage.title" type="menuSection" order="25">
+      		<category>ADMIN_MENU</category>
+       		<filter-id>accessAdminArchivage</filter-id>
+       		<properties>
+       			<property name="submenu">ADMIN_MENU_ARCHIVAGE</property>
+       		</properties>
+    	</action>
+    	<action
+            id="ADMIN_MENU_ARCHIVAGE_ADAMANT"
+            link="/admin/archivage/adamant#main_content"
+            label="menu.admin.archivage.adamant.title"
+            order="10"
+            type="link"
+        >
+      		<category>ADMIN_MENU_ARCHIVAGE</category>
+      		<filter-id>accessAdminArchivageAdamant</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_ARCHIVAGE_INTERMEDIAIRE"
+            link="/admin/archivage/intermediaire#main_content"
+            label="menu.admin.archivage.intermediaire.title"
+            order="20"
+            type="link"
+        >
+      		<category>ADMIN_MENU_ARCHIVAGE</category>
+      		<filter-id>accessAdminArchivageIntermediaire</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_ARCHIVAGE_DEFINITIF"
+            link="/admin/archivage/definitif#main_content"
+            label="menu.admin.archivage.definitif.title"
+            order="30"
+            type="link"
+        >
+      		<category>ADMIN_MENU_ARCHIVAGE</category>
+      		<filter-id>accessAdminArchivageDefinitif</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_ARCHIVAGE_PARAM_ADAMANT"
+            link="/admin/archivage/parametre/adamant#main_content"
+            label="menu.admin.archivage.param.adamant.title"
+            order="40"
+            type="link"
+        >
+      		<category>ADMIN_MENU_ARCHIVAGE</category>
+      		<filter-id>accessAdminArchivageParamAdamant</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_ARCHIVAGE_PARAM_ARCH"
+            link="/admin/archivage/parametre#main_content"
+            label="menu.admin.archivage.param.archivage.title"
+            order="50"
+            type="link"
+        >
+      		<category>ADMIN_MENU_ARCHIVAGE</category>
+      		<filter-id>accessAdminParamTechnique</filter-id>
+    	</action>
+    	
+    	<!--  catégorie Paramétrage -->
+		<action
+            id="ADMIN_MENU_PARAM_PARAM"
+            link="/admin/param/param#main_content"
+            label="menu.admin.param.param.title"
+            order="0"
+            type="link"
+        >
+      		<category>ADMIN_MENU_PARAM</category>
+     		<filter-id>isAdminFonctionnel</filter-id>
+      		<filter-id>accessAdminParamParam</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_PARAM_PARAM_MOTEUR"
+            link="/admin/param/moteur#main_content"
+            label="menu.admin.param.moteur.recherche.title"
+            order="20"
+            type="link"
+        >
+      		<category>ADMIN_MENU_PARAM</category>
+      		<filter-id>accessAdminParamParam</filter-id>
+			<filter-id>isAdminFonctionnel</filter-id>
+    	</action>
+    	<action
+            id="ADMIN_MENU_PARAM_PARAM_INDEXATION"
+            link="/admin/param/indexation#main_content"
+            label="menu.admin.param.index.title"
+            order="30"
+        >
+      		<category>ADMIN_MENU_PARAM</category>
+      		<filter-id>accessAdminParamIndex</filter-id>
+    	</action>
+    	
+    	<action
+            id="ADD_FAVORI_CONSULTATION"
+            label="action.button.label.add.utilisateur.favori"
+            icon="icon--big icon--heart"
+            link="javascript:doAddUsersToFavori()"
+            order="20"
+        >
+        	<category>USER_ACTION_LIST_LEFT</category>
+			<properties>
+                <property name="actionType" />
+                <property name="specificClass">action-table-selection</property>
+                <property name="buttonType" />
+            </properties>
+        </action>
+    	
+		<action id="RECHERCHE_MENU" label="menu.recherche.type.title" order="10" type="menuSection"> 
+			<category>RECHERCHE_MENU</category>
+			<properties>
+				<property name="submenu">RECHERCHE_MENU_SUBMENU</property>
+			</properties>
+		</action>
+				
+		<action id="RECHERCHE_LIBRE" label="menu.recherche.libre.title" order="10" type="link" link="/recherche/libre#sidebar"> 
+			<category>RECHERCHE_MENU_SUBMENU</category>
+		</action>
+		
+		<action
+            id="RECHERCHE_EXPERTE"
+            label="menu.recherche.experte.title"
+            order="20"
+            type="link"
+            link="/recherche/experte#sidebar"
+        >
+			<category>RECHERCHE_MENU_SUBMENU</category>
+		</action>
+		
+		 <!-- Verrouillage d'un dossier -->
+	    <action
+            id="VERROUILLER_DOSSIER"
+            link="javascript:verouilleDossier()"
+            enabled="true"
+            order="20"
+            label="dossier.lock.action.lock"
+            icon="icon--lock"
+        >
+	      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+	      <filter-id>isDossier</filter-id>
+	      <filter-id>isDossierLockable</filter-id>
+	      <!-- <filter-id>isNotDossierAbandon</filter-id> -->
+	      <!-- <filter-id>isDossierNotNorAttribue</filter-id> -->
+	      <filter-id>isDossierLoadedOrUpdater</filter-id>
+	      <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+	    </action>
+	    
+	    <!-- Déverrouillage d'un dossier -->
+	    <action
+            id="DEVERROUILLER_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,deverouilleDossier)"
+            enabled="true"
+            order="20"
+            label="dossier.lock.action.unlock"
+            icon="icon--lock-bubble-times"
+        >
+	      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+	      <filter-id>isDossier</filter-id>
+	      <filter-id>dossierIsLocked</filter-id>
+	      <filter-id>isDossierLoadedOrUpdater</filter-id>
+	      <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+	    </action>
+	    
+	    <!-- Levée du verrou d'un dossier par l'administrateur -->
+	    <action
+            id="LEVER_VERROU_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,deverouilleAdminDossier)"
+            order="20"
+            label="dossier.lock.action.unlockAdmin"
+            icon="icon--lock-bubble-times"
+        >
+	      <category>DOSSIER_TOPBAR_ACTIONS_LOCKS</category>
+	      <filter-id>isDossier</filter-id>
+	      <filter-id>dossierIsLocked</filter-id>
+	      <filter-id>isDossierLoadedOrUpdater</filter-id>
+	      <filter-id>currentDocIsNotLockActionnableByCurrentUser</filter-id>
+	      <filter-id>isDossierAdminUnlockable</filter-id>
+	    </action>
+	    
+	    <!--  Sauvegarde d'un dossier -->	    
+         <action
+            id="SAUVEGARDER_DOSSIER"
+            link="javascript:saveDossier()"
+            enabled="true"
+            order="20"
+            label="dossier.action.save"
+            icon="icon--save"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_GENERAL</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>dossierIsLocked</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+        </action>
+        
+        <!-- Marquer un dossier non lu -->
+        <action
+            id="UNREAD_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,unreadDossier)"
+            enabled="true"
+            order="10"
+            label="dossier.action.non.lu"
+            icon="icon--mail"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_GENERAL</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+            <filter-id>isPreviousPageTravail</filter-id>
+        </action>
+
+	    <!-- permet de passer le dossier à l'état "NOR attribueé" -->
+	    <action
+            id="DOSSIER_VALIDER_NOR_ATTRIBUER"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="11"
+            label="dossier.action.valider.nor.attribuer"
+            icon=""
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_DIVERS</category>
+			<filter-id>isStepInitialisation</filter-id>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+	      	<filter-id>isNotDone</filter-id>
+			<filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+			<filter-id>isNotActeTexteNonPublie</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.action.valider.nor.attribuer
+				</property>
+				<property name="message">dossier.action.valider.nor.attribuer.message.modal
+				</property>
+				<property name="function">doValiderNorAttribuer()</property>
+			</properties>
+	    </action>
+
+         <!-- permet de passer le dossier à l'état "Terminé sans publication" -->
+	    <action
+            id="DOSSIER_TERMINE_SANS_PUBLICATION"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            order="12"
+            label="dossier.action.terminer.sans.publication"
+            icon=""
+        >
+	      <category>DOSSIER_TOPBAR_ACTIONS_DIVERS</category>
+	      <filter-id>isDossier</filter-id>
+	      <filter-id>dossierIsLocked</filter-id>
+	      <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+    	  <filter-id>isDossierEnder</filter-id>
+	      <filter-id>isNotStepInitialisation</filter-id>
+	      <filter-id>isDossierLance</filter-id>
+	      <filter-id>isNotActeTexteNonPublie</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.action.terminer.sans.publication
+				</property>
+				<property name="message">dossier.terminer.sans.publication.message.modal
+				</property>
+				<property name="function">terminerSansPublication()</property>
+			</properties>
+	    </action>
+	    
+	    <!-- Action bouton Créer un dossier -->
+        <action id="CREER_DOSSIER" link="javascript:doCreerDossier()" label="epg.dossier.creation.title" order="1">
+            <category>DOSSIER_CREATION_BUTTON_ACTION</category>
+        </action>
+
+        <action
+            id="RECHERCHER_DOSSIER_SIMILAIRES"
+            link="javascript:doDossierSauvegardeModale(event, goToDossierSimilaire)|"
+            order="11"
+            label="dossier.action.rechercher.dossier.similaires"
+            icon=""
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_DIVERS</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+		</action>
+		
+        <action
+            id="GENERER_ZIP_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,doExportZip)"
+            order="70"
+            label="dossier.action.print.export.zip"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+            <filter-id>isDossier</filter-id>
+        </action>
+
+        <action
+            id="GENERER_PDF_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,doEditerDossierPdf)"
+            enabled="true"
+            order="70"
+            label="dossier.action.pdf"
+            icon=""
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>isDossierContainsMinistere</filter-id>
+        </action>
+		
+        <action
+            id="EMAIL_FORWARD_DOSSIER"
+            enabled="true"
+            order="50"
+            label="dossier.action.mail"
+            icon=""
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_PRINT</category>
+            <properties>
+                <property name="actionType">callbackModal</property>
+                <property name="dataControls">modal-dossier-send-mail</property>
+                <property name="initJs">loadDossierMailContent</property>
+            </properties>
+            <filter-id>isDossier</filter-id>
+        </action>
+
+		<!-- Marque le dossier comme non urgent -->
+		<action
+            id="SUPPRIMER_URGENCE_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,removeUrgenceDossier)"
+            order="10"
+            label="dossier.action.supprimer.urgence"
+            icon=""
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_REPORT</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>isNotDone</filter-id>
+			<filter-id>isUrgent</filter-id>
+		</action>
+
+		<!-- Marque le dossier comme urgent -->
+		<action
+            id="AJOUTER_URGENCE_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,addUrgenceDossier)"
+            order="10"
+            label="dossier.action.ajouter.urgence"
+            icon=""
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_REPORT</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>isNotDone</filter-id>
+			<filter-id>isNotUrgent</filter-id>
+		</action>
+		
+		<!-- Action d'ajout du dossier dans la corbeille dossiers suivis-->
+		<action
+            id="ADD_DOSSIER_SUIVI"
+            order="12"
+            enabled="true"
+            label="action.add.dossiers.suivi"
+            icon=""
+            link="javascript:doDossierSauvegardeModale(event, doInitModal, this)"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_REPORT</category>
+			<filter-id>isDossier</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">action.add.dossiers.suivi
+				</property>
+				<property name="message">action.add.dossier.suivi.message.modal
+				</property>
+				<property name="function">doAddDossierSuivi()</property>
+			</properties>
+		</action>
+
+        <!-- Action d'ajout du dossier aux textes en attente de signature PR/PM -->
+        <action
+            id="AJOUTER_DOSSIER_ATTENTE_SIGNATURE"
+            link="javascript:doDossierSauvegardeModale(event, addDossierAttenteSignatureWithoutType)"
+            order="20"
+            label="action.add.attente.signature"
+            icon=""
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_REPORT</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>dossierIsLocked</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+            <filter-id>isNotTexteSignale</filter-id>
+            <filter-id>isTexteSignaleCreator</filter-id>
+        </action>
+
+        
+        <!-- Action lister le dossier en cours de création -->
+        <action
+            id="AFFICHER_DOSSIER_CREATION"
+            link="/travail/dossierCreation#main_content"
+            order="20"
+            label="epg.sidebar.dossier.creation.liste.title"
+        >
+          <category>DOSSIER_CREATION_ACTIONS</category>
+        </action>
+
+		<!-- Action permettant l'action de saisine rectificative sur un dossier 
+			à l'étape 'Pour avis CE' -->
+		<action
+            id="SAISINE_RECTIFICATIVE"
+            link="|javascript:doDossierSauvegardeModale(event, gotoSaisine, '${monDossier.id}')|"
+            order="120"
+            label="label.epg.feuilleRoute.etape.command.saisine.rectificative"
+            icon="icon--pm-bubble-arrow-down-left"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+			<filter-id>isEtapePourAvisCEUnrestricted</filter-id>
+			<filter-id>hasUserDroitSaisineEtPieceComplementaire</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+		</action>
+		
+		<!-- Action d'envoi des pièces complémentaires à la saisine rectificative -->
+		<action
+            id="ACTION_SAISINE_RECTIFICATIVE_PIECES_COMPLEMENTAIRES"
+            order="1"
+            label="saisine.rectificative.envoyer.pieces.complementaires"
+            icon=""
+        >
+			<category>DOSSIER_SAISINE_RECTIFICATIVE</category>
+			<properties>
+                <property name="specificClass">base-btn--secondary</property>
+                <property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">saisine.rectificative.modal.title</property>
+				<property name="message">saisine.rectificative.modal.message.pieces.complementaires</property>
+				<property name="btnConfirmLabel">saisine.rectificative.modal.confirm.button</property>
+				<property name="function">javascript:saisineRectificativePiecesComplementaires()</property>
+				<property name="isDisabled">|${piecesComplementaires.size == 0}|</property> 
+            </properties>
+		</action>
+	    
+   		<!-- Action d'envoi de la saisine rectificative -->
+		<action id="ACTION_SAISINE_RECTIFICATIVE" order="2" label="saisine.rectificative.envoyer" icon="">
+			<category>DOSSIER_SAISINE_RECTIFICATIVE</category>
+			<properties>
+                <property name="specificClass">base-btn--center</property>
+                <property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">saisine.rectificative.modal.title</property>
+				<property name="message">saisine.rectificative.modal.message.saisine</property>
+				<property name="btnConfirmLabel">saisine.rectificative.modal.confirm.button</property>
+				<property name="function">javascript:envoyerSaisineRectificative()</property>
+				<property name="isDisabled">|${saisines.size == 0}|</property> 
+            </properties>
+		</action>
+	    
+
+		<!-- Action permettant de retirer le caractère confidentiel d'une mesure nominative -->
+		<action
+            id="DOSSIER_ANNULER_MESURE_NOMINATIVE"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            order="10"
+            label="epg.dossier.confidential.action.remove"
+            icon="icon--not-confidential"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_CONFIDENTIAL</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>isDossierMesureNominative</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>isDossierMesureNominativeUpdater</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">label.epg.dossier.confirm.remove.confidential.titre
+				</property>
+				<property name="message">label.epg.dossier.confirm.remove.confidential
+				</property>
+				<property name="function">annulerMesureNominative()</property>
+			</properties>
+		</action>
+
+		<!-- Action permettant de remettre le caractère confidentiel d'une mesure nominative -->
+		<action
+            id="DOSSIER_REDONNER_MESURE_NOMINATIVE"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            order="10"
+            label="epg.dossier.confidential.action.add"
+            icon="icon--confidential"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_CONFIDENTIAL</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>isDossierMesureNominativeUpdater</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>isNotDossierMesureNominative</filter-id>
+			<filter-id>hasTypeActeMesureNominative</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">label.epg.dossier.confirm.add.confidential.titre
+				</property>
+				<property name="message">label.epg.dossier.confirm.add.confidential
+				</property>
+				<property name="function">redonnerMesureNominative()</property>
+			</properties>
+		</action>
+
+        <!-- Action lister les dossiers créés -->
+        <action
+            id="AFFICHER_DOSSIER_CREES"
+            link="/travail/dossiersCrees#main_content"
+            order="10"
+            label="epg.sidebar.dossiers.crees.title"
+        >
+          <category>SUIVI_ACTIVITE_ACTIONS</category>
+        </action>
+
+		<!-- Action lister les dossiers à traiter -->
+		<action
+            id="AFFICHER_DOSSIER_A_TRAITER"
+            link="/travail/dossiersATraiter#main_content"
+            order="20"
+            label="epg.sidebar.dossiers.a.traiter.title"
+        >
+			<category>SUIVI_ACTIVITE_ACTIONS</category>
+		</action>
+
+
+		<!-- Action lister les dossiers suivis -->
+        <action
+            id="AFFICHER_DOSSIER_SUIVI"
+            link="/travail/dossiersSuivis#main_content"
+            order="30"
+            label="epg.sidebar.dossiers.suivis.title"
+        >
+          <category>SUIVI_ACTIVITE_ACTIONS</category>
+        </action>
+
+        <!-- Action lister l'historique de validation -->
+        <action
+            id="AFFICHER_HISTORIQUE_VALIDATION"
+            link="/travail/historiqueValidation#main_content"
+            order="40"
+            label="epg.sidebar.historique.validation.title"
+        >
+            <category>SUIVI_ACTIVITE_ACTIONS</category>
+        </action>
+
+        <!-- Action lister les textes en attente de signature PR/PM -->
+        <action
+            id="AFFICHER_ATTENTE_SIGNATURE"
+            link="/travail/attenteSignature/LOIS#main_content"
+            order="60"
+            label="epg.sidebar.textes.attente.signature.title"
+        >
+            <category>SUIVI_ACTIVITE_ACTIONS</category>
+            <filter-id>isInfocentreSGGReader</filter-id>
+        </action>
+
+        <!-- Textes en attente de signature : Liste des onglets -->
+        <!-- Onglet lois, ordonnances, décret, arrêtés PM et textes conjoints -->
+        <action id="TAB_ATTENTE_SIGNATURE_LOIS" enabled="true" order="1" label="label.attente.signature.lois">
+            <category>ATTENTE_SIGNATURE_ONGLET</category>
+            <filter-id>isInfocentreSGGReader</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/table/table-attente-signature
+                </property>
+                <property name="fragmentName">table-attente-signature</property>
+                <property name="name">LOIS</property>
+                <property name="script">chargeOngletAttenteSignature(this,'LOIS')</property>
+            </properties>
+        </action>
+
+        <!-- Onglet arrêtés et autres textes -->
+        <action id="TAB_ATTENTE_SIGNATURE_AUTRES" enabled="true" order="2" label="label.attente.signature.autres">
+            <category>ATTENTE_SIGNATURE_ONGLET</category>
+            <filter-id>isInfocentreSGGReader</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/table/table-attente-signature
+                </property>
+                <property name="fragmentName">table-attente-signature</property>
+                <property name="name">AUTRES</property>
+                <property name="script">chargeOngletAttenteSignature(this,'AUTRES')</property>
+            </properties>
+        </action>
+
+        <!-- Action retirer dossiers en attente de signature -->
+        <action
+            id="ATTENTE_SIGNATURE_RETIRER_DOSSIER"
+            link="javascript:retirerDossiersAttenteSignature()"
+            enabled="true"
+            order="2"
+            label="action.button.label.retirer.dossiers"
+            icon="icon--minus-circle"
+        >
+            <category>ATTENTE_SIGNATURE_GENERAL_ACTIONS</category>
+            <filter-id>isInfocentreSGGReader</filter-id>
+            <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+        <!-- Actions d'export des listes de textes en attente de signature -->
+        <action
+            id="EXPORT_XLS_LISTE_ATTENTE_SIGNATURE"
+            link="javascript:exportListeAttenteSignature('xls')"
+            enabled="true"
+            order="1"
+            label="action.button.label.export.xls"
+        >
+            <category>ATTENTE_SIGNATURE_PRINT_ACTIONS</category>
+            <filter-id>isInfocentreSGGReader</filter-id>
+        </action>
+
+        <action
+            id="IMPRIMER_LISTE_ATTENTE_SIGNATURE"
+            link="javascript:exportListeAttenteSignature('pdf')"
+            enabled="true"
+            order="2"
+            label="outilSelection.action.create.list.signature.modal.imprimer"
+        >
+            <category>ATTENTE_SIGNATURE_PRINT_ACTIONS</category>
+            <filter-id>isInfocentreSGGReader</filter-id>
+        </action>
+
+        <action
+            id="EDIT_TEXTE_ATTENTE_SIGNATURE"
+            label="action.button.label.modifier"
+            link="javascript:void(0)"
+            order="10"
+            icon="icon--pen-circle base-btn__icon icon--big"
+        >
+            <category>ATTENTE_SIGNATURE_LINE_ACTIONS</category>
+            <filter-id>isInfocentreSGGReader</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">attenteSignatureModaleEdit</property>
+                <property name="initJs">chargerTexteAttenteSignature</property>
+                <property name="paramInitJs">${item.dossierId}</property>
+                <property name="title">|attente.signature.modale.titre.label|</property>
+                <property name="titleParam">item.titre</property>
+                <property name="function">editerTexteAttenteSignature()</property>
+                <property
+                    name="specificClass"
+                >base-btn--with-icon base-btn--light base-btn--transparent table-line__action-button</property>
+                <property name="buttonType">nospace</property>
+            </properties>
+        </action>
+		
+		<!-- Actions sur la liste des dossiers suivis - vider la liste -->
+		<action
+            id="EMPTY_DOSSIER_SUIVI"
+            enabled="true"
+            order="10"
+            label="epg.dossiers.suivis.vider"
+            icon="icon--folder-bubble-times"
+        >
+			<category>DOSSIER_CREATION_ACTIONS_GENERAL</category>
+			<filter-id>isDossierSuivi</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">epg.dossiers.suivis.vider
+				</property>
+				<property name="message">epg.dossiers.suivis.vider.modal.message
+				</property>
+				<property name="function">doEmptyDossiersSuivis()</property>
+                <property name="btnConfirmLabel">epg.dossiers.suivis.vider.modal.btn.vider</property>
+			</properties>
+		</action>
+
+		<!-- Actions sur la liste des dossiers suivis - supprimer de la liste -->
+		<action
+            id="REMOVE_DOSSIER_SUIVI"
+            link="javascript:doRemoveFromDossiersSuivis()"
+            enabled="true"
+            order="20"
+            label="epg.dossiers.suivis.remove"
+            icon="icon--folder-bubble-arrow-left-circle"
+        >
+			<category>DOSSIER_CREATION_ACTIONS_GENERAL</category>
+			<filter-id>isDossierSuivi</filter-id>
+			<properties>
+				<property name="specificClass">action-table-selection</property>
+			</properties>
+		</action>
+
+		<!-- Actions sur la liste des dossiers en cours de création -->
+		<action
+            id="SUPPRIMER_DOSSIER_CREATION"
+            link="javascript:openModalSuppressionDossierCreation()"
+            enabled="true"
+            order="30"
+            label="action.button.label.supprimer"
+            icon="icon--bin"
+        >
+			<category>DOSSIER_CREATION_ACTIONS_GENERAL</category>
+			<filter-id>accessAdminDossierSuppression</filter-id>
+			<filter-id>isNotDossierSuivi</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-suppression-dossiers</property>
+				<property name="initJs">openModalSuppressionDossierCreation</property>
+				<property name="specificClass">action-table-selection</property>
+			</properties>
+		</action>
+
+        <action
+            id="AJOUTER_DOSSIER_OUTIL_SELECTION"
+            link="javascript:addSelectedDossierToSelectionTool()"
+            enabled="true"
+            order="1"
+            label="action.button.label.add.selection.tool"
+            icon="icon--clipboard-bubble-plus"
+        >
+            <category>SELECTION_TOOL_DOSSIERS_ACTIONS</category>
+            <category>ATTENTE_SIGNATURE_GENERAL_ACTIONS</category>
+            <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+				<action
+            id="AJOUTER_DOSSIER_TO_FAVORIS_CONSULTATION"
+            link="javascript:addSelectedDossierToFavoris()"
+            enabled="true"
+            order="2"
+            label="action.button.label.add.dossier.favori"
+            icon="icon--heart"
+        >
+        	<category>ADD_DOSSIERS_TO_FAVORIS_ACTIONS</category>
+        	 <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+		</action>
+
+		<!-- Actions de création de liste de signature depuis une corbeille -->
+		<action
+            id="CREATE_LIST_MISE_EN_SIGNATURE_MAILBOX"
+            link="javascript:doCreateListSignatureFromMailbox()"
+            label="menu.outilSelection.action.create.list.signature"
+            icon="icon--note-pen"
+        >
+			<category>CREATE_LIST_MISE_EN_SIGNATURE_MAILBOX_ACTIONS</category>
+			<filter-id>isFromCorbeille</filter-id>
+			<filter-id>accessGestionDeListeReader</filter-id>
+			<properties>
+				<property name="specificClass">action-table-selection</property>
+			</properties>
+		</action>
+
+		<!-- Actions de création de liste de signature depuis un dossier -->
+		<action
+            id="CREATE_LIST_MISE_EN_SIGNATURE_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,doCreateListSignatureFromFolder)"
+            label="menu.outilSelection.action.create.list.signature"
+            icon="icon--note-pen"
+        >
+			<category>CREATE_LIST_MISE_EN_SIGNATURE_FOLDER_ACTIONS</category>
+			<filter-id>accessGestionDeListeReader</filter-id>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>hasSignataire</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+		</action>
+		
+		<action
+            id="AJOUTER_FDR_OUTIL_SELECTION"
+            link="javascript:addSelectedFdrToSelectionTool()"
+            enabled="true"
+            order="1"
+            label="action.button.label.add.selection.tool"
+            icon="icon--clipboard-bubble-plus"
+        >
+            <category>SELECTION_TOOL_FDR_ACTIONS</category>
+			<filter-id>accessAdminFdrRecherche</filter-id>
+             <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+		<!-- ***********************************************************************
+            Dossier EPG: TOPBAR action *********************************************************************** -->
+        <!-- Action FDR -->
+
+        <action
+            id="LANCER_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="10"
+            label="dossier.action.lancer.dossier"
+            icon="icon--check-circle"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>dossierIsLocked</filter-id>
+            <filter-id>isStepInitialisation</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.action.lancer.dossier
+				</property>
+				<property name="message">dossier.action.lancer.dossier.message.modal
+				</property>
+				<property name="function">doInitialisation()</property>
+			</properties>
+        </action>
+
+        <action
+            id="DONNER_AVIS_FAVORABLE_DOSSIER_STEP_AVIS"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="10"
+            label="label.epg.feuilleRoute.etape.valide.avis.favorable"
+            icon="icon--check-circle"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>dossierIsLocked</filter-id>
+            <filter-id>isStepAvis</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">label.epg.feuilleRoute.etape.valide.avis.favorable
+				</property>
+				<property name="message">dossier.action.avis.favorable.message.modal
+				</property>
+				<property name="initJs">checkChargeMissionBeforePubDila</property>
+				<property name="function">doValiderEtape()</property>
+			</properties>
+        </action>
+
+        <action
+            id="RELANCER_DOSSIER_ABANDONNE"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="10"
+            label="dossier.relancer.abandonne.btn.label"
+            icon="icon--check-circle"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>isDossierAbandonne</filter-id>
+            <filter-id>dossierIsLocked</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.relancer.abandonne.modal.title
+				</property>
+				<property name="message">dossier.relancer.abandonne.modal.message
+				</property>
+				<property name="function">doRelancerDossierAbandonne()</property>
+			</properties>
+        </action>
+
+        <action
+            id="VALIDER_ETAPE_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="10"
+            label="button.label.valider"
+            icon="icon--check-circle"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>dossierIsLocked</filter-id>
+            <filter-id>isNotStepRetourModification</filter-id>
+            <filter-id>isNotStepAvis</filter-id>
+            <filter-id>isNotStepInitialisation</filter-id>
+            <filter-id>isNotStepContreseign</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<filter-id>isStepExecutable</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">button.label.valider
+				</property>
+				<property name="message">dossier.action.avis.favorable.message.modal
+				</property>
+				<property name="initJs">checkChargeMissionBeforePubDila</property>
+				<property name="function">doValiderEtape()</property>
+			</properties>
+        </action>
+		<action
+            id="VALIDER_ETAPE_DOSSIER_STEP_CONTRESEIGN"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="10"
+            label="label.epg.feuilleRoute.etape.valide.avis.favorable"
+            icon="icon--check-circle"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>isNotStepRetourModification</filter-id>
+			<filter-id>isNotStepAvis</filter-id>
+			<filter-id>isNotStepInitialisation</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<filter-id>isStepContreseign</filter-id>
+			<filter-id>isStepExecutable</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">label.epg.feuilleRoute.etape.valide.avis.favorable
+				</property>
+				<property name="message">dossier.action.avis.favorable.message.modal
+				</property>
+				<property name="initJs">checkChargeMissionBeforePubDila</property>
+				<property name="function">doValiderEtape()</property>
+			</properties>
+		</action>
+		<action
+            id="DOSSIER_VALIDER_RETOUR_MODIFICATION_DOSSIER"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="10"
+            label="label.epg.feuilleRoute.etape.valide.manuellement.15"
+            icon="icon--check-circle"
+        >
+            <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>dossierIsLocked</filter-id>
+            <filter-id>isStepRetourModification</filter-id>
+            <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<filter-id>isStepExecutable</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">label.epg.feuilleRoute.etape.valide.manuellement.15
+				</property>
+				<property name="message">dossier.action.avis.favorable.message.modal
+				</property>
+				<property name="function">doValiderRetourModification()</property>
+			</properties>
+        </action>
+
+        <!-- ***********************************************************************
+            Dossier EPG: Dossiers similaires *********************************************************************** -->
+        <!-- Action Bordereau -->
+
+        <action
+            id="ANNULER_COPY_BORDEREAU"
+            link="|/dossier/${dossierSourceId}/bordereau#main_content|"
+            enabled="true"
+            order="13"
+            label="button.label.cancel"
+            icon=""
+        >
+            <category>DOSSIER_SIMILAIRE_BORDEREAU</category>
+            <properties>
+                <property name="classes">base-btn--secondary</property>
+            </properties>
+        </action>
+        <action
+            id="PRECEDENT_COPY_BORDEREAU"
+            link="javascript:previousBordereauSimilaire()"
+            enabled="true"
+            order="12"
+            label="dossier.similaire.bordereau.precedent"
+            icon=""
+        >
+            <category>DOSSIER_SIMILAIRE_BORDEREAU</category>
+            <properties>
+                <property name="classes">base-btn--secondary</property>
+            </properties>
+        </action>
+        <action
+            id="SUIVANT_COPY_BORDEREAU"
+            link="javascript:nextBordereauSimilaire()"
+            enabled="true"
+            order="11"
+            label="dossier.similaire.bordereau.suivant"
+            icon=""
+        >
+            <category>DOSSIER_SIMILAIRE_BORDEREAU</category>
+            <properties>
+                <property name="classes">base-btn--secondary</property>
+            </properties>
+        </action>
+        <action
+            id="COPY_BORDEREAU"
+            link="javascript:copyBordereauSimilaire()"
+            enabled="true"
+            order="10"
+            label="dossier.similaire.bordereau.copier"
+            icon=""
+        >
+            <category>DOSSIER_SIMILAIRE_BORDEREAU</category>
+            <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+
+	    <!-- Action permettant de donner un avis "favorable avec correction" à une étape de feuille de route -->
+	    <action
+            id="DOSSIER_VALIDER_CORRECTION_AVIS"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="20"
+            label="dossier.action.avis.favorable.avec.correction"
+            icon="icon--check-circle-bubble-eye"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>isStepAvis</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">label.epg.feuilleRoute.etape.confirm.validation.titre
+				</property>
+				<property name="message">dossier.action.valider.avec.correction.message.modal
+				</property>
+				<property name="initJs">checkChargeMissionBeforePubDila</property>
+				<property name="function">doValiderAvecCorrectionAvis()</property>
+			</properties>
+	    </action>
+
+	    <!-- Action permettant de valider une étape avec correction -->
+	    <action
+            id="DOSSIER_VALIDER_CORRECTION_BON_A_TIRER"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="20"
+            label="dossier.action.valider.avec.correction"
+            icon="icon--check-circle-bubble-eye"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>isStepPourBonATirer</filter-id>
+			<filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">label.epg.feuilleRoute.etape.confirm.validation.titre
+				</property>
+				<property name="message">dossier.action.valider.avec.correction.message.modal
+				</property>
+				<property name="initJs">checkChargeMissionBeforePubDila</property>
+				<property name="function">doValiderAvecCorrectionBonATirer()</property>
+			</properties>
+	    </action>
+
+	    <!-- Action permettant de demander un retour pour modification -->
+	    <action
+            id="DOSSIER_RETOUR_POUR_MODIFICATION"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="40"
+            label="dossier.action.retour.pour.modification"
+            icon="icon--arrow-down-left-circle"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+            <filter-id>canRetourModification</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<filter-id>isStepExecutable</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">modal-retour-modification</property>
+                <property name="initJs">initRetourDanModal</property>
+			</properties>
+	    </action>
+
+	    <!-- Action permettant de refuser une étape de feuille de route -->
+	    <action
+            id="DOSSIER_VALIDER_REFUS"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="50"
+            label="dossier.action.valider.refus"
+            icon="icon--times-circle"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>canRefusValidation</filter-id>
+			<filter-id>isNotStepContreseign</filter-id>
+			<filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>isStepExecutable</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.action.valider.refus
+				</property>
+				<property name="message">dossier.action.valider.refus.message.modal
+				</property>
+				<property name="function">doRefusValidation()</property>
+			</properties>
+	    </action>
+		<!-- Action permettant de refuser une étape de feuille de route (modification libelle pour l'etape "pour contreseign"-->
+		<action
+            id="DOSSIER_VALIDER_REFUS_CONTRESEIGN"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="50"
+            label="dossier.action.valider.refus.contreseign"
+            icon="icon--times-circle"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>isStepContreseign</filter-id>
+			<filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>isStepExecutable</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.action.valider.refus
+				</property>
+				<property name="message">dossier.action.valider.refus.message.modal
+				</property>
+				<property name="function">doRefusValidation()</property>
+			</properties>
+		</action>
+	    <!-- Action permettant de donner un avis défavorable à une étape de feuille de route -->
+	    <action
+            id="ACTION_DOSSIER_VALIDER_REFUS_AVIS"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="50"
+            label="dossier.action.avis.defavorable"
+            icon="icon--times-circle"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>isStepAvis</filter-id>
+			<filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.action.avis.defavorable
+				</property>
+				<property name="message">dossier.action.valider.refus.message.modal
+				</property>
+				<property name="function">doRefusValidationAvis()</property>
+			</properties>
+	    </action>
+
+	    <!-- Action permettant de refuser un retour pour modification -->
+	    <action
+            id="ACTION_DOSSIER_VALIDER_REFUS_RETOUR_MODIF"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="50"
+            label="dossier.action.refus.modification"
+            icon="icon--times-circle"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>isStepRetourModification</filter-id>
+			<filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.action.refus.modification
+				</property>
+				<property name="message">dossier.action.valider.refus.message.modal
+				</property>
+				<property name="function">doRefusValidationRetourModif()</property>
+			</properties>
+	    </action>
+
+        <!-- Action permettant de donner un avis "valider non concerné" à une étape de feuille de route -->
+	    <action
+            id="DOSSIER_VALIDER_NON_CONCERNE"
+            link="javascript:doDossierSauvegardeModale(event,doInitModal,this)"
+            enabled="true"
+            order="30"
+            label="dossier.action.valider.non.concerne"
+            icon="icon--user-bubble-times"
+        >
+			<category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+			<filter-id>isDossier</filter-id>
+			<filter-id>dossierIsLocked</filter-id>
+			<filter-id>canValideNonConcerne</filter-id>
+			<filter-id>isCurrentDocumentLockedByCurrentUser</filter-id>
+			<filter-id>hasRunningStep</filter-id>
+			<filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+			<filter-id>isStepExecutable</filter-id>
+			<properties>
+				<property name="actionType">callbackModal</property>
+				<property name="dataControls">modal-valider-non-concerne</property>
+			</properties>
+	    </action>
+
+
+		<!-- ***********************************************************************
+			Dossier EPG: Liste des onglets *********************************************************************** -->
+        <action
+            id="TAB_FICHE_PRESENTATION_EPG"
+            enabled="true"
+            order="35"
+            label="label.mgpp.dossier.onglets.fichePresentation"
+        >
+            <category>VIEW_ACTION_LIST</category>
+            <filter-id>isDossier</filter-id>
+            <filter-id>droitVueMgpp</filter-id>
+            <filter-id>isRapportAuParlement</filter-id>
+            <filter-id>isNotDossierDeleted</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/mgpp/dossier/onglets/fichePresentation
+                </property>
+                <property name="fragmentName">fichePresentation</property>
+                <property name="script">doDossierSauvegardeModale(event, chargeOngletDossier, 'fiche',this)
+                </property>
+                <property name="name">fiche</property>
+            </properties>
+        </action>
+
+		<!-- Onglet bordereau -->
+		<action id="TAB_DOSSIER_DOCUMENT" enabled="true" order="10" label="dossier.onglet.document">
+			<category>VIEW_ACTION_LIST</category>
+			<filter-id>isDossier</filter-id>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/document
+				</property>
+				<property name="fragmentName">document</property>
+				<property name="script">doDossierSauvegardeModale(event, chargeOngletDossier, 'document',this)</property>
+				<property name="name">document</property>
+			</properties>
+		</action>
+
+		<!-- Onglet parapheur -->
+		<action id="TAB_DOSSIER_BORDEREAU" enabled="true" order="20" label="dossier.onglet.bordereau">
+			<category>VIEW_ACTION_LIST</category>
+			<filter-id>isDossier</filter-id>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/bordereau
+				</property>
+				<property name="fragmentName">bordereau</property>
+				<property name="script">doDossierSauvegardeModale(event, chargeOngletDossier, 'bordereau',this)</property>
+				<property name="name">bordereau</property>
+			</properties>
+		</action>
+
+		<action id="TAB_CASE_MANAGEMENT_VIEW_RELATED_ROUTE" order="30" label="dossier.onglet.fdr">
+			<category>VIEW_ACTION_LIST</category>
+			<filter-id>isRoutable</filter-id>
+			<filter-id>isFeuilleRouteVisible</filter-id>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/fdr</property>
+				<property name="fragmentName">fdr</property>
+				<property name="script">doDossierSauvegardeModale(event,chargeOngletDossier,'fdr',this)</property>
+				<property name="name">fdr</property>
+			</properties>
+		</action>
+
+		<!-- Onglet journal -->
+		<action id="TAB_DOSSIER_JOURNAL" enabled="true" label="dossier.onglet.journal" icon="/icons/file.gif" order="40">
+			<category>VIEW_ACTION_LIST</category>
+			<filter-id>isDossier</filter-id>
+			<properties>
+				<property name="fragmentFile">fragments/journal/journal
+				</property>
+				<property name="fragmentName">journal</property>
+				<property name="script">doDossierSauvegardeModale(event,chargeOngletDossier,'journal',this)</property>
+				<property name="name">journal</property>
+			</properties>
+		</action>
+
+		<!-- Onglet Traitement Papier-->
+
+		<action id="TAB_DOSSIER_TRAITEMENT_PAPIER" order="50" label="dossier.onglet.traitementpapier">
+			<category>VIEW_ACTION_LIST</category>
+			<filter-id>isTraitementPapierReader</filter-id>
+            <filter-id>isDossier</filter-id>
+            <filter-id>isNotDossierDeleted</filter-id>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/traitementPapier</property>
+				<property name="fragmentName">traitementPapier</property>
+				<property name="script">doDossierSauvegardeModale(event,chargeOngletDossier,'traitement/papier',this)</property>
+				<property name="name">traitement</property>
+			</properties>
+		</action>
+
+		<!-- ***********************************************************************
+			Dossier EPG: onglet Traitement papier - Liste des onglets ************* -->
+		<!-- Sous-onglet Références -->
+		<action
+            id="TAB_SOUS_ONGLET_REFERENCES"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.sous.onglet.references"
+        >
+			<category>TRAITEMENT_PAPIER_SOUS_ONGLET</category>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/traitementpapier/onglet-references
+				</property>
+				<property name="fragmentName">ongletReferences</property>
+				<property name="script">doDossierSauvegardeModale(event,chargeSousOngletTraitementPapier, 'references',this)</property>
+				<property name="name">references</property>
+			</properties>
+		</action>
+
+		<!-- Sous-onglet Bordereaux et courriers -->
+		<action
+            id="TAB_SOUS_ONGLET_BORDEREAUX_COURRIERS"
+            enabled="true"
+            order="2"
+            label="dossier.traitement.papier.sous.onglet.bordereaux.courriers"
+        >
+			<category>TRAITEMENT_PAPIER_SOUS_ONGLET</category>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/traitementpapier/onglet-bordereaux-courriers
+				</property>
+				<property name="fragmentName">ongletBordereauxCourriers</property>
+				<property name="script">doDossierSauvegardeModale(event,chargeSousOngletTraitementPapier, 'bordereau',this)</property>
+				<property name="name">bordereau</property>
+			</properties>
+		</action>
+
+		<!-- Sous-onglet Communication -->
+		<action
+            id="TAB_SOUS_ONGLET_COMMUNICATION"
+            enabled="true"
+            order="3"
+            label="dossier.traitement.papier.sous.onglet.communication"
+        >
+			<category>TRAITEMENT_PAPIER_SOUS_ONGLET</category>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/traitementpapier/onglet-communication
+				</property>
+				<property name="fragmentName">ongletCommunication</property>
+				<property
+                    name="script"
+                >doDossierSauvegardeModale(event, chargeSousOngletTraitementPapier, 'communication',this)</property>
+				<property name="name">communication</property>
+			</properties>
+		</action>
+
+        <!-- Sous-onglet Signature -->
+		<action id="TAB_SOUS_ONGLET_SIGNATURE" enabled="true" order="4" label="dossier.traitement.papier.sous.onglet.signature">
+			<category>TRAITEMENT_PAPIER_SOUS_ONGLET</category>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/traitementpapier/onglet-signature
+				</property>
+				<property name="fragmentName">ongletSignature</property>
+				<property name="script">doDossierSauvegardeModale(event, chargeSousOngletTraitementPapier,'signature',this)</property>
+				<property name="name">signature</property>
+			</properties>
+            <filter-id>isNotRapportAuParlement</filter-id>
+		</action>
+
+        <!-- Sous-onglet Retour -->
+		<action id="TAB_SOUS_ONGLET_RETOUR" enabled="true" order="5" label="dossier.traitement.papier.sous.onglet.retour">
+			<category>TRAITEMENT_PAPIER_SOUS_ONGLET</category>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/traitementpapier/onglet-retour
+				</property>
+				<property name="fragmentName">ongletRetour</property>
+				<property name="script">doDossierSauvegardeModale(event, chargeSousOngletTraitementPapier,'retour',this)</property>
+				<property name="name">retour</property>
+			</properties>
+            <filter-id>isNotRapportAuParlement</filter-id>
+		</action>
+
+        <!-- Sous-onglet Epreuves -->
+		<action id="TAB_SOUS_ONGLET_EPREUVES" enabled="true" order="6" label="dossier.traitement.papier.sous.onglet.epreuves">
+			<category>TRAITEMENT_PAPIER_SOUS_ONGLET</category>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/onglets/traitementpapier/onglet-epreuves
+				</property>
+				<property name="fragmentName">ongletEpreuves</property>
+				<property name="script">doDossierSauvegardeModale(event, chargeSousOngletTraitementPapier,'epreuves',this)</property>
+				<property name="name">epreuves</property>
+			</properties>
+            <filter-id>isNotRapportAuParlement</filter-id>
+            <filter-id>isNotActeTexteNonPublie</filter-id>
+		</action>
+
+		<!-- Sous-onglet Publication -->
+        <action
+            id="TAB_SOUS_ONGLET_PUBLICATION"
+            enabled="true"
+            order="7"
+            label="dossier.traitement.papier.sous.onglet.publication"
+        >
+            <category>TRAITEMENT_PAPIER_SOUS_ONGLET</category>
+            <properties>
+                <property name="fragmentFile">fragments/dossier/onglets/traitementpapier/onglet-publication
+                </property>
+                <property name="fragmentName">ongletPublication</property>
+                <property
+                    name="script"
+                >doDossierSauvegardeModale(event,chargeSousOngletTraitementPapier,'publication',this)</property>
+                <property name="name">publication</property>
+            </properties>
+            <filter-id>isNotRapportAuParlement</filter-id>
+            <filter-id>isNotActeTexteNonPublie</filter-id>
+        </action>
+
+        <!-- Sous-onglet Ampliation -->
+        <action
+            id="TAB_SOUS_ONGLET_AMPLIATION"
+            enabled="true"
+            order="8"
+            label="dossier.traitement.papier.sous.onglet.ampliation"
+        >
+            <category>TRAITEMENT_PAPIER_SOUS_ONGLET</category>
+            <properties>
+                <property name="fragmentFile">fragments/dossier/onglets/traitementpapier/onglet-ampliation
+                </property>
+                <property name="fragmentName">ongletAmpliation</property>
+                <property
+                    name="script"
+                >doDossierSauvegardeModale(event,chargeSousOngletTraitementPapier,'ampliation',this)</property>
+                <property name="name">ampliation</property>
+            </properties>
+            <filter-id>isNotRapportAuParlement</filter-id>
+        </action>
+
+		<action
+            id="COMMUNICATION_TABLE_CABINET_PM_AJOUTER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.btn.ajouter"
+            icon="icon--plus"
+        >
+			<category>COMMUNICATION_CABINET_PM_AJOUTER_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-destinataire-add-cabinetPM</property>
+				<property name="function">addDestinataire("cabinetPM")</property>
+                <property name="initJs">initModalAddCabinetPM</property>
+				<property name="positionIcon">gauche</property>
+				<property name="specificClass">base-btn__icon base-btn__icon--vertical-center base-btn__icon--left icon</property>
+			</properties>
+		</action>
+
+		<action
+            id="COMMUNICATION_TABLE_CABINET_PM_MODIFIER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--pen-circle icon--medium"
+        >
+			<category>COMMUNICATION_CABINET_PM_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-destinataire-edit-cabinetPM</property>
+				<property name="function">editDestinataire("cabinetPM")</property>
+				<property name="initJs">initModalDestinataireEdit</property>
+				<property name="paramInitJs">
+					|line=${item.id};id=cabinetPM;destinataire=${item.destinataireCommunication};dateEnvoi=${#calendars.format(item.dateEnvoi,'dd/MM/yyyy')};dateRetour=${#calendars.format(item.dateRetour,'dd/MM/yyyy')};dateRelance=${#calendars.format(item.dateRelance,'dd/MM/yyyy')};sensAvis=${item.sensAvis};objet=${item.objet}|</property>
+                <property name="parameters">|line=${row}|</property>
+			</properties>
+		</action>
+
+		<action
+            id="COMMUNICATION_TABLE_CABINET_PM_SUPPRIMER_ACTION"
+            enabled="true"
+            order="2"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--bin icon--medium"
+        >
+			<category>COMMUNICATION_CABINET_PM_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.traitement.papier.communication.suppression.title</property>
+				<property name="function">removeDestinataire("cabinetPM")</property>
+				<property name="parameters">|idDestinataire=${item.id}|</property>
+			</properties>
+		</action>
+
+        <action
+            id="COMMUNICATION_TABLE_CHARGE_MISSION_AJOUTER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.btn.ajouter"
+            icon="icon--plus"
+        >
+			<category>COMMUNICATION_CHARGE_MISSION_AJOUTER_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-destinataire-add-chargeMission</property>
+				<property name="function">addDestinataire("chargeMission")</property>
+                <property name="initJs">initModalAddChargeMission</property>
+				<property name="positionIcon">gauche</property>
+				<property name="specificClass">base-btn__icon base-btn__icon--vertical-center base-btn__icon--left icon</property>
+			</properties>
+		</action>
+
+		<action
+            id="COMMUNICATION_TABLE_CHARGE_MISSION_MODIFIER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--pen-circle icon--medium"
+        >
+			<category>COMMUNICATION_CHARGE_MISSION_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-destinataire-edit-chargeMission</property>
+				<property name="function">editDestinataire("chargeMission")</property>
+				<property name="initJs">initModalDestinataireEdit</property>
+				<property name="paramInitJs">
+					|line=${item.id};id=chargeMission;destinataire=${item.destinataireCommunication};dateEnvoi=${#calendars.format(item.dateEnvoi,'dd/MM/yyyy')};dateRetour=${#calendars.format(item.dateRetour,'dd/MM/yyyy')};dateRelance=${#calendars.format(item.dateRelance,'dd/MM/yyyy')};sensAvis=${item.sensAvis};objet=${item.objet}|</property>
+                <property name="parameters">|line=${row}|</property>
+			</properties>
+		</action>
+
+		<action
+            id="COMMUNICATION_TABLE_CHARGE_MISSION_SUPPRIMER_ACTION"
+            enabled="true"
+            order="2"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--bin icon--medium"
+        >
+			<category>COMMUNICATION_CHARGE_MISSION_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.traitement.papier.communication.suppression.title</property>
+				<property name="function">removeDestinataire("chargeMission")</property>
+				<property name="parameters">|idDestinataire=${item.id}|</property>
+			</properties>
+		</action>
+
+        <action
+            id="COMMUNICATION_TABLE_AUTRES_AJOUTER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.btn.ajouter"
+            icon="icon--plus"
+        >
+			<category>COMMUNICATION_AUTRES_AJOUTER_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-destinataire-add-autres</property>
+				<property name="function">addDestinataire("autres")</property>
+                <property name="initJs">initModalAddAutres</property>
+				<property name="positionIcon">gauche</property>
+				<property name="specificClass">base-btn__icon base-btn__icon--vertical-center base-btn__icon--left icon</property>
+			</properties>
+		</action>
+
+		<action
+            id="COMMUNICATION_TABLE_AUTRES_MODIFIER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--pen-circle icon--medium"
+        >
+			<category>COMMUNICATION_AUTRES_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-destinataire-edit-autres</property>
+				<property name="function">editDestinataire("autres")</property>
+				<property name="initJs">initModalDestinataireEdit</property>
+				<property name="paramInitJs">
+					|line=${item.id};id=autres;destinataire=${item.destinataireCommunication};dateEnvoi=${#calendars.format(item.dateEnvoi,'dd/MM/yyyy')};dateRetour=${#calendars.format(item.dateRetour,'dd/MM/yyyy')};dateRelance=${#calendars.format(item.dateRelance,'dd/MM/yyyy')};sensAvis=${item.sensAvis};objet=${item.objet}|</property>
+                <property name="parameters">|line=${row}|</property>
+			</properties>
+		</action>
+
+		<action
+            id="COMMUNICATION_TABLE_AUTRES_SUPPRIMER_ACTION"
+            enabled="true"
+            order="2"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--bin icon--medium"
+        >
+			<category>COMMUNICATION_AUTRES_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.traitement.papier.communication.suppression.title</property>
+				<property name="function">removeDestinataire("autres")</property>
+				<property name="parameters">|idDestinataire=${item.id}|</property>
+			</properties>
+		</action>
+
+        <action
+            id="COMMUNICATION_TABLE_CABINET_SG_AJOUTER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.btn.ajouter"
+            icon="icon--plus"
+        >
+			<category>COMMUNICATION_CABINET_SG_AJOUTER_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-destinataire-add-cabinetSG</property>
+				<property name="function">addDestinataire("cabinetSG")</property>
+                <property name="initJs">initModalAddCabinetSG</property>
+				<property name="positionIcon">gauche</property>
+				<property name="specificClass">base-btn__icon base-btn__icon--vertical-center base-btn__icon--left icon</property>
+			</properties>
+		</action>
+
+		<action
+            id="COMMUNICATION_TABLE_CABINET_SG_MODIFIER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--pen-circle icon--medium"
+        >
+			<category>COMMUNICATION_CABINET_SG_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-destinataire-edit-cabinetSG</property>
+				<property name="function">editDestinataire("cabinetSG")</property>
+				<property name="initJs">initModalDestinataireEdit</property>
+				<property name="paramInitJs">
+					|line=${item.id};id=cabinetSG;destinataire=${item.destinataireCommunication};dateEnvoi=${#calendars.format(item.dateEnvoi,'dd/MM/yyyy')};dateRetour=${#calendars.format(item.dateRetour,'dd/MM/yyyy')};dateRelance=${#calendars.format(item.dateRelance,'dd/MM/yyyy')};sensAvis=${item.sensAvis};objet=${item.objet}|</property>
+                <property name="parameters">|line=${row}|</property>
+			</properties>
+		</action>
+
+		<action
+            id="COMMUNICATION_TABLE_CABINET_SG_SUPPRIMER_ACTION"
+            enabled="true"
+            order="2"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--bin icon--medium"
+        >
+			<category>COMMUNICATION_CABINET_SG_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">dossier.traitement.papier.communication.suppression.title</property>
+				<property name="function">removeDestinataire("cabinetSG")</property>
+				<property name="parameters">|idDestinataire=${item.id}|</property>
+			</properties>
+		</action>
+
+		<!-- ***********************************************************************
+			Dossier EPG: Onglet Document
+			Actions
+			*********************************************************************** -->
+
+		<!-- Actions Parapheur-->
+		<action
+            id="PARAPHEUR_EXPORT"
+            label="dossier.onglet.document.button.downloadParapheur"
+            link="|/dossier/${dossierId}/document/parapheur/export|"
+            enabled="true"
+            order="20"
+            icon="icon--download"
+        >
+	    </action>
+
+		<action
+            id="ADD_DOCUMENT_PARAPHEUR"
+            enabled="true"
+            order="10"
+            label="dossier.onglet.document.button.addDocument"
+            icon="icon--add"
+        >
+			<category>PARAPHEUR_FOLDER_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-add-document</property>
+				<property name="function">doAddDocumentParapheur(this)</property>
+				<property name="parameters">|groupId=${folder.id}|</property>
+                <property name="initJs">initAddDocModale</property>
+                <property name="paramInitJs">${folder.acceptedFileTypes}</property>
+			</properties>
+			<filter-id>canUserUpdateParapheur</filter-id>
+		</action>
+
+		<action
+				id="COUPER_DOCUMENT_PARAPHEUR"
+				enabled="true"
+				order="60"
+				label="dossier.onglet.document.button.couper"
+				icon="icon--plus-circle"
+				link="javascript:cutFolderFile(this)"
+		>
+			<category>PARAPHEUR_FILE_ACTIONS</category>
+			<filter-id>canUserUpdateParapheur</filter-id>
+		</action>
+
+		<action
+				id="COLLER_DOCUMENT_PARAPHEUR"
+				enabled="true"
+				order="30"
+				label="dossier.onglet.document.button.coller"
+				icon="icon--add"
+				link="javascript:pasteFolderFile(this)"
+		>
+			<category>PARAPHEUR_FOLDER_ACTIONS</category>
+			<filter-id>canUserUpdateParapheur</filter-id>
+			<filter-id>isFileCut</filter-id>
+		</action>
+
+		<action
+            id="RENAME_DOCUMENT_PARAPHEUR"
+            enabled="true"
+            order="10"
+            label="dossier.onglet.document.button.rename"
+            icon="icon--pen-circle"
+        >
+			<category>PARAPHEUR_FILE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-renommer-document</property>
+				<property name="parameters">|documentId=${doc.id}|</property>
+				<property name="initJs">initRenameModale</property>
+				<property name="paramInitJs">|${doc.nom};${doc.extension}|</property>
+			</properties>
+			<filter-id>canUserUpdateParapheur</filter-id>
+		</action>
+
+		<action
+            id="NEW_VERSION_DOCUMENT_PARAPHEUR"
+            enabled="true"
+            order="20"
+            label="dossier.onglet.document.button.newVersion"
+            icon="icon--plus-circle"
+            link="javascript:alert('to do');"
+        >
+			<category>PARAPHEUR_FILE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls" />
+				<property name="parameters">|documentId=${doc.id}|</property>
+			</properties>
+			<filter-id>canUserUpdateParapheur</filter-id>
+		</action>
+
+		<action
+				id="COUPER_DOCUMENT_FDD"
+				enabled="true"
+				order="60"
+				label="dossier.onglet.document.button.couper"
+				icon="icon--plus-circle"
+				link="javascript:cutFolderFile(this)"
+		>
+			<category>FOND_DOSSIER_FILE_ACTIONS</category>
+			<filter-id>canUserUpdateFdd</filter-id>
+		</action>
+
+		<action
+				id="COLLER_DOCUMENT_FDD"
+				enabled="true"
+				order="30"
+				label="dossier.onglet.document.button.coller"
+				icon="icon--add"
+				link="javascript:pasteFolderFile(this)"
+		>
+			<category>FOND_DOSSIER_FOLDER_ACTIONS</category>
+			<filter-id>canUserUpdateFdd</filter-id>
+			<filter-id>isFileCut</filter-id>
+		</action>
+
+		<action
+            id="VIEW_HISTORY_DOCUMENT_PARAPHEUR"
+            enabled="true"
+            order="30"
+            label="dossier.onglet.document.button.history"
+            icon="icon--info-circle"
+        >
+			<category>PARAPHEUR_FILE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+                <property name="dataControls">modal-history-version-document</property>
+                <property name="initJs">initHistoryDocModale</property>
+                <property name="paramInitJs">${doc.id}</property>
+			</properties>
+		</action>
+
+		<action
+            id="DELETE_DOCUMENT_PARAPHEUR"
+            enabled="true"
+            order="40"
+            label="button.label.supprimer"
+            icon="icon--times-circle"
+        >
+			<category>PARAPHEUR_FILE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-suppression-document</property>
+				<property name="parameters">|documentIdToDelete=${doc.id}|</property>
+				<property name="function">doDeleteDocumentParapheur(false)</property>
+				<property name="initJs">initDeleteDocumentModale</property>
+				<property name="paramInitJs">'doDeleteDocumentParapheur(true)'</property>
+             </properties>
+			<filter-id>canUserUpdateParapheur</filter-id>
+		</action>
+
+		<action
+            id="NEW_VERSION_DOCUMENT_PARAPHEUR"
+            enabled="true"
+            order="20"
+            label="dossier.onglet.document.button.newVersion"
+            icon="icon--plus-circle"
+        >
+            <category>PARAPHEUR_FILE_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">modal-new-version-document</property>
+                <property
+                    name="parameters"
+                >|documentId=${doc.id};folderId=${folder.id};origineSource=${sourceParapheur}|</property>
+                <property name="initJs">cleanAllPreviousErrorOrSuccess</property>
+            </properties>
+            <filter-id>canUserUpdateParapheur</filter-id>
+        </action>
+
+		<!-- Actions Fond de dossier-->
+		<action
+            id="FOND_DOSSIER_EXPORT"
+            label="fondDossier.action.compress"
+            link="|/dossier/${dossierId}/document/fond/export|"
+            enabled="true"
+            order="20"
+            icon="icon--download"
+        >
+	    </action>
+
+		<action
+            id="ADD_DOCUMENT_FDD"
+            enabled="true"
+            order="10"
+            label="dossier.onglet.document.button.addDocument"
+            icon="icon--add"
+        >
+			<category>FOND_DOSSIER_FOLDER_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-add-document</property>
+				<property name="function">doAddDocumentFondDeDossier(this)</property>
+				<property name="parameters">|groupId=${folder.id}|</property>
+                <property name="initJs">initAddDocModale</property>
+                 <property name="paramInitJs">${fondDto.acceptedFileTypes}</property>
+            </properties>
+			<filter-id>canUserUpdateFdd</filter-id>
+		</action>
+
+		<action
+            id="ADD_REPERTOIRE_FDD"
+            enabled="true"
+            order="20"
+            label="dossier.onglet.document.button.addFolder"
+            icon="icon--add"
+            link="javascript:addFddFolder(this)"
+        >
+			<category>FOND_DOSSIER_FOLDER_ACTIONS</category>
+			<filter-id>canUserUpdateFdd</filter-id>
+		</action>
+
+        <action
+            id="EDIT_REPERTOIRE_FDD"
+            enabled="true"
+            order="50"
+            label="dossier.onglet.document.button.renameFolder"
+            icon="icon--pen-circle"
+            link="javascript:editFddFolder(this)"
+        >
+            <category>FOND_DOSSIER_FOLDER_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">modal-edition-repertoire</property>
+                <property name="parameters">|folderId=${folder.id}|</property>
+                <property name="initJs">initEditFolderModale</property>
+                <property name="paramInitJs">${folder.nom}</property>
+             </properties>
+            <filter-id>canUserUpdateFdd</filter-id>
+            <filter-id>isFddDeletable</filter-id>
+        </action>
+
+        <action
+            id="DELETE_REPERTOIRE_FDD"
+            enabled="true"
+            order="60"
+            label="dossier.onglet.document.button.deleteFolder"
+            icon="icon--times-circle"
+        >
+            <category>FOND_DOSSIER_FOLDER_ACTIONS</category>
+            <properties>
+		        <property name="actionType">modal</property>
+		        <property name="dataControls">modal-suppression-repertoire</property>
+		        <property name="parameters">|folderIdToDelete=${folder.id}|</property>
+                <property name="initJs">initDeleteFolderModale</property>
+                <property name="paramInitJs">${folder.nom}</property>
+             </properties>
+            <filter-id>canUserUpdateFdd</filter-id>
+            <filter-id>isFddDeletable</filter-id>
+        </action>
+
+		<action
+            id="RENAME_DOCUMENT_FDD"
+            enabled="true"
+            order="10"
+            label="dossier.onglet.document.button.rename"
+            icon="icon--pen-circle"
+        >
+			<category>FOND_DOSSIER_FILE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-renommer-document</property>
+ 				<property name="parameters">|documentId=${doc.id}|</property>
+                <property name="initJs">initRenameModale</property>
+                <property name="paramInitJs">|${doc.nom};${doc.extension}|</property>
+			</properties>
+			<filter-id>canUserUpdateFdd</filter-id>
+		</action>
+
+		<action
+            id="NEW_VERSION_DOCUMENT_FDD"
+            enabled="true"
+            order="20"
+            label="dossier.onglet.document.button.newVersion"
+            icon="icon--plus-circle"
+        >
+			<category>FOND_DOSSIER_FILE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+                <property name="dataControls">modal-new-version-document</property>
+                <property
+                    name="parameters"
+                >|documentId=${doc.id};folderId=${folder.id};origineSource=${sourceFondDossier}|</property>
+                <property name="initJs">cleanAllPreviousErrorOrSuccess</property>
+			</properties>
+			<filter-id>canUserUpdateFdd</filter-id>
+		</action>
+
+		<action
+            id="VIEW_HISTORY_DOCUMENT_FDD"
+            enabled="true"
+            order="30"
+            label="dossier.onglet.document.button.history"
+            icon="icon--info-circle"
+        >
+			<category>FOND_DOSSIER_FILE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-history-version-document</property>
+				<property name="initJs">initHistoryDocModale</property>
+				<property name="paramInitJs">${doc.id}</property>
+			</properties>
+		</action>
+
+		<action id="DELETE_DOCUMENT_FDD" enabled="true" order="40" label="button.label.supprimer" icon="icon--times-circle">
+			<category>FOND_DOSSIER_FILE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-suppression-document</property>
+				<property name="parameters">|documentIdToDelete=${doc.id}|</property>
+				<property name="function">doDeleteDocumentFondDeDossier(false)</property>
+				<property name="initJs">initDeleteDocumentModale</property>
+				<property name="paramInitJs">'doDeleteDocumentFondDeDossier(true)'</property>
+             </properties>
+			<filter-id>canUserUpdateFdd</filter-id>
+		</action>
+
+        <!-- Vérifie si on peut éditer les documents du dossier -->
+        <action
+            id="EDITE_DOCUMENT_PARAPHEUR"
+            link="javascript:openEdit(event, '${doc.id}', '${doc.fullName}')"
+            order="50"
+            label="file.edit.online"
+            icon="icon--edit"
+        >
+            <category>FOND_DOSSIER_FILE_ACTIONS_EDITION</category>
+            <filter-id>canUserUpdateParapheur</filter-id>
+            <filter-id>solonEditAvailable</filter-id>
+        </action>
+
+        <!-- Vérifie si on peut éditer les documents du dossier -->
+        <action
+            id="EDITE_DOCUMENT_FDD"
+            link="javascript:openEdit(event, '${doc.id}', '${doc.fullName}')"
+            order="50"
+            label="file.edit.online"
+            icon="icon--edit"
+        >
+            <category>FOND_DOSSIER_FILE_ACTIONS_EDITION</category>
+            <filter-id>canUserUpdateFdd</filter-id>
+            <filter-id>solonEditAvailable</filter-id>
+        </action>
+
+        <!-- Appliquer le nouveau gouvernement à SOLON EPP -->
+        <action
+            id="APPLY_NEW_GOUV_EPP"
+            link="javascript:appliquerNouveauGouvernementEpp()"
+            enabled="true"
+            order="3"
+            type="secondary"
+            label="organigramme.manage.menu.apply.gouvernement.epp"
+            icon=""
+        >
+            <category>ORGANIGRAMME_MAIN_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+        </action>
+
+        <!-- Appliquer le nouveau gouvernement à SOLON EPG -->
+        <action
+            id="APPLY_NEW_GOUV_EPG"
+            link="javascript:appliquerNouveauGouvernementEpg()"
+            enabled="true"
+            order="4"
+            type="primary"
+            href="#"
+            label="organigramme.manage.menu.apply.gouvernement.epg"
+            icon=""
+        >
+            <category>ORGANIGRAMME_MAIN_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+        </action>
+
+	    <action
+            id="INJECTION_GOUV_EXPORT"
+            link="javascript:exportInjectionNewGouv()"
+            enabled="true"
+            order="1"
+            label="label.gouvernement.import.exportPDF"
+            icon="icon icon--download icon--big"
+        >
+        </action>
+
+        <!-- Copie de ministère ou d'unité structurelle -->
+        <action
+            id="COPY_NODE_MINISTERE_US"
+            link="javascript:organigrammeCopyNode(this);"
+            enabled="true"
+            order="6"
+            label="organigramme.manage.menu.copy"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isUniteStructurelle</filter-id>
+        </action>
+
+        <!-- Action coller Unité Structurelle copiée sans utilisateurs -->
+        <action
+            id="PASTE_US_WITHOUT_USER"
+            link="javascript:organigrammePasteNode(this,false);"
+            enabled="true"
+            order="12"
+            label="organigramme.manage.menu.pasteWithoutUser"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+            <filter-id>isNodeSelectedForCopy</filter-id>
+            <filter-id>isMinistereOrUniteStructurelle</filter-id>
+            <filter-id>isUniteStructurelleCopied</filter-id>
+        </action>
+
+        <!-- Action coller Unité Structurelle copiée avec utilisateurs -->
+        <action
+            id="PASTE_US_WITH_USERS"
+            link="javascript:organigrammePasteNode(this,true);"
+            enabled="true"
+            order="14"
+            label="organigramme.manage.menu.pasteWithUsers"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+            <filter-id>isNodeSelectedForCopy</filter-id>
+            <filter-id>isMinistereOrUniteStructurelle</filter-id>
+            <filter-id>isUniteStructurelleCopied</filter-id>
+        </action>
+
+        <!-- Action coller entité/ministère copié sans utilisateurs -->
+        <action
+            id="PASTE_ENTITY_WITHOUT_USER"
+            link="javascript:organigrammePasteNode(this,false);"
+            enabled="true"
+            order="15"
+            label="organigramme.manage.menu.pasteWithoutUser"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+            <filter-id>isNodeSelectedForCopy</filter-id>
+            <filter-id>isGouvernement</filter-id>
+            <filter-id>isMinistereCopied</filter-id>
+        </action>
+
+        <!-- Action coller entité/ministère copié avec utilisateurs -->
+        <action
+            id="PASTE_ENTITY_WITH_USERS"
+            link="javascript:organigrammePasteNode(this,true);"
+            enabled="true"
+            order="20"
+            label="organigramme.manage.menu.pasteWithUsers"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+            <filter-id>isNodeSelectedForCopy</filter-id>
+            <filter-id>isGouvernement</filter-id>
+            <filter-id>isMinistereCopied</filter-id>
+        </action>
+
+        <!-- Duplication du poste copié sans utilisateurs -->
+        <action
+            id="PASTE_NODE_WITHOUT_USER"
+            link="javascript:organigrammePasteNode(this,false);"
+            enabled="true"
+            order="16"
+            label="organigramme.manage.menu.pasteWithoutUser"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+            <filter-id>isUniteStructurelle</filter-id>
+            <filter-id>isNodeSelectedForCopy</filter-id>
+            <filter-id>isPosteCopied</filter-id>
+        </action>
+
+        <!-- Duplication du poste copié avec utilisateurs -->
+        <action
+            id="PASTE_NODE_WITH_USERS"
+            link="javascript:organigrammePasteNode(this,true);"
+            enabled="true"
+            order="17"
+            label="organigramme.manage.menu.pasteWithUsers"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+            <filter-id>isUniteStructurelle</filter-id>
+            <filter-id>isNodeSelectedForCopy</filter-id>
+            <filter-id>isPosteCopied</filter-id>
+        </action>
+
+        <!-- Action coller direction copiée sans utilisateurs -->
+        <action
+            id="PASTE_DIRECTION_WITHOUT_USER"
+            link="javascript:organigrammePasteNode(this,false);"
+            enabled="true"
+            order="12"
+            label="organigramme.manage.menu.pasteWithoutUser"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+            <filter-id>isNodeSelectedForCopy</filter-id>
+            <filter-id>isMinistere</filter-id>
+            <filter-id>isDirectionCopied</filter-id>
+        </action>
+
+        <!-- Action coller direction copiée avec utilisateurs -->
+        <action
+            id="PASTE_DIRECTION_WITH_USERS"
+            link="javascript:organigrammePasteNode(this,true);"
+            enabled="true"
+            order="14"
+            label="organigramme.manage.menu.pasteWithUsers"
+            icon=""
+        >
+            <category>ORGANIGRAMME_ACTIONS</category>
+            <filter-id>allowUpdateOrganigramme</filter-id>
+            <filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+            <filter-id>isNodeSelectedForCopy</filter-id>
+            <filter-id>isMinistere</filter-id>
+            <filter-id>isDirectionCopied</filter-id>
+        </action>
+
+        <!-- Actions génériques sur l'organigramme -->
+        <action
+            id="CONFIRM_IMPORT_GOUVERNEMENT"
+            enabled="true"
+            order="1"
+            label="ss.organigramme.injection.import.confirm"
+            icon=""
+        >
+            <category>GOUVERNEMENT_IMPORT_MAIN_ACTION</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">gouvernement.import.popup.title</property>
+                <property name="message">gouvernement.import.preview.confirmimport
+                </property>
+                <property name="messageParam">#{intitule}</property>
+                <property name="function">doImporterGouvernement()</property>
+            </properties>
+        </action>
+        <action
+            id="CONFIRM_IMPORT_GOUVERNEMENT_EPP"
+            enabled="true"
+            order="1"
+            label="ss.organigramme.injection.import.confirm"
+            icon=""
+        >
+            <category>GOUVERNEMENT_IMPORT_MAIN_ACTION</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">gouvernement.import.popup.title</property>
+                <property name="message">gouvernement.import.preview.confirmimport
+                </property>
+                <property name="messageParam">#{intitule}</property>
+                <property name="function">doImporterGouvernementEpp()</property>
+            </properties>
+        </action>
+
+		<!-- Archivage ADAMANT : demande d'extraction -->
+		<action
+            id="DEMANDE_EXTRACTION"
+            link="javascript:demandeExtraction();"
+            enabled="true"
+            order="1"
+            label="archivage.adamant.demander.extraction.button"
+            icon=""
+        >
+            <category>ARCHIVAGE_ADAMANT</category>
+			<filter-id>accessAdamantAuthorized</filter-id>
+        </action>
+
+        <!-- Actions Recherche Experte -->
+		<action
+            id="create-alert-experte-button"
+            link="javascript:createAlert(this);"
+            enabled="true"
+            order="0"
+            label="requete.experte.creer.label"
+            icon=""
+        >
+			<category>RECHERCHE_EXPERTE_ACTIONS</category>
+			<category>PAN_RECHERCHE_EXPERTE_ACTIONS</category>
+			<properties>
+				<property name="specificClass">base-btn--secondary m-r-2</property>
+			</properties>
+		</action>
+
+		<action
+            id="btn-ajout-favori"
+            link="/recherche/favoris/ajouter?type=experte#main_content"
+            enabled="true"
+            order="1"
+            label="recherche.libre.btn.ajouter.favoris.recherche"
+            icon=""
+        >
+            <category>RECHERCHE_EXPERTE_ACTIONS</category>
+            <properties>
+				<property name="specificClass">base-btn--secondary m-r-2</property>
+			</properties>
+        </action>
+        <action
+            id="btn-create-td"
+            link="/suivi/tableaux/creer?type=experte#main_content"
+            type="link"
+            enabled="true"
+            order="2"
+            label="recherche.libre.btn.ajouter.tableaux.dynamiques"
+            icon=""
+        >
+			<category>RECHERCHE_EXPERTE_ACTIONS</category>
+			<properties>
+				<property name="specificClass">base-btn--secondary</property>
+			</properties>
+		</action>
+     	<!-- Lancement de requete experte -->
+		<action
+            id="launch-requete-button"
+            link="javascript:launchRequete();"
+            enabled="true"
+            order="3"
+            label="requete.experte.lancer.label"
+            icon=""
+        >
+            <category>RECHERCHE_EXPERTE_ACTIONS</category>
+			<category>PAN_RECHERCHE_EXPERTE_ACTIONS</category>
+            <category>MGPP_RECHERCHE_EXPERTE_ACTIONS</category>
+        </action>
+
+        <!-- Batch dossier à supprimer -->
+        <action
+            id="RETIRER_DOSSIERS"
+            link="javascript:retirerList();"
+            enabled="true"
+            order="3"
+            label="admin.delete.dossier.retirer"
+            icon=""
+        >
+            <category>ADMIN_DELETE_DOSSIER_ACTIONS</category>
+            <properties>
+                <property name="classes">base-btn--secondary</property>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+            <filter-id>accessAdminDossierSuppression</filter-id>
+        </action>
+
+        <action
+            id="SUPPRIMER_DOSSIERS"
+            enabled="true"
+            order="2"
+            label="admin.delete.dossier.supprimer.definitivement"
+            icon=""
+        >
+            <category>ADMIN_DELETE_DOSSIER_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">modal-suppression-dossiers</property>
+                <property name="dataInitJs">openModalAdminSuppressionDossier</property>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+            <filter-id>accessAdminDossierSuppression</filter-id>
+        </action>
+
+		<action id="TAB_DOSSIERS_SUPPRIMER_CONSULTATION" enabled="true" order="1" label="admin.delete.dossier.tab.consulter">
+			<category>DOSSIERS_SUPPRIMER_TAB_ACTION_LIST</category>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/dossiers-suppression/onglet
+				</property>
+				<property name="fragmentName">onglet</property>
+				<property name="name">consultation</property>
+				<property name="script">chargeOngletDossiersSupprimer('consultation', this)</property>
+			</properties>
+			<filter-id>isAdminFonctionnelOrMinisteriel</filter-id>
+		</action>
+		<action id="TAB_DOSSIERS_SUPPRIMER_SUIVI" enabled="true" order="2" label="admin.delete.dossier.tab.suivre">
+			<category>DOSSIERS_SUPPRIMER_TAB_ACTION_LIST</category>
+			<properties>
+				<property name="fragmentFile">fragments/dossier/dossiers-suppression/onglet
+				</property>
+				<property name="fragmentName">onglet</property>
+				<property name="name">suivi</property>
+				<property name="script">chargeOngletDossiersSupprimer('suivi', this)</property>
+			</properties>
+			<filter-id>isAdminFonctionnel</filter-id>
+		</action>
+
+        <action id="VALIDER_DOSSIERS" enabled="true" order="1" label="admin.delete.dossier.valider" icon="">
+            <category>ADMIN_DELETE_DOSSIER_ACTIONS</category>
+             <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">authentification-modal</property>
+                <property name="title">admin.delete.dossier.valider.modal.title
+                </property>
+                <property name="message">admin.delete.dossier.valider.modal.authLabel
+                </property>
+                <property name="function">validerList()</property>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+            <filter-id>accessAdminDossierSuppressionValidation</filter-id>
+        </action>
+
+		<!-- actions admin FDD -->
+		<action
+            id="ADMIN_FDD_ADD_IN"
+            enabled="true"
+            order="10"
+            label="admin.fdd.ajouter.dedans"
+            icon=""
+            link="javascript:void(0)"
+        >
+			<category>ADMIN_FDD_ACTIONS</category>
+			<category>ADMIN_FDD_ROOT_ACTIONS</category>
+			<category>ADMIN_FDD_NOEDIT_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">admin-fdd-modal</property>
+				<property name="title">admin.fdd.ajouter.dedans
+				</property>
+				<property name="initJs">initFddModalAddIn</property>
+				<property name="paramInitJs">${item.id}</property>
+				<property name="function">ajouterFdd()</property>
+			</properties>
+			<filter-id>accessAdminDossierFDD</filter-id>
+		</action>
+
+		<action
+            id="ADMIN_FDD_ADD_BEFORE"
+            enabled="true"
+            order="20"
+            label="admin.fdd.ajouter.avant"
+            icon=""
+            link="javascript:void(0)"
+        >
+			<category>ADMIN_FDD_ACTIONS</category>
+			<category>ADMIN_FDD_NOEDIT_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">admin-fdd-modal</property>
+				<property name="title">admin.fdd.ajouter.avant
+				</property>
+				<property name="initJs">initFddModalAddBefore</property>
+				<property name="paramInitJs">${item.id}</property>
+				<property name="function">ajouterFdd()</property>
+			</properties>
+			<filter-id>accessAdminDossierFDD</filter-id>
+		</action>
+
+		<action
+            id="ADMIN_FDD_ADD_AFTER"
+            enabled="true"
+            order="30"
+            label="admin.fdd.ajouter.apres"
+            icon=""
+            link="javascript:void(0)"
+        >
+			<category>ADMIN_FDD_ACTIONS</category>
+			<category>ADMIN_FDD_NOEDIT_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">admin-fdd-modal</property>
+				<property name="title">admin.fdd.ajouter.apres
+				</property>
+				<property name="initJs">initFddModalAddAfter</property>
+				<property name="paramInitJs">${item.id}</property>
+				<property name="function">ajouterFdd()</property>
+			</properties>
+			<filter-id>accessAdminDossierFDD</filter-id>
+		</action>
+
+		<action id="ADMIN_FDD_EDIT" enabled="true" order="40" label="admin.fdd.editer" icon="" link="javascript:void(0)">
+			<category>ADMIN_FDD_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">admin-fdd-modal</property>
+				<property name="title">admin.fdd.editer
+				</property>
+				<property name="initJs">initFddModalEdit</property>
+				<property name="paramInitJs">|id=${item.id};nom=${item.name}|</property>
+				<property name="function">editerFdd()</property>
+			</properties>
+			<filter-id>accessAdminDossierFDD</filter-id>
+		</action>
+
+		<action id="ADMIN_FDD_DELETE" enabled="true" order="50" label="admin.fdd.supprimer" icon="" link="javascript:void(0)">
+			<category>ADMIN_FDD_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">admin.fdd.supprimer.titre</property>
+				<property name="message">admin.fdd.supprimer.message</property>
+				<property name="function">supprimerFdd()</property>
+				<property name="parameters">|ref=${item.id}|</property>
+			</properties>
+			<filter-id>accessAdminDossierFDD</filter-id>
+		</action>
+
+        <action
+            id="ENREGISTRER_PARAPHEURS"
+            link="javascript:enregistrerParapheurs();"
+            enabled="true"
+            order="1"
+            label="button.label.save"
+            icon=""
+        >
+            <category>ADMIN_PARAPHEURS_ACTIONS</category>
+            <filter-id>accessAdminDossierParapheur</filter-id>
+            <properties>
+                <property name="disabled">true</property>
+            </properties>
+        </action>
+
+        <action
+            id="EDITER_PARAPHEURS"
+            link="javascript:editerParapheurs();"
+            enabled="true"
+            order="1"
+            label="admin.parapheurs.form.editer"
+            icon=""
+        >
+            <category>ADMIN_EDIT_PARAPHEURS_ACTIONS</category>
+            <filter-id>accessAdminDossierParapheur</filter-id>
+            <properties>
+                <property name="classes">m-l-1</property>
+            </properties>
+        </action>
+
+        <!-- Archivage dossier intermediaire-->
+        <action
+            id="ARCHIVAGE_RETIRER_DOSSIERS"
+            enabled="true"
+            order="2"
+            label="admin.archivage.dossier.retirer"
+            icon=""
+        >
+            <category>ADMIN_ARCHIVAGE_DOSSIER_ACTIONS</category>
+            <properties>
+                <property name="classes">base-btn--secondary</property>
+                <property name="specificClass">action-table-selection</property>
+                <property name="actionType">modal</property>
+                <property name="dataControls">archivage-retirer-modal</property>
+            </properties>
+            <filter-id>accessAdminArchivageIntermediaire</filter-id>
+        </action>
+
+        <action
+            id="ARCHIVAGE_VALIDER_DOSSIERS"
+            enabled="true"
+            order="1"
+            label="admin.archivage.dossier.valider"
+            icon=""
+        >
+            <category>ADMIN_ARCHIVAGE_DOSSIER_ACTIONS</category>
+             <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">authentification-modal</property>
+                <property name="title">admin.archivage.dossier.valider.modal.title
+                </property>
+                <property name="message">admin.archivage.dossier.valider.modal.authLabel
+                </property>
+                <property name="function">archivageValiderList()</property>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+            <filter-id>accessAdminArchivageIntermediaire</filter-id>
+        </action>
+
+        <!-- Dossiers vers archivage définitif supprimer -->
+        <action
+            id="RETIRER_DOSSIERS_VERS_ARCHIVAGE_DEFINITIF"
+            enabled="true"
+            order="3"
+            label="message.archivage.definitive.button.retirer.label"
+            icon=""
+        >
+            <category>ADMIN_ARCHIVAGE_DEFINITIF_DOSSIER_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="classes">base-btn--secondary</property>
+                <property name="specificClass">action-table-selection</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">message.archivage.definitive.modal.confirm.title
+				</property>
+				<property name="message">message.archivage.definitive.modal.confirm.content
+				</property>
+				<property name="function">retirerDossiersArchivageDefinitif()</property>
+            </properties>
+            <filter-id>accessAdminDossierArchivageDefinitif</filter-id>
+        </action>
+
+        <action
+            id="GENERER_ARCHIVE"
+            link="javascript:genererArchive()"
+            enabled="true"
+            order="1"
+            label="message.archivage.definitive.button.archiver.label"
+            icon=""
+        >
+            <category>ADMIN_ARCHIVAGE_DEFINITIF_DOSSIER_ACTIONS</category>
+            <filter-id>accessAdminDossierArchivageDefinitif</filter-id>
+            <filter-id>isAdminFonctionnel</filter-id>
+        </action>
+
+        <!-- Admin dossier à abandonner -->
+        <action
+            id="RETIRER_DOSSIERS_ABANDON"
+            link="javascript:retirerDossierAbandon();"
+            enabled="true"
+            order="3"
+            label="admin.abandon.dossier.retirer"
+        >
+            <category>ADMIN_ABANDON_DOSSIER_ACTIONS</category>
+            <properties>
+                <property name="classes">base-btn--secondary</property>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+            <filter-id>accessAdminDossierAbandon</filter-id>
+        </action>
+
+        <!--  SUIVI ALERTES -->
+        <action
+            id="CREER_ALERTE_PERSO"
+            link="javascript:createAlert(this)"
+            enabled="true"
+            order="3"
+            label="suivi.creer.alerte.label"
+            icon=""
+        >
+        	<category>SUIVI_ALERTE_ACTIONS</category>
+    	</action>
+
+	    <!-- Favoris consultation-->
+
+    	<action
+            id="RETIRER_DOSSIER_FAVORIS"
+            link="javascript:removeDossierToFavorite();"
+            enabled="true"
+            order="1"
+            label="action.button.label.remove.dossier.favori"
+            icon="icon--heart-bubble-times"
+        >
+            <category>FAVORIS_DOSSIERS_ACTIONS</category>
+             <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+        <action
+            id="AJOUTER_FDR_OUTIL_SELECTION"
+            link="javascript:addSelectedFdrToSelectionTool()"
+            enabled="true"
+            order="1"
+            label="action.button.label.add.selection.tool"
+            icon="icon--clipboard-bubble-plus"
+        >
+            <category>RETRAIT_FAVORIS_FDR_ACTIONS</category>
+			<filter-id>accessAdminFdrRecherche</filter-id>
+             <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+        <action
+            id="RETIRER_FDR_FAVORIS"
+            link="javascript:removeFdrToFavorite();"
+            enabled="true"
+            order="1"
+            label="action.button.label.remove.fdr.favori"
+            icon="icon--heart-bubble-times"
+        >
+            <category>FAVORIS_FDR_ACTIONS</category>
+             <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+        <action
+            id="AJOUTER_FDR_TO_FAVORIS_RECHERCHE"
+            link="javascript:addFdrToFavoriRecherche();"
+            enabled="true"
+            order="2"
+            label="admin.modele.rechercher.button.addFavori"
+            icon="icon--big icon--heart"
+        >
+            <category>FAVORIS_RECHERCHE_FDR_ACTIONS</category>
+             <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+         <action
+            id="RETIRER_UTILISATEUR_FAVORIS"
+            link="javascript:removeUserToFavorite();"
+            enabled="true"
+            order="1"
+            label="action.button.label.remove.utilisateur.favori"
+            icon="icon--heart-bubble-times"
+        >
+            <category>FAVORIS_UTILISATEUR_ACTIONS</category>
+             <properties>
+                <property name="specificClass">action-table-selection</property>
+            </properties>
+        </action>
+
+		<!-- Action créer un squelette de fdr / primaire -->
+		<action
+            id="TAB_SQUELETTE_CREATION"
+            enabled="true"
+            order="10"
+            label="admin.squelettes.action.creer"
+            type="primary"
+            icon="icon--add"
+            link="/admin/fdr/squelette/creation#main_content"
+        >
+			<category>SQUELETTES_ACTIONS</category>
+			<filter-id>accessAdminFdrSquelette</filter-id>
+		</action>
+
+		<action id="SUPPRIMER_MASS_MODELE_FDR" enabled="true" order="10" label="action.button.label.supprimer" icon="icon--bin">
+			<category>MODELE_FDR_MASS_ACTIONS</category>
+            <filter-id>accessAdminFdrRecherche</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">modeleFDR.action.supprimer.mass.title
+				</property>
+				<property name="message">modeleFDR.action.supprimer.mass.message
+				</property>
+				<property name="function">doDeleteModeleMass()</property>
+                <property name="specificClass">action-table-selection</property>
+			</properties>
+		</action>
+
+		<!-- Action modifier un squelette de fdr -->
+		<action
+            id="TAB_SQUELETTE_MODIFICATION"
+            enabled="true"
+            order="10"
+            label="admin.parametres.action.modifier"
+            link="|/admin/fdr/squelette/modifier?id=${item.id}#main_content|"
+            icon="icon--pen-circle"
+        >
+			<category>SQUELETTE_ACTIONS</category>
+			<filter-id>isNotLockByAnotherUser</filter-id>
+			<filter-id>accessAdminFdrSquelette</filter-id>
+			<filter-id>isEtatSqueletteValidee</filter-id>
+		</action>
+
+		<!-- Action supprimer un squelette de fdr -->
+		<action
+            id="TAB_SQUELETTE_SUPPRIMER"
+            enabled="true"
+            order="20"
+            label="admin.modele.action.supprimer"
+            icon="icon--times-circle"
+        >
+			<category>SQUELETTE_ACTIONS</category>
+			<filter-id>accessAdminFdrSquelette</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">admin.squelette.action.supprimer.title
+				</property>
+				<property name="message">admin.squelette.action.supprimer.confirm.message
+				</property>
+				<property name="messageParam">##{intitule}</property>
+				<property name="function">doSupprimerSquelette()</property>
+				<property name="parameters">|idSquelette=${item.id}|</property>
+			</properties>
+		</action>
+
+		<!-- Action dupliquer un squelette de fdr -->
+		<action
+            id="TAB_SQUELETTE_DUPLIQUER"
+            link="|/admin/fdr/squelette/dupliquer?id=${item.id}|"
+            enabled="true"
+            order="30"
+            label="admin.modele.action.dupliquer"
+            icon="icon--copy"
+        >
+			<category>SQUELETTE_ACTIONS</category>
+			<filter-id>accessAdminFdrSquelette</filter-id>
+		</action>
+		<!-- Action pour supprimer un ou plusieurs favoris de recherche -->
+		<action
+            id="SUPPRIMER_FAVORIS_RECHERCHE"
+            enabled="true"
+            order="1"
+            label="recherche.favoris.supprimer"
+            icon="icon--heart-bubble-times"
+        >
+			<category>FAVORIS_TOOL_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">recherche.favoris.supprimer.dialog.title
+				</property>
+				<property name="message">recherche.favoris.supprimer.dialog.message
+				</property>
+				<property name="function">doSupprimerFavorisRecherche()</property>
+				<property name="specificClass">action-table-selection</property>
+			</properties>
+		</action>
+
+		<!-- Action retour à la liste des squelettes / tertiaire -->
+		<action
+            id="SQUELETTE_RETOUR"
+            enabled="true"
+            order="10"
+            label="admin.modele.action.retourListe"
+            type="tertiary"
+            icon=" "
+            link="javascript:doRetourListSquelettes()"
+        >
+			<category>SQUELETTE_LEFT_ACTIONS</category>
+		</action>
+
+		<!-- Action libérer le verrou / primaire -->
+		<action
+            id="SQUELETTE_UNLOCK"
+            enabled="true"
+            order="20"
+            label="admin.modele.action.unlock"
+            type="primary"
+            icon=" "
+            link="javascript:doUnlockSquelette()"
+        >
+			<category>SQUELETTE_RIGHT_ACTIONS</category>
+			<filter-id>accessAdminFdrSquelette</filter-id>
+			<filter-id>isSqueletteLockByOtherUser</filter-id>
+			<filter-id>isAdminFonctionnel</filter-id>
+		</action>
+
+		<!-- Action valider modele / primaire -->
+		<action
+            id="SQUELETTE_VALIDER"
+            enabled="true"
+            order="50"
+            label="admin.squelette.valider.label"
+            type="primary"
+            icon=" "
+            link="javascript:doValiderSquelette()"
+        >
+			<category>SQUELETTE_RIGHT_ACTIONS</category>
+			<filter-id>accessAdminFdrSquelette</filter-id>
+			<filter-id>isSqueletteLockByCurrentUser</filter-id>
+			<filter-id>isAdminFonctionnel</filter-id>
+			<filter-id>isEtatSqueletteBrouillon</filter-id>
+		</action>
+
+		<!-- Action modifier modèle / primaire -->
+		<action
+            id="SQUELETTE_MODIFIER"
+            enabled="true"
+            order="30"
+            label="admin.parametres.action.modifier"
+            type="primary"
+            icon=" "
+            link="javascript:doModifierSquelette()"
+        >
+			<category>SQUELETTE_RIGHT_ACTIONS</category>
+			<filter-id>accessAdminFdrSquelette</filter-id>
+			<filter-id>isNotSqueletteLockByOtherUser</filter-id>
+			<filter-id>isEtatSqueletteValidee</filter-id>
+		</action>
+
+		<!-- Action sur les tableaux dynamiques -->
+		<action
+            id="EDIT_TD"
+            link="javascript:doEditTd(this)"
+            enabled="true"
+            order="1"
+            label="suivi.menu.tableaux.dynamiques.editer"
+            icon=""
+        >
+	        <category>SUIVI_TD_ACTIONS</category>
+	    </action>
+
+	    <action id="SUPPRIMER_TD" enabled="true" order="2" label="suivi.menu.tableaux.dynamiques.supprimer" icon="">
+	        <category>SUIVI_TD_ACTIONS</category>
+	        <properties>
+	            <property name="actionType">modal</property>
+	            <property name="dataControls">validation-dialog-modal</property>
+	            <property name="title">tableau.dynamique.suppression.modale.titre
+	            </property>
+	            <property name="message">tableau.dynamique.suppression.modale.message
+	            </property>
+	            <property name="messageParam">##{labelTableau}</property>
+	            <property name="function">doDeleteTd()</property>
+	            <property name="parameters">|idTab=##{idTableau}|</property>
+	            <property name="btnConfirmLabel">suivi.menu.tableaux.dynamiques.supprimer</property>
+       </properties>
+	    </action>
+
+		<action
+            id="STATUT_ARCHIVAGE_DOSSIER"
+            link="javascript:doSearchStatsArchivesDossiers()"
+            enabled="true"
+            order="1"
+            label="espace.suivi.statistique.rechercher"
+            icon=""
+        >
+        	<category>STATUT_ARCHIVAGE_DOSSIER</category>
+    	</action>
+		<action
+            id="EXPORT_DOSSIERS_ARCHIVES"
+            link="javascript:doExportDossiersArchives()"
+            enabled="true"
+            order="1"
+            label="statut.archivage.dossier.export"
+            icon="icon icon--download icon--big"
+        >
+    	</action>
+
+		<action
+            id="UPDATE_STEP_SQUELETTE"
+            label="fdr.step.update.label"
+            link="javascript:void(0);"
+            icon="icon--pen-circle"
+            order="9"
+        >
+			<category>STEP_ACTIONS_LIST</category>
+			<filter-id>isEditableStep</filter-id>
+			<filter-id>isNotRunning</filter-id>
+			<filter-id>isNotDone</filter-id>
+			<filter-id>isEditableRoute</filter-id>
+			<filter-id>isSqueletteFdr</filter-id>
+			<filter-id>canEditStep</filter-id>
+			<filter-id>isNotStepInit</filter-id>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">editEtape</property>
+				<property name="initJs">loadStep</property>
+				<property name="function">doSaveEditEtapeSquelette()</property>
+				<property name="paramInitJs">${line.id}</property>
+				<property
+                    name="parameters"
+                >|stepId=${line.id};totalNbLevel=${dto.table.totalNbLevel};lineIndex=${statusIndex};lineStepId=editStep|</property>
+			</properties>
+		</action>
+
+		<!-- Actions VECTEURS DE PUBLICATION -->
+        <action
+            id="VECTEUR_PUBLICATION_MODIFIER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--pen-circle"
+        >
+			<category>VECTEUR_PUBLICATION_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">vecteurs-publication-modal</property>
+                <property name="title">admin.vecteur.publication.modal.title</property>
+				<property name="function">editVecteurPublication()</property>
+				<property name="initJs">initModalVecteurPublication</property>
+				<property name="paramInitJs">
+					|vecteurPublicationJOModal=${item.intitule};dateDebutModal=${#calendars.format(item.dateDebut,'dd/MM/yyyy')};dateFinModal=${#calendars.format(item.dateFin,'dd/MM/yyyy')}|</property>
+                <property name="parameters">|id=${item.id}|</property>
+			</properties>
+		</action>
+
+        <!-- Actions PUBLICATION MINISTERIELLE -->
+        <action
+            id="PUBLICATION_MINISTERIELLE_SUPPRIMER_ACTION"
+            enabled="true"
+            order="1"
+            label="dossier.traitement.papier.communication.empty"
+            icon="icon icon--bin"
+        >
+			<category>PUBLICATION_MINISTERIELLE_TABLE_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">admin.publication.ministerielle.modal.title</property>
+				<property name="message">admin.publication.ministerielle.modal.message</property>
+				<property name="function">supprimerPublicationMinisterielle()</property>
+                <property name="parameters">|id=${item.id}|</property>
+			</properties>
+		</action>
+
+        <!-- Actions Tables de référence -->
+        <action
+            id="MODE_PARUTION_AJOUTER_ACTION"
+            enabled="true"
+            order="1"
+            label="admin.table.reference.action.ajouter"
+            icon="icon--add"
+        >
+			<category>MODE_PARUTION_ADD_ACTIONS</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">mode-parution-modal</property>
+                <property name="title">admin.table.reference.modal.ajout.title</property>
+				<property name="function">createModeParution()</property>
+                <property name="initJs">initModalModeParution</property>
+			</properties>
+		</action>
+
+        <action
+            id="MODE_PARUTION_MODIFIER_ACTION"
+            enabled="true"
+            order="1"
+            label="admin.table.reference.action.modifier"
+            icon="icon--edit"
+        >
+			<category>MODE_PARUTION_TABLE_ACTIONS</category>
+			<properties>
+                <property name="buttonType">nospace</property>
+				<property name="actionType">modal</property>
+				<property name="dataControls">mode-parution-modal</property>
+                <property name="title">admin.table.reference.modal.modification.title</property>
+				<property name="function">editModeParution()</property>
+				<property name="initJs">initModalModeParution</property>
+				<property name="paramInitJs">
+					|modeParution=${item.mode};dateDebut=${#calendars.format(item.dateDebut,'dd/MM/yyyy')};dateFin=${#calendars.format(item.dateFin,'dd/MM/yyyy')}|</property>
+                <property name="parameters">|id=${item.id}|</property>
+			</properties>
+		</action>
+
+        <action
+            id="MODE_PARUTION_SUPPRIMER_ACTION"
+            enabled="true"
+            order="2"
+            label="admin.table.reference.action.supprimer"
+            icon="icon--bin"
+        >
+			<category>MODE_PARUTION_TABLE_ACTIONS</category>
+			<properties>
+                <property name="buttonType">nospace</property>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">admin.table.reference.modal.suppression.title</property>
+				<property name="message">admin.table.reference.modal.suppression.message</property>
+				<property name="function">deleteModeParution()</property>
+                <property name="parameters">|id=${item.id}|</property>
+			</properties>
+		</action>
+
+		<!-- Ajout d'une rubrique -->
+		<action
+            id="ADD_RUBRIQUE"
+            label="button.label.ajouter"
+            link="javascript:doAddRubrique(event,doInitModal,this)"
+            icon="icon--plus"
+        >
+        </action>
+
+        <!-- Ajout d'un signataire -->
+		<action id="ADD_SIGNATAIRE" label="button.label.ajouter" link="javascript:doAddSignataire()" icon="icon--plus">
+			<category>TABLE_REFERENCE_SIGNATAIRE</category>
+			<properties>
+				<property name="specificClass">base-btn--quaternary base-btn--center base-btn--uppercased</property>
+				<property name="positionIcon">gauche</property>
+			</properties>
+		</action>
+
+		<!-- Suppression d'un signataire -->
+		<action id="REMOVE_SIGNATAIRE" label="param.indexation.supprimer(${item.label})" icon="icon--times-circle icon--big">
+			<category>TABLE_REFERENCE_SIGNATAIRE</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">admin.table.reference.signataire.supprimer.title
+				</property>
+				<property name="message">admin.table.reference.signataire.supprimer.confirm.message
+				</property>
+				<property name="messageParam">${item.label}</property>
+				<property name="function">doRemoveSignataire()</property>
+				<property name="parameters">|idSignataire=${item.id}|</property>
+				<property name="buttonType">nospace</property>
+				<property name="specificClass">base-btn--light base-btn--min base-btn--transparent</property>
+			</properties>
+		</action>
+
+        <!-- Action export du résultat de recherche experte-->
+         <action
+            id="RECHERCHE_EXPERTE_DOSSIER_EXPORT"
+            link="javascript:exportSearchResult(true)"
+            enabled="true"
+            order="1"
+            label="label.recherche.export.excel"
+            icon="icon icon--download icon--big"
+        >
+        </action>
+
+        <!-- Action export du résultat de recherche rapide-->
+         <action
+            id="RECHERCHE_RAPIDE_DOSSIER_EXPORT"
+            link="javascript:exportSearchResult()"
+            enabled="true"
+            order="1"
+            label="label.recherche.export.excel"
+            icon="icon icon--download icon--big"
+        >
+        </action>
+        
+        <!-- Action export du résultat de recherche experte-->
+         <action
+            id="TAB_DYN_DOSSIER_EXPORT"
+            link="javascript:exportTabDynResult()"
+            enabled="true"
+            order="1"
+            label="label.recherche.export.excel"
+            icon="icon icon--download icon--big"
+        >                
+        </action>
+        
+        <action
+            id="ADD_USER_FAVORI_RECHERCHE"
+            link="javascript:addSearchUserToFavoriRecherche()"
+            enabled="true"
+            order="1"
+            label="recherche.libre.btn.ajouter.favoris.recherche"
+            icon=""
+        >
+            <properties>
+				<property name="specificClass">base-btn--secondary</property>
+			</properties>
+        </action>
+         <action
+            id="ADD_FDR_FAVORI_RECHERCHE"
+            link="javascript:addSearchFdrToFavoriRecherche()"
+            enabled="true"
+            order="1"
+            label="recherche.libre.btn.ajouter.favoris.recherche"
+            icon=""
+        >
+            <properties>
+				<property name="specificClass">base-btn--secondary</property>
+			</properties>
+        </action>
+
+		<!-- Ajout d'une rubrique -->
+		<action id="ADD_RUBRIQUE" label="button.label.ajouter" link="javascript:doAddRubrique()" icon="icon--plus">
+			<category>PARAMETRES_INDEXATION</category>
+			<properties>
+				<property name="specificClass">base-btn--quaternary base-btn--center base-btn--uppercased</property>
+				<property name="positionIcon">gauche</property>
+			</properties>
+		</action>
+
+		<!-- Suppression d'une rubrique -->
+		<action id="REMOVE_RUBRIQUE" label="param.indexation.supprimer(${item.label})" icon="icon--times-circle icon--big">
+			<category>PARAMETRES_INDEXATION</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">param.indexation.rubriques.supprimer.title
+				</property>
+				<property name="message">param.indexation.rubriques.supprimer.confirm.message
+				</property>
+				<property name="messageParam">##{item.label}</property>
+				<property name="function">doRemoveRubrique()</property>
+				<property name="parameters">|idRubrique=##{item.id}|</property>
+				<property name="buttonType">nospace</property>
+				<property name="specificClass">base-btn--light base-btn--min base-btn--transparent</property>
+			</properties>
+		</action>
+
+		<!-- Création d'une liste de mots-clés -->
+		<action
+            id="CREATE_LIST_MOTS_CLES"
+            label="param.indexation.ajouter.liste"
+            link="javascript:void(0)"
+            icon="icon--add icon--big"
+        >
+			<category>PARAMETRES_INDEXATION</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-ajout-liste-mots-cles</property>
+				<property name="title">param.indexation.ajouter.liste</property>
+				<property name="initJs">initCreationMotsClesModale</property>
+				<property name="function">doCreateListMotsCles()</property>
+			</properties>
+		</action>
+
+		<!-- Réattribution d'une liste de mots-clés -->
+		<action
+            id="REATTRIBUER_LIST_MOTS_CLES"
+            label="param.indexation.modifier.ministere"
+            link="javascript:void(0)"
+            icon="icon--pm-2"
+        >
+			<category>PARAMETRES_INDEXATION_MOTS_CLES_LIST</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">modal-ajout-liste-mots-cles</property>
+				<property name="title">param.indexation.modifier.ministere</property>
+				<property name="function">doReattributionMinistereListMotsCles()</property>
+				<property name="parameters">|listeId=##{item.id}|</property>
+				<property name="initJs">initReattributionMotsClesModale</property>
+				<property name="paramInitJs">${item.id}</property>
+				<property name="btnConfirmLabel">button.label.modifier</property>
+				<property name="buttonType">nospace</property>
+				<property name="specificClass">m-l-4 base-btn--icon-action-primary base-btn--center base-btn--transparent</property>
+			</properties>
+		</action>
+
+		<!-- Suppression d'une liste de mots-clés -->
+		<action id="REMOVE_LIST_MOTS_CLES" label="button.label.supprimer" icon="icon--bin">
+			<category>PARAMETRES_INDEXATION_MOTS_CLES_LIST</category>
+			<properties>
+				<property name="actionType">modal</property>
+				<property name="dataControls">validation-dialog-modal</property>
+				<property name="title">param.indexation.motsCles.supprimer.title
+				</property>
+				<property name="message">param.indexation.motsCles.supprimer.confirm.message
+				</property>
+				<property name="messageParam">##{item.label}</property>
+				<property name="function">doRemoveListeMotsCles()</property>
+				<property name="parameters">|listeId=##{item.id}|</property>
+				<property name="buttonType">nospace</property>
+				<property name="specificClass">m-l-4 base-btn--icon-action-primary base-btn--center base-btn--transparent</property>
+			</properties>
+		</action>
+
+		<!-- Ajout de mots clés -->
+		<action id="ADD_MOTS_CLES" label="button.label.ajouter" link="javascript:doAddMotsCles()" icon="icon--plus">
+			<category>PARAMETRES_INDEXATION</category>
+			<properties>
+				<property name="specificClass">base-btn--quaternary base-btn--center base-btn--uppercased</property>
+				<property name="positionIcon">gauche</property>
+			</properties>
+		</action>
+
+		<!-- Suppression de mots clés -->
+		<action id="REMOVE_MOTS_CLES" label="param.indexation.supprimer(${item.label})" icon="icon--times-circle icon--big">
+			<category>PARAMETRES_INDEXATION</category>
+			<properties>
+			</properties>
+		</action>
+
+		<!-- Action permettant de redémarrer un dossier terminé -->
+	    <action
+            id="REDEMARRER_DOSSIER"
+            link="javascript:redemarrerDossier()"
+            enabled="true"
+            order="10"
+            label="label.epg.feuilleRoute.command.redemarrer"
+            icon="icon--check-circle"
+        >
+	      <category>DOSSIER_TOPBAR_ACTIONS_FDR</category>
+	      <filter-id>isDossier</filter-id>
+	      <filter-id>dossierIsLocked</filter-id>
+	      <filter-id>currentDocIsLockActionnableByCurrentUser</filter-id>
+	      <filter-id>isDone</filter-id>
+	      <filter-id>isNotDossierAbandon</filter-id>
+	      <filter-id>isDossierNotNorAttribueStrict</filter-id>
+	      <filter-id>isDossierNotTermineSansPub</filter-id>
+	      <filter-id>isFeuilleRouteRestartable</filter-id>
+	      <filter-id>isFDRInstanceRestarter</filter-id>
+	    </action>
+
+
+	</extension>
+
+	<extension target="org.nuxeo.ecm.platform.actions.ActionService" point="filters">
+		<!-- Vrai si la statistique affichée génère un graphique -->
+		<filter id="isNotStatistiqueGraphique">
+			<rule grant="false">
+				<condition>#{isStatistiqueGraphique}</condition>
+			</rule>
+		</filter>
+        <filter id="accessAdminUserRecherche">
+            <rule grant="true">
+                <group>UtilisateurRechercheReader</group>
+            </rule>
+        </filter>
+  		<filter id="accessAdminFdrRecherche">
+   			<rule grant="true">
+				<group>FDRModelValidator</group>
+      			<group>FDRModelUpdater</group>
+    			<group>administrators</group>
+   			</rule>
+  		</filter>
+  		<filter id="accessAdminFdrSquelette">
+   			<rule grant="true">
+    			<group>FDRSqueletteUpdater</group>
+    			<group>administrators</group>
+   			</rule>
+  		</filter>
+  		<filter id="accessAdminFdrCreerMasse">
+   			<rule grant="true">
+    			<group>FDRModelMassCreator</group>
+    			<group>administrators</group>
+   			</rule>
+  		</filter>
+  		<filter id="accessAdminDossier">
+   			<rule grant="true">
+    			<group>AdministrationParapheur</group>
+    			<group>AdministrationFondDeDossier</group>
+    			<group>AdminFonctionnelDossierSuppression</group>
+    			<group>AdminMinisterielDossierSuppression</group>
+    			<group>AdminFonctionnelDossierAbandon</group>
+				<group>AdminMinisterielDossierAbandon</group>
+				<group>AdministrationBulletinReader</group>
+    			<group>administrators</group>
+   			</rule>
+  		</filter>
+  		<filter id="accessAdminDossierAbandon">
+   			<rule grant="true">
+    			<group>AdminFonctionnelDossierAbandon</group>
+    			<group>AdminMinisterielDossierAbandon</group>
+    			<group>administrators</group>
+   			</rule>
+  		</filter>
+  		<filter id="accessAdminDossierSuppression">
+   			<rule grant="true">
+    			<group>AdminFonctionnelDossierSuppression</group>
+    			<group>AdminMinisterielDossierSuppression</group>
+    			<group>administrators</group>
+   			</rule>
+  		</filter>
+  		<filter id="accessAdminDossierSuppressionValidation">
+   			<rule grant="true">
+    			<group>AdminFonctionnelDossierSuppression</group>
+    			<group>administrators</group>
+   			</rule>
+  		</filter>
+  		<filter id="accessAdminDossierParapheur">
+   			<rule grant="true">
+    			<group>AdministrationParapheur</group>
+    			<group>administrators</group>
+   			</rule>
+  		</filter>
+  		<filter id="accessAdminDossierFDD">
+   			<rule grant="true">
+    			<group>AdministrationFondDeDossier</group>
+    			<group>administrators</group>
+   			</rule>
+ 		</filter>
+	  	<filter id="accesAdminParamBulletin">
+	  		<rule grant="true">
+	    		<group>AdministrationBulletinReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+		<filter id="accessAdminDossierReference">
+	   		<rule grant="true">
+	   			<group>AdministrationReferenceReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+		</filter>
+		<filter id="accessAdminArchivage">
+			<rule grant="true">
+	    		<group>DossierArchivageAdamantReader</group>
+	    		<group>DossierArchivageIntermediaireReader</group>
+	    		<group>DossierArchivageDefinitifReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminArchivageAdamant">
+	   		<rule grant="true">
+	    		<group>DossierArchivageAdamantReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminArchivageIntermediaire">
+	   		<rule grant="true">
+	    		<group>DossierArchivageIntermediaireReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminArchivageDefinitif">
+	   		<rule grant="true">
+	   			<group>DossierArchivageDefinitifReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminArchivageParamAdamant">
+	   		<rule grant="true">
+	    		<group>AdministrationParamAdamant</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminMigration">
+			<rule grant="true">
+				<group>AdministrationChangementGouvernement</group>
+			</rule>
+		</filter>
+	  	<filter id="accessAdminMigrationMigration">
+	   		<rule grant="true">
+	   			<group>AdministrationChangementGouvernement</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminMigrationHistorique">
+	   		<rule grant="true">
+	   			<group>AdministrationChangementGouvernement</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminParam">
+	   		<rule grant="true">
+	    		<group>AdministrationParamReader</group>
+	    		<group>AdministrationBulletinReader</group>
+	    		<group>AdministrationReferenceReader</group>
+	    		<group>AdministrationIndexationReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminParamParam">
+	   		<rule grant="true">
+	    		<group>AdministrationParamReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminParamTechnique">
+	   		<rule grant="true">
+	    		<group>AdministrationParamReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminEspaceParlementaire">
+	   		<rule grant="true">
+	    		<group>EspaceParlementaireReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminJournal">
+	   		<rule grant="true">
+	    		<group>AdministrationJournalReader</group>
+	    		<group>administrators</group>
+	   		</rule>
+	  	</filter>
+	  	<filter id="accessAdminUserSupervision">
+	  		<rule grant="true">
+	  			<group>EspaceSupervisionReader</group>
+	  			<group>Administrateur fonctionnel</group>
+	  		</rule>
+		</filter>
+		<filter id="accessAdamantAuthorized">
+	  		<rule grant="true">
+	  			<group>DossierArchivageAdamantReader</group>
+	  			<group>administrators</group>
+	  		</rule>
+		</filter>
+		<filter id="accessGestionDeListeReader">
+	  		<rule grant="true">
+	  			<group>GestionDeListeReader</group>
+	  			<group>administrators</group>
+	  		</rule>
+		</filter>
+      	 <!-- Retourne vrai si l'utilisateur peut agir sur le dossier -->
+        <filter id="isDossierLoadedOrUpdater">
+            <!-- Possibilité de modifier un dossier distribué dans sa corbeille -->
+            <rule grant="true">
+                <condition>#{corbeilleActions.isDossierLoadedInCorbeille}
+                </condition>
+            </rule>
+            <rule grant="true">
+                <group>DossierAdminUpdater</group>
+            </rule>
+        </filter>
+        <!-- Vrai si l'utilisateur peut lever le verrou sur le dossier -->
+        <filter id="isDossierAdminUnlockable">
+            <rule grant="true">
+                <group>DossierAdminUnlocker</group>
+            </rule>
+        </filter>
+        <filter id="isDossierEnder">
+        	<rule grant="true">
+        		<group>DossierEnder</group>
+        	</rule>
+        </filter>
+      	<!-- Vrai si l'utilisateur peut verrouiller le dossier courant -->
+        <filter id="isDossierLockable">
+            <rule grant="true">
+                <condition>#{dossierLockActions.canLockCurrentDossier}</condition>
+            </rule>
+        </filter>
+        <filter id="canUserUpdateParapheur">
+            <rule grant="true">
+                <condition>#{dossierActions.canUserUpdateParapheur}</condition>
+            </rule>
+        </filter>
+        <filter id="canUserUpdateFdd">
+            <rule grant="true">
+                <condition>#{dossierActions.canUserUpdateFdd}</condition>
+            </rule>
+        </filter>
+        <filter id="solonEditAvailable">
+            <rule grant="true">
+                <condition>#{dossierActions.solonEditAvailable}</condition>
+            </rule>
+        </filter>
+        <filter id="canExecuteStep">
+            <rule grant="true">
+                <condition>#{dossierActions.canExecuteStep}</condition>
+            </rule>
+        </filter>
+		<filter id="isUrgent">
+			<rule grant="true">
+				<condition>#{dossierActions.isUrgent}</condition>
+			</rule>
+		</filter>
+		<filter id="hasSignataire">
+			<rule grant="true">
+				<condition>#{dossierActions.hasSignataire}</condition>
+			</rule>
+		</filter>
+		<filter id="isNotUrgent">
+			<rule grant="false">
+				<condition>#{dossierActions.isUrgent}</condition>
+			</rule>
+		</filter>
+		<filter id="isDossierMesureNominativeUpdater">
+			<rule grant="true">
+				<group>DossierMesureNominativeUpdater</group>
+			</rule>
+		</filter>
+		<filter id="isDossierMesureNominative">
+			<rule grant="true">
+				<condition>dossierActions.isMesureNominative</condition>
+			</rule>
+		</filter>
+		<filter id="isNotDossierMesureNominative">
+			<rule grant="false">
+				<condition>#{dossierActions.isMesureNominative}</condition>
+			</rule>
+		</filter>
+		<filter id="hasTypeActeMesureNominative">
+			<rule grant="true">
+				<condition>#{dossierActions.hasTypeActeMesureNominative}
+				</condition>
+			</rule>
+		</filter>
+        <filter id="isNotDossierDeleted">
+            <rule grant="false">
+                <condition>#{dossierActions.isDossierDeleted}</condition>
+            </rule>
+        </filter>
+        <filter id="isStepRetourModification">
+            <rule grant="true">
+                <condition>#{routingActions.isStepRetourModification}</condition>
+            </rule>
+        </filter>
+        <filter id="isNotStepRetourModification">
+            <rule grant="false">
+                <condition>#{routingActions.isStepRetourModification}</condition>
+            </rule>
+        </filter>
+		<filter id="isStepContreseign">
+			<rule grant="true">
+				<condition>#{routingActions.isStepContreseign}</condition>
+			</rule>
+		</filter>
+		<filter id="isNotStepContreseign">
+			<rule grant="false">
+				<condition>#{routingActions.isStepContreseign}</condition>
+			</rule>
+		</filter>
+		<filter id="isStepExecutable">
+			<rule grant="true">
+				<condition>#{routingActions.isStepExecutable}</condition>
+			</rule>
+		</filter>
+        <filter id="isStepAvis">
+            <rule grant="true">
+                <condition>#{routingActions.isStepAvis}</condition>
+            </rule>
+        </filter>
+        <filter id="hasRunningStep">
+            <rule grant="true">
+                <condition>#{routingActions.hasRunningStep}</condition>
+            </rule>
+        </filter>
+        <filter id="isNotStepAvis">
+            <rule grant="false">
+                <condition>#{routingActions.isStepAvis}</condition>
+            </rule>
+        </filter>
+        <filter id="isStepInitialisation">
+            <rule grant="true">
+                <condition>#{routingActions.isStepInitialisation}</condition>
+            </rule>
+        </filter>
+        <filter id="isNotStepInitialisation">
+            <rule grant="false">
+                <condition>#{routingActions.isStepInitialisation}</condition>
+            </rule>
+        </filter>
+        <filter id="isStepPourBonATirer">
+            <rule grant="true">
+                <condition>#{routingActions.isStepPourBonATirer}</condition>
+            </rule>
+        </filter>
+        <filter id="canRetourModification">
+            <rule grant="true">
+                <condition>#{routingActions.canRetourModification}</condition>
+            </rule>
+        </filter>
+        <filter id="canValideNonConcerne">
+            <rule grant="true">
+                <condition>#{routingActions.canValideNonConcerne}</condition>
+            </rule>
+        </filter>
+        <filter id="canRefusValidation">
+            <rule grant="true">
+                <condition>#{routingActions.canRefusValidation}</condition>
+            </rule>
+        </filter>
+        <filter id="isDossierLance">
+            <rule grant="true">
+                <condition>#{routingActions.isDossierLance}</condition>
+            </rule>
+        </filter>
+        <filter id="isNotActeTexteNonPublie">
+            <rule grant="false">
+                <condition>#{routingActions.isActeTexteNonPublie}</condition>
+            </rule>
+        </filter>
+        <filter id="isRapportAuParlement">
+            <rule grant="true">
+                <condition>#{routingActions.isRapportAuParlement}</condition>
+            </rule>
+        </filter>
+        <filter id="isNotRapportAuParlement">
+            <rule grant="false">
+                <condition>#{routingActions.isRapportAuParlement}</condition>
+            </rule>
+        </filter>
+        <filter id="isSelectionTypeDossier">
+            <rule grant="true">
+                <condition>#{selectionActions.isSelectionTypeDossier}</condition>
+            </rule>
+        </filter>
+        <filter id="isSelectionNotEmpty">
+            <rule grant="false">
+                <condition>#{selectionActions.isSelectionEmpty}</condition>
+            </rule>
+        </filter>
+        <filter id="isSelectionTypeModele">
+            <rule grant="true">
+                <condition>#{selectionActions.isSelectionTypeModele}</condition>
+            </rule>
+        </filter>
+        <filter id="canTraiterListeSerie">
+            <rule grant="true">
+                <condition>#{gestionListeActions.canTraiterListeSerie}</condition>
+            </rule>
+        </filter>
+        <filter id="isTraitementPapierReader">
+            <rule grant="true">
+                <group>TraitementPapierReader</group>
+            </rule>
+        </filter>
+        <filter id="isDossierSuivi">
+            <rule grant="true">
+                <condition>#{isDossierSuivi}</condition>
+            </rule>
+        </filter>
+        <filter id="isNotDossierSuivi">
+            <rule grant="false">
+                 <condition>#{isDossierSuivi}</condition>
+            </rule>
+        </filter>
+        <filter id="isFDRModelPosteMassSubstitutor">
+			<rule grant="true">
+				<group>FDRModelPosteMassSubstitutor</group>
+			</rule>
+		</filter>
+		<filter id="isEtatSqueletteBrouillon">
+			<rule grant="true">
+				<condition>#{squeletteActions.isEtatBrouillon}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isEtatSqueletteValidee">
+			<rule grant="true">
+				<condition>#{squeletteActions.isEtatValidee}</condition>
+			</rule>
+		</filter>
+
+		<filter id="isNotEtatSqueletteValidee">
+			<rule grant="false">
+				<condition>#{squeletteActions.isEtatValidee}</condition>
+			</rule>
+		</filter>
+        <filter id="isInfocentreSGGReader">
+            <rule grant="true">
+                <group>InfocentreSGGReader</group>
+            </rule>
+        </filter>
+		<filter id="isFromCorbeille">
+			<rule grant="true">
+				<condition>#{isFromCorbeille}</condition>
+			</rule>
+		</filter>
+        <filter id="isNotTexteSignale">
+            <rule grant="false">
+                <condition>dossierActions.isTexteSignale</condition>
+            </rule>
+        </filter>
+        <filter id="isDossierAbandonne">
+            <rule grant="true">
+                <condition>#{dossierActions.isDossierAbandonne}</condition>
+            </rule>
+        </filter>
+		<filter id="isSqueletteLockByCurrentUser">
+			<rule grant="true">
+				<condition>#{squeletteActions.isLockByCurrentUser}</condition>
+			</rule>
+		</filter>
+		<filter id="isNotDossierInAdamant">
+			<rule grant="false">
+				<condition>#{dossierActions.isDossierInAdamant}</condition>
+			</rule>
+		</filter>
+		<filter id="isSqueletteLockByOtherUser">
+			<rule grant="true">
+				<condition>#{squeletteActions.isLock and not
+					squeletteActions.isLockByCurrentUser}
+				</condition>
+			</rule>
+		</filter>
+		<filter id="isNotSqueletteLockByOtherUser">
+			<rule grant="false">
+				<condition>#{squeletteActions.isLock and
+					squeletteActions.isLockByCurrentUser}
+				</condition>
+			</rule>
+		</filter>
+		<!-- Surcharge pour la gestion de routeStepSuqlette -->
+		<filter id="isEditableRoute">
+			<rule grant="true">
+				<condition>
+					document.getCurrentLifeCycleState().equals("draft") ||
+					document.getCurrentLifeCycleState().equals("ready")
+				</condition>
+				<type>FeuilleRoute</type>
+			</rule>
+			<rule grant="true">
+				<condition>#{etapeActions.isFeuilleRouteUpdatable}
+				</condition>
+				<type>RouteStep</type>
+			</rule>
+			<rule grant="true">
+				<condition>#{etapeActions.isFeuilleRouteUpdatable}
+				</condition>
+				<type>RouteStepSquelette</type>
+			</rule>
+			<rule grant="true">
+				<condition>#{folderActions.isFeuilleRouteUpdatable}
+				</condition>
+				<type>StepFolder</type>
+			</rule>
+		</filter>
+		<filter id="isSqueletteFdr">
+			<rule grant="true">
+				<condition>
+					#{etapeActions.isSqueletteFeuilleRoute}
+				</condition>
+			</rule>
+		</filter>
+        <filter id="isTexteSignaleCreator">
+            <rule grant="true">
+                <group>TexteSignaleCreator</group>
+            </rule>
+        </filter>
+   		<!-- Vrai si le dossier a pour étape en cours l'étape 'Pour avis CE' (non vérification de l'accès au dossier link) -->
+		<filter id="isEtapePourAvisCEUnrestricted">
+			<rule grant="true">
+				<condition>#{routingActions.isEtapePourAvisCE}
+				</condition>
+			</rule>
+		</filter>
+
+		<!-- Vrai si l'utilisateur courant a le droit de faire une saisine rectificative 
+			et un envoi de pièces complémentaires -->
+		<filter id="hasUserDroitSaisineEtPieceComplementaire">
+			<rule grant="true">
+				<condition>#{dossierActions.canSendSaisineOrPieceComplementaire}
+				</condition>
+			</rule>
+		</filter>
+        <filter id="isFddDeletable">
+            <rule grant="true">
+                <condition>#{isFddDeletable}</condition>
+            </rule>
+        </filter>
+        <filter id="isPosteCopied">
+            <rule grant="true">
+                <condition>#{isPosteCopied}</condition>
+            </rule>
+        </filter>
+             <filter id="isDirectionCopied">
+            <rule grant="true">
+                <condition>#{isDirectionCopied}</condition>
+            </rule>
+        </filter>
+             <filter id="isMinistereCopied">
+            <rule grant="true">
+                <condition>#{isMinistereCopied}</condition>
+            </rule>
+        </filter>
+             <filter id="isUniteStructurelleCopied">
+            <rule grant="true">
+                <condition>#{isUniteStructurelleCopied}</condition>
+            </rule>
+        </filter>
+       <!-- Vrai uniquement si l'instance de feuille de route peut être redémarrée -->
+		<filter id="isFeuilleRouteRestartable">
+			<rule grant="true">
+				<condition>#{routingActions.isFeuilleRouteRestartable}</condition>
+			</rule>
+		</filter>
+        <!-- Retourne vrai si l'utilisateur peut redémarrer une instance de feuille
+            de route -->
+        <filter id="isFDRInstanceRestarter">
+            <rule grant="true">
+                <group>FDRInstanceRestarter</group>
+            </rule>
+        </filter>
+        <!-- Retourne vrai si le dossier est NOR attribué -->
+		<filter id="isDossierNorAttribue">
+			<rule grant="true">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("5")
+				</condition>
+			</rule>
+		</filter>
+        <!-- Retourne vrai  si le dossier est Terminé sans publication -->
+		<filter id="isDossierTermineSansPub">
+			<rule grant="true">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("6")
+				</condition>
+			</rule>
+		</filter>
+        <!-- Retourne vrai uniquement si le dossier n'est pas NOR attribué -->
+		<filter id="isDossierNotNorAttribueStrict">
+			<rule grant="false">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("5")
+				</condition>
+			</rule>
+		</filter>
+        <!-- Retourne vrai uniquement si le dossier n'est pas Terminé sans publication -->
+		<filter id="isDossierNotTermineSansPub">
+			<rule grant="false">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("6")
+				</condition>
+			</rule>
+		</filter>
+		<!-- Conserve uniquement les documents à l'état done -->
+		<filter id="isDone">
+			<rule grant="true">
+				<condition>document.getCurrentLifeCycleState().equals("done")</condition>
+			</rule>
+		</filter>
+		<!-- Filtre qui conserve uniquement les dossiers qui ne sont pas à l'état 
+			"abandonne" -->
+		<filter id="isNotDossierAbandon">
+			<rule grant="false">
+				<condition>document.getProperty("dossier_solon_epg",
+					"statut").equals("3")
+				</condition>
+			</rule>
+		</filter>
+		<filter id="admin_param_bulletin">
+			<rule grant="true">
+				<group>AdministrationBulletinReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+		<filter id="accessAdminParamIndex">
+			<rule grant="true">
+				<group>AdministrationIndexationReader</group>
+				<group>administrators</group>
+			</rule>
+		</filter>
+        <filter id="droitVueMgpp">
+            <rule grant="true">
+                <group>DroitVueMgpp</group>
+            </rule>
+        </filter>
+		<filter id="isFileCut">
+			<rule grant="true">
+				<condition>#{isFileCut}</condition>
+			</rule>
+		</filter>
+
+	</extension>
+</component>

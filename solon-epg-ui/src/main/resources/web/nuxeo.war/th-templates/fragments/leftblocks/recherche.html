@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div class="accordion accordion--aside" th:fragment="recherche()">
+            <h2 class="accordion__header js-toggle accordion__header--aside">
+                [[ #{recherche.title} ]]
+                <button
+                    type="button"
+                    aria-controls="accordion__content__search"
+                    aria-expanded="true"
+                    id="accordion__header__search"
+                    data-toggle="accordion__content"
+                    data-icon-opened="substract-without-background"
+                    data-icon-closed="add-without-background"
+                    th:data-title-opened="#{recherche.reduire}"
+                    th:data-title-closed="#{recherche.agrandir}"
+                    class="js-toggle accordion__header__button"
+                >
+                    <span class="sr-only" th:text="#{recherche.reduire}">Réduire le bloc Recherche</span
+                    ><span
+                        aria-hidden="true"
+                        class="icon icon--substract-without-background bubble-icon bubble-icon--neutral accordion__icon accordion__icon--aside"
+                    ></span>
+                </button>
+            </h2>
+            <div
+                aria-hidden="false"
+                id="accordion__content__search"
+                class="accordion__content accordion__content--aside accordion__content--is-opened accordion__content--has-background"
+            >
+                <nav
+                    role="navigation"
+                    th:aria-label="|#{tree.title} #{recherche.title}|"
+                    class="tree-navigation tree-navigation--no-toggle"
+                >
+                    <ul class="tree-navigation__container">
+                        <li class="list-none">
+                            <ul class="tree-navigation__list tree-navigation__list--is-opened">
+                                <th:block th:each="item : ${categoryDto}">
+                                    <th:block
+                                        th:replace="fragments/leftblocks/recherche-arbre :: arbre(${item.label}, ${item.icon}, ${item.url}, ${item.isTitle}, ${item.items})"
+                                    ></th:block>
+                                </th:block>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!---->
+            </div>
+        </div>
+    </body>
+</html>

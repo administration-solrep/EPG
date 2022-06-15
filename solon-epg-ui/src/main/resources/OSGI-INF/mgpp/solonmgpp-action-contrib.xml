@@ -1,0 +1,1437 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<component name="fr.dila.solonmgpp.ui.action">
+
+    <require>fr.dila.solonepg.ui.action</require>
+
+    <extension point="actions" target="org.nuxeo.ecm.platform.actions.ActionService">
+        <action id="main_espaceparlementaire" label="menu.espace.parlementaire.title" order="15" type="menuSection">
+            <category>MAIN_MENU</category>
+            <properties>
+                <property name="submenu">MGPP_SUBMENU</property>
+            </properties>
+            <filter-id>isEspaceParlementaireReader</filter-id>
+        </action>
+
+        <action
+            id="MGPP_DOSSIERS"
+            label="menu.mgpp.dossier.title"
+            order="10"
+            link="/mgpp/dossier#main_content"
+            type="link"
+        >
+            <category>MGPP_SUBMENU</category>
+            <filter-id>isEspaceParlementaireReader</filter-id>
+        </action>
+
+        <action
+            id="mgpp_recherche"
+            label="menu.mgpp.recherche.title"
+            order="11"
+            link="/mgpp/recherche#main_content"
+            type="link"
+        >
+            <category>MGPP_SUBMENU</category>
+            <filter-id>isEspaceParlementaireReader</filter-id>
+        </action>
+
+        <action
+            id="MGPP_CALENDRIER_PROMULGATION_MENU"
+            label="menu.mgpp.calendrier.promulgation"
+            order="12"
+            link="/mgpp/calendrier/promulgation#main_content"
+            type="link"
+        >
+            <category>MGPP_SUBMENU</category>
+            <filter-id>isEspaceParlementaireReader</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+        <action
+            id="MGPP_CALENDRIER_SUIVI_MENU"
+            label="menu.mgpp.calendrier.suivi.echeance"
+            order="13"
+            link="/mgpp/calendrier/suivi#main_content"
+            type="link"
+        >
+            <category>MGPP_SUBMENU</category>
+            <filter-id>isEspaceParlementaireReader</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="MGPP_CALENDRIERS" label="menu.mgpp.calendriers.title" order="10" type="menuSection">
+            <category>MGPP_CALENDRIERS</category>
+            <properties>
+                <property name="submenu">MGPP_CALENDRIER_MENU</property>
+            </properties>
+        </action>
+
+        <!-- CALENDRIER MENU -->
+        <action
+            id="MGPP_CALENDRIER_PROMULGATION"
+            label="menu.mgpp.calendrier.promulgation"
+            order="1"
+            link="/mgpp/calendrier/promulgation#main_content"
+            type="link"
+        >
+            <category>MGPP_CALENDRIER_MENU</category>
+            <filter-id>isEspaceParlementaireReader</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+        <action
+            id="MGPP_CALENDRIER_SUIVI"
+            label="menu.mgpp.calendrier.suivi.echeance"
+            order="2"
+            link="/mgpp/calendrier/suivi#main_content"
+            type="link"
+        >
+            <category>MGPP_CALENDRIER_MENU</category>
+            <filter-id>isEspaceParlementaireReader</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+
+        <action
+            id="ADMIN_MENU_ESPACE_PARLEMENTAIRE"
+            type="menuSection"
+            label="menu.admin.espace.parlementaire.title"
+            order="45"
+        >
+            <category>ADMIN_MENU</category>
+            <filter-id>isAdminFonctionnel</filter-id>
+            <filter-id>accessAdminEspaceParlementaire</filter-id>
+            <properties>
+                <property name="submenu">ADMIN_MENU_ESPACE_PARL</property>
+            </properties>
+        </action>
+        <action
+            id="ADMIN_MENU_ESPACE_PARL_GESTION_MODELE_COURRIERS"
+            link="/admin/mgpp/courriers#main_content"
+            label="menu.admin.espace.parlementaire.modele.courriers.title"
+            order="10"
+        >
+            <category>ADMIN_MENU_ESPACE_PARL</category>
+            <filter-id>accessAdminParamMGPP</filter-id>
+        </action>
+        <action
+            id="ADMIN_MODELE_COURRIER_CREATE"
+            label="admin.modele.courrier.ajouter"
+            type="primary"
+            icon="icon--add"
+            link="/admin/mgpp/courriers/ajout#main_content"
+        >
+            <category>ADMIN_LIST_COURRIER</category>
+            <filter-id>isAdminFonctionnel</filter-id>
+        </action>
+        <action
+            id="ADMIN_MODELE_COURRIER_EDIT"
+            link="javascript:goModificationModeleCourrier()"
+            enabled="true"
+            order="40"
+            label="button.label.modifier"
+        >
+            <category>ADMIN_VIEW_COURRIER</category>
+        </action>
+        <action id="ADMIN_MODELE_COURRIER_REMOVE" enabled="true" order="40" label="button.label.supprimer">
+            <category>ADMIN_VIEW_COURRIER</category>
+            <properties>
+                <property name="classes">base-btn--secondary base-btn--padded-lr
+                </property>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">menu.admin.modele.courrier.modal.title</property>
+                <property name="message">menu.admin.modele.courrier.modal.message</property>
+                <property name="function">doDeleteModeleCourrier(this)</property>
+            </properties>
+        </action>
+
+        <action
+            id="ADMIN_MENU_PARAM_REFERENCE_EPP"
+            link="/admin/mgpp/referenceEPP/consulter#main_content"
+            label="admin.param.tableRefEPP.title"
+            order="50"
+        >
+            <category>ADMIN_MENU_MIGRATION</category>
+            <filter-id>accessAdminParamMGPP</filter-id>
+        </action>
+        <action
+            id="ADMIN_MENU_PARAM_PARAM_MGPP"
+            link="/admin/mgpp/parametres#main_content"
+            label="admin.param.mgpp.title"
+            order="20"
+        >
+            <category>ADMIN_MENU_ESPACE_PARL</category>
+            <filter-id>accessAdminParamMGPP</filter-id>
+        </action>
+
+        <!-- ********** Dossiers parlementaires ********** -->
+
+        <action id="mgpp_procedureLegislative" label="dossier.parlementaire.procedureLegislative" order="10">
+            <category>DOSSIER_PARLEMENTAIRE_ACTIONS</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_publication" label="dossier.parlementaire.publication" order="20">
+            <category>DOSSIER_PARLEMENTAIRE_ACTIONS</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_raport_category_id" label="dossier.parlementaire.rapport" order="30">
+            <category>DOSSIER_PARLEMENTAIRE_ACTIONS</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_nomination_category_id" label="dossier.parlementaire.nomination" order="40">
+            <category>DOSSIER_PARLEMENTAIRE_ACTIONS</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+        </action>
+
+        <action id="mgpp_organisation_category_id" label="dossier.parlementaire.organisation" order="50">
+            <category>DOSSIER_PARLEMENTAIRE_ACTIONS</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_declaration_category_id" label="dossier.parlementaire.declaration" order="60">
+            <category>DOSSIER_PARLEMENTAIRE_ACTIONS</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_resolutionArticle341" label="dossier.parlementaire.resolutionArticle341" order="70">
+            <category>DOSSIER_PARLEMENTAIRE_ACTIONS</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_depotDeRapport" label="dossier.parlementaire.depotDeRapport" order="30">
+            <category>MGPP_RAPORT_CATEGORY</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_avisNomination" label="dossier.parlementaire.avisNomination" order="40">
+            <category>MGPP_NOMINATION_CATEGORY</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_designationOEP" label="dossier.parlementaire.designationOEP" order="50">
+            <category>MGPP_NOMINATION_CATEGORY</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+        </action>
+
+        <action id="mgpp_decret" label="dossier.parlementaire.decret" order="60">
+            <category>MGPP_ORGANISATION_CATEGORY</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_interventionExterieure" label="dossier.parlementaire.interventionExterieure" order="70">
+            <category>MGPP_DECLARATION_CATEGORY</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="mgpp_declarationDePolitiqueGenerale"
+            label="dossier.parlementaire.declarationPolitiqueGenerale"
+            order="90"
+        >
+            <category>MGPP_DECLARATION_CATEGORY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="mgpp_declarationSurUnSujetDetermine"
+            label="dossier.parlementaire.declarationSurUnSujetDetermine50-1c"
+            order="100"
+        >
+            <category>MGPP_DECLARATION_CATEGORY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="mgpp_demandeMiseEnOeuvreArticle283C"
+            label="dossier.parlementaire.demandeDeMiseEnOeuvreArticle28-3c"
+            order="100"
+        >
+            <category>MGPP_ORGANISATION_CATEGORY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="mgpp_autresDocumentsTransmisAuxAssemblees"
+            label="dossier.parlementaire.autresDocuments"
+            order="100"
+        >
+            <category>MGPP_RAPORT_CATEGORY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="mgpp_demandeAudition" label="dossier.parlementaire.demandeAudition" order="100">
+            <category>MGPP_NOMINATION_CATEGORY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <!-- ***********************************************************************
+              Actions de creation des dossiers MGPP : CREATE_DOSSIER_MGPP
+             *********************************************************************** -->
+
+        <action
+            id="CREATE_INTERV_EXT"
+            link="/mgpp/fiche/creation/FichePresentationIE#main_content"
+            enabled="true"
+            order="1"
+            label="leftBlocks.corbeille.menu.button.ie.create"
+        >
+            <category>CREATE_DOSSIER_MGPP</category>
+            <filter-id>isInInterventionExterieure</filter-id>
+        </action>
+
+        <action
+            id="CREATE_OEP"
+            link="/mgpp/fiche/creation/FichePresentationOEP#main_content"
+            enabled="true"
+            order="1"
+            label="leftBlocks.corbeille.menu.button.oep.create"
+        >
+            <category>CREATE_DOSSIER_MGPP</category>
+            <filter-id>isInOEP</filter-id>
+        </action>
+
+        <action
+            id="CREATE_AVI"
+            link="/mgpp/fiche/creation/FichePresentationAVI#main_content"
+            enabled="true"
+            order="1"
+            label="leftBlocks.corbeille.menu.button.avi.create"
+        >
+            <category>CREATE_DOSSIER_MGPP</category>
+            <filter-id>isInAVI</filter-id>
+        </action>
+
+        <action
+            id="CREATE_AUDITION"
+            link="/mgpp/fiche/creation/FichePresentationAUD#main_content"
+            enabled="true"
+            order="1"
+            label="leftBlocks.corbeille.menu.button.aud.create"
+        >
+            <category>CREATE_DOSSIER_MGPP</category>
+            <filter-id>isInAUD</filter-id>
+        </action>
+
+        <action
+            id="CREATE_DOCUMENT"
+            link="/mgpp/fiche/creation/FichePresentationDOC#main_content"
+            enabled="true"
+            order="1"
+            label="leftBlocks.corbeille.menu.button.doc.create"
+        >
+            <category>CREATE_DOSSIER_MGPP</category>
+            <filter-id>isInDOC</filter-id>
+        </action>
+
+        <action
+            id="enregistrer_fiche_creation"
+            label="action.button.label.enregistrer"
+            order="1"
+            link="javascript:saveFiche(false,false,true)"
+            type="primary"
+        >
+            <category>MAIN_CREATE_DOSSIER_MGPP</category>
+        </action>
+
+        <action id="annuler_fiche_creation" label="action.button.label.annuler" order="1" type="tertiary">
+            <category>BASE_CREATE_DOSSIER_MGPP</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">validation.popup.title
+                </property>
+                <property name="message">label.evenement.confim.cancel
+                </property>
+                <property name="function">goPreviousPage()</property>
+            </properties>
+        </action>
+
+        <!-- ***********************************************************************
+            Dossier MGPP : Liste des onglets ************************************* -->
+
+        <action id="TAB_MESSAGE_FICHE_LOI" enabled="true" order="30" label="label.mgpp.dossier.onglets.ficheLoi">
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <filter-id>isFicheLoiVisible</filter-id>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/mgpp/dossier/onglets/ficheLoi
+                </property>
+                <property name="fragmentName">ficheLoi</property>
+                <property name="script">loadOngletDossierMgpp('fiche',this)
+                </property>
+                <property name="name">fiche</property>
+            </properties>
+        </action>
+
+        <action
+            id="TAB_MESSAGE_FICHE_PRESENTATION"
+            enabled="true"
+            order="30"
+            label="label.mgpp.dossier.onglets.fichePresentation"
+        >
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <filter-id>isFichePresentationVisible</filter-id>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/mgpp/dossier/onglets/fichePresentation
+                </property>
+                <property name="fragmentName">fichePresentation</property>
+                <property name="script">loadOngletDossierMgpp('fiche',this)
+                </property>
+                <property name="name">fiche</property>
+            </properties>
+        </action>
+
+        <action id="TAB_MESSAGE_FOND_DE_DOSSIER" enabled="true" order="35" label="dossier.onglet.document.fond">
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <filter-id>isFondDossierVisible</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/mgpp/dossier/onglets/fondDossier
+                </property>
+                <property name="fragmentName">fondDossier</property>
+                <property name="script">loadOngletDossierMgpp('fondDossier',this)
+                </property>
+                <property name="name">fondDossier</property>
+            </properties>
+        </action>
+
+        <action
+            id="TAB_MESSAGE_HISTORIQUE_EPP"
+            enabled="true"
+            order="40"
+            label="label.mgpp.dossier.onglets.historiqueEPP"
+        >
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="fragmentFile">/fragments/mgpp/dossier/onglets/historiqueEPP
+                </property>
+                <property name="fragmentName">historiqueEPP</property>
+                <property name="script">loadOngletDossierMgpp('historiqueEPP',this)
+                </property>
+                <property name="name">historiqueEPP</property>
+            </properties>
+        </action>
+
+        <action id="TAB_FICHE_LOI" enabled="true" order="30" label="label.mgpp.dossier.onglets.ficheLoi">
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>isFicheLoiVisible</filter-id>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/mgpp/dossier/onglets/ficheLoi
+                </property>
+                <property name="fragmentName">ficheLoi</property>
+                <property name="script">loadOngletDossierSimpleMgpp('fiche',this)
+                </property>
+                <property name="name">fiche</property>
+            </properties>
+        </action>
+
+        <action
+            id="TAB_FICHE_PRESENTATION"
+            enabled="true"
+            order="30"
+            label="label.mgpp.dossier.onglets.fichePresentation"
+        >
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>isFichePresentationVisible</filter-id>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/mgpp/dossier/onglets/fichePresentation
+                </property>
+                <property name="fragmentName">fichePresentation</property>
+                <property name="script">loadOngletDossierSimpleMgpp('fiche',this)
+                </property>
+                <property name="name">fiche</property>
+            </properties>
+        </action>
+
+        <action id="TAB_FOND_DE_DOSSIER" enabled="true" order="35" label="dossier.onglet.document.fond">
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>isFondDossierVisible</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/mgpp/dossier/onglets/fondDossier
+                </property>
+                <property name="fragmentName">fondDossier</property>
+                <property name="script">loadOngletDossierSimpleMgpp('fondDossier',this)
+                </property>
+                <property name="name">fondDossier</property>
+            </properties>
+        </action>
+
+        <action id="TAB_HISTORIQUE_EPP" enabled="true" order="40" label="label.mgpp.dossier.onglets.historiqueEPP">
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>espace_parlementaire_reader_grid</filter-id>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="fragmentFile">/fragments/mgpp/dossier/onglets/historiqueEPP
+                </property>
+                <property name="fragmentName">historiqueEPP</property>
+                <property name="script">loadOngletDossierSimpleMgpp('historiqueEPP',this)
+                </property>
+                <property name="name">historiqueEPP</property>
+            </properties>
+        </action>
+
+        <!-- ******************* Onglets de dossier EPG ******************* -->
+
+                <!-- Onglet bordereau -->
+        <action id="TAB_DOSSIER_DOCUMENT_MGPP" enabled="true" order="10" label="dossier.onglet.document">
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>isDossier</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/dossier/onglets/document
+                </property>
+                <property name="fragmentName">document</property>
+                <property
+                    name="script"
+                >doDossierSauvegardeModale(event, chargeOngletDossierMgpp, 'document',this)</property>
+                <property name="name">document</property>
+            </properties>
+        </action>
+
+        <!-- Onglet parapheur -->
+        <action id="TAB_DOSSIER_BORDEREAU_MGPP" enabled="true" order="20" label="dossier.onglet.bordereau">
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>isDossier</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/dossier/onglets/bordereau
+                </property>
+                <property name="fragmentName">bordereau</property>
+                <property
+                    name="script"
+                >doDossierSauvegardeModale(event, chargeOngletDossierMgpp, 'bordereau',this)</property>
+                <property name="name">bordereau</property>
+            </properties>
+        </action>
+
+        <action id="TAB_CASE_MANAGEMENT_VIEW_RELATED_ROUTE_MGPP" order="30" label="dossier.onglet.fdr">
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>isRoutable</filter-id>
+            <filter-id>isFeuilleRouteVisible</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/dossier/onglets/fdr</property>
+                <property name="fragmentName">fdr</property>
+                <property name="script">doDossierSauvegardeModale(event,chargeOngletDossierMgpp,'fdr',this)</property>
+                <property name="name">fdr</property>
+            </properties>
+        </action>
+
+        <!-- Onglet journal -->
+        <action
+            id="TAB_DOSSIER_JOURNAL_MGPP"
+            enabled="true"
+            label="dossier.onglet.journal"
+            icon="/icons/file.gif"
+            order="40"
+        >
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>isDossier</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/journal/journal
+                </property>
+                <property name="fragmentName">journal</property>
+                <property
+                    name="script"
+                >doDossierSauvegardeModale(event,chargeOngletDossierMgpp,'journal',this)</property>
+                <property name="name">journal</property>
+            </properties>
+        </action>
+
+        <!-- Onglet Traitement Papier-->
+
+        <action id="TAB_DOSSIER_TRAITEMENT_PAPIER_MGPP" order="50" label="dossier.onglet.traitementpapier">
+            <category>ONGLET_DOSSIER_MGPP</category>
+            <category>ONGLET_DOSSIER_SIMPLE_MGPP</category>
+            <filter-id>isTraitementPapierReader</filter-id>
+            <filter-id>isDossier</filter-id>
+            <filter-id>isNotDossierDeleted</filter-id>
+            <properties>
+                <property name="fragmentFile">fragments/dossier/onglets/traitementPapier</property>
+                <property name="fragmentName">traitementPapier</property>
+                <property
+                    name="script"
+                >doDossierSauvegardeModale(event,chargeOngletDossierMgpp,'traitement/papier',this)</property>
+                <property name="name">traitement</property>
+            </properties>
+        </action>
+
+        <!-- ***************************** Action onglet fiche ***************************************** -->
+
+        <action
+            id="ACTUALISER_FICHE"
+            label="admin.acces.format.actualiser"
+            type="primary"
+            icon="icon--refresh"
+            link="javascript:refresh()"
+            order="2"
+        >
+            <category>COMMUNICATION_FICHE_ACTION</category>
+        </action>
+
+        <!-- Actions page edit communication -->
+        <action
+            id="publier_communication"
+            label="action.button.label.publier"
+            order="20"
+            link="javascript:saveCommunication(true, 'mgpp/communication/enregistrement')"
+            type="secondary"
+        >
+            <category>MAIN_COMMUNICATION_EDIT</category>
+            <category>MAIN_COMMUNICATION_CREER</category>
+            <category>MAIN_COMMUNICATION_CREER_ALERTE</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+        <action
+            id="enregistrer_communication"
+            label="action.button.label.enregistrer"
+            order="30"
+            link="javascript:saveCommunication(false, 'mgpp/communication/enregistrement')"
+            type="primary"
+        >
+            <category>MAIN_COMMUNICATION_EDIT</category>
+        </action>
+        <action
+            id="enregistrer_communication_brouillon"
+            label="action.button.label.creerBrouillon"
+            order="30"
+            link="javascript:saveCommunication(false, 'mgpp/communication/enregistrement')"
+            type="primary"
+        >
+            <category>MAIN_COMMUNICATION_CREER</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+        <action
+            id="envoyer_mel"
+            label="action.button.label.envoyer"
+            order="30"
+            link="javascript:envoyerMel('/mgpp/communication/envoyerMel')"
+            type="primary"
+        >
+            <category>MAIN_TRANSMETTRE_PAR_MEL</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="communication_ btn_annuler_ajout" label="action.button.label.annuler" order="60" type="tertiary">
+            <category>BASE_COMMUNICATION_ADD</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">validation.popup.title
+                </property>
+                <property name="message">label.evenement.confim.cancel
+                </property>
+                <property name="function">goDossiersParlementairesHome()</property>
+            </properties>
+        </action>
+
+        <action id="communication_ btn_annuler" label="action.button.label.annuler" order="60" type="tertiary">
+            <category>BASE_COMMUNICATION_EDIT</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">validation.popup.title
+                </property>
+                <property name="message">label.evenement.confim.cancel
+                </property>
+                <property name="function">goPreviousPage()</property>
+            </properties>
+        </action>
+
+        <!-- Verrouillage d'une fiche -->
+        <action
+            id="VERROUILLER_FICHE"
+            link="javascript:verrouilleFiche()"
+            enabled="true"
+            order="20"
+            label="dossier.lock.action.lock"
+            icon="icon--lock"
+        >
+            <category>FICHE_TOPBAR_ACTIONS_LOCKS</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <filter-id>canUserLockFiche</filter-id>
+        </action>
+
+        <!-- Déverrouillage d'une fiche -->
+        <action
+            id="DEVERROUILLER_FICHE"
+            link="javascript:deverrouilleFiche()"
+            enabled="true"
+            order="20"
+            label="dossier.lock.action.unlock"
+            icon="icon--lock-bubble-times"
+        >
+            <category>FICHE_TOPBAR_ACTIONS_LOCKS</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <filter-id>canUserUnlockFiche</filter-id>
+        </action>
+
+        <!-- Actions détail communication in display -->
+        <action
+            id="CREER_ALERTE"
+            label="action.button.label.creerAlert"
+            order="10"
+            link="|/mgpp/communication/creerAlerte?idMessagePrecedent=${id}#main_content|"
+            type="tertiary"
+        >
+            <category>BASE_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="TRANSMETTRE_MEL_TERTIAIRE"
+            label="action.button.label.transmettreMail"
+            order="20"
+            link="|/mgpp/communication/transmettreParMel?id=${id}#main_content|"
+            type="tertiary"
+        >
+            <category>BASE_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="PUBLIER"
+            label="action.button.label.publier"
+            order="10"
+            link="javascript:doPublier()"
+            type="secondary"
+        >
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="SUPPRIMER" label="action.button.label.supprimer" order="20" type="secondary">
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.supprimer</property>
+                <property name="message">communication.action.supprimer.confirm.message
+                </property>
+                <property name="function">doDeleteCommunication()</property>
+            </properties>
+        </action>
+
+        <action id="ANNULER" label="action.button.label.annulerCommunication" order="30" type="secondary">
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.annulerCommunication
+                </property>
+                <property name="message">communication.action.annuler.confirm.message
+                </property>
+                <property name="function">doAnnulerCommunication()</property>
+            </properties>
+        </action>
+
+        <action
+            id="RECTIFIER"
+            label="action.button.label.rectifier"
+            order="40"
+            link="|/mgpp/communication/rectifier?id=${id}&amp;dossierId=${idDossier}#main_content|"
+            type="secondary"
+        >
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="COMPLETER"
+            label="action.button.label.completer"
+            order="50"
+            link="|/mgpp/communication/completer?id=${id}&amp;dossierId=${idDossier}#main_content|"
+            type="secondary"
+        >
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="MARQUAGE_MESSAGE_TRAITE" label="action.button.label.traiter" order="60" type="secondary">
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <filter-id>nePeutPasLierOEP</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.accepter</property>
+                <property name="message">communication.action.traiter.confirm.message
+                </property>
+                <property name="function">doTraiter()</property>
+            </properties>
+        </action>
+
+        <action
+            id="MARQUAGE_MESSAGE_TRAITE_OEP_NON_LIE"
+            label="action.button.label.traiter"
+            order="60"
+            type="secondary"
+        >
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <filter-id>peutLierUnOEP</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.accepter</property>
+                <property name="message">communication.action.traiter.oep.non.lie.confirm.message
+                </property>
+                <property name="function">doTraiter()</property>
+            </properties>
+        </action>
+
+        <action
+            id="PASSAGE_MESSAGE_EN_COURS_DE_TRAITEMENT_SECONDAIRE"
+            label="action.button.label.enCoursTraitement"
+            order="70"
+            type="secondary"
+        >
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.accepter</property>
+                <property name="message">communication.action.traiter.confirm.message
+                </property>
+                <property name="function">doEnCoursDeTraitement()</property>
+            </properties>
+        </action>
+
+        <action id="ACCEPTER" label="action.button.label.accepter" order="80" type="secondary">
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.accepter</property>
+                <property name="message">communication.action.accepter.confirm.message
+                </property>
+                <property name="function">doAccepter()</property>
+            </properties>
+        </action>
+
+        <action id="REJETER" label="action.button.label.rejeter" order="90" type="secondary">
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.rejeter</property>
+                <property name="message">communication.action.rejeter.confirm.message
+                </property>
+                <property name="function">doRejeter()</property>
+            </properties>
+        </action>
+
+        <action
+            id="LEVER_ALERTE"
+            label="action.button.label.leverAlerte"
+            order="100"
+            link="|/mgpp/communication/creerAlerte?idMessagePrecedent=${id}#main_content|"
+            type="secondary"
+        >
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="TRANSMETTRE_MEL_SECONDAIRE"
+            label="action.button.label.transmettreMail"
+            order="110"
+            link="|/mgpp/communication/transmettreParMel?id=${id}#main_content|"
+            type="secondary"
+        >
+            <category>BASE_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="MODIFIER"
+            label="action.button.label.modifier"
+            order="210"
+            link="|/mgpp/communication/modification?id=${id}&amp;dossierId=${idDossier}#main_content|"
+            type="primary"
+        >
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action id="ABANDONNER" label="action.button.label.abandonner" order="220" type="primary">
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.abandonner</property>
+                <property name="message">communication.action.abandonner.confirm.message
+                </property>
+                <property name="function">doAbandonner()</property>
+            </properties>
+        </action>
+
+        <action id="ACCUSER_RECEPTION" label="action.button.label.accuserReception" order="230" type="primary">
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.accuserReception
+                </property>
+                <property name="message">communication.action.accuserReception.confirm.message
+                </property>
+                <property name="function">doAccuserReception()</property>
+            </properties>
+        </action>
+
+        <action
+            id="PASSAGE_MESSAGE_EN_COURS_DE_TRAITEMENT"
+            label="action.button.label.enCoursTraitement"
+            order="240"
+            link="javascript:doEnCoursDeTraitement()"
+            type="primary"
+        >
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="TRANSMETTRE_MEL"
+            label="action.button.label.transmettreMail"
+            order="250"
+            link="|/mgpp/communication/transmettreParMel?id=${id}#main_content|"
+            type="secondary"
+        >
+            <category>BASE_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+        </action>
+
+        <action
+            id="METTRE_EN_ATTENTE"
+            link="javascript:doMettreEnAttente(true)"
+            enabled="true"
+            order="190"
+            label="action.button.label.attenteMsg"
+            type="tertiary"
+        >
+            <category>BASE_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <filter-id>mettre_en_attente</filter-id>
+        </action>
+        <action
+            id="RELANCER"
+            link="javascript:doMettreEnAttente(false)"
+            enabled="true"
+            order="190"
+            label="action.button.label.relancerMsg"
+            type="tertiary"
+        >
+            <category>BASE_COMMUNICATION_DISPLAY</category>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <filter-id>isEnAttente</filter-id>
+        </action>
+
+        <action id="LIER_UN_OEP" enabled="true" order="260" label="action.button.label.lierOrganisme" type="primary">
+            <category>MAIN_COMMUNICATION_DISPLAY</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">mgpp-modal-lier-oep</property>
+                <property name="function">doLierOrganismeOepMgpp()</property>
+            </properties>
+            <filter-id>mgpp_corbeille_updater_grid</filter-id>
+            <filter-id>peutLierUnOEP</filter-id>
+        </action>
+
+        <!-- ***************************** Modification fiche loi / presentation
+            ***************************************** -->
+
+        <action
+            id="generer_courrier"
+            label="action.button.label.genererCourrier"
+            type="primary"
+            icon="icon--note"
+            link="javascript:genererCourrier()"
+            order="10"
+        >
+            <category>COMMUNICATION_FICHE_EDIT_ACTION</category>
+        </action>
+
+        <action
+            id="enregistrer_fiche"
+            label="action.button.label.enregistrer"
+            type="primary"
+            icon="icon--save"
+            link="javascript:saveFiche(false)"
+            order="50"
+        >
+            <category>COMMUNICATION_FICHE_EDIT_ACTION</category>
+        </action>
+
+        <action
+            id="visualiser_diffusion_fiche"
+            label="action.button.label.visualiser.diffusion"
+            order="20"
+            icon="icon--eye-circle"
+            link="|/suiviLibre/activiteParlementaire/telecharger?element=${identifiantDossier}|"
+            type="secondary"
+        >
+            <category>COMMUNICATION_FICHE_EDIT_ACTION</category>
+        </action>
+
+		<action
+            id="diffuser_fiche"
+            label="action.button.label.diffuser"
+            order="30"
+            icon="icon--bubble-sent"
+            link="javascript:saveFiche(true)"
+            type="secondary"
+        >
+            <category>COMMUNICATION_FICHE_EDIT_ACTION</category>
+        </action>
+
+        <action
+            id="annuler_diffusion_fiche"
+            label="action.button.label.annuler.diffusion"
+            order="40"
+            icon="icon--minus-circle"
+            link="javascript:annulerDiffusionFiche()"
+            type="secondary"
+        >
+            <category>COMMUNICATION_FICHE_EDIT_ACTION</category>
+        </action>
+
+        <action
+            id="supprimer_fiche"
+            label="action.button.label.supprimer"
+            type="secondary"
+            icon="icon--times-circle"
+            order="60"
+        >
+            <category>COMMUNICATION_FICHE_EDIT_ACTION</category>
+            <filter-id>isFicheSupprimable</filter-id>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">action.button.label.supprimer</property>
+                <property name="message">fiche.action.supprimer.confirm.message</property>
+                <property name="function">doDeleteFiche()</property>
+            </properties>
+        </action>
+
+        <action
+            id="exporter_fiche_excel"
+            link="javascript:doExportFiche('xls')"
+            order="1"
+            label="echeancier.promulgation.action.print.export.excel"
+        >
+            <category>COMMUNICATION_FICHE_PRINT_ACTION</category>
+        </action>
+
+        <action
+            id="exporter_fiche_pdf"
+            link="javascript:doExportFiche('pdf')"
+            order="2"
+            label="echeancier.promulgation.action.print.export.pdf"
+        >
+            <category>COMMUNICATION_FICHE_PRINT_ACTION</category>
+        </action>
+
+        <!-- ************************ Action onglet fond de dossier ************************ -->
+        <action id="MGPP_FDD_ADD_DOCUMENT" enabled="true" order="10" label="fichier.ajout.default">
+            <category>MGPP_FDD_FICHE_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">mgpp-modal-add-document-fdd</property>
+                <property name="function">doAddDocumentFondDeDossierMgpp(this)</property>
+                <property name="parameters">|groupId=${folder.id}|</property>
+            </properties>
+            <filter-id>isNotInOEP</filter-id>
+        </action>
+        <action id="MGPP_FDD_OEP_ADD_DOCUMENT" enabled="true" order="10" label="fichier.ajout.oep">
+            <category>MGPP_FDD_FICHE_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">mgpp-modal-add-document-fdd</property>
+                <property name="function">doAddDocumentFondDeDossierMgpp(this)</property>
+                <property name="parameters">|groupId=${folder.id}|</property>
+            </properties>
+            <filter-id>isInOEP</filter-id>
+        </action>
+        <action
+            id="MGPP_FDD_DELETE_DOCUMENT"
+            enabled="true"
+            order="10"
+            label="button.label.supprimer"
+            icon="icon--times-circle"
+        >
+            <category>MGPP_FDD_DOCUMENT_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">mgpp.fdd.modal.suppression.fichier.title</property>
+                <property name="message">mgpp.fdd.modal.suppression.fichier.message</property>
+                <property name="function">doDeleteDocumentFondDeDossierMgpp()</property>
+                <property name="specificClass">table-line__action-button base-btn--light base-btn--transparent
+                </property>
+                <property name="buttonType">nospace</property>
+                <property name="parameters">|documentIdToDelete=${doc.id}|</property>
+            </properties>
+        </action>
+
+        <!-- Actions sur echéancier de promulgation -->
+        <action
+            id="exporter_ech_excel"
+            link="javascript:doExportEchPromulgation('excel')"
+            order="1"
+            label="echeancier.promulgation.action.print.export.excel"
+        >
+            <category>MGPP_ECH_PROMULGATION_ACTIONS</category>
+        </action>
+        <action
+            id="exporter_ech_pdf"
+            link="javascript:doExportEchPromulgation('pdf')"
+            order="2"
+            label="echeancier.promulgation.action.print.export.pdf"
+        >
+            <category>MGPP_ECH_PROMULGATION_ACTIONS</category>
+        </action>
+
+        <!-- Actions sur SUIVI DES ÉCHÉANCES -->
+        <action
+            id="exporter_suivi_ech_excel"
+            link="javascript:doExportSuiviEcheances('excel')"
+            order="1"
+            label="echeancier.promulgation.action.print.export.excel"
+        >
+            <category>MGPP_SUIVI_ECHEANCES_ACTIONS</category>
+        </action>
+        <action
+            id="exporter_suivi_ech_pdf"
+            link="javascript:doExportSuiviEcheances('pdf')"
+            order="2"
+            label="echeancier.promulgation.action.print.export.pdf"
+        >
+            <category>MGPP_SUIVI_ECHEANCES_ACTIONS</category>
+        </action>
+
+        <!-- Actions sur les noeuds de la table de référence EPP -->
+        <action
+            id="SELECTION_MINISTERE_TABLE_REF_EPP"
+            link="#"
+            enabled="true"
+            label="organigramme.select.add.MIN"
+            icon="icon--add"
+            order="10"
+        >
+            <category>TABLE_REFERENCE_MINSELECTEUR_ACTIONS</category>
+            <filter-id>isMinistereTableRefEPP</filter-id>
+        </action>
+
+        <action
+            id="MODIFIER_GOUVERNEMENT_TABLE_REF_EPP"
+            label="action.button.label.modifier"
+            order="10"
+            link="|/admin/mgpp/referenceEPP/gouvernement/modification?idGvt=${nodeId}#main_content|"
+        >
+            <category>TABLE_REFERENCE_EPP_ACTIONS</category>
+            <filter-id>isGouvernementTableRefEPP</filter-id>
+            <filter-id>isNotMandatsSansMinisteres</filter-id>
+        </action>
+
+        <action
+            id="AJOUTER_MINISTERE_TABLE_REF_EPP"
+            label="command.admin.param.tableRefEPP.ajouter.ministere"
+            order="20"
+            link="|/admin/mgpp/referenceEPP/ministere/creation?idParent=${nodeId}#main_content|"
+        >
+            <category>TABLE_REFERENCE_EPP_ACTIONS</category>
+            <filter-id>isGouvernementTableRefEPP</filter-id>
+            <filter-id>isNotMandatsSansMinisteres</filter-id>
+        </action>
+
+        <action
+            id="MODIFIER_MINISTERE_TABLE_REF_EPP"
+            label="action.button.label.modifier"
+            order="30"
+            link="|/admin/mgpp/referenceEPP/ministere/modification?idMinistere=${nodeId}#main_content|"
+        >
+            <category>TABLE_REFERENCE_EPP_ACTIONS</category>
+            <filter-id>isMinistereTableRefEPP</filter-id>
+        </action>
+
+        <action
+            id="AJOUTER_MANDAT_TABLE_REF_EPP"
+            label="command.admin.param.tableRefEPP.ajouter.mandat"
+            order="40"
+            link="|/admin/mgpp/referenceEPP/mandat/creation?idParent=${nodeId}#main_content|"
+        >
+            <category>TABLE_REFERENCE_EPP_ACTIONS</category>
+            <filter-id>isMinistereOrMandatsSansMinisteres</filter-id>
+        </action>
+
+        <action
+            id="MODIFIER_MANDAT_TABLE_REF_EPP"
+            label="action.button.label.modifier"
+            order="50"
+            link="|/admin/mgpp/referenceEPP/mandat/modification?idMandat=${nodeId}#main_content|"
+        >
+            <category>TABLE_REFERENCE_EPP_ACTIONS</category>
+            <filter-id>isMandat</filter-id>
+        </action>
+
+        <action
+            id="ADD_ELT_REPRESENTANTS_TABLEAU"
+            label="|mgpp.action.ajouter.${representantsTable.nom}|"
+            link="javascript:void(0)"
+            icon="icon--plus actions-bar__icon"
+            order="0"
+        >
+            <category>REPRESENTANTS_TABLE_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">mgppModaleEdit</property>
+                <property name="initJs">creerElementRepresentantsTableau</property>
+                <property name="paramInitJs">${representantsTable.type}</property>
+                <property name="title">|mgpp.modale.${representantsTable.nom}.titre.creer.label|
+                </property>
+                <property name="function">editerElementRepresentantsTableau()</property>
+            </properties>
+            <filter-id>isFicheVerrouillee</filter-id>
+        </action>
+
+        <action
+            id="EDIT_ELT_REPRESENTANTS_TABLEAU"
+            label="|mgpp.action.editer.${representantsTable.nom}|"
+            link="javascript:void(0);"
+            icon="icon--edit base-btn__icon"
+            order="0"
+        >
+            <category>REPRESENTANTS_TABLE_LINE_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">mgppModaleEdit</property>
+                <property name="initJs">chargerRepresentantsItem</property>
+                <property name="paramInitJs">${item.key}</property>
+                <property name="title">|mgpp.modale.${representantsTable.nom}.titre.label|</property>
+                <property name="function">editerElementRepresentantsTableau()</property>
+                <property name="specificClass">table-line__action-button base-btn--light base-btn--transparent
+                </property>
+                <property name="buttonType">nospace</property>
+            </properties>
+            <filter-id>isFicheVerrouillee</filter-id>
+        </action>
+
+        <action
+            id="DELETE_ELT_REPRESENTANTS_TABLEAU"
+            label="|mgpp.action.supprimer.${representantsTable.nom}|"
+            link="javascript:void(0)"
+            icon="icon--times-circle base-btn__icon"
+            order="10"
+        >
+            <category>REPRESENTANTS_TABLE_LINE_ACTIONS</category>
+            <properties>
+                <property name="actionType">modal</property>
+                <property name="dataControls">validation-dialog-modal</property>
+                <property name="title">|mgpp.modale.supprimer.${representantsTable.nom}.titre.label|</property>
+                <property name="message">|mgpp.modale.supprimer.${representantsTable.nom}.message.label|</property>
+                <property name="function">supprimerElementRepresentantsTableau()</property>
+                <property name="specificClass">table-line__action-button base-btn--light base-btn--transparent
+                </property>
+                <property name="buttonType">nospace</property>
+                <property
+                    name="parameters"
+                >|idRepresentantASupprimer=${item.key};typeRepresentant=${representantsTable.type}|
+                </property>
+            </properties>
+            <filter-id>isFicheVerrouillee</filter-id>
+        </action>
+
+        <action
+            id="DOCUMENTS_LIST_ADD"
+            label="button.label.ajouter"
+            type="primary"
+            icon="icon--add"
+            link="javascript:selectDocumentsToAddPJ()"
+        >
+            <category>MGPP_DOCUMENTS_LIST_ADD</category>
+        </action>
+
+
+        <action
+            id="exporter_list_fiche_excel"
+            link="javascript:exportListeDossier('xls')"
+            order="1"
+            label="echeancier.promulgation.action.print.export.excel"
+        >
+            <category>MGPP_DYNAMIC_LIST_PRINT_ACTION</category>
+            <category>MGPP_NON_DYNAMIC_LIST_PRINT_ACTION</category>
+        </action>
+
+        <action
+            id="exporter_list_fiche_pdf"
+            link="javascript:exportListeDossier('pdf')"
+            order="2"
+            label="echeancier.promulgation.action.print.export.pdf"
+        >
+            <category>MGPP_DYNAMIC_LIST_PRINT_ACTION</category>
+        </action>
+
+    </extension>
+
+    <extension target="org.nuxeo.ecm.platform.actions.ActionService" point="filters">
+        <filter id="accessAdminParamMGPP">
+            <rule grant="true">
+                <group>AdministrationParamReader</group>
+                <group>administrators</group>
+            </rule>
+        </filter>
+        <filter id="espace_parlementaire_reader_grid">
+            <rule grant="true">
+                <group>EspaceParlementaireReader</group>
+                <group>administrators</group>
+            </rule>
+        </filter>
+        <filter id="mgpp_corbeille_updater_grid">
+            <rule grant="true">
+                <group>CorbeilleMGPPUpdater</group>
+                <group>administrators</group>
+            </rule>
+        </filter>
+        <filter id="isFicheLoiVisible">
+            <rule grant="true">
+                <condition>#{isFicheLoiVisible}</condition>
+            </rule>
+        </filter>
+        <filter id="isFichePresentationVisible">
+            <rule grant="false">
+                <condition>#{isFicheLoiVisible}</condition>
+            </rule>
+        </filter>
+        <filter id="isFondDossierVisible">
+            <rule grant="true">
+                <condition>#{isFondDossierVisible}</condition>
+            </rule>
+        </filter>
+        <filter id="isFicheVerrouillee">
+            <rule grant="true">
+                <condition>#{isFicheVerrouillee}</condition>
+            </rule>
+        </filter>
+        <filter id="canUserLockFiche">
+            <rule grant="true">
+                <condition>#{canUserLockFiche}</condition>
+            </rule>
+        </filter>
+        <filter id="canUserUnlockFiche">
+            <rule grant="true">
+                <condition>#{canUserUnlockFiche}</condition>
+            </rule>
+        </filter>
+
+        <filter id="isInInterventionExterieure">
+            <rule grant="true">
+                <condition>#{dossiersParlementairesSelected eq 'mgpp_interventionExterieure'}</condition>
+            </rule>
+        </filter>
+        <filter id="isInOEP">
+            <rule grant="true">
+                <condition>#{dossiersParlementairesSelected eq 'mgpp_designationOEP'}</condition>
+            </rule>
+        </filter>
+        <filter id="isNotInOEP">
+            <rule grant="false">
+                <condition>#{dossiersParlementairesSelected eq 'mgpp_designationOEP'}</condition>
+            </rule>
+        </filter>
+        <filter id="isInAVI">
+            <rule grant="true">
+                <condition>#{dossiersParlementairesSelected eq 'mgpp_avisNomination'}</condition>
+            </rule>
+        </filter>
+        <filter id="isInAUD">
+            <rule grant="true">
+                <condition>#{dossiersParlementairesSelected eq 'mgpp_demandeAudition'}</condition>
+            </rule>
+        </filter>
+        <filter id="isInDOC">
+            <rule grant="true">
+                <condition>#{dossiersParlementairesSelected eq 'mgpp_autresDocumentsTransmisAuxAssemblees'}</condition>
+            </rule>
+        </filter>
+        <filter id="isFicheSupprimable">
+            <rule grant="true">
+                <condition>#{isFicheSupprimable}</condition>
+            </rule>
+        </filter>
+
+        <filter id="isEnAttente">
+            <rule grant="true">
+                <condition>#{isEnAttente}</condition>
+            </rule>
+        </filter>
+
+        <filter id="mettre_en_attente">
+            <rule grant="true">
+                <condition>#{peutMettreEnAttente}</condition>
+            </rule>
+        </filter>
+        <filter id="peutLierUnOEP">
+            <rule grant="true">
+                <condition>#{peutLierUnOEP}</condition>
+            </rule>
+        </filter>
+        <filter id="nePeutPasLierOEP">
+            <rule grant="false">
+                <condition>#{peutLierUnOEP}</condition>
+            </rule>
+        </filter>
+
+        <!-- Filtres sur les actions sur les noeuds de la table de référence EPP -->
+        <filter id="isGouvernementTableRefEPP">
+            <rule grant="true">
+                <condition>#{node.type eq 'GOUVERNEMENT'}</condition>
+            </rule>
+        </filter>
+        <filter id="isNotMandatsSansMinisteres">
+            <rule grant="false">
+                <condition>#{node.key eq 'Mandats sans Ministeres'}</condition>
+            </rule>
+        </filter>
+        <filter id="isMinistereTableRefEPP">
+            <rule grant="true">
+                <condition>#{node.type eq 'MINISTERE'}</condition>
+            </rule>
+        </filter>
+        <filter id="isMinistereOrMandatsSansMinisteres">
+            <rule grant="true">
+                <condition>#{node.type eq 'MINISTERE' or node.key eq 'Mandats sans Ministeres'}</condition>
+            </rule>
+        </filter>
+        <filter id="isMandat">
+            <rule grant="true">
+                <condition>#{node.type eq 'MANDAT'}</condition>
+            </rule>
+        </filter>
+        <filter id="isEspaceParlementaireReader">
+            <rule grant="true">
+                <group>EspaceParlementaireReader</group>
+            </rule>
+        </filter>
+    </extension>
+</component>

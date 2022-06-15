@@ -1,0 +1,67 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <input type="hidden" id="urlDeleteAjax" name="urlDeleteAjax" th:value="${urlDeleteAjax}" />
+        <span
+            id="suppression-dossiers-no-deletable-modal"
+            class="sr-only"
+            th:text="#{epg.dossiers.creation.deleteModal.label}"
+        >
+            Suppression des dossiers en cours de création sélectionnés
+        </span>
+        <div class="interstitial__header" tabindex="0">
+            <h3 class="interstitial__title">
+                <th:block th:text="#{epg.dossiers.creation.deleteModal.summary.title}"></th:block>
+                <span class="interstitial__title__step" th:text="#{epg.dossiers.creation.deleteModal.summary.step}">
+                    (1/2)
+                </span>
+            </h3>
+        </div>
+        <div class="interstitial__content">
+            <div class="m-b-8">
+                <div th:if="${not #lists.isEmpty(ignoredDossiers)}" class="alert-modal alert--warning">
+                    <div role="alert" class="alerts--flex">
+                        <span
+                            aria-hidden="true"
+                            class="icon icon--information bubble-icon alert__icon alert__icon--warning"
+                        ></span>
+                        <span class="sr-only" th:text="#{corbeille.communication.alerte}">Alerte</span>
+                        <div>
+                            <p th:text="#{epg.dossiers.creation.deleteModal.ignored}">
+                                Les dossiers suivants ne peuvent être supprimés, ils seront ignorés :
+                            </p>
+                            <ul>
+                                <li th:each="dossier : ${ignoredDossiers}">
+                                    <strong>
+                                        <th:block
+                                            th:replace="fragments/components/idComponent :: id('ignored-dossiers_link-copy__link', ${dossier.nor}, 'NOR', null, true, true)"
+                                        ></th:block>
+                                    </strong>
+                                    <em th:text="|(Raison : #{${dossier.label}})|">(Raison)</em>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="interstitial__footer">
+            <button
+                type="button"
+                class="interstitial__button base-btn base-btn--button base-btn--default base-btn--light base-btn--center base-btn--transparent base-btn--bordered"
+                th:text="#{button.label.cancel}"
+            >
+                Annuler
+            </button>
+            <button
+                type="button"
+                disabled="disabled"
+                class="base-btn base-btn--button base-btn--default base-btn--center"
+                th:text="#{action.button.label.next}"
+            >
+                Suivant
+            </button>
+        </div>
+    </body>
+</html>

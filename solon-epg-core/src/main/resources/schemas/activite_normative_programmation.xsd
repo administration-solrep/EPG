@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://dila.fr/solon/schemas/activite_normative_epg/"
+    xmlns:anp="http://dila.fr/solon/schemas/activite_normative_epg/"
+>
+
+	<!-- schema contenant la definition de xs:stringList -->
+	<xs:include schemaLocation="base.xsd" />
+     <xs:simpleType name="clob">
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="999999999" />
+      </xs:restriction>
+    </xs:simpleType>
+
+	<!-- Tableau Suivi -->
+	<xs:element name="tableauSuiviPublicationDate" type="xs:date" />
+	<xs:element name="tableauSuiviPublicationUser" type="xs:string" />
+
+	<!-- Lignes de programmations -->
+	<xs:element name="lockUserFulName" type="xs:string" />
+	<xs:element name="lockDate" type="xs:date" />
+
+
+	<!-- Lignes de programmations habilitation -->
+	<xs:element name="lockHabUserFulName" type="xs:string" />
+	<xs:element name="lockHabDate" type="xs:date" />
+
+	<xs:element name="lignesProgrammationsHab" type="anp:lignesProgrammationHab" />
+
+	<xs:complexType name="lignesProgrammationHab">
+		<xs:sequence>
+			<xs:element name="ligneProgrammationHab" type="anp:ligneProgrammationHab" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ligneProgrammationHab">
+		<xs:sequence>
+			<xs:element name="numeroOrdre" type="xs:string" />
+			<xs:element name="article" type="xs:string" />
+			<xs:element name="objetRIM" type="anp:clob" />
+			<xs:element name="ministerePilote" type="xs:string" />
+			<xs:element name="convention" type="xs:string" />
+			<xs:element name="dateTerme" type="xs:date" />
+			<xs:element name="conventionDepot" type="xs:string" />
+			<xs:element name="datePrevisionnelleSaisineCE" type="xs:date" />
+			<xs:element name="datePrevisionnelleCM" type="xs:date" />
+			<xs:element name="observation" type="xs:string" />
+			<xs:element name="legislature" type="xs:string" />
+			<xs:element name="codification" type="xs:boolean" default="false" />
+			<xs:element name="numeroNorOrdo" type="xs:string" />
+			<xs:element name="objetOrdo" type="xs:string" />
+			<xs:element name="ministerePiloteOrdo" type="xs:string" />
+			<xs:element name="legislatureOrdo" type="xs:string" />
+			<xs:element name="dateSaisineCEOrdo" type="xs:date" />
+			<xs:element name="datePassageCMOrdo" type="xs:date" />
+			<xs:element name="datePublicationOrdo" type="xs:date" />
+			<xs:element name="titreOfficielOrdo" type="xs:string" />
+			<xs:element name="numeroOrdo" type="xs:string" />
+			<xs:element name="conventionDepotOrdo" type="xs:string" />
+			<xs:element name="dateLimiteDepotOrdo" type="xs:date" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Tableau Suivi habilitation -->
+	<xs:element name="tableauSuiviHab" type="anp:lignesProgrammationHab" />
+	<xs:element name="tableauSuiviHabPublicationDate" type="xs:date" />
+	<xs:element name="tableauSuiviHabPublicationUser" type="xs:string" />
+
+
+</xs:schema>
